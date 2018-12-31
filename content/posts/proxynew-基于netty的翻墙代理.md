@@ -147,7 +147,7 @@ netty的另一个贡献，直接内存我只会用，确保不用错，但没有
 
 额外分享一个小诀窍，linux快速设置shell代理
 ```
-#vim $PATH/pass
+#vim /usr/local/bin/pass
 
 #! /bin/bash
 # 设置http代理，使用方法：
