@@ -10,7 +10,7 @@ weight: 10
 
 
 
-终于来搞搞opencv啦。。<!--more-->
+终于来搞搞opencv啦。。
 
 # 在windows上安装opencv，并且创建visual studio 2017项目
 
