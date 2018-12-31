@@ -10,9 +10,9 @@ weight: 10
 
 
 最近在做一个电商网站。今天想要实现一下购物车的功能。
-```
 
-其中pid是商品的唯一标识。uname是用户的唯一标识。
+
+
 
 考虑问题如下：用户访问购物车会比较频繁，而且经常更改（比如修改数字）。对于后端的数据来说，也就是读写都很频繁。于是考虑通过redis，来减少对数据库的读写。
 
@@ -28,6 +28,8 @@ CREATE TABLE `cart` (
   `num` int(10) DEFAULT NULL,
   PRIMARY KEY (`uname`,`pid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+```
+其中pid是商品的唯一标识。uname是用户的唯一标识。
 
 # 需要考虑哪几个问题
 
