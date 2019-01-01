@@ -235,6 +235,8 @@ sudo vim /usr/share/gnome-shell/theme/ubuntu.css
   background-position: center; }
 ```
 
+最后执行`update-grub`
+
 # 开启bbr（tcp拥塞控制）
 
 ```
