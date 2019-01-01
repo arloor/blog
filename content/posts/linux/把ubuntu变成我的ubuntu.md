@@ -269,3 +269,7 @@ sudo tlp start
 tlp可以设置充电阀值，详见[arch linux wiki](https://wiki.archlinux.org/index.php/TLP_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87))
 
 实际上我没有用tlp，因为发现在windows下配置了之后，就不需要在ubuntu上再做设置了。
+
+# 最后
+
+我说过x1 carbon带给我了windows的最好体验，但是对于开发者，windows还是有些不足的，甚至Macos也有些不舒服。经过一番折腾，ubuntu成为了我喜欢的样子，比较开心。
