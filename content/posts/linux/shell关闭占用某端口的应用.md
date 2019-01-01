@@ -3,7 +3,7 @@ title: "Shell关闭占用某端口的应用"
 author: "刘港欢"
 date: 2018-12-30
 categories: [ "Shell"]
-tags: ["Shell"]
+tags: ["linux"]
 weight: 10
 ---
 
