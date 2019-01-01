@@ -18,7 +18,7 @@ docker很火，所以我想入门。这篇文章是记录学习的，所以可�
 
 在之前的博客中，我多次提到使用`. pass`来设置shell的代理，但是这对docker没有作用。
 
-在使用systemd的linux发行版中（比如ubuntu 18.04），可以这样配置：参见[](https://docs.docker.com/config/daemon/systemd/#httphttps-proxy)
+在使用systemd的linux发行版中（比如ubuntu 18.04），可以这样配置：参见[#httphttps-proxy](https://docs.docker.com/config/daemon/systemd/#httphttps-proxy)
 
 ```
 #覆盖 the default docker.service file
