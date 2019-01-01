@@ -1,6 +1,6 @@
 ---
 title: "proxynew-基于netty的翻墙代理"
-date: 2018-12-31T23:55:22+08:00
+rebdate: 2018-12-31T23:55:22+08:00
 author: "刘港欢"
 categories: [ "java","网络编程","netty"]
 tags: ["Program"]
@@ -31,13 +31,12 @@ netty是java实现的高性能网络通信框架。在我眼里，netty做了这
 
 ## reactor模式
 
-在[proxyme-基于javanio的http代理](/posts/proxyme-基于javanio的http代理/)提到过，可以优化的点是引入reactor模式，使用多个线程来处理多个socket连接。netty使用了`EventLoopGroup`（多个线程的组）来管理多个连接。每一个连接生效之后，就会在EventloopGroup中分配一个EventLoop给该连接。这个EventLoop实际上就是一个线程，这个线程将会一直负责socket连接的整个生命，由生到死。这个EventLoop负责在某些事件发生时，调用相应的方法。比如发生读事件，就会调用pipeline中所有ChannelInboundHandler的ChannelRead()方法。
+在[proxyme-基于javanio的http代理](/posts/netty/proxyme-基于javanio的http代理/)提到过，可以优化的点是引入reactor模式，使用多个线程来处理多个socket连接。netty使用了`EventLoopGroup`（多个线程的组）来管理多个连接。每一个连接生效之后，就会在EventloopGroup中分配一个EventLoop给该连接。这个EventLoop实际上就是一个线程，这个线程将会一直负责socket连接的整个生命，由生到死。这个EventLoop负责在某些事件发生时，调用相应的方法。比如发生读事件，就会调用pipeline中所有ChannelInboundHandler的ChannelRead()方法。
 
 提到reactor模式不得不提一下go。go语言使用goroutine来实现并行。`go someFunction(a,b,c,d)`就开启了一个新的go程。所以在go中实现reactor模式十分容易：accept到一个连接，就`go handlerConnection(theConnection)`，这样就使用一个go程去管理该生命周期。
 
 在go中实现reactor模式很简单，其实在java中实现也不难。无非就是新建一个线程/提交到线程池，代码也就是`new Thread().start()`或者`excutors.submit(task)`这样。
 
-public interface Dispatcher {
 这里又要向[java-design-pattern](https://github.com/iluwatar/java-design-patterns/tree/master/reactor)学习了。他对事件处理引入了一个Dispatcer接口（接口就有很多中实现啦，单线程的分派、线程池的分派、自己实现的线程池的分派）。
 
 Dispatcher接口
@@ -139,7 +138,7 @@ netty的另一个贡献，直接内存我只会用，确保不用错，但没有
 
 # OutOfDirectMemory异常
 
-这个问题的已经在[netty直接内存溢出问题解决](/posts/netty直接内存溢出问题解决/)详细进行了解释。但还是要在这提一下，因为这个坑只有遇到才会知道吧，也算是一种独特的经历了。详情见那一篇文章啦。
+这个问题的已经在[netty直接内存溢出问题解决](/posts/netty/netty直接内存溢出问题解决/)详细进行了解释。但还是要在这提一下，因为这个坑只有遇到才会知道吧，也算是一种独特的经历了。详情见那一篇文章啦。
 
 # 总结
 
