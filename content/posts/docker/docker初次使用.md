@@ -1,5 +1,5 @@
 ---
-title: "docker杂说"
+title: "docker初次使用"
 author: "刘港欢"
 date: 2019-01-01
 categories: [ "docker"]
@@ -133,7 +133,7 @@ Failed to talk to init daemon.
 
 # 自己改造一个镜像
 
-上面我们已经知道了，是可以进入镜像执行一些命令的，比如执行一些解压、设置PAHT、新建软连接都是可以的，这就是安装软件的过程了。
+上面我们已经知道了，是可以进入镜像执行一些命令的，比如执行一些解压、设置PATH、新建软连接都是可以的，这就是安装软件的过程了。
 
 而`docker commit`则允许`Create a new image from a container's changes`：由一个被修改过的容器创建一个映像。这给我们提供了魔改镜像、自定义镜像的能力。
 
@@ -224,6 +224,14 @@ docker run  -d -p 80:4000 simlogin-with-docker /app/run.sh
 `/app/run.sh`表示执行的CMD，注意这个sh脚本被我们控制为了永远不会退出。
 
 问题：这个sh脚本不会退出。。所以pm2启动的进程如果异常退出了，这个docker容器也不会退出，也就没有实现监控了。
+
+## 进入这个正在在运行的容器
+
+一开始我用`docker attach containerID`，但是发现有一些问题。后来我用
+
+```
+docker exec -it containerID /bin/bash
+```
 
 好了，docker算入门了吧
 
