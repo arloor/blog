@@ -96,9 +96,9 @@ CMD ["java", "-jar","proxyserver-1.2-jar-with-dependencies.jar"]
 ```
 cd docker-proxyserver
 #构建
-sudo docker build -t proxyserver .
+docker build -t proxyserver .
 运行
-sudo docker run proxyserver
+docker run proxyserver
 
 #下面就可以看到proxyserver运行的日志了
 2019-01-01 15:09:17.312 [main] INFO  com.arloor.proxyserver.ServerProxyBootStrap - 开启代理 端口:8080
@@ -135,4 +135,98 @@ Failed to talk to init daemon.
 
 上面我们已经知道了，是可以进入镜像执行一些命令的，比如执行一些解压、设置PAHT、新建软连接都是可以的，这就是安装软件的过程了。
 
-而`docker commit`则允许`Create a new image from a container's changes`：由一个被修改过的容器创建一个映像。这给我们提供了魔改镜像、自定义镜像的能力。具体展开：todo
+而`docker commit`则允许`Create a new image from a container's changes`：由一个被修改过的容器创建一个映像。这给我们提供了魔改镜像、自定义镜像的能力。
+
+以一个需要nodejs8和java８的项目为例：我们以centos为基础映像，启动容器，然后进行魔改（安装jdk和node）。
+
+## 以centos为基础构建image
+
+Dockerfile:
+```
+FROM centos:7
+COPY . /app
+WORKDIR /app
+EXPOSE 4000
+```
+集成centos7映像，将本文件夹下的所有文件（是项目代码）复制到容器的`/app`文件下。这里也包括了npm_modules。最后定xiugai义暴露4000端口
+
+构建映像：
+```
+docker build -t simlogin-with-docker .
+```
+
+## 用基础映像启动一个容器，并进行修改
+
+```
+docker run -it -v ~/Downloads/:/usr/my/docker/download/ simlogin-with-docker /bin/bash
+```
+解释：使用simlogin-with-docke镜像启动一个container。`-it`表示交互模式——启动容器后会进入docker的shell。`-v ~/Downloads/:/usr/my/docker/download/`表示将宿主机的`下载`目录挂载到容器的`/usr/my/docker/download/`。最后的`/bin/bash`是容器所执行的CMD。注意我们在Dockfile中并没有定义CMD，所以在这里需要加上`/bin/bash`。实际上不加`/bin/bash`好像也可以。
+
+之后的终端是这样的
+
+```
+x1@carbon:~$ docker run -it -v ~/Downloads/:/usr/my/docker/download/ simlogin-with-docker /bin/bash
+[root@4c97d816eba7 app]#
+```
+这样就进入了容器的shell，像不像进入了一个虚拟机
+
+这样就可以对这个“虚拟机”进行修改了：我做了以下：安装java和nodejs、yum安装相关库、pm2、设置PATH、编写启动脚本`/app/run.sh`
+
+这些步骤只讲最后一步，因为前面的步骤和在虚拟机里操作一模一样，而编写run.sh则很关键也有一些坑。
+
+### run.sh
+
+```
+#! /bin/bash
+
+. ~/.bashrc  #关键：导入PATH
+pm2 start process.json --env local
+tail -f /dev/null  # 关键：让此bash进程永远不退出
+```
+第一个坑：最好手动导入PATH
+
+第二个坑：CMD执行的进程结束，容器进程就结束了。所以加上最后一句让bash进程永不退出。这点坑了我很久。。。
+
+把这些做完之后，这个容器的就是我们需要的样子了。下一步就是将这个容器“持久化”成一个image，这样以后就可以直接启动容器而不需要再做环境修改。
+
+## 持久化修改好的容器
+
+第一点！不要在容器的“交互性”shell中输exit或者ctrl+D！就是不要让这个容器的运行结束
+
+第二步：另起终端。输入`docker ps`或`docker container list`，显示现在运行的容器，显示如下：
+```
+x1@carbon:~$ docker container list
+CONTAINER ID        IMAGE                  COMMAND             CREATED             STATUS              PORTS               NAMES
+4c97d816eba7        simlogin-with-docker   "/bin/bash"         22 minutes ago      Up 22 minutes       4000/tcp            distracted_agnesi
+x1@carbon:~$ docker ps
+CONTAINER ID        IMAGE                  COMMAND             CREATED             STATUS              PORTS               NAMES
+4c97d816eba7        simlogin-with-docker   "/bin/bash"         22 minutes ago      Up 22 minutes       4000/tcp            distracted_agnesi
+```
+
+第三步：commit容器，也就是“持久化”为镜像了
+
+```
+docker commit 4c97d816eba7 simlogin-with-docker:1.0
+```
+
+这样就新建了一个simlogin-with-docker:1.0映像。这就是最终的映像啦。
+
+## 运行这个完成体映像
+
+```
+docker run  -d -p 80:4000 simlogin-with-docker /app/run.sh
+```
+
+`-d`表示在后台运行；
+
+` -p 80:4000`表示宿主机80端口映射容器4000端口；
+
+`/app/run.sh`表示执行的CMD，注意这个sh脚本被我们控制为了永远不会退出。
+
+问题：这个sh脚本不会退出。。所以pm2启动的进程如果异常退出了，这个docker容器也不会退出，也就没有实现监控了。
+
+好了，docker算入门了吧
+
+
+
+
