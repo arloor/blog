@@ -19,3 +19,4 @@ scp -r ./public/* root@$host:/var/www/html
 echo "reload httpd...."
 ssh root@$host "systemctl  reload httpd"
 echo  "部署完毕，请访问 http://"$host
+rm -rf public #删除生成的静态资源
