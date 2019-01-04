@@ -11,7 +11,7 @@ weight: 10
 在爬虫岗位实习，免不了接触加密解密，今天的工作中踩了一些java AES128加密的坑，也学习到了一些加密的常用做法。
 <!--more-->
 
-# 直接上代码：
+# 直接上代码
 
 AES128.java
 ```
@@ -27,14 +27,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 public class AES128 {
 
     public static final Charset CHARSET=UTF_8;
-
-    public static byte[] str2bytes(String str){
-        return str.getBytes(CHARSET);
-    }
-
-    public static String bytes2str(byte[] bytes){
-        return new String(bytes,CHARSET);
-    }
     /**
      * 加密
      * @param source
@@ -122,7 +114,7 @@ public class AES128 {
 }
 ```
 
-约定和注意点：
+# 约定和注意点
 
 1.  秘钥使用`getKey`方法生成。由用户输入的字符串做SHA-256，再取128bit作为最终秘钥
 2.  秘钥以外的其他入参或者返回值都是`byte[]`。因为最终`cipher.doFinal()`的入参和返回值都是`byte[]`，减少不必要的string与byte[]转换。
@@ -130,16 +122,16 @@ public class AES128 {
 4. 直接使用`new SecretKeySpec(key, "AES")`生成SecretKeySpec，不要什么SecureRandom。加密不同语言、不同平台结果不一样的凶手！
 5. 使用`byte2Hex`返回16进制字符串来查看和比对加密结果。注意这个结果不是最终加密的结果。
 
-测试类
+# 测试类
 ```
-import java.io.UnsupportedEncodingException;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class Main {
-    public static void main(String[] args) throws UnsupportedEncodingException {
+    public static void main(String[] args)  {
 
         //用于生成秘钥的字符串
         String keyStr="s";
-        byte[] source=AES128.str2bytes("刘港欢");
+        byte[] source="刘港欢".getBytes(UTF_8);
         try {
             byte[] encode=AES128.encrypt(source,keyStr);
             System.out.println(AES128.byte2Hex(encode));
@@ -147,7 +139,7 @@ public class Main {
             byte[] decode=AES128.decrypt(encode,keyStr);
             System.out.println(AES128.byte2Hex(decode));
 
-            System.out.println(AES128.bytes2str(decode));
+            System.out.println(new String(decode,UTF_8));
         } catch (AES128.KeyLengthException e) {
             e.printStackTrace();
         }
