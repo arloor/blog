@@ -276,3 +276,145 @@ public class Main {
 ```
 
 以上展示了使用AES+confusion、单独使用confusion两种例子。所以也可以不使用AES，直接使用这个confusion作为加密方式。可以看到一点，经过confusion运算之后的所有字节都是可以打印的，不会出现乱码的情况。
+
+
+# 原本的C语言实现
+
+原本是Object C的实现，我给转成了一般的c语言
+
+```
+#include <stdio.h>
+#include <zconf.h>
+#include <memory.h>
+#include <malloc.h>
+
+char *confusion(const char *str);
+char *disConfusion(const char *str);
+
+int main() {
+    const char * source="刘港欢觉得c语言好难啊！";
+    printf("原字符串：%s\n",source);
+
+    const char * afterConfusion=confusion(source);
+    printf("混淆后：%s\n",afterConfusion);
+
+    char *result = disConfusion(afterConfusion);
+    printf("解混淆后： %s", result);
+}
+
+
+char *confusion(const char *str) {
+    int v13 = strlen(str); //a2
+    const void *ebbytes = str; //a1
+    char *v11;
+    v11 = (char *) malloc(4 * ((v13 + 2) / 3));
+    for (int i = 0; i < v13; i += 3) {
+        int v9 = 0;
+        for (int j = i; j < i + 3; ++j) {
+            v9 <<= 8;
+            if (j < v13)
+                v9 |= *(Byte * )(ebbytes + j);     //一号坑：对应的java代码是：v9 |= ebbytes[j]&0xFF;   这是c语言byte转java int的方法：&0xFF
+        }
+        char *v12 = "Pz#`(:7F-a%diHm<kQDTVEKXI68loAqwsGgC42!R^ju0h@xYc][}S9B{M~+t$.>,J";
+
+        char *v3;
+        v3 = &v11[4 * (i / 3)];
+        *v3 = *(Byte *) (v12 + ((v9 >> 18) & 0x3F));      //char字节0
+        Byte *v4;
+        v4 = v3 + 1;                                     //char字节1
+        *v4 = *(Byte *) (v12 + ((v9 >> 12) & 0x3F));
+        char v7;
+        if (i + 1 >= v13)
+            v7 = *(Byte *) (v12 + 64);
+        else
+            v7 = *(Byte *) (v12 + ((v9 >> 6) & 0x3F));
+        v4[1] = v7;                                      //char字节2
+        char v6;
+        if (i + 2 >= v13)
+            v6 = *(Byte *) (v12 + 64);
+        else
+            v6 = *(Byte *) (v12 + (v9 & 0x3F));
+        v4[2] = v6;                                      //char字节3
+    }
+    return v11;
+}
+
+char *disConfusion(const char *str) {
+    size_t *a1 = (size_t *) malloc(sizeof(size_t));
+    int i;
+    char *v6;
+    char *v7;
+    char *v8;
+    char *v9;
+    char v10;
+    char v11;
+    char v12;
+    char *v13;
+    int v14;
+    char *v15 = "Pz#`(:7F-a%diHm<kQDTVEKXI68loAqwsGgC42!R^ju0h@xYc][}S9B{M~+t$.>,J";
+    const char *v16 = str;
+    size_t *v17 = a1;
+    int a3 = strlen(str);
+    v14 = (signed int) a3 / 4;
+    *a1 = 3 * ((signed int) a3 / 4);
+    v13 = malloc(*a1);
+    for (i = 0; i < v14; ++i) {
+        v6 = strchr(v15, *(char *) (v16 + 4 * i));
+        if (!v6) {
+            free(v13);
+            *v17 = 0;
+            return 0;
+        }
+        v12 = 4 * ((Byte) v6 - (Byte) v15);      //二号坑：这是指针减法，实际也就是indexOf，见java实现。一开始我把他当成值的减法。。。坑！
+        v7 = strchr(v15, *(char *) (v16 + 4 * i + 1));
+        if (!v7) {
+            free(v13);
+            *v17 = 0LL;
+            return 0LL;
+        }
+        v11 = (Byte) v7 - (Byte) v15;
+        *((Byte *) v13 + 3 * i) = v12 + (((v7 - v15) & 0x30) >> 4);
+        v8 = strchr(v15, *(char *) (v16 + 4 * i + 2));
+        if (!v8) {
+            free(v13);
+            *v17 = 0LL;
+            return 0LL;
+        }
+        if (((Byte) v8 - (Byte) v15) == 64) {
+            *v17 = 3 * i + 1;
+            return realloc(v13, *v17);
+        }
+        v10 = (Byte) v8 - (Byte) v15;
+        *((Byte *) v13 + 3 * i + 1) = 16 * v11 + (((v8 - v15) & 0x3C) >> 2);
+        v9 = strchr(v15, *(char *) (v16 + 4 * i + 3));
+        if (!v9) {
+            free(v13);
+            *v17 = 0LL;
+            return 0LL;
+        }
+        if (((Byte) v9 - (Byte) v15) == 64) {
+            *v17 = 3 * i + 2;
+            return realloc(v13, *v17);
+        }
+        *((Byte *) v13 + 3 * i + 2) = (v10 << 6) + (Byte) v9 - (Byte) v15;
+    }
+    return v13;
+}
+```
+执行结果：
+
+```
+原字符串：刘港欢觉得c语言好难啊！
+混淆后：~IgI~0gY~u[g+%qa~l+XI>gY0qg^smK2Yq!8YxKEgx>$skJJ
+解混淆后： 刘港欢觉得c语言好难啊！
+```
+
+这个c语言实现里有标注了我遇到的两个坑。c语言转java还是有点难度的呀。
+
+
+C语言转java实现需要注意的几个点：
+
+1. c语言的char == java的byte
+2. 所以 C语言字符串char * == “java string”.getBytes()
+3. c byte转java int是  byte&0xFF：见注释“一号坑”
+4. 最容易犯错的是忘记操作的是指针：见注释“二号坑”
