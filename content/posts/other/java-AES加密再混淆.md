@@ -299,7 +299,7 @@ int main() {
     printf("混淆后：%s\n",afterConfusion);
 
     char *result = disConfusion(afterConfusion);
-    printf("解混淆后： %s", result);
+    printf("解混淆后：%s", result);
 }
 
 
@@ -406,7 +406,7 @@ char *disConfusion(const char *str) {
 ```
 原字符串：刘港欢觉得c语言好难啊！
 混淆后：~IgI~0gY~u[g+%qa~l+XI>gY0qg^smK2Yq!8YxKEgx>$skJJ
-解混淆后： 刘港欢觉得c语言好难啊！
+解混淆后：刘港欢觉得c语言好难啊！
 ```
 
 这个c语言实现里有标注了我遇到的两个坑。c语言转java还是有点难度的呀。
