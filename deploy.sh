@@ -15,8 +15,15 @@ echo "删除服务器的旧版本静态资源...."
 rm -rf /var/www/html/*
 "
 echo "上传新的静态资源...."
-scp -r ./public/* root@$host:/var/www/html
+cd public/
+tar  -zcf  public.tar.gz --exclude=public.tar.gz *
+scp -r ./public.tar.gz root@$host:/var/www/html
 echo "reload httpd...."
-ssh root@$host "systemctl  reload httpd"
+ssh root@$host "
+cd /var/www/html
+tar -zxf public.tar.gz
+systemctl  reload httpd
+"
 echo  "部署完毕，请访问 http://"$host
+cd $dir
 rm -rf public #删除生成的静态资源

@@ -129,6 +129,18 @@ sudo npm install -g pm2
 sudo ln -fs /usr/local/node-v8.15.0-linux-x64/bin/pm2 /usr/local/bin/pm2
 ```
 
+# 安装ca证书
+
+因为是个程序员，所以会有这个需求，操作如下
+
+```
+#将cer格式的证书转成pem格式的crt文件
+openssl x509 -inform der -in CharlesRoot.cer -outform pem -out CharlesRoot.crt
+sudo apt install ca-certificates
+sudo cp CharlesRoot.crt /usr/share/ca-certificates
+sudo dpkg-reconfigure ca-certificates   #选择ask,勾选CharlesRoot.crt(按空格)并确认
+```
+
 # 设置shell代理
 
 ```
