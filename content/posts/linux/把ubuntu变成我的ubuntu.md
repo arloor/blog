@@ -1,5 +1,5 @@
 ---
-title: "把ubuntu变成我的ubuntu"
+title: "把ubuntu18.04 变成我的ubuntu"
 date: 2019-01-01T13:14:59+08:00
 author: "刘港欢"
 categories: [ "ubuntu"]
@@ -169,11 +169,9 @@ User-Agent: Debian APT-HTTP/1.3 (1.6.6)
 
 本博客就是用hugo生成的，还是很好用的。为什么不用hexo，因为我不喜欢node，而有点喜欢go
 
-```
-snap install hugo --channel=extended #with the “extended” Sass/SCSS 
-```
+到[hugo release](https://github.com/gohugoio/hugo/releases)下载hugo_extended_0.53_Linux-64bit.deb。下载完点击安装即可。
 
-Sass/SCSS支持还是一定要的。在写这篇博客时，我安装的hugo版本是`0.53`
+Sass/SCSS支持还是一定要的，所以一定要下带extented的包。在写这篇博客时，我安装的hugo版本是`0.53`
 
 多扯一下hugo生成的静态网页的部署：自己写了个脚本：
 ```
@@ -187,17 +185,25 @@ host=arloor.com
 cd $dir
 echo "生成静态资源..."
 hugo
+
+echo "上传新的静态资源...."
+cd public/
+tar  -zcf  public.tar.gz --exclude=public.tar.gz *
+scp -r ./public.tar.gz root@$host:~
+
+
+
 ssh root@$host "
-# echo "stop httpd ...."
-# systemctl  stop httpd
 echo "删除服务器的旧版本静态资源...."
 rm -rf /var/www/html/*
-"
-echo "上传新的静态资源...."
-scp -r ./public/* root@$host:/var/www/html
+tar -zxf public.tar.gz -C /var/www/html/
+rm -f public.tar.gz
 echo "reload httpd...."
-ssh root@$host "systemctl  reload httpd"
+systemctl  reload httpd
+"
 echo  "部署完毕，请访问 http://"$host
+cd $dir
+rm -rf public #删除生成的静态资源
 ```
 其实也就是在centos7服务器上安装了`apache(httpd)`，然后hugo生成public文件下的静态资源，将这些静态资源复制到服务器`/var/www/html`中。为了舒服地（不需要输ssh密码）使用该脚本，请使用ssh秘钥登录centos7服务器。
 

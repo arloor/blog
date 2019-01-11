@@ -8,20 +8,20 @@ host=arloor.com
 cd $dir
 echo "生成静态资源..."
 hugo
-ssh root@$host "
-# echo "stop httpd ...."
-# systemctl  stop httpd
-echo "删除服务器的旧版本静态资源...."
-rm -rf /var/www/html/*
-"
+
 echo "上传新的静态资源...."
 cd public/
 tar  -zcf  public.tar.gz --exclude=public.tar.gz *
-scp -r ./public.tar.gz root@$host:/var/www/html
-echo "reload httpd...."
+scp -r ./public.tar.gz root@$host:~
+
+
+
 ssh root@$host "
-cd /var/www/html
-tar -zxf public.tar.gz
+echo "删除服务器的旧版本静态资源...."
+rm -rf /var/www/html/*
+tar -zxf public.tar.gz -C /var/www/html/
+rm -f public.tar.gz
+echo "reload httpd...."
 systemctl  reload httpd
 "
 echo  "部署完毕，请访问 http://"$host
