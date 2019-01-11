@@ -2,7 +2,7 @@
 author: "刘港欢"
 date: 2019-01-03
 linktitle: java-AES128加密-代码与一些约定
-title: java-AES128加密-代码与一些约定
+title: java-AES128加密-代码与一些约定 
 categories: [ "java","加密"]
 tags: ["program"]
 weight: 10
@@ -151,3 +151,5 @@ public class Main {
 e58898e6b8afe6aca2
 刘港欢
 ```
+
+记住一定要显式使用`UTF-8`！！！
