@@ -140,6 +140,11 @@ sudo ln -fs /usr/local/node-v8.15.0-linux-x64/bin/pm2 /usr/local/bin/pm2
 # 效果：该terminal将使用如下的代理
 export http_proxy=http://127.0.0.1:8081
 export https_proxy=http://127.0.0.1:8081
+git config --global http.proxy 'http://127.0.0.1:8081'
+git config --global https.proxy 'http://127.0.0.1:8081'
+
+#git config --global --unset http.proxy
+#git config --global --unset https.proxy
 ```
 
 这样就可以方便地用上我写的代理啦。最好的大概就是安装go、node包、apt安装docker时超级方便。
