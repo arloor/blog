@@ -152,11 +152,11 @@ sudo dpkg-reconfigure ca-certificates   #选择ask,勾选CharlesRoot.crt(按空�
 # 效果：该terminal将使用如下的代理
 export http_proxy=http://127.0.0.1:8081
 export https_proxy=http://127.0.0.1:8081
-git config --global http.proxy 'http://127.0.0.1:8081'
-git config --global https.proxy 'http://127.0.0.1:8081'
+git config --local http.proxy 'http://127.0.0.1:8081'
+git config --local https.proxy 'http://127.0.0.1:8081'
 
-#git config --global --unset http.proxy
-#git config --global --unset https.proxy
+#git config --local --unset http.proxy
+#git config --local --unset https.proxy
 ```
 
 这样就可以方便地用上我写的代理啦。最好的大概就是安装go、node包、apt安装docker时超级方便。
