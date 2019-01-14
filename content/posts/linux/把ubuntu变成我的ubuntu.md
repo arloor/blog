@@ -194,9 +194,18 @@ hugo
 echo "上传新的静态资源...."
 cd public/
 tar  -zcf  public.tar.gz --exclude=public.tar.gz *
+if [ "$?" != "0" ]; then
+    echo -e "\n 压缩失败，退出"
+    rm -rf ../public #删除生成的静态资源
+    exit 1
+fi
+
 scp -r ./public.tar.gz root@$host:~
-
-
+if [ "$?" != "0" ]; then
+    echo -e "\n 上传静态资源失败，退出"
+    rm -rf ../public #删除生成的静态资源
+    exit 1
+fi
 
 ssh root@$host "
 echo "删除服务器的旧版本静态资源...."

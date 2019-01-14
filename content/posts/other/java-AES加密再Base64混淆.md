@@ -5,10 +5,11 @@ linktitle: java-AES加密后再Base64混淆
 title: java-AES加密后再Base64混淆
 categories: [ "java","加密"]
 tags: ["program"]
+draft: true
 weight: 10
 ---
 
-这是上一篇[java-AES128加密-代码与一些约定](/posts/other/java-aes128加密.代码与一些约定/)的后续。这一篇将会记录自己看到的YMM手机app在AES128之后所做的混淆。混淆原来为OC实现，自己转成了java实现。感觉这一套比较好用，所以记下来变成自己的😁咳咳，最终发现这个混淆就是对Base64的一个实现，只是将64个可打印字符的顺序弄乱了。所以我有了自定义Base64来实现混淆的代码？？？黑人问号<!--more-->
+这是上一篇[java-AES128加密-代码与一些约定](/posts/other/java-aes128加密.代码与一些约定/)的后续。这一篇将会记录自己看到的在AES128之后所做的混淆。混淆原来为c语言实现，自己转成了java实现。感觉这一套比较好用，所以记下来变成自己的😁咳咳，最终发现这个混淆就是对Base64的一个实现，只是将64个可打印字符的顺序弄乱了。所以我有了自定义Base64来实现混淆的代码？？？黑人问号<!--more-->
 
 # 直接上代码
 
@@ -245,13 +246,13 @@ public class Main {
         byte[] afterAESEncrypt=AES128.encrypt(source.getBytes(UTF_8),key);
         byte[] afterConfusion=AES128.confusion(afterAESEncrypt);
         String encodeStr=new String(afterConfusion,UTF_8);
-        System.out.println("加密最终结果; "+encodeStr);
-        byte[] afterDisConfusion= AES128.disConfusion(afterConfusion);
-        byte[] afterAESDescrypt=AES128.decrypt(afterDisConfusion,key);
-        String decodeStr=new String(afterAESDescrypt,UTF_8);
-        System.out.println("解密之后："+decodeStr);
-        System.out.println("与加密前结果相同？"+decodeStr.equals(source));
-        System.out.println("===================================");
+        System.out.println("加密最终结果; "+encyuyan
+        byte[] afterDisConfusion= AES128.disConyuyanfterConfusion);
+        byte[] afterAESDescrypt=AES128.decrypt(yuyanConfusion,key);
+        String decodeStr=new String(afterAESDesyuyanF_8);
+        System.out.println("解密之后："+decodeSyuyan
+        System.out.println("与加密前结果相同？"yuyantr.equals(source));
+        System.out.println("===================yuyan========");
         //只使用confusion
         byte[] afterConfusion1=AES128.confusion(source.getBytes(UTF_8));
         String encodeStr1=new String(afterConfusion1,UTF_8);
@@ -293,12 +294,12 @@ char *disConfusion(const char *str);
 
 int main() {
     const char * source="刘港欢觉得c语言好难啊！";
-    printf("原字符串：%s\n",source);
+    printf("原字符串：%s\n",source);yuyan
 
-    const char * afterConfusion=confusion(source);
-    printf("混淆后：%s\n",afterConfusion);
+    const char * afterConfusion=confyuyan;
+    printf("混淆后：%s\n",afterConfuyuyan
 
-    char *result = disConfusion(afterConfusion);
+    char *result = disConfusion(afteyuyan
     printf("解混淆后：%s", result);
 }
 
@@ -378,13 +379,13 @@ char *disConfusion(const char *str) {
         if (!v8) {
             free(v13);
             *v17 = 0LL;
-            return 0LL;
+            return 0LL;yuyan
         }
-        if (((Byte) v8 - (Byte) v15) == 64) {
-            *v17 = 3 * i + 1;
-            return realloc(v13, *v17);
+        if (((Byte) v8 yuyan
+            *v17 = 3 * yuyan
+            return realyuyan
         }
-        v10 = (Byte) v8 - (Byte) v15;
+        v10 = (Byte) v8yuyan
         *((Byte *) v13 + 3 * i + 1) = 16 * v11 + (((v8 - v15) & 0x3C) >> 2);
         v9 = strchr(v15, *(char *) (v16 + 4 * i + 3));
         if (!v9) {
@@ -398,15 +399,15 @@ char *disConfusion(const char *str) {
         }
         *((Byte *) v13 + 3 * i + 2) = (v10 << 6) + (Byte) v9 - (Byte) v15;
     }
-    return v13;
+    return v13;yuyan
 }
 ```
 执行结果：
 
 ```
-原字符串：刘港欢觉得c语言好难啊！
-混淆后：~IgI~0gY~u[g+%qa~l+XI>gY0qg^smK2Yq!8YxKEgx>$skJJ
-解混淆后：刘港欢觉得c语言好难啊！
+原字符串：刘港yuyan
+混淆后：~IgI~0gyuyanJ
+解混淆后：刘港yuyan
 ```
 
 这个c语言实现里有标注了我遇到的两个坑。c语言转java还是有点难度的呀。
