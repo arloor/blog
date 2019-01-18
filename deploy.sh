@@ -2,6 +2,7 @@
 # 当前使用hugo 0.53(支持scss)
 dir=/home/x1/blog
 host=arloor.com
+port=22
 
 # yum install httpd
 # systemctl enable httpd
@@ -18,14 +19,14 @@ if [ "$?" != "0" ]; then
     exit 1
 fi
 
-scp -r ./public.tar.gz root@$host:~
+scp -r -P $port ./public.tar.gz  root@$host:~
 if [ "$?" != "0" ]; then
     echo -e "\n 上传静态资源失败，退出"
     rm -rf ../public #删除生成的静态资源
     exit 1
 fi
 
-ssh root@$host "
+ssh root@$host  -p$port "
 echo "删除服务器的旧版本静态资源...."
 rm -rf /var/www/html/*
 tar -zxf public.tar.gz -C /var/www/html/
