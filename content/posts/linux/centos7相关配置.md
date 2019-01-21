@@ -53,6 +53,24 @@ service sshd restart
 
 将本地的~/.ssh/id_rsa.pub 添加到服务器的~/.ssh/authorized_keys文件中
 
+## 禁用密码登陆
+
+编辑远程服务器上的sshd_config文件：
+```
+vim /etc/ssh/sshd_config
+```
+
+找到如下选项并修改(通常情况下，前两项默认为no，地三项如果与此处不符，以此处为准)：
+```
+#PasswordAuthentication yes 改为
+PasswordAuthentication no
+```
+
+编辑保存完成后，重启ssh服务使得新配置生效，然后就无法使用口令来登录ssh了
+```
+systemctl restart sshd.service
+```
+
 # 安装apache
 
 ```
