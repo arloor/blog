@@ -67,3 +67,24 @@ wget --no-check-certificate --no-cookie --header "Cookie: oraclelicense=accept- 
 
 yum install jdk-8u201-linux-x64.rpm
 ```
+# 设置时区
+
+```
+# 查看事件设置信息
+timedatectl status
+#Local time: 四 2014-12-25 10:52:10 CST
+#Universal time: 四 2014-12-25 02:52:10 UTC
+#RTC time: 四 2014-12-25 02:52:10
+#Timezone: Asia/Shanghai (CST, +0800)
+#NTP enabled: yes
+#NTP synchronized: yes
+#RTC in local TZ: no
+#DST active: n/a
+```
+
+```
+timedatectl list-timezones # 列出所有时区
+timedatectl set-local-rtc 1 # 将硬件时钟调整为与本地时钟一致, 0 为设置为 UTC 时间
+timedatectl set-timezone Asia/Shanghai # 设置系统时区为上海
+```
+
