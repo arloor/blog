@@ -38,6 +38,25 @@ sudo systemctl show --property=Environment docker
 # 像这样：Environment=HTTP_PROXY=http://127.0.0.1:8081/ NO_PROXY=localhost,127.0.0.1,docker-registry.so
 ```
 
+## 设置国内镜像
+
+除了上面的设置代理，还可以配置国内镜像
+
+```
+vi /etc/docker/daemon.json
+
+#写入以下内容
+{
+ "registry-mirrors": ["https://registry.docker-cn.com"]
+}
+
+# 最后
+# Flush changes:
+sudo systemctl daemon-reload
+#Restart Docker:
+sudo systemctl restart docker
+```
+
 ## 配置不需要sudo
 
 ```
