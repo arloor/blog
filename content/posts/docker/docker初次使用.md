@@ -235,6 +235,21 @@ docker exec -it containerID /bin/bash
 
 好了，docker算入门了吧
 
+## 删除容器、镜像
 
+一个镜像很容易就超级超级大，有必要删除没用的镜像和容器
+
+要删除镜像，需要首先删除容器。
+
+```
+# 删除所有容器
+docker rm `docker ps -a -q`
+# 删除所有镜像
+docker rmi `docker images -a -q`
+# 删除带关键字的镜像
+docker rmi --force `docker images | grep xxx | awk '{print $3}'`
+# 删除没有标签的镜像
+docker rmi `docker images -q | awk '/^<none>/ { print $3 }'`
+```
 
 
