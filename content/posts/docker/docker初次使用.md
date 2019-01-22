@@ -271,4 +271,54 @@ docker rmi --force `docker images | grep xxx | awk '{print $3}'`
 docker rmi `docker images -q | awk '/^<none>/ { print $3 }'`
 ```
 
+# push本地镜像到docker hub
 
+首先`docker login`登录到docker hub，需要输入docker hub的用户名密码
+
+然后，把本地的docker镜像打上用户名的tag..
+
+最后push
+
+```
+docker tag ubuntu:18.04 arloor/ubuntu:18.04
+docker push arloor/ubuntu:18.04
+docker search arloor
+```
+
+# centos 7安装docker
+
+ 卸载旧版本
+
+Docker 的早期版本称为 docker 或 docker-engine。如果安装了这些版本，请卸载它们及关联的依赖资源。
+
+```
+ sudo yum remove docker \
+                  docker-client \
+                  docker-client-latest \
+                  docker-common \
+                  docker-latest \
+                  docker-latest-logrotate \
+                  docker-logrotate \
+                  docker-engine
+```
+安装相关依赖
+
+```
+yum install -y yum-utils \
+  device-mapper-persistent-data \
+  lvm2
+  ```
+
+  设置docker源
+
+  ```
+  yum-config-manager \
+    --add-repo \
+    https://download.docker.com/linux/centos/docker-ce.repo
+```
+
+安装docker
+
+```
+    yum install docker-ce
+ ```
