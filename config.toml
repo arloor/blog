@@ -16,6 +16,9 @@ summarylength = 10
 
 ## Site Settings
 [params]
+UtterancesRepo= "arloor/blog"
+UtterancesIssueTerm = "pathname"
+
     #hasCJKLanguage = true
     layoutReverse = false
     author = "Author"

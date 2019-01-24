@@ -6,6 +6,7 @@ title: proxynew一键安装
 categories: [ "代理"]
 tags: ["program"]
 weight: 10
+showcomments: true
 ---
 
 为了方便其他同学在自己的服务器上安装proxynew，搞了一个简单的部署方式。不得不说docker很香
