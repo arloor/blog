@@ -14,6 +14,7 @@ weight: 10
 在github netty项目下有这样一个[issue](https://github.com/netty/netty/issues/7699)。描述了这样一个问题。
 
 总结一下里面说的。出现这个异常有两种情况，pooled buf没有release；写太快，超过了极限。
+<!--more-->
 
 重要摘录：
 
