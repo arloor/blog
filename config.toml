@@ -18,6 +18,7 @@ summarylength = 10
 [params]
 UtterancesRepo= "arloor/blog"
 UtterancesIssueTerm = "pathname"
+UtterancesTheme="github-light"
 
     #hasCJKLanguage = true
     layoutReverse = false
