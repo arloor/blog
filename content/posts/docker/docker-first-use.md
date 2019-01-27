@@ -167,7 +167,7 @@ COPY . /app
 WORKDIR /app
 EXPOSE 4000
 ```
-集成centos7映像，将本文件夹下的所有文件（是项目代码）复制到容器的`/app`文件下。这里也包括了npm_modules。最后定xiugai义暴露4000端口
+集成centos7映像，将本文件夹下的所有文件（是项目代码）复制到容器的`/app`文件下。这里也包括了npm_modules。最后定义暴露4000端口
 
 构建映像：
 ```
