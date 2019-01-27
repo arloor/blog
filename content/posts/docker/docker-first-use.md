@@ -1,5 +1,5 @@
 ---
-title: "docker初次使用"
+title: "docker使用笔记"
 author: "刘港欢"
 date: 2019-01-02
 categories: [ "docker"]
@@ -285,7 +285,11 @@ docker push arloor/ubuntu:18.04
 docker search arloor
 ```
 
-# centos 7安装docker
+# centos 7的docker使用
+
+服务器一般是centos系统，记录一下centos中的一些东西
+
+## 安装docker-ce
 
  卸载旧版本
 
@@ -320,5 +324,15 @@ yum install -y yum-utils \
 安装docker
 
 ```
-    yum install docker-ce
+yum install docker-ce
  ```
+
+
+## iptables
+
+iptables是linux下的防火墙服务。在我的使用中，遇到一个问题：编辑/etc/sysconfig/iptables配置文件后，重启iptables服务(service iptables restart)。正在运行的docker容器可以正常接受请求，却不能向其他服务器发送http请求（tcp流量）。搜索之后发现，docker服务启动时，会增加iptables规则，应该是定义nat规则的。当iptables服务重启时，docker服务增加的iptables就被丢弃了，所以会出现这样的问题。
+
+所以解决方式：
+
+1. 重启docker服务 service docker restart
+2. 将docker增加的iptables持久化 iptables save（不怎么推荐且我也不知道有没有什么副作用）
