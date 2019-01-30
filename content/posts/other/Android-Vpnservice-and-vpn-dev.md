@@ -12,17 +12,22 @@ weight: 10
 为了在安卓上也能愉快地使用自己开发的代理，研究了一下安卓Vpnservice，在此记录一下当前的成功，并确定以后的开发思路。
 <!--more-->
 
-# Vpn examples
+# VpnService和安卓VPN例子
 
-初步搭一个vpn应用的框架[原文](https://www.tuicool.com/articles/uuiMje)
+VpnService是开发安卓VPN的基础，下面是[官方文档的阐释](https://developer.android.com/reference/android/net/VpnService)
 
-经测试，是可以的，但是具体功能并没有实现
+ VpnService is a base class for applications to extend and build their own VPN solutions. In general, it creates a virtual network interface, configures addresses and routing rules, and returns a file descriptor to the application. Each read from the descriptor retrieves an outgoing packet which was routed to the interface. Each write to the descriptor injects an incoming packet just like it was received from the interface. The interface is running on Internet Protocol (IP), so packets are always started with IP headers. The application then completes a VPN connection by processing and exchanging packets with the remote server over a tunnel.
 
-# 所发现的第一个问题
+ 上面的阐释的重点是：虚拟一个网卡、返回文件描述符、 读写的内容是ip数据报
 
-Vpnservice是安卓提供给开发者用于开发自己的VPN的服务。开发者继承这个Vpnservice，从而实现VPN。先说一下，这个VPNservice的原理。手机本身是有一块网卡，安卓虚拟出一个网卡，然后通过NAT，将真实网卡上的出站流量转发到虚拟网卡上，然后Vpnservice获取这个虚拟网卡上的“流量”，并转发给Vpn的服务端。其实还是挺好理解的。问题在于，上面说的流量，并不是传输层的tcp/udp流量，而是ip数据报。
+ 安卓example的[ToyVpn](https://android.googlesource.com/platform/development/+/master/samples/ToyVpn)；初步搭一个vpn应用的框架可以看[这里](https://www.tuicool.com/articles/uuiMje)，这个仅仅是搭建了框架，功能（ip数据包的收发）则没有实现
 
-所以问题来了。之前代理所操作的是tcp包，现在要处理ip数据报。而且java语言只提供了传输层（tcp/udp）的socket传输api。这意味着，开发Vpn必定有一部分需要使用其他语言（C/C++）。
+
+# 所以问题来了
+
+Vpnservice是安卓提供给开发者用于开发自己的VPN的服务。开发者继承这个Vpnservice，从而实现VPN。手机本身是有一块网卡，安卓虚拟出一个网卡，然后通过NAT，将真实网卡上的出站流量转发到虚拟网卡上，然后Vpnservice获取这个虚拟网卡上的“流量”，并转发给Vpn的服务端。其实还是挺好理解的。问题在于，上面说的流量，并不是传输层的tcp/udp流量，而是ip数据报。
+
+tcp代理所操作的是tcp包，现在要处理ip数据报。而且java语言只提供了传输层（tcp/udp）的socket传输api。这意味着，开发Vpn必定有一部分需要使用其他语言（C/C++）。
 
 看安卓example的[ToyVpn](https://android.googlesource.com/platform/development/+/master/samples/ToyVpn)中server的代码，发现他的代码就是直接open /dev下的网卡文件，然后读写来收取ip数据（一切皆文件真的骚。。）
 
@@ -33,7 +38,6 @@ Vpnservice是安卓提供给开发者用于开发自己的VPN的服务。开发�
 通过Udp传输的原因是，Udp（用户数据报）是ip数据报的简单包裹，不像tcp数据包那样，增加了很复杂的东西，也不进行失败重传等操作。要清楚，我们这里传输的是较底层的ip数据报，在ip数据报的上层，可能是UDP，也可能是TCP，不管传输层是什么协议，消息的正确性，失败重传等等，都有人做过，我们只要传就好了，所以用UDP是最好的。
 
 通过C/C++写进网卡，这个可能要用JNI，没用过，学学吧。
-
 
 其实就是ip over udp。下面是一段对这个概念的阐释：[原文](https://www.cnblogs.com/zhangzl2013/p/foo_over_udp.html)
 
