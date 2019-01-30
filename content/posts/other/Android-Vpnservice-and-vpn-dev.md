@@ -12,6 +12,12 @@ weight: 10
 为了在安卓上也能愉快地使用自己开发的代理，研究了一下安卓Vpnservice，在此记录一下当前的成功，并确定以后的开发思路。
 <!--more-->
 
+# Vpn examples
+
+初步搭一个vpn应用的框架[原文](https://www.tuicool.com/articles/uuiMje)
+
+经测试，是可以的，但是具体功能并没有实现
+
 # 所发现的第一个问题
 
 Vpnservice是安卓提供给开发者用于开发自己的VPN的服务。开发者继承这个Vpnservice，从而实现VPN。先说一下，这个VPNservice的原理。手机本身是有一块网卡，安卓虚拟出一个网卡，然后通过NAT，将真实网卡上的出站流量转发到虚拟网卡上，然后Vpnservice获取这个虚拟网卡上的“流量”，并转发给Vpn的服务端。其实还是挺好理解的。问题在于，上面说的流量，并不是传输层的tcp/udp流量，而是ip数据报。
