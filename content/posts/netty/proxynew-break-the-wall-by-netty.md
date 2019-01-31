@@ -1,5 +1,5 @@
 ---
-title: "proxynew-基于netty的翻墙代理"
+title: "HttpProxy-基于netty的翻墙代理"
 date: 2018-12-31T23:55:22+08:00
 author: "刘港欢"
 categories: [ "java","网络编程","netty"]
@@ -9,7 +9,7 @@ weight: 10
 
 暑假使用java NIO实现了一个java http代理。那个http代理远远不算完善：两个线程，不能翻墙。之后学习了netty，并且使用netty实现了一个可翻墙的http代理，经过一个多月的使用，十分满意。今天来记录一下这里面值得写下来的东西。
 
-先放项目地址[proxynew](https://github.com/arloor/proxynew)<!--more-->
+先放项目地址[HttpProxy](https://github.com/arloor/HttpProxy)<!--more-->
 
 # 如何翻墙
 

@@ -39,7 +39,7 @@ ShadowSocks的优点为sock5代理类似，由于不是在ip层面上，所以�
 
 引用结束。
 
-我写的[proxynew](https://github.com/arloor/proxy)就是一个http代理（tcp代理），而安卓、iphone要求的是一个VPN（因为手机只给ip数据报）。socks则是不管应用层是tcp还是udp。所以从通用性上讲，VPN>socks>tcp代理。我的proxynew在这个时代可以说超级菜鸡了。
+我写的[HttpProxy](https://github.com/arloor/proxy)就是一个http代理（tcp代理），而安卓、iphone要求的是一个VPN（因为手机只给ip数据报）。socks则是不管应用层是tcp还是udp。所以从通用性上讲，VPN>socks>tcp代理。我的HttpProxy在这个时代可以说超级菜鸡了。
 
 引用部分最后提到的开源tcp/ip协议栈是iwIP（我在别的博客看到的，可能我引用的部分是抄的别人的。。），引用还提到的tun2socks，则将在[解决方案二](#解决方案二)中详细解释。
 

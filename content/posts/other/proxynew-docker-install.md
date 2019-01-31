@@ -1,15 +1,15 @@
 ---
 author: "刘港欢"
 date: 2019-01-21
-linktitle: proxynew一键安装
-title: proxynew一键安装
+linktitle: HttpProxy一键安装
+title: HttpProxy一键安装
 categories: [ "代理"]
 tags: ["program"]
 weight: 10
 showcomments: true
 ---
 
-为了方便其他同学在自己的服务器上安装proxynew，搞了一个简单的部署方式。不得不说docker很香
+为了方便其他同学在自己的服务器上安装HttpProxy，搞了一个简单的部署方式。不得不说docker很香
 
 # 使用说明
 
@@ -57,6 +57,6 @@ docker pull arloor/proxyserver:1.0
 docker run -d -p 8080:8080 arloor/proxyserver:1.0
 ```
 
-如果成功走到这里，服务端就成功启动了。另外需要做的就是下载客户端和配置host了，详见[release页面](https://github.com/arloor/proxynew/releases/tag/v1.4)
+如果成功走到这里，服务端就成功启动了。另外需要做的就是下载客户端和配置host了，详见[release页面](https://github.com/arloor/HttpProxy/releases/tag/v1.4)
 
 如果上面的走不通，可以联系admin@arloor.com
