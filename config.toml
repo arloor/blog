@@ -78,11 +78,6 @@ UtterancesTheme="github-light"
     identifier = "标签"
     url = "/tags/"
 [[menu.main]]
-    name = "Portfolio"
-    identifier = "portfolio"
-    weight = 200
-    url = "/portfolio/"
-[[menu.main]]
     name = "About"
     identifier = "about"
     weight = 300
