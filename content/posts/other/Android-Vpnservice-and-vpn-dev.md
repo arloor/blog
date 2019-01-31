@@ -94,7 +94,7 @@ tcp代理所操作的是tcp包，现在要处理ip数据报。而且java语言�
 
 直到看到了tun2socks和iwIP，才意识到这个有难度的轮子其实已经有人造了。安卓使用最广泛的翻墙工具就是shadowsocks了，赫然看到[shadowsocks-android](https://github.com/shadowsocks/shadowsocks-android)的readme中的“OPEN SOURCE LICENSES”含有tun2socks。行吧，shadowsocks都用这个技术，够权威了。
 
-下面就说，什么是tun2socks，直接引用别人的博客了。
+下面就说，什么是tun2socks，直接引用别人的[博客](https://blog.csdn.net/dog250/article/details/70343230)了。这个博主csdn排名15，牛逼
 
 ## 总览
 tun2socks实现一种机制，它可以让你无需改动任何应用程序而完全透明地将数据用socks协议封装，转发给一个socks代理，然后由该代理程序负责与真实服务器之间转发应用数据。使用代理有两种方式，一种是你自己显式配置代理，这样一来，数据离开你的主机时它的目标地址就是代理服务器，另一种是做透明代理，即在中途把原始数据重定向到一个应用程序，由该代理程序代理转发。tun2socks在第二种的基础上，完成了socks协议的封装，并且实现该机制时使用了强大的tun网卡而不必再去配置复杂的iptables规则。
