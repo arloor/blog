@@ -42,7 +42,7 @@ iptables -A INPUT -p tcp --dport 22 -j ACCEPT  #开启tcp 22端口的读
 iptables -A INPUT -p tcp --dport 80 -j ACCEPT  #开启tcp 80端口的读
 iptables -A INPUT -p tcp --dport 8099 -j ACCEPT #开启tcp 8099端口的读
 iptables -A INPUT -p udp --dport 8099 -j ACCEPT #开启udp 8099端口的读
-iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT # 允许所以已建立连接
+iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT # 允许所以已建立连接（这个有点关键）
 iptables --policy INPUT DROP #除了以上允许的,设置默认阻止所有读，这个最后再做哦
 #或者最后增加这个
 # iptables -A INPUT -j REJECT --reject-with icmp-host-prohibited #最后做啊
