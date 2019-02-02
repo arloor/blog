@@ -10,6 +10,29 @@ weight: 10
 买了搬瓦工家的vps，相关配置记录一下。时隔两年又用回了搬瓦工，搬瓦工不是屌丝了，我也不是小白了。
 <!--more-->
 
+# 一键安装shadowsocks-libev
+
+在研究了安卓VPN的实现之后，发现我的[HttpProxy](http://github.com/arloor/HttpProxy)跟安卓VPN根本不是一回事，基本不可能有安卓客户端了。而shadowsocks安卓所采用的tun2socks+shadowsocks-libev这种模式很现代。所以给自己的centos也装上shadowsocks了。
+
+shadowsocks有很多版本，我选择shadowsocks-libev，全功能且内存占用真的少，C语言省内存啊。
+
+参见[秋水逸冰](https://teddysun.com/357.html)
+
+```
+wget --no-check-certificate -O shadowsocks-libev.sh https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-libev.sh
+chmod +x shadowsocks-libev.sh
+./shadowsocks-libev.sh 2>&1 | tee shadowsocks-libev.log
+```
+
+安装完成后，可以使用`service shadowsocks status`查看状态，ss的配置文件在`/etc/shadowsocks-libev/config.json`
+
+卸载如下：
+```
+./shadowsocks-libev.sh uninstall
+```
+
+
+
 # 配置防火墙
 
 据说centos7默认使firewalld作为防火墙，但是我装了两个centos7都是使用的iptables。
