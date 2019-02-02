@@ -8,8 +8,6 @@ git add .
 git commit -m "deploy 自动提交"
 git push
 
-echo $?
-
 # yum install httpd
 # systemctl enable httpd
 cd $dir
