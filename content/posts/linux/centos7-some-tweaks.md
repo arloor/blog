@@ -50,6 +50,8 @@ iptables --policy INPUT DROP #除了以上允许的,设置默认阻止所有读�
 
 最后service iptables restart，就生效了。可以执行`service iptables save`
 
+顺便提一下，docker映射到宿主机的端口不需要在iptables中开放，因为docker服务自己对iptables做了修改，将相关的请求转发到了docker虚拟出来的网卡中。也因为docker的自动修改，如果重启iptables，将丢失这部分修改，导致docker容器运行异常，此时只能重启docker服务了。所以如果运行了docker，就不要贸然地stop iptables服务啦。
+
 # 修改root用户密码
 
 直接输入passwd命令即可。
