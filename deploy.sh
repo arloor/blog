@@ -6,7 +6,7 @@ host=arloor.com
 port=22
 
 git add .
-git commit -m "deploy 自动提交"
+git commit -m "执行deploy.sh产生的自动提交"
 git push
 
 # yum install httpd
