@@ -1,7 +1,7 @@
 #! /bin/bash
 # 当前使用hugo 0.53(支持scss)
 dir=/home/x1/blog
-dir=.
+dir=$PWD
 host=arloor.com
 port=22
 
