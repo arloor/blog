@@ -1,5 +1,5 @@
 ---
-title: "Ubuntu Desktop Entry Example"
+title: "添加Ubuntu桌面图标"
 date: 2018-12-31T23:52:22+08:00
 author: "刘港欢"
 categories: [ "ubuntu"]

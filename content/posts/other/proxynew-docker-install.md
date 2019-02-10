@@ -9,9 +9,11 @@ weight: 10
 showcomments: true
 ---
 
-现在用得最多得翻墙方式是shadowsocks，用的人多了，再怎么混淆也会被GFW探测而墙掉。
+[HttpProxy](https://github.com/arloor/HttpProxy)是一个轻量、稳定、高性能的http代理，仅仅依赖netty和日志框架，实现http中间人代理和https隧道代理，并通过加密，实现翻墙功能。google、youtube视频、满带宽下载、作为git的代理、作为shell的代理、作为docker的代理等场景都运行完美。
 
-因为这个原因，我写了一个翻墙的代理，经过2个多月的使用，十分满意，因此写一篇博客来记录一下如何快速地在国外VPS上安装这个代理，有需要的朋友碰巧看到本博客的话，可以参考参考。
+现在用得最多得翻墙方式是shadowsocks，用的人多了，再怎么混淆也会被GFW探测而墙掉。因为这个原因，我写了一个翻墙的代理，经过2个多月的使用，十分满意。小众的东西也是有优势的
+
+这一篇博客记录一下如何部署和使用这个翻墙代理
 <!--more-->
 
 # 说明
@@ -28,7 +30,7 @@ showcomments: true
 2. 拉取镜像
 3. 运行容器
 
-其他linux发行版的不同只在于安装docker部分，不想使用centos7的同学可以自行搜索docker安装教程。docker的入门可以参见[docker使用笔记](/posts/docker/docker-first-use/)
+其他linux发行版的不同只在于安装docker部分，不想使用centos7的同学可以自行搜索自己系统的docker安装教程。docker的入门可以参见[docker使用笔记](/posts/docker/docker-first-use/)
 
 ## 安装docker
 
