@@ -5,6 +5,7 @@ dir=$PWD
 host=arloor.com
 port=22
 
+git pull
 git add .
 git commit -m "执行deploy.sh产生的自动提交"
 git push
