@@ -18,9 +18,11 @@ showcomments: true
 
 # 说明
 
-客户端：使用go语言编写，支持windows平台。linux和mac平台不提供二进制可执行文件，有需要的可以自行编译（其实就是执行一下go get、go install）
+客户端：使用go语言编写，支持windows平台和linux平台。mac平台不提供二进制可执行文件，因为我没有mac。有需要的可以自行编译（其实就是执行一下go get、go install）
 
 服务端：使用docker安装运行。项目地址[HttpProxy](https://github.com/arloor/HttpProxy)
+
+暂不支持手机使用。
 
 # 服务器端安装
 
@@ -71,37 +73,46 @@ docker run -d -p 8080:8080 arloor/proxyserver:1.0
 成功走通，则服务端启动成功，下面需要做的就是windows下客户端的设置
 
 
+# linux 客户端安装
+
+下载[proxygo_linux](https://github.com/arloor/HttpProxy/releases/download/v1.4/proxygo_linux)和[pac.txt](https://github.com/arloor/HttpProxy/releases/download/v1.4/pac.txt)（这两个文件需要在相同文件夹）
+
+编辑/etc/hosts，增加一行 
+
+```
+xx.xx.xx.xx proxy
+```
+
+此时运行proxygo_linux即可。linux版本的客户端不会修改系统的代理设置（windows通过修改注册表修改了代理设置），推荐修改linux系统的代理设置为PAC，pac地址：[http://127.0.0.1:9999/pac](http://127.0.0.1:9999/pac)
+
 # windows 客户端安装
 
 下载[proxygo.exe](https://github.com/arloor/HttpProxy/releases/download/v1.4/proxygo.exe)和[pac.txt](https://github.com/arloor/HttpProxy/releases/download/v1.4/pac.txt)（这两个文件需要在相同文件夹）
 
-编辑`C:\Windows\System32\drivers\etc\hosts`，会要求系统管理员权限，点击允许。如果那个文件不能直接编辑，则将他复制出来进行编辑，再移回原文件夹。
+编辑 C:\Windows\System32\drivers\etc\hosts ，会要求系统管理员权限，点击允许。如果那个文件不能直接编辑，则将他复制出来进行编辑，再移回原文件夹。
 
 需要在这个文件夹中增加一行`xx.xx.xx.xx proxy`  注意把`xx.xx.xx.xx`换成自己服务器的ip。注意这一行前面不要加`#`哦。
 
-之后双击proxygo.ext就成功运行了（只需要双击一次哦，不会有界面蹦出来的），重启浏览器就可以使用此代理了(也许要耐心等一会哦)。
+之后双击proxygo.exe就成功运行了（只需要双击一次哦，不会有界面蹦出来的），重启浏览器就可以使用此代理了(也许要耐心等一会哦)。
 
-## 如果等了一会还是不行，做以下排查
+# 问题排查
+
+如果等了好久还没有用，作以下排查
 
 1. ping proxy。看看通不通
 2. 访问[http://127.0.0.1:9999/pac](http://127.0.0.1:9999/pac)，如果不能访问或者返回404...说明没有启动客户端或者pac.txt不与exe在同一文件夹
-3. 查看系统代理设置，是否是pac模式，pac地址 http://127.0.0.1:9999/pac
+3. 查看系统代理设置，是否使用了本代理：是否是pac模式，pac地址 http://127.0.0.1:9999/pac
 4. 查看浏览器的代理设置是否被插件修改，例如SwitchyOmega
 5. 如果还是不行，请联系 admin@arloor.com, 只要方便，一定解答
 
-## 设置客户端开机启动
+# 设置客户端开机启动
 
-开机启动还是需要的吧，这样就不用每次点了。
+默认需要linux客户端的都是高玩，就不介绍如何linux如何加入开机自启动了。
 
-创建proxygo.exe的快捷方式
+下面是windows加入开机自启动的过程。
 
-按`win+r`输入`shell:startup`，将上一步生成的快捷方式移动到打开的文件夹中(类似这个路径：C:\Users\用户名\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup)。
-
-# 其他电脑系统
-
-mac和linux系统暂时不做教程
-
-虽然实际上我有编译，并且在自己的ubuntu上用的很爽
+1. 创建proxygo.exe的快捷方式
+2. 按`win+r`输入`shell:startup`，将上一步生成的快捷方式移动到打开的文件夹中(类似这个路径：C:\Users\用户名\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup)。
 
 # 手机客户端
 
