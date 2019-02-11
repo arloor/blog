@@ -70,10 +70,12 @@ docker pull arloor/proxyserver:1.0
 docker run -d -p 8080:8080 arloor/proxyserver:1.0
 ```
 
-成功走通，则服务端启动成功，下面需要做的就是windows下客户端的设置
+成功走通，则服务端启动成功，下面需要做的就是客户端的安装与设置
 
 
 # linux 客户端安装
+
+windows系统的朋友不需要做这一小节说的东西哈
 
 下载[proxygo_linux](https://github.com/arloor/HttpProxy/releases/download/v1.4/proxygo_linux)和[pac.txt](https://github.com/arloor/HttpProxy/releases/download/v1.4/pac.txt)（这两个文件需要在相同文件夹）
 
@@ -83,7 +85,7 @@ docker run -d -p 8080:8080 arloor/proxyserver:1.0
 xx.xx.xx.xx proxy
 ```
 
-此时运行proxygo_linux即可。linux版本的客户端不会修改系统的代理设置（windows通过修改注册表修改了代理设置），推荐修改linux系统的代理设置为PAC，pac地址：[http://127.0.0.1:9999/pac](http://127.0.0.1:9999/pac)
+此时运行proxygo_linux即可。linux版本的客户端不会修改系统的代理设置（windows通过修改注册表修改了系统代理设置），推荐修改linux系统的代理设置为PAC，pac地址：[http://127.0.0.1:9999/pac](http://127.0.0.1:9999/pac)
 
 # windows 客户端安装
 
