@@ -87,7 +87,7 @@ windows系统的朋友不需要做这一小节说的东西哈
 xx.xx.xx.xx proxy
 ```
 
-此时运行proxygo_linux/proxygp_mac即可。linux/mac版本的客户端不会修改系统的代理设置（windows通过修改注册表修改了系统代理设置），推荐修改linux/mac系统的代理设置为PAC，pac地址：[http://127.0.0.1:9999/pac](http://127.0.0.1:9999/pac)
+此时在终端（terminal）中运行proxygo_linux/proxygo_mac即可。linux/mac版本的客户端不会修改系统的代理设置（windows通过修改注册表修改了系统代理设置），推荐修改linux/mac系统的代理设置为自动代理设置（pac模式），pac的URL地址：[http://127.0.0.1:9999/pac](http://127.0.0.1:9999/pac)
 
 # windows 客户端安装
 
