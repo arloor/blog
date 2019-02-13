@@ -2,12 +2,13 @@
 # 当前使用hugo 0.53(支持scss)
 dir=/home/x1/blog
 dir=$PWD
+date=$(date)
 host=arloor.com
 port=22
 
 git pull
 git add .
-git commit -m "执行deploy.sh产生的自动提交"
+git commit -m "deploy.sh自动提交 @ date"
 git push
 
 # yum install httpd
