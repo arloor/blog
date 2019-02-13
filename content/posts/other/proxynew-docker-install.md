@@ -18,13 +18,11 @@ showcomments: true
 
 # 说明
 
-客户端：使用go语言编写，提供windows平台和linux平台的编译好的客户端软件。
+客户端：使用go语言编写，提供windows、linux、mac平台的编译好的客户端软件。
 
 服务端：使用docker安装运行。项目地址[HttpProxy](https://github.com/arloor/HttpProxy)
 
 暂不支持手机使用。
-
-客户端支持mac系统，但不提供现成的客户端软件，因为我没有mac，无法编译。有需要的可以自行编译（其实就是执行一下go get、go install）
 
 # 服务器端安装
 
