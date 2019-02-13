@@ -75,11 +75,11 @@ docker run -d -p 8080:8080 arloor/proxyserver:1.0
 成功走通，则服务端启动成功，下面需要做的就是客户端的安装与设置
 
 
-# linux 客户端安装
+# linux和mac系统 客户端安装
 
 windows系统的朋友不需要做这一小节说的东西哈
 
-下载[proxygo_linux](https://github.com/arloor/HttpProxy/releases/download/v1.4/proxygo_linux)和[pac.txt](https://github.com/arloor/HttpProxy/releases/download/v1.4/pac.txt)（这两个文件需要在相同文件夹）
+下载[proxygo_linux](https://github.com/arloor/HttpProxy/releases/download/v1.4/proxygo_linux)（mac系统下载[proxygo_mac](https://github.com/arloor/HttpProxy/releases/download/v1.4/proxygo_mac)）和[pac.txt](https://github.com/arloor/HttpProxy/releases/download/v1.4/pac.txt)（这两个文件需要在相同文件夹）
 
 编辑/etc/hosts，增加一行 
 
@@ -87,7 +87,7 @@ windows系统的朋友不需要做这一小节说的东西哈
 xx.xx.xx.xx proxy
 ```
 
-此时运行proxygo_linux即可。linux版本的客户端不会修改系统的代理设置（windows通过修改注册表修改了系统代理设置），推荐修改linux系统的代理设置为PAC，pac地址：[http://127.0.0.1:9999/pac](http://127.0.0.1:9999/pac)
+此时运行proxygo_linux/proxygp_mac即可。linux/mac版本的客户端不会修改系统的代理设置（windows通过修改注册表修改了系统代理设置），推荐修改linux/mac系统的代理设置为PAC，pac地址：[http://127.0.0.1:9999/pac](http://127.0.0.1:9999/pac)
 
 # windows 客户端安装
 
@@ -112,6 +112,8 @@ xx.xx.xx.xx proxy
 # 设置客户端开机启动
 
 默认需要linux客户端的都是高玩，就不介绍如何linux如何加入开机自启动了。
+
+而mac系统设置开机自启动我忘记了，不做介绍（大概需要创建一个快捷方式，然后把这个快捷方式加入到开机自启动列表。有mac的用户如果知道得话，欢迎在评论中分享一下）
 
 下面是windows加入开机自启动的过程。
 
