@@ -183,7 +183,14 @@ Sass/SCSS支持还是一定要的，所以一定要下带extented的包。在写
 #! /bin/bash
 # 当前使用hugo 0.53(支持scss)
 dir=/home/x1/blog
+dir=$PWD
 host=arloor.com
+port=22
+
+git pull
+git add .
+git commit -m "自动提交 @$(date)"
+git push
 
 # yum install httpd
 # systemctl enable httpd
@@ -200,14 +207,14 @@ if [ "$?" != "0" ]; then
     exit 1
 fi
 
-scp -r ./public.tar.gz root@$host:~
+scp -r -P $port ./public.tar.gz  root@$host:~
 if [ "$?" != "0" ]; then
     echo -e "\n 上传静态资源失败，退出"
     rm -rf ../public #删除生成的静态资源
     exit 1
 fi
 
-ssh root@$host "
+ssh root@$host  -p$port "
 echo "删除服务器的旧版本静态资源...."
 rm -rf /var/www/html/*
 tar -zxf public.tar.gz -C /var/www/html/
@@ -220,6 +227,7 @@ cd $dir
 rm -rf public #删除生成的静态资源
 ```
 其实也就是在centos7服务器上安装了`apache(httpd)`，然后hugo生成public文件下的静态资源，将这些静态资源复制到服务器`/var/www/html`中。为了舒服地（不需要输ssh密码）使用该脚本，请使用ssh秘钥登录centos7服务器。
+
 
 # 安装grub主题
 
