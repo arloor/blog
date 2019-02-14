@@ -124,8 +124,10 @@ xx.xx.xx.xx proxy
 
 暂时基本不可能移植到手机上了，研究了shadowsocks安卓的实现，发现和这个tcp的代理不是一回事，详情可以看[安卓Vpn开发思路](/posts/other/android-vpnservice-and-vpn-dev/)
 
-# 交流——电报群
-
-想要参与项目的开发、提出建议或者交流使用中的问题，可以点击下面的链接进入电报群一起探讨或者吐槽
+# 电报群
 
 [arloor's 翻墙代理](https://t.me/arloorproxy)
+
+安装、部署、使用过程中有什么任何槽点都欢迎加入电报群参与讨论
+
+对实现和代码有疑问、建议同样欢迎参与讨论
