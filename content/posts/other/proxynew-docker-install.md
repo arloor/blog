@@ -128,4 +128,4 @@ xx.xx.xx.xx proxy
 
 想要参与项目的开发、提出建议或者交流使用中的问题，可以点击下面的链接进入电报群一起探讨或者吐槽
 
-[New proxy for your choice](https://t.me/arloorproxy)
+[arloor's 翻墙代理](https://t.me/arloorproxy)
