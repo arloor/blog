@@ -229,6 +229,7 @@ rm -rf public #删除生成的静态资源
 其实也就是在centos7服务器上安装了`apache(httpd)`，然后hugo生成public文件下的静态资源，将这些静态资源复制到服务器`/var/www/html`中。为了舒服地（不需要输ssh密码）使用该脚本，请使用ssh秘钥登录centos7服务器。
 
 
+
 # 安装grub主题
 
 主题包地址：[Gnome Look - GRUB Themes](https://www.gnome-look.org/browse/cat/109/order/latest) （自行挑选喜欢的）
