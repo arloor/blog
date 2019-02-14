@@ -121,3 +121,9 @@ xx.xx.xx.xx proxy
 # 手机客户端
 
 暂时基本不可能移植到手机上了，研究了shadowsocks安卓的实现，发现和这个tcp的代理不是一回事，详情可以看[安卓Vpn开发思路](/posts/other/android-vpnservice-and-vpn-dev/)
+
+# 交流——电报群
+
+想要参与项目的开发、提出建议或者交流使用中的问题，可以点击下面的链接进入电报群一起探讨或者吐槽
+
+[New proxy for your choice](https://t.me/arloorproxy)
