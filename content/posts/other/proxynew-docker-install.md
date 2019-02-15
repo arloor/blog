@@ -72,7 +72,7 @@ docker run -d -p 8080:8080 arloor/proxyserver:1.0
 
 成功走通，则服务端启动成功，下面需要做的就是客户端的安装与设置
 
-
+![](http://arloor.com/img/pac_setting.png)
 # linux和mac系统 客户端安装
 
 windows系统的朋友不需要做这一小节说的东西哈
