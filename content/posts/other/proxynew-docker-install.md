@@ -26,6 +26,8 @@ showcomments: true
 
 修改系统代理设置为PAC模式，PAC地址（URL）为： [http://arloor.com:9999/pac](http://arloor.com:9999/pac)。如果不是很清楚该如何操作，请查看[百度经验](https://jingyan.baidu.com/article/a948d6511057c20a2dcd2e0d.html)
 
+![](http://arloor.com/img/pac_setting.png)
+
 如果试用了感觉还满意，就可以开始看下面的教程啦。
 
 > PS:如果白嫖得还算满意，下面有介绍如何自部署这个翻墙服务。如果觉得自己部署又贵又麻烦，当然也可以付费使用我用的节点（这就不是5M带宽了），价格十分便宜，就当是合租并为大家提供技术支持了。当然我本身也希望有人能够支持一点服务器的费用。有这个意愿的小伙伴也可以进[电报群](https://t.me/arloorproxy)交流，同样可以发送邮件到admin@arloor.com
@@ -89,7 +91,7 @@ docker run -d -p 8080:8080 arloor/proxyserver:1.0
 
 成功走通，则服务端启动成功，下面需要做的就是客户端的安装与设置
 
-![](http://arloor.com/img/pac_setting.png)
+
 # linux和mac系统 客户端安装
 
 windows系统的朋友不需要做这一小节说的东西哈
