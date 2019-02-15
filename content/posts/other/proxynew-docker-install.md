@@ -24,11 +24,12 @@ showcomments: true
 
 使用方式很简单，如下：
 
-修改系统代理设置为PAC模式，PAC地址（URL）为： [http://arloor.com:9999/pac](http://arloor.com:9999/pac)。如果不是很理解如何操作，请查看[百度经验](https://jingyan.baidu.com/article/a948d6511057c20a2dcd2e0d.html)
+修改系统代理设置为PAC模式，PAC地址（URL）为： [http://arloor.com:9999/pac](http://arloor.com:9999/pac)。如果不是很清楚该如何操作，请查看[百度经验](https://jingyan.baidu.com/article/a948d6511057c20a2dcd2e0d.html)
 
 如果试用了感觉还满意，就可以开始看下面的教程啦。
 
-> PS:如果觉得部署安装挺麻烦的(或者买VPS搭梯子要么慢要么贵)，可以付费使用我自己用的节点（当然不是5M带宽了），价格十分便宜。。有这个意愿的小伙伴也可以进[电报群](https://t.me/arloorproxy)交流，同样可以发送邮件到admin@arloor.com
+> PS:如果白嫖得还算满意，下面有介绍如何自部署这个翻墙服务。如果觉得自己部署又贵又麻烦，当然也可以付费使用我用的节点（这就不是5M带宽了），价格十分便宜，就当是合租并为大家提供免费技术支持了。有这个意愿的小伙伴也可以进[电报群](https://t.me/arloorproxy)交流，同样可以发送邮件到admin@arloor.com
+
 
 # 说明
 
