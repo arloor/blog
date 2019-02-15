@@ -12,25 +12,23 @@ weight: 10
 # shell关闭占用某端口应用，并重启
 
 ```
-#!/bin/bash
-# set path to support crontab
+#! /bin/bash
+#set path to support crontab
 export PATH=$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/usr/local/go/bin:/root/bin
 # shutdown the pre process
-name=$(lsof -i:8080|tail -1|awk '"$1"!=""{print $2}')
+name=$(lsof -i:8080|tail -1|awk '$1!=""{print $1}')
 if [ -z $name ]
 then
         echo "No process can be used to killed!"
 else
-        id=$(lsof -i:8080|tail -1|awk '"$1"!=""{print $2}')
+        id=$(lsof -i:8080|tail -1|awk '$1!=""{print $2}')
         kill -9 $id
         echo "Process name=$name($id) kill!"
 fi
-#  -Dio.netty.leakDetectionLevel=paranoid
-# -Dio.netty.maxDirectMemory=0
-# -Xmx1440m
-# start new proxy process
- ( java -server -jar  -XX:+PrintGCTimeStamps -Xloggc:./gc.log  -XX:+PrintGCDetails -XX:+PrintHeapAtGC  proxyserver-1.1.3-jar-with-dependencies.jar &)
+(./proxygo &>> proxy_$(date '+%Y%m%d%H%M%S').log &)
+echo 成功启动@$(date)
 exit 0
+
 ```
 
-`lsof -i:8080|tail -1|awk '"$1"!=""{print $2}'`列出占用8080端口的应用；只打印一行；如果那一行第一个字段不为空，打印第二个字段（pid）。最后pid被赋值给了name
+`lsof -i:8080|tail -1|awk '$1!=""{print $2}'`列出占用8080端口的应用；只打印一行；如果那一行第一个字段不为空，打印第二个字段（pid）。最后pid被赋值给了name
