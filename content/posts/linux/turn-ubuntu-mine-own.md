@@ -29,6 +29,7 @@ sudo apt install chrome-gnome-shell
 timedatectl set-local-rtc 1 --adjust-system-clock
 ```
 
+
 # 安装windows下的字体，主要是微软雅黑
 
 安装windows字体其实就是把双系统下windows中`C:\Windows\Fonts`下的所有字体，复制到`/usr/share/fonts/windows`中。注意坑：ubuntu下打不开windows存放字体的那个文件夹，所以需要提前在windows中讲fonts压缩好。
