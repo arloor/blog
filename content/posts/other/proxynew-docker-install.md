@@ -24,7 +24,7 @@ showcomments: true
 
 使用方式很简单，如下：
 
-修改系统代理设置为PAC模式，PAC地址（URL）为： [http://arloor.com:9999/pac](http://arloor.com:9999/pac)。如果不是很清楚该如何操作，请查看[百度经验](https://jingyan.baidu.com/article/a948d6511057c20a2dcd2e0d.html)
+修改系统代理设置为PAC模式，PAC地址（URL）为： [http://arloor.com:9999/pac](http://arloor.com:9999/pac)。如果不是很清楚该如何操作，请查看[百度经验](https://jingyan.baidu.com/article/a948d6511057c20a2dcd2e0d.html)。疑似以上设置不支持windows的edge浏览器，chrome经过测试没有问题
 
 ![](http://arloor.com/img/pac_setting.png)
 
