@@ -31,12 +31,17 @@ chmod +x shadowsocks-libev.sh
 ./shadowsocks-libev.sh uninstall
 ```
 
-
-
 # 配置防火墙
 
-据说centos7默认使firewalld作为防火墙，但是我装了两个centos7都是使用的iptables。
+据说centos7默认使firewalld作为防火墙，但是我装了两个centos7都是使用的iptables。现在也比较喜欢iptables，当初配iptables死活都不通。。
 
+安装iptables-services，这样就可以用service iptables xx来控制iptables了
+
+```
+yum install iptables-services
+```
+
+配置filter表，用于设置INPUT、FORWARD、OUTPUT链，总之就是，开放ssh服务、httpd服务等等需要开放的端口，关闭其他一切
 ```
 iptables -A INPUT -p tcp --dport 22 -j ACCEPT  #开启tcp 22端口的读
 iptables -A INPUT -p tcp --dport 80 -j ACCEPT  #开启tcp 80端口的读
