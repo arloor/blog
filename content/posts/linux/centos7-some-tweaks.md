@@ -38,6 +38,8 @@ chmod +x shadowsocks-libev.sh
 安装iptables-services，这样就可以用service iptables xx来控制iptables了
 
 ```
+service firewalld stop
+systemctl disable firewalld
 yum install iptables-services
 ```
 
