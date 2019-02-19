@@ -54,6 +54,21 @@ iptables --policy INPUT DROP #除了以上允许的,设置默认阻止所有读�
 
 顺便提一下，docker映射到宿主机的端口不需要在iptables中开放，因为docker服务自己对iptables做了修改，将相关的请求转发到了docker虚拟出来的网卡中。也因为docker的自动修改，如果重启iptables，将丢失这部分修改，导致docker容器运行异常，此时只能重启docker服务了。所以如果运行了docker，就不要贸然地stop iptables服务啦。
 
+# 设置ss国内中转
+
+上面的安装是国外服务器上做的。这一步的设置国内中转是在国内阿里云的centos机器上做
+
+```
+iptables -t nat -A PREROUTING -p tcp --dport [国内服务器端口] -j DNAT --to-destination [国外服务器IP]:[国外服务器端口]
+iptables -t nat -A PREROUTING -p udp --dport [国内服务器端口] -j DNAT --to-destination [国外服务器IP]:[国外服务器端口]
+iptables -t nat -A POSTROUTING -p tcp -d [国外服务器IP] --dport [国外服务器端口] -j SNAT --to-source [国内服务器IP]
+iptables -t nat -A POSTROUTING -p udp -d [国外服务器IP] --dport [国外服务器端口] -j SNAT --to-source [国内服务器IP]
+```
+
+注意`[国内服务器IP]`那里可能不填公网ip，可能需要填内网ip。就是要确保，这个ip是用来上网的网卡绑定的ip。
+
+以上是修改了iptables nat表以实现转发。为了成功转发，还需要确保filter表中，forward链和input链没有DROP/REJECT相关的流量，不详细解释。
+
 # 修改root用户密码
 
 直接输入passwd命令即可。
