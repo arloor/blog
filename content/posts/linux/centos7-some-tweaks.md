@@ -81,7 +81,7 @@ iptables -t nat -A POSTROUTING -p tcp -d [国外服务器IP] --dport [国外服�
 iptables -t nat -A POSTROUTING -p udp -d [国外服务器IP] --dport [国外服务器端口] -j SNAT --to-source [国内服务器IP]
 ```
 
-注意`[国内服务器IP]`那里可能不填公网ip，可能需要填内网ip。就是要确保，这个ip是用来上网的网卡绑定的ip。
+注意`[国内服务器IP]`那里可能不填公网ip，可能需要填内网ip。就是要确保，这个ip是用来上网的网卡绑定的ip。经过实测，阿里云需要填写服务器的内网ip。
 
 以上是修改了iptables nat表以实现转发。为了成功转发，还需要确保filter表中，forward链和input链没有DROP/REJECT相关的流量，不详细解释。
 
