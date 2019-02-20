@@ -10,6 +10,10 @@ weight: 10
 买了搬瓦工家的vps，相关配置记录一下。时隔两年又用回了搬瓦工，搬瓦工不是屌丝了，我也不是小白了。
 <!--more-->
 
+个人使用的是搬瓦工 DC9 CN2 GIA 机房的vps。[购买链接](https://bwh8.net/aff.php?aff=11132&pid=87)
+
+> 搬瓦工 DC9 CN2 GIA 机房，编号为 USCA_9，使用中国电信优先级最高的 CN2 GIA 线路，中国电信、中国联通、中国移动三网去程回程全部走 CN2 GIA，线路质量非常好，可以说是等级最高的国际出口。经过测试，去程和回程都使用中国电信提供的cn2 GIA线路，个人使用十分满意
+
 # 一键安装shadowsocks-libev
 
 在研究了安卓VPN的实现之后，发现我的[HttpProxy](http://github.com/arloor/HttpProxy)跟安卓VPN根本不是一回事，基本不可能有安卓客户端了。而shadowsocks安卓所采用的tun2socks+shadowsocks-libev这种模式很现代。所以给自己的centos也装上shadowsocks了。
@@ -61,29 +65,7 @@ iptables --policy INPUT DROP #除了以上允许的,设置默认阻止所有读�
 
 顺便提一下，docker映射到宿主机的端口不需要在iptables中开放，因为docker服务自己对iptables做了修改，将相关的请求转发到了docker虚拟出来的网卡中。也因为docker的自动修改，如果重启iptables，将丢失这部分修改，导致docker容器运行异常，此时只能重启docker服务了。所以如果运行了docker，就不要贸然地stop iptables服务啦。
 
-# 设置ss国内中转
 
-上面的安装是国外服务器上做的。这一步的设置国内中转是在国内阿里云的centos7机器上做
-
-打开ipv4的转发功能（其他系统可能不一样）
-
-```
-echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
-sysctl -p
-```
-
-设置NAT规则
-
-```
-iptables -t nat -A PREROUTING -p tcp --dport [国内服务器端口] -j DNAT --to-destination [国外服务器IP]:[国外服务器端口]
-iptables -t nat -A PREROUTING -p udp --dport [国内服务器端口] -j DNAT --to-destination [国外服务器IP]:[国外服务器端口]
-iptables -t nat -A POSTROUTING -p tcp -d [国外服务器IP] --dport [国外服务器端口] -j SNAT --to-source [国内服务器IP]
-iptables -t nat -A POSTROUTING -p udp -d [国外服务器IP] --dport [国外服务器端口] -j SNAT --to-source [国内服务器IP]
-```
-
-注意`[国内服务器IP]`那里可能不填公网ip，可能需要填内网ip。就是要确保，这个ip是用来上网的网卡绑定的ip。经过实测，阿里云需要填写服务器的内网ip。
-
-以上是修改了iptables nat表以实现转发。为了成功转发，还需要确保filter表中，forward链和input链没有DROP/REJECT相关的流量，不详细解释。
 
 # 修改root用户密码
 
@@ -159,3 +141,50 @@ timedatectl set-local-rtc 1 # 将硬件时钟调整为与本地时钟一致, 0 �
 timedatectl set-timezone Asia/Shanghai # 设置系统时区为上海
 ```
 
+# 番外篇：在国内阿里云上设置shadowsocks国内中转
+
+上面的安装是国外服务器上做的。这一步的设置国内中转是在国内阿里云的centos7机器上做
+
+使用的是阿里云提供的学生机，5M带宽的轻量应用服务器，114元/年，24岁以下自动获得学生身份。不要小看了5M，看1080p视频不成问题（一个人用的前提下）。[云翼计划2018](https://promotion.aliyun.com/ntms/act/campus2018.html)
+
+为什么要弄国内中转？弄了国内中转之后，是这样的：
+
+```
+电脑/手机--------阿里云BGP机房--------国外vps
+```
+
+因为阿里云BGP机房对所有运营商都提供了很好的网络支持，所以无论家里用的什么宽带，都能保证较好的体验。
+
+我自己使用的vps是搬瓦工DC9 gia的机器，对中国大陆提供双程cn2 gia线路。因此阿里云到国外vps的质量也得到了保证。
+
+自己使用的是移动宽带，不加中转，在电信的cn2 转中国移动路由节点容易出问题，坑死人的移动宽带啊。加上阿里云BGP中转则由阿里云的机器充当路由节点，进行流量的转移，这就是稳定好用的原因。
+
+另外，还有一个概念Qos（服务质量等级），运营商会优先保证等级高的流量。阿里云机房的流量比我们普通家庭带宽的质量等级高，这也是中转方案的一个优点。
+
+总结，中转的好处就是稳。坏处就是中转节点带宽只有5M了😂😂😂。考虑到过不久就要回学校用校园网了，估计校园网的环境下还是要依靠阿里云中转的节点。总之，这样又提供了一个新的选择，节点多一个看着贼爽呢。
+
+![](/img/ssnodes.png)
+
+开始操作：
+
+打开ipv4的转发功能（其他系统可能不一样）
+
+```
+echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
+sysctl -p
+```
+
+设置NAT规则
+
+```
+iptables -t nat -A PREROUTING -p tcp --dport [国内服务器端口] -j DNAT --to-destination [国外服务器IP]:[国外服务器端口]
+iptables -t nat -A PREROUTING -p udp --dport [国内服务器端口] -j DNAT --to-destination [国外服务器IP]:[国外服务器端口]
+iptables -t nat -A POSTROUTING -p tcp -d [国外服务器IP] --dport [国外服务器端口] -j SNAT --to-source [国内服务器IP]
+iptables -t nat -A POSTROUTING -p udp -d [国外服务器IP] --dport [国外服务器端口] -j SNAT --to-source [国内服务器IP]
+```
+
+注意`[国内服务器IP]`那里可能不填公网ip，可能需要填内网ip。就是要确保，这个ip是用来上网的网卡绑定的ip。经过实测，阿里云需要填写服务器的内网ip。
+
+以上是修改了iptables nat表以实现转发。为了成功转发，还需要确保filter表中，forward链和input链没有DROP/REJECT相关的流量，不详细解释。
+
+有问题请评论区评论
