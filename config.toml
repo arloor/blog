@@ -1,5 +1,5 @@
 ## Basic Configuration
-baseurl = "http://arloor.com/"
+baseurl = "/"
 languageCode = "en"
 
 title = "ARLOOR"
