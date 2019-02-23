@@ -1,4 +1,4 @@
-baseURL = "http://www.arloor.com"
+baseURL = "/"
 languageCode = "zh-CN"
 title = "一个小地方"
 theme = "maupassant"
