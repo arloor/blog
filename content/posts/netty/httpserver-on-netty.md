@@ -49,7 +49,7 @@ public class OkResponseHandler extends SimpleChannelInboundHandler<Object> {
 
 下面按照调用的时间顺序来分析这些handler的功能
 
-## HttpRequestDecoder
+## HttpRequestDecoder与父类HttpObectDecoder
 
 ![HttpRequestDecoder](/img/2019-01-10 23-31-03 的屏幕截图.png)
 
@@ -92,10 +92,33 @@ If the content of an HTTP message is greater than maxChunkSize or the transfer e
 
 javaDoc提到，如果不想手动的处理这些HttpContents，可以在这个handler后面加入HttpObjectAggregator。但这会让内存的处理不是十分高效。我们下一个将要看的handler就是HttpObjectAggregator，现在先将目光留在HttpObjectDecoder上。
 
-todo: 跟进HttpObjectDecoder的执行。
+## HttpObectDecoder怎么解析http请求
 
-悦悦要我睡觉了
+查看代码得知，HttpRequestDecoder的方法的实现基本都在HttpObectDecoder中，我们现在看一下HttpObectDecoder的实现。
 
+首先注意到，在HttpObectDecoder中定义了State的内部枚举类。看到state基本就知道，接下来是用状态机，在这几个状态之间转来转去了。回忆编译原理的课程，状态机是词法解析的核心：移动指针，读取字符，查看状态机的变化规则，转换状态。
+
+```
+    private enum State {
+        SKIP_CONTROL_CHARS,
+        READ_INITIAL,
+        READ_HEADER,
+        READ_VARIABLE_LENGTH_CONTENT,
+        READ_FIXED_LENGTH_CONTENT,
+        READ_CHUNK_SIZE,
+        READ_CHUNKED_CONTENT,
+        READ_CHUNK_DELIMITER,
+        READ_CHUNK_FOOTER,
+        BAD_MESSAGE,
+        UPGRADED
+    }
+```
+
+最初的状态是：
+
+```
+private State currentState = State.SKIP_CONTROL_CHARS;
+```
 
 
 
