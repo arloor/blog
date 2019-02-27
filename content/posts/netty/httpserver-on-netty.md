@@ -49,7 +49,7 @@ public class OkResponseHandler extends SimpleChannelInboundHandler<Object> {
 
 下面按照调用的时间顺序来分析这些handler的功能
 
-## HttpRequestDecoder
+## HttpRequestDecoder与父类HttpObectDecoder
 
 ![HttpRequestDecoder](/img/2019-01-10 23-31-03 的屏幕截图.png)
 
@@ -92,10 +92,61 @@ If the content of an HTTP message is greater than maxChunkSize or the transfer e
 
 javaDoc提到，如果不想手动的处理这些HttpContents，可以在这个handler后面加入HttpObjectAggregator。但这会让内存的处理不是十分高效。我们下一个将要看的handler就是HttpObjectAggregator，现在先将目光留在HttpObjectDecoder上。
 
-todo: 跟进HttpObjectDecoder的执行。
+## HttpObectDecoder怎么解析http请求
 
-悦悦要我睡觉了
+查看代码得知，HttpRequestDecoder的方法的实现基本都在HttpObectDecoder中，我们现在看一下HttpObectDecoder的实现。
 
+首先注意到，在HttpObectDecoder中定义了State的内部枚举类。看到state基本就知道，接下来是用状态机，在这几个状态之间转来转去了。回忆编译原理的课程，状态机是词法解析的核心：移动指针，读取字符，查看状态机的变化规则，转换状态。
 
+```
+    private enum State {
+        SKIP_CONTROL_CHARS,
+        READ_INITIAL,
+        READ_HEADER,
+        READ_VARIABLE_LENGTH_CONTENT,
+        READ_FIXED_LENGTH_CONTENT,
+        READ_CHUNK_SIZE,
+        READ_CHUNKED_CONTENT,
+        READ_CHUNK_DELIMITER,
+        READ_CHUNK_FOOTER,
+        BAD_MESSAGE,
+        UPGRADED
+    }
+```
 
+另外还看到，有成员变量：
+```
+    private final HeaderParser headerParser;
+    private final LineParser lineParser;
+```
+从命名不难猜测他们的作用是什么，等碰到的时候再详细研究，在这里先留个意。
 
+decoder最核心的decode方法就是一个大的switch，通过不同case的处理方法，控制state的转换。当读到buffer时，就会进入decode方法，也就进入了这个switch。下面进入这个switch，研究一下状态的转换。
+
+### State.SKIP_CONTROL_CHARS
+
+最初的状态是：
+
+```
+private State currentState = State.SKIP_CONTROL_CHARS;
+```
+
+在这个状态下，对应的case将执行skipControlCharacters(buffer)方法，目的是向前移动readerIndex，跳过空白字符串和ISO控制字符（可以理解为没有意义的字符吧），执行完之后，设置当前decoder对象的state为READ_INITIAL。
+
+注意，因为没有在case的处理代码后面加上`break;`因此会自动进入下一个case的处理代码，而下一个case刚好就是：case READ_INITIAL。也就意味着，在跳过buf中的一些byte之后，现在要真正开始读了。
+
+### State.READ_INITIAL
+
+这个状态下只读请求行，即：GET / HTTP/1.1这种。
+
+在这个状态下，看到了lineparser的使用。lineparser就是使用`buffer.forEachByte(this);`不断读入字节，通过实现ByteProcessor接口的this对象的process方法，判断该字节是不是CR或者LF，如果都不是则将该byte转为char加入lineparser对象的seq属性中。如果遇到的是LF，则返回false。标志着读到了完整的一行。
+
+> seq对象是netty自己实现的一个charsequence，用于代替java内置的String。这个seq允许append操作：长度加一，然后使用 System.arraycopy(old, 0, chars, 0, old.length);拷贝旧内容。
+
+在READ_INITIAL，会执行一次lineparser.parse()方法，根据http协议的定义，头一次执行的lineparser，得到的肯定就是请求行。根据这个请求行，decoder创建了第一个对象:HttpMessage
+
+至此，状态进入：READ_HEADER。依然没有break，继续进入 case READ_HEADER。
+
+### State.READ_HEADER
+
+接下来就是读请求头了，见下回分解。。
