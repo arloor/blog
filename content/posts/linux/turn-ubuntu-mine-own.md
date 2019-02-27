@@ -142,6 +142,18 @@ sudo cp CharlesRoot.crt /usr/share/ca-certificates
 sudo dpkg-reconfigure ca-certificates   #选择ask,勾选CharlesRoot.crt(按空格)并确认
 ```
 
+# git pull/push每次都要输入密码
+
+（非程序员不要管这一节啦
+
+```
+git config --global credential.helper store
+```
+
+之后，当git pull/push输入密码时，会用文件明文保存GitHub的密码，以后就不用输密码了。
+
+当github账号启用了二次验证时，输入的密码请填写自己在github上生成的api key。
+
 # 设置shell代理
 
 ```
