@@ -7,6 +7,7 @@ tags: ["linux"]
 weight: 10
 ---
 
+![happy new year 2019](/img/new-years-day-2019-5179180558843904.3-2xa.gif)
 拿到一个电脑的第一件事，当然是把他变成自己的电脑。装上ubuntu之后的第一件事就是变成自己的ubuntu啦。
 <!--more-->
 
