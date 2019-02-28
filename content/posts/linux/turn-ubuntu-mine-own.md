@@ -214,7 +214,7 @@ User-Agent: Debian APT-HTTP/1.3 (1.6.6)
 
 本博客就是用hugo生成的，还是很好用的。为什么不用hexo，因为我不喜欢node，而有点喜欢go
 
-到[hugo release](https://github.com/gohugoio/hugo/releases)下载hugo_extended_0.53_Linux-64bit.deb。下载完点击安装即可。
+到[hugo release](https://github.com/gohugoio/hugo/releases)下载[hugo_extended_0.53_Linux-64bit.deb](https://github.com/gohugoio/hugo/releases/download/v0.53/hugo_extended_0.53_Linux-64bit.deb)（好像github release的下载现在需要翻墙了）。下载完点击安装即可。
 
 Sass/SCSS支持还是一定要的，所以一定要下带extented的包。在写这篇博客时，我安装的hugo版本是`0.53`
 
