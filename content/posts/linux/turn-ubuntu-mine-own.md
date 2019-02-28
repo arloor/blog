@@ -30,6 +30,16 @@ sudo apt install chrome-gnome-shell
 timedatectl set-local-rtc 1 --adjust-system-clock
 ```
 
+# sudo不需要输入密码
+
+```
+sudo update-alternatives --config editor #选择你喜欢的编辑器作为默认编辑器
+sudo visudo # 使用默认编辑器编辑/etc/sudoers
+```
+找到`%sudo   ALL=(ALL:ALL) ALL`这行，然后改成`%sudo   ALL=(ALL:ALL) NOPASSWD:ALL`
+
+这样所有sudo组内的用户使用sudo时就不需要密码了。
+
 
 # 安装windows下的字体，主要是微软雅黑
 
