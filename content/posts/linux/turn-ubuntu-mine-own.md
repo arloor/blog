@@ -169,6 +169,27 @@ sudo cp CharlesRoot.crt /usr/share/ca-certificates
 sudo dpkg-reconfigure ca-certificates   #选择ask,勾选CharlesRoot.crt(按空格)并确认
 ```
 
+# 使用阿里云的maven镜像
+
+编辑`$HOME/.m2/settings.xml`，内容如下：
+
+```
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                          https://maven.apache.org/xsd/settings-1.0.0.xsd">
+
+      <mirrors>
+        <mirror>  
+            <id>alimaven</id>  
+            <name>aliyun maven</name>  
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>  
+            <mirrorOf>central</mirrorOf>          
+        </mirror>  
+      </mirrors>
+</settings>
+```
+
 # git pull/push每次都要输入密码
 
 （非程序员不要管这一节啦
