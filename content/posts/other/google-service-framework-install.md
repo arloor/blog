@@ -1,6 +1,6 @@
 ---
-title: "安卓手机安装google四件套"
-linktitle: java-AES加密后再Base64混淆
+title: "安卓手机安装google三件套"
+linktitle: 安卓手机安装google三件套
 author: "刘港欢"
 date: 2019-02-26
 categories: [ "program"]
