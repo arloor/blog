@@ -44,10 +44,16 @@ timedatectl set-local-rtc 1 --adjust-system-clock
 
 Ubuntu 18.04 没有提供 Fcitx 输入框架，先安装框架：
 
+```
 sudo apt install fcitx
-先去 [搜狗输入法官网](https://pinyin.sogou.com/linux/?r=pinyin) 下载输入法安装包，为 deb 格式的安装包，安装它：
+```
 
+去 [搜狗输入法官网](https://pinyin.sogou.com/linux/?r=pinyin) 下载输入法安装包，为 deb 格式的安装包，安装它：
+
+```
+sudo apt install gdebi-core
 sudo gdebi xxxxxx.deb
+```
 然后移步到 设置→区域和语言 ，删除一部分输入源，只保留汉语，接着选择 管理已安装的语言 ，修改 键盘输入法系统 为 fcitx 。关闭窗口，打开所有程序，选择软件 Fcitx 配置 ，选择加号添加搜狗输入法。
 
 # 设置开机自启动
