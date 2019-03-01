@@ -7,7 +7,7 @@ port=22
 
 git pull
 git add .
-git commit -m "自动提交 @$(date)"
+git commit -m "自动提交 @arloor $(date)"
 git push
 
 # yum install httpd
