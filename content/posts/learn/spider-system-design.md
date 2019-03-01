@@ -75,3 +75,7 @@ weight: 10
 重难点：groovy脚本及脚本涉及到的类的设计、spider设计与实现、kafka的学习和使用
 
 可以简化的点：可以只使用kafka单机，无需集群；可以删除etcd集群和http代理部分；网关只是激发运行的作用，无需十分完善。
+
+## 参阅
+
+[java调用groovy方式总结](https://blog.csdn.net/eric_sunah/article/details/11541307)
