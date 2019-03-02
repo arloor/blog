@@ -64,7 +64,7 @@ UtterancesTheme="github-light"
 ## Main Menu
 [[menu.main]]
     name = "文章"
-    weight = 100
+    weight = 10
     identifier = "文章"
     url = "/posts/"
 [[menu.main]]
@@ -74,11 +74,11 @@ UtterancesTheme="github-light"
     url = "/categories/"
 [[menu.main]]
     name = "标签"
-    weight = 100
+    weight = 1000
     identifier = "标签"
     url = "/tags/"
 [[menu.main]]
     name = "About"
     identifier = "about"
-    weight = 300
+    weight = 1001
     url = "/about/"
