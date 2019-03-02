@@ -1,3 +1,6 @@
+[![](https://img.shields.io/github/last-commit/arloor/blog.svg?style=flat)](https://github.com/arloor/blog/commit/master)
+![](https://img.shields.io/github/languages/code-size/arloor/blog.svg?style=flat)
+
 # 访问[arloor博客](http://arloor.com)
 使用hugo生成静态博客
 
