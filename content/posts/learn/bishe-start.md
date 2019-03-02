@@ -1,7 +1,7 @@
 ---
 title: "毕设开题报告"
 date: 2019-03-02T14:04:50+08:00
-draft: false
+draft: true
 categories: [ "undefined"]
 tags: ["undefined"]
 weight: 10
