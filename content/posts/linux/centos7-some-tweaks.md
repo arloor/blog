@@ -1,5 +1,5 @@
 ---
-title: "centos7配置使用"
+title: "centos7调教和使用"
 author: "刘港欢"
 date: 2019-01-18
 categories: [ "linux"]
@@ -7,10 +7,8 @@ tags: ["linux"]
 weight: 10
 ---
 
-买了搬瓦工家的vps，相关配置记录一下。时隔两年又用回了搬瓦工，搬瓦工不是屌丝了，我也不是小白了。
+多年以后，我又开始整vps了，学了三年，也知道怎么整linux了。个人使用的是搬瓦工 DC6 CN2 GIA 机房的vps。[购买链接](https://bwh88.net/aff.php?aff=11132&pid=87)
 <!--more-->
-
-个人使用的是搬瓦工 DC6 CN2 GIA 机房的vps。[购买链接](https://bwh88.net/aff.php?aff=11132&pid=87)
 
 > 搬瓦工 DC6 CN2 GIA 机房，编号为 USCA_6，使用中国电信优先级最高的 CN2 GIA 线路，中国电信、中国联通、中国移动三网去程回程全部走 CN2 GIA，线路质量非常好，可以说是等级最高的国际出口。经过测试，去程和回程都使用中国电信提供的cn2 GIA线路，个人使用十分满意
 
@@ -187,4 +185,34 @@ iptables -t nat -A POSTROUTING -p udp -d [国外服务器IP] --dport [国外服�
 
 以上是修改了iptables nat表以实现转发。为了成功转发，还需要确保filter表中，forward链和input链没有DROP/REJECT相关的流量，不详细解释。
 
-有问题请评论区评论
+有问题的可以直接在评论区留言
+
+# 番外篇：vps网速测试
+
+网速测试请主要关注上传速度！
+
+```
+wget https://raw.github.com/sivel/speedtest-cli/master/speedtest.py ##下载脚本
+
+python speedtest.py ## speedtest自己选择测试节点
+python speedtest.py --list|grep "China Telecom" ## 列举中国电信测试节点
+python speedtest.py --list|grep "China Unicom" ## 列举中国联通测试节点
+python speedtest.py --list|grep "China Mobile" ## 列举中国移动测试节点
+
+python speedtest.py --server 5316  --share  ##到南京电信的测试节点
+python speedtest.py --server 13704 --share  ##到南京联通
+python speedtest.py --server 21590 --share  ##到南京移动
+
+python speedtest.py --server 5316  --share |grep Share ##到南京电信的测试节点
+python speedtest.py --server 13704 --share |grep Share ##到南京联通
+python speedtest.py --server 21590 --share |grep Share ##到南京移动
+```
+
+## 香港阿里云轻量服务器
+
+![](/img/cesu-hk-ali-wan.png)
+
+
+## natcloud家的香港hkt
+
+![](/img/cesu-hkt-wan.png)
