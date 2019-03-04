@@ -1,7 +1,7 @@
 ---
 title: "centos7调教和使用"
 author: "刘港欢"
-date: 2019-01-18
+date: 2019-03-04
 categories: [ "linux"]
 tags: ["linux"]
 weight: 10
