@@ -196,12 +196,12 @@ wget https://raw.github.com/sivel/speedtest-cli/master/speedtest.py ##下载脚�
 
 python speedtest.py ## speedtest自己选择测试节点
 python speedtest.py --list|grep "China Telecom" ## 列举中国电信测试节点
-python speedtest.py --list|grep "China Unicom" ## 列举中国联通测试节点
-python speedtest.py --list|grep "China Mobile" ## 列举中国移动测试节点
+python speedtest.py --list|grep "China Unicom"  ## 列举中国联通测试节点
+python speedtest.py --list|grep "China Mobile"  ## 列举中国移动测试节点
 
-python speedtest.py --server 5316  --share  ##到南京电信的测试节点
-python speedtest.py --server 13704 --share  ##到南京联通
-python speedtest.py --server 21590 --share  ##到南京移动
+python speedtest.py --server 5316  |grep -E "Mbit/s|ms"  ##到南京电信的测试节点
+python speedtest.py --server 13704 |grep -E "Mbit/s|ms"  ##到南京联通
+python speedtest.py --server 21590 |grep -E "Mbit/s|ms"  ##到南京移动
 
 python speedtest.py --server 5316  --share |grep Share ##到南京电信的测试节点
 python speedtest.py --server 13704 --share |grep Share ##到南京联通
@@ -216,7 +216,7 @@ python speedtest.py --server 21590 --share |grep Share ##到南京移动
 |11:30|南京联通|34ms|106Mbps|😍35Mbps|
 |11:30|南京移动|42ms|109Mbps|🤢2.67Mbps|
 |-|-|-|-|-|
-|15:30|南京电信|157ms|82Mbps|🤢3Mbps|
+|15:30|南京电信|80-157ms|82Mbps|🤢3-20Mbps狂跳|
 |15:30|南京联通|35ms|105Mbps|😍35Mbps|
 |15:30|南京移动|42ms|91Mbps|🤢1.80Mbps|
 |-|-|-|-|-|
@@ -228,7 +228,7 @@ python speedtest.py --server 21590 --share |grep Share ##到南京移动
 
 |运营商|总结|
 |---|---|
-|电信|🤢经常抽风，有时比较好用|
+|电信|🤢速度、延迟非常不稳定|
 |联通|😍全天都很好，联通用户就不要犹豫了|
 |移动|🤢根本不能用|
 
