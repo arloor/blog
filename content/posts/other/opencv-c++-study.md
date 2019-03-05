@@ -35,7 +35,7 @@ weight: 10
 
 vs2017需要安装"使用c++的桌面开发"工作负载
 
-![vs2017安装选项](http://static.moontell.cn/images/vs2017%E5%AE%89%E8%A3%85%E9%80%89%E9%A1%B9.png)
+![vs2017安装选项](/img/vs2017%E5%AE%89%E8%A3%85%E9%80%89%E9%A1%B9.png)
 
 如果有这一项，可以直接创建新项目了。新建项目->visual c++->windows控制台应用程序。（windows控制台程序应该不是必须，目前只会这个）
 
@@ -43,7 +43,7 @@ vs2017需要安装"使用c++的桌面开发"工作负载
 
 首先将配置改为debug、平台改为x64!!!!!
 
-![vc++目录](http://static.moontell.cn/images/vc%2B%2B%E7%9B%AE%E5%BD%95%E9%85%8D%E7%BD%AE.png)
+![vc++目录](/img/vc%2B%2B%E7%9B%AE%E5%BD%95%E9%85%8D%E7%BD%AE.png)
 
 在vc++目录中编辑包含目录，增加opencv的include目录，在这里是`D:\opencv34\build\include`、`D:\opencv34\build\include\opencv`、`D:\opencv34\build\include\opencv2`
 
@@ -51,7 +51,7 @@ vs2017需要安装"使用c++的桌面开发"工作负载
 
 然后在连接器->输入->外部依赖项中输入`opencv_world341d.lib`。这个文件在`D:\opencv34\build\x64\vc15\lib`中可以找到。说明——****d表示debug版本。不加d表示release版本。
 
-![附加依赖项编辑](http://static.moontell.cn/images/%E9%99%84%E5%8A%A0%E4%BE%9D%E8%B5%96%E9%A1%B9.png)
+![附加依赖项编辑](/img/%E9%99%84%E5%8A%A0%E4%BE%9D%E8%B5%96%E9%A1%B9.png)
 
 
 现在就可以进行编程了，这是一个显示图片的例子

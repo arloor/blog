@@ -43,7 +43,7 @@ weight: 10
 
 给一个基于spring cloud的架构图：
 
-![微服务架构图](http://static.moontell.cn/images/microservice_structure.png)
+![微服务架构图](/img/microservice_structure.png)
 
 这个架构各个组件的实现会在`spring cloud学习`中记录。
 

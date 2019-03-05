@@ -155,7 +155,7 @@ eureka.client.serviceUrl.defaultZone=http://${eureka.instance.hostname}:${server
 
 eureka server是有后台的。可以访问[http://localhost:8761/](http://localhost:8761/)查看，如图：
 
-![eureka server后台](http://static.moontell.cn/images/eureka_server%E5%90%8E%E5%8F%B0.png)
+![eureka server后台](/img/eureka_server%E5%90%8E%E5%8F%B0.png)
 
 ### 模块 1-service-hi 一个微服务，并测试服务注册
 
@@ -376,7 +376,7 @@ eureka:
 
 这是eureka的网页控制台如下：
 
-![eureka_server_with_peer.png](http://static.moontell.cn/images/eureka_server_with_peer.png)
+![eureka_server_with_peer.png](/img/eureka_server_with_peer.png)
 
 ## 模块 2-service-ribbon 服务消费者 ribbon+restTemplate
 
@@ -463,7 +463,7 @@ spring:
 
 多次输入5，可以看到`hi moontell,i am from port:8763`,`hi moontell,i am from port:8762`轮流出现，说明实现了负载均衡。此时的架构部署如下：
 
-![此时的部署图](http://static.moontell.cn/images/simple_microservice_structure.png)
+![此时的部署图](/img/simple_microservice_structure.png)
 
 这个图看着就很舒服了，我也算是接触了分布式了哈哈哈。
 
