@@ -124,6 +124,7 @@ xx.xx.xx.xx proxy
 
 1. 创建proxygo.exe的快捷方式
 2. 按`win+r`输入`shell:startup`，将上一步生成的快捷方式移动到打开的文件夹中(类似这个路径：
+
 ```
 C:\Users\用户名\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
 ```
