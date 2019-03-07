@@ -127,7 +127,11 @@ docker run proxyserver
 
 上面的容器，最后通过CMD执行了java -jar命令，虽然运行了程序，但容器的运行是个黑盒。现在开始进入这个黑盒。
 
-注释掉DockerFile的最后一行：`CMD ["java", "-jar","proxyserver-1.2-jar-with-dependencies.jar"]`。
+注释掉DockerFile的最后一行：
+
+```
+CMD ["java", "-jar","proxyserver-1.2-jar-with-dependencies.jar"]
+```
 
 重新构建映像，并以交互模式run容器：
 

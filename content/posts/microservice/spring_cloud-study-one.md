@@ -272,9 +272,11 @@ public class ServiceHiApplication {
 
 事实证明，application.yml也是可以的，真正不生效的原因是idea没有将它放入`\target\classes`。
 
-`eureka.client.serviceUrl.defaultZone=http://localhost:8761/eureka/`指明了注册中心的位置。
+```
+eureka.client.serviceUrl.defaultZone=http://localhost:8761/eureka/   ##指明了注册中心的位置。
 
-`spring.application.name=service-hi`指明了服务名。这个服务名就是以后与其他服务交互的标识。
+spring.application.name=service-hi  ##指明了服务名。这个服务名就是以后与其他服务交互的标识。
+```
 
 再看Main类，其实就是一个@RestController加上@EnableEurekaClient。
 

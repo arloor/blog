@@ -79,7 +79,11 @@ selector.select()会占有锁，channel.register(selector)需要持有同样的�
 
 这两点，就是最最重要的两点了。
 
-另外还有，因为代理而需要改变的请求头了，参见`com.arloor.proxyme.RequestHeader.reform()`方法。
+另外还有，因为代理而需要改变的请求头了，参见：
+
+```
+com.arloor.proxyme.RequestHeader.reform()
+```
 
 最后，https代理实现中的坑。http代理传输的内容是明文，字节肯定大于0，而https传输的字节可能小于0。因为这个，传输https数据的bybebuff时，要特意指定bytebuff的limit为实际大小。
 
