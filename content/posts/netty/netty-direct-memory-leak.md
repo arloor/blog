@@ -18,10 +18,11 @@ weight: 10
 
 重要摘录：
 
-> If i'm right, Netty in NIO-mode tries to offer a "unlimited" layer above a actually limited layer (socket, network). Netty uses DirectMemory to buffer performance differences between both layers. Means "writing to fast" that the buffer capacity in DirectMemory is overcharged by to much Write&Flush on a Netty context?
-> How can I balance this? Is there an API, where i can request the current loading and use this information to slow down my writes on Netty?
+ > If i'm right, Netty in NIO-mode tries to offer a "unlimited" layer above a actually limited layer (socket, network). Netty uses DirectMemory to buffer performance differences between both layers. Means "writing to fast" that the buffer capacity in DirectMemory is overcharged by to much Write&Flush on a Netty context?
+ 
+ > How can I balance this? Is there an API, where i can request the current loading and use this information to slow down my writes on Netty?
 
-> yes... you may try writing faster then the remote peer accepts.... You can check Channel.isWritable() to see if it is writable atm. ChannelInboundHandler.channelWritabilityChanged(...) will be triggered whenever the writability state of the Channel changes
+> yes... you may try writing faster then the remote peer accepts.... You can check Channel.isWritable() to see if it is writable atm. ChannelInboundHandler's channelWritabilityChanged(...) will be triggered whenever the writability state of the Channel changes
 
 
 ## 设想的解决方案
