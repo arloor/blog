@@ -7,7 +7,7 @@ tags: ["linux"]
 weight: 10
 ---
 
-多年以后，我又开始整vps了，学了三年，也知道怎么整linux了。个人使用的是搬瓦工 DC6 CN2 GIA 机房的vps。[购买链接](https://bwh88.net/aff.php?aff=11132&pid=87)
+多年以后，我又开始整vps了，学了三年，也知道怎么整linux了。个人使用的是搬瓦工DC9 CN2 GIA机房的vps。目前DC9机房已经售罄，推荐购买网口更大的DC6 CN2 GIA机房。[购买链接](https://bwh88.net/aff.php?aff=11132&pid=87)
 <!--more-->
 
 > 搬瓦工 DC6 CN2 GIA 机房，编号为 USCA_6，使用中国电信优先级最高的 CN2 GIA 线路，中国电信、中国联通、中国移动三网去程回程全部走 CN2 GIA，线路质量非常好，可以说是等级最高的国际出口。经过测试，去程和回程都使用中国电信提供的cn2 GIA线路
@@ -261,7 +261,7 @@ python speedtest.py --server 21590 --share |grep Share ##到南京移动
 |02:00|南京联通|222ms|34Mbps|😍73Mbps|
 |02:00|南京移动|177ms|78Mbps|😍83Mbps|
 
-dc8机房最大的有点就是便宜吧，速度有时候高，但会出现不稳的情况，还是推荐dc9或者dc6这种cn2 gia的机房。
+dc8机房最大的优势就是便宜吧，速度有时候高，但会出现不稳的情况。追求延迟和速度稳定的还是推荐dc6或者dc9这种三网双程cn2 gia线路的机房
 
 ## 搬瓦工dc9 gia机房(178.157.xx.xx)
 
