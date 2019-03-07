@@ -123,7 +123,7 @@ javaDoc提到，如果不想手动的处理这些HttpContents，可以在这个h
 
 decoder最核心的decode方法就是一个大的switch，通过不同case的处理方法，控制state的转换。当读到buffer时，就会进入decode方法，也就进入了这个switch。下面进入这个switch，研究一下状态的转换。
 
-### State.SKIP_CONTROL_CHARS
+### SKIP_CONTROL_CHARS
 
 最初的状态是：
 
