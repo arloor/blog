@@ -261,7 +261,11 @@ spring.redis.timeout=5000 ##如果非本机，这个不能为0，否则会报tim
 
 代码的`value.get`能正常运行，但是在redis-cli运行`get 你设置key`就显示nil(null)。原因是使用了`JdkSerializationRedisSerializer`，将对象的类型信息也加入了key。
 
-于是真正的key为`\xac\xed\x00\x05t\x00\x06\xe5\x90\x8d\xe5\xad\x97test`这种。
+于是真正的key为
+
+```
+\xac\xed\x00\x05t\x00\x06\xe5\x90\x8d\xe5\xad\x97test
+```
 
 要是强迫症的话，需要自己配置`redisTemplate`这个bean，具体说就是要调用`redis.setKeySerializer(..);`这种。
 

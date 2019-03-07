@@ -127,7 +127,11 @@ docker run proxyserver
 
 上面的容器，最后通过CMD执行了java -jar命令，虽然运行了程序，但容器的运行是个黑盒。现在开始进入这个黑盒。
 
-注释掉DockerFile的最后一行：`CMD ["java", "-jar","proxyserver-1.2-jar-with-dependencies.jar"]`。
+注释掉DockerFile的最后一行：
+
+```
+CMD ["java", "-jar","proxyserver-1.2-jar-with-dependencies.jar"]
+```
 
 重新构建映像，并以交互模式run容器：
 
@@ -179,7 +183,7 @@ docker build -t simlogin-with-docker .
 ```
 docker run -it -v ~/Downloads/:/usr/my/docker/download/ simlogin-with-docker /bin/bash
 ```
-解释：使用simlogin-with-docke镜像启动一个container。`-it`表示交互模式——启动容器后会进入docker的shell。`-v ~/Downloads/:/usr/my/docker/download/`表示将宿主机的`下载`目录挂载到容器的`/usr/my/docker/download/`。最后的`/bin/bash`是容器所执行的CMD。注意我们在Dockfile中并没有定义CMD，所以在这里需要加上`/bin/bash`。实际上不加`/bin/bash`好像也可以。
+解释：使用simlogin-with-docke镜像启动一个container。`-it`表示交互模式——启动容器后会进入docker的shell。`-v ~/Downloads/:/path/in/container`表示将宿主机的`下载`目录挂载到容器的`/usr/my/docker/download/`。最后的`/bin/bash`是容器所执行的CMD。注意我们在Dockfile中并没有定义CMD，所以在这里需要加上`/bin/bash`。实际上不加`/bin/bash`好像也可以。
 
 之后的终端是这样的
 

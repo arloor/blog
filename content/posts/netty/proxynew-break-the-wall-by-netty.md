@@ -65,7 +65,7 @@ public class ThreadPoolDispatcher implements Dispatcher {
   }
 }
 ```
-可以看到，核心也就是一行`executorService.execute(lambda)`。但是就是要抽取出（!增加!）一个Dispatcher，这样我们要写的不是`executorService.execute(lambda)`而是`dispatcher.onChannelReadEvent(.....)`。（搞得和事件驱动有点像，其实reactor确实有点事件驱动的意思）
+可以看到，核心也就是一行`executorService.execute(lambda)`。但是就是要抽取出（!增加!）一个Dispatcher，这样我们要写的不是`executorService.execute(lambda)`而是`dispatcher.onChannelReadEvent(..)`（搞得和事件驱动有点像，其实reactor确实有点事件驱动的意思）
 
 从这里也可以看到，其实设计模式就是在做抽象出一个东西（增加）的事情。所以使用设计模式其实在做的是：思考玩功能的实现之后，思考代码的组织，而这个组织的过程是在增加。
 
