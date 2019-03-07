@@ -261,6 +261,8 @@ python speedtest.py --server 21590 --share |grep Share ##到南京移动
 |02:00|南京联通|222ms|34Mbps|😍73Mbps|
 |02:00|南京移动|177ms|78Mbps|😍83Mbps|
 
+dc8机房最大的有点就是便宜吧，速度有时候高，但会出现不稳的情况，还是推荐dc9或者dc6这种cn2 gia的机房。
+
 ## 搬瓦工dc9 gia机房(178.157.xx.xx)
 
 |时间|运营商|延迟|下载速度|上传速度|
