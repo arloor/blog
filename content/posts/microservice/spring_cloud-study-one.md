@@ -478,7 +478,7 @@ spring:
 
 先放参考地址：[ribbon ILoadBalancer接口及其实现](https://www.jianshu.com/p/9f8e712ed1a9)
 
-学习的博客中提到，ribbon提供了默认配置的一些bean，各个bean的职责虽然不清楚，但是几个词还是明白干什么的。ServerList,Ping,ZonePreferenceServerListFilter。就猜一猜，跟据ping的值，对server
+学习的博客中提到，ribbon提供了默认配置的一些bean，各个bean的职责虽然不清楚，但是几个词还是明白干什么的。ServerList、Ping、ZonePreferenceServerListFilter。就猜一猜，跟据ping的值，对server
 List进行挑选，挑选的规则就是ZonePreference。大概就是这个意思吧。再看参考博客确实也是这样。当然这些bean感觉都是可以配置的，可以根据自己的需要去改变，以后看文档搞。
 
 想想当初的体系结构课上，自己想用filter架构模式，对服务实例通过ping值，找到最佳的服务节点，以达到客户端负载均衡的目的。那个时候啥分布式负载均衡的实现都不知道，但还能用`客户端负载均衡`这个精准的名词。当时的那个想法跟这一套是一样的呀。
