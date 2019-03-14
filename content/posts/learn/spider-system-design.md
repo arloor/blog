@@ -76,6 +76,12 @@ weight: 10
 
 可以简化的点：可以只使用kafka单机，无需集群；可以删除etcd集群和http代理部分；网关只是激发运行的作用，无需十分完善。
 
+## 项目雏形
+
+项目地址：[EasySpider](https://github.com/arloor/EasySpider)
+
+拿英国的一个众筹项目网站练了下手，把所有项目爬下来放在了[SEEDRS](http://178.157.50.181/)。共630多项目、450M+图文
+
 ## 参阅
 
 [java调用groovy方式总结](https://blog.csdn.net/eric_sunah/article/details/11541307)
