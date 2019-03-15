@@ -93,6 +93,44 @@ cd /home/x1/bin/proxy
 lsof -i:8081||echo
 ```
 
+# 安装shadowsocks-libev并且开机启动ss-local
+
+安装shadowsocks-libev:
+
+
+```
+sudo apt install shadowsocks-libev
+```
+
+编辑配置文件：
+
+```
+sudo vim /etc/shadowsocks-libev/config.json 
+```
+
+配置文件如下：
+
+```
+{
+    "server":"proxy",
+    "server_port":xxxx,
+    "local_port":1080,
+    "password":"xxxxx",
+    "timeout":60,
+    "method":"aes-256-gcm"
+}
+```
+
+编辑 /etc/rc.local 以开机启动（请先执行上一节以启用开机自启服务）
+
+```
+# 在/etc/rc.local中加入下面的命令：
+nohup /usr/bin/ss-local -c /etc/shadowsocks-libev/config.json &
+```
+
+这样，以后开机就在1080端口启动了socks5代理服务。
+
+
 # 干掉顶部横栏，增大桌面的可用面积
 
 我很讨厌这个横栏，所以曾经十分讨厌gnome。今天终于找到办法将横栏删除。
