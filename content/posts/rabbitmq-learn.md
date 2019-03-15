@@ -39,7 +39,7 @@ rpm -i erlang-20.3.8.20-1.el7.x86_64.rpm
 rpm -i rabbitmq-server-3.7.13-1.el7.noarch.rpm
 ```
 
-进行安装。
+进行安装。PS:[RabbitMQ 3.7.13的realse页面](https://github.com/rabbitmq/rabbitmq-server/releases/tag/v3.7.13)同样可以下载rpm包。
 
 之后就可以使用如下命令启动rabbitmq的服务
 
