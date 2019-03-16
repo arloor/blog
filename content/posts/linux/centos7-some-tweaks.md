@@ -187,6 +187,12 @@ iptables -t nat -A POSTROUTING -p udp -d [国外服务器IP] --dport [国外服�
 
 有问题的可以直接在评论区留言
 
+题外话（自己备忘）：某端口流量转发到本机其他端口：(从localhost访问，这个转发无效)
+
+```
+iptables -t nat -A PREROUTING -p tcp --dport 8081 -j REDIRECT --to-ports 8080
+```
+
 # 番外篇：vps网速测试
 
 网速测试请主要关注上传速度！
