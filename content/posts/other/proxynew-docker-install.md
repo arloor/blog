@@ -43,25 +43,16 @@ showcomments: true
 
 ## 安装docker
 
-安装相关依赖
-
 ```
+# 安装相关依赖
 yum install -y yum-utils \
   device-mapper-persistent-data \
   lvm2
-```
-
-设置docker源
-
-```
+# 设置docker源
 yum-config-manager \
   --add-repo \
   https://download.docker.com/linux/centos/docker-ce.repo
-```
-
-安装docker
-
-```
+# 安装docker 
 yum install docker-ce
 ```
 
