@@ -35,9 +35,25 @@ chmod +x shadowsocks-libev.sh
 
 # docker 安装ss-libev
 
-centos7安装docker见[这篇文章](/posts/other/proxynew-docker-install/#安装docker)
+先安装docker
 
 ```
+# 安装相关依赖
+yum install -y yum-utils \
+  device-mapper-persistent-data \
+  lvm2
+# 设置docker源
+yum-config-manager \
+  --add-repo \
+  https://download.docker.com/linux/centos/docker-ce.repo
+# 安装docker 
+yum install docker-ce
+```
+
+拉取镜像并运行
+
+```
+service docker start
 docker pull shadowsocks/shadowsocks-libev 
 docker run -e PASSWORD=xxxxx -p 8388:8388 -p 8388:8388/udp -d --restart always shadowsocks/shadowsocks-libev
 ```
