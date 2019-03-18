@@ -7,6 +7,8 @@ tags: ["linux"]
 weight: 10
 ---
 
+
+
 多年以后，我又开始整vps了，学了三年，也知道怎么整linux了。个人使用的是搬瓦工 DC6 CN2 GIA 机房的vps。[购买链接](https://bwh88.net/aff.php?aff=11132&pid=87)
 <!--more-->
 
