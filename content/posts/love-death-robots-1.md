@@ -14,6 +14,6 @@ weight: 10
 
 故事是改编自Peter F. Hamilton的《The Night’s Dawn》小说三部曲，是属于同一个世界观。风格极为血腥暴力，还有一段女女的激情露点戏码，结局翻转了数次，风格为赛博庞克。
 
-<video controls="" width="100%" height="100%"><source src="http://178.157.50.181/robot.mp4" type="video/mp4"></video>
+<video controls="" width="100%" height="100%"><source src="http://cdn.moontell.cn/robot.mp4" type="video/mp4"></video>
 
 <!--more-->
