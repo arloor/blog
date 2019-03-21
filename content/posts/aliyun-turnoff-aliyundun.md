@@ -95,7 +95,7 @@ root     18832     1  0 12:33 ?        00:00:01 /usr/local/aegis/aegis_client/ae
 ```
 
 
-## 方法四：别的公司用的uninstall.sh 适用centos7
+## 方法4：别的公司用的uninstall.sh 适用centos7
 
 ```
 #!/bin/bash
