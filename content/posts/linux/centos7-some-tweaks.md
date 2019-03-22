@@ -64,6 +64,59 @@ docker run -e PASSWORD=xxxxx -p 8388:8388 -p 8388:8388/udp -d --restart always s
 
 这样就以aes-256-gcm运行了ss-libev。详细参数见：[docker镜像README](https://github.com/shadowsocks/shadowsocks-libev/blob/master/docker/alpine/README.md)
 
+# 一个简单的管理docker ss用户的方式
+
+- 增加新用户：bash start.sh 8000  xxx  2019-01-01 # 端口号  用户名（同时是密码） 过期时间
+- 定期删除过期用户： awk '{print}' user.txt|xargs -n 3 bash kill.sh
+
+唯二不足是
+
+1. 不能直接删除user.txt中的失效用户记录
+2. 不能处理用户增加有效期（xufei）
+
+总之就是user.txt的管理不够智能。
+
+start.sh
+
+```
+#! /bin/bash
+# 端口 用户名 到期日期
+# bash start.sh 8000  xxx  2019-01-01
+
+ result=$(cat user.txt | grep "$2")
+ if [[ "$result" != "" ]]
+ then
+     echo "已包含该用户记录，请删除原有记录"
+ else
+     
+	docker run -e PASSWORD=$2 -p $1:8388 -p $1:8388/udp -d --name $2  --restart always shadowsocks/shadowsocks-libev
+
+	if [ "$?" = "0" ]; then
+    		echo "成功为用户$2在$1端口启动服务"
+    		echo "$1 $2 $3" &>> user.txt
+	else
+		 echo "在$1端口启动服务失败，请检查端口占用、container名称和docker服务状态"
+    		docker rm $2
+	fi
+
+fi
+```
+
+kill.sh
+
+```
+#! /bin/bash
+# awk '{print}' user.txt|xargs -n 3 bash kill.sh
+# 端口 用户名 到期日期
+now=$(date '+%Y-%m-%d')
+
+if [[ "$3" < "$now" ]] ;then
+ docker kill $2
+ docker rm $2
+ echo "rm shadowsocks docker container for user $2"
+fi
+```
+
 # 配置防火墙
 
 据说centos7默认使firewalld作为防火墙，但是我装了两个centos7都是使用的iptables。现在也比较喜欢iptables，当初配iptables死活都不通。。
