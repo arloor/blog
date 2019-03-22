@@ -66,8 +66,17 @@ docker run -e PASSWORD=xxxxx -p 8388:8388 -p 8388:8388/udp -d --restart always s
 
 # 一个简单的管理docker ss用户的方式
 
-- 增加新用户：bash start.sh 8000  xxx  2019-01-01 # 端口号  用户名（同时是密码） 过期时间
-- 定期删除过期用户： awk '{print}' user.txt|xargs -n 3 bash kill.sh
+增加新用户：
+
+```
+bash start.sh 8000  xxx  2019-01-01 # 端口号  用户名 过期时间  (密码为xxx2019-01-01)
+```
+
+定期删除过期用户：
+
+```
+awk '{print}' user.txt|xargs -n 3 bash kill.sh
+```
 
 唯二不足是
 
@@ -89,7 +98,7 @@ start.sh
      echo "已包含该用户记录，请删除原有记录"
  else
      
-	docker run -e PASSWORD=$2 -p $1:8388 -p $1:8388/udp -d --name $2  --restart always shadowsocks/shadowsocks-libev
+	docker run -e PASSWORD=$2$3 -p $1:8388 -p $1:8388/udp -d --name $2  --restart always shadowsocks/shadowsocks-libev
 
 	if [ "$?" = "0" ]; then
     		echo "成功为用户$2在$1端口启动服务"
