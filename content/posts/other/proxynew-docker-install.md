@@ -67,7 +67,7 @@ service docker start
 # 拉取镜像（第一次运行时才需要运行此命令）
 docker pull arloor/proxyserver:1.0
 # 运行
-docker run -d -p 8080:8080 arloor/proxyserver:1.0
+docker run -d -p 8080:8080 --restart always arloor/proxyserver:1.0
 ```
 
 成功走通，则服务端启动成功，下面需要做的就是客户端的安装与设置
