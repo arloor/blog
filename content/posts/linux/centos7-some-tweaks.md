@@ -235,11 +235,19 @@ timedatectl set-timezone Asia/Shanghai # 设置系统时区为上海
 # 番外篇：测试vps回程路由
 
 ```shell
+cd /usr/local
+mkdir trace
+cd trace
+
 yum install -y unzip weget
 wget https://cdn.ipip.net/17mon/besttrace4linux.zip
 unzip besttrace4linux.zip
 chmod +x besttrace
-./besttrace arloor.com
+rm -f besttrace4linux.zip
+cd
+
+ln -fs /usr/local/trace/besttrace /usr/local/bin/trace
+trace arloor.com
 ```
 
 阿里云香港回程路由示例：
