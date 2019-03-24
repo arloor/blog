@@ -1,5 +1,5 @@
 ---
-title: "玩转VPS与centos7"
+title: "玩转VPS与centos 7"
 author: "刘港欢"
 date: 2019-03-04
 categories: [ "linux"]
