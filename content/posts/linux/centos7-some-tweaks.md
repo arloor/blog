@@ -437,6 +437,12 @@ wget http://arloor.com/socat.sh
 bash socat.sh
 ```
 
+停止：
+
+```
+kill -9 $(ps -ef|grep socat|grep -v grep|awk '{print $2}')
+```
+
 发现防火墙服务会影响socat运行，所以就不要让防火墙开着了
 
 # 番外篇：vps网速测试
