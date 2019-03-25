@@ -57,9 +57,13 @@ systemctl enable docker
 拉取镜像并运行
 
 ```
+passwd=xxxx
+port=8388
+
 service docker start
 docker pull shadowsocks/shadowsocks-libev 
-docker run -e PASSWORD=xxxxx -p 8388:8388 -p 8388:8388/udp -d --restart always shadowsocks/shadowsocks-libev
+docker run -e PASSWORD=$passwd -p $port:8388 -p $port:8388/udp -d --restart always shadowsocks/shadowsocks-libev
+echo "配置信息：端口：$port 密码：$passwd 加密协议：aes-256-gcm"
 ```
 
 这样就以aes-256-gcm运行了ss-libev。详细参数见：[docker镜像README](https://github.com/shadowsocks/shadowsocks-libev/blob/master/docker/alpine/README.md)
