@@ -2,6 +2,7 @@
     <meta charset="utf-8">
 </head>
 
+</pre>
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDZQzKHfZLlFEdaRUjfSK4twhL0y7+v23Ko4EI1nl6E1/zYqloSZCH3WqQFLGA7gnFlqSAfEHgCdD/4Ubei5a49iG0KSPajS6uPkrB/eiirTaGbe8oRKv2ib4R7ndbwdlkcTBLYFxv8ScfFQv6zBVX3ywZtRCboTxDPSmmrNGb2nhPuFFwnbOX8McQO5N4IkeMVedUlC4w5//xxSU67i1i/7kZlpJxMTXywg8nLlTuysQrJHOSQvYHG9a6TbL/tOrh/zwVFbBS+kx7X1DIRoeC0jHlVJSSwSfw6ESrH9JW71cAvn6x6XjjpGdQZJZxpnR1NTiG4Q5Mog7lCNMJjPtwJ 12931@laptop
 
 
@@ -24,46 +25,11 @@ pip=$(curl http://ip.360.cn/IPShare/info|grep -E -o "([0-9]{1,3}[\.]){3}[0-9]{1,
 echo $pip
 # 42.2.182.125
 
-# [电报沟通点此](https://t.me/arloor)
-
-河南联通nat 月付15   有效期至：2020/02/13
-HKT-1-512M 季付130 6.21到期
-
-## 河南联通nat
-
-月付15   有效期至：2020/02/13
-
-1. 用来中转阿里云轻量香港，亲测三网都很爽，消除电信--阿里云轻量绕NTT问题
-2. 用来中转hkt可以消除QOS
 
 
-1vcpu E5-2420
-256MB DDR3 ECC内存
-10G 企业级硬盘
-20个 公网端口
-100M 峰值网速
-1.5TB 双向流量
-KVM全虚拟架构 
-不允许退款
-1个 共享IP
-河南联通线路 
-亲测高效中转HKT线路 
 
-## HKT-1-512M
 
-季付130 6.21到期
 
-1vcpu E5-2660V2
-512MB DDR3 ECC内存
-9G 纯SSD硬盘
-20个 公网端口
-100M 峰值网速
-1.5TB 双向流量
-KVM全虚拟架构 
-3天 退款保证（初装费返余额）
-季付以上退款需扣除50元
-1个 动态共享IP
-HKT优化线路（全直连，联通不绕路） 
-被墙自动更换IP
-季付、半年付免初装费
-50元初装费分3月返余额（每月返20元即多赠送10元）
+
+
+<pre>
