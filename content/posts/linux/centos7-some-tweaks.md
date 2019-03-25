@@ -138,7 +138,9 @@ fi
 ```shell
 service firewalld stop
 systemctl disable firewalld
-yum install iptables-services
+yum -y install iptables-services
+systemctl enable iptables
+systemctl start iptables
 ```
 
 配置filter表，用于设置INPUT、FORWARD、OUTPUT链，总之就是，开放ssh服务、httpd服务等等需要开放的端口，关闭其他一切
@@ -376,6 +378,8 @@ traceroute to baidu.com (220.181.57.216), 30 hops max, 60 byte packets
 
 开始操作：
 
+## 方案一：使用iptables，适用于落地鸡ip不会改变的情况
+
 打开ipv4的转发功能（其他系统可能不一样）
 
 ```
@@ -402,6 +406,45 @@ iptables -t nat -A POSTROUTING -p udp -d [国外服务器IP] --dport [国外服�
 
 ```
 iptables -t nat -A PREROUTING -p tcp --dport 8081 -j REDIRECT --to-ports 8080
+```
+
+## 方案二：使用socat，适用于落地鸡是使用了ddns更新域名解析的nat vps
+
+单次启动：
+
+```shell
+yum install -y socat
+nohup socat TCP4-LISTEN:6666,reuseaddr,fork TCP4:x.x.x.x:8888 >> /root/socat.log 2>&1 &
+nohup socat UDP4-LISTEN:6666,reuseaddr,fork UDP4:x.x.x.x:8888 >> /root/socat.log 2>&1 &
+```
+
+开机自启动：
+
+```shell
+echo "nohup socat TCP4-LISTEN:6666,reuseaddr,fork TCP4:x.x.x.x:8888 >> /root/socat.log 2>&1 &" >> /etc/rc.d/rc.local
+echo "nohup socat UDP4-LISTEN:6666,reuseaddr,fork UDP4:x.x.x.x:8888 >> /root/socat.log 2>&1 &" >> /etc/rc.d/rc.local
+chmod +x /etc/rc.d/rc.local
+```
+
+关闭：
+
+```
+kill -9 $(ps -ef|grep socat|grep -v grep|awk '{print $2}')
+```
+
+备忘：另一种开机自启动方式:添加sh脚本刀/etc/init.d 然后chkconfig xxx on。 如下：
+
+
+```shell
+# 1. 将脚本移动到/etc/rc.d/init.d目录下
+# mv  /opt/script/StartTomcat.sh /etc/rc.d/init.d
+# 2. 增加脚本的可执行权限
+chmod +x  /etc/rc.d/init.d/StartTomcat.sh
+
+# 3. 添加脚本到开机自动启动项目中
+cd /etc/rc.d/init.d
+chkconfig --add StartTomcat.sh
+chkconfig StartTomcat.sh on
 ```
 
 # 番外篇：vps网速测试
