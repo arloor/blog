@@ -8,32 +8,27 @@
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDZQzKHfZLlFEdaRUjfSK4twhL0y7+v23Ko4EI1nl6E1/zYqloSZCH3WqQFLGA7gnFlqSAfEHgCdD/4Ubei5a49iG0KSPajS6uPkrB/eiirTaGbe8oRKv2ib4R7ndbwdlkcTBLYFxv8ScfFQv6zBVX3ywZtRCboTxDPSmmrNGb2nhPuFFwnbOX8McQO5N4IkeMVedUlC4w5//xxSU67i1i/7kZlpJxMTXywg8nLlTuysQrJHOSQvYHG9a6TbL/tOrh/zwVFbBS+kx7X1DIRoeC0jHlVJSSwSfw6ESrH9JW71cAvn6x6XjjpGdQZJZxpnR1NTiG4Q5Mog7lCNMJjPtwJ 12931@laptop
 
 
-香港阿里云8100中转到natcloud 48100
+#香港阿里云8100中转到natcloud 48100
 iptables -t nat -A PREROUTING -p tcp --dport 48100 -j DNAT --to-destination 219.76.152.121:45623
 iptables -t nat -A PREROUTING -p udp --dport 48100 -j DNAT --to-destination 219.76.152.121:45623
 iptables -t nat -A POSTROUTING -p tcp -d 219.76.152.121 --dport 45623 -j SNAT --to-source 172.31.145.26
 iptables -t nat -A POSTROUTING -p udp -d 219.76.152.121 --dport 45623 -j SNAT --to-source 172.31.145.26
 
 
-香港阿里云8100中转到轻量阿里云8100
+#香港阿里云8100中转到轻量阿里云8100
 iptables -t nat -A PREROUTING -p tcp --dport 8100 -j DNAT --to-destination 149.129.115.3:8100
 iptables -t nat -A PREROUTING -p udp --dport 8100 -j DNAT --to-destination 149.129.115.3:8100
 iptables -t nat -A POSTROUTING -p tcp -d 149.129.115.3 --dport 8100 -j SNAT --to-source 172.31.145.26
 iptables -t nat -A POSTROUTING -p udp -d 149.129.115.3 --dport 8100 -j SNAT --to-source 172.31.145.26
 
 香港阿里云58100中转到nathosts 58100
-nohup socat UDP4-LISTEN:58100,reuseaddr,fork UDP4:hknat.arloor.com:58100 >> /root/socat.log 2>&1 &
-nohup socat TCP4-LISTEN:58100,reuseaddr,fork UDP4:hknat.arloor.com:58100 >> /root/socat.log 2>&1 &
-chmod +x /etc/rc.d/rc.local
+bash socat.ssh  58100 58100 hknat.arloor.com
 
 
 获取公网ip
 pip=$(wget -qO- http://ip.360.cn/IPShare/info |grep -E -o "([0-9]{1,3}[\.]){3}[0-9]{1,3}")
+#pip=`curl http://whatismyip.akamai.com`
 echo $pip # 42.2.182.125
 
 # ddns的token
 arToken="88574,69a5f423035ca0bac9ffd7f75b0ecd1e"
-
-
-nohup socat TCP4-LISTEN:58100,reuseaddr,fork TCP4:hknat.arloor.com:58100 >> /root/socat.log 2>&1 &
-nohup socat UDP4-LISTEN:58100,reuseaddr,fork UDP4:hknat.arloor.com:58100 >> /root/socat.log 2>&1 &
