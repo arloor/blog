@@ -87,7 +87,7 @@ awk '{print}' user.txt|xargs -n 3 bash kill.sh
 
 start.sh
 
-```
+```shell
 #! /bin/bash
 # 端口 用户名 到期日期
 # bash start.sh 8000  xxx  2019-01-01
@@ -113,7 +113,7 @@ fi
 
 kill.sh
 
-```
+```shell
 #! /bin/bash
 # awk '{print}' user.txt|xargs -n 3 bash kill.sh
 # 端口 用户名 到期日期
@@ -132,14 +132,14 @@ fi
 
 安装iptables-services，这样就可以用service iptables xx来控制iptables了
 
-```
+```shell
 service firewalld stop
 systemctl disable firewalld
 yum install iptables-services
 ```
 
 配置filter表，用于设置INPUT、FORWARD、OUTPUT链，总之就是，开放ssh服务、httpd服务等等需要开放的端口，关闭其他一切
-```
+```shell
 iptables -A INPUT -p tcp --dport 22 -j ACCEPT  #开启tcp 22端口的读
 iptables -A INPUT -p tcp --dport 80 -j ACCEPT  #开启tcp 80端口的读
 iptables -A INPUT -p tcp --dport 8099 -j ACCEPT #开启tcp 8099端口的读
@@ -166,7 +166,7 @@ iptables --policy INPUT DROP #除了以上允许的,设置默认阻止所有读�
 
 ## 修改搬瓦工的默认ssh端口
 
-```
+```shell
 #vi /etc/ssh/sshd_config
 将Port 22前的注释删掉，或者增加
 
@@ -182,38 +182,38 @@ service sshd restart
 ## 禁用密码登陆
 
 编辑远程服务器上的sshd_config文件：
-```
+```shell
 vim /etc/ssh/sshd_config
 ```
 
 找到如下选项并修改(通常情况下，前两项默认为no，地三项如果与此处不符，以此处为准)：
-```
+```shell
 #PasswordAuthentication yes 改为
 PasswordAuthentication no
 ```
 
 编辑保存完成后，重启ssh服务使得新配置生效，然后就无法使用口令来登录ssh了
-```
+```shell
 systemctl restart sshd.service
 ```
 
 # 安装apache
 
-```
+```shell
 yum install httpd
 systemctl enable httpd
 ```
 
 # 安装jdk8
 
-```
+```shell
 wget --no-check-certificate --no-cookie --header "Cookie: oraclelicense=accept- - securebackup-cookie;" https://download.oracle.com/otn-pub/java/jdk/8u201-b09/42970487e3af4f5aa5bca3f542482c60/jdk-8u201-linux-x64.rpm
 
 yum install jdk-8u201-linux-x64.rpm
 ```
 # 设置时区
 
-```
+```shell
 # 查看事件设置信息
 timedatectl status
 #Local time: 四 2014-12-25 10:52:10 CST
@@ -226,7 +226,7 @@ timedatectl status
 #DST active: n/a
 ```
 
-```
+```shell
 timedatectl list-timezones # 列出所有时区
 timedatectl set-local-rtc 1 # 将硬件时钟调整为与本地时钟一致, 0 为设置为 UTC 时间
 timedatectl set-timezone Asia/Shanghai # 设置系统时区为上海
@@ -252,7 +252,7 @@ trace arloor.com
 
 阿里云香港回程路由示例：
 
-```
+```shell
 traceroute to baidu.com (220.181.57.216), 30 hops max, 60 byte packets
  1  *
     *
@@ -313,7 +313,7 @@ traceroute to baidu.com (220.181.57.216), 30 hops max, 60 byte packets
 
 为什么要弄国内中转？弄了国内中转之后，是这样的：
 
-```
+```shell
 电脑/手机--------阿里云BGP机房--------国外vps
 ```
 
