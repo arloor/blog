@@ -414,8 +414,9 @@ iptables -t nat -A PREROUTING -p tcp --dport 8081 -j REDIRECT --to-ports 8080
 
 ```shell
 yum install -y socat
-nohup socat TCP4-LISTEN:6666,reuseaddr,fork TCP4:x.x.x.x:8888 >> /root/socat.log 2>&1 &
-nohup socat UDP4-LISTEN:6666,reuseaddr,fork UDP4:x.x.x.x:8888 >> /root/socat.log 2>&1 &
+nohup socat TCP4-LISTEN:6666,reuseaddr,fork TCP4:hknat.arloor.com:58100 >> /root/socat.log 2>&1 &
+nohup socat UDP4-LISTEN:6666,reuseaddr,fork UDP4:hknat.arloor.com:58100 >> /root/socat.log 2>&1 &
+kill -9 $(ps -ef|grep socat|grep -v grep|awk '{print $2}')
 ```
 
 开机自启动：
