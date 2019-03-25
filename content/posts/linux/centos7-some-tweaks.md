@@ -298,9 +298,9 @@ trace arloor.com
 ```
 
 
-# 除服务以外的开机自启动方式
+# 两种开机自启动方式
 
-## 利用chkconfig xx on
+## 1.利用chkconfig xx on
 
 ```shell
 # 1. 将脚本移动到/etc/rc.d/init.d目录下
@@ -312,7 +312,8 @@ cd /etc/rc.d/init.d
 chkconfig --add StartTomcat.sh
 chkconfig StartTomcat.sh on
 ```
-## 编辑/etc/rc.d/rc.loacl
+
+## 2.编辑/etc/rc.d/rc.loacl
 
 ```
 echo "command" >> /etc/rc.d/rc.local
