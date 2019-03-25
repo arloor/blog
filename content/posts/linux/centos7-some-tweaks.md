@@ -437,6 +437,8 @@ wget http://arloor.com/socat.sh
 bash socat.sh
 ```
 
+发现防火墙服务会影响socat运行，所以就不要让防火墙开着了
+
 # 番外篇：vps网速测试
 
 网速测试请主要关注上传速度！
