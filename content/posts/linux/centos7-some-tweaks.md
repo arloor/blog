@@ -57,8 +57,9 @@ systemctl enable docker
 拉取镜像并运行
 
 ```
-passwd=xxxx
-port=8388
+passwd=xxxx #改成你的密码
+port=8388   #改成你的端口
+# 加密协议默认为支持AEAD的aes-256-gcm
 
 service docker start
 docker pull shadowsocks/shadowsocks-libev 
