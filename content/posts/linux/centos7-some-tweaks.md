@@ -49,7 +49,7 @@ yum-config-manager \
   --add-repo \
   https://download.docker.com/linux/centos/docker-ce.repo
 # 安装docker 
-yum install docker-ce
+yum -y install docker-ce
 # 开机自启动docker服务
 systemctl enable docker
 ```
