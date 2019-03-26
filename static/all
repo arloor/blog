@@ -8,7 +8,7 @@
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDZQzKHfZLlFEdaRUjfSK4twhL0y7+v23Ko4EI1nl6E1/zYqloSZCH3WqQFLGA7gnFlqSAfEHgCdD/4Ubei5a49iG0KSPajS6uPkrB/eiirTaGbe8oRKv2ib4R7ndbwdlkcTBLYFxv8ScfFQv6zBVX3ywZtRCboTxDPSmmrNGb2nhPuFFwnbOX8McQO5N4IkeMVedUlC4w5//xxSU67i1i/7kZlpJxMTXywg8nLlTuysQrJHOSQvYHG9a6TbL/tOrh/zwVFbBS+kx7X1DIRoeC0jHlVJSSwSfw6ESrH9JW71cAvn6x6XjjpGdQZJZxpnR1NTiG4Q5Mog7lCNMJjPtwJ 12931@laptop
 
 
-#香港阿里云8100中转到natcloud 48100
+#香港阿里云8100中转到natcloud 45623
 iptables -t nat -A PREROUTING -p tcp --dport 48100 -j DNAT --to-destination 219.76.152.121:45623
 iptables -t nat -A PREROUTING -p udp --dport 48100 -j DNAT --to-destination 219.76.152.121:45623
 iptables -t nat -A POSTROUTING -p tcp -d 219.76.152.121 --dport 45623 -j SNAT --to-source 172.31.145.26
@@ -23,6 +23,31 @@ iptables -t nat -A POSTROUTING -p udp -d 149.129.115.3 --dport 8100 -j SNAT --to
 
 香港阿里云58100中转到nathosts 58100
 bash socat.ssh  58100 58100 hknat.arloor.com
+
+===================================================================
+
+#清凉阿里云58100中转到natcloud 45623
+iptables -t nat -A PREROUTING -p tcp --dport 58100 -j DNAT --to-destination 219.76.152.121:45623
+iptables -t nat -A PREROUTING -p udp --dport 58100 -j DNAT --to-destination 219.76.152.121:45623
+iptables -t nat -A POSTROUTING -p tcp -d 219.76.152.121 --dport 45623 -j SNAT --to-source 172.17.14.220
+iptables -t nat -A POSTROUTING -p udp -d 219.76.152.121 --dport 45623 -j SNAT --to-source 172.17.14.220
+
+
+========================================================================================
+
+# 河南联通58100 中转到轻量阿里云58100
+iptables -t nat -A PREROUTING -p tcp --dport 58100 -j DNAT --to-destination 149.129.115.3:58100
+iptables -t nat -A PREROUTING -p udp --dport 58100 -j DNAT --to-destination 149.129.115.3:58100
+iptables -t nat -A POSTROUTING -p tcp -d 149.129.115.3 --dport 58100 -j SNAT --to-source 192.168.9.133
+iptables -t nat -A POSTROUTING -p udp -d 149.129.115.3 --dport 58100 -j SNAT --to-source 192.168.9.133
+
+========================================================================================
+
+# 徐州联通58100 中转到轻量阿里云58100
+iptables -t nat -A PREROUTING -p tcp --dport 58100 -j DNAT --to-destination 149.129.115.3:58100
+iptables -t nat -A PREROUTING -p udp --dport 58100 -j DNAT --to-destination 149.129.115.3:58100
+iptables -t nat -A POSTROUTING -p tcp -d 149.129.115.3 --dport 58100 -j SNAT --to-source 10.111.121.162
+iptables -t nat -A POSTROUTING -p udp -d 149.129.115.3 --dport 58100 -j SNAT --to-source 10.111.121.162
 
 
 获取公网ip
