@@ -63,7 +63,7 @@ config_socat(){
     echo -e "${Green}请输入Socat配置信息！${Font}"
     read -p "请输入本地端口:" port1
     read -p "请输入远程端口:" port2
-    read -p "请输入远程IP:" socatip
+    read -p "请输入远程IP或域名:" socatip
 }
 
 start_socat(){
