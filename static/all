@@ -8,21 +8,25 @@
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDZQzKHfZLlFEdaRUjfSK4twhL0y7+v23Ko4EI1nl6E1/zYqloSZCH3WqQFLGA7gnFlqSAfEHgCdD/4Ubei5a49iG0KSPajS6uPkrB/eiirTaGbe8oRKv2ib4R7ndbwdlkcTBLYFxv8ScfFQv6zBVX3ywZtRCboTxDPSmmrNGb2nhPuFFwnbOX8McQO5N4IkeMVedUlC4w5//xxSU67i1i/7kZlpJxMTXywg8nLlTuysQrJHOSQvYHG9a6TbL/tOrh/zwVFbBS+kx7X1DIRoeC0jHlVJSSwSfw6ESrH9JW71cAvn6x6XjjpGdQZJZxpnR1NTiG4Q5Mog7lCNMJjPtwJ 12931@laptop
 
 
+阿里云ECS  172.31.15.117  /  47.75.201.120 18100
+natcloud   219.76.152.121:28100
+阿里云轻量  172.17.14.220  / 149.129.115.3 38100
+
+passwd=xxxxx #改成你的密码
+port=18100   #改成你的端口
+# 加密协议默认为支持AEAD的aes-256-gcm
+
+service docker star
+docker pull shadowsocks/shadowsocks-libev 
+docker run -e PASSWORD=$passwd -p $port:8388 -p $port:8388/udp -d --restart always shadowsocks/shadowsocks-libev
+ip=`wget -qO- http://whatismyip.akamai.com`
+echo "配置信息: 服务器地址：$ip  端口：$port 密码：$passwd 加密协议：aes-256-gcm"
+
 #香港阿里云8100中转到natcloud 48100
 iptables -t nat -A PREROUTING -p tcp --dport 48100 -j DNAT --to-destination 219.76.152.121:45623
 iptables -t nat -A PREROUTING -p udp --dport 48100 -j DNAT --to-destination 219.76.152.121:45623
 iptables -t nat -A POSTROUTING -p tcp -d 219.76.152.121 --dport 45623 -j SNAT --to-source 172.31.145.26
 iptables -t nat -A POSTROUTING -p udp -d 219.76.152.121 --dport 45623 -j SNAT --to-source 172.31.145.26
-
-
-#香港阿里云8100中转到轻量阿里云8100
-iptables -t nat -A PREROUTING -p tcp --dport 8100 -j DNAT --to-destination 149.129.115.3:8100
-iptables -t nat -A PREROUTING -p udp --dport 8100 -j DNAT --to-destination 149.129.115.3:8100
-iptables -t nat -A POSTROUTING -p tcp -d 149.129.115.3 --dport 8100 -j SNAT --to-source 172.31.145.26
-iptables -t nat -A POSTROUTING -p udp -d 149.129.115.3 --dport 8100 -j SNAT --to-source 172.31.145.26
-
-香港阿里云58100中转到nathosts 58100
-bash socat.ssh  58100 58100 hknat.arloor.com
 
 
 获取公网ip
