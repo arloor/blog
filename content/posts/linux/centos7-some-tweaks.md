@@ -378,7 +378,9 @@ iptables -t nat -A PREROUTING -p tcp --dport 8081 -j REDIRECT --to-ports 8080
 
 ## 方案二：使用socat，适用于落地鸡是使用了ddns更新域名解析的nat vps
 
-执行：
+
+
+执行以下命令，填写转发地址和端口即可。该命令会设置开机自启动，同一设置不需要多次执行，也请不需要在同一端口配置多个转发。
 
 ```shell
 wget http://arloor.com/socat.sh
@@ -391,7 +393,7 @@ bash socat.sh
 kill -9 $(ps -ef|grep socat|grep -v grep|awk '{print $2}')
 ```
 
-发现防火墙服务会影响socat运行，所以就不要让防火墙开着了
+另外，该脚本会停止iptables服务，导致防火墙规则失效，对一般用户来说不是啥大问题。
 
 # 番外篇：vps网速测试
 
