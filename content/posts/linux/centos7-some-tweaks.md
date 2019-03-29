@@ -429,7 +429,7 @@ docker run -d --name  speedtest -p 0.0.0.0:80:80 adolfintel/speedtest:latest
 cd 
 ```
 
-现在就可以访问ip:80测速了
+现在就可以访问 http://ip:80 测速了。参见[speedtest项目](https://github.com/adolfintel/speedtest/tree/docker)
 
 # 番外篇：vps上传速度测试
 
