@@ -263,7 +263,7 @@ cd /usr/local
 git clone https://github.com/arloor/ddnspod.git
 cd ddnspod
 cp dns.conf.example dns.conf
-# vi dns.conf  #编辑dns.conf
+vi dns.conf  #编辑dns.conf
 # ---- arToken="8xx74,69a5fxxxxxxxxxxxxx75b0ecd1e"  #修改为自己的
 # ---- arDdnsCheck "arloor.com" "xxx"               #修改为自己的
 # --------------------------------------------------------------
