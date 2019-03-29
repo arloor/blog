@@ -50,6 +50,7 @@ yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce
 yum -y install docker-ce
 # 开机自启动docker服务
 systemctl enable docker
+service docker start
 ```
 
 拉取镜像并运行
@@ -58,8 +59,6 @@ systemctl enable docker
 passwd=xxxx ; port=8388   #改成你的密码和端口
 # 加密协议默认为支持AEAD的aes-256-gcm
 
-service docker start
-docker pull shadowsocks/shadowsocks-libev 
 docker run -e PASSWORD=$passwd -p $port:8388 -p $port:8388/udp -d --restart always shadowsocks/shadowsocks-libev
 ip=`wget -qO- http://whatismyip.akamai.com`
 echo "配置信息: 服务器地址：$ip  端口：$port 密码：$passwd 加密协议：aes-256-gcm"
@@ -279,23 +278,7 @@ cd
 
 从而检查公网ip，自动修改A记录指向该nat机器的公网ip。可以通过`tailf /var/log/cron`命令查看crontab定时任务的运行情况。
 
-# 番外篇：测试vps回程路由
 
-```shell
-yum install -y unzip wget
-
-cd /usr/local
-mkdir trace
-cd trace
-wget https://cdn.ipip.net/17mon/besttrace4linux.zip
-unzip besttrace4linux.zip
-chmod +x besttrace
-rm -f besttrace4linux.zip
-cd
-
-ln -fs /usr/local/trace/besttrace /usr/local/bin/trace
-trace arloor.com
-```
 
 
 # 两种开机自启动方式
@@ -319,6 +302,27 @@ chkconfig StartTomcat.sh on
 echo "command" >> /etc/rc.d/rc.local
 chmod +x /etc/rc.d/rc.local
 ```
+
+
+# 番外篇：测试vps回程路由
+
+```shell
+yum install -y unzip wget
+
+cd /usr/local
+mkdir trace
+cd trace
+wget https://cdn.ipip.net/17mon/besttrace4linux.zip
+unzip besttrace4linux.zip
+chmod +x besttrace
+rm -f besttrace4linux.zip
+cd
+
+ln -fs /usr/local/trace/besttrace /usr/local/bin/trace
+trace arloor.com
+```
+
+
 
 # 番外篇：在国内阿里云上设置shadowsocks国内中转
 
@@ -395,7 +399,39 @@ kill -9 $(ps -ef|grep socat|grep -v grep|awk '{print $2}')
 
 另外，该脚本会停止iptables服务，导致防火墙规则失效，对一般用户来说不是啥大问题。
 
-# 番外篇：vps网速测试
+# 番外篇：自己搭建speedtest网站
+
+先安装docker
+
+```shell
+# 安装相关依赖
+yum install -y yum-utils \
+  device-mapper-persistent-data \
+  lvm2
+# 设置docker源
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+# 安装docker 
+yum -y install docker-ce
+# 开机自启动docker服务
+systemctl enable docker
+systemctl start docker
+```
+
+
+拉取speedtest镜像并运行
+
+```shell
+cd 
+git clone -b docker https://github.com/adolfintel/speedtest.git
+cd speedtest
+docker build -t adolfintel/speedtest:latest .
+docker run -d --name  speedtest -p 0.0.0.0:80:80 adolfintel/speedtest:latest
+cd 
+```
+
+现在就可以访问ip:80测速了
+
+# 番外篇：vps上传速度测试
 
 网速测试请主要关注上传速度！
 
