@@ -418,14 +418,20 @@ systemctl start docker
 ```
 
 
+```
+docker run -d --restart always --name  speedtest -p 0.0.0.0:80:80 arloor/speedtest:latest
+```
+
+或者，自己构建镜像：
+
 拉取speedtest镜像并运行
 
 ```shell
 cd 
 git clone -b docker https://github.com/adolfintel/speedtest.git
 cd speedtest
-docker build -t adolfintel/speedtest:latest .
-docker run -d --restart always --name  speedtest -p 0.0.0.0:80:80 adolfintel/speedtest:latest
+docker build -t arloor/speedtest:latest .
+docker run -d --restart always --name  speedtest -p 0.0.0.0:80:80 arloor/speedtest:latest
 cd 
 ```
 
