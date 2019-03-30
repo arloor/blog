@@ -425,7 +425,7 @@ cd
 git clone -b docker https://github.com/adolfintel/speedtest.git
 cd speedtest
 docker build -t adolfintel/speedtest:latest .
-docker run -d --name  speedtest -p 0.0.0.0:80:80 adolfintel/speedtest:latest
+docker run -d --restart always --name  speedtest -p 0.0.0.0:80:80 adolfintel/speedtest:latest
 cd 
 ```
 
