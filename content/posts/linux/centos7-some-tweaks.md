@@ -382,7 +382,7 @@ iptables -t nat -A POSTROUTING -p udp -d [国外服务器IP] --dport [国外服�
 iptables -t nat -A PREROUTING -p tcp --dport 8081 -j REDIRECT --to-ports 8080
 ```
 
-### 如果想用iptables转发到ddns的主机上，也有办法：
+### 当然iptables也能处理ip会变的情况，只不过稍微复杂点
 
 首先安装依赖
 
