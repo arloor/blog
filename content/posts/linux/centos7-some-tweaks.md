@@ -384,6 +384,15 @@ iptables -t nat -A PREROUTING -p tcp --dport 8081 -j REDIRECT --to-ports 8080
 
 ### 如果想用iptables转发到ddns的主机上，也有办法：
 
+首先安装依赖
+
+```shell
+yum install -y bind-utils
+echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
+sysctl -p
+```
+
+
 下面是我自己的一个脚本，可以参考：
 
 ```shell
@@ -406,7 +415,6 @@ bash /usr/local/iptables.sh &>> /root/iptables.log
 从而检测ddns的ip是否改变，如改变，更新iptables转发。
 
 ## 方案二：使用socat，适用于落地鸡是使用了ddns更新域名解析的nat vps
-
 
 
 执行以下命令，填写转发地址和端口即可。该命令会设置开机自启动，同一设置不需要多次执行，也请不需要在同一端口配置多个转发。

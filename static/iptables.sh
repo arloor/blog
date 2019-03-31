@@ -1,6 +1,6 @@
 #! /bin/bash
 
-yum install -y bind-utils
+
 
 remotehost=hknathosts.ddnspod.xyz #中转目标host，自行修改
 port=58100  #中转端口，自行修改
