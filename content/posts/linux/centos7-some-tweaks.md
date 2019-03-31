@@ -270,6 +270,8 @@ echo "* * * * * root /usr/local/ddnspod/ddnspod.sh &>> /root/ddns.log" >> /etc/c
 cd 
 ```
 
+
+
 现在，每分钟会执行一次
 
 ```shell
@@ -379,6 +381,29 @@ iptables -t nat -A POSTROUTING -p udp -d [国外服务器IP] --dport [国外服�
 ```
 iptables -t nat -A PREROUTING -p tcp --dport 8081 -j REDIRECT --to-ports 8080
 ```
+
+### 如果想用iptables转发到ddns的主机上，也有办法：
+
+下面是我自己的一个脚本，可以参考：
+
+```shell
+sudo su
+yum install -y wget
+cd /usr/local
+wget http://arloor.com/iptables.sh
+chmod +x /usr/local/iptables.sh
+# 自行修改iptables.sh中的参数
+echo "* * * * * root /usr/local/iptables.sh &>> /root/iptables.log" >> /etc/crontab
+cd 
+```
+
+现在每分钟都会执行以下命令：
+
+```shell
+/usr/local/iptables.sh &>> /root/iptables.log
+```
+
+从而检测ddns的ip是否改变，如改变，更新iptables转发。
 
 ## 方案二：使用socat，适用于落地鸡是使用了ddns更新域名解析的nat vps
 
