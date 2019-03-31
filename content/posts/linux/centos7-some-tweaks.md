@@ -400,7 +400,7 @@ cd
 现在每分钟都会执行以下命令：
 
 ```shell
-/usr/local/iptables.sh &>> /root/iptables.log
+bash /usr/local/iptables.sh &>> /root/iptables.log
 ```
 
 从而检测ddns的ip是否改变，如改变，更新iptables转发。
