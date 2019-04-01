@@ -28,6 +28,8 @@ echo  local-ip: $local
 echo  重新设置iptables转发
 
 iptables -F -t nat
+## 因为iptables 规则被清空了，所以重启docker服务，已重新设置iptables规则
+service docker restart
 
 ## 中转到nathosts
 iptables -t nat -A PREROUTING -p tcp --dport $port -j DNAT --to-destination $remote:$port
