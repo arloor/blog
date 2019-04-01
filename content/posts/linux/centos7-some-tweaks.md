@@ -124,6 +124,84 @@ if [[ "$3" < "$now" ]] ;then
 fi
 ```
 
+# centos 7升级内核，开启bbr
+
+1.查看当前linux内核
+
+```shell
+uname -r
+# 3.10.0-514.el7.x86_64
+cat /etc/redhat-release 
+# CentOS Linux release 7.3.1611 (Core)
+```
+
+2.启用ELRepo库
+
+```shell
+rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
+rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-2.el7.elrepo.noarch.rpm
+```
+
+3.列出相关内核包
+
+```shell
+yum --disablerepo="*" --enablerepo="elrepo-kernel" list available
+```
+
+![](/img/kernels.png)
+
+4.安装新内核
+
+```shell
+yum --enablerepo=elrepo-kernel install kernel-ml
+```
+
+5.检查现在可以用于启动得内核列表
+
+```shell
+awk -F\' '$1=="menuentry " {print $2}' /etc/grub2.cfg
+# CentOS Linux (5.0.5-1.el7.elrepo.x86_64) 7 (Core)
+# CentOS Linux (3.10.0-957.10.1.el7.x86_64) 7 (Core)
+# CentOS Linux (3.10.0-957.5.1.el7.x86_64) 7 (Core)
+# CentOS Linux (3.10.0-957.el7.x86_64) 7 (Core)
+# CentOS Linux (0-rescue-20190215172108590907433256076310) 7 (Core)
+```
+
+由上面可以看出新内核(5.0.5)目前位置在0，原来的内核(3.10.0)目前位置在1，所以如果想生效最新的内核，还需要我们修改内核的启动顺序为0
+
+6.设置默认启动内核为刚安装得内核
+
+```shell
+vim /etc/default/grub
+
+GRUB_TIMEOUT=5
+GRUB_DISTRIBUTOR="$(sed 's, release .*$,,g' /etc/system-release)"
+GRUB_DEFAULT=0
+GRUB_DISABLE_SUBMENU=true
+GRUB_TERMINAL_OUTPUT="console"
+GRUB_CMDLINE_LINUX="crashkernel=auto rhgb quiet"
+GRUB_DISABLE_RECOVERY="true"
+
+# 设置 GRUB_DEFAULT=0, 意思是 GRUB 初始化页面的第一个内核将作为默认内核
+```
+
+7.重新生成grub-config，并使用新内核重启
+
+```shell
+grub2-mkconfig -o /boot/grub2/grub.cfg
+reboot
+```
+
+现在就可以使用uname命令查看内核了
+
+8.开启bbr很简单：
+
+```shell
+echo net.core.default_qdisc=fq >> /etc/sysctl.conf
+echo net.ipv4.tcp_congestion_control=bbr >> /etc/sysctl.conf
+sysctl -p
+```
+
 # 配置防火墙
 
 据说centos7默认使firewalld作为防火墙，但是我装了两个centos7都是使用的iptables。现在也比较喜欢iptables，当初配iptables死活都不通。。
