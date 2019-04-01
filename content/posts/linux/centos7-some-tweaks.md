@@ -197,9 +197,11 @@ reboot
 8.开启bbr很简单：
 
 ```shell
+uname -r  ##输出内核版本大于4.9
 echo net.core.default_qdisc=fq >> /etc/sysctl.conf
 echo net.ipv4.tcp_congestion_control=bbr >> /etc/sysctl.conf
 sysctl -p
+lsmod |grep bbr
 ```
 
 # 配置防火墙
