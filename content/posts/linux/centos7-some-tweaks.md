@@ -478,6 +478,12 @@ cd /usr/local
 wget http://arloor.com/iptables.sh
 chmod +x /usr/local/iptables.sh
 # 自行修改iptables.sh中的参数
+# vim iptables.sh
+# 开机强制刷新一次
+echo "rm -f /root/remoteip" >> /etc/rc.d/rc.local
+echo "/bin/bash /usr/local/iptables.sh &>> /root/iptables.log" >> /etc/rc.d/rc.local
+chmod +x /etc/rc.d/rc.local
+# 定时任务，每分钟检查一下
 echo "* * * * * root /usr/local/iptables.sh &>> /root/iptables.log" >> /etc/crontab
 cd 
 ```
