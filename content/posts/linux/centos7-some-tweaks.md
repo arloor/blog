@@ -51,15 +51,11 @@ yum -y install docker-ce
 # 开机自启动docker服务
 systemctl enable docker
 service docker start
-```
-
-拉取镜像并运行
-
-```
+# 拉取镜像并运行
 passwd=xxxx ; port=8388   #改成你的密码和端口
 # 加密协议默认为支持AEAD的aes-256-gcm
 
-docker run -e PASSWORD=$passwd -p $port:8388 -p $port:8388/udp -d --restart always shadowsocks/shadowsocks-libev
+docker run -e PASSWORD=$passwd -p $port:8388 -p $port:8388/udp -d --name ss --restart always shadowsocks/shadowsocks-libev
 ip=`wget -qO- http://whatismyip.akamai.com`
 echo "配置信息: 服务器地址：$ip  端口：$port 密码：$passwd 加密协议：aes-256-gcm"
 ```
