@@ -153,7 +153,7 @@ yum --disablerepo="*" --enablerepo="elrepo-kernel" list available
 4.安装新内核
 
 ```shell
-yum --enablerepo=elrepo-kernel install kernel-ml
+yum --enablerepo=elrepo-kernel install kernel-ml  #以后升级也是执行这句
 ```
 
 5.检查现在可以用于启动得内核列表
