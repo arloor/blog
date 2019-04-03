@@ -59,7 +59,7 @@ UtterancesTheme="github-light"
     #stackoverflow = "<username>"
     #telegram = "<username>"
     email = "admin@arloor.com"
-    gravatar = "admin@arloor.com"
+    #gravatar = "admin@arloor.com"
 
 ## Main Menu
 [[menu.main]]
