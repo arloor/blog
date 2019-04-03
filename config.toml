@@ -57,9 +57,9 @@ UtterancesTheme="github-light"
     twitter = "njulgh"
     #facebook = "<username>"
     #stackoverflow = "<username>"
-    telegram = "arloor"
+    #telegram = "arloor"
     email = "admin@arloor.com"
-    # gravatar = "your-email@example.com"
+    #gravatar = "admin@arloor.com"
 
 ## Main Menu
 [[menu.main]]
