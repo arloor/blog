@@ -13,7 +13,7 @@ weight: 10
 
 # 直接上代码
 
-```
+```java
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
