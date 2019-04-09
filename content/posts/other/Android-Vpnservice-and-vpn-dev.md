@@ -120,7 +120,7 @@ socks的运作原理非常简单，就是在TCP数据外包一层socks协议头�
 
 我理解的透明代理就是“偷偷的给你做代理”，这一点与你在浏览器里显式设置socks代理服务器完全不同。透明代理就比如说下面这样子：
 
-![](20170422014626480.png)
+![](/img/20170422014626480.png)
 
 要实现这一点有很多方式，比如你可以用Linux的TProxy+Policy routing机制，关于这种方式请参见[《socket的IP_TRANSPARENT选项实现代理》](https://blog.csdn.net/dog250/article/details/7518054)，然而，很多时候，这种方式行不通。
 
