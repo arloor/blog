@@ -8,21 +8,26 @@ weight: 10
 ---
 
 其实只是博客中想嵌入16：9的youtube视频，但youtube官方的嵌入代码是固定宽度1280，高度720，在手机上表现十分不好。因此有了这个偏前端的主题。
-
-先上效果：随意放大，缩小网页，下面的iframe都会保持100%宽度，高度保持9/16*宽度。
 <!--more-->
+
+## 先上效果
+
+随意放大，缩小网页，下面的iframe都会保持100%宽度，高度保持9/16*宽度。
+
 
 <div class="iframe-container">
     <iframe src="https://www.youtube.com/embed/DBC5x8Mv5OE?list=PLoZEEVUrMkMSIkfSbEXNQFubB4yOjMz2a" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
 
-插入的html如下
+## 插入的html如下
 
 ```html
 <div class="iframe-container">
     <iframe src="https://www.youtube.com/embed/DBC5x8Mv5OE?list=PLoZEEVUrMkMSIkfSbEXNQFubB4yOjMz2a" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
 ```
+
+## 实现原理
 
 放上[原博客](https://benmarshall.me/responsive-iframes/)。
 
@@ -57,3 +62,14 @@ weight: 10
 ```shell
 <video controls="" width="100%" height="100%"><source src="http://cdn.moontell.cn/robot.mp4" type="video/mp4"></video>
 ```
+
+
+## 番外：对hyde-hyde主题的小改动
+
+这是一个偏前端的博客，估计很久不会有其他前端文章，所以把这个小东西也放在这。
+
+对高分屏的宽度适配。下面这个是我自己提的issue，自己找到的方法
+
+>this theme is a very good theme except that when I use a 1080p display, the article tag elemets' size is fixed at 630. I want to make this value bigger or reponsive. Can I get some Help? Thanks!
+
+>I have solved this issue by edit "themes/hyde-hyde/assets/scss/hyde-hyde/_variables.scss" -> $content-max-width: 70rem;
