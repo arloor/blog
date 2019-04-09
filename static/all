@@ -20,12 +20,13 @@ wget https://dl.google.com/go/go1.12.3.linux-amd64.tar.gz
 tar -C /usr/local -xzf go1.12.3.linux-amd64.tar.gz
 export PATH=$PATH:/usr/local/go/bin
 rm -rf go/src/github.com/arloor/sogo-server
-rm -f sogo-server
-kill -9 $(lsof -i:80|tail -1|awk '$1!=""{print $2}')
 go get github.com/arloor/sogo-server
 go install  github.com/arloor/sogo-server
+rm -f sogo-server
 mv go/bin/sogo-server sogo-server
+kill -9 $(lsof -i:80|tail -1|awk '$1!=""{print $2}')
 chmod +x sogo-server
+./sogo-server
 nohup ./sogo-server &
 
 mkdir /root/.ssh
