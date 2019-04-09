@@ -10,7 +10,7 @@ weight: 10
 阿里云 ECS 默认自动安装了阿里云盾（安骑士）的 WAF 防火墙，这个云盾基本是没有用的，唯一的用处就是记录一些所谓的漏洞、扫描/注入攻击以便在阿里云后台提示用户购买使用收费版“安骑士”服务。可以说这玩意儿除了是阿里云营销“套路”调用获取数据外基本没有什么用的，摆设的感觉非常强烈。删！
 <!--more-->
 
-<iframe width="100%" height="720" src="https://www.youtube.com/embed/-CbhQhuZeME?list=PLoZEEVUrMkMSIkfSbEXNQFubB4yOjMz2a" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 
 # 阿里云ECS关闭删除安骑士
 
