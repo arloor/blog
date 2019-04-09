@@ -46,7 +46,7 @@ weight: 10
 }
 ```
 
-.iframe-container的padding-top: 56.25%属性，就决定着 高度是宽度的9/16。
+.iframe-container 的 padding-top: 56.25%属性，就决定着 高度是宽度的9/16。
 
 那么hugo怎么使用这个css？
 
