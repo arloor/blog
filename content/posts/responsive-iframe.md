@@ -10,6 +10,7 @@ weight: 10
 其实只是博客中想嵌入16：9的youtube视频，但youtube官方的嵌入代码是固定宽度1280，高度720，在手机上表现十分不好。因此有了这个偏前端的主题。
 
 先上效果：随意放大，缩小网页，下面的iframe都会保持100%宽度，高度保持9/16*宽度。
+<!--more-->
 
 <div class="iframe-container">
     <iframe src="https://www.youtube.com/embed/bhPTBy2ekN8?list=PLoZEEVUrMkMSIkfSbEXNQFubB4yOjMz2a" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
