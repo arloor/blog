@@ -12,14 +12,14 @@ weight: 10
 先上效果：随意放大，缩小网页，下面的iframe都会保持100%宽度，高度保持9/16*宽度。
 
 <div class="iframe-container">
-    <iframe  src="https://www.youtube.com/embed/BXNbfoSArog" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <iframe src="https://www.youtube.com/embed/bhPTBy2ekN8?list=PLoZEEVUrMkMSIkfSbEXNQFubB4yOjMz2a" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
 
 插入的html如下
 
 ```html
 <div class="iframe-container">
-    <iframe  src="https://www.youtube.com/embed/BXNbfoSArog" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <iframe src="https://www.youtube.com/embed/bhPTBy2ekN8?list=PLoZEEVUrMkMSIkfSbEXNQFubB4yOjMz2a" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
 ```
 
@@ -50,3 +50,9 @@ weight: 10
 那么hugo怎么使用这个css？
 
 我在主题下的scss文件夹中的_base.scss中加入了上面的css，发现就能生效，还是较为简单方便的。
+
+至于另一种html5的vedio标签，只需要宽度和高度都设为100%即可实现响应式，如下：
+
+```shell
+<video controls="" width="100%" height="100%"><source src="http://cdn.moontell.cn/robot.mp4" type="video/mp4"></video>
+```
