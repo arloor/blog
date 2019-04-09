@@ -14,6 +14,7 @@ weight: 10
 
 随意放大，缩小网页，下面的iframe都会保持100%宽度，高度保持9/16*宽度。
 
+要翻墙才能看到下面的视频哦。是一个物理学家弹吉他吟唱《将进酒》,超级得劲 :）
 
 <div class="iframe-container">
     <iframe src="https://www.youtube.com/embed/DBC5x8Mv5OE?list=PLoZEEVUrMkMSIkfSbEXNQFubB4yOjMz2a" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
