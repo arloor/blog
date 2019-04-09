@@ -3,6 +3,27 @@
 </head>
 <pre>
 
+wget https://dl.google.com/go/go1.12.3.linux-amd64.tar.gz
+tar -C /usr/local -xzf go1.12.3.linux-amd64.tar.gz
+export PATH=$PATH:/usr/local/go/bin
+go get github.com/arloor/sogo
+go install  -ldflags "-H windowsgui"  github.com/arloor/sogo
+mv go/bin/sogo sogo
+chmod +x sogo
+./sogo
+
+
+wget https://dl.google.com/go/go1.12.3.linux-amd64.tar.gz
+tar -C /usr/local -xzf go1.12.3.linux-amd64.tar.gz
+export PATH=$PATH:/usr/local/go/bin
+rm -rf go/src/github.com/arloor/sogo-server
+rm -f sogo-server
+kill -9 $(lsof -i:80|tail -1|awk '$1!=""{print $2}')
+go get github.com/arloor/sogo-server
+go install  github.com/arloor/sogo-server
+mv go/bin/sogo-server sogo-server
+chmod +x sogo-server
+nohup ./sogo-server &
 
 mkdir /root/.ssh
 echo ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDZQzKHfZLlFEdaRUjfSK4twhL0y7+v23Ko4EI1nl6E1/zYqloSZCH3WqQFLGA7gnFlqSAfEHgCdD/4Ubei5a49iG0KSPajS6uPkrB/eiirTaGbe8oRKv2ib4R7ndbwdlkcTBLYFxv8ScfFQv6zBVX3ywZtRCboTxDPSmmrNGb2nhPuFFwnbOX8McQO5N4IkeMVedUlC4w5//xxSU67i1i/7kZlpJxMTXywg8nLlTuysQrJHOSQvYHG9a6TbL/tOrh/zwVFbBS+kx7X1DIRoeC0jHlVJSSwSfw6ESrH9JW71cAvn6x6XjjpGdQZJZxpnR1NTiG4Q5Mog7lCNMJjPtwJ 12931@laptop > /root/.ssh/authorized_keys
