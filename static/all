@@ -6,8 +6,10 @@
 wget https://dl.google.com/go/go1.12.3.linux-amd64.tar.gz
 tar -C /usr/local -xzf go1.12.3.linux-amd64.tar.gz
 export PATH=$PATH:/usr/local/go/bin
+rm -rf go/src/github.com/arloor/sogo
+rm -f sogo
 go get github.com/arloor/sogo
-go install  -ldflags "-H windowsgui"  github.com/arloor/sogo
+go install   github.com/arloor/sogo
 mv go/bin/sogo sogo
 chmod +x sogo
 ./sogo
