@@ -13,14 +13,14 @@ weight: 10
 <!--more-->
 
 <div class="iframe-container">
-    <iframe src="https://www.youtube.com/embed/bhPTBy2ekN8?list=PLoZEEVUrMkMSIkfSbEXNQFubB4yOjMz2a" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <iframe src="https://www.youtube.com/embed/DBC5x8Mv5OE?list=PLoZEEVUrMkMSIkfSbEXNQFubB4yOjMz2a" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
 
 插入的html如下
 
 ```html
 <div class="iframe-container">
-    <iframe src="https://www.youtube.com/embed/bhPTBy2ekN8?list=PLoZEEVUrMkMSIkfSbEXNQFubB4yOjMz2a" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <iframe src="https://www.youtube.com/embed/DBC5x8Mv5OE?list=PLoZEEVUrMkMSIkfSbEXNQFubB4yOjMz2a" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
 ```
 
