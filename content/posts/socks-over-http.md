@@ -175,9 +175,9 @@ Host: {fakehost}
 
 ## 结束
 
-这篇博客梳理了一下sogo的实现原理，总之，sogo是一个优雅的翻墙代理。并且机缘巧合也获得了一些实际的好处，还是挺舒服的。sogo代码不多，对go语言、翻墙原理、网络编程的人可以看看。
+这篇博客梳理了一下sogo的实现原理，总之，sogo是一个优雅的翻墙代理。并且机缘巧合也获得了一些实际的好处，还是挺舒服的。sogo代码不多，对go语言、翻墙原理、网络编程感兴趣的人可以看看。
 
-最后，来听听歌吧 :) Something just like this
+最后，来听听歌吧。 Something just like this :) 
 
 <div class="iframe-container">
     <iframe src="https://www.youtube.com/embed/-SgyhUdJ_TY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
