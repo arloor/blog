@@ -3,24 +3,31 @@
 </head>
 <pre>
 
+yum install -y wget git lsof
 wget https://dl.google.com/go/go1.12.3.linux-amd64.tar.gz
 tar -C /usr/local -xzf go1.12.3.linux-amd64.tar.gz
+
 export PATH=$PATH:/usr/local/go/bin
 rm -rf go/src/github.com/arloor/sogo
-rm -f sogo
-kill -9 $(lsof -i:7777|tail -1|awk '$1!=""{print $2}')
 go get github.com/arloor/sogo
+
+kill -9 $(lsof -i:7777|tail -1|awk '$1!=""{print $2}')
+rm -f sogo
 go install   github.com/arloor/sogo
 mv go/bin/sogo sogo
 chmod +x sogo
 ./sogo
 
 
+yum install -y wget git lsof
 wget https://dl.google.com/go/go1.12.3.linux-amd64.tar.gz
 tar -C /usr/local -xzf go1.12.3.linux-amd64.tar.gz
+
+
 export PATH=$PATH:/usr/local/go/bin
 rm -rf go/src/github.com/arloor/sogo-server
 go get github.com/arloor/sogo-server
+
 go install  github.com/arloor/sogo-server
 rm -f sogo-server
 mv go/bin/sogo-server sogo-server
