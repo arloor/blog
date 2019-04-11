@@ -1,5 +1,5 @@
 ---
-title: "sogo—使用http协议传输流量的socks5代理"
+title: "sogo—http流量伪装下的socks5代理"
 date: 2019-04-10T14:24:10+08:00
 draft: false
 categories: [ "undefined"]
