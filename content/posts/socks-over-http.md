@@ -262,7 +262,7 @@ Socket accept error: accept tcp [::]:80: accept4: too many open files;
 
 too many open files(打开的文件过多)是Linux系统中常见的错误，从字面意思上看就是说程序打开的文件数过多，不过这里的files不单是文件的意思，也包括打开的通讯链接(比如socket)，正在监听的端口等等，所以有时候也可以叫做句柄(handle)，这个错误通常也可以叫做句柄数超出系统限制。
 
-引起的原因就是进程在某个时刻打开了超过系统限制的文件数量以及通讯链接数，通过命令`ulimit -a`可以查看当前系统设置的最大句柄数是多少
+引起的原因就是进程在某个时刻打开了超过shell会话限制的文件数量以及通讯链接数，通过命令`ulimit -a`可以查看当前shell会话设置的最大句柄数是多少
 
 ```shell
 # ulimit -a
@@ -284,7 +284,7 @@ virtual memory          (kbytes, -v) unlimited
 file locks                      (-x) unlimited
 ```
 
-open files那一行就代表系统目前允许单个进程打开的最大句柄数，这里是1024，这个值对于这个使用场景太小了。 
+open files那一行就代表当前shell会话目前允许单个进程打开的最大句柄数，这里是1024，这个值对于这个使用场景太小了。 
 
 使用命令lsof -p 进程id可以查看单个进程所有打开的文件详情，使用命令lsof -p 进程id | wc -l可以统计进程打开了多少文件：（PS：使用lsof -i:80|wc -l可以查看80端口有多少个连接）
 
@@ -296,11 +296,13 @@ lsof -i:80|wc -l
 ```
 
 
-问题定位到这个limit过低，解决自然就是增加这个limit。最最简单的方法是执行以下脚本，增加limit，然后重启进程。但是这个设置重启后就会失效
+问题定位到这个limit过低，解决自然就是增加这个limit。最最简单的方法是执行以下脚本，增加当前shell和它的子进程的limit，然后重启进程。
 
 ```
 ulimit -n 65536
 ```
+
+> 作为临时限制，ulimit 可以作用于通过使用其命令登录的 shell 会话，在会话终止时便结束限制，并不影响于其他 shell 会话。而对于长期的固定限制，ulimit 命令语句又可以被添加到由登录 shell 读取的文件中，作用于特定的 shell 用户。前面多次提到shell会话，ulimit的影响范围是，输入ulimit命令之后的命令，也就是对当前shell和当前shell的子进程生效，对其它shell不产生影响。
 
 重启进程后，可以执行以下命令，查看新的limit是否对新进程生效
 
@@ -322,4 +324,4 @@ vim /etc/security/limits.conf
 # 有hard和soft两个限制，- 表示同时设置
 ```
 
-conf文件修改完成后，系统limit会立即修改，不需要重启机器，但是进程需要重启。
+conf文件修改完成后，启动新的shell会话（重新ssh上去），这些limit对新的shell会话就生效了，不需要重启机器哦（需要重新登陆shell）
