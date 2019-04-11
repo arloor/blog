@@ -244,10 +244,7 @@ sogo代码不多，对go语言，fuqiang原理、网络编程感兴趣的人可�
 
 <img src="/img/talk-about-payment.jpg" alt="电报聊天记录：很凑巧的发现了别人的需求" width="500px" style="max-width: 100%;">
 
-
-
-
-最后，来听听歌吧。 Something just like this :) 
+废话说得够啦，最后来听听歌吧。 Something just like this 😍
 
 <div class="iframe-container">
     <iframe src="https://www.youtube.com/embed/-SgyhUdJ_TY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
