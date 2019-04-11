@@ -182,6 +182,7 @@ chmod +x sogo-server
 mv -f sogo-server /usr/local/bin/
 mv -f sogo-server.json /usr/local/bin/
 kill -9 $(lsof -i:80|tail -1|awk '$1!=""{print $2}') #关闭80端口应用
+ulimit -n 65536 #设置进程最多打开文件数量，防止 too many openfiles错误（太多连接
 (sogo-server &)
 ```
 
@@ -195,6 +196,7 @@ wget https://github.com/arloor/sogo/releases/download/v1.0/sogo
 chmod +x sogo
 mv -f sogo /usr/local/bin/
 mv -f sogo.json /usr/local/bin/
+ulimit -n 65536 #设置进程最多打开文件数量，防止 too many openfiles错误（太多连接
 # 运行前，先修改/usr/local/bin/sogo.json
 (sogo &) #以 /usr/local/bin/sogo.json 为配置文件  该配置下，服务端地址被设置为proxy
 #(sogo -c path &)  #以path指向的文件为配置文件
@@ -221,7 +223,9 @@ sogo.json内容如下：
   "Dev":false
 }
 ```
-先修改`ProxyAddr`为服务端安装的地址即可。其他配置项是高级功能，例如多用户管理等等。
+先修改`ProxyAddr`为服务端安装的地址即可。其他配置项是高级功能，例如多服务器管理，多用户管理（用户认证）等等。
+
+>shadowsocks是没有多用户管理的，ss每个端口对应一个用户。sogo则使用用户名+密码认证，使多个用户使用同一个服务器端口。
 
 修改好之后，双击`sogo.exe`，这时会发现该目录下多了一个 sogo_8888.log 的文件，这就说明，在本地的8888端口启动好了这个sock5代理。（没有界面哦。
 
@@ -236,5 +240,76 @@ sogo.json内容如下：
     <iframe src="https://www.youtube.com/embed/-SgyhUdJ_TY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
 
+## 维护日志
+
+### 1.报错：too many open files
+
+错误日志如下：
+
+```shell
+Socket accept error: accept tcp [::]:80: accept4: too many open files;
+```
+
+too many open files(打开的文件过多)是Linux系统中常见的错误，从字面意思上看就是说程序打开的文件数过多，不过这里的files不单是文件的意思，也包括打开的通讯链接(比如socket)，正在监听的端口等等，所以有时候也可以叫做句柄(handle)，这个错误通常也可以叫做句柄数超出系统限制。
+
+引起的原因就是进程在某个时刻打开了超过系统限制的文件数量以及通讯链接数，通过命令`ulimit -a`可以查看当前系统设置的最大句柄数是多少
+
+```shell
+# ulimit -a
+core file size          (blocks, -c) 0
+data seg size           (kbytes, -d) unlimited
+scheduling priority             (-e) 0
+file size               (blocks, -f) unlimited
+pending signals                 (-i) 14732
+max locked memory       (kbytes, -l) 64
+max memory size         (kbytes, -m) unlimited
+open files                      (-n) 1024  #太小了，可以直接改到65536
+pipe size            (512 bytes, -p) 8
+POSIX message queues     (bytes, -q) 819200
+real-time priority              (-r) 0
+stack size              (kbytes, -s) 10240
+cpu time               (seconds, -t) unlimited
+max user processes              (-u) 1024
+virtual memory          (kbytes, -v) unlimited
+file locks                      (-x) unlimited
+```
+
+open files那一行就代表系统目前允许单个进程打开的最大句柄数，这里是1024，这个值对于这个使用场景太小了。 
+
+使用命令lsof -p 进程id可以查看单个进程所有打开的文件详情，使用命令lsof -p 进程id | wc -l可以统计进程打开了多少文件：（PS：使用lsof -i:80|wc -l可以查看80端口有多少个连接）
+
+```shell
+lsof -p 7551|wc -l
+#473
+lsof -i:80|wc -l
+#158
+```
 
 
+问题定位到这个limit过低，解决自然就是增加这个limit。最最简单的方法是执行以下脚本，增加limit，然后重启进程。但是这个设置重启后就会失效
+
+```
+ulimit -n 65536
+```
+
+重启进程后，可以执行以下命令，查看新的limit是否对新进程生效
+
+```shell
+cat /proc/$pid/limits|grep open
+# Max open files            65536                65536                files
+```
+
+另一种，通过修改配置文件来修改limit，在重启后不会失效：
+
+```shell
+vim /etc/security/limits.conf  
+#在最后加入  
+* soft nofile 65536  
+* hard nofile 65536  
+#或者只加入：
+ * - nofile 65536
+ # 星号表示所有用户，也可以写用户名，对单独用户生效
+ # 有hard和soft两个限制，- 表示同时设置
+```
+
+conf文件修改完成后，系统limit会立即修改，不需要重启机器，但是进程需要重启。
