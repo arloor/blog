@@ -289,8 +289,8 @@ open files那一行就代表系统目前允许单个进程打开的最大句柄�
 使用命令lsof -p 进程id可以查看单个进程所有打开的文件详情，使用命令lsof -p 进程id | wc -l可以统计进程打开了多少文件：（PS：使用lsof -i:80|wc -l可以查看80端口有多少个连接）
 
 ```shell
-lsof -p 7551|wc -l
-#473
+lsof -p $(lsof -i:80|tail -1|awk '$1!=""{print $2}')|wc -l
+#1610
 lsof -i:80|wc -l
 #158
 ```
