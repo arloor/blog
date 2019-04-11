@@ -1,7 +1,7 @@
 ---
 title: "玩转VPS与centos 7"
 author: "刘港欢"
-date: 2019-03-04
+date: 2020-03-04
 categories: [ "linux"]
 tags: ["linux"]
 weight: 10
