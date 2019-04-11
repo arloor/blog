@@ -14,7 +14,7 @@ weight: 10
 
 所以，我又写了一个socks5代理，起名叫[sogo](https://github.com/arloor/sogo)。
 
-sogo本身包含sogo(client)和sogo-server。如果把sogo和sogo-server看成一个整体，一个黑盒，这个整体就是一个socks5代理。sogo(client)与本地电脑交互；sogo-server与目标网站交互；sogo(client)和sogo-server之间的交互就是http协议包裹payload进行通信。sogo(client)和sogo-server之间的这段就是翻墙的重点——采取各种方式混过GFW，我采用的“http流量包裹payload”应该算是比较优雅的一种。
+sogo本身包含sogo(client)和sogo-server。如果把sogo和sogo-server看成一个整体，一个黑盒，这个整体就是一个socks5代理。sogo(client)与本地电脑交互；sogo-server与目标网站交互；sogo(client)和sogo-server之间的交互就是http协议包裹payload进行通信。sogo(client)和sogo-server之间的这段就是fuqiang的重点——采取各种方式混过GFW，我采用的“http流量包裹payload”应该算是比较优雅的一种。
 <!--more-->
 
 ## 特性
@@ -230,9 +230,22 @@ sogo.json内容如下：
 修改好之后，双击`sogo.exe`，这时会发现该目录下多了一个 sogo_8888.log 的文件，这就说明，在本地的8888端口启动好了这个sock5代理。（没有界面哦。
 
 
-## 结束
+## 写Sogo有感
 
-这篇博客梳理了一下sogo的实现原理，总之，sogo是一个优雅的翻墙代理。并且机缘巧合也获得了一些实际的好处，还是挺舒服的。sogo代码不多，对go语言、翻墙原理、网络编程感兴趣的人可以看看。
+sogo代码不多，对go语言，fuqiang原理、网络编程感兴趣的人可以看看。这篇博客梳理了一下sogo的实现原理，总之，sogo是一个优雅的代理。机缘巧合之下，sogo刚好满足了一家公司业务的需要，于是刚刚写好就投入了使用。要知道，我写这个的时候真的没想到会有人要用，所以真的算是运气。
+
+
+<img src="/img/earn-money-start.jpg" alt="电报聊天记录：很凑巧的发现了别人的需求" width="500px" style="max-width: 100%;">
+
+就是这样，sogo意外地成为我的第一个“有别人愿意用”的作品，并且收到了实际的回报。从后来的了解来看，sogo解决了他们业务的重大痛点。他们的软件是第三方telegram，用于聊天挖矿（我不懂），并且内部封装socks5代理的配置来连接电报服务器，从而免去用户自己寻找电报代理。之前都是使用网上找的公开socks5代理隔几天就挂完。翻看他们的群组通知，好多条都是说，“连接服务器有问题，正在解决，抱歉”，直到有了sogo！可以说sogo现在是他们这个软件很重要的一个基础设施。（不吹能死吗？
+
+所以呀，钱要少了。不过本来就没想赚钱，有总比没有好对吧。另一方面，这也是对我的技术能力的认可。嗯，这才是最重要的吧，挺爽的。以前写的东西没人用，后来写的东西自己用，现在写的东西别人买来用，境界就不一样啦。用三个词概括一下这段经历吧：机缘巧合😱、钱要少了😭、得到认可😄。
+
+
+<img src="/img/talk-about-payment.jpg" alt="电报聊天记录：很凑巧的发现了别人的需求" width="500px" style="max-width: 100%;">
+
+
+
 
 最后，来听听歌吧。 Something just like this :) 
 

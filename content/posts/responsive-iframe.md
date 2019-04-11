@@ -65,12 +65,37 @@ weight: 10
 ```
 
 
-## 番外：对hyde-hyde主题的小改动
+## 番外：其他本博客使用的前端小技巧
 
 这是一个偏前端的博客，估计很久不会有其他前端文章，所以把这个小东西也放在这。
+
+### 对hyde-hyde主题的小改动
 
 对高分屏的宽度适配。下面这个是我自己提的issue，自己找到的方法
 
 >this theme is a very good theme except that when I use a 1080p display, the article tag elemets' size is fixed at 630. I want to make this value bigger or reponsive. Can I get some Help? Thanks!
 
 >I have solved this issue by edit "themes/hyde-hyde/assets/scss/hyde-hyde/_variables.scss" -> $content-max-width: 70rem;
+
+### 对博客中出现的图片宽度进行定制
+
+一般我们在markdown中插入图片就是：
+
+```shell
+![](/img/ssnodes.png)
+```
+
+![](/img/ssnodes.png)
+
+这个在大多数情况表现良好，图片宽度会取min(100%父容器宽度, 图片像素px)。但是有一种情况让人很头疼：手机截图。现在手机的像素都很高，{图片像素px}至少会是1080，而且屏幕截图很长。上面的这个图片不长，想象一下一个好几屏的长截图🤢，这种情况下截图占满屏幕，并且需要拉很久，看到就会很难受吧。归根结底，还是因为手机截图的像素宽度太大，导致min(100%父容器宽度, 图片像素px)的值还是很大。
+
+为了避免这个问题。使用下面的方式：
+
+```
+<img src="/img/ssnodes.png" alt="" width="850px" style="max-width: 100%;">
+```
+这样，图片的宽度，取得就是 min(850px,100%)了。850px这个值可以自行调整，找到在电脑显示器上合适的宽度
+
+> 有小朋友要问了，能不能直接 img的属性里写 width= "min( 850px, 100%)"。我查了，css3不行，不知道以后css4会不会加进这个min()
+
+<img src="/img/ssnodes.png" alt="" width="600px" style="max-width: 100%;">

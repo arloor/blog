@@ -424,7 +424,8 @@ trace arloor.com
 
 总结，中转的好处就是稳。坏处就是中转节点带宽只有5M了😂😂😂。考虑到过不久就要回学校用校园网了，估计校园网的环境下还是要依靠阿里云中转的节点。总之，这样又提供了一个新的选择，节点多一个看着贼爽呢。
 
-![](/img/ssnodes.png)
+
+<img src="/img/ssnodes.png" alt="" width="800px" style="max-width: 100%;">
 
 开始操作：
 
