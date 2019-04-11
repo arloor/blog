@@ -307,9 +307,9 @@ vim /etc/security/limits.conf
 * soft nofile 65536  
 * hard nofile 65536  
 #或者只加入：
- * - nofile 65536
- # 星号表示所有用户，也可以写用户名，对单独用户生效
- # 有hard和soft两个限制，- 表示同时设置
+* - nofile 65536
+# 星号表示所有用户，也可以写用户名，对单独用户生效
+# 有hard和soft两个限制，- 表示同时设置
 ```
 
 conf文件修改完成后，系统limit会立即修改，不需要重启机器，但是进程需要重启。
