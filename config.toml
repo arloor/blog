@@ -1,7 +1,7 @@
 ## Basic Configuration
 baseurl = "http://arloor.com"
 languageCode = "zh-CN"
-hasCJKLanguage = 10
+hasCJKLanguage = true
 
 title = "ARLOOR"
 theme = "hyde-hyde"
@@ -11,7 +11,7 @@ theme = "hyde-hyde"
 googleAnalytics = "UA-133187648-1"
 enableRobotsTXT = true
 
-summarylength = 10
+summarylength = 160
 
 paginate = 8
 
