@@ -26,7 +26,7 @@ UtterancesTheme="github-light"
     author = "刘港欢"
     title = "刘港欢"
     description = "我的小破站"
-    authorimage = "/img/head.jpeg"
+    authorimage = "img/head.jpeg"
     dateformat = "Jan 2, 2006"
 
     # sidebar, copyright & license
