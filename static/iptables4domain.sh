@@ -1,14 +1,16 @@
 #! /bin/bash
 
-#wget -qO- http://arloor.com/iptables4domain.sh|bash
-
-echo 时间：$(date)
+# wget  http://arloor.com/iptables4domain.sh;bash iptables4domain.sh;rm -f iptables4domain.sh;
 
 red="\033[31m"
 black="\033[0m"
 
 if [ $USER = "root" ];then
-	echo " "
+	echo "本脚本用途 ："
+    echo "设置本机tcp/udp端口转发"
+    echo  "原始iptables仅支持ip地址，该脚本增加域名支持（要求域名指向的主机ip不变）"
+    echo "若要支持ddns，请使用 http://arloor.com/iptables.sh"
+    echo 
 else
     echo   -e "${red}请使用root用户执行本脚本!! ${black}"
     exit 1
@@ -19,8 +21,16 @@ remotehost=
 #中转端口，自行修改
 port=
 localport=
+if [  "$localport"  =  "" ];then
+    echo -n "local port:" ;read localport
+fi
+
+if [  "$port"  =  "" ];then
+    echo -n "target port:" ;read port
+fi
+
 if [  "$remotehost"  =  "" ];then
-    echo -n "remote domain/ip:" ;read remotehost
+    echo -n "target domain/ip:" ;read remotehost
 fi
 
 if [ "$(echo  $remotehost |grep -E -o '([0-9]{1,3}[\.]){3}[0-9]{1,3}')" != "" ];then
@@ -34,12 +44,7 @@ if [ "$remote" = "" ];then
     exit 1
 fi
 
-if [  "$port"  =  "" ];then
-    echo -n "target port:" ;read port
-fi
-if [  "$localport"  =  "" ];then
-    echo -n "local port:" ;read localport
-fi
+
 
 
 # 开启端口转发
