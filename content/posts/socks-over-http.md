@@ -5,6 +5,8 @@ draft: false
 categories: [ "undefined"]
 tags: ["undefined"]
 weight: 10
+subtitle: ""
+description : "代理往往需要伪装成其他协议"
 ---
 
 之前写了一个http代理，用起来也是十分地舒服，但是有几个点还是有些遗憾的：

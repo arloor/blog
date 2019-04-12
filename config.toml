@@ -49,6 +49,10 @@ UtterancesTheme="github-light"
     #toc = none, "hugo", or "tocbot"
     toc="hugo"
 
+[params.meta]
+    #keywords="a,  b , c"
+    description = "刘港欢的博客——专注java、go与网络编程"
+
 ## Social Accounts
 [params.social]
     github = "arloor"
