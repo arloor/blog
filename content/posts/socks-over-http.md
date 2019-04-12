@@ -232,7 +232,7 @@ sogo.json内容如下：
 
 ## 写Sogo有感
 
-sogo代码不多，对go语言，fuqiang原理、网络编程感兴趣的人可以看看。这篇博客梳理了一下sogo的实现原理，总之，sogo是一个优雅的代理。机缘巧合之下，sogo刚好满足了一家公司业务的需要，于是刚刚写好就投入了使用。要知道，我写这个的时候真的没想到会有人要用，所以真的算是运气。
+sogo代码不多，对go语言，fuqiang原理、网络编程感兴趣的人可以看看。这篇博客梳理了一下sogo的实现原理，总之，sogo是一个优雅的代理。机缘巧合之下，sogo刚好满足了一家公司业务的需要，于是刚刚写好就投入了使用。
 
 
 <img src="/img/earn-money-start.jpg" alt="电报聊天记录：很凑巧的发现了别人的需求" width="500px" style="max-width: 100%;">
@@ -243,6 +243,10 @@ sogo代码不多，对go语言，fuqiang原理、网络编程感兴趣的人可�
 
 
 <img src="/img/talk-about-payment.jpg" alt="电报聊天记录：很凑巧的发现了别人的需求" width="500px" style="max-width: 100%;">
+
+放一张服务器的运行状况监控证明一下有人用😂。如下图的监控所示，服务器的带宽和tcp连接数量都保持在稳定的水平。tcp连接数较多，但是带宽不大，这也符合文字内容传输的使用场景。
+
+![](/img/monitor-aliyun.png)
 
 废话说得够啦，最后来听听歌吧。 Something just like this 😍
 
