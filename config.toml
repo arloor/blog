@@ -1,5 +1,5 @@
 ## Basic Configuration
-baseurl = "/"
+baseurl = "http://arloor.com"
 languageCode = "zh-CN"
 hasCJKLanguage = 10
 
