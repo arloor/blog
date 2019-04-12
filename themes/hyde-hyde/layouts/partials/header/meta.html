@@ -19,6 +19,8 @@
     {{ with .Params.description }}<meta name="description" content="{{ . }}">{{ end }}
 {{ end }}
 
+<meta content="{{ delimit .Keywords ", " }}" name="keywords">
+
 
 {{ template "_internal/twitter_cards.html" . }}
 {{ template "_internal/opengraph.html" . }}
