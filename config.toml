@@ -50,7 +50,7 @@ UtterancesTheme="github-light"
     toc="hugo"
 
 [params.meta]
-    #keywords="a,  b , c"
+    keywords="刘港欢,  arloor, moontell"
     description = "刘港欢的博客——专注java、go与网络编程"
 
 ## Social Accounts

@@ -15,11 +15,13 @@
 
 {{ if .IsHome }}
     {{ with .Site.Params.meta.description }}<meta name="description" content="{{ . }}">{{ end }}
+    <meta  name="keywords" content="{{$.Site.Params.meta.keywords }}">
 {{else}}
     {{ with .Params.description }}<meta name="description" content="{{ . }}">{{ end }}
+    <meta  name="keywords" content="{{ delimit .Keywords ", " }}">
 {{ end }}
 
-<meta content="{{ delimit .Keywords ", " }}" name="keywords">
+
 
 
 {{ template "_internal/twitter_cards.html" . }}
