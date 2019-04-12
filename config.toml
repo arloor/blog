@@ -1,6 +1,7 @@
 ## Basic Configuration
-baseurl = "http://arloor.com/"
-languageCode = "en"
+baseurl = "/"
+languageCode = "zh-CN"
+hasCJKLanguage = 10
 
 title = "ARLOOR"
 theme = "hyde-hyde"
@@ -20,7 +21,7 @@ UtterancesRepo= "arloor/blog"
 UtterancesIssueTerm = "pathname"
 UtterancesTheme="github-light"
 
-    #hasCJKLanguage = true
+
     layoutReverse = false
     author = "刘港欢"
     title = "刘港欢"

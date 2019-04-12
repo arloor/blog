@@ -15,7 +15,7 @@ weight: 10
 
 RabbitMQ是使用Erlang编写的消息中间件，因此首先需要安装Erlang，而且RabbitMQ与Erlang版本有着对应关系。
 
-首先到[RabbitMQ 3.7.13的realse页面](https://github.com/rabbitmq/rabbitmq-server/releases/tag/v3.7.13)。其中提到3.7.13版本的RabbitMQ需要20.3.x及以后的Erlang版本，并且说了一句，可能21.x的有某种问题，为了避免这个问题，直接使用20.3.x版本的Erlang。<!--more-->
+首先到[RabbitMQ 3.7.13的realse页面](https://github.com/rabbitmq/rabbitmq-server/releases/tag/v3.7.13)。其中提到3.7.13版本的RabbitMQ需要20.3.x及以后的Erlang版本，并且说了一句，可能21.x的有某种问题，为了避免这个问题，直接使用20.3.x版本的Erlang。
 
 ## 安装Erlang 20.3.8.20
 
