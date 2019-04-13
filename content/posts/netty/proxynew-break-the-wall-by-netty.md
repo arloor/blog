@@ -1,5 +1,5 @@
 ---
-title: "HttpProxy-基于netty的翻墙代理"
+title: "HttpProxy-基于netty的代理"
 date: 2018-12-31T23:55:22+08:00
 author: "刘港欢"
 categories: [ "java","网络编程","netty"]
@@ -7,11 +7,11 @@ tags: ["Program"]
 weight: 10
 ---
 
-暑假使用java NIO实现了一个java http代理。那个http代理远远不算完善：两个线程，不能翻墙。之后学习了netty，并且使用netty实现了一个可翻墙的http代理，经过一个多月的使用，十分满意。今天来记录一下这里面值得写下来的东西。
+暑假使用java NIO实现了一个java http代理。那个http代理远远不算完善。之后学习了netty，并且使用netty实现了一个http代理，经过一个多月的使用，十分满意。今天来记录一下这里面值得写下来的东西。
 
 先放项目地址[HttpProxy](https://github.com/arloor/HttpProxy)<!--more-->
 
-# 如何翻墙
+<!-- # 如何翻墙
 
 翻墙其实很简单：tcp编程+加解密+（流量伪装）
 
@@ -23,7 +23,7 @@ weight: 10
 
 我的代理没有做流量伪装，压根不是shadowsocks，也没有用任何协议。关于协议，这么理解吧，协议就是对报文包装格式的定义。网络层下面的几层定义什么帧、数据报、tcp报文，无非做的是对数据的拆解、包装，再加上一些字段比如目标ip等等。应用层的http、socks5则定义了tcp报文的格式，http请求的格式、响应头等等，socks握手等等。而我的代理为了简单，没有定义某种格式，所以谈不上使用了“某种协议”。
 
-所以，shadowsocks的实现是 tcp编程+sock5协议+加解密+（流量伪装），而我的没有使用协议。
+所以，shadowsocks的实现是 tcp编程+sock5协议+加解密+（流量伪装），而我的没有使用协议。 -->
 
 # 什么是netty
 
@@ -157,4 +157,4 @@ export https_proxy=http://127.0.0.1:8081
 ```
 以后，输入`. pass`，当前终端就可以使用这个代理了。原因：source/. 是在当前shell执行的，不会新建bash
 
-心心念念也算有一年多了，至此终于写出了一个完善的http翻墙代理，也算是完成了一个夙愿！
+心心念念也算有一年多了，至此终于写出了一个完善的http代理，也算是完成了一个夙愿！

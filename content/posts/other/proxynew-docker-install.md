@@ -1,19 +1,17 @@
 ---
 author: "刘港欢"
 date: 2019-01-21
-linktitle: 快速安装HttpProxy——另一种翻墙方式
-title: 快速安装HttpProxy——另一种翻墙方式
+linktitle: 快速安装HttpProxy
+title: 快速安装HttpProxy
 categories: [ "代理"]
 tags: ["program"]
 weight: 10
 showcomments: true
 ---
 
-[HttpProxy](https://github.com/arloor/HttpProxy)是一个轻量、稳定、高性能的http代理，仅仅依赖netty和日志框架，实现http中间人代理和https隧道代理，并通过加密，实现翻墙功能。google、youtube视频、满带宽下载、作为git的代理、作为shell的代理、作为docker的代理等场景都运行完美。
+[HttpProxy](https://github.com/arloor/HttpProxy)是一个轻量、稳定、高性能的http代理，仅仅依赖netty和日志框架，实现http中间人代理和https隧道代理。google、youtube视频、满带宽下载、作为git的代理、作为shell的代理、作为docker的代理等场景都运行完美。
 
-现在用得最多得翻墙方式是shadowsocks，用的人多了，再怎么混淆也会被GFW探测而墙掉。因为这个原因，我写了一个翻墙的代理，经过2个多月的使用，十分满意。小众的东西也是有优势的
-
-这一篇博客记录一下如何部署和使用这个翻墙代理
+这一篇博客记录一下如何部署和使用这个代理
 <!--more-->
 
 
@@ -25,7 +23,6 @@ showcomments: true
 
 暂不支持手机使用。
 
-在使用过程中有任何不满、建议、疑问，欢迎加入[电报群](https://t.me/arloorproxy)向我吐槽。如果好奇项目的实现，或对代码有疑问同样可以通过[电报群](https://t.me/arloorproxy)与我交流。
 
 # 服务器端安装
 
@@ -127,10 +124,3 @@ C:\Users\用户名\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
 
 暂时基本不可能移植到手机上了，研究了shadowsocks安卓的实现，发现和这个tcp的代理不是一回事，详情可以看[安卓Vpn开发思路](/posts/other/android-vpnservice-and-vpn-dev/)
 
-# 电报群
-
-[arloor's 翻墙代理](https://t.me/arloorproxy)
-
-安装、部署、使用过程中有什么任何槽点都欢迎加入电报群参与讨论
-
-对实现和代码有疑问、建议同样欢迎参与讨论
