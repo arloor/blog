@@ -21,7 +21,7 @@ keywords:
 
 所以，我又写了一个socks5代理，起名叫[sogo](https://github.com/arloor/sogo)。
 
-sogo本身包含sogo(client)和sogo-server。如果把sogo和sogo-server看成一个整体，一个黑盒，这个整体就是一个socks5代理。sogo(client)与本地电脑交互；sogo-server与目标网站交互；sogo(client)和sogo-server之间的交互就是http协议包裹payload进行通信。sogo(client)和sogo-server之间的这段就是fuqiang的重点——采取各种方式混过GFW，我采用的“http流量包裹payload”应该算是比较优雅的一种。
+sogo本身包含sogo(client)和sogo-server。如果把sogo和sogo-server看成一个整体，一个黑盒，这个整体就是一个socks5代理。sogo(client)与本地电脑交互；sogo-server与目标网站交互；sogo(client)和sogo-server之间的交互就是http协议包裹payload进行通信。
 <!--more-->
 
 ## 特性
@@ -239,7 +239,7 @@ sogo.json内容如下：
 
 ## 写Sogo有感
 
-sogo代码不多，对go语言，fuqiang原理、网络编程感兴趣的人可以看看。这篇博客梳理了一下sogo的实现原理，总之，sogo是一个优雅的代理。
+sogo代码不多，对go语言、网络编程感兴趣的人可以看看。这篇博客梳理了一下sogo的实现原理，总之，sogo是一个优雅的代理。
 
 废话说得够啦，最后来听听歌吧。 Something just like this 😍
 
