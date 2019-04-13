@@ -255,6 +255,10 @@ sogo代码不多，对go语言，fuqiang原理、网络编程感兴趣的人可�
 
 ![](/img/monitor-aliyun.png)
 
+24小时的带宽占用如下，夜深人静的时候最低，可以说很真实了
+
+![](/img/bandwagon-daikuan.jpg)
+
 废话说得够啦，最后来听听歌吧。 Something just like this 😍
 
 <div class="iframe-container">
