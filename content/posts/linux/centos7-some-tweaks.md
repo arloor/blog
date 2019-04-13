@@ -431,27 +431,29 @@ trace arloor.com
 
 ## 方案一：使用iptables，适用于落地鸡ip不会改变的情况
 
-打开ipv4的转发功能（其他系统可能不一样）
+写了一个支持域名的iptables转发脚本，执行以下命令即可使用
 
-```
-echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
-sysctl -p
-```
-
-设置NAT规则
-
-```
-iptables -t nat -A PREROUTING -p tcp --dport [国内服务器端口] -j DNAT --to-destination [国外服务器IP]:[国外服务器端口]
-iptables -t nat -A PREROUTING -p udp --dport [国内服务器端口] -j DNAT --to-destination [国外服务器IP]:[国外服务器端口]
-iptables -t nat -A POSTROUTING -p tcp -d [国外服务器IP] --dport [国外服务器端口] -j SNAT --to-source [国内服务器IP]
-iptables -t nat -A POSTROUTING -p udp -d [国外服务器IP] --dport [国外服务器端口] -j SNAT --to-source [国内服务器IP]
+```shell
+wget  https://raw.githubusercontent.com/arloor/iptablesUtils/master/iptables.sh;
+bash iptables.sh;
+rm -f iptables.sh;
 ```
 
-注意`[国内服务器IP]`那里可能不填公网ip，可能需要填内网ip。就是要确保，这个ip是用来上网的网卡绑定的ip。经过实测，阿里云需要填写服务器的内网ip。
+输入local port，remote port，target domain/ip。其中target domain/ip既可以是ip，也可以是域名。
 
-以上是修改了iptables nat表以实现转发。为了成功转发，还需要确保filter表中，forward链和input链没有DROP/REJECT相关的流量，不详细解释。
+```shell
+本脚本用途：
+设置本机tcp和udp端口转发
+原始iptables仅支持ip地址，该脚本增加域名支持（要求域名指向的主机ip不变）
+若要支持ddns，请使用 https://raw.githubusercontent.com/arloor/iptablesUtils/master/setCroniptablesDDNS.sh;
 
-有问题的可以直接在评论区留言
+local port:8388
+remote port:1234
+target domain/ip:xxx.com
+target-ip: xx.xx.xx.xx
+local-ip: xx.xx.xx.xx
+done!
+```
 
 题外话（自己备忘）：某端口流量转发到本机其他端口：(从localhost访问，这个转发无效)
 
@@ -459,43 +461,24 @@ iptables -t nat -A POSTROUTING -p udp -d [国外服务器IP] --dport [国外服�
 iptables -t nat -A PREROUTING -p tcp --dport 8081 -j REDIRECT --to-ports 8080
 ```
 
-### 当然iptables也能处理ip会变的情况，只不过稍微复杂点
+### 当然iptables也能处理ip会变的情况，这里提供我写的脚本
 
-首先安装依赖
-
-```shell
-yum install -y bind-utils
-echo "net.ipv4.ip_forward=1" >> /etc/sysctl.conf
-sysctl -p
-```
-
-
-下面是我自己的一个脚本，可以参考：
+执行以下命令
 
 ```shell
-sudo su
-yum install -y wget
-cd /usr/local
-wget http://arloor.com/iptables.sh
-chmod +x /usr/local/iptables.sh
-# 自行修改iptables.sh中的参数
-# vim iptables.sh
-# 开机强制刷新一次
-echo "rm -f /root/remoteip" >> /etc/rc.d/rc.local
-echo "/bin/bash /usr/local/iptables.sh &>> /root/iptables.log" >> /etc/rc.d/rc.local
-chmod +x /etc/rc.d/rc.local
-# 定时任务，每分钟检查一下
-echo "* * * * * root /usr/local/iptables.sh &>> /root/iptables.log" >> /etc/crontab
-cd 
+rm -f setCroniptablesDDNS.sh
+wget https://raw.githubusercontent.com/arloor/iptablesUtils/master/setCroniptablesDDNS.sh;
+bash setCroniptablesDDNS.sh
+
+
+#local port:80
+#remote port:58000
+#targetDDNS:xxxx.example.com
+#done!
+#现在每分钟都会检查ddns的ip是否改变，并自动更新
 ```
 
-现在每分钟都会执行以下命令：
-
-```shell
-bash /usr/local/iptables.sh &>> /root/iptables.log
-```
-
-从而检测ddns的ip是否改变，如改变，更新iptables转发。
+输入local port, remote port, targetDDNS即可。之后会每分钟每分钟都会检查ddns的ip是否改变，并自动更新。执行日志见 /root/iptables.log
 
 ## 方案二：使用socat，适用于落地鸡是使用了ddns更新域名解析的nat vps
 
