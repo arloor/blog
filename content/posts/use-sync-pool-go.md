@@ -75,7 +75,7 @@ func runtime_registerPoolCleanup(cleanup func())
 
 意思应该是，持有sync.pool的对象不能是短命的对象（一个[博客](https://segmentfault.com/a/1190000016987629)有不一样的理解：sync.pool中的对象不能是短命对象，我不认可这个）。我们的内存池是一个全局的资源池，“全局”这个东西的生命周期就是一个进程的开始到消亡，应该是最长的了，使用sync.pool作为我们的内存池，应该是可以的，但我始终不怎么满意GC时，仍然会被回收这个。
 
-## 使用channel机制实现的pool
+## 2.使用channel机制实现的pool
 
 我看到好几个使用channel实现的pool，大体如下:
 
@@ -148,7 +148,7 @@ func (bp *BytePool) Width() (n int) {
 
 为了更好地使用内存池，下面补一点go基础的东西。。
 
-## slice
+## slice内部
 
 slice建立在array的基础上，首先讲go的array
 
@@ -209,3 +209,6 @@ b=append(a,c...)。这样我们有三个slice，执行完毕会有两个或者�
 3. 定时GC：如果两分钟没有进行GC，则进行一次
 
 
+<div class="iframe-container">
+    <iframe src="https://www.youtube.com/embed/wji4g0JOMBE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
