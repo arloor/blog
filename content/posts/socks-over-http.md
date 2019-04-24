@@ -182,6 +182,7 @@ Host: {fakehost}
 ## linux上服务端部署
 
 ```shell
+yum install -y wget bind-utils
 wget https://github.com/arloor/sogo/releases/download/v1.0/sogo-server
 wget https://github.com/arloor/sogo/releases/download/v1.0/sogo-server.json
 
