@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Cache-Control" content="public" />
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.54.0" />
+
+    
+    
+    
+
+<title>玩转VPS与centos 7 • ARLOOR</title>
+
+
+    
+    <meta  name="keywords" content="">
+
+
+
+
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="玩转VPS与centos 7"/>
+<meta name="twitter:description" content="多年以后，我又开始整vps了，学了三年，也知道怎么整linux了。个人使用的是搬瓦工 DC6 CN2 GIA 机房的vps。购买链接"/>
+
+<meta property="og:title" content="玩转VPS与centos 7" />
+<meta property="og:description" content="多年以后，我又开始整vps了，学了三年，也知道怎么整linux了。个人使用的是搬瓦工 DC6 CN2 GIA 机房的vps。购买链接" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://arloor.com/posts/linux/centos7-some-tweaks/" />
+<meta property="article:published_time" content="2019-03-04T00:00:00&#43;00:00"/>
+<meta property="article:modified_time" content="2019-03-04T00:00:00&#43;00:00"/><meta property="og:site_name" content="刘港欢" />
+
+
+    
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.a771f2aeb2361d1f677007a55e336949db17bfa914b9813c355347dd79c63c44.css" integrity="sha256-p3HyrrI2HR9ncAelXjNpSdsXv6kUuYE8NVNH3XnGPEQ=">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+
+<link rel="stylesheet" href="/scss/hugo-toc.8549a64d301421b4256ea9a0d5ca8b99178799f569d5d2daeb95f24cef3ce6b7.css" integrity="sha256-hUmmTTAUIbQlbqmg1cqLmReHmfVp1dLa65XyTO885rc=">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="/favicon.png">
+    
+
+</head>
+
+
+    <body class=" ">
+    
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="/">ARLOOR</a>
+      </span>
+      
+      
+      
+      
+      <div class="author-image">
+        
+        <a href="/"><img src="/img/head.jpeg" alt="Author Image"
+            class="img--circle img--headshot element--center"></a>
+      </div>
+      
+      
+      
+      <p class="site__description">
+         私人小破站 
+      </p>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">ARLOOR</label>
+      <div class="menu-content">
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/posts/">
+						<span>文章</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/categories/">
+						<span>分类</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/tags/">
+						<span>标签</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/about/">
+						<span>About</span>
+					</a>
+				</li>
+			 
+		
+		</li>
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://twitter.com/njulgh" rel="me"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	<a href="https://github.com/arloor" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://t.me/popstary" rel="me"><i class="fab fa-telegram fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	<a href="mailto:admin@arloor.com" rel="me"><i class="fas fa-at fa-lg" aria-hidden="true"></i></a>
+	
+</section>
+
+      </div>
+    </div>
+    
+<div class="copyright">
+  &copy; 2019 arloor
+  
+    <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>
+  
+</div>
+
+
+<div class="builtwith">
+Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.com/htr3n/hyde-hyde">hyde-hyde</a>.
+</div>
+
+
+  </div>
+</div>
+        <div class="content container">
+            
+    <article>
+  <header>
+    <h1>玩转VPS与centos 7</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> Mar 4, 2019
+    
+    
+    
+      
+      
+          in
+          
+          
+              <a class="badge badge-category" href="/categories/linux">LINUX</a>
+              
+          
+      
+    
+    
+    
+      
+      
+          <br/>
+           <i class="fas fa-tags"></i>
+          
+          <a class="badge badge-tag" href="/tags/linux">linux</a>
+          
+      
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 12 min read
+</div>
+
+
+  </header>
+  
+  
+  <div class="toc-wrapper">
+    <input type="checkbox" id="tocToggle">
+    <label for="tocToggle">Table of Content</label>
+    
+        <nav id="TableOfContents">
+<ul>
+<li><a href="#一键安装shadowsocks-libev">一键安装shadowsocks-libev</a></li>
+<li><a href="#docker-安装ss-libev">docker 安装ss-libev</a></li>
+<li><a href="#一个简单的管理docker-ss用户的方式">一个简单的管理docker ss用户的方式</a></li>
+<li><a href="#centos-7升级内核-开启bbr">centos 7升级内核，开启bbr</a></li>
+<li><a href="#配置防火墙">配置防火墙</a></li>
+<li><a href="#修改root用户密码">修改root用户密码</a></li>
+<li><a href="#sshd服务配置">sshd服务配置</a>
+<ul>
+<li><a href="#修改搬瓦工的默认ssh端口">修改搬瓦工的默认ssh端口</a></li>
+<li><a href="#配置秘钥登录">配置秘钥登录</a></li>
+<li><a href="#禁用密码登陆">禁用密码登陆</a></li>
+</ul></li>
+<li><a href="#安装apache">安装apache</a></li>
+<li><a href="#安装jdk8">安装jdk8</a></li>
+<li><a href="#设置时区">设置时区</a></li>
+<li><a href="#设置ddns">设置ddns</a></li>
+<li><a href="#两种开机自启动方式">两种开机自启动方式</a>
+<ul>
+<li><a href="#1-利用chkconfig-xx-on">1.利用chkconfig xx on</a></li>
+<li><a href="#2-编辑-etc-rc-d-rc-loacl">2.编辑/etc/rc.d/rc.loacl</a></li>
+</ul></li>
+<li><a href="#番外篇-测试vps回程路由">番外篇：测试vps回程路由</a></li>
+<li><a href="#番外篇-在国内阿里云上设置shadowsocks国内中转">番外篇：在国内阿里云上设置shadowsocks国内中转</a>
+<ul>
+<li><a href="#方案一-使用iptables-适用于落地鸡ip不会改变的情况">方案一：使用iptables，适用于落地鸡ip不会改变的情况</a>
+<ul>
+<li><a href="#当然iptables也能处理ip会变的情况-这里提供我写的脚本">当然iptables也能处理ip会变的情况，这里提供我写的脚本</a></li>
+</ul></li>
+<li><a href="#方案二-使用socat-适用于落地鸡是使用了ddns更新域名解析的nat-vps">方案二：使用socat，适用于落地鸡是使用了ddns更新域名解析的nat vps</a></li>
+</ul></li>
+<li><a href="#番外篇-自己搭建speedtest网站">番外篇：自己搭建speedtest网站</a></li>
+<li><a href="#番外篇-vps上传速度测试">番外篇：vps上传速度测试</a>
+<ul>
+<li><a href="#香港阿里云轻量服务器-149-129-xx-xx">香港阿里云轻量服务器(149.129.xx.xx)</a></li>
+<li><a href="#搬瓦工dc9-gia-67-230-170-xx">搬瓦工dc9 gia(67.230.170.xx)</a></li>
+<li><a href="#搬瓦工dc8-cn2-95-169-17-xx">搬瓦工dc8 cn2(95.169.17.xx)</a></li>
+<li><a href="#迁移后搬瓦工dc9-gia-178-157-xx-xx">迁移后搬瓦工dc9 gia(178.157.xx.xx)</a></li>
+</ul></li>
+</ul>
+</nav>
+    
+  </div>
+  
+  <div class="post">
+    <p>多年以后，我又开始整vps了，学了三年，也知道怎么整linux了。个人使用的是搬瓦工 DC6 CN2 GIA 机房的vps。<a href="https://bwh88.net/aff.php?aff=11132&amp;pid=87">购买链接</a></p>
+
+<blockquote>
+<p>搬瓦工 DC6 CN2 GIA 机房，编号为 USCA_6，使用中国电信优先级最高的 CN2 GIA 线路，中国电信、中国联通、中国移动三网去程回程全部走 CN2 GIA，线路质量非常好，可以说是等级最高的国际出口。经过测试，去程和回程都使用中国电信提供的cn2 GIA线路，个人使用十分满意</p>
+</blockquote>
+
+<h1 id="一键安装shadowsocks-libev">一键安装shadowsocks-libev</h1>
+
+<p>在研究了安卓VPN的实现之后，发现我的<a href="http://github.com/arloor/HttpProxy">HttpProxy</a>跟安卓VPN根本不是一回事，基本不可能有安卓客户端了。而shadowsocks安卓所采用的tun2socks+shadowsocks-libev这种模式很现代。所以给自己的centos也装上shadowsocks了。</p>
+
+<p>shadowsocks有很多版本，我选择shadowsocks-libev，全功能且内存占用真的少，C语言省内存啊。</p>
+
+<p>参见<a href="https://teddysun.com/357.html">秋水逸冰</a></p>
+
+<pre><code>wget --no-check-certificate -O shadowsocks-libev.sh https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-libev.sh
+chmod +x shadowsocks-libev.sh
+./shadowsocks-libev.sh 2&gt;&amp;1 | tee shadowsocks-libev.log
+</code></pre>
+
+<p>安装完成后，可以使用<code>service shadowsocks status</code>查看状态，ss的配置文件在<code>/etc/shadowsocks-libev/config.json</code></p>
+
+<p>卸载如下：</p>
+
+<pre><code>./shadowsocks-libev.sh uninstall
+</code></pre>
+
+<h1 id="docker-安装ss-libev">docker 安装ss-libev</h1>
+
+<p>先安装docker</p>
+
+<pre><code># 安装相关依赖
+yum install -y yum-utils \
+  device-mapper-persistent-data \
+  lvm2
+# 设置docker源
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+# 安装docker 
+yum -y install docker-ce
+# 开机自启动docker服务
+systemctl enable docker
+service docker start
+# 拉取镜像并运行
+passwd=xxxx ; port=8388   #改成你的密码和端口
+# 加密协议默认为支持AEAD的aes-256-gcm
+
+docker run -e PASSWORD=$passwd -p $port:8388 -p $port:8388/udp -d --name ss --restart always shadowsocks/shadowsocks-libev
+ip=`wget -qO- http://whatismyip.akamai.com`
+echo &quot;配置信息: 服务器地址：$ip  端口：$port 密码：$passwd 加密协议：aes-256-gcm&quot;
+</code></pre>
+
+<p>这样就以aes-256-gcm运行了ss-libev。详细参数见：<a href="https://github.com/shadowsocks/shadowsocks-libev/blob/master/docker/alpine/README.md">docker镜像README</a></p>
+
+<h1 id="一个简单的管理docker-ss用户的方式">一个简单的管理docker ss用户的方式</h1>
+
+<p>增加新用户：</p>
+
+<pre><code>bash start.sh 8000  xxx  2019-01-01 # 端口号  用户名 过期时间  (密码为xxx2019-01-01)
+</code></pre>
+
+<p>定期删除过期用户：</p>
+
+<pre><code>awk '{print}' user.txt|xargs -n 3 bash kill.sh
+</code></pre>
+
+<p>唯二不足是</p>
+
+<ol>
+<li>不能直接删除user.txt中的失效用户记录</li>
+<li>不能处理用户增加有效期（xufei）</li>
+</ol>
+
+<p>总之就是user.txt的管理不够智能。</p>
+
+<p>start.sh</p>
+
+<pre><code class="language-shell">#! /bin/bash
+# 端口 用户名 到期日期
+# bash start.sh 8000  xxx  2019-01-01
+
+ result=$(cat user.txt | grep &quot;$2&quot;)
+ if [[ &quot;$result&quot; != &quot;&quot; ]]
+ then
+     echo &quot;已包含该用户记录，请删除原有记录&quot;
+ else
+     
+    docker run -e PASSWORD=$2$3 -p $1:8388 -p $1:8388/udp -d --name $2  --restart always shadowsocks/shadowsocks-libev
+
+    if [ &quot;$?&quot; = &quot;0&quot; ]; then
+            echo &quot;成功为用户$2在$1端口启动服务&quot;
+            echo &quot;$1 $2 $3&quot; &amp;&gt;&gt; user.txt
+    else
+         echo &quot;在$1端口启动服务失败，请检查端口占用、container名称和docker服务状态&quot;
+            docker rm $2
+    fi
+
+fi
+</code></pre>
+
+<p>kill.sh</p>
+
+<pre><code class="language-shell">#! /bin/bash
+# awk '{print}' user.txt|xargs -n 3 bash kill.sh
+# 端口 用户名 到期日期
+now=$(date '+%Y-%m-%d')
+
+if [[ &quot;$3&quot; &lt; &quot;$now&quot; ]] ;then
+ docker kill $2
+ docker rm $2
+ echo &quot;rm shadowsocks docker container for user $2&quot;
+fi
+</code></pre>
+
+<h1 id="centos-7升级内核-开启bbr">centos 7升级内核，开启bbr</h1>
+
+<p>1.查看当前linux内核</p>
+
+<pre><code class="language-shell">uname -r
+# 3.10.0-514.el7.x86_64
+cat /etc/redhat-release 
+# CentOS Linux release 7.3.1611 (Core)
+</code></pre>
+
+<p>2.启用ELRepo库</p>
+
+<pre><code class="language-shell">rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
+rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-2.el7.elrepo.noarch.rpm
+</code></pre>
+
+<p>3.列出相关内核包</p>
+
+<pre><code class="language-shell">yum --disablerepo=&quot;*&quot; --enablerepo=&quot;elrepo-kernel&quot; list available
+</code></pre>
+
+<p><img src="/img/kernels.png" alt="" /></p>
+
+<p>4.安装新内核</p>
+
+<pre><code class="language-shell">yum --enablerepo=elrepo-kernel install kernel-ml  #以后升级也是执行这句
+</code></pre>
+
+<p>5.检查现在可以用于启动得内核列表</p>
+
+<pre><code class="language-shell">awk -F\' '$1==&quot;menuentry &quot; {print $2}' /etc/grub2.cfg
+# CentOS Linux (5.0.5-1.el7.elrepo.x86_64) 7 (Core)
+# CentOS Linux (3.10.0-957.10.1.el7.x86_64) 7 (Core)
+# CentOS Linux (3.10.0-957.5.1.el7.x86_64) 7 (Core)
+# CentOS Linux (3.10.0-957.el7.x86_64) 7 (Core)
+# CentOS Linux (0-rescue-20190215172108590907433256076310) 7 (Core)
+</code></pre>
+
+<p>由上面可以看出新内核(5.0.5)目前位置在0，原来的内核(3.10.0)目前位置在1，所以如果想生效最新的内核，还需要我们修改内核的启动顺序为0</p>
+
+<p>6.设置默认启动内核为刚安装得内核</p>
+
+<pre><code class="language-shell">vim /etc/default/grub
+
+GRUB_TIMEOUT=5
+GRUB_DISTRIBUTOR=&quot;$(sed 's, release .*$,,g' /etc/system-release)&quot;
+GRUB_DEFAULT=0
+GRUB_DISABLE_SUBMENU=true
+GRUB_TERMINAL_OUTPUT=&quot;console&quot;
+GRUB_CMDLINE_LINUX=&quot;crashkernel=auto rhgb quiet&quot;
+GRUB_DISABLE_RECOVERY=&quot;true&quot;
+
+# 设置 GRUB_DEFAULT=0, 意思是 GRUB 初始化页面的第一个内核将作为默认内核
+</code></pre>
+
+<p>7.重新生成grub-config，并使用新内核重启</p>
+
+<pre><code class="language-shell">grub2-mkconfig -o /boot/grub2/grub.cfg
+reboot
+</code></pre>
+
+<p>现在就可以使用uname命令查看内核了</p>
+
+<p>8.开启bbr很简单：</p>
+
+<pre><code class="language-shell">uname -r  ##输出内核版本大于4.9
+echo net.core.default_qdisc=fq &gt;&gt; /etc/sysctl.conf
+echo net.ipv4.tcp_congestion_control=bbr &gt;&gt; /etc/sysctl.conf
+sysctl -p
+lsmod |grep bbr
+</code></pre>
+
+<h1 id="配置防火墙">配置防火墙</h1>
+
+<p>据说centos7默认使firewalld作为防火墙，但是我装了两个centos7都是使用的iptables。现在也比较喜欢iptables，当初配iptables死活都不通。。</p>
+
+<p>安装iptables-services，这样就可以用service iptables xx来控制iptables了</p>
+
+<pre><code class="language-shell">service firewalld stop
+systemctl disable firewalld
+yum -y install iptables-services
+systemctl enable iptables
+systemctl start iptables
+</code></pre>
+
+<p>配置filter表，用于设置INPUT、FORWARD、OUTPUT链，总之就是，开放ssh服务、httpd服务等等需要开放的端口，关闭其他一切</p>
+
+<pre><code class="language-shell">iptables -A INPUT -p tcp --dport 22 -j ACCEPT  #开启tcp 22端口的读
+iptables -A INPUT -p tcp --dport 80 -j ACCEPT  #开启tcp 80端口的读
+iptables -A INPUT -p tcp --dport 8099 -j ACCEPT #开启tcp 8099端口的读
+iptables -A INPUT -p udp --dport 8099 -j ACCEPT #开启udp 8099端口的读
+iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT # 允许所以已建立连接（这个有点关键）
+iptables -A INPUT -i lo -j ACCEPT  # 允许所有本地
+iptables -A INPUT -p icmp -j ACCEPT #允许ping
+iptables --policy INPUT DROP #除了以上允许的,设置默认阻止所有读，这个最后再做哦
+#或者最后增加这个
+# iptables -A INPUT -j REJECT --reject-with icmp-host-prohibited #最后做啊
+</code></pre>
+
+<p>最后service iptables restart，就生效了。可以执行<code>service iptables save</code></p>
+
+<p>顺便提一下，docker映射到宿主机的端口不需要在iptables中开放，因为docker服务自己对iptables做了修改，将相关的请求转发到了docker虚拟出来的网卡中。也因为docker的自动修改，如果重启iptables，将丢失这部分修改，导致docker容器运行异常，此时只能重启docker服务了。所以如果运行了docker，就不要贸然地stop iptables服务啦。</p>
+
+<h1 id="修改root用户密码">修改root用户密码</h1>
+
+<p>直接输入passwd命令即可。</p>
+
+<h1 id="sshd服务配置">sshd服务配置</h1>
+
+<h2 id="修改搬瓦工的默认ssh端口">修改搬瓦工的默认ssh端口</h2>
+
+<pre><code class="language-shell">#vi /etc/ssh/sshd_config
+将Port 22前的注释删掉，或者增加
+
+#重启服务
+service sshd restart 
+</code></pre>
+
+<p>这个文件开头说，如果安装了selinux，需要执行semanage port -a -t 22 -p tcp。事实证明这台centos7没有selinux。 记得修改防火墙设置哦。</p>
+
+<h2 id="配置秘钥登录">配置秘钥登录</h2>
+
+<p>将本地的~/.ssh/id_rsa.pub 添加到服务器的~/.ssh/authorized_keys文件中</p>
+
+<h2 id="禁用密码登陆">禁用密码登陆</h2>
+
+<p>编辑远程服务器上的sshd_config文件：</p>
+
+<pre><code class="language-shell">vim /etc/ssh/sshd_config
+</code></pre>
+
+<p>找到如下选项并修改(通常情况下，前两项默认为no，地三项如果与此处不符，以此处为准)：</p>
+
+<pre><code class="language-shell">#PasswordAuthentication yes 改为
+PasswordAuthentication no
+</code></pre>
+
+<p>编辑保存完成后，重启ssh服务使得新配置生效，然后就无法使用口令来登录ssh了</p>
+
+<pre><code class="language-shell">systemctl restart sshd.service
+</code></pre>
+
+<h1 id="安装apache">安装apache</h1>
+
+<pre><code class="language-shell">yum install httpd
+systemctl enable httpd
+</code></pre>
+
+<h1 id="安装jdk8">安装jdk8</h1>
+
+<pre><code class="language-shell">wget --no-check-certificate --no-cookie --header &quot;Cookie: oraclelicense=accept- - securebackup-cookie;&quot; https://download.oracle.com/otn-pub/java/jdk/8u201-b09/42970487e3af4f5aa5bca3f542482c60/jdk-8u201-linux-x64.rpm
+
+yum install jdk-8u201-linux-x64.rpm
+</code></pre>
+
+<h1 id="设置时区">设置时区</h1>
+
+<pre><code class="language-shell"># 查看事件设置信息
+timedatectl status
+#Local time: 四 2014-12-25 10:52:10 CST
+#Universal time: 四 2014-12-25 02:52:10 UTC
+#RTC time: 四 2014-12-25 02:52:10
+#Timezone: Asia/Shanghai (CST, +0800)
+#NTP enabled: yes
+#NTP synchronized: yes
+#RTC in local TZ: no
+#DST active: n/a
+</code></pre>
+
+<pre><code class="language-shell">timedatectl list-timezones # 列出所有时区
+timedatectl set-local-rtc 1 # 将硬件时钟调整为与本地时钟一致, 0 为设置为 UTC 时间
+timedatectl set-timezone Asia/Shanghai # 设置系统时区为上海
+</code></pre>
+
+<h1 id="设置ddns">设置ddns</h1>
+
+<p>nat vps的特点是ip地址会改变，有个需求就是设置ddns，当nat的公网ip改变时，就更新域名解析。</p>
+
+<p>从一个网址fork了一个脚本，修改了一下。</p>
+
+<p>原理说明，定时调用DNSPOD（腾讯云）的api，更新DNSPOD（腾讯云）中的域名解析记录。</p>
+
+<p>因此，要满足如下3个前提条件：</p>
+
+<ul>
+<li>有一个域名在DNSPOD（腾讯云）腾讯云中解析</li>
+<li>登陆DNSPOD后台，增加一个token</li>
+<li>新建一个A记录，例如xxx.arloor.com 指向 127.0.0.1，之后这个A记录就会定时地被脚本修改（如果不做这个，会失败）</li>
+</ul>
+
+<p>其中提到的token和A记录会需要写进dns.conf中，下面是如何在nat vps上部署这个脚本：</p>
+
+<pre><code class="language-shell">systemctl status crond
+systemctl enable crond
+systemctl restart crond
+
+sudo su
+cd /usr/local
+git clone https://github.com/arloor/ddnspod.git
+cd ddnspod
+cp dns.conf.example dns.conf
+vi dns.conf  #编辑dns.conf
+# ---- arToken=&quot;8xx74,69a5fxxxxxxxxxxxxx75b0ecd1e&quot;  #修改为自己的
+# ---- arDdnsCheck &quot;arloor.com&quot; &quot;xxx&quot;               #修改为自己的
+# --------------------------------------------------------------
+echo &quot;* * * * * root /usr/local/ddnspod/ddnspod.sh &amp;&gt;&gt; /root/ddns.log&quot; &gt;&gt; /etc/crontab
+cd 
+</code></pre>
+
+<p>现在，每分钟会执行一次</p>
+
+<pre><code class="language-shell">/usr/local/ddnspod/ddnspod.sh &amp;&gt;&gt; /root/ddns.log
+</code></pre>
+
+<p>从而检查公网ip，自动修改A记录指向该nat机器的公网ip。可以通过<code>tailf /var/log/cron</code>命令查看crontab定时任务的运行情况。</p>
+
+<h1 id="两种开机自启动方式">两种开机自启动方式</h1>
+
+<h2 id="1-利用chkconfig-xx-on">1.利用chkconfig xx on</h2>
+
+<pre><code class="language-shell"># 1. 将脚本移动到/etc/rc.d/init.d目录下
+# mv  /opt/script/StartTomcat.sh /etc/rc.d/init.d
+# 2. 增加脚本的可执行权限
+chmod +x  /etc/rc.d/init.d/StartTomcat.sh
+# 3. 添加脚本到开机自动启动项目中
+cd /etc/rc.d/init.d
+chkconfig --add StartTomcat.sh
+chkconfig StartTomcat.sh on
+</code></pre>
+
+<h2 id="2-编辑-etc-rc-d-rc-loacl">2.编辑/etc/rc.d/rc.loacl</h2>
+
+<pre><code>echo &quot;command&quot; &gt;&gt; /etc/rc.d/rc.local
+chmod +x /etc/rc.d/rc.local
+</code></pre>
+
+<h1 id="番外篇-测试vps回程路由">番外篇：测试vps回程路由</h1>
+
+<pre><code class="language-shell">yum install -y unzip wget
+
+cd /usr/local
+mkdir trace
+cd trace
+wget https://cdn.ipip.net/17mon/besttrace4linux.zip
+unzip besttrace4linux.zip
+chmod +x besttrace
+rm -f besttrace4linux.zip
+cd
+
+ln -fs /usr/local/trace/besttrace /usr/local/bin/trace
+trace arloor.com
+</code></pre>
+
+<h1 id="番外篇-在国内阿里云上设置shadowsocks国内中转">番外篇：在国内阿里云上设置shadowsocks国内中转</h1>
+
+<p>上面的安装是国外服务器上做的。这一步的设置国内中转是在国内阿里云的centos7机器上做</p>
+
+<p>使用的是阿里云提供的学生机，5M带宽的轻量应用服务器，114元/年，24岁以下自动获得学生身份。不要小看了5M，看1080p视频不成问题（一个人用的前提下）。<a href="https://promotion.aliyun.com/ntms/act/campus2018.html">云翼计划2018</a></p>
+
+<p>为什么要弄国内中转？弄了国内中转之后，是这样的：</p>
+
+<pre><code class="language-shell">电脑/手机--------阿里云BGP机房--------国外vps
+</code></pre>
+
+<p>因为阿里云BGP机房对所有运营商都提供了很好的网络支持，所以无论家里用的什么宽带，都能保证较好的体验。</p>
+
+<p>我自己使用的vps是搬瓦工DC6 gia的机器，对中国大陆提供双程cn2 gia线路。因此阿里云到国外vps的质量也得到了保证。</p>
+
+<p>自己使用的是移动宽带，不加中转，在电信的cn2 转中国移动路由节点容易出问题，坑死人的移动宽带啊。加上阿里云BGP中转则由阿里云的机器充当路由节点，进行流量的转移，这就是稳定好用的原因。</p>
+
+<p>另外，还有一个概念Qos（服务质量等级），运营商会优先保证等级高的流量。阿里云机房的流量比我们普通家庭带宽的质量等级高，这也是中转方案的一个优点。</p>
+
+<p>总结，中转的好处就是稳。坏处就是中转节点带宽只有5M了😂😂😂。考虑到过不久就要回学校用校园网了，估计校园网的环境下还是要依靠阿里云中转的节点。总之，这样又提供了一个新的选择，节点多一个看着贼爽呢。</p>
+
+<p><img src="/img/ssnodes.png" alt="" width="800px" style="max-width: 100%;"></p>
+
+<p>开始操作：</p>
+
+<h2 id="方案一-使用iptables-适用于落地鸡ip不会改变的情况">方案一：使用iptables，适用于落地鸡ip不会改变的情况</h2>
+
+<p>写了一个支持域名的iptables转发脚本，执行以下命令即可使用</p>
+
+<pre><code class="language-shell">wget  https://raw.githubusercontent.com/arloor/iptablesUtils/master/iptables.sh;
+bash iptables.sh;
+rm -f iptables.sh;
+</code></pre>
+
+<p>输入local port，remote port，target domain/ip。其中target domain/ip既可以是ip，也可以是域名。</p>
+
+<pre><code class="language-shell">本脚本用途：
+设置本机tcp和udp端口转发
+原始iptables仅支持ip地址，该脚本增加域名支持（要求域名指向的主机ip不变）
+若要支持ddns，请使用 https://raw.githubusercontent.com/arloor/iptablesUtils/master/setCroniptablesDDNS.sh;
+
+local port:8388
+remote port:1234
+target domain/ip:xxx.com
+target-ip: xx.xx.xx.xx
+local-ip: xx.xx.xx.xx
+done!
+</code></pre>
+
+<p>题外话（自己备忘）：某端口流量转发到本机其他端口：(从localhost访问，这个转发无效)</p>
+
+<pre><code>iptables -t nat -A PREROUTING -p tcp --dport 8081 -j REDIRECT --to-ports 8080
+</code></pre>
+
+<h3 id="当然iptables也能处理ip会变的情况-这里提供我写的脚本">当然iptables也能处理ip会变的情况，这里提供我写的脚本</h3>
+
+<p>执行以下命令</p>
+
+<pre><code class="language-shell">rm -f setCroniptablesDDNS.sh
+wget https://raw.githubusercontent.com/arloor/iptablesUtils/master/setCroniptablesDDNS.sh;
+bash setCroniptablesDDNS.sh
+
+
+#local port:80
+#remote port:58000
+#targetDDNS:xxxx.example.com
+#done!
+#现在每分钟都会检查ddns的ip是否改变，并自动更新
+</code></pre>
+
+<p>输入local port, remote port, targetDDNS即可。之后会每分钟每分钟都会检查ddns的ip是否改变，并自动更新。执行日志见 /root/iptables.log</p>
+
+<h2 id="方案二-使用socat-适用于落地鸡是使用了ddns更新域名解析的nat-vps">方案二：使用socat，适用于落地鸡是使用了ddns更新域名解析的nat vps</h2>
+
+<p>执行以下命令，填写转发地址和端口即可。该命令会设置开机自启动，同一设置不需要多次执行，也请不需要在同一端口配置多个转发。</p>
+
+<pre><code class="language-shell">wget http://arloor.com/socat.sh
+bash socat.sh
+</code></pre>
+
+<p>停止：</p>
+
+<pre><code>kill -9 $(ps -ef|grep socat|grep -v grep|awk '{print $2}')
+</code></pre>
+
+<p>另外，该脚本会停止iptables服务，导致防火墙规则失效，对一般用户来说不是啥大问题。</p>
+
+<h1 id="番外篇-自己搭建speedtest网站">番外篇：自己搭建speedtest网站</h1>
+
+<p>先安装docker</p>
+
+<pre><code class="language-shell"># 安装相关依赖
+yum install -y yum-utils \
+  device-mapper-persistent-data \
+  lvm2
+# 设置docker源
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+# 安装docker 
+yum -y install docker-ce
+# 开机自启动docker服务
+systemctl enable docker
+systemctl start docker
+</code></pre>
+
+<pre><code>docker run -d --restart always --name  speedtest -p 0.0.0.0:80:80 arloor/speedtest:latest
+</code></pre>
+
+<p>或者，自己构建镜像：</p>
+
+<p>拉取speedtest镜像并运行</p>
+
+<pre><code class="language-shell">cd 
+git clone -b docker https://github.com/adolfintel/speedtest.git
+cd speedtest
+docker build -t arloor/speedtest:latest .
+docker run -d --restart always --name  speedtest -p 0.0.0.0:80:80 arloor/speedtest:latest
+cd 
+</code></pre>
+
+<p>现在就可以访问 <a href="http://ip:80">http://ip:80</a> 测速了。参见<a href="https://github.com/adolfintel/speedtest/tree/docker">speedtest项目</a></p>
+
+<h1 id="番外篇-vps上传速度测试">番外篇：vps上传速度测试</h1>
+
+<p>网速测试请主要关注上传速度！</p>
+
+<pre><code>wget https://raw.github.com/sivel/speedtest-cli/master/speedtest.py ##下载脚本
+
+python speedtest.py --server 5316  |grep -E &quot;Mbit/s|ms&quot;  ##到南京电信的测试节点
+python speedtest.py --server 13704 |grep -E &quot;Mbit/s|ms&quot;  ##到南京联通
+python speedtest.py --server 21590 |grep -E &quot;Mbit/s|ms&quot;  ##到南京移动
+
+python speedtest.py ## speedtest自己选择测试节点
+python speedtest.py --list|grep &quot;China Telecom&quot; ## 列举中国电信测试节点
+python speedtest.py --list|grep &quot;China Unicom&quot;  ## 列举中国联通测试节点
+python speedtest.py --list|grep &quot;China Mobile&quot;  ## 列举中国移动测试节点
+
+
+python speedtest.py --server 5316  --share |grep Share ##到南京电信的测试节点
+python speedtest.py --server 13704 --share |grep Share ##到南京联通
+python speedtest.py --server 21590 --share |grep Share ##到南京移动
+</code></pre>
+
+<h2 id="香港阿里云轻量服务器-149-129-xx-xx">香港阿里云轻量服务器(149.129.xx.xx)</h2>
+
+<table>
+<thead>
+<tr>
+<th>时间</th>
+<th>运营商</th>
+<th>延迟</th>
+<th>下载速度</th>
+<th>上传速度</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>11:30</td>
+<td>南京电信</td>
+<td>86ms</td>
+<td>92Mbps</td>
+<td>😍29Mbps</td>
+</tr>
+
+<tr>
+<td>11:30</td>
+<td>南京联通</td>
+<td>34ms</td>
+<td>106Mbps</td>
+<td>😍35Mbps</td>
+</tr>
+
+<tr>
+<td>11:30</td>
+<td>南京移动</td>
+<td>42ms</td>
+<td>109Mbps</td>
+<td>🤢2.67Mbps</td>
+</tr>
+
+<tr>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+
+<tr>
+<td>15:30</td>
+<td>南京电信</td>
+<td>80-157ms</td>
+<td>82Mbps</td>
+<td>🤢3-20Mbps狂跳</td>
+</tr>
+
+<tr>
+<td>15:30</td>
+<td>南京联通</td>
+<td>35ms</td>
+<td>105Mbps</td>
+<td>😍35Mbps</td>
+</tr>
+
+<tr>
+<td>15:30</td>
+<td>南京移动</td>
+<td>42ms</td>
+<td>91Mbps</td>
+<td>🤢1.80Mbps</td>
+</tr>
+
+<tr>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+
+<tr>
+<td>22:30</td>
+<td>南京电信</td>
+<td>195ms</td>
+<td>72Mbps</td>
+<td>🤢2.78Mbps</td>
+</tr>
+
+<tr>
+<td>22:30</td>
+<td>南京联通</td>
+<td>36ms</td>
+<td>102Mbps</td>
+<td>😍35Mbps</td>
+</tr>
+
+<tr>
+<td>22:30</td>
+<td>南京移动</td>
+<td>70ms</td>
+<td>91Mbps</td>
+<td>🤢3.09Mbps</td>
+</tr>
+</tbody>
+</table>
+
+<p>总结：</p>
+
+<table>
+<thead>
+<tr>
+<th>运营商</th>
+<th>总结</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>电信</td>
+<td>🤢速度、延迟非常不稳定</td>
+</tr>
+
+<tr>
+<td>联通</td>
+<td>😍全天都很好，联通用户就不要犹豫了</td>
+</tr>
+
+<tr>
+<td>移动</td>
+<td>🤢根本不能用</td>
+</tr>
+</tbody>
+</table>
+
+<p>这样看来，只有联通值得买香港轻量服务器。</p>
+
+<h2 id="搬瓦工dc9-gia-67-230-170-xx">搬瓦工dc9 gia(67.230.170.xx)</h2>
+
+<p>这个ip段是最开始默认分配的ip段，用了一段时间后出现了速度上不去的问题，如下面的测试所示：</p>
+
+<table>
+<thead>
+<tr>
+<th>时间</th>
+<th>运营商</th>
+<th>延迟</th>
+<th>下载速度</th>
+<th>上传速度</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>19:30</td>
+<td>南京电信</td>
+<td>143ms</td>
+<td>2.02Mbps</td>
+<td>🤢4.09Mbps</td>
+</tr>
+
+<tr>
+<td>19:30</td>
+<td>南京联通</td>
+<td>141ms</td>
+<td>2.60Mbps</td>
+<td>🤢4.14Mbps</td>
+</tr>
+
+<tr>
+<td>19:30</td>
+<td>南京移动</td>
+<td>145ms</td>
+<td>1.78Mbps</td>
+<td>🤢3.49Mbps</td>
+</tr>
+</tbody>
+</table>
+
+<p>总结：</p>
+
+<table>
+<thead>
+<tr>
+<th>运营商</th>
+<th>总结</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>电信</td>
+<td>🤢稳定得慢</td>
+</tr>
+
+<tr>
+<td>联通</td>
+<td>🤢稳定得慢</td>
+</tr>
+
+<tr>
+<td>移动</td>
+<td>🤢稳定得慢</td>
+</tr>
+</tbody>
+</table>
+
+<p>很稳也很慢。稳：三网双程都是cn2 gia，延迟都是145ms左右，而且不会跳；慢：服务器上传下载都慢。</p>
+
+<p>后面开始折腾，从dc9迁到dc8,再从dc8迁回dc9，ip变成了另一个段。接下来会展示迁移之后的测速结果，显然比这个ip的速度好很多，猜测是换了个机架、邻居。</p>
+
+<h2 id="搬瓦工dc8-cn2-95-169-17-xx">搬瓦工dc8 cn2(95.169.17.xx)</h2>
+
+<table>
+<thead>
+<tr>
+<th>时间</th>
+<th>运营商</th>
+<th>延迟</th>
+<th>下载速度</th>
+<th>上传速度</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>02:00</td>
+<td>南京电信</td>
+<td>171ms</td>
+<td>6.45Mbps</td>
+<td>16.66Mbps</td>
+</tr>
+
+<tr>
+<td>02:00</td>
+<td>南京联通</td>
+<td>222ms</td>
+<td>34Mbps</td>
+<td>😍73Mbps</td>
+</tr>
+
+<tr>
+<td>02:00</td>
+<td>南京移动</td>
+<td>177ms</td>
+<td>78Mbps</td>
+<td>😍83Mbps</td>
+</tr>
+</tbody>
+</table>
+
+<p>dc8机房最大的优势就是便宜吧，速度有时候高，但会出现不稳的情况。追求延迟低和速度稳定的还是推荐dc6或者dc9这种三网双程cn2 gia线路的机房</p>
+
+<h2 id="迁移后搬瓦工dc9-gia-178-157-xx-xx">迁移后搬瓦工dc9 gia(178.157.xx.xx)</h2>
+
+<table>
+<thead>
+<tr>
+<th>时间</th>
+<th>运营商</th>
+<th>延迟</th>
+<th>下载速度</th>
+<th>上传速度</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>11:30</td>
+<td>南京电信</td>
+<td>135ms</td>
+<td>52Mbps</td>
+<td>😍73Mbps</td>
+</tr>
+
+<tr>
+<td>11:30</td>
+<td>南京联通</td>
+<td>141ms</td>
+<td>27Mbps</td>
+<td>😍124Mbps</td>
+</tr>
+
+<tr>
+<td>11:30</td>
+<td>南京移动</td>
+<td>147ms</td>
+<td>32Mbps</td>
+<td>😍138Mbps</td>
+</tr>
+
+<tr>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+
+<tr>
+<td>14:30</td>
+<td>南京电信</td>
+<td>135ms</td>
+<td>47Mbps</td>
+<td>😍108Mbps</td>
+</tr>
+
+<tr>
+<td>14:30</td>
+<td>南京联通</td>
+<td>142ms</td>
+<td>64Mbps</td>
+<td>😍121Mbps</td>
+</tr>
+
+<tr>
+<td>14:30</td>
+<td>南京移动</td>
+<td>158ms</td>
+<td>22Mbps</td>
+<td>😍147Mbps</td>
+</tr>
+
+<tr>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+
+<tr>
+<td>15:30</td>
+<td>南京电信</td>
+<td>137ms</td>
+<td>18Mbps</td>
+<td>😍76Mbps</td>
+</tr>
+
+<tr>
+<td>15:30</td>
+<td>南京联通</td>
+<td>137ms</td>
+<td>54Mbps</td>
+<td>😍120Mbps</td>
+</tr>
+
+<tr>
+<td>15:30</td>
+<td>南京移动</td>
+<td>148ms</td>
+<td>60Mbps</td>
+<td>😍138Mbps</td>
+</tr>
+
+<tr>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+
+<tr>
+<td>19:00</td>
+<td>南京电信</td>
+<td>135ms</td>
+<td>26Mbps</td>
+<td>😍94Mbps</td>
+</tr>
+
+<tr>
+<td>19:00</td>
+<td>南京联通</td>
+<td>137ms</td>
+<td>37Mbps</td>
+<td>😍121Mbps</td>
+</tr>
+
+<tr>
+<td>19:00</td>
+<td>南京移动</td>
+<td>155ms</td>
+<td>42Mbps</td>
+<td>😍65Mbps</td>
+</tr>
+
+<tr>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+
+<tr>
+<td>22:00</td>
+<td>南京电信</td>
+<td>135ms</td>
+<td>27Mbps</td>
+<td>😍99Mbps</td>
+</tr>
+
+<tr>
+<td>22:00</td>
+<td>南京联通</td>
+<td>143ms</td>
+<td>28Mbps</td>
+<td>😍120Mbps</td>
+</tr>
+
+<tr>
+<td>22:00</td>
+<td>南京移动</td>
+<td>147ms</td>
+<td>4Mbps</td>
+<td>49Mbps</td>
+</tr>
+</tbody>
+</table>
+
+<p>迁两次机房后，ip变为这个段，速度有了很大提升。猜测是原来机器的邻居太暴力或者原来所在的机架网络设备有问题？总之之前的体验很坑。从这个测试结果看，dc9还是很值得入的。</p>
+
+<p>如果开到dc9的机器，出现网速慢的情况，可以尝试跟我一样迁两次机房看看。</p>
+  </div>
+  
+    
+        
+<script src="https://utteranc.es/client.js"
+        repo="arloor/blog"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+        
+</script>
+
+<script>
+document.head.insertAdjacentHTML("beforeend", "<style>\n    .utterances {\n      position: relative;\n      box-sizing: border-box;\n      width: 100%;\n      max-width: 100%;\n      margin-left: auto;\n      margin-right: auto;\n    }\n    .utterances-frame {\n      position: absolute;\n      left: 0;\n      right: 0;\n      width: 1px;\n      min-width: 100%;\n      max-width: 100%;\n      height: 100%;\n      border: 0;\n    }\n  </style>");
+</script>
+
+    
+
+
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/posts/learn/spider-system-design/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">针对热点问题的网络舆情爬取系统</span>
+    </a>
+    
+    
+    <a href="/posts/learn/rabbitmq-learn/" class="navigation-next">
+      <span class="navigation-tittle">RabbitMQ的使用</span>
+      <i aria-hidden="true" class="fa fa-chevron-right"></i>
+    </a>
+    
+</div>
+
+
+  
+
+</article>
+
+
+        </div>
+        
+    
+  
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-133187648-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+<script defer src="https://use.fontawesome.com/releases/v5.5.0/js/all.js" integrity="sha384-GqVMZRt5Gn7tB9D9q7ONtcp4gtHIUEW/yG7h98J7IpE3kpi+srfFyyB/04OV6pG0" crossorigin="anonymous"></script>
+
+
+    
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+        
+    
+    <script type="text/javascript">
+        
+        hljs.initHighlightingOnLoad();
+    </script>
+    
+
+
+
+
+
+
+    
+
+
+
+    </body>
+</html>

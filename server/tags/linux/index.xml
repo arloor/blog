@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Linux on ARLOOR</title>
+    <link>http://arloor.com/tags/linux/</link>
+    <description>Recent content in Linux on ARLOOR</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Mon, 04 Mar 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://arloor.com/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>玩转VPS与centos 7</title>
+      <link>http://arloor.com/posts/linux/centos7-some-tweaks/</link>
+      <pubDate>Mon, 04 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://arloor.com/posts/linux/centos7-some-tweaks/</guid>
+      <description>&lt;p&gt;多年以后，我又开始整vps了，学了三年，也知道怎么整linux了。个人使用的是搬瓦工 DC6 CN2 GIA 机房的vps。&lt;a href=&#34;https://bwh88.net/aff.php?aff=11132&amp;amp;pid=87&#34;&gt;购买链接&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>把ubuntu18.04 变成我的ubuntu</title>
+      <link>http://arloor.com/posts/linux/turn-ubuntu-mine-own/</link>
+      <pubDate>Tue, 01 Jan 2019 13:14:59 +0800</pubDate>
+      
+      <guid>http://arloor.com/posts/linux/turn-ubuntu-mine-own/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;http://arloor.com/img/new-years-day-2019-5179180558843904.3-2xa.gif&#34; alt=&#34;happy new year 2019&#34; /&gt;
+拿到一个电脑的第一件事，当然是把他变成自己的电脑。装上ubuntu之后的第一件事就是变成自己的ubuntu啦。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>添加Ubuntu桌面图标</title>
+      <link>http://arloor.com/posts/linux/ubuntu-desktop-entry-example/</link>
+      <pubDate>Mon, 31 Dec 2018 23:52:22 +0800</pubDate>
+      
+      <guid>http://arloor.com/posts/linux/ubuntu-desktop-entry-example/</guid>
+      <description>&lt;p&gt;steam.desktop的内容，可以仿照&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Shell关闭占用某端口的应用</title>
+      <link>http://arloor.com/posts/linux/shell-close-process-that-hold-some-port/</link>
+      <pubDate>Sun, 30 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://arloor.com/posts/linux/shell-close-process-that-hold-some-port/</guid>
+      <description>&lt;p&gt;现在在自己的centos7上跑了应用，有个需求：重启该应用。实现如下&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

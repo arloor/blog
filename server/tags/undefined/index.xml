@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Undefined on ARLOOR</title>
+    <link>http://arloor.com/tags/undefined/</link>
+    <description>Recent content in Undefined on ARLOOR</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Sat, 27 Apr 2019 17:56:22 +0800</lastBuildDate>
+    
+	<atom:link href="http://arloor.com/tags/undefined/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>二十二年•纪</title>
+      <link>http://arloor.com/posts/my-life-and-my-love/</link>
+      <pubDate>Sat, 27 Apr 2019 17:56:22 +0800</pubDate>
+      
+      <guid>http://arloor.com/posts/my-life-and-my-love/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;感谢刘港欢大学四年来1218天的陪伴&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;这是悦悦毕业论文的致谢中的一句话。一篇论文，洋洋洒洒，突然就写到了最后的致谢，这才恍然间发现，我们也过到了大学生涯的结尾。今天4月27日，我刚满22周岁不久。20多年的生命，我从来没有好好回忆过，思考过。想了一想，总归要抖一抖胸中不多的墨水写点什么。借着这个机会，要说说我生命里遇到的那些人，那些事。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>go使用sync.pool实现复用[]byte——降低IO密集应用的GC频率</title>
+      <link>http://arloor.com/posts/use-sync-pool-go/</link>
+      <pubDate>Sun, 14 Apr 2019 14:22:51 +0800</pubDate>
+      
+      <guid>http://arloor.com/posts/use-sync-pool-go/</guid>
+      <description>前一篇文章介绍了sogo这个socks5代理的实现，在原始的sogo实现中，有一个重大的问题是：没有复用内存，导致频繁GC，导致cpu占用很高。对于socket通信这种io密集的应用，复用[]byte还是很重要的，不然每次去make新的[]byte，这些[]byte迟早要被GC，这就导致了cpu占用高的问题。解决这个问</description>
+    </item>
+    
+    <item>
+      <title>Sogo—使用http协议进行混淆/伪装的socks5代理</title>
+      <link>http://arloor.com/posts/socks-over-http/</link>
+      <pubDate>Wed, 10 Apr 2019 14:24:10 +0800</pubDate>
+      
+      <guid>http://arloor.com/posts/socks-over-http/</guid>
+      <description>&lt;p&gt;之前写了一个http代理，用起来也是十分地舒服，但是有几个点还是有些遗憾的：&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;http代理只能代理http协议，相比socks5代理不够通用。。&lt;/li&gt;
+&lt;li&gt;netty是个好框架，但是java占用内存是真的多。。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;所以，我又写了一个socks5代理，起名叫&lt;a href=&#34;https://github.com/arloor/sogo&#34;&gt;sogo&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;sogo本身包含sogo(client)和sogo-server。如果把sogo和sogo-server看成一个整体，一个黑盒，这个整体就是一个socks5代理。sogo(client)与本地电脑交互；sogo-server与目标网站交互；sogo(client)和sogo-server之间的交互就是http协议包裹payload进行通信。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>响应式iframe—hugo博客嵌入youtube视频</title>
+      <link>http://arloor.com/posts/responsive-iframe/</link>
+      <pubDate>Wed, 10 Apr 2019 01:10:48 +0800</pubDate>
+      
+      <guid>http://arloor.com/posts/responsive-iframe/</guid>
+      <description>&lt;p&gt;其实只是博客中想嵌入16：9的youtube视频，但youtube官方的嵌入代码是固定宽度1280，高度720，在手机上表现十分不好。因此有了这个偏前端的主题。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>阿里云vps关闭阿里云盾</title>
+      <link>http://arloor.com/posts/linux/aliyun-turnoff-aliyundun/</link>
+      <pubDate>Thu, 21 Mar 2019 16:46:54 +0800</pubDate>
+      
+      <guid>http://arloor.com/posts/linux/aliyun-turnoff-aliyundun/</guid>
+      <description>&lt;p&gt;阿里云 ECS 默认自动安装了阿里云盾（安骑士）的 WAF 防火墙，这个云盾基本是没有用的，唯一的用处就是记录一些所谓的漏洞、扫描/注入攻击以便在阿里云后台提示用户购买使用收费版“安骑士”服务。可以说这玩意儿除了是阿里云营销“套路”调用获取数据外基本没有什么用的，摆设的感觉非常强烈。删！&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>RabbitMQ的使用</title>
+      <link>http://arloor.com/posts/learn/rabbitmq-learn/</link>
+      <pubDate>Thu, 14 Mar 2019 21:19:06 +0800</pubDate>
+      
+      <guid>http://arloor.com/posts/learn/rabbitmq-learn/</guid>
+      <description>rabbitmq java api使用demo 详情见github项目rabbitmqdemo 在centos7上安装RabbitMQ 3.7.13 RabbitMQ是使用Erlang编写的消息中间件，因此首先需要安装Erlang，而且RabbitMQ与Erlang版本有着对应关系。 首先到RabbitMQ 3.7.13的realse页面。其中提到3.7.13版本</description>
+    </item>
+    
+    <item>
+      <title>针对热点问题的网络舆情爬取系统</title>
+      <link>http://arloor.com/posts/learn/spider-system-design/</link>
+      <pubDate>Thu, 28 Feb 2019 02:05:28 +0800</pubDate>
+      
+      <guid>http://arloor.com/posts/learn/spider-system-design/</guid>
+      <description>&lt;p&gt;“网络舆情爬取系统”是针对在一定的社会空间内，围绕中介性社会事件的发生、发展和变化，民众对社会管理者产生和持有的社会政治态度于网络上表达出来意愿集合而进行的计算机监测的系统统称。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
