@@ -1,5 +1,5 @@
 ---
-title: "二十二年·纪"
+title: "二十二年•纪"
 date: 2019-04-27T17:56:22+08:00
 draft: false
 categories: [ "undefined"]
