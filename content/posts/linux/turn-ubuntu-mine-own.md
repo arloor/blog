@@ -121,14 +121,16 @@ sudo vim /etc/shadowsocks-libev/config.json
 }
 ```
 
-编辑 /etc/rc.local 以开机启动（请先执行上一节以启用开机自启服务）
+> 上面的server一栏要填写ip，才能开机自启动成功，原因是shadowsocks服务启动时，可能dns服务还未启动，不能解析ip
+
+编辑 /lib/systemd/system下的shadowsocks-libev. service
 
 ```
-# 在/etc/rc.local中加入下面的命令：
-nohup /usr/bin/ss-local -c /etc/shadowsocks-libev/config.json &
+# 将 ExecStart=/usr/bin/ss-server -c $CONFFILE $DAEMON_ARGS 改成
+ExecStart=/usr/bin/ss-local -c $CONFFILE $DAEMON_ARGS
 ```
 
-这样，以后开机就在1080端口启动了socks5代理服务。
+这样就可以使用service shadowsocks-libev start来启动ss-local了，并且可以使用systemctl anable shadowsocks-libev 设置ss开机自启动
 
 
 # 干掉顶部横栏，增大桌面的可用面积
