@@ -12,6 +12,7 @@ cd nettysocks5
 wget http://repo-1252282974.cossh.myqcloud.com/sogo.jar
 wget http://repo-1252282974.cossh.myqcloud.com/sogo.json
 vi sogo.json
+ulimit -n 65536
 (java -jar sogo.jar -c sogo.json &)
 cd
 
