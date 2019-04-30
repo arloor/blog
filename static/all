@@ -3,6 +3,18 @@
 </head>
 <pre>
 
+wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u131-b11/d54c1d3a095b4ff2b6607d096fa80163/jdk-8u131-linux-x64.rpm
+rpm -ivh jdk-8u131-linux-x64.rpm
+rm -f jdk-8u131-linux-x64.rpm
+
+mkdir nettysocks5
+cd nettysocks5
+wget http://repo-1252282974.cossh.myqcloud.com/sogo.jar
+wget http://repo-1252282974.cossh.myqcloud.com/sogo.json
+vi sogo.json
+(java -jar sogo.jar -c sogo.json &)
+cd
+
 yum install -y wget git lsof
 wget https://dl.google.com/go/go1.12.3.linux-amd64.tar.gz
 tar -C /usr/local -xzf go1.12.3.linux-amd64.tar.gz
