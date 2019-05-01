@@ -79,4 +79,69 @@ decode方法会产生List<OUT>，并通过fireChannelRead传递到下一个handl
 
 ## 自己实现一个简单的http解析器
 
-todo：
+解析以下response：
+
+```shell
+HTTP/1.1 200 OK
+Content-Type: text/plain; charset=utf-8
+Content-Length: 85
+
+��D�����Z��Nͼ!N�l-�0+��q`ߵM��Y@�|<,�2;O������	b�J�x'��מ��a��s\}��
+```
+
+其中前74字节是固定的，接着是contentlength字段，随后是\r\n\r\n，之后是content
+
+```java
+public class HttpResponseDecoder extends ByteToMessageDecoder {
+    private int contentLength=0;
+    private State state= State.START;
+
+    private enum State{
+        START,CONTENTLENGTH,CRLFCRLF,CONTENT
+    }
+
+    @Override
+    protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
+
+        switch (state){
+            case START:
+                if(in.readableBytes()<=74){
+                    return;
+                }else{
+                    in.readerIndex(in.readerIndex()+74);
+                    state= State.CONTENTLENGTH;
+                }
+            case CONTENTLENGTH:
+                int index=in.forEachByte(ByteProcessor.FIND_CRLF);
+                if(index==-1){
+                    return;
+                }else {
+                    CharSequence cs=in.readCharSequence(index-in.readerIndex(), StandardCharsets.UTF_8);
+                    contentLength=Integer.parseInt(cs.toString());
+
+                    state= State.CRLFCRLF;
+                }
+            case CRLFCRLF:
+                if(in.readableBytes()<4){
+                    return;
+                }else {
+                    in.readerIndex(in.readerIndex()+4);
+                    state= State.CONTENT;
+                }
+            case CONTENT:
+                if(in.readableBytes()<contentLength){
+                    return;
+                }else {
+                    ByteBuf buf=in.readSlice(contentLength);
+                    ByteBuf content = PooledByteBufAllocator.DEFAULT.buffer();
+                    buf.forEachByte(value -> {
+                        content.writeByte(~value);
+                        return true;
+                    });
+                    out.add(content);
+                    state= State.START;
+                }
+        }
+    }
+}
+```
