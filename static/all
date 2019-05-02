@@ -16,6 +16,27 @@ ulimit -n 65536
 (java -jar sogo.jar -c sogo.json &)
 cd
 
+cat nettysocks5/sogo.json #看配置文件
+tailf nettysocks5/log/proxyserver/2019-05-01.log  #看日志
+cat nettysocks5/log/proxyserver/2019-05-01.log|grep "Error auth"
+cat nettysocks5/log/proxyserver/2019-05-01.log|grep "socks4 request from"
+
+阿里云上海 47.102.221.189:6666 ->香港阿里云 47.75.242.36 我的
+ucloud上海 120.132.101.90:8888 ->香港阿里云 47.75.242.36 我的
+ucloud广州 106.75.168.127:6666 ->香港阿里云 47.244.182.117 草流哥
+腾讯云上海1 111.231.86.172:6666 ->搬瓦工美西 144.34.178.71
+腾讯云上海2 118.25.108.216 ->搬瓦工美西 176.122.139.193
+
+
+
+
+
+
+
+
+
+
+
 yum install -y wget git lsof
 wget https://dl.google.com/go/go1.12.3.linux-amd64.tar.gz
 tar -C /usr/local -xzf go1.12.3.linux-amd64.tar.gz
