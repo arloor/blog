@@ -59,7 +59,7 @@ iptables -I INPUT -s 140.205.225.195/32 -j DROP
 iptables -I INPUT -s 140.205.225.204/32 -j DROP
 ```
 
-4. 卸载云监控Java版本插件：
+4、 卸载云监控Java版本插件：
 
 云监控Java版本插件： https://help.aliyun.com/knowledge_detail/38859.html#h2-url-4
 
