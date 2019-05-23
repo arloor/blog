@@ -141,5 +141,6 @@ dd if=/ghost.img of=/dev/sda
 ```
 dd   bs=512 count=[fdisk命令中最大的end数+1] if=/dev/sda | gzip -6 > /ghost.img.gz
 gzip -dc /ghost.img.gz | dd of=/dev/sda
-#git config --global http.proxy 'socks5://youwillneveruse:thissock5@106.75.222.242:6666'
+# git config --global http.proxy 'socks5://youwillneveruse:thissock5@106.75.222.242:6666'
+# 这是什么呢？
 ```
