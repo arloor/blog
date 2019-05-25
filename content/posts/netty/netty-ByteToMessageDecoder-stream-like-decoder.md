@@ -93,6 +93,10 @@ Content-Length: 85
 
 ```java
 public class HttpResponseDecoder extends ByteToMessageDecoder {
+    private static Logger logger= LoggerFactory.getLogger(HttpResponseDecoder.class);
+    private byte[] headStore=new byte[74];
+    private final static byte[] validHead="HTTP/1.1 200 OK\r\nContent-Type: text/plain; charset=utf-8\r\nContent-Length: ".getBytes();
+
     private int contentLength=0;
     private State state= State.START;
 
@@ -100,11 +104,33 @@ public class HttpResponseDecoder extends ByteToMessageDecoder {
         START,CONTENTLENGTH,CRLFCRLF,CONTENT
     }
 
+    //检查响应的其实部分是否正确
+    private boolean headValid(ByteBuf slice){
+        slice.markReaderIndex();
+        slice.readBytes(headStore);
+        slice.resetReaderIndex();
+
+        for (int i = 0; i < validHead.length; i++) {
+            if(headStore[i]!=validHead[i]){
+                return false;
+            }
+        }
+        return true;
+    }
+
     @Override
-    protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
+    protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) {
 
         switch (state){
             case START:
+                if(in.readableBytes()>=74){//如果不以 “"HTTP/1.1 200 OK。。。。。"”开始则直接点开连接
+                    if(!headValid(in)){
+                        logger.error("来自服务器的错误的响应。请检查sogo.json配置");
+                        SocksServerUtils.closeOnFlush(ctx.channel());
+                        return;
+                    }
+                }
+
                 if(in.readableBytes()<=74){
                     return;
                 }else{
@@ -144,6 +170,7 @@ public class HttpResponseDecoder extends ByteToMessageDecoder {
         }
     }
 }
+
 ```
 
 
