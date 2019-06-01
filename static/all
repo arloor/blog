@@ -13,6 +13,7 @@ wget http://repo-1252282974.cossh.myqcloud.com/sogo.jar
 wget http://repo-1252282974.cossh.myqcloud.com/sogo.json
 vi sogo.json
 ulimit -n 65536
+kill -9 $(jps -l|grep -v "grep"|grep sogo|awk '$1!=""{print $1}')
 (java -jar sogo.jar -c sogo.json &)
 cd
 
