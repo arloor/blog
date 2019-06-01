@@ -189,7 +189,7 @@ wget https://github.com/arloor/sogo/releases/download/v1.0/sogo-server.json
 chmod +x sogo-server
 mv -f sogo-server /usr/local/bin/
 mv -f sogo-server.json /usr/local/bin/
-kill -9 $(lsof -i:80|tail -1|awk '$1!=""{print $2}') #关闭80端口应用
+kill -9 $(ps -aux|grep -v "grep"|grep sogo|awk '$1!=""{print $2}') #关闭80端口应用
 ulimit -n 65536 #设置进程最多打开文件数量，防止 too many openfiles错误（太多连接
 (sogo-server &)
 ```
@@ -204,6 +204,7 @@ wget https://github.com/arloor/sogo/releases/download/v1.0/sogo
 chmod +x sogo
 mv -f sogo /usr/local/bin/
 mv -f sogo.json /usr/local/bin/
+kill -9 $(ps -aux|grep -v "grep"|grep sogo|awk '$1!=""{print $2}')
 ulimit -n 65536 #设置进程最多打开文件数量，防止 too many openfiles错误（太多连接
 # 运行前，先修改/usr/local/bin/sogo.json
 (sogo &) #以 /usr/local/bin/sogo.json 为配置文件  该配置下，服务端地址被设置为proxy
@@ -432,7 +433,7 @@ open files那一行就代表当前shell会话目前允许单个进程打开的�
 使用命令lsof -p 进程id可以查看单个进程所有打开的文件详情，使用命令lsof -p 进程id | wc -l可以统计进程打开了多少文件：（PS：使用lsof -i:80|wc -l可以查看80端口有多少个连接）
 
 ```shell
-lsof -p $(lsof -i:80|tail -1|awk '$1!=""{print $2}')|wc -l
+lsof -p $(ps -aux|grep -v "grep"|grep sogo|awk '$1!=""{print $2}')|wc -l
 #1610
 lsof -i:80|wc -l
 #337
