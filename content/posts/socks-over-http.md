@@ -194,8 +194,9 @@ ulimit -n 65536 #设置进程最多打开文件数量，防止 too many openfile
 (sogo-server &)
 ```
 
-## linux上客户端安装(java版)
+## linux上客户端安装（java版）
 
+```shell
 wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u131-b11/d54c1d3a095b4ff2b6607d096fa80163/jdk-8u131-linux-x64.rpm
 rpm -ivh jdk-8u131-linux-x64.rpm
 rm -f jdk-8u131-linux-x64.rpm
@@ -209,6 +210,7 @@ ulimit -n 65536
 kill -9 $(jps -l|grep -v "grep"|grep sogo|awk '$1!=""{print $1}')
 (java -jar sogo.jar -c sogo.json &)
 cd
+```
 
 ## linux上客户端安装（过时）
 
