@@ -194,7 +194,23 @@ ulimit -n 65536 #设置进程最多打开文件数量，防止 too many openfile
 (sogo-server &)
 ```
 
-## linux上客户端安装
+## linux上客户端安装(java版)
+
+wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u131-b11/d54c1d3a095b4ff2b6607d096fa80163/jdk-8u131-linux-x64.rpm
+rpm -ivh jdk-8u131-linux-x64.rpm
+rm -f jdk-8u131-linux-x64.rpm
+
+mkdir socks5
+cd socks5
+wget http://repo-1252282974.cossh.myqcloud.com/sogo.jar
+wget http://repo-1252282974.cossh.myqcloud.com/sogo.json
+#vim /etc/hosts #配置proxy1 proxy2
+ulimit -n 65536
+kill -9 $(jps -l|grep -v "grep"|grep sogo|awk '$1!=""{print $1}')
+(java -jar sogo.jar -c sogo.json &)
+cd
+
+## linux上客户端安装（过时）
 
 ```shell
 # 国内机器下面两个wget会很慢，考虑本地下载再上传到服务器吧
