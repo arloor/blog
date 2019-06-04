@@ -441,9 +441,9 @@ trace arloor.com
 写了一个支持域名的iptables转发脚本，执行以下命令即可使用
 
 ```shell
+rm -f iptables.sh;
 wget  https://raw.githubusercontent.com/arloor/iptablesUtils/master/iptables.sh;
 bash iptables.sh;
-rm -f iptables.sh;
 ```
 
 输入local port，remote port，target domain/ip。其中target domain/ip既可以是ip，也可以是域名。
