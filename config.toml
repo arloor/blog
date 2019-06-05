@@ -17,7 +17,7 @@ paginate = 8
 
 ## Site Settings
 [params]
-UtterancesRepo= "arloor/blog"
+#UtterancesRepo= "arloor/blog"
 UtterancesIssueTerm = "pathname"
 UtterancesTheme="github-light"
 
