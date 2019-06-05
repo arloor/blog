@@ -37,7 +37,7 @@ exit 0
 
 ```shell
 #! /bin/bash
-pname=proxy
+pname=proxygo
 #set path to support crontab
 export PATH=$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/usr/local/go/bin:/root/bin
 # shutdown the pre process
