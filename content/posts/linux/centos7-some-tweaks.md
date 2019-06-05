@@ -465,8 +465,16 @@ done!
 
 题外话（自己备忘）：某端口流量转发到本机其他端口：(从localhost访问，这个转发无效)
 
-```
+```shell
 iptables -t nat -A PREROUTING -p tcp --dport 8081 -j REDIRECT --to-ports 8080
+```
+
+### 删除本机某端口上的转发
+
+```shell
+rm -f rmPreNatRule.sh
+wget https://raw.githubusercontent.com/arloor/iptablesUtils/master/rmPreNatRule.sh;
+bash rmPreNatRule.sh $localport
 ```
 
 ### 当然iptables也能处理ip会变的情况，这里提供我写的脚本
