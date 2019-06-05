@@ -206,11 +206,11 @@ mkdir socks5
 cd socks5
 wget http://repo-1252282974.cossh.myqcloud.com/sogo.jar
 wget http://repo-1252282974.cossh.myqcloud.com/sogo.json
+wget http://repo-1252282974.cossh.myqcloud.com/sogo.service
+mv sogo.service /lib/systemd/system/
+systemctl enable sogo
+systemctl start sogo
 #vim /etc/hosts #配置proxy1 proxy2
-ulimit -n 65536
-kill -9 $(jps -l|grep -v "grep"|grep sogo|awk '$1!=""{print $1}')
-(java -jar sogo.jar -c sogo.json &)
-cd
 ```
 
 ## linux上客户端安装（过时）
