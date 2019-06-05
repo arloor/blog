@@ -2,7 +2,7 @@
 # 当前使用hugo 0.53(支持scss)
 dir=/home/x1/blog
 dir=$PWD
-host=arloor.com
+host=106.75.245.236
 port=22
 
 git pull
