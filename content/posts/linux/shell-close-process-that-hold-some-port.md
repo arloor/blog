@@ -33,6 +33,26 @@ exit 0
 
 `lsof -i:8080|tail -1|awk '$1!=""{print $2}'`列出占用8080端口的应用；只打印一行；如果那一行第一个字段不为空，打印第二个字段（pid）。最后pid被赋值给了name
 
+## shell关闭某进程
+
+```shell
+#! /bin/bash
+pname=proxy
+#set path to support crontab
+export PATH=$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/usr/local/go/bin:/root/bin
+# shutdown the pre process
+name=$(ps -aux|grep $pname |grep -v "grep"|awk '$1!=""{print $11}')
+if [ -z $name ]
+then
+        echo "No process can be used to killed!"
+else
+        id=$(ps -aux|grep $pname|grep -v "grep"|awk '$1!=""{print $2}')
+        kill -9 $id
+        echo "Process name=$name($id) kill!"
+fi
+exit 0
+```
+
 ## 知识点
 
 1. name=$(表达式) 将表达式产生的值赋给name
