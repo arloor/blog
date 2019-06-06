@@ -15,6 +15,9 @@ keywords:
 |:-------|
 | [火辣辣前端](http://huolalaweb.com/)|
 | [小马哥哥](https://xiaoma.me/) |
+| [搜嘎小站](https://sga.vc/)|
+| [guxuerui](http://www.guxuerui.cn/)|
+| [FLB](https://www.fluobo.cn/)|
 | [Python量化投资](https://www.lizenghai.com/) |
 | [Emin.ink](https://www.emin.ink/blog) |
 | [Kuo](https://kuo.lu)|
