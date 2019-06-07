@@ -16,6 +16,7 @@ vim /usr/lib/systemd/system/bot.service
 systemctl enable bot
 ```
 使用上述命令编写bot服务的service文件，并设置开机自启动。service文件内容如下。
+<!--more-->
 
 ```shell
 [Unit]
