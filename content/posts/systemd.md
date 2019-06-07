@@ -12,9 +12,12 @@ keywords:
 ---
 
 ```shell
-#vim /usr/lib/systemd/system/bot.service
-#systemctl enable bot
+vim /usr/lib/systemd/system/bot.service
+systemctl enable bot
+```
+使用上述命令编写bot服务的service文件，并设置开机自启动。service文件内容如下。
 
+```shell
 [Unit]
 Description=草信官方助手
 
