@@ -24,8 +24,8 @@ Description=某应用
 
 [Service]
 WorkingDirectory=/root/caochatbot
-ExecStart=/usr/bin/java -jar /root/caochatbot/caochatbot.jar
 Restart=always
+ExecStart=/usr/bin/java -jar /root/caochatbot/caochatbot.jar
 
 [Install]
 WantedBy=multi-user.target
