@@ -20,7 +20,7 @@ systemctl enable bot
 
 ```shell
 [Unit]
-Description=草信官方助手
+Description=某应用
 
 [Service]
 WorkingDirectory=/root/caochatbot
