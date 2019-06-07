@@ -11,12 +11,17 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
+以前的博客中有如何使用shell脚本重启应用的教程，也有解决tty的最大打开文件数量限制的方法。其实这些都可以用systemd服务的方式解决。今天就来一个简单的service文件，记录下怎么使用。
+
+使用如下命令即可编写bot服务的service文件，并设置开机自启动。
+<!--more-->
+
 ```shell
 vim /usr/lib/systemd/system/bot.service
 systemctl enable bot
 ```
-使用上述命令编写bot服务的service文件，并设置开机自启动。service文件内容如下。
-<!--more-->
+
+service文件内容如下。
 
 ```shell
 [Unit]
