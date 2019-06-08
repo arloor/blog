@@ -182,16 +182,37 @@ Host: {fakehost}
 ## linux上服务端部署
 
 ```shell
-yum install -y wget bind-utils lsof
+yum install -y wget
 wget https://github.com/arloor/sogo/releases/download/v1.0/sogo-server
 wget https://github.com/arloor/sogo/releases/download/v1.0/sogo-server.json
 
 chmod +x sogo-server
 mv -f sogo-server /usr/local/bin/
 mv -f sogo-server.json /usr/local/bin/
-kill -9 $(ps -aux|grep -v "grep"|grep sogo|awk '$1!=""{print $2}') #关闭80端口应用
-ulimit -n 65536 #设置进程最多打开文件数量，防止 too many openfiles错误（太多连接
-(sogo-server &)
+
+#创建service
+cat > /lib/systemd/system/sogo-server.service <<EOF
+[Unit]
+Description=sogo-server
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/root/
+ExecStart=/usr/local/bin/sogo-server
+LimitNOFILE=100000
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+service  sogo-server start
+systemctl daemon-reload
+systemctl enable sogo-server
+
 ```
 
 ## linux上客户端安装（java版）
