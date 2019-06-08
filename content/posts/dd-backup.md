@@ -80,7 +80,7 @@ DNS3=114.114.114.114
 | NETMASK | 网关地址 | - |
 | BROADCAST | 广播地址 | - |
 | HWADDR/MACADDR | MAC地址。只需设置其中一个，同时设置时不能相互冲突。 | - |
-| PEERDNS | 是否指定DNS。如果使用DHCP协议，默认为yes。 | yes：如果DNS设置，修改/etc/resolv.conf中的DNS; </br>no：不修改/etc/resolv.conf中的DNS|
+| PEERDNS | 是否指定DNS。 | yes：如果DNS设置，修改/etc/resolv.conf中的DNS; </br>no：不修改/etc/resolv.conf中的DNS|
 | DNS{1, 2}| DNS地址。当PEERDNS为yes时会被写入/etc/resolv.conf中。| - |
 | NM_CONTROLLED| 是否由Network Manager控制该网络接口。修改保存后立即生效，无需重启。被其坑过几次，建议一般设为no。| yes：由Network Manager控制；</br> no：不由Network Manager控制 |
 | USERCTL | 用户权限控制 | yes：非root用户允许控制该网络接口；</br> no：非root用户不运行控制该网络接口|
