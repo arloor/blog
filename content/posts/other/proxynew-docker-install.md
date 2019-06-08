@@ -71,11 +71,26 @@ docker run -d --name proxy -p 8080:8080 --restart always arloor/proxyserver:1.0
 成功走通，则服务端启动成功，下面需要做的就是客户端的安装与设置
 
 
-# linux和mac系统 客户端安装
+# linux系统客户端安装
 
 windows系统的朋友不需要做这一小节说的东西哈
 
-下载[proxygo_linux](https://github.com/arloor/HttpProxy/releases/download/v1.4/proxygo_linux)（mac系统下载[proxygo_mac](https://github.com/arloor/HttpProxy/releases/download/v1.4/proxygo_mac)）和[pac.txt](https://github.com/arloor/HttpProxy/releases/download/v1.4/pac.txt)（这两个文件需要在相同文件夹）
+安装：
+
+```shell
+sudo su
+mkdir /usr/local/proxy
+cd /usr/local/proxy
+wget --no-check-certificate -O proxy.json https://github.com/arloor/HttpProxy/releases/download/v1.5/proxy.json
+wget --no-check-certificate -O pac.txt https://github.com/arloor/HttpProxy/releases/download/v1.5/pac.txt
+wget --no-check-certificate -O proxygo https://github.com/arloor/HttpProxy/releases/download/v1.5/proxygo
+chmod +x proxygo
+cd /usr/lib/systemd/system
+wget --no-check-certificate -O proxy.service https://github.com/arloor/HttpProxy/releases/download/v1.5/proxy.service
+service proxy start
+exit
+cd 
+```
 
 编辑/etc/hosts，增加一行 
 
@@ -83,7 +98,7 @@ windows系统的朋友不需要做这一小节说的东西哈
 xx.xx.xx.xx proxy
 ```
 
-此时在终端（terminal）中运行proxygo_linux/proxygo_mac即可。linux/mac版本的客户端不会自动修改系统的代理设置（windows中会自动地修改注册表从而修改系统代理设置），必须手动修改linux/mac系统的代理设置为自动代理设置（pac模式），pac的URL地址：[http://127.0.0.1:9999/pac](http://127.0.0.1:9999/pac)
+手动修改linux系统的代理设置为自动代理设置（pac模式），pac的URL地址：[http://127.0.0.1:9999/pac](http://127.0.0.1:9999/pac)
 
 # windows 客户端安装
 
