@@ -43,6 +43,19 @@ chmod +x shadowsocks-libev.sh
 ./shadowsocks-libev.sh uninstall
 ```
 
+## 使用systemd管理shadowsocks服务：
+
+上面的脚本安装后ss由init.d管理，下面的脚本则将其转交给systemd管理
+
+```shell
+ wget --no-check-certificate -O systemd.sh https://raw.githubusercontent.com/arloor/shadowsocks_install/master/systemd.sh
+chmod +x systemd.sh
+./systemd.sh
+```
+
+以后即可使用service ss start开启shadowsocks。
+
+
 # docker 安装ss-libev
 
 先安装docker
