@@ -85,8 +85,24 @@ wget --no-check-certificate -O proxy.json https://github.com/arloor/HttpProxy/re
 wget --no-check-certificate -O pac.txt https://github.com/arloor/HttpProxy/releases/download/v1.5/pac.txt
 wget --no-check-certificate -O proxygo https://github.com/arloor/HttpProxy/releases/download/v1.5/proxygo
 chmod +x proxygo
-cd /usr/lib/systemd/system
-wget --no-check-certificate -O proxy.service https://github.com/arloor/HttpProxy/releases/download/v1.5/proxy.service
+
+cat > /lib/systemd/system/proxy.service <<EOF
+[Unit]
+Description=proxygo
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/root
+ExecStart=/usr/local/proxy/proxygo 
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+EOF
+systemctl daemon-reload
 service proxy start
 exit
 cd 
