@@ -17,23 +17,36 @@ keywords:
 <!--more-->
 
 ```shell
-vim /usr/lib/systemd/system/bot.service
-systemctl enable bot
+vim /usr/lib/systemd/system/sogo.service
+systemctl enable sogo
 ```
 
 service文件内容如下。
 
 ```shell
 [Unit]
-Description=某应用
+Description=一个socks5代理
+After=network-online.target
+Wants=network-online.target
 
 [Service]
-WorkingDirectory=/root/caochatbot
+WorkingDirectory=/root/socks5
+ExecStart=/usr/bin/java -jar /root/socks5/sogo.jar -c /root/socks5/sogo.json
+LimitNOFILE=100000
 Restart=always
-ExecStart=/usr/bin/java -jar /root/caochatbot/caochatbot.jar
+RestartSec=2
 
 [Install]
 WantedBy=multi-user.target
 ```
 
-以上就是一个简单的服务文件了。好处很简单，重启、关闭等只需要使用sevice控制了，还是挺舒服的。晚些时候，会详细解释service文件各个字段的作用。
+以上就是一个简单的服务文件了。好处很简单，重启、关闭等只需要使用sevice控制了，还是挺舒服的。
+
+```shell
+After=network-online.target      #等待网络—ip、dns等
+Wants=network-online.target   #等待网络—ip、dns等
+
+LimitNOFILE=100000                    #最大打开文件数，对于web服务还是很重要的
+Restart=always                                #进程退出时自动重启
+RestartSec=2                                     #重启延迟
+```

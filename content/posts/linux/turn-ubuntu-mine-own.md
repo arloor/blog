@@ -122,16 +122,44 @@ sudo vim /etc/shadowsocks-libev/config.json
 }
 ```
 
-> 上面的server一栏要填写ip，才能开机自启动成功，原因是shadowsocks服务启动时，可能dns服务还未启动，不能解析ip
+> 上面的server一栏建议填写ip，填写域名则可能在开机自启动时无法成功解析域名。PS：无法成功解析域名也不是大事，会走进restart
 
-编辑 /lib/systemd/system下的shadowsocks-libev. service
+编辑 /lib/systemd/system下的shadowsocks-libev. service。将其写入如下内容。
 
 ```
-# 将 ExecStart=/usr/bin/ss-server -c $CONFFILE $DAEMON_ARGS 改成
-ExecStart=/usr/bin/ss-local -c $CONFFILE $DAEMON_ARGS
+[Unit]
+Description=ss-local
+Documentation=man:shadowsocks-libev(8)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+CapabilityBoundingSet=CAP_NET_BIND_SERVICE
+AmbientCapabilities=CAP_NET_BIND_SERVICE
+EnvironmentFile=/etc/default/shadowsocks-libev
+User=nobody
+Group=nogroup
+LimitNOFILE=32768
+ExecStart=/usr/bin/ss-local -c /etc/shadowsocks-libev/config.json
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
 ```
 
-这样就可以使用service shadowsocks-libev start来启动ss-local了，并且可以使用systemctl anable shadowsocks-libev 设置ss开机自启动
+这样就可以使用service shadowsocks-libev start来启动ss-local了，并且可以使用systemctl anable shadowsocks-libev 设置ss开机自启动。其中比较重要的项是：
+
+```shell
+#在网络启动完毕后启动ss-local；
+After=network-online.target
+Wants=network-online.target
+#进程退出五秒后自动重启。
+Restart=always
+RestartSec=5
+```
+
 
 
 # 干掉顶部横栏，增大桌面的可用面积
