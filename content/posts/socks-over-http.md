@@ -226,9 +226,26 @@ rm -f jdk-8u131-linux-x64.rpm
 mkdir socks5
 cd socks5
 wget http://repo-1252282974.cossh.myqcloud.com/sogo.jar
-wget http://repo-1252282974.cossh.myqcloud.com/sogo.json
-wget http://repo-1252282974.cossh.myqcloud.com/sogo.service
-mv sogo.service /lib/systemd/system/
+wget http://repo-1252282974.cossh.myqcloud.com/sogo.jso
+
+#创建service
+cat > /lib/systemd/system/sogo.service <<EOF
+[Unit]
+Description=一个socks5代理
+
+[Service]
+Restart=always
+WorkingDirectory=/root/socks5
+ExecStart=/usr/bin/java -jar /root/socks5/sogo.jar -c /root/socks5/sogo.json
+LimitNOFILE=100000
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+systemctl daemon-reload
 systemctl enable sogo
 systemctl start sogo
 #vim /etc/hosts #配置proxy1 proxy2
