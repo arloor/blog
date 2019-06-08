@@ -43,9 +43,9 @@ chmod +x shadowsocks-libev.sh
 ./shadowsocks-libev.sh uninstall
 ```
 
-## 使用systemd管理shadowsocks服务：
+## 使用systemd管理shadowsocks服务
 
-上面的脚本安装后ss由init.d管理，下面的脚本则将其转交给systemd管理
+上面的脚本安装后ss由init.d管理，下面的脚本则将其转交给systemd管理(centos7 已测试通过)
 
 ```shell
  wget --no-check-certificate -O systemd.sh https://raw.githubusercontent.com/arloor/shadowsocks_install/master/systemd.sh
