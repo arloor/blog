@@ -2,6 +2,13 @@
     <meta charset="utf-8">
 </head>
 <pre>
+rm -f sogo-server
+wget https://github.com/arloor/sogo/releases/download/v1.0/sogo-server
+chmod +x sogo-server
+mv -f sogo-server /usr/local/bin/
+service  sogo-server stop
+service  sogo-server start
+tailf /usr/local/bin/log.txt
 
 https://use.fontawesome.com/releases/v5.5.0/js/all.js
 https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js
