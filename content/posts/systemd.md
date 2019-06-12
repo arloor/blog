@@ -43,10 +43,10 @@ WantedBy=multi-user.target
 以上就是一个简单的服务文件了。好处很简单，重启、关闭等只需要使用sevice控制了，还是挺舒服的。
 
 ```shell
-After=network-online.target      #等待网络—ip、dns等
-Wants=network-online.target   #等待网络—ip、dns等
+After=network-online.target    #等待网络—ip、dns等
+Wants=network-online.target    #等待网络—ip、dns等
 
-LimitNOFILE=100000                    #最大打开文件数，对于web服务还是很重要的
-Restart=always                                #进程退出时自动重启
-RestartSec=2                                     #重启延迟
+LimitNOFILE=100000             #最大打开文件数，对于web服务还是很重要的
+Restart=always                 #进程退出时自动重启
+RestartSec=2                   #重启延迟
 ```
