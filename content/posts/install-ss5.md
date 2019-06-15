@@ -17,7 +17,7 @@ keywords:
 ## 编译安装、配置
 
 ```shell
-yum install gcc openldap-devel pam-devel openssl-devel
+yum install -y gcc openldap-devel pam-devel openssl-devel
 wget http://jaist.dl.sourceforge.net/project/ss5/ss5/3.8.9-8/ss5-3.8.9-8.tar.gz
 tar -vzx -f ss5-3.8.9-8.tar.gz
 cd ss5-3.8.9/
@@ -25,14 +25,17 @@ cd ss5-3.8.9/
 make
 make install
 chmod a+x /etc/init.d/ss5
-vim /etc/opt/ss5/ss5.conf
-# 修改配置文件
-# auth 0.0.0.0/0 – u
-# permit u 0.0.0.0/0 – 0.0.0.0/0 – – – – -
-vim /etc/opt/ss5/ss5.passwd
-# 增加用户
-# uname passwd
 service ss5 start
+# 修改配置文件
+cat >> /etc/opt/ss5/ss5.conf <<EOF
+auth    0.0.0.0/0               -               u
+permit u       0.0.0.0/0       -       0.0.0.0/0       -       -       -       -       -
+EOF
+# 增加用户
+cat >> /etc/opt/ss5/ss5.passwd <<EOF
+aaaa bbbb
+EOF
+service ss5 restart
 ```
 
 这样就在1080端口启动了socks5代理，允许uname/passwd认证的用户使用该socks5代理。
@@ -42,8 +45,7 @@ service ss5 start
 这个大多数人是不需要做的。
 
 ```shell
+iptables -I  INPUT 1 -p tcp  --dport 1080 -j DROP
+iptables -I  INPUT 1 -p udp  --dport 1080 -j DROP
 iptables -I  INPUT 1 -i lo -j ACCEPT
-iptables -A INPUT -p tcp  --dport 1080 -j DROP
-iptables -A INPUT -p udp  --dport 1080 -j DROP
 ```
-## 
