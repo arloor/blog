@@ -226,7 +226,7 @@ rm -f jdk-8u131-linux-x64.rpm
 mkdir socks5
 cd socks5
 wget http://repo-1252282974.cossh.myqcloud.com/sogo.jar
-wget http://repo-1252282974.cossh.myqcloud.com/sogo.jso
+wget http://repo-1252282974.cossh.myqcloud.com/sogo.json
 
 #创建service
 cat > /lib/systemd/system/sogo.service <<EOF
