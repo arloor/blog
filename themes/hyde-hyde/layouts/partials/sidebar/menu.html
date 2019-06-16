@@ -1,5 +1,8 @@
 <div>
 	<ul class="sidebar-nav">
+		<li class="show-in-small">
+			<a href="/">首页</a>
+		</li>
 		{{ $currentPage := . }} 
 		{{ range .Site.Menus.main }} 
 			{{ if .HasChildren }}
