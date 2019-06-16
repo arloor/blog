@@ -4,7 +4,7 @@
 # 访问[arloor博客](http://arloor.com)
 使用hugo生成静态博客
 
-## 安装hugo 0.53 （需要支持 scss）
+## 安装[hugo 0.54](https://github.com/gohugoio/hugo/releases/tag/v0.54.0) （需要支持 scss）
 
 ## 部署
 ```
