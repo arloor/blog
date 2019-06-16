@@ -32,7 +32,7 @@ auth    0.0.0.0/0               -               u
 permit u       0.0.0.0/0       -       0.0.0.0/0       -       -       -       -       -
 EOF
 # 增加用户
-cat >> /etc/opt/ss5/ss5.passwd <<EOF
+cat > /etc/opt/ss5/ss5.passwd <<EOF
 aaaa bbbb
 EOF
 service ss5 restart
