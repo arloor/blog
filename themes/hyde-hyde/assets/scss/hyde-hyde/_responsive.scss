@@ -130,7 +130,12 @@
     display: none;
   }
 
+  .show-in-small{
+    display: none;
+  }
+
 }
+
 
 // Large devices (laptops/desktops, 992px and up)
 // ~ 62rem/16px ~ 58.3529rem/17px ~ 55.1111rem/18px
@@ -155,9 +160,7 @@
     width: 68rem;
   }
 
-  .show-in-small{
-    display: none;
-  }
+
 }
 
 // Large device ~1024px
