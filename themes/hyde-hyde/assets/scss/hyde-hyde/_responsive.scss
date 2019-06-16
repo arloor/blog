@@ -74,6 +74,7 @@
 
   .pagination{
     text-align:center;//分页水平居中
+    padding-inline-start: 0;//为居中消除padding
     font-size: 120%;//分页在小屏幕中放大
   }
 }
