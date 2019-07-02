@@ -548,10 +548,6 @@ yum -y install docker-ce
 # 开机自启动docker服务
 systemctl enable docker
 systemctl start docker
-```
-
-
-```
 docker run -d --restart always --name  speedtest -p 0.0.0.0:80:80 arloor/speedtest:latest
 ```
 
