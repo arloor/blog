@@ -24,7 +24,7 @@ echo ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDZQzKHfZLlFEdaRUjfSK4twhL0y7+v23Ko4EI
 sed -i "s/PasswordAuthentication yes/PasswordAuthentication no/g" /etc/ssh/sshd_config
 #关闭GSSAPI认证登陆
 sed -i "s/GSSAPIAuthentication yes/GSSAPIAuthentication no/g" /etc/ssh/sshd_config
-#关闭UseDNS
+#关闭UseDNS(解决ssh缓慢)
 sed -i "s/#UseDNS no/UseDNS no/g" /etc/ssh/sshd_config
 sed -i "s/UseDNS yes/UseDNS no/g" /etc/ssh/sshd_config
 sed -i "s/#UseDNS yes/UseDNS no/g" /etc/ssh/sshd_config
