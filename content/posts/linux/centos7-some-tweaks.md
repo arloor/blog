@@ -33,7 +33,6 @@ service sshd restart
 
 shadowsocks有很多版本，我选择shadowsocks-libev，全功能且内存占用真的少，C语言省内存啊。
 
-参见[秋水逸冰](https://teddysun.com/357.html)
 
 ```
 wget --no-check-certificate -O shadowsocks-libev.sh https://raw.githubusercontent.com/arloor/shadowsocks_install/master/shadowsocks-libev.sh
@@ -58,7 +57,7 @@ chmod +x systemd.sh
 ./systemd.sh
 ```
 
-以后即可使用service ss start开启shadowsocks。
+以后即可使用service ss xxx管理shadowsocks了。
 
 
 # docker 安装ss-libev
@@ -241,6 +240,7 @@ service firewalld stop
 systemctl disable firewalld
 yum -y install iptables-services
 systemctl enable iptables
+service iptables save #先保存当前的iptables规则
 systemctl start iptables
 ```
 
@@ -385,7 +385,7 @@ cd
 
 
 
-# 两种开机自启动方式
+# 三种开机自启动方式
 
 ## 1.利用chkconfig xx on
 
@@ -406,6 +406,10 @@ chkconfig StartTomcat.sh on
 echo "command" >> /etc/rc.d/rc.local
 chmod +x /etc/rc.d/rc.local
 ```
+
+## 3.试用systemd编写服务(推荐)
+
+见[Systemd服务文件编写-centos7下](/posts/systemd/)
 
 
 # 番外篇：测试vps回程路由
@@ -588,89 +592,3 @@ python speedtest.py --server 13704 --share |grep Share ##到南京联通
 python speedtest.py --server 21590 --share |grep Share ##到南京移动
 ```
 
-## 香港阿里云轻量服务器(149.129.xx.xx)
-
-|时间|运营商|延迟|下载速度|上传速度|
-|----|----|---|---|---|
-|11:30|南京电信|86ms|92Mbps|😍29Mbps|
-|11:30|南京联通|34ms|106Mbps|😍35Mbps|
-|11:30|南京移动|42ms|109Mbps|🤢2.67Mbps|
-|-|-|-|-|-|
-|15:30|南京电信|80-157ms|82Mbps|🤢3-20Mbps狂跳|
-|15:30|南京联通|35ms|105Mbps|😍35Mbps|
-|15:30|南京移动|42ms|91Mbps|🤢1.80Mbps|
-|-|-|-|-|-|
-|22:30|南京电信|195ms|72Mbps|🤢2.78Mbps|
-|22:30|南京联通|36ms|102Mbps|😍35Mbps|
-|22:30|南京移动|70ms|91Mbps|🤢3.09Mbps|
-
-总结：
-
-|运营商|总结|
-|---|---|
-|电信|🤢速度、延迟非常不稳定|
-|联通|😍全天都很好，联通用户就不要犹豫了|
-|移动|🤢根本不能用|
-
-这样看来，只有联通值得买香港轻量服务器。
-
-## 搬瓦工dc9 gia(67.230.170.xx)
-
-这个ip段是最开始默认分配的ip段，用了一段时间后出现了速度上不去的问题，如下面的测试所示：
-
-|时间|运营商|延迟|下载速度|上传速度|
-|----|----|---|---|---|
-|19:30|南京电信|143ms|2.02Mbps|🤢4.09Mbps|
-|19:30|南京联通|141ms|2.60Mbps|🤢4.14Mbps|
-|19:30|南京移动|145ms|1.78Mbps|🤢3.49Mbps|
-
-总结：
-
-|运营商|总结|
-|---|---|
-|电信|🤢稳定得慢|
-|联通|🤢稳定得慢|
-|移动|🤢稳定得慢|
-
-很稳也很慢。稳：三网双程都是cn2 gia，延迟都是145ms左右，而且不会跳；慢：服务器上传下载都慢。
-
-后面开始折腾，从dc9迁到dc8,再从dc8迁回dc9，ip变成了另一个段。接下来会展示迁移之后的测速结果，显然比这个ip的速度好很多，猜测是换了个机架、邻居。
-
-## 搬瓦工dc8 cn2(95.169.17.xx)
-
-|时间|运营商|延迟|下载速度|上传速度|
-|----|----|---|---|---|
-|02:00|南京电信|171ms|6.45Mbps|16.66Mbps|
-|02:00|南京联通|222ms|34Mbps|😍73Mbps|
-|02:00|南京移动|177ms|78Mbps|😍83Mbps|
-
-dc8机房最大的优势就是便宜吧，速度有时候高，但会出现不稳的情况。追求延迟低和速度稳定的还是推荐dc6或者dc9这种三网双程cn2 gia线路的机房
-
-## 迁移后搬瓦工dc9 gia(178.157.xx.xx)
-
-|时间|运营商|延迟|下载速度|上传速度|
-|----|----|---|---|---|
-|11:30|南京电信|135ms|52Mbps|😍73Mbps|
-|11:30|南京联通|141ms|27Mbps|😍124Mbps|
-|11:30|南京移动|147ms|32Mbps|😍138Mbps|
-|-|-|-|-|-|
-|14:30|南京电信|135ms|47Mbps|😍108Mbps|
-|14:30|南京联通|142ms|64Mbps|😍121Mbps|
-|14:30|南京移动|158ms|22Mbps|😍147Mbps|
-|-|-|-|-|-|
-|15:30|南京电信|137ms|18Mbps|😍76Mbps|
-|15:30|南京联通|137ms|54Mbps|😍120Mbps|
-|15:30|南京移动|148ms|60Mbps|😍138Mbps|
-|-|-|-|-|-|
-|19:00|南京电信|135ms|26Mbps|😍94Mbps|
-|19:00|南京联通|137ms|37Mbps|😍121Mbps|
-|19:00|南京移动|155ms|42Mbps|😍65Mbps|
-|-|-|-|-|-|
-|22:00|南京电信|135ms|27Mbps|😍99Mbps|
-|22:00|南京联通|143ms|28Mbps|😍120Mbps|
-|22:00|南京移动|147ms|4Mbps|49Mbps|
-
-
-迁两次机房后，ip变为这个段，速度有了很大提升。猜测是原来机器的邻居太暴力或者原来所在的机架网络设备有问题？总之之前的体验很坑。从这个测试结果看，dc9还是很值得入的。
-
-如果开到dc9的机器，出现网速慢的情况，可以尝试跟我一样迁两次机房看看。
