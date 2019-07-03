@@ -27,7 +27,7 @@ sed -i "s/GSSAPIAuthentication yes/GSSAPIAuthentication no/g" /etc/ssh/sshd_conf
 #关闭UseDNS(解决ssh缓慢)
 temp=$(cat /etc/ssh/sshd_config|grep "UseDNS"|grep -v "#");
 if [ "$temp" != "" ];then
- sed -i "s/UseDNS yes/UseDNS no/g" /etc/ssh/sshd_config
+ sed -i "s/UseDNS.*/UseDNS no/g" /etc/ssh/sshd_config
 else
  echo >> /etc/ssh/sshd_config
  echo UseDNS no >> /etc/ssh/sshd_config
