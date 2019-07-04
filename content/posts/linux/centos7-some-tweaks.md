@@ -244,7 +244,7 @@ service firewalld stop
 systemctl disable firewalld
 yum -y install iptables-services
 systemctl enable iptables
-service iptables save #先保存当前的iptables规则
+service iptables save #先保存当前（空）的iptables规则
 systemctl start iptables
 ```
 
