@@ -70,6 +70,10 @@ keywords:
 
 这里可以看到有一次进入了Standby (Hybrid)。这是混合睡眠的状态。因为我们在电池选项中开启了支持混合睡眠。在一开始我提到，混合睡眠是又保存在内存中，又保存在硬盘中，其实完全没有必要保存在硬盘中，我决定关掉他。现在就关：
 
+![](/img/no-hunheshuimian.png)
+
+这时再按fn+4进入睡眠，然后powercfg /sleepstudy生成报告，去查看这次睡眠的状态显示如下：
+
 ![](/img/sleepstudy2.png)
 
 可以看到，最新的一次睡眠（待机s3），已经不是Standby (Hybrid)了。
