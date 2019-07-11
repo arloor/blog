@@ -417,7 +417,7 @@ echo "command" >> /etc/rc.d/rc.local
 chmod +x /etc/rc.d/rc.local
 ```
 
-## 3.试用systemd编写服务(推荐)
+## 3.使用systemd编写服务(推荐)
 
 见[Systemd服务文件编写-centos7下](/posts/systemd/)
 
