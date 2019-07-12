@@ -98,7 +98,6 @@ lsof -i:8081||echo
 
 安装shadowsocks-libev:
 
-
 ```
 sudo apt install shadowsocks-libev
 ```
@@ -124,9 +123,10 @@ sudo vim /etc/shadowsocks-libev/config.json
 
 > 上面的server一栏建议填写ip，填写域名则可能在开机自启动时无法成功解析域名。PS：无法成功解析域名也不是大事，会走进restart
 
-编辑 /lib/systemd/system下的shadowsocks-libev. service。将其写入如下内容。
+执行以下命令以增加ss服务
 
 ```
+cat > /lib/systemd/system/ss.service <<EOF
 [Unit]
 Description=ss-local
 Documentation=man:shadowsocks-libev(8)
@@ -147,9 +147,12 @@ RestartSec=5
 
 [Install]
 WantedBy=multi-user.target
+EOF
+systemctl enable ss
+service ss start
 ```
 
-这样就可以使用service shadowsocks-libev start来启动ss-local了，并且可以使用systemctl anable shadowsocks-libev 设置ss开机自启动。其中比较重要的项是：
+这样就可以使用service ss xxxxx来管理shadowsocks了。其中比较重要的项是：
 
 ```shell
 #在网络启动完毕后启动ss-local；
