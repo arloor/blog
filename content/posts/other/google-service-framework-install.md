@@ -25,7 +25,7 @@ weight: 10
 
 # 安装google service framework
 
-1. 访问[apkmirror](https://www.apkmirror.com/)。
+1. 访问[apkmirror](https://www.apkmirror.com/)（需要翻墙）
 2. 搜索'google service framework'，可以看到下面所列的不同版本的apk，根据安卓系统的版本，点开对应的链接
 ![](/img/gsf-version.png)
 3. 下载页面中出现的apk。
