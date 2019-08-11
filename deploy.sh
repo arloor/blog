@@ -2,8 +2,8 @@
 # 当前使用hugo 0.53(支持scss)
 dir=/home/x1/blog
 dir=$PWD
-host=arloor.com
-port=22
+host=moontell.cn
+port=12222
 
 git pull
 git add .
