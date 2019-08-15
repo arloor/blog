@@ -11,6 +11,10 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
+试试nginx
+<!--more-->
+
+
 ## 添加rpm源安装nginx
 
 ```shell
