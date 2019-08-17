@@ -168,7 +168,7 @@ fi
 rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
 rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-2.el7.elrepo.noarch.rpm
 yum --disablerepo="*" --enablerepo="elrepo-kernel" list available
-yum --enablerepo=elrepo-kernel install kernel-ml  #以后升级也是执行这句
+yum --enablerepo=elrepo-kernel install -y kernel-ml  #以后升级也是执行这句
 awk -F\' '$1=="menuentry " {print $2}' /etc/grub2.cfg
 sed -i "s/GRUB_DEFAULT.*/GRUB_DEFAULT=0/g" /etc/default/grub
 cat /etc/default/grub|grep GRUB_DEFAULT
