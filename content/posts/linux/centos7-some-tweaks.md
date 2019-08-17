@@ -161,6 +161,30 @@ fi
 
 # centos 7升级内核，开启bbr
 
+
+一键完成：
+
+```shell
+rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
+rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-2.el7.elrepo.noarch.rpm
+yum --disablerepo="*" --enablerepo="elrepo-kernel" list available
+yum --enablerepo=elrepo-kernel install kernel-ml  #以后升级也是执行这句
+awk -F\' '$1=="menuentry " {print $2}' /etc/grub2.cfg
+sed -i "s/GRUB_DEFAULT.*/GRUB_DEFAULT=0/g" /etc/default/grub
+cat /etc/default/grub|grep GRUB_DEFAULT
+grub2-mkconfig -o /boot/grub2/grub.cfg
+reboot
+
+#重启后
+uname -r  ##输出内核版本大于4.9
+echo net.core.default_qdisc=fq >> /etc/sysctl.conf
+echo net.ipv4.tcp_congestion_control=bbr >> /etc/sysctl.conf
+sysctl -p
+lsmod |grep bbr
+```
+
+分部解析：
+
 1.查看当前linux内核
 
 ```shell
