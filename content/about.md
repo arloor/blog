@@ -1,17 +1,20 @@
-+++
-title = "About Hugo"
-date = "2014-04-09"
-+++
+---
+title: "About ARLOOR"
+date: 2019-08-21T22:03:30+08:00
+---
 
-Hugo is a static site engine written in Go.
+**声明：本站所有原创文章仅代表个人思想，与其他任何人或组织无关！**
 
+我大约是在大一下的时候注册了`arloor.com`这个域名。当时还是一个萌新的我从这个域名开始折腾了很多东西：为了能在浏览器访问这个域名，租服务器、搜索搭建网站的教程、备案域名、搭建wordpress等等。这些东西如今已经是驾轻就熟简简单单的东西了，但是在当时几乎占据了我全部的学习（折腾）热情，让我头疼了很久。这些折腾最后的成果除了原始（折腾）经验的积累，剩下来的就是一个活了几个月没几篇文章的wordpress。。。
 
-It makes use of a variety of open source projects including:
+在后来的很长的一段日子里，`arloor.com`长久地闲置了，我处于没有博客可写的困境里。但是感觉腾讯云赞助的域名续费学生优惠券，让我持续地拥有了这个域名。再次使用`arloor.com`搭建博客大概是在2018年8月了，到今天也算成功活到了一周岁，相信能够还能继续活很久。一个博客能持续存活的原因，我想最重要的还是有东西可写。2018年8月，我即将大四，三年的基础学习和课外折腾，让我有了一些可以记录的东西。另一方面，我也找到了一个很方便的静态博客生成器`Hugo`，使用起来十分方便。我找到一个合适的hugo主题，并写了一个自动化发布静态博客的简单shell脚本，就这样形成了一个较为舒适的博客编写环境，因此我也乐于使用这套环境去记录有意义的东西。
 
-* [Cobra](https://github.com/spf13/cobra)
-* [Viper](https://github.com/spf13/viper)
-* [J Walter Weatherman](https://github.com/spf13/jWalterWeatherman)
-* [Cast](https://github.com/spf13/cast)
+该博客完全是静态资源，没有上https，所有静态资源包括js、css全部存在服务器上，没有使用cdn技术，所有的一切都是为了一个简单二字。简单部署、简单书写、简单备份、简单迁移，只要github上这个博客的项目还在，只要hugo的二进制包还在，就可以快速地在新的服务器上部署这个博客。
 
-Learn more and contribute on [GitHub](https://github.com/gohugoio).
+`arloor.com`是一个私人的领地，是一个因为简单而可以长久保存的历史，聚沙成塔，集腋成裘。
+
+## 自我介绍
+
+1. 2019年6月30日，于南京大学软件学院本科毕业，获工科学士学位。
+2. 2019年7月8日，入职ccc.cmbchina.com，在IT部门某平台架构组工作。
 
