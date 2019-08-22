@@ -38,9 +38,10 @@ req是openssl证书请求的子命令
 -out 代表证书全路径
 ```
 
-## 编辑/etc/nginx/nginx.conf
+## 编辑nginx.conf
 
 ```shell
+# vi /etc/nginx/nginx.conf
 worker_processes 1;
 events {
     worker_connections 1024;
