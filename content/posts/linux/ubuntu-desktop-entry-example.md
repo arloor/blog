@@ -6,7 +6,68 @@ categories: [ "ubuntu"]
 tags: ["linux"]
 weight: 10
 ---
-steam.desktop的内容，可以仿照<!--more-->
+
+ubuntu的应用图标文件都在
+
+```
+/usr/share/applications
+```
+
+文件下
+
+一个比较普遍的问题，在ubuntu安装了jetbrains家的IDE后，在菜单中找不到应用图标，下面自己写一个：
+
+
+## Clion
+```
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=CLion
+Icon=/opt/clion-2018.3.2/bin/clion.svg
+Exec="/opt/clion-2018.3.2/bin/clion.sh" %f
+Comment=A cross-platform IDE for C and C++
+Categories=Development;IDE;
+Terminal=false
+StartupWMClass=jetbrains-clion
+
+```
+
+## Goland
+
+```
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Goland
+Icon=/opt/GoLand-2018.3.3/bin/goland.svg
+Exec="/opt/GoLand-2018.3.3/bin/goland.sh" %f
+Comment=A cross-platform IDE for golang
+Categories=Development;IDE;
+Terminal=false
+StartupWMClass=jetbrains-golang
+```
+
+## IDEA
+
+```
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=IntelliJ IDEA Ultimate Edition
+Icon=/opt/idea-IU-183.4886.37/bin/idea.svg
+Exec="/opt/idea-IU-183.4886.37/bin/idea.sh" %f
+Comment=Capable and Ergonomic IDE for JVM
+Categories=Development;IDE;
+Terminal=false
+StartupWMClass=jetbrains-idea
+```
+
+其他jetbrains家的ide完全仿照以上的desktop文件书写即可，仅需要替换Icon和Exec的路径即可。StartupWMClass字段是给gnome在任务栏分组应用的标志，问题不大。
+
+
+
+另一个steam.desktop的内容，可以仿照
 ```
 [Desktop Entry]
 Name=Steam
