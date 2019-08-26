@@ -37,6 +37,36 @@ cat /etc/ssh/sshd_config|grep UseDNS
 service sshd restart
 ```
 
+# 安装python3.7
+
+centos7默认只有python2.7，并且没有安装pip。我要装python3以及pip3。
+
+```shell
+yum install -y zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gcc make libffi-devel
+wget https://www.python.org/ftp/python/3.7.0/Python-3.7.0.tgz
+tar -zxvf Python-3.7.0.tgz
+cd Python-3.7.0
+#进入解压后的目录，依次执行下面命令进行手动编译
+./configure prefix=/usr/local/python3 
+make && make install
+ln -s /usr/local/python3/bin/python3.7 /usr/bin/py3
+ln -s /usr/local/python3/bin/pip3.7 /usr/bin/pip3
+py3 -V
+# Python 3.7.0
+```
+
+> PS:如果创建的软连接是到/usr/bin/python，则需要执行以下脚本，来修复yum
+
+```shell
+vi /usr/bin/yum 
+把 #! /usr/bin/python 修改为 #! /usr/bin/python2 
+vi /usr/libexec/urlgrabber-ext-down 
+把 #! /usr/bin/python 修改为 #! /usr/bin/python2
+```
+
+
+
+
 # 一键安装shadowsocks-libev
 
 在研究了安卓VPN的实现之后，发现我的[HttpProxy](http://github.com/arloor/HttpProxy)跟安卓VPN根本不是一回事，基本不可能有安卓客户端了。而shadowsocks安卓所采用的tun2socks+shadowsocks-libev这种模式很现代。所以给自己的centos也装上shadowsocks了。
