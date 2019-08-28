@@ -576,7 +576,7 @@ bash dnat-install.sh
 ```
 
 输出如下：
-```
+```shell
 本地端口号:443
 远程端口号:443
 目标DDNS:github.com
