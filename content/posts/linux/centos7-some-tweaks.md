@@ -528,25 +528,30 @@ trace arloor.com
 写了一个支持域名的iptables转发脚本，执行以下命令即可使用
 
 ```shell
-rm -f iptables.sh;
-wget  https://raw.githubusercontent.com/arloor/iptablesUtils/master/iptables.sh;
-bash iptables.sh;
+wget -O iptables.sh https://raw.githubusercontent.com/arloor/iptablesUtils/master/iptables.sh;bash iptables.sh;
 ```
 
-输入local port，remote port，target domain/ip。其中target domain/ip既可以是ip，也可以是域名。
+输出如下
 
 ```shell
 本脚本用途：
 设置本机tcp和udp端口转发
 原始iptables仅支持ip地址，该脚本增加域名支持（要求域名指向的主机ip不变）
-若要支持ddns，请使用 https://raw.githubusercontent.com/arloor/iptablesUtils/master/setCroniptablesDDNS.sh;
+若要支持ddns，请使用 https://raw.githubusercontent.com/arloor/iptablesUtils/master/iptables4ddns.sh;
 
-local port:8388
-remote port:1234
-target domain/ip:xxx.com
-target-ip: xx.xx.xx.xx
-local-ip: xx.xx.xx.xx
-done!
+local port:443
+remote port:443
+target domain/ip:github.com
+正在安装host命令.....
+Done
+target-ip: 13.229.188.59
+local-ip: 172.16.20.24
+清除本机443端口到52.74.223.119:443的udpPREROUTING转发规则6
+清除对应的POSTROUTING规则
+清除本机443端口到52.74.223.119:443的tcpPREROUTING转发规则5
+清除对应的POSTROUTING规则
+端口转发成功
+
 ```
 
 题外话（自己备忘）：某端口流量转发到本机其他端口：(从localhost访问，这个转发无效)
@@ -558,9 +563,7 @@ iptables -t nat -A PREROUTING -p tcp --dport 8081 -j REDIRECT --to-ports 8080
 ### 删除本机某端口上的转发
 
 ```shell
-rm -f rmPreNatRule.sh
-wget https://raw.githubusercontent.com/arloor/iptablesUtils/master/rmPreNatRule.sh;
-bash rmPreNatRule.sh $localport
+wget -O rmPreNatRule.sh https://raw.githubusercontent.com/arloor/iptablesUtils/master/rmPreNatRule.sh;bash rmPreNatRule.sh 8080[要删除的端口号]
 ```
 
 ### 当然iptables也能处理ip会变的情况，这里提供我写的脚本
@@ -568,19 +571,21 @@ bash rmPreNatRule.sh $localport
 执行以下命令
 
 ```shell
-rm -f setCroniptablesDDNS.sh
-wget https://raw.githubusercontent.com/arloor/iptablesUtils/master/setCroniptablesDDNS.sh;
-bash setCroniptablesDDNS.sh
-
-
-#local port:80
-#remote port:58000
-#targetDDNS:xxxx.example.com
-#done!
-#现在每分钟都会检查ddns的ip是否改变，并自动更新
+wget -O dnat-install.sh https://raw.githubusercontent.com/arloor/iptablesUtils/master/dnat-install.sh
+bash dnat-install.sh
 ```
 
-输入local port, remote port, targetDDNS即可。之后会每分钟每分钟都会检查ddns的ip是否改变，并自动更新。执行日志见 /root/iptables.log
+输出如下：
+```
+本地端口号:443
+远程端口号:443
+目标DDNS:github.com
+mkdir: 无法创建目录"/etc/dnat": 文件已存在
+Redirecting to /bin/systemctl stop dnat.service
+Redirecting to /bin/systemctl start dnat.service
+已设置转发规则：本地端口[443]=>[github.com:443]
+输入 journalctl -exu dnat 查看日志
+```
 
 ## 方案二：使用socat，适用于落地鸡是使用了ddns更新域名解析的nat vps
 
