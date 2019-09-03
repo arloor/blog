@@ -38,7 +38,7 @@ redis使用主从异步拷贝机制实现较高的可用性。其宏观流程如
 
 所谓异步拷贝就是不等待slave成功拷贝，即向客户端发送成功响应。其中的问题是拷贝可能会有部分写丢失，当slave被选举为master时，这一部分丢失就导致了不一致。采取异步拷贝的设计是redis架构设计中性能与可用性的权衡。
 
-异步拷贝机制是master-slave机制重要的一部分。redis的高可用方案：哨兵和redis cluster都是基于master-slave的异步拷贝。在单主节点+从节点的中，可以使用`SLAVEOF IP PORT`命令宣称自己是某节点的从节点，从而接收异步拷贝信息。在redis cluster中，需要使用`CLUSTER REPLICATE nodeID`来实现相同的功能。两者不能混用，但关键效果相同（在下文源码摘要部分将会解释）。
+异步拷贝机制是master-slave机制重要的一部分。redis的高可用方案：哨兵和redis cluster都是基于master-slave的异步拷贝。在单主节点+从节点的中，可以使用`SLAVEOF IP PORT`命令宣称自己是某节点的从节点，从而接收异步拷贝信息。在redis cluster中，需要使用`CLUSTER REPLICATE nodeID`来实现相同的功能。两者不能混用，但有做相同的事（获取目标主节点的ip和端口）。
 
 从微观流程看，异步拷贝会在第一次拷贝时传播rdb文件，进行一次全量同步，之后通过`offset`偏移量这个变量进行增量同步。`replicID`和`offset`一起确定增量同步的起点，每收到一个字节，`offset`增加一。其整体工作原理如下（从SLAVE的视角看）：
 
