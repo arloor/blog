@@ -1,5 +1,5 @@
 ---
-title: "使用Redis异步拷贝实现redis异地数据中心同步"
+title: "使用Redis异步拷贝实现异地数据中心同步"
 date: 2019-09-03T23:44:09+08:00
 draft: false
 categories: [ "undefined"]
