@@ -114,7 +114,7 @@ PING
 
 我们执行`PSYNC ? -1`，返回`+FULLRESYNC replicID offset`——第一次不知道replicID和offset；返回全量同步标志、replicID和offset。
 
-`$272`表示rdb全量同步，一共有272字节——这是一个基于长度的tcp流分割方案
+`$272`表示rdb全量同步一共有272字节——这是一个基于长度的tcp流分割方案
 
 在输出的最后我们看到好几个PING，这是redis集群其他节点发送过来的请求，被主节点异步地发送给我们实验的这个伪slave。
 
@@ -168,4 +168,4 @@ vvv
 
 后面这个tcp连接就收到master转发的来自cluster其他节点的PING命令的拷贝。之后的SLECT、set是我手动set时出现的异步拷贝。
 
-以上实验，是在阅读redis4.0.1源码中replicate.c，确定其tcp协议细节后进行的，覆盖了简单的正常流程。
+以上实验，是在阅读redis4.0.1源码中replicate.c，确定其tcp协议细节后进行的，覆盖了简单的正常流程，当然还有一些细节并没有覆盖。在真正实现“利用异步拷贝实现redis异地数据中心同步”中，需要通过代码实现以上网络通信。
