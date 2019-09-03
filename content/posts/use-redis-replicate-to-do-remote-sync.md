@@ -126,7 +126,7 @@ PING
 1. PING
 2. REPLCONF listening-port 8888
 3. REPLCONF capa eof capa psync2
-4. PSYNC b8e7eba438f7ee357d2f0978a9ed307ef250e1fd 3638988293
+4. PSYNC b8e7f...e1fd 3638988293
 
 控制台输出（redis的响应）如下：
 
