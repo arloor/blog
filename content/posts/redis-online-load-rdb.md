@@ -24,7 +24,7 @@ keywords:
 
 我自己修改了redis-4.0.1的部分代码，暴露出原版redis不想暴露的接口。修改后的redis项目在[redis-4.0.1-feature-online-loadrdb](https://github.com/arloor/redis-4.0.1-feature-online-loadrdb)。所有重要的修改都在[第二次提交](https://github.com/arloor/redis-4.0.1-feature-online-loadrdb/commit/a8c58feb26861106a38b8293180906df9b4a9797)。请一定要访问这个链接，git diff能够直观地展示我在redis源码上增加了哪些东西，所以我就不贴代码了。
 
-效果是redis-cli中可以使用`loadrdb <dumpfile>`命令来热加载rdb文件。该命令的tcp报文是这样的：`loadrdb filename\r\n`。
+效果是redis-cli中可以使用`loadrdb <dumpfile>`命令来热加载rdb文件。该命令的tcp报文是这样的：`loadrdb filename\r\n`。效果展示请看“测试”章节
 
 ## 测试
 
