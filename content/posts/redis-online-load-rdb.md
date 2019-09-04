@@ -33,16 +33,16 @@ keywords:
 3. 执行`src/redis-server`以默认配置（rdb开启）启动redis
 4. 启动另一个bash，执行以下命令：
 ```shell
-src/redis-cli set a test                    #设置a
-src/redis-cli BGSAVE                      #进行rdb持久化
-src/redis-cli get a                             #获取a，此时为test
-sleep 10                                                #睡10秒，等待rdb持久化完成
-mv -f dump.rdb dump                   #移动该dump.rdb文件到新文件dump
-src/redis-cli flushall                        #删除所有key
-src/redis-cli get a                              #此时a为nil
-src/redis-cli loadrdb dump          #调用loadrdb指令热加载dump文件
+src/redis-cli set a test       #设置a
+src/redis-cli BGSAVE           #进行rdb持久化
+src/redis-cli get a            #获取a，此时为test
+sleep 10                       #睡10秒，等待rdb持久化完成
+mv -f dump.rdb dump            #移动该dump.rdb文件到新文件dump
+src/redis-cli flushall         #删除所有key
+src/redis-cli get a            #此时a为nil
+src/redis-cli loadrdb dump     #调用loadrdb指令热加载dump文件
 # 等同于 (printf "loadrdb dump\r\n";sleep 1)|nc localhost 6379 
-src/redis-cli get a                              #此时a为test
+src/redis-cli get a            #此时a为test
 ```
 
 经过简单测试后，确定只要loadrdb指定的文件不是redis.conf指定的rdbfilename，就不会出错。以后需要完善的时候，会增加这个校验！
