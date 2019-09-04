@@ -45,4 +45,6 @@ src/redis-cli loadrdb dump     #调用loadrdb指令热加载dump文件
 src/redis-cli get a            #此时a为test
 ```
 
-经过简单测试后，确定只要loadrdb指定的文件不是redis.conf指定的rdbfilename，就不会出错。以后需要完善的时候，会增加这个校验！
+以上测试先写了一个a，然后调用BGSAVE导出rdb文件，然后flushall删除所有key，然后使用`loadrdb`动态导入之前的rdb文件，最后检查a的value。结果能拿到之前设置的a的值，说明`loadrdb`工作正常！
+
+尚未解决的问题：loadrdb指定的文件不能是redis.conf指定的rdbfilename，尚未增加该校验。如果是同一文件，则我们在loadrdb该文件，而同时redis可能正在往这个文件写rdb，这会导致redis崩溃。——以后会增加这个校验的，要查一下c语言字符串比较。。。我忘记了
