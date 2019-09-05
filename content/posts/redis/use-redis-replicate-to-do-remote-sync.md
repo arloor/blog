@@ -191,6 +191,7 @@ vvv
     1. sentinel是从主节点中获取从节点信息
     2. 使用`info replication`命令查看主节点的从节点时，看到了我们伪装的从节点(下图所示的slave1)。最终导致，sentinel认为我们是真实的slave。
     3. 根据sentinel文档，slave只要offset够小，并且超时时间够长，sentinel是不会选择该slave成为master的。所以该副作用不会导致伪slave被sentinel提升为master，影响不大。
+    
     ```
     connected_slaves:2
     slave0:ip=99.47.149.27,port=6429,state=online,offset=3639193829,lag=0
