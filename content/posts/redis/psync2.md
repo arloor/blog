@@ -26,6 +26,8 @@ redis的代码写的很优雅，并且有完善的注释，有些注释看了还
 闲言少叙，今天的正题是想转发一篇关于[“异步拷贝”发展的博文](https://mp.weixin.qq.com/s/ROQofjE5WwdAltazQ5p0QQ)，写的真的好，忍不住想转发。看完不禁感叹redis的牛逼，有种兴叹汪洋的感觉。。
 <!--more-->
 
+> PS: 这篇博文疑似基于redis4.0.1版本的redis
+
 ## 正文
 
 Redis4.0新特性psync2(partial resynchronization version2)部分重新同步(partial resync)增加版本；主要解决Redis运维管理过程中，从实例重启和主实例故障切换等场景带来的全量重新同步(full resync)问题。
