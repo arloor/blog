@@ -186,7 +186,7 @@ redis实例重启后，从RDB文件中加载(注：此处不讨论AOF和RDB加�
 1. 从实例上报master_replid串，与主实例的master_replid1或replid2有一个相等
 2. 从实例上报的master_repl_offset+1字节，还存在于主实例的复制积压缓冲区中
 
-从实例尝试部分重新同步函数slaveTryPartialResynchronization(replication.c文件中）;主实例判断能否进行部分重新同步函数masterTryPartialResynchronization（replication.c文件中）。
+从实例尝试部分重新同步函数slaveTryPartialResynchronization;主实例判断能否进行部分重新同步函数masterTryPartialResynchronization。
 
 ### redis重启时，临时调整主实例的复制积压缓冲区大小
 
