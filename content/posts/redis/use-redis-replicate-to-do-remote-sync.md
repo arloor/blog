@@ -191,12 +191,12 @@ vvv
     1. sentinel是从主节点中获取从节点信息
     2. 使用`info replication`命令查看主节点的从节点时，看到了我们伪装的从节点(下图所示的slave1)。最终导致，sentinel认为我们是真实的slave。
     3. 根据sentinel文档，slave只要offset够小，并且超时时间够长，sentinel是不会选择该slave成为master的。所以该副作用不会导致伪slave被sentinel提升为master，影响不大。
-    
-    ```
-    connected_slaves:2
-    slave0:ip=99.47.149.27,port=6429,state=online,offset=3639193829,lag=0
-    slave1:ip=99.47.149.26,port=8888,state=online,offset=0,lag=17 
-    ```
+
+```
+connected_slaves:2
+slave0:ip=99.47.149.27,port=6429,state=online,offset=3639193829,lag=0
+slave1:ip=99.47.149.26,port=8888,state=online,offset=0,lag=17 
+```
 
 解释一下上述`slave1`信息的含义：slave1是我们伪装的从节点，lag字段表示多久没有收到REPLCONF命令 offset需要使用 `REPLCONF ack <offset>`来设定。而redis源码注释说，这是一个内部命令，所以正常的客户端永远不应该使用，但我们不正常（笑）。在以上测试中我们没有做ack，发现不影响psync的正常工作。
 
@@ -208,6 +208,7 @@ vvv
 首先会检查`PSYNC`的参数，检查是否能进行增量同步，如果能进行增量同步，则直接响应`+CONTINUE`。随后该条tcp连接用于传输增量同步的redis命令报文。
 
 是否能进行增量同步根据`runid`和`offset`决定。redis内部数据结构中保存有replicID1、offset1和replicateID2、offset2。在一般情况下replicateID2为0，如果该节点接替某原主节点成为主节点，则其replicateID2为原主节点的replicateID1。只要runid和replicID1、replicID2中的一个相同，则有进行增量同步的可能。其次检查offset是否在“备份积压缓冲”范围中，如果在，则可以进行增量同步。这一部分判断在`masterTryPartialResynchronization`函数中，如下：
+
 ```
 strcasecmp(master_replid, server.replid) &&
 (strcasecmp(master_replid, server.replid2) ||
