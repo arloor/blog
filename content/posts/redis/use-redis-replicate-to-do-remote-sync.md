@@ -233,4 +233,4 @@ psync_offset > server.second_replid_offset)
 
 - redis源码——replicate.c
 - redis文档
-- [psync2新特性](https://www.sohu.com/a/204070058_610509)
+- [psync2新特性](https://mp.weixin.qq.com/s/ROQofjE5WwdAltazQ5p0QQ)
