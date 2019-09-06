@@ -50,7 +50,7 @@ redis使用主从异步拷贝机制实现较高的可用性。其宏观流程如
 3. 通过该tcp连接发送`PING AUTH REPLCONF`等指令，完成与master的握手
 4. 如果是第一次拿拷贝，没有`runid `和`offset`，转到5。如果不是第一次拿拷贝，则转到6
 5. 发送`PSYNC ? -1`，接收master的rdb格式的全量同步数据、`runid `和`offset`。rdb接收完毕后，redis加载rdb文件，而后转到7
-6. 发送`PSYNC runid  offset`，收到`+CONTINUE runid`，表示主节点继续“增量”地发送异步拷贝信息 ，转到7
+6. 发送`PSYNC runid  offset`，收到`+CONTINUE runid`，表示主节点继续“增量”地发送异步拷贝信息 ，转到7。（PS：这里仅覆盖runid和offset有效的情况，关于有效性和无效时的表现在《主节点PSYNC实现》有叙）
 7. 主节点会不断发送自己收到的写请求的tcp报文，从节点执行这些写请求，并增加offset。直到该tcp连接异常断开，转到2（定时任务创建新的连接）
 
 ## 源码解析
@@ -65,7 +65,7 @@ redis使用主从异步拷贝机制实现较高的可用性。其宏观流程如
 
 `syncWithMaster`会发送握手所需的`PING`、`AUTH <passwd>`(可选)、`REPLCONF listening-port <port>`、`REPLCONF ip-address <ip>`(可选)、`REPLCONF capa eof capa psync2`。以上即完成握手环节，下面开始真正的同步。
 
-同步分为`PSYNC ? -1`和`PSYNC runid  offset`，其实现在`slaveTryPartialResynchronization`函数中。该函数会根据有没有`runid `决定是传输rdb进行全量同步，还是利用`offset`进行增量同步。
+同步分为`PSYNC ? -1`和`PSYNC runid  offset`，其实现在`slaveTryPartialResynchronization`函数中。该函数会根据`runid `是否有效决定是传输rdb进行全量同步，还是利用`offset`进行增量同步（这句话很概括，详情见《主节点PSYNC实现》）。
 
 在传输rdb全量同步时，从节点会使用`readSyncBulkPayload`函数读取rdb内容，并写入临时rdb文件。最终使用`rdbLoad`加载该rdb文件到redis内存。
 
