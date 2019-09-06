@@ -1,11 +1,11 @@
 ---
-title: "Redis异步拷贝源码分析"
+title: "Redis异步拷贝实现——异地数据中心同步"
 date: 2019-09-03T23:44:09+08:00
 draft: false
 categories: [ "undefined"]
 tags: ["undefined"]
 weight: 10
-subtitle: "异地数据中心同步方案"
+subtitle: ""
 description : ""
 keywords:
 - 刘港欢 arloor moontell
