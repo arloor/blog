@@ -68,6 +68,23 @@ dd   bs=512 count=[fdisk命令中最大的end数+1] if=/dev/sda | gzip -6 > /gho
 gzip -dc /ghost.img.gz | dd of=/dev/sda
 ```
 
+### 查看dd进度
+
+```
+watch -n 5 pkill -USR1 ^dd$  #每五秒输出一次进度
+```
+
+```
+13185281+0 records in
+13185281+0 records out
+6750863872 bytes (6.8 GB) copied, 252.002 s, 26.8 MB/s
+13708065+0 records in
+13708065+0 records out
+7018529280 bytes (7.0 GB) copied, 257.014 s, 27.3 MB/s
+14320025+0 records in
+14320025+0 records out
+```
+
 ## 恢复系统后的网卡问题
 
 > 引用：如果你把镜像恢复到另一台计算机上，你可能会发现你的网卡是eth1，而不是eth0。这是因为/etc/udev/rules.d/70-persistent-net.rules文件把你做镜像的计算机的网卡作为eth0登记了。
