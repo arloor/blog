@@ -327,53 +327,6 @@ iptables --policy INPUT DROP #除了以上允许的,设置默认阻止所有读�
 顺便提一下，docker映射到宿主机的端口不需要在iptables中开放，因为docker服务自己对iptables做了修改，将相关的请求转发到了docker虚拟出来的网卡中。也因为docker的自动修改，如果重启iptables，将丢失这部分修改，导致docker容器运行异常，此时只能重启docker服务了。所以如果运行了docker，就不要贸然地stop iptables服务啦。
 
 
-
-# 修改root用户密码
-
-直接输入passwd命令即可。
-
-# sshd服务配置
-
-## 修改搬瓦工的默认ssh端口
-
-```shell
-#vi /etc/ssh/sshd_config
-将Port 22前的注释删掉，或者增加
-
-#重启服务
-service sshd restart 
-```
-这个文件开头说，如果安装了selinux，需要执行semanage port -a -t 22 -p tcp。事实证明这台centos7没有selinux。 记得修改防火墙设置哦。
-
-## 配置秘钥登录
-
-将本地的~/.ssh/id_rsa.pub 添加到服务器的~/.ssh/authorized_keys文件中
-
-## 禁用密码登陆
-
-编辑远程服务器上的sshd_config文件：
-```shell
-vim /etc/ssh/sshd_config
-```
-
-找到如下选项并修改(通常情况下，前两项默认为no，地三项如果与此处不符，以此处为准)：
-```shell
-#PasswordAuthentication yes 改为
-PasswordAuthentication no
-```
-
-编辑保存完成后，重启ssh服务使得新配置生效，然后就无法使用口令来登录ssh了
-```shell
-systemctl restart sshd.service
-```
-
-# 安装apache
-
-```shell
-yum install httpd
-systemctl enable httpd
-```
-
 # 安装jdk8
 
 ```shell
