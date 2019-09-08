@@ -11,19 +11,7 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
-今天很高兴，组长给了我一个机会展示对redis异步拷贝机制调研的成果。这是第一次向组外，在大组长面前展示成果，这个机会来的很早；组长也愿意给我这个机会，所以我真的很高兴。redis异步拷贝机制的调研做了一个礼拜左右，把redis文档看了一遍，把相关的源码摸了一遍，并且根据源码模拟了请求异步拷贝的tcp报文，产生了两篇我认为有史以来最有干货的文章。很感谢组长给我时间做这样的事情。
-
-redis的代码写的很优雅，并且有完善的注释，有些注释看了还是挺想笑的，比如
-
-```
-/* REPLCONF ACK is used by slave to inform the master the amount
- * of replication stream that it processed so far. It is an
- * internal only command that normal clients should never use. */
-```
-
-作者多加一句正常的客户端是不会发送这个命令（tcp报文）的，这恰恰表明作者知道肯定会有很多不安分的人要做这种事情。
-
-闲言少叙，今天的正题是想转发一篇关于[“异步拷贝”发展的博文](https://mp.weixin.qq.com/s/ROQofjE5WwdAltazQ5p0QQ)，写的真的好，忍不住想转发。看完不禁感叹redis的牛逼，有种兴叹汪洋的感觉。。
+今天的正题是想转发一篇关于[“异步拷贝”发展的博文](https://mp.weixin.qq.com/s/ROQofjE5WwdAltazQ5p0QQ)，写的真的好，忍不住想转发。看完不禁感叹redis的牛逼，有种兴叹汪洋的感觉。。
 <!--more-->
 
 > PS: 这篇博文疑似基于redis4.0.1版本的redis
