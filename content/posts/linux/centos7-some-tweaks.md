@@ -40,16 +40,16 @@ service sshd restart
 # 监控网卡累计流量
 
 ```
-cat > /usr/local/bin/num.sh << \EOF
+cat > /usr/local/bin/netsum.sh << \EOF
 echo ""
 echo Time: $(date)
 cat /proc/uptime| awk -F. '{run_days=$1 / 86400;run_hour=($1 % 86400)/3600;run_minute=($1 % 3600)/60;run_second=$1 % 60;printf("uptime：%d天%d时%d分%d秒\n",run_days,run_hour,run_minute,run_second)}'
 echo 流量累计使用情况：
 cat /proc/net/dev|tail -n +3|awk '{eth=$1;xin=$2 / 1073741824;xout=$10 / 1073741824;printf("%s 入%.2fGB 出%.2fGB\n",eth,xin,xout)}'
 EOF
-chmod +x /usr/local/bin/num.sh
-bash /usr/local/bin/num.sh
-echo '0 4 * * * root /usr/local/bin/num.sh >> /root/net.log' >> /etc/crontab 
+chmod +x /usr/local/bin/netsum.sh
+bash /usr/local/bin/netsum.sh
+echo '0 4 * * * root /usr/local/bin/netsum.sh >> /root/net.log' >> /etc/crontab 
 ```
 
 每天四点记录自上次开机以来vps累计使用的流量到`/root/net.log`。内容如下所示：
