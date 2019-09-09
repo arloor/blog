@@ -37,6 +37,10 @@ cat /etc/ssh/sshd_config|grep UseDNS
 service sshd restart
 ```
 
+# 监控网卡累计流量
+
+
+
 # 安装python3.7
 
 centos7默认只有python2.7，并且没有安装pip。我要装python3以及pip3。
@@ -87,7 +91,7 @@ chmod +x shadowsocks-libev.sh
 ./shadowsocks-libev.sh uninstall
 ```
 
-## 使用systemd管理shadowsocks服务
+**使用systemd管理shadowsocks服务**
 
 上面的脚本安装后ss由init.d管理，下面的脚本则将其转交给systemd管理(centos7 已测试通过)
 
@@ -127,68 +131,6 @@ echo "配置信息: 服务器地址：$ip  端口：$port 密码：$passwd 加�
 
 这样就以aes-256-gcm运行了ss-libev。详细参数见：[docker镜像README](https://github.com/shadowsocks/shadowsocks-libev/blob/master/docker/alpine/README.md)
 
-# 一个简单的管理docker ss用户的方式
-
-增加新用户：
-
-```
-bash start.sh 8000  xxx  2019-01-01 # 端口号  用户名 过期时间  (密码为xxx2019-01-01)
-```
-
-定期删除过期用户：
-
-```
-awk '{print}' user.txt|xargs -n 3 bash kill.sh
-```
-
-唯二不足是
-
-1. 不能直接删除user.txt中的失效用户记录
-2. 不能处理用户增加有效期（xufei）
-
-总之就是user.txt的管理不够智能。
-
-start.sh
-
-```shell
-#! /bin/bash
-# 端口 用户名 到期日期
-# bash start.sh 8000  xxx  2019-01-01
-
- result=$(cat user.txt | grep "$2")
- if [[ "$result" != "" ]]
- then
-     echo "已包含该用户记录，请删除原有记录"
- else
-     
-	docker run -e PASSWORD=$2$3 -p $1:8388 -p $1:8388/udp -d --name $2  --restart always shadowsocks/shadowsocks-libev
-
-	if [ "$?" = "0" ]; then
-    		echo "成功为用户$2在$1端口启动服务"
-    		echo "$1 $2 $3" &>> user.txt
-	else
-		 echo "在$1端口启动服务失败，请检查端口占用、container名称和docker服务状态"
-    		docker rm $2
-	fi
-
-fi
-```
-
-kill.sh
-
-```shell
-#! /bin/bash
-# awk '{print}' user.txt|xargs -n 3 bash kill.sh
-# 端口 用户名 到期日期
-now=$(date '+%Y-%m-%d')
-
-if [[ "$3" < "$now" ]] ;then
- docker kill $2
- docker rm $2
- echo "rm shadowsocks docker container for user $2"
-fi
-```
-
 # centos 7升级内核，开启bbr
 
 
@@ -215,7 +157,7 @@ lsmod |grep bbr
 
 分部解析：
 
-1.查看当前linux内核
+**1.查看当前linux内核**
 
 ```shell
 uname -r
@@ -224,14 +166,14 @@ cat /etc/redhat-release
 # CentOS Linux release 7.3.1611 (Core)
 ```
 
-2.启用ELRepo库
+**2.启用ELRepo库**
 
 ```shell
 rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
 rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-2.el7.elrepo.noarch.rpm
 ```
 
-3.列出相关内核包
+**3.列出相关内核包**
 
 ```shell
 yum --disablerepo="*" --enablerepo="elrepo-kernel" list available
@@ -239,13 +181,13 @@ yum --disablerepo="*" --enablerepo="elrepo-kernel" list available
 
 ![](/img/kernels.png)
 
-4.安装新内核
+**4.安装新内核**
 
 ```shell
 yum --enablerepo=elrepo-kernel install kernel-ml  #以后升级也是执行这句
 ```
 
-5.检查现在可以用于启动得内核列表
+**5.检查现在可以用于启动得内核列表**
 
 ```shell
 awk -F\' '$1=="menuentry " {print $2}' /etc/grub2.cfg
@@ -258,7 +200,7 @@ awk -F\' '$1=="menuentry " {print $2}' /etc/grub2.cfg
 
 由上面可以看出新内核(5.0.5)目前位置在0，原来的内核(3.10.0)目前位置在1，所以如果想生效最新的内核，还需要我们修改内核的启动顺序为0
 
-6.设置默认启动内核为刚安装得内核
+**6.设置默认启动内核为刚安装得内核**
 
 ```shell
 vim /etc/default/grub
@@ -274,7 +216,7 @@ GRUB_DISABLE_RECOVERY="true"
 # 设置 GRUB_DEFAULT=0, 意思是 GRUB 初始化页面的第一个内核将作为默认内核
 ```
 
-7.重新生成grub-config，并使用新内核重启
+**7.重新生成grub-config，并使用新内核重启**
 
 ```shell
 grub2-mkconfig -o /boot/grub2/grub.cfg
@@ -283,7 +225,7 @@ reboot
 
 现在就可以使用uname命令查看内核了
 
-8.开启bbr很简单：
+**8.开启bbr很简单：**
 
 ```shell
 uname -r  ##输出内核版本大于4.9
@@ -293,7 +235,7 @@ sysctl -p
 lsmod |grep bbr
 ```
 
-# 配置防火墙
+**# 配置防火墙**
 
 据说centos7默认使firewalld作为防火墙，但是我装了两个centos7都是使用的iptables。现在也比较喜欢iptables，当初配iptables死活都不通。。
 
@@ -404,7 +346,7 @@ cd
 
 # 三种开机自启动方式
 
-## 1.利用chkconfig xx on
+**1.利用chkconfig xx on**
 
 ```shell
 # 1. 将脚本移动到/etc/rc.d/init.d目录下
@@ -417,19 +359,19 @@ chkconfig --add StartTomcat.sh
 chkconfig StartTomcat.sh on
 ```
 
-## 2.编辑/etc/rc.d/rc.loacl
+**2.编辑/etc/rc.d/rc.loacl**
 
 ```
 echo "command" >> /etc/rc.d/rc.local
 chmod +x /etc/rc.d/rc.local
 ```
 
-## 3.使用systemd编写服务(推荐)
+**3.使用systemd编写服务(推荐)**
 
-见[Systemd服务文件编写-centos7下](/posts/systemd/)
+见[Systemd服务文件编写-centos7下](/posts/linux/systemd/)
 
 
-# 番外篇：测试vps回程路由
+# 测试vps回程路由
 
 ```shell
 yum install -y unzip wget
@@ -449,62 +391,14 @@ trace arloor.com
 
 
 
-# 番外篇：在国内阿里云上设置shadowsocks国内中转
+# 流量转发
 
-上面的安装是国外服务器上做的。这一步的设置国内中转是在国内阿里云的centos7机器上做
-
-使用的是阿里云提供的学生机，5M带宽的轻量应用服务器，114元/年，24岁以下自动获得学生身份。不要小看了5M，看1080p视频不成问题（一个人用的前提下）。[云翼计划2018](https://promotion.aliyun.com/ntms/act/campus2018.html)
-
-为什么要弄国内中转？弄了国内中转之后，是这样的：
-
-```shell
-电脑/手机--------阿里云BGP机房--------国外vps
-```
-
-因为阿里云BGP机房对所有运营商都提供了很好的网络支持，所以无论家里用的什么宽带，都能保证较好的体验。
-
-我自己使用的vps是搬瓦工DC6 gia的机器，对中国大陆提供双程cn2 gia线路。因此阿里云到国外vps的质量也得到了保证。
-
-自己使用的是移动宽带，不加中转，在电信的cn2 转中国移动路由节点容易出问题，坑死人的移动宽带啊。加上阿里云BGP中转则由阿里云的机器充当路由节点，进行流量的转移，这就是稳定好用的原因。
-
-另外，还有一个概念Qos（服务质量等级），运营商会优先保证等级高的流量。阿里云机房的流量比我们普通家庭带宽的质量等级高，这也是中转方案的一个优点。
-
-总结，中转的好处就是稳。坏处就是中转节点带宽只有5M了😂😂😂。考虑到过不久就要回学校用校园网了，估计校园网的环境下还是要依靠阿里云中转的节点。总之，这样又提供了一个新的选择，节点多一个看着贼爽呢。
-
-
-<img src="/img/ssnodes.png" alt="" width="800px" style="max-width: 100%;">
-
-开始操作：
-
-## 方案一：使用iptables，适用于落地鸡ip不会改变的情况
+**iptables转发静态域名解析（域名指向的ip不变）的host**
 
 写了一个支持域名的iptables转发脚本，执行以下命令即可使用
 
 ```shell
 wget -O iptables.sh https://raw.githubusercontent.com/arloor/iptablesUtils/master/iptables.sh;bash iptables.sh;
-```
-
-输出如下
-
-```shell
-本脚本用途：
-设置本机tcp和udp端口转发
-原始iptables仅支持ip地址，该脚本增加域名支持（要求域名指向的主机ip不变）
-若要支持ddns，请使用 https://raw.githubusercontent.com/arloor/iptablesUtils/master/iptables4ddns.sh;
-
-local port:443
-remote port:443
-target domain/ip:github.com
-正在安装host命令.....
-Done
-target-ip: 13.229.188.59
-local-ip: 172.16.20.24
-清除本机443端口到52.74.223.119:443的udpPREROUTING转发规则6
-清除对应的POSTROUTING规则
-清除本机443端口到52.74.223.119:443的tcpPREROUTING转发规则5
-清除对应的POSTROUTING规则
-端口转发成功
-
 ```
 
 题外话（自己备忘）：某端口流量转发到本机其他端口：(从localhost访问，这个转发无效)
@@ -513,13 +407,13 @@ local-ip: 172.16.20.24
 iptables -t nat -A PREROUTING -p tcp --dport 8081 -j REDIRECT --to-ports 8080
 ```
 
-### 删除本机某端口上的转发
+**删除本机某端口上的转发**
 
 ```shell
 wget -O rmPreNatRule.sh https://raw.githubusercontent.com/arloor/iptablesUtils/master/rmPreNatRule.sh;bash rmPreNatRule.sh 8080[要删除的端口号]
 ```
 
-### 当然iptables也能处理ip会变的情况，这里提供我写的脚本
+**iptables转发动态解析的域名（ddns）**
 
 执行以下命令
 
@@ -528,50 +422,14 @@ wget -O dnat-install.sh https://raw.githubusercontent.com/arloor/iptablesUtils/m
 bash dnat-install.sh
 ```
 
-输出如下：
-```shell
-本地端口号:443
-远程端口号:443
-目标DDNS:github.com
-mkdir: 无法创建目录"/etc/dnat": 文件已存在
-Redirecting to /bin/systemctl stop dnat.service
-Redirecting to /bin/systemctl start dnat.service
-已设置转发规则：本地端口[443]=>[github.com:443]
-输入 journalctl -exu dnat 查看日志
-```
 
-## 方案二：使用socat，适用于落地鸡是使用了ddns更新域名解析的nat vps
-
-
-执行以下命令，填写转发地址和端口即可。该命令会设置开机自启动，同一设置不需要多次执行，也请不需要在同一端口配置多个转发。
-
-```shell
-wget http://arloor.com/socat.sh
-bash socat.sh
-```
-
-停止：
-
-```
-kill -9 $(ps -ef|grep socat|grep -v grep|awk '{print $2}')
-```
-
-另外，该脚本会停止iptables服务，导致防火墙规则失效，对一般用户来说不是啥大问题。
-
-# 番外篇：自己搭建speedtest网站
+# 搭建网速测试网站
 
 先安装docker
 
 ```shell
-# 安装相关依赖
-yum install -y yum-utils \
-  device-mapper-persistent-data \
-  lvm2
-# 设置docker源
-yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-# 安装docker 
-yum -y install docker-ce
-# 开机自启动docker服务
+yum install -y wget
+wget -qO- https://get.docker.com/|bash
 systemctl enable docker
 systemctl start docker
 docker run -d --restart always --name  speedtest -p 0.0.0.0:80:80 arloor/speedtest:latest
@@ -591,26 +449,3 @@ cd
 ```
 
 现在就可以访问 http://ip:80 测速了。参见[speedtest项目](https://github.com/adolfintel/speedtest/tree/docker)
-
-# 番外篇：vps上传速度测试
-
-网速测试请主要关注上传速度！
-
-```
-wget https://raw.github.com/sivel/speedtest-cli/master/speedtest.py ##下载脚本
-
-python speedtest.py --server 5316  |grep -E "Mbit/s|ms"  ##到南京电信的测试节点
-python speedtest.py --server 13704 |grep -E "Mbit/s|ms"  ##到南京联通
-python speedtest.py --server 21590 |grep -E "Mbit/s|ms"  ##到南京移动
-
-python speedtest.py ## speedtest自己选择测试节点
-python speedtest.py --list|grep "China Telecom" ## 列举中国电信测试节点
-python speedtest.py --list|grep "China Unicom"  ## 列举中国联通测试节点
-python speedtest.py --list|grep "China Mobile"  ## 列举中国移动测试节点
-
-
-python speedtest.py --server 5316  --share |grep Share ##到南京电信的测试节点
-python speedtest.py --server 13704 --share |grep Share ##到南京联通
-python speedtest.py --server 21590 --share |grep Share ##到南京移动
-```
-
