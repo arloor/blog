@@ -45,7 +45,7 @@ echo ""
 echo Time: $(date)
 cat /proc/uptime| awk -F. '{run_days=$1 / 86400;run_hour=($1 % 86400)/3600;run_minute=($1 % 3600)/60;run_second=$1 % 60;printf("uptime：%d天%d时%d分%d秒\n",run_days,run_hour,run_minute,run_second)}'
 echo 流量累计使用情况：
-cat /proc/net/dev|tail -n +3|awk '{ print $1 " "(($2/1073741824))"GB-in "(($10/1073741824))"GB-out"}'
+cat /proc/net/dev|tail -n +3|awk '{eth=$1;xin=$2 / 1073741824;xout=$10 / 1073741824;printf("%s 入%.2fGB 出%.2fGB\n",eth,xin,xout)}'
 EOF
 chmod +x /usr/local/bin/num.sh
 bash /usr/local/bin/num.sh
