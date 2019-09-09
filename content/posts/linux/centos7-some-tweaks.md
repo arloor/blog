@@ -39,7 +39,29 @@ service sshd restart
 
 # 监控网卡累计流量
 
+```
+cat > /usr/local/bin/num.sh << \EOF
+echo ""
+echo Time: $(date)
+cat /proc/uptime| awk -F. '{run_days=$1 / 86400;run_hour=($1 % 86400)/3600;run_minute=($1 % 3600)/60;run_second=$1 % 60;printf("uptime：%d天%d时%d分%d秒\n",run_days,run_hour,run_minute,run_second)}'
+echo 流量累计使用情况：
+cat /proc/net/dev|tail -n +3|awk '{ print $1 " "(($2/1073741824))"GB-in "(($10/1073741824))"GB-out"}'
+EOF
+chmod +x /usr/local/bin/num.sh
+bash /usr/local/bin/num.sh
+echo '0 4 * * * root /usr/local/bin/num.sh >> /root/net.log' >> /etc/crontab 
+```
 
+每天四点记录自上次开机以来vps累计使用的流量到`/root/net.log`。内容如下所示：
+
+```
+Time: 2019年 09月 09日 星期一 20:25:05 CST
+uptime：11天1时22分55秒
+流量累计使用情况：
+eth0: 30.195GB-in 28.6795GB-out
+lo: 0GB-in 0GB-out
+docker0: 0GB-in 0GB-out
+```
 
 # 安装python3.7
 
