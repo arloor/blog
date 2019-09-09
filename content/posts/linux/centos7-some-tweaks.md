@@ -55,12 +55,12 @@ echo '0 4 * * * root /usr/local/bin/netsum.sh >> /root/net.log' >> /etc/crontab
 每天四点记录自上次开机以来vps累计使用的流量到`/root/net.log`。内容如下所示：
 
 ```
-Time: 2019年 09月 09日 星期一 20:25:05 CST
-uptime：11天1时22分55秒
+Time: 2019年 09月 09日 星期一 20:56:08 CST
+uptime：11天1时53分58秒
 流量累计使用情况：
-eth0: 30.195GB-in 28.6795GB-out
-lo: 0GB-in 0GB-out
-docker0: 0GB-in 0GB-out
+eth0: 入30.20GB 出28.68GB
+lo: 入0.00GB 出0.00GB
+docker0: 入0.00GB 出0.00GB
 ```
 
 # 安装python3.7
