@@ -257,7 +257,7 @@ sysctl -p
 lsmod |grep bbr
 ```
 
-**# 配置防火墙**
+# 配置防火墙
 
 据说centos7默认使firewalld作为防火墙，但是我装了两个centos7都是使用的iptables。现在也比较喜欢iptables，当初配iptables死活都不通。。
 
