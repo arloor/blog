@@ -1,5 +1,5 @@
 ---
-title: "Redis Persistence"
+title: "Redis持久化机制"
 date: 2019-09-11T20:17:11+08:00
 draft: false
 categories: [ "undefined"]
