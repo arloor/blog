@@ -84,7 +84,7 @@ ODOWN只适用于master，而slave和sentinel节点还有SDOWN状态。**被标�
 
 这些信息都可以对slave节点执行`info replication`进行查看。
 
-1. 首先 断开时间大于`(down-after-milliseconds * 10) + milliseconds_since_master_is_in_SDOWN_state`的从节点没有资格。
+1. 首先 断开时间大于特定时长的从节点没有资格。
 2. 其次检查slave priority，数字小的优先。为0则不会被选择
 3. 再其次，replication offset大的优先。
 4. 如果以上都相同，则选择runid小的从节点——这样安排比随机选择一个更加有秩序。
