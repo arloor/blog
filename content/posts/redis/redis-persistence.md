@@ -108,5 +108,128 @@ rdbLoad函数是rdbSave的逆过程，实现感觉没有必要细说。rdb加载
 
 在这里简单记录一下如何实现这个功能，以备不时之需。因为篇幅和内容相关性的原因，这里仅给出链接，不列原文。[redis运行时加载rdb](/posts/redis/redis-online-load-rdb/)。
 
-> 未完待续
+## AOF实现
+
+AOF会记录write请求，将其写入aof文件。从redis接受一个请求到写入AOF的函数调用路径为：
+
+1. processCommand @server.c
+    1. call @server.c 
+        1. propagate @server.c
+            1. feedAppendOnlyFile @aof.c
+            2. replicationFeedSlaves @replicate.c
+
+从该路径可以清晰地看到server处理命令后最终走到了aof功能和replicate功能的代码。
+
+
+**将命令追加到aof_buf**
+
+feedAppendOnlyFile会对expire类型的命令进行翻译，将过期时翻译为绝对的过期时间戳，伪代码表示：
+
+```
+void feedAppendOnlyFile(struct redisCommand *cmd, int dictid, robj **argv, int argc) {
+    如果databaseID不等于上次使用的databaseID{
+        追加select命令
+    }
+
+    如果命令为EXPIRE/PEXPIRE/EXPIREAT{
+        翻译为PEXPIREAT，然后追加
+    }
+
+    如果命令为SETEX/PSETEX{
+        翻译为SET+PEXPIREAT两条命令，然后追加
+    }
+
+    如果命令为SET [EX seconds][PX milliseconds]{
+        翻译为SET+PEXPIREAT两条命令，然后追加
+    }
+
+    其他情况{
+        直接追加命令
+    }
+}
+```
+
+feedAppendOnlyFile并不直接将命令追加到aof文件，而是追加到server.aof_buf这个缓存，之后再通过其他途径写入磁盘。如果有后台rewriting正在执行，则同时将这些命令写入aofRewrite缓冲区（aof_rewrite_buf_blocks）。
+
+**将aof_buf真正写入aof文件**
+
+真正将buf写到磁盘的函数是flushAppendOnlyFile。该函数会调用一次write，将aof_buf写入aof的文件描述符。同时，会根据appendfsync配置（always、everysec、no）的值和当前是否有后台线程执行fsync，决定现在执行fsync还是延迟fsync。
+
+write系统调用并不会立即将数据落到磁盘，落盘由操作系统调度，fsync则是强制操作系统进行落盘。
+
+**加载AOF文件**
+
+由函数loadAppendOnlyFile实现。
+
+读取AOF中的命令tcp报文再执行，修改redis的database中数据，这是加载AOF文件的流程。因为redis的实现中，每一个命令的执行都需要一个struct client实例,同样执行AOF中的命令也需要一个这样的client。所以redis伪造了一个client来执行这些命令——通过createFakeClient函数。
+
+在读取/加载AOF文件过程中，会首先判断是否AOF文件是否已“REDIS”开头，如果是，则认为这个文件是rdb+aof。则先读取该文件的rdb部分，再读取尾部的aof部分。从aof中读取到命令后，将命令参数设置到fakeclient中，然后将fakeClient作为参数传递给命令对应的cmd函数，这就完成了该条命令的执行。
+
+
+**重写AOF文件实现**
+
+AOF文件使用追加的方式记录redis的写命令历史，也就意味着AOF文件会不断增大，“重写”就是当AOF文件过大时，创建新的AOF文件，以减小单个AOF文件的大小。
+
+其实实现在rewriteAppendOnlyFileBackground。redis会fork出一个子进程。子进程创建名为“temp-rewriteaof-bg-{child_pid}.aof”的临时文件。随后调用rewriteAppendOnlyFile(tempfile)。
+
+
+rewrite的整体过程是：先将当前redis的快照保存到新AOF文件中，然后将aof_rewrite_buf_blocks中的缓冲写到新的AOF文件中
+
+rewriteAppendOnlyFile会根据server.aof_use_rdb_preamble是否设定，决定rewirte是否使用rdb作当前redis的快照。其关键代码为：
+
+```c
+    if (server.aof_use_rdb_preamble) {
+        int error;
+        if (rdbSaveRio(&aof,&error,RDB_SAVE_AOF_PREAMBLE,NULL) == C_ERR) {
+            errno = error;
+            goto werr;
+        }
+    } else {
+        if (rewriteAppendOnlyFileRio(&aof) == C_ERR) goto werr;
+    }
+```
+
+rewriteAppendOnlyFileRio保存当前redis快照的方式是遍历所有database，将所有key-value用set命令的形式追加到新的AOF文件中（超时的key不追加，超时时间使用PEXPIREAT记录）。
+
+serverCron函数会检测AOF重写子进程的退出，其实现是通过wait系统调用——linux中子进程退出，父进程要wait其退出，否则该子进程会成为僵尸进程。
+
+如果serverCron中wait得到的进程id与AOF重写子进程相同，则说明AOF重写完成，此时通过`backgroundRewriteDoneHandler`函数执行重写完毕后的操作。关键代码如下：
+
+```
+        if ((pid = wait3(&statloc,WNOHANG,NULL)) != 0) {
+            ...
+            if (pid == -1) {
+                ...
+            } else if (pid == server.rdb_child_pid) {
+                ...
+            } else if (pid == server.aof_child_pid) {
+                backgroundRewriteDoneHandler(exitcode,bysignal);
+                if (!bysignal && exitcode == 0) receiveChildInfo();
+            } else {
+                ...
+            }
+            ...
+        }
+```
+
+backgroundRewriteDoneHandler关键代码如下：
+
+```
+void backgroundRewriteDoneHandler(int exitcode, int bysignal) {
+    if (!bysignal && exitcode == 0) {
+        snprintf(tmpfile,256,"temp-rewriteaof-bg-%d.aof",
+            (int)server.aof_child_pid);
+        newfd = open(tmpfile,O_WRONLY|O_APPEND);
+        if (aofRewriteBufferWrite(newfd) == -1) {
+            ……//将重写缓冲区的数据写入到重写AOF文件
+        }
+        if (rename(tmpfile,server.aof_filename) == -1) {
+            ……//覆盖旧的AOF文件
+        }
+        ……
+    } 
+}
+```
+
+他会将重写期间暂时存放在aof_rewrite_buf_blocks中的写请求追加到新的AOF文件，随后覆盖就得AOF文件。
 
