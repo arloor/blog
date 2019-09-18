@@ -1,5 +1,5 @@
 ---
-title: "Sentinel文档"
+title: "Sentinel文档及源码解析"
 date: 2019-09-12T18:25:31+08:00
 draft: false
 categories: [ "undefined"]
@@ -10,6 +10,11 @@ description : ""
 keywords:
 - 刘港欢 arloor moontell
 ---
+
+这一篇记录一下sentinel的文档和实现。真的是好长的一篇文章😂
+<!--more-->
+
+# 官方文档
 
 sentinel是redis官方高可用方案，从宏观角度看，sentinel提供以下能力。
 
@@ -111,6 +116,303 @@ TITL就是在发生上述情况时的一种保护状态。sentinel会进行周�
 
 
 
+# 实现
+
+如果redis实例为sentinel模式，则serverCron函数会执行sentinelTimer函数。sentinelTimer函数周期性执行，做以下几件事情：
+
+1. sentinelCheckTiltCondition()：判断系统时间是否出现异常，决定是否进入TILT模式
+2. sentinelHandleDictOfRedisInstances(sentinel.masters)：
+    1. 遍历所有节点，handle每个节点，分为monitoring和acting两部分工作——如果在TILT模式，则不做acting工作；
+    2. 如果当前在TILT模式，且系统时间回复正常则退出TILT模式；
+    3. 如果某个主节点的failover_state为SENTINEL_FAILOVER_STATE_UPDATE_CONFIG，则执行+switch-master事件。
+
+## TILT模式实现
+
+TILT模式就像一个自动开关，根据系统时间是否正常决定是否执行主观下线、客观下线、failover这些acting。
+
+**进入TILT模式**
+
+判断是否进入TILT模式在sentinelTimer函数开头的sentinelCheckTiltCondition();
+
+```
+    //delta为当前时间与上次时间之差
+    if (delta < 0 || delta > SENTINEL_TILT_TRIGGER) {
+        sentinel.tilt = 1;
+        sentinel.tilt_start_time = mstime();
+        sentinelEvent(LL_WARNING,"+tilt",NULL,"#tilt mode entered");
+    }
+```
+
+如果delta为负，或者过大，说明在两次sentinelTimer的执行间隔中，系统时间被异常地修改，时间不再可信，进入TILT模式，只做监控，不做acting
+
+**退出TILT模式**
+
+在handle每个节点的acting部分的开始，都会检查是否在TILT模式中，如果在则判断能否退出。
+
+```c
+    if (sentinel.tilt) {
+        if (mstime()-sentinel.tilt_start_time < SENTINEL_TILT_PERIOD) return;
+        sentinel.tilt = 0;
+        sentinelEvent(LL_WARNING,"-tilt",NULL,"#tilt mode exited");
+    }
+```
+
+如果在这里能够退出TILT模式，则继续执行对给节点的acting部分。
+
+
+## Sentinel通知实现
+
+Sentinel通知主要通过发布订阅和notification_scripts实现。其实现在
+
+```
+void sentinelEvent(int level, char *type, sentinelRedisInstance *ri,
+                   const char *fmt, ...)
+```
+
+这很像一个log函数的声明，level有LL_DEBUG、LL_NOTICE、LL_WARNING等。LL_WARNING等级的事件会调用notification_scripts进行通知；非DEBUG等级的事件会通过名为type参数的发布订阅频道进行通知。
+
+## Sentinel监控实现
+
+
+Sentinel的监控实现在`sentinelHandleRedisInstance`函数（handle单个redis实例）的monitoring部分。
+
+一个sentinel实例到其他每个节点（master、slave、sentinel）都有两条tcp连接——命令传输连接和发布订阅连接。monitoring部分首先会修复该两条连接，如果断开则重建该两条连接。
+
+监控的实现主要依赖INFO、PING命令和发布hello消息到`__sentinel__:hello`频道。INFO、PING命令通过命令传输连接，hello消息通过发布订阅连接。所有这些命令都是通过异步回调的方式执行的。redis保持一个pending_commands变量来计算已发出但未收到响应的命令数量。如果该数量太大，则不再发送新的监控命令
+
+**PING及其回调**
+
+PING会发送给所有redis实例（master、slave、sentinel），其通过`sentinelSendPing`函数实现。他会更新last_ping_time为当前时间；同时，如果act_ping_time为0（意味着收到了上一次ping的pong），则也更新act_ping_time为当前时间。执行ping，pending_commands会累加一。
+
+PING命令收到响应的回调函数为`sentinelPingReplyCallback`。其会对pending_commands减一，同时更新last_pong_time为当前时间。如果响应为PONG、LOADING、MASTERDOWN，则更新last_avail_time为当前时间，act_ping_time为0。如果响应为BUSY，则有可能是其在执行脚本，sentinel会向其发送`SCRIPT KILL`命令。
+
+上面我们涉及 act_ping_time、last_ping_time、last_pong_time、last_avail_time这些变量。而monitoring部分发送PING命令就在last_ping_time和last_pong_time过老的时候：
+
+```
+    if ((now - ri->link->last_pong_time) > ping_period &&
+               (now - ri->link->last_ping_time) > ping_period/2) {
+        /* Send PING to all the three kinds of instances. */
+        sentinelSendPing(ri);
+    }
+```
+
+**INFO及其回调**
+
+INFO命令会发送给master和slave节点。
+
+它的回调函数是sentinelInfoReplyCallback，其会解析INFO的响应，并通过sentinelRefreshInstanceInfo，更新INFO命令目标节点在sentinel内存中的状态，包括以下信息：
+
+- run_id——如果runid与之前记录的不同，则记录一次+reboot事件（LL_NOTICE）
+- slave0、slave1....——如果某slave是新发现的，则加入监听列表，并记录+slave事件（LL_NOTICE）
+- master_link_down_since_seconds
+- role:(master/slave)
+    - 如果是slave则继续读取`master_host`、`master_port`、master_link_status、slave_priority、slave_repl_offset
+
+该回调函数还会在目标节点role发生变化时产生+/-role-change的事件（仅记录到日志）。
+
+如果当前不在TILT模式，还会继续执行以下：
+
+1. 如果之前记录该节点为slave，而该INFO响应报告其为master。且他的主节点的SRI_FAILOVER_IN_PROGRESS flag被设置且failover_state为SENTINEL_FAILOVER_STATE_WAIT_PROMOTION，则说明该从节点成功地被提升为主节点。此事将failover_state置为SENTINEL_FAILOVER_STATE_RECONF_SLAVES。同时记录+promoted-slave和——这一段的作用将在下文状态机部分解释。
+2. 如果该slave异常地报告自己是主节点（没有sentinel进行failover提升他）或报告自己拷贝的主节点不同于sentinel记录的，则修正该从节点的状态。
+3. 处理SRI_RECONF_SENT->SRI_RECONF_INPROG->SRI_RECONF_DONE的状态转换
+
+**hello消息的发布与消费**
+
+hello消息会发送给所有节点的`__sentinel__:hello`频道。消息格式为：
+
+```
+sentinel_ip,sentinel_port,sentinel_runid,current_epoch,
+master_name,master_ip,master_port,master_config_epoch
+```
+
+发布hello消息的回调函数为sentinelPublishReplyCallback。其仅仅递减pending_commands，和更新last_pub_time为当前时间（如果发布成功）。
+
+hello消息的消费是通过sentinelReceiveHelloMessages函数，该函数是SUBSCRIBE命令的回调函数。该函数在解析hello消息的8个字段后，会做如下：
+
+1. 增加新发现的sentinel或更新已有sentinel的地址。（决定更新还是增加是判断runID是否有记录过）
+2. 如果hello消息中sentinel的current_epoch大于本地current_epoch,则更新本地的为hello消息中的current_epoch
+3. 如果hello消息中master_config_epoch大于本地的记录，则更新本地的master地址和master_config_epoch。产生+config-update-from事件和+switch-master事件。
+4. 更新last_hello_time为当前时间
+
+消费hello消息的过程就是配置传播的过程。
+
+
+## 自动故障迁移实现
+
+自动failover的实现在sentinelHandleRedisInstance的acting部分，包含：
+
+- 主观下线
+- 客观下线
+- 选举leader
+- 执行failover
+
+```c
+    /* ============== ACTING HALF ============= */
+    /* Every kind of instance */
+    sentinelCheckSubjectivelyDown(ri);
+
+    /* Masters and slaves */
+    if (ri->flags & (SRI_MASTER|SRI_SLAVE)) {
+        /* Nothing so far. */
+    }
+
+    /* Only masters */
+    if (ri->flags & SRI_MASTER) {
+        //主观下线状态更新
+        sentinelCheckObjectivelyDown(ri);
+        if (sentinelStartFailoverIfNeeded(ri))
+            //询问其他sentinel该master是否为sdown，并可能伴随选举leader
+            sentinelAskMasterStateToOtherSentinels(ri,SENTINEL_ASK_FORCED);
+        sentinelFailoverStateMachine(ri);
+        sentinelAskMasterStateToOtherSentinels(ri,SENTINEL_NO_FLAGS);
+    }
+```
+
+**主观下线状态判断与更新**
+
+主观下线状态判断与更新会对master、slave和sentinel进行。
+
+主观下线状态的检测就是检测几个时间变量有没有超出阈值，因为是“主观”的变动，所以不需要与其他sentinel协商。会产生+sdown事件和-sdown事件（离开主观下线状态）
+
+**客观下线状态判断与更新**
+
+sentinel会遍历自己内存中所有sentinel的SRI_MASTER_DOWN标记，如果该flag为1，则计数+1，如果计数大于quorum则设置为主观下线状态。会产生+odown事件和-odown事件（离开客观下线状态）。
+
+**检测并开始failover**
+
+检测部分包括三项工作：
+
+1. Master must be in ODOWN condition.
+2. No failover already in progress.
+3. No failover already attempted recently.
+
+如果满足三项条件则执行sentinelStartFailover，该函数会做如下：
+
+1. 设置flag：SRI_FAILOVER_IN_PROGRESS；
+2. master->failover_epoch = ++sentinel.current_epoch; ——更新两个epoch，该epoch比当前集群稳定的epoch大
+3. 同时设置failover_state为SENTINEL_FAILOVER_STATE_WAIT_START。该failover_state随后进入一个状态机进行状态转换（真正的failover过程）。
+4. 产生+new-epoch和+try-failover事件
+
+**与其他sentinel协商**
+
+sentinelAskMasterStateToOtherSentinels向其他所有sentinel发送IS-MASTER-DOWN-BY-ADDR。其请求和响应格式如下：
+
+```
+请求：SENTINEL is-master-down-by-addr master_ip master_port sentinel_current_epoch sentinel_myid/*
+响应：down state, leader, vote epoch.
+```
+
+该命令的作用其实有两部分：
+
+- 目标sentinel是否认为该master为sdown
+- 如果源sentinel开始了failover，则最后一个参数不为“*”，此时会进行failover的leader选举——这是从命名中看不出来的。
+
+我们看`sentinelCommand`中处理`is-master-down-by-addr`命令的激发选举leader的代码；
+
+```
+        /* Vote for the master (or fetch the previous vote) if the request
+         * includes a runid, otherwise the sender is not seeking for a vote. */
+        if (ri && ri->flags & SRI_MASTER && strcasecmp(c->argv[5]->ptr,"*")) {
+            leader = sentinelVoteLeader(ri,(uint64_t)req_epoch,
+                                            c->argv[5]->ptr,
+                                            &leader_epoch);
+        }
+```
+
+可以看到判断第6个参数是不是“*”，已决定是否进行`sentinelVoteLeader`。我们先将sentinelVoteLeader视为一个黑盒，仅需要知道他会返回leader信息。
+
+现在来看收到响应的回调函数`sentinelReceiveIsMasterDownReply`。他会做两件事：
+
+1. 更新内存中该sentinel对目标master的sdown状态标记
+2. 更新内存中该sentinel的选举信息：leader以及leader_epoch
+
+
+**sentinelFailoverStateMachine-执行failover的状态机**
+
+该状态机真正调用一些函数来执行failover过程，状态转换如下：
+
+```c
+    switch(ri->failover_state) {
+        case SENTINEL_FAILOVER_STATE_WAIT_START:
+            sentinelFailoverWaitStart(ri);
+            break;
+        case SENTINEL_FAILOVER_STATE_SELECT_SLAVE:
+            sentinelFailoverSelectSlave(ri);
+            break;
+        case SENTINEL_FAILOVER_STATE_SEND_SLAVEOF_NOONE:
+            sentinelFailoverSendSlaveOfNoOne(ri);
+            break;
+        case SENTINEL_FAILOVER_STATE_WAIT_PROMOTION:
+            sentinelFailoverWaitPromotion(ri);
+            break;
+        case SENTINEL_FAILOVER_STATE_RECONF_SLAVES:
+            sentinelFailoverReconfNextSlave(ri);
+            break;
+    }
+```
+
+sentinelStartFailover函数将failover_state置为SENTINEL_FAILOVER_STATE_WAIT_START，随后进行状态机。
+
+sentinelFailoverWaitStart会统计其他sentinel的投票信息，判断自己是否为leader，如果是则置failover_state为SENTINEL_FAILOVER_STATE_SELECT_SLAVE，进入状态机下一步状态。
+
+sentinelFailoverSelectSlave会选举出一个slave，选举规则上文有陈述。
+
+sentinelFailoverSendSlaveOfNoOne会对该slave发送“SLAVEOF NO ONE”命令，让其成为一个主节点。
+
+sentinelFailoverWaitPromotion单纯为一个超时判断函数，SENTINEL_FAILOVER_STATE_WAIT_PROMOTION->SENTINEL_FAILOVER_STATE_RECONF_SLAVES的状态转换在INFO命令的回调函数中执行，上文有陈述。
+
+sentinelFailoverReconfNextSlave则是向其他slave发送“SLAVEOF new_master”。
+
+**以上过程的顺序——值得关注一下**
+
+sentinel在判断是否odown时使用自己内存中所保存的其他sentinel的信息。实现中在一个周期中，是先判断odown，而后发送`is-master-down-by-addr`要求更新其他sentinel的信息。也就是说判断时，使用的是陈旧的信息。为什么这样设计？
+
+首先我们注意到，is-master-down-by-addr是异步的，也就是不是发送后阻塞地等待更新。所以先发送`is-master-down-by-addr`,而后立即判断odown，其使用的仍然是陈旧的信息。
+
+其次，因为这是定时的任务，我们询问更新之后，会等待一个时间间隔，而后开始一次新的odown判断，因为这个时间间隔的存在，是有可能使用新的状态信息的。
+
+最后，`is-master-down-by-addr`依赖是否为odown决定是否需要进行leader选举，这是一个硬性的依赖。
+
+以上三点决定了这个顺序。
+
+**failover的leader选举**
+
+这是最后一个部分啦。
+
+请求成为leader的sentinel将自己的epoch+1，然后携带自己的runid和epoch向其他sentinel发送`is-master-down-by-addr`。
+
+其他sentinel会拿着该runid和epoch决定是否把票投给他。其实现在sentinelVoteLeader。
+
+```c
+char *sentinelVoteLeader(sentinelRedisInstance *master, uint64_t req_epoch, char *req_runid, uint64_t *leader_epoch) {
+    if (req_epoch > sentinel.current_epoch) {
+        sentinel.current_epoch = req_epoch;
+        sentinelFlushConfig();
+        sentinelEvent(LL_WARNING,"+new-epoch",master,"%llu",
+            (unsigned long long) sentinel.current_epoch);
+    }
+    //决定是否投给他
+    if (master->leader_epoch < req_epoch && sentinel.current_epoch <= req_epoch)
+    {
+        sdsfree(master->leader);
+        master->leader = sdsnew(req_runid);
+        master->leader_epoch = sentinel.current_epoch;
+        sentinelFlushConfig();
+        sentinelEvent(LL_WARNING,"+vote-for-leader",master,"%s %llu",
+            master->leader, (unsigned long long) master->leader_epoch);
+        /* If we did not voted for ourselves, set the master failover start
+         * time to now, in order to force a delay before we can start a
+         * failover for the same master. */
+        if (strcasecmp(master->leader,sentinel.myid))
+            master->failover_start_time = mstime()+rand()%SENTINEL_MAX_DESYNC;
+    }
+
+    *leader_epoch = master->leader_epoch;
+    return master->leader ? sdsnew(master->leader) : NULL;
+}
+```
+
+先来先得票，投票给第一个epoch大于自己的sentinel。
 
 
 
