@@ -1,8 +1,8 @@
 ---
-title: "Redis持久化机制"
+title: "Redis持久化机制-aof.c与rdb.c"
 date: 2019-09-11T20:17:11+08:00
 draft: false
-categories: [ "undefined"]
+categories: [ "redis"]
 tags: ["undefined"]
 weight: 10
 subtitle: ""

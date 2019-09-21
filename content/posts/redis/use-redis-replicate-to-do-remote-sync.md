@@ -1,8 +1,8 @@
 ---
-title: "Redis异步拷贝实现——异地数据中心同步"
+title: "Redis异步拷贝实现—replicate.c"
 date: 2019-09-03T23:44:09+08:00
 draft: false
-categories: [ "undefined"]
+categories: [ "redis"]
 tags: ["undefined"]
 weight: 10
 subtitle: ""

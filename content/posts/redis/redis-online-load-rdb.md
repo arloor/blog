@@ -2,7 +2,7 @@
 title: "实现redis运行时加载rdb文件"
 date: 2019-09-04T23:02:03+08:00
 draft: false
-categories: [ "undefined"]
+categories: [ "redis"]
 tags: ["undefined"]
 weight: 10
 subtitle: ""

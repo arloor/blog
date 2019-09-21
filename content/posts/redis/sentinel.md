@@ -1,8 +1,8 @@
 ---
-title: "Sentinel文档及源码解析"
+title: "Redis哨兵实现-sentinel.c"
 date: 2019-09-12T18:25:31+08:00
 draft: false
-categories: [ "undefined"]
+categories: [ "redis"]
 tags: ["undefined"]
 weight: 10
 subtitle: ""
