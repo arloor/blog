@@ -216,3 +216,23 @@ DNS3=114.114.114.114
 
 
 知道这些参数的含义，应该就能模仿以上的`ifcfg-eth0`写出自己的网卡配置了。使用dhcp的最为简单，需要自己配置静态ip的需要做的就比较多了，要填写子网掩码、网关，这些信息在某些云服务商那里还是挺难获取的呀。
+
+## 草稿-centos7网络安装
+
+mkdir /boot/net
+cd /boot/net
+wget http://mirrors.ustc.edu.cn/centos/7/os/x86_64/isolinux/vmlinuz -O vmlinuz
+wget http://mirrors.ustc.edu.cn/centos/7/os/x86_64/isolinux/initrd.img -O initrd.img
+
+
+ls (hd0,msdos1)/
+set root=hd0,msdos1
+linux16 /boot/net/vmlinuz
+initrd16 /boot/net/initrd.img
+boot
+
+menuentry "CentOS-7-Install-No-ks"{
+    set root=hd0,msdos1
+    linux16 /boot/net/vmlinuz ro ip=10.23.180.124::10.23.0.1:255.255.0.0:my_hostname:eth0:none nameserver=10.23.255.1 inst.repo=http://mirror.centos.org/centos/7/os/x86_64/ inst.vnc inst.vncpassword=MyPassword ksdevice=eth0  inst.lang=en_US inst.keymap=us
+    initrd16 /boot/net/initrd.img
+}

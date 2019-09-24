@@ -11,66 +11,102 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
-# 文档
+## redis cluster简介
 
-redis cluster使用P2P的拓扑结构，集群中每个节点到其他节点都有两个TCP连接，一条接收消息，一条发送消息——这两条tcp连接是单向（单工）的，集群通过这些tcp连接进行信息交换。
+在我的理解里，redis集群和数据库分库差不多——自动地将key分配到16384个槽（slot），而集群中的每个redis节点存储一部分槽。
 
-首先要确定两点：
+为什么是16384个槽？因为redis集群会计算key的CRC16然后取模16384，得到的值即为槽点编号。
 
-1. 我说的都是我知道的（我内存中的状态和信息）
-2. 我知道的都是别人告诉我的（别人通过tcp通信告诉我的）
+redis集群通过这个分片（reshrad）和主从备份机制，实现了较高的可用性、较高的写安全性（或称为写不会丢失、一致性）。
 
-所以，向集群某节点发送`CLUSTER NODE`所拿到的`nodeID`、`ip:port`、`flags`、`config-epoch`、`slots`等信息，都是该节点从内存中拿出来的信息，也就是该节点自己对集群的认知。
+### 可用性
 
-而集群信息的传播，则是gossip协议和cluster bus所做的事情。
+举例3主3从的redis集群，当网络分区发生时，连接到小分区的客户端肯定不能获得正常服务；连接到大分区的客户端，如果大分区中有大部分的主节点，并且缺失的主节点都有相应的从节点在大分区中，则该客户端能获得正常服务——需要等待NODE_TIMEOUT，从节点被选举为主节点或原来的主节点恢复。
 
-## slot划分、ASK/MOVED重定向
+集群的设计目标是当少部分节点发生故障时能够继续运行。但是不能解决发生大规模网络分区的情况。
 
-这些部分不再涉及，以前说到过。
+### 写安全性/写不丢失/一致性
 
-## 节点flag种类
+主从节点之间使用异步拷贝。即：
 
-flag是节点状态的表述，有如下几种。flag的实现是一个整数，整数不同位上0或1，表示是否具有该flag。
+1. 客户端向主节点写。
+2. 主节点通知客户端写成功
+3. 主节点通知从节点拷贝
 
-- **myself**: 该节点我自己，跟别人交互前首先不能忘记哪一个是自己
-- **master**: 该节点是主节点
-- **slave**: 该节点是从节点，一份拷贝
-- **fail?**: 该节点处于PFAIL状态——我认为他可能宕机
-- **fail**: 该节点处于FAIL状态——集群大部分节点也告诉我这个节点宕机了
-- **handshake**: 别人刚刚告诉我存在该节点，需要我通过PING/PONG去确认
-- **noaddr**: 该节点没有IP、PORT信息
-- **noflags**: No flags at all.
+第二、三步的顺序决定，如果在2执行完毕后，发生网络分区或主节点故障，则这一部分拷贝就不会顺利传递到从节点，当主节点不能及时恢复时，则从节点成为主节点，导致丢失的这一部分拷贝彻底丢失。
 
-## 节点间传输的消息类型
+使用异步拷贝，是一致性和性能之间的一种妥协和权衡。
 
-1、**MEET消息**：当发送者接收到客户端发送的cluster meet命令时，发送者会向接收者发送meet消息，请求接收加入到发送者所在的集群里。
+### 由分片来的其他特性
 
-2、**PING消息**：集群里用来检测相应节点是否在线的消息，每个节点默认每隔一秒从节点列表随机选5个节点，然后对最长时间没有收到PONG回复的节点发送PING消息。此外，如果上次收到某个节点的PONG消息回复的时间，距离当前时间超过了cluster-node-time选项设置的一半，那么会对此节点发送PING消息，这样可以防止节点长期没被随机到，而导致长期没有发送PING检测是否存活。
+分片意味着每个redis节点上只有一部分key。这导致了redis集群的一些特性和“做不到”。
 
-3、**PONG消息**：当接收者收到发送者发来的meet消息或者ping消息时，为了向发送者确认这条meet消息或ping消息已到达，接收者向发送者返回一条pong消息。另外，一个节点也可以通过向集群广播自己的pong消息来让集群中的其他节点立即刷新关于这个节点的认识、。
+1. 支持所有的单key操作，但只支持涉及的key都在同一节点的多key操作。【可以使用hash flag强制一些key在同一slot/节点，通过{}包裹被计算hash的部分】
+2. 当客户端向节点请求不在该节点的key时，节点会返回重定向（-ASK/-MOVED），而不是代理该请求，向持有key的节点请求。
+3. 读写集群中节点的key耗时和单节点差不多，所以有N个节点的集群，差不多可带来N倍的性能提升——前提是key比较分散（这肯定需要的）
 
-4、**FAIL消息**：当一个主节点a判断另外一个主节点b已经进入fail状态时，节点a向集群广播一条关于节点b的fail消息，所有收到这条消息的节点都会立即将节点b标记为已下线。
+### ASK/MOVED重定向
 
-5、**PUBLISH消息**：当节点接收到一个PUBLISH命令时，节点会执行这个命令，并向集群广播一条PUBLISH消息，所有接收到PUBLISH消息的节点都会执行相同的PUBLISH命令。
+我们之前提到，redis cluster会将所有key分散到16384个槽，cluster中每个节点分别承载一部分槽。而客户端可以连接到cluster中的每一个节点，当客户端读写的key不在该连接所指的节点上时，cluster的节点不会代理该读写请求，而是返回重定向响应（IP和端口），由客户端根据该响应去请求正确地址上的节点。在redis中，重定向响应就是ASK和MOVED。
 
-6、**FAILOVER_AUTH_REQUEST消息**：当slave的master进入fail状态，slave向集群中的所有的节点发送消息，但是只有master才能给自己投票failover自己的maser。
+```c
+get {n}111
+(error) MOVED 3432 99.47.149.25:6419
 
-7、**FAILOVER_AUTH_ACK消息**：当master接收到FAILOVER_AUTH_REQUEST消息，如果发送者满足投票条件且自己在当前纪元未投票就给它投票，返回FAILOVER_AUTH_ACK消息.。
+get {n}222
+(error) ASK 3432 99.47.149.26:6425
+```
 
-8、**UPDATE消息**：当接收到ping、pong或meet消息时，检测到自己与发送者slots不一致，且发送的slots的纪元过时， 就发送slots中纪元大于发送者的节点信息作为update消息的内容给发送者。
+以上就是ASK/MOVED响应真实的长相。MOVED表示，集群的当前状态表明——3432槽点在99.47.149.25:6419的节点上。而ASK响应则只在迁移过程（下一节解释迁移过程）中出现，其语义为——槽点3432正在迁移，你要的{n}222现在不在我这，你去问问（ask）99.47.149.26:6425的节点。一个正确的客户端在遇到ASK重定向时，会先向新节点发送ASKING，然后发送查询。
 
-9、**MFSTART消息**：当发送者接收到客户端发送的cluster failover命令时，发送者会向自己的master发送MFSTART消息，进行手动failover。
+## 实现
 
-### 这些消息的struct定义
+以上是对redis cluster大体上的一个认识，下面开始探究一下redis cluster内部的实现，从黑盒到白盒。
 
-struct clusterMsg就是消息的定义。struct clusterMsg包含union clusterMsgData。
+### 宏观介绍
 
-union clusterMsgData这个共享空间用于存放上述9钟消息对应的struct。
+redis cluster是一种P2P的拓扑结构，以一个N个节点的集群为例，每个节点都有N-1条到其他节点的发送（outgoing）tcp连接和N-1条接收（incoming）tcp连接。我们知道tcp连接是全双工通信的，可以在同一时间双向传播消息，但是在redis cluster中，集群内部通信中的每条tcp连接都是单工的。
 
-下面解释一下clusterMsg的各个字段：
+这些用于集群内部通信的tcp连接共同组成redis cluster bus。虽然官方称他为总线，但他不是总线型地拓扑而是P2P的。这条总线用于传播共计9种类型的消息（下文介绍），用于传播状态，进行协作等。redis称这种通信方式为gossip（闲言碎语），因为确实这种分布式的P2P架构下的通信确实有些混乱和不那么完整。但是通过“版本”来决定丢弃过时消息、认可最新消息，这些闲言碎语最终能让集群达成一致的状态。
+
+### P2P拓扑结构的建立
+
+> N头独狼形成一个狼群
+
+当集群刚刚建立或者有新的节点加入集群时，节点是孤立的，没有到其他节点的连接。我们需要一种“识别”的机制来让集群认可新的节点，创建新的tcp连接用于交换信息。
+
+redis cluster使用两个途径确保让集群中的老节点“认识”新的节点。
+
+**CLUSTER MEET ip port**
+
+`CLUSTER MEET`强制redis节点向指定的地址发送MEET消息，作用相当于：你好，我的nodeName是xxx，我在某IP某端口。
+
+目标节点收到该MEET消息后，两者就会建立通信的连接。
+
+**Gossip传播**
+
+不需要向所有节点发送MEET消息，仅仅需要发送若干个MEET消息。redis cluster bus会自己通过gossip将该新发现的节点信息发送给其他节点。这样其他节点就得知该新节点的存在，从而建立tcp连接，最终形成完整的P2P拓扑结构。
+
+这里是时候简单介绍下什么是gossip了。
+
+gossip是八卦、闲言碎语的意思。聊天和通信只有涉及聊天双方之外的第三人的信息才能称为闲话、八卦。在redis cluster中，gossip的含义就是A向B发送消息时，会告诉B他知道的C、D的情况。这些情况具体包含哪些字段，下文再介绍。
+
+总之，通过手动MEET和自动Gossip传播，新节点信息最终传播给了集群每个节点。当然Gossip传播会在更多场景下发挥作用，例如主节点宕机检测等。
+
+这里预先额外说明一点，大家都在八卦地发送gossip，那么怎么确定谁说的是“真的”？这是通过“版本”来实现的，在redis中用epoch（纪元）表示。大家形成一个共识：新epoch的消息是正确的，接收新纪元消息，拒绝旧纪元消息。
+
+### 消息格式
+
+> 狼群内部的语言
+
+上一节中redis节点之间成功建立了tcp连接，这一节将继续介绍建立连接后，他们会交换什么信息以完成协作。这一节使用了很长篇幅介绍各种消息，可能会很烦人。但是我觉得还是有必要的，毕竟分布式协作的本身就是消息传来传去。看这一节不需要看懂并记住，可以先大略看一下就往后。后面需要的时候再回头。
+
+首先介绍六种通过redis cluster bus传播的消息类型（这不是全部）。他们的c语言定义由clusterMsg（struct）、clusterMsgData、clusterMsgDataGossip等组合而成。具体字段如下：
+
+**clusterMsg**
 
 |字段|含义|
-|---|---|
+|-----| -----|
 |char sig[4]|消息的签名，固定为”RCmb“（redis cluster message bus）|
 |uint32_t totlen;|消息的长度|
 |uint16_t ver; |协议版本，当前固定为1|
@@ -78,26 +114,30 @@ union clusterMsgData这个共享空间用于存放上述9钟消息对应的struc
 |uint16_t type; |消息类型：PING、PONG、MEET等|
 |uint16_t count;|包含的gossip信息的数量，PING、PONG、MEET消息含有该字段|
 | uint64_t currentEpoch; |sender所知道的集群当前epoch|
-|uint64_t configEpoch;|sender（或其主节点最后所知）的configEpoch|
+|uint64_t configEpoch;|sender（或其最后所知的其主节点）的configEpoch|
 |uint64_t offset;|异步拷贝的offset|
 |char sender[CLUSTER_NAMELEN];|sender的节点NODEID|
 |unsigned char myslots[CLUSTER_SLOTS/8];|sender（或其主节点）所持有的slots信息，使用16384bit的bitmap表示|
 |char slaveof[CLUSTER_NAMELEN];|sender的主节点的NODEID|
-| char myip[NET_IP_STR_LEN]; |sender的IP，或全为0|
-| uint16_t cport;|cluster bus的端口，比上面的port大10000|
+|char myip[NET_IP_STR_LEN]; |sender的IP，或全为0|
+|uint16_t cport;|cluster bus的端口，比上面的port大10000|
 |uint16_t flags|sender状态标志|
 |unsigned char state; | sender视角认为的集群状态：down/ok|
-| unsigned char mflags[3]; |Message flags: CLUSTERMSG_FLAG[012]_... |
-| union clusterMsgData data;|9种消息类型的载体|
+|unsigned char mflags[3]; |Message flags: CLUSTERMSG_FLAG[012]_... |
+|union clusterMsgData data;|9种消息类型的载体|
 
-其中union clusterMsgData这个共享空间是9种消息类型的载体。union这个数据结构可以存放不同数据类型，他们共享相同的内存空间。这里的clusterMsgData定义如下：
+clusterMsg的前17个字段是所有类型消息都有的字段，最后一个字段`data`的类型是`union clusterMsgData`。
 
-```
+**union clusterMsgData**
+
+union是共享空间的意思，多种不同的struct存放在相同的内存空间。`clusterMsgData`的定义如下：
+
+```c
 union clusterMsgData {
     /* PING, MEET and PONG */
     struct {
-        /* N个clusterMsgDataGossip 的数组，这里设置长度为1，但其实c的数组是可以越界的，所以后面可以用下标N */
-        clusterMsgDataGossip gossip[1];
+        /* Array of N clusterMsgDataGossip structures */
+        clusterMsgDataGossip gossip[1];  //c语言的数组是无界的，这里长度写1，但后面使用可以自由越界到N。
     } ping;
 
     /* FAIL */
@@ -117,10 +157,13 @@ union clusterMsgData {
 };
 ```
 
-该union中包含的各种数据结构的定义如下：   
-这里不详细解释，但是看完基本就懂各种消息包含哪些字段了，所以还是很有必要看一下的。
+可以看到该共享空间可以存放9种不同类型的data，对应于`clusterMsg`中的`type`字段。
 
-```
+**clusterMsgDataGossip**
+
+这是PING、PONG、MEET类型消息中的data，也是所谓的八卦和闲话，是sender所知的其他节点的信息。其定义如下：
+
+```c
 typedef struct {
     char nodename[CLUSTER_NAMELEN];
     uint32_t ping_sent;
@@ -131,11 +174,27 @@ typedef struct {
     uint16_t flags;             /* node->flags copy */
     uint32_t notused1;
 } clusterMsgDataGossip;
+```
 
+可以gossip看到包含的信息有：nodename、心跳信息(ping、pong)、地址、flags。
+
+PING、PONG两种类型的消息被称为心跳，会用于判断tcp连接是否需要重连和节点是否宕机。MEET消息除了类型外其实和PING、PONG一模一样，但是他多了“使接受新节点”的语义，上一节有叙。
+
+**clusterMsgDataFail**
+
+我们刚刚提到PING、PONG心跳可用于判断节点是否宕机。如果节点A判断节点B宕机（FAIL），则其会向所有节点发送FAIL消息。收到FAIL消息的所有节点都会将B标记为宕机（FAIL）
+
+```c
 typedef struct {
     char nodename[CLUSTER_NAMELEN];
 } clusterMsgDataFail;
+```
 
+**clusterMsgDataPublish**
+
+redis也是一个稳定可靠的发布订阅系统。PUBLISH类型的消息就是用于在cluster中传播发布订阅的消息，使每个节点都能发布相同的消息。
+
+```c
 typedef struct {
     uint32_t channel_len;
     uint32_t message_len;
@@ -144,7 +203,13 @@ typedef struct {
      * length computation. */
     unsigned char bulk_data[8];
 } clusterMsgDataPublish;
+```
 
+**clusterMsgDataUpdate**
+
+当A收到B发来的消息并发现消息中的版本（configEpoch）小于自己目前所知的，则说明B的状态过时了，此时回向B发送UPDATE消息，携带A所知的版本（configEpoch）和slots位图，要求B更新自己的状态。
+
+```c
 typedef struct {
     uint64_t configEpoch; /* Config epoch of the specified instance. */
     char nodename[CLUSTER_NAMELEN]; /* Name of the slots owner. */
@@ -152,23 +217,15 @@ typedef struct {
 } clusterMsgDataUpdate;
 ```
 
-## 心跳(PING/PONG)和gossip消息
+### 心跳机制
 
-redis节点会持续地交换PING和PONG包。这两种消息有相同的结构，仅仅是type字段不同。称PING和PONG为心跳包。
+PING、PONG消息实现了redis cluster中的心跳机制。cluster中的心跳机制主要用于判断节点是否宕机以决定是否需要fail over（故障迁移）。当然PING、PONG包中的gossip内容用以传播节点状态也是PING、PONG不可忽略的作用。
 
-一般情况下发送PING，对方会响应PONG。但也可以直接发送PONG来传播重要的配置，而不要求对方响应。
+心跳发送PING包和检测PONG响应时间都在`clusterCron`中，下面结合源码介绍其中机制：
 
-1.一般情况下一个节点每秒向随机的固定数量的节点发送PING（也收到固定数量节点的PONG），所以不管集群有多少节点，单个节点每秒的PING包数量是固定的。
-2. 此外，如果超过NODE_TIMEOUT/2时长没有向一个节点发送PING，会强制向其发送PING  
-3. 如果一个超过NODE_TIMEOUT/2时长一个节点没有返回PONG，则认为到该节点的tcp连接出现问题，释放该tcp连接，在下一周期会自动重建。
+**随机选取节点，发送PING**
 
-因为上述原因，如果集群的节点数很大，并且NODE_TIMEOUT被设置得太小，那么PING/PONG的数量将会很大。
-
-PING、PONG包中的gossip信息的格式请看上文clusterMsgDataGossip的定义，他包含sender所知的一些其他节点的基本信息（IP、端口、flags、PING/PONG时间）。
-
-### 对应源码 all in clusterCron()
-
-**1对应的代码片段**
+一般情况下一个节点每秒向随机的固定数量的节点发送PING（也收到固定数量节点的PONG），所以不管集群有多少节点，单个节点每秒的PING包数量是固定的。
 
 ```c
     /* Ping some random node 1 time every 10 iterations, so that we usually ping
@@ -198,10 +255,12 @@ PING、PONG包中的gossip信息的格式请看上文clusterMsgDataGossip的定�
     }
 ```
 
-**2对应的代码片段**
+**查漏补缺，PING长时间没有PING过的节点**
+
+如果超过NODE_TIMEOUT/2时长没有向一个节点发送PING，会强制向其发送PING  
 
 ```c
-       //在一个迭代器的遍历中
+       //在node的遍历中
         /* If we have currently no active ping in this instance, and the
          * received PONG is older than half the cluster timeout, send
          * a new ping now, to ensure all the nodes are pinged without
@@ -215,10 +274,14 @@ PING、PONG包中的gossip信息的格式请看上文clusterMsgDataGossip的定�
         }
 ```
 
-**3对应的代码片段**
+**长时间没有收到PONG，怀疑tcp连接断开，重建连接**
+
+长时间没有收到PONG，要么tcp连接出现问题，要么目标节点宕机导致无法响应心跳。首先怀疑tcp连接出现问题，进行重建。
+
+如果一个超过NODE_TIMEOUT/2时长一个节点没有返回PONG，则认为到该节点的tcp连接出现问题，释放该tcp连接，在下一`clusterCron`会自动重建。
 
 ```c
-       //在一个迭代器的遍历中
+       //在node的遍历中
         /* If we are waiting for the PONG more than half the cluster
          * timeout, reconnect the link: maybe there is a connection
          * issue even if the node is alive. */
@@ -231,18 +294,20 @@ PING、PONG包中的gossip信息的格式请看上文clusterMsgDataGossip的定�
             now - node->ping_sent > server.cluster_node_timeout/2)
         {
             /* Disconnect the link, it will be reconnected automatically. */
+            //此处断开连接，下个clusterCron会自动重建
             freeClusterLink(node->link);
         }
 ```
 
+### 主节点宕机检测
 
-## 异常检测：PFAIL和FAIL
+原主节点宕机，从节点可以接替原主节点工作，这是redis可用性的实现机制。这首先要及时检测到主节点宕机检测。
 
-**PFAIL**
+在cluster中标记节点宕机状态的flag有PFAIL和FAIL，这和sentinel中的sdown和odown很像——PFAIL：我认为该节点挂了，那就可能挂了；FAIL：大家都告诉我他挂了，那他确实挂了。sentinel和cluster确实有些像，例如宕机检测、选举、epoch等。
+
+**何时设置PFAIL**
 
 如果sender向其他节点发送PING后，超过NODE_TIMEOUT仍没有收到pong，则设置该节点为PFAIL。主节点和从节点都能将另一个节点设置成PFAIL。
-
-对应代码片段：
 
 ```c
         if (delay > server.cluster_node_timeout) {
@@ -257,17 +322,14 @@ PING、PONG包中的gossip信息的格式请看上文clusterMsgDataGossip的定�
         }
 ```
 
-为了防止因网络问题发生PFAIL误判——因为网络问题，PING/PONG无法正常传输，cluster会重建等待pong时间超过NODE_TIMEOUT/2的连接——上一节步骤3有说到。
+上一节，我们提到如果NODE_TIMEOUT/2的时间没有收到PONG，则首先重建到目标节点的outgoing连接，这能再一定程度避免因网络问题导致的PFAIL误判。
 
-**FAIL**
+**何时设置FAIL**
 
 正如上文所说的，PING/PONG包中含有N个其他节点的gossip信息，包含PING/PONG
 时间、flags等信息。其中flags就包含PFAIL、FAIL，通过这种gossip的传播，节点就能向集群其他节点传播自己知道的信息。
 
 如果节点A在NODE_TIMEOUT*2的时间内收到大部分节点将节点B置为PFAIL或FAIL状态，则节点A将节点B置为FAIL，同时向所有可到达的节点发送FAIL消息（FAIL消息格式见上文）。所有收到FAIL消息的节点都会将该节点设置为FAIL。
-
-
-相关代码：
 
 ```c
 void clusterProcessGossipSection(clusterMsg *hdr, clusterLink *link) {
@@ -321,9 +383,9 @@ void markNodeAsFailingIfNeeded(clusterNode *node) {
 }
 ```
 
-在如下几种情况下，可以消除FAIL标志
+**何情况下，消除FAIL标志**
 
-- 节点可达，且他是从节点。因为从节点不需要做故障迁移
+- 节点可达，且他是从节点。因为从节点不需要被failover
 - 节点可达，且他是没有负责slots的主节点。在这种情况下，该主节点没有真正参与集群，且在等待配置以加入集群工作
 - 节点可达并且是主节点，但超过N*NODE_TIMEOUT没有进行failover。这时最好将该主节点重新加入集群。
 
@@ -455,7 +517,9 @@ int clusterGetSlaveRank(void) {
 
 1. 主节点在一个currentEpoch只会投票一次，只有从节点携带的currentEpoch大于lastVoteEpoch 才会投票——这和Sentinel中一致
 2. 只有请求投票的从节点的主节点为FAIL才会投票
-3.  从节点投票请求携带的currentEpoch小于其主节点的currentEpoch的不会被投票
+3. 从节点投票请求携带的currentEpoch小于其主节点的currentEpoch的不会被投票
+
+其实现在`clusterSendFailoverAuthIfNeeded`
 
 ## clusterCron()总结
 
@@ -600,9 +664,4 @@ void clusterProcessGossipSection(clusterMsg *hdr, clusterLink *link) {
     }
 }
 ```
-
-
-
-
-
 
