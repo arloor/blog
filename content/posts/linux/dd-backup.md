@@ -219,6 +219,8 @@ DNS3=114.114.114.114
 
 ## 草稿-centos7网络安装
 
+
+```
 mkdir /boot/net
 cd /boot/net
 wget http://mirrors.ustc.edu.cn/centos/7/os/x86_64/isolinux/vmlinuz -O vmlinuz
@@ -236,3 +238,44 @@ menuentry "CentOS-7-Install-No-ks"{
     linux16 /boot/net/vmlinuz ro ip=10.23.180.124::10.23.0.1:255.255.0.0:my_hostname:eth0:none nameserver=10.23.255.1 inst.repo=http://mirror.centos.org/centos/7/os/x86_64/ inst.vnc inst.vncpassword=MyPassword ksdevice=eth0  inst.lang=en_US inst.keymap=us
     initrd16 /boot/net/initrd.img
 }
+
+menuentry "CentOS-7-Install-No-ks-bwg"{
+    set root=(hd0,msdos1)
+    
+    linux16 /net/vmlinuz ro ip=dhcp nameserver=8.8.8.8 inst.repo=http://mirror.centos.org/centos/7/os/x86_64/ inst.vnc inst.vncpassword=MyPassword  inst.lang=en_US inst.keymap=us
+    initrd16 /net/initrd.img
+}
+```
+
+
+## grub2
+
+echo $prefix
+(hd0,msdos1)/boot/grub2
+
+ls $prefix/
+device.map i386-pc/ grub.cfg ....
+
+echo $root
+hd0,msdos1
+
+
+blkid -o list
+device                   fs_type    label       mount point                  UUID
+------------------------------------------------------------------------------------------------------------------
+/dev/vda1                xfs                    /                            f646340c-9b31-4fd5-8e5d-0b40734d8612
+
+
+cd /boot/grub2
+wget https://mirrors.aliyun.com/centos/7/isos/x86_64/CentOS-7-x86_64-Minimal-1908.iso -O CentOS-Minimal.iso
+
+
+```shell
+cat >> /boot/grub2/grub.cfg <<\EOF
+menuentry '硬盘安装 CentOS [最小安装]' --unrestricted {
+    loopback loop0 $prefix/CentOS-Minimal.iso
+    linux  (loop0)/isolinux/vmlinuz inst.repo=hd:/dev/vda1:/boot/grub2/CentOS-Minimal.iso   inst.lang=zh_CN
+    initrd (loop0)/isolinux/initrd.img
+}
+EOF
+```
