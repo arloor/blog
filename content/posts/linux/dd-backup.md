@@ -279,3 +279,75 @@ menuentry '硬盘安装 CentOS [最小安装]' --unrestricted {
 }
 EOF
 ```
+
+
+## 阿里云轻量服务器实验
+
+以下皆可以进入安装页面
+
+### memdisk引导
+
+yum install syslinux -y
+cp -f /usr/share/syslinux/memdisk /boot/memdisk
+
+
+
+```
+menuentry 'Memdisk-centos7' {
+    insmod part_msdos
+        insmod part_gpt
+        insmod ext2
+    set root=(hd0,msdos1)
+    echo 'Loading memdisk ...'
+    linux16 /boot/memdisk raw iso ip=dhcp nameserver=223.6.6.6
+    echo 'Loading ISO ...'
+    initrd16 /boot/boot.iso
+    echo 'Booting ISO ...'
+}
+
+menuentry "CentOS-7-Install-No-ks"{
+    set root=hd0,msdos1
+    linux16 /boot/net/vmlinuz ro ip=dhcp nameserver=223.6.6.6 inst.repo=http://mirrors.aliyun.com/centos/7/os/x86_64/   inst.lang=en_US inst.keymap=us
+    initrd16 /boot/net/initrd.img
+}
+menuentry '硬盘安装 CentOS [最小安装]' --unrestricted {
+    loopback loop0 $prefix/CentOS-Minimal.iso
+    linux  (loop0)/isolinux/vmlinuz inst.repo=hd:/dev/vda1:/boot/grub2/CentOS-Minimal.iso   inst.lang=zh_CN
+    initrd (loop0)/isolinux/initrd.img
+}
+
+menuentry 'centos8-iso-boot' --unrestricted {
+    loopback loop0 (hd0,msdos1)/boot/boot.iso
+    linux  (loop0)/isolinux/vmlinuz inst.repo=hd:/dev/vda1:/boot/boot.iso   inst.lang=zh_CN
+    initrd (loop0)/isolinux/initrd.img
+}
+```
+
+wget http://mirrors.aliyun.com/centos/8/isos/x86_64/CentOS-8-x86_64-1905-boot.iso -O /boot/boot.iso
+
+cat >> /boot/grub2/grub.cfg <<\EOF
+menuentry 'centos8-iso-boot' --unrestricted {
+    loopback loop0 (hd0,msdos1)/boot/boot.iso
+    linux  (loop0)/isolinux/vmlinuz inst.repo=hd:/dev/vda1:/boot/boot.iso   inst.lang=zh_CN
+    initrd (loop0)/isolinux/initrd.img
+}
+EOF
+
+reboot
+
+DEVICE=eth0
+HWADDR=52:54:00:0E:9B:FF
+IPADDR=10.23.174.182
+NETMASK=255.255.0.0
+GATEWAY=10.23.0.1
+BOOTPROTO=none
+PEERDNS=yes
+USERCTL=no
+NM_CONTROLLED=no
+ONBOOT=yes
+MTU=1454
+DNS1=10.23.255.1
+DNS2=10.23.255.2
+DNS3=114.114.114.114
+
+http://mirrors.aliyun.com/centos/8/BaseOS/x86_64/os/
