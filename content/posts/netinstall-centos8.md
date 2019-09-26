@@ -165,7 +165,7 @@ device     fs_type label    mount point    UUID
 
 结合上文，应该能帮助理解三个注意点吧。
 
-###  另外两种
+## 另外两种
 
 **grub2直接引导iso**
 
@@ -183,7 +183,7 @@ menuentry 'centos8-iso-boot' --unrestricted {
 EOF
 
 reboot
-``
+```
 
 **memdisk引导ISO**
 
