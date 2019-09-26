@@ -38,8 +38,8 @@ echo "删除服务器的旧版本静态资源...."
 rm -rf /var/www/html/*
 tar -zxf public.tar.gz -C /var/www/html/
 rm -f public.tar.gz
-echo "reload nginx...."
-systemctl  reload nginx
+echo "reload httpd...."
+systemctl  reload httpd
 "
 echo  "部署完毕，请访问 http://"$host
 cd $dir

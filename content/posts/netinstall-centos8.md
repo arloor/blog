@@ -26,7 +26,7 @@ wget http://mirrors.aliyun.com/centos/8-stream/BaseOS/x86_64/os/isolinux/initrd.
 cat >> /boot/grub2/grub.cfg <<\EOF
 menuentry "centos8-netboot-dhcp" {
        set root=hd0,msdos1
-       linux16 /boot/net8/vmlinuz ro ip=dhcp nameserver=223.6.6.6 inst.repo=http://mirrors.aliyun.com/centos/8-stream/BaseOS/x86_64/os/ inst.lang=en_US inst.keymap=us
+       linux16 /boot/net8/vmlinuz ro ip=dhcp nameserver=223.6.6.6 inst.repo=http://mirrors.aliyun.com/centos/8-stream/BaseOS/x86_64/os/ inst.lang=zh_CN inst.keymap=us
        initrd16 /boot/net8/initrd.img
 }
 EOF
