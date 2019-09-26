@@ -329,6 +329,8 @@ EOF
 reboot
 ```
 
+重启后要进入老系统进行grub2的update
+
 网卡配置
 
 ```
