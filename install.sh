@@ -143,12 +143,12 @@ echo $LinuxIMG #initrd16
 
 ## 分未Inboot和NoBoot修改加载kernel和initrd的
 [[ "$Type" == 'InBoot' ]] && {
-  sed -i "/$LinuxKernel.*\//c\\\t$LinuxKernel\\t\/boot\/vmlinuz ks=file:\/\/ks.cfg ksdevice=link" /tmp/grub.new;
+  sed -i "/$LinuxKernel.*\//c\\\t$LinuxKernel\\t\/boot\/vmlinuz inst.ks=file:\/\/ks.cfg" /tmp/grub.new;
   sed -i "/$LinuxIMG.*\//c\\\t$LinuxIMG\\t\/boot\/initrd.img" /tmp/grub.new;
 }
 
 [[ "$Type" == 'NoBoot' ]] && {
-  sed -i "/$LinuxKernel.*\//c\\\t$LinuxKernel\\t\/vmlinuz ks=file:\/\/ks.cfg ksdevice=link" /tmp/grub.new;
+  sed -i "/$LinuxKernel.*\//c\\\t$LinuxKernel\\t\/vmlinuz inst.ks=file:\/\/ks.cfg " /tmp/grub.new;
   sed -i "/$LinuxIMG.*\//c\\\t$LinuxIMG\\t\/initrd.img" /tmp/grub.new;
 }
 
