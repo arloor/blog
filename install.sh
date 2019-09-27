@@ -205,7 +205,8 @@ keyboard --vckeymap=us --xlayouts='cn'
 lang zh_CN.UTF-8
 
 # Network information
-network  --bootproto=dhcp --device=ens3 --nameserver=223.6.6.6 --ipv6=auto --activate
+#ONDHCP network  --bootproto=dhcp --device=ens3 --nameserver=223.6.6.6 --ipv6=auto --activate
+#NODHCP network --device=eth0 --bootproto=static --ip=$IPv4 --netmask=$MASK --gateway=$GATE --nameserver=223.6.6.6
 network  --hostname=localhost.localdomain
 repo --name="AppStream" --baseurl=http://mirrors.aliyun.com/centos/8-stream/BaseOS/x86_64/os/../../../AppStream/x86_64/os/
 # Use network installation
@@ -245,9 +246,11 @@ EOF
   sed -i 's/#NODHCP\ //g' /boot/tmp/ks.cfg
 }
 
+cat /boot/tmp/ks.cfg
+
 rm -rf ../$NewIMG;
 ## 将解压后的initrd和创建的ks一起重新打包
-find . | cpio -H newc --create --verbose | gzip -9 > ../initrd.img >>/dev/null 2>&1;
+find . | cpio -H newc --create  | gzip -9 > ../initrd.img >>/dev/null 2>&1;
 rm -rf /boot/tmp;
 
 echo "Enter any key to start Centos8 install " &&read aaa
