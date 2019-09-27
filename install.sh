@@ -225,7 +225,7 @@ EOF
 
 rm -rf ../$NewIMG;
 ## 将解压后的initrd和创建的ks一起重新打包
-find . | cpio -H newc --create --verbose | gzip -9 > ../initrd.img;
+find . | cpio -H newc --create --verbose | gzip -9 > ../initrd.img >>/dev/null 2>&1;
 rm -rf /boot/tmp;
 
 echo "Enter any key to start Centos8 install " &&read aaa
