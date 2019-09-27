@@ -215,6 +215,7 @@ wget --no-check-certificate -qO '/boot/vmlinuz' "http://$CentOSMirror/$DIST/os/$
 ls -l /boot
 echo "查看 /boot/initrd.img和vmlinuz";read key;
 
+## 如果不手动设置网络，则使用ip命令获取本机网络信息
 [[ "$setNet" == '1' ]] && {
   IPv4="$ipAddr";
   MASK="$ipMask";
@@ -271,12 +272,15 @@ echo ${arrayNum[@]} |sed 's/\s/\n/g' |sort -n -k 1 -t ',' |tail -n1 |cut -d',' -
   }
 }
 
+## 如果不手动设置网络，检查是否dhcp
 [[ "$setNet" != '1' ]] && [[ -d '/etc/sysconfig/network-scripts' ]] && {
   ICFGN="$(find /etc/sysconfig/network-scripts -name 'ifcfg-*' |grep -v 'lo'|wc -l)" || ICFGN='0';
   [[ "$ICFGN" -ne '0' ]] && {
     for NetCFG in `ls -1 /etc/sysconfig/network-scripts/ifcfg-* |grep -v 'lo$' |grep -v ':[0-9]\{1,\}'`
       do 
+      ## 打印 BOOTPROTO=dhcp 如果有的话，并且设置AutoNet=1 意为启动时使用dhcp
         [[ -n "$(cat $NetCFG | sed -n '/BOOTPROTO.*[dD][hH][cC][pP]/p')" ]] && AutoNet='1' || {
+          ## AutoNet=0 同时从network-scripts中加载NETMASK，GATEWAY
           AutoNet='0' && . $NetCFG;
           [[ -n $NETMASK ]] && MASK="$NETMASK";
           [[ -n $GATEWAY ]] && GATE="$GATEWAY";
@@ -285,9 +289,6 @@ echo ${arrayNum[@]} |sed 's/\s/\n/g' |sort -n -k 1 -t ',' |tail -n1 |cut -d',' -
       done
   }
 }
-
-echo "地址:$IPv4"
-
 
 
 ### 备份grub文件
@@ -377,6 +378,8 @@ echo $LinuxIMG #initrd16
 ## 增加空行
 sed -i '$a\\n' /tmp/grub.new;
 
+
+## 无VNC操作——全自动直接重启
 [[ "$inVNC" == 'n' ]] && {
 GRUBPATCH='0';
 
