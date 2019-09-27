@@ -14,6 +14,7 @@ keywords:
 centos8在前几天发布了，但是云服务大厂们往往不会第一时间上架centos8镜像，这一篇博客就是如何在阿里云的机器上自力更生网络安装centos8。
 
 本文的结构将会先讲结论，然后讲过程，以此帮助大家更好地使用本文。
+<!--more-->
 
 
 <div class="iframe-container">
