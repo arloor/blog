@@ -15,6 +15,12 @@ centos8在前几天发布了，但是云服务大厂们往往不会第一时间�
 
 本文的结构将会先讲结论，然后讲过程，以此帮助大家更好地使用本文。
 
+
+<div class="iframe-container">
+    <iframe src="https://www.youtube.com/embed/vCQVPBTfWb8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+
+
 ## 结论——如何实现网络安装centos8
 
 ```
