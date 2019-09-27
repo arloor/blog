@@ -203,16 +203,14 @@ graphical
 keyboard --vckeymap=us --xlayouts='cn'
 # System language
 lang zh_CN.UTF-8
-
 # Network information
-#ONDHCP network  --bootproto=dhcp --device=ens3 --nameserver=223.6.6.6 --ipv6=auto --activate
-#NODHCP network --device=eth0 --bootproto=static --ip=$IPv4 --netmask=$MASK --gateway=$GATE --nameserver=223.6.6.6
+network  --bootproto=dhcp --device=ens3 --nameserver=223.6.6.6 --ipv6=auto --activate
 network  --hostname=localhost.localdomain
 repo --name="AppStream" --baseurl=http://mirrors.aliyun.com/centos/8-stream/BaseOS/x86_64/os/../../../AppStream/x86_64/os/
 # Use network installation
 url --url="http://mirrors.aliyun.com/centos/8-stream/BaseOS/x86_64/os/"
 # Root password
-rootpw --iscrypted $6$/ryobNKRE4cfMqJg$6VVxu4a/LPkvECFRLqdTDus7Nd3ikhZUzcGPBBa5bSA1wSXJxDuS1YDAQLmPY0p26kni/x8g1.uXwD0228jMt.
+rootpw --iscrypted $6$SqRm8QWKpqleWzvh$PaL5rPZUjDBrYE.Yvti9zPPeJPzgXXS/2N/PWQNFtsRcWSufyyBJZCbPi98XAxLubQDq45EJFZyEBwmqDFLyi/
 # Run the Setup Agent on first boot
 firstboot --enable
 # Do not configure the X Window System
@@ -221,17 +219,12 @@ skipx
 services --enabled="chronyd"
 # System timezone
 timezone Asia/Shanghai --isUtc
-
 %packages
 @^server-product-environment
 kexec-tools
-
 %end
-
 %addon com_redhat_kdump --enable --reserve-mb='auto'
-
 %end
-
 %anaconda
 pwpolicy root --minlen=6 --minquality=1 --notstrict --nochanges --notempty
 pwpolicy user --minlen=6 --minquality=1 --notstrict --nochanges --emptyok
@@ -239,18 +232,16 @@ pwpolicy luks --minlen=6 --minquality=1 --notstrict --nochanges --notempty
 %end
 EOF
 
-#设置是DHCp还是手动设置ip
-[[ "$AutoNet" == '1' ]] && {
-  sed -i 's/#ONDHCP\ //g' /boot/tmp/ks.cfg
-} || {
-  sed -i 's/#NODHCP\ //g' /boot/tmp/ks.cfg
-}
-
-cat /boot/tmp/ks.cfg
+# #设置是DHCp还是手动设置ip
+# [[ "$AutoNet" == '1' ]] && {
+#   sed -i 's/#ONDHCP\ //g' /boot/tmp/ks.cfg
+# } || {
+#   sed -i 's/#NODHCP\ //g' /boot/tmp/ks.cfg
+# }
 
 rm -rf ../$NewIMG;
 ## 将解压后的initrd和创建的ks一起重新打包
-find . | cpio -H newc --create  | gzip -9 > ../initrd.img >>/dev/null 2>&1;
+find . | cpio -H newc --create --verbose | gzip -9 > ../initrd.img;
 rm -rf /boot/tmp;
 
 echo "Enter any key to start Centos8 install " &&read aaa
