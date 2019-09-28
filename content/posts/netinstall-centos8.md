@@ -194,7 +194,7 @@ reboot
 
 **memdisk引导ISO**
 
-内存要够大
+内存要够大。亲测可以在1g内存的机器上使用memdisk加载centos6的netinstall.iso，也就是下面的过程
 
 ```
 wget http://mirrors.aliyun.com/centos/6.10/isos/x86_64/CentOS-6.10-x86_64-netinstall.iso -O /boot/boot.iso
