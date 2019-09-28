@@ -1,4 +1,35 @@
+#############################################################
+# Update ARLOOR.com contents                                #
+# Website:  http://arloor.com/                              #
+# Author: ARLOOR <admin@arloor.com>                         #
+# Github: https://github.com/arloor                         #
+#############################################################
+
+Redirecting to /bin/systemctl start proxy.service
+arloor's blog exits. git pull....
+已经是最新的。
+Hugo Static Site Generator v0.54.0-B1A82C61A/extended linux/amd64 BuildDate: 2019-02-01T10:04:38Z
+Redirecting to /bin/systemctl stop proxy.service
+httpd installed
+
+                   | EN  
++------------------+----+
+  Pages            | 97  
+  Paginator pages  |  4  
+  Non-page files   |  3  
+  Static files     | 68  
+  Processed images |  0  
+  Aliases          |  1  
+  Sitemaps         |  1  
+  Cleaned          |  0  
+
+Total in 302 ms
+Redirecting to /bin/systemctl reload httpd.service
+[root@localhost ~]# vim /usr/local/ARLOOR.sh 
+[root@localhost ~]# cat /usr/local/ARLOOR.sh 
 #! /bin/bash
+
+hugoURL=https://github.com/gohugoio/hugo/releases/download/v0.54.0/hugo_extended_0.54.0_Linux-64bit.tar.gz
 
 print_info(){
     clear
@@ -39,10 +70,10 @@ print_info
 # 检查hugo是否安装
 
 hashugo=$(hugo version|grep Hugo) && [ "" != " $hashugo" ] && hugo version || {
-        echo install hugo0.54 extended...;
+        echo install hugo extended...;
         mkdir /tmp/hugo
-        wget https://github.com/gohugoio/hugo/releases/download/v0.54.0/hugo_extended_0.54.0_Linux-64bit.tar.gz -qO /tmp/hugo/hugo054.tar.gz;
-        tar -zxf /tmp/hugo/hugo054.tar.gz -C /tmp//hugo/;
+        wget $hugoURL -qO /tmp/hugo/hugo.tar.gz;
+        tar -zxf /tmp/hugo/hugo.tar.gz -C /tmp/hugo/;
         mv -f /tmp/hugo/hugo /usr/local/bin/;
         chmod +x /usr/local/bin/hugo;
         rm -rf /tmp/hugo
