@@ -1,5 +1,5 @@
 ---
-title: "阿里云VPS网络安装centos8"
+title: "阿里云轻量1c2g学生机一键网络安装centos8"
 date: 2019-09-26T19:13:18+08:00
 draft: false
 categories: [ "undefined"]
