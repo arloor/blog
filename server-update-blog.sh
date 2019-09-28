@@ -53,6 +53,8 @@ hashugo=$(hugo version|grep Hugo) && [ "" != " $hashugo" ] && hugo version || {
         service proxy stop;
         export http_proxy=
         export https_proxy=
+        git config --global --unset http.proxy
+        git config --global --unset https.proxy
 }
 
 # 检查httpd是否安装
