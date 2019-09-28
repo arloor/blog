@@ -197,13 +197,13 @@ reboot
 内存要够大
 
 ```
-wget http://mirrors.aliyun.com/centos/8/isos/x86_64/CentOS-8-x86_64-1905-boot.iso -O /boot/boot.iso
+wget http://mirrors.aliyun.com/centos/6.10/isos/x86_64/CentOS-6.10-x86_64-netinstall.iso -O /boot/boot.iso
 yum install syslinux -y 
 # apt-get install syslinux -y
 cp -f /usr/share/syslinux/memdisk /boot/memdisk
 
 cat >> /boot/grub2/grub.cfg <<\EOF
-menuentry 'Memdisk-centosX' {
+menuentry 'Memdisk-centos6.10' {
     # 从其他menuentry抄
     echo 'Loading memdisk ...'
     linux16 /boot/memdisk raw iso
