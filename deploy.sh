@@ -12,7 +12,7 @@ git push
 
 # 调用服务器上的更新博客脚本方式
 # 该脚本会检查httpd、hugo、和git仓库，实现完全自动化
-ssh root@$host  -p$port "
+ssh root@$host  -p$port '
 [ ! -f /usr/local/ARLOOR.sh ]&& cat > /usr/local/ARLOOR.sh<<\EOF
 #! /bin/bash
 
@@ -87,7 +87,7 @@ EOF
 
 
 bash /usr/local/ARLOOR.sh
-"
+'
 
 #本地构建，然后上传的方式
 #====================================================================================================
