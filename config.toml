@@ -18,7 +18,7 @@ paginate = 10
 ## Site Settings
 [params]
 # 取消注释以开启评论
-#UtterancesRepo= "arloor/blog"
+UtterancesRepo= "arloor/blog"
 UtterancesIssueTerm = "pathname"
 UtterancesTheme="github-light"
 
