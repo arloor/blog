@@ -199,6 +199,7 @@ reboot
 ```
 wget http://mirrors.aliyun.com/centos/8/isos/x86_64/CentOS-8-x86_64-1905-boot.iso -O /boot/boot.iso
 yum install syslinux -y 
+# apt-get install syslinux -y
 cp -f /usr/share/syslinux/memdisk /boot/memdisk
 
 cat >> /boot/grub2/grub.cfg <<\EOF
