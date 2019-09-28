@@ -25,8 +25,9 @@ systemctl disable firewalld
 
 ```
 setenforce 0
-vim /etc/selinux/config   
-sestatus  
+sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config  
+sestatus
+reboot
 ```
 
 ## 启用elrepo
