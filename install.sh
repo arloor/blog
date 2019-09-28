@@ -1,3 +1,4 @@
+#cat > install.sh<<\LASTLINE
 [[ "$EUID" -ne '0' ]] && echo "Error:This script must be run as root!" && exit 1;
 
 ## 检查依赖
@@ -250,5 +251,7 @@ find . | cpio -H newc --create --verbose | gzip -9 > ../initrd.img;
 rm -rf /boot/tmp;
 
 echo "Enter any key to start Centos8 install " &&read aaa
+echo "install will start"
 
 sleep 3 && reboot >/dev/null 2>&1
+LASTLINE
