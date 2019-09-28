@@ -1,4 +1,4 @@
-#cat > install.sh<<\LASTLINE
+cat > install.sh<<\LASTLINE
 [[ "$EUID" -ne '0' ]] && echo "Error:This script must be run as root!" && exit 1;
 
 ## 检查依赖
@@ -203,6 +203,8 @@ graphical
 keyboard --vckeymap=us --xlayouts='cn'
 # System language
 lang zh_CN.UTF-8
+# Reboot after installation
+reboot
 
 # Network information
 network  --bootproto=dhcp --device=ens3 --nameserver=223.6.6.6 --ipv6=auto --activate
@@ -211,7 +213,7 @@ repo --name="AppStream" --baseurl=http://mirrors.aliyun.com/centos/8-stream/Base
 # Use network installation
 url --url="http://mirrors.aliyun.com/centos/8-stream/BaseOS/x86_64/os/"
 # Root password
-rootpw --iscrypted $6$KAFKY3qi9eLj5kWk$1HS5ZrG.pvGS38K9wBm4Kwlp.LtzI/W9OZMSPlkBqqVjVDveE3WsdChUsO6.tD6PtwM6QvIV1n3mRIQMYQrWi/
+rootpw --iscrypted $6$826CV/cZjV9KM4Z/$JuLYANEEg4Cxf58HTpT/oY1VN/SSAOM2//YETL31..O7l9JxGl3cFJJSyfgox88ypixOHPTMOfOTdHAFD2E3i.
 # Run the Setup Agent on first boot
 firstboot --enable
 # Do not configure the X Window System
@@ -229,6 +231,12 @@ kexec-tools
 
 %addon com_redhat_kdump --enable --reserve-mb='auto'
 
+%end
+
+%post --interpreter=/bin/bash
+mkdir /root/.ssh
+#上传我的公钥（你们别用我的公钥。如果不小心用了，麻烦告诉我IP😝）
+echo ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDZQzKHfZLlFEdaRUjfSK4twhL0y7+v23Ko4EI1nl6E1/zYqloSZCH3WqQFLGA7gnFlqSAfEHgCdD/4Ubei5a49iG0KSPajS6uPkrB/eiirTaGbe8oRKv2ib4R7ndbwdlkcTBLYFxv8ScfFQv6zBVX3ywZtRCboTxDPSmmrNGb2nhPuFFwnbOX8McQO5N4IkeMVedUlC4w5//xxSU67i1i/7kZlpJxMTXywg8nLlTuysQrJHOSQvYHG9a6TbL/tOrh/zwVFbBS+kx7X1DIRoeC0jHlVJSSwSfw6ESrH9JW71cAvn6x6XjjpGdQZJZxpnR1NTiG4Q5Mog7lCNMJjPtwJ not@home > /root/.ssh/authorized_keys
 %end
 
 %anaconda
