@@ -1,5 +1,5 @@
 ---
-title: "玩转centos8"
+title: "玩转Centos8"
 date: 2019-09-26T23:52:58+08:00
 draft: false
 categories: [ "undefined"]
