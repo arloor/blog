@@ -10,9 +10,10 @@ git add .
 git commit -m "自动提交 @arloor $(date)"
 git push
 
-
+# 调用服务器上的更新博客脚本方式
+# 该脚本会检查httpd、hugo、和git仓库，实现完全自动化
 ssh root@$host  -p$port "
-bash /root/a.sh
+bash /usr/local/ARLOOR.sh
 "
 
 #本地构建，然后上传的方式
