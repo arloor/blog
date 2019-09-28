@@ -198,6 +198,7 @@ reboot
 
 ```
 wget http://mirrors.aliyun.com/centos/6.10/isos/x86_64/CentOS-6.10-x86_64-netinstall.iso -O /boot/boot.iso
+wget http://mirrors.aliyun.com/centos/8.0.1905/isos/x86_64/CentOS-8-x86_64-1905-boot.iso  -O /boot/boot.iso
 yum install syslinux -y 
 # apt-get install syslinux -y
 cp -f /usr/share/syslinux/memdisk /boot/memdisk
@@ -205,9 +206,7 @@ cp -f /usr/share/syslinux/memdisk /boot/memdisk
 cat >> /boot/grub2/grub.cfg <<\EOF
 menuentry 'Memdisk-centos6.10' {
     # 从其他menuentry抄
-    echo 'Loading memdisk ...'
     linux16 /boot/memdisk raw iso
-    echo 'Loading ISO ...'
     initrd16 /boot/boot.iso
     echo 'Booting ISO ...'
 }
