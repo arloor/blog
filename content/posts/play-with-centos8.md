@@ -11,7 +11,7 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
-上一篇在阿里云上安装了centos8，现在就开一篇centos8的踩坑记录。
+上一篇在阿里云上安装了centos8，现在就开一篇centos8的踩坑记录，还是比较多的。。
 <!--more-->
 
 ## 关闭firewalld
