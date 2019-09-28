@@ -294,8 +294,11 @@ iptables --policy INPUT DROP #除了以上允许的,设置默认阻止所有读�
 
 ```shell
 wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u131-b11/d54c1d3a095b4ff2b6607d096fa80163/jdk-8u131-linux-x64.rpm
-#wget http://repo-1252282974.cossh.myqcloud.com/jdk-8u131-linux-x64.rpm #使用腾讯云对象存储
 rpm -ivh jdk-8u131-linux-x64.rpm
+
+wget https://cdn.arloor.com/jdk8.rpm -O jdk8.rpm
+rpm -ivh jdk8.rpm
+rm -f jdk8.rpm
 ```
 # 设置时区
 
