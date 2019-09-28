@@ -191,10 +191,9 @@ $UNCOMP < ../$NewIMG | cpio --extract --verbose --make-directories --no-absolute
 ## 编写ks.cfg
 cat >/boot/tmp/ks.cfg<<EOF
 #version=RHEL8
-ignoredisk --only-use=vda
-autopart --type=lvm
+autopart
 # Partition clearing information
-clearpart --all --initlabel --drives=vda
+clearpart --all --initlabel
 # Use graphical install
 graphical
 # Keyboard layouts
@@ -203,6 +202,7 @@ graphical
 keyboard --vckeymap=us --xlayouts='cn'
 # System language
 lang zh_CN.UTF-8
+
 # Network information
 network  --bootproto=dhcp --device=ens3 --nameserver=223.6.6.6 --ipv6=auto --activate
 network  --hostname=localhost.localdomain
@@ -210,7 +210,7 @@ repo --name="AppStream" --baseurl=http://mirrors.aliyun.com/centos/8-stream/Base
 # Use network installation
 url --url="http://mirrors.aliyun.com/centos/8-stream/BaseOS/x86_64/os/"
 # Root password
-rootpw --iscrypted $6$SqRm8QWKpqleWzvh$PaL5rPZUjDBrYE.Yvti9zPPeJPzgXXS/2N/PWQNFtsRcWSufyyBJZCbPi98XAxLubQDq45EJFZyEBwmqDFLyi/
+rootpw --iscrypted $6$KAFKY3qi9eLj5kWk$1HS5ZrG.pvGS38K9wBm4Kwlp.LtzI/W9OZMSPlkBqqVjVDveE3WsdChUsO6.tD6PtwM6QvIV1n3mRIQMYQrWi/
 # Run the Setup Agent on first boot
 firstboot --enable
 # Do not configure the X Window System
@@ -219,12 +219,17 @@ skipx
 services --enabled="chronyd"
 # System timezone
 timezone Asia/Shanghai --isUtc
+
 %packages
-@^server-product-environment
+@^minimal-environment
 kexec-tools
+
 %end
+
 %addon com_redhat_kdump --enable --reserve-mb='auto'
+
 %end
+
 %anaconda
 pwpolicy root --minlen=6 --minquality=1 --notstrict --nochanges --notempty
 pwpolicy user --minlen=6 --minquality=1 --notstrict --nochanges --emptyok
