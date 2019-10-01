@@ -1,4 +1,18 @@
-cat > install.sh<<\LASTLINE
+print_info(){
+    clear
+    echo "#############################################################"
+    echo "# Install Centos8 on a centos7 VPS.                         #"
+    echo "# Usage: bash install.sh                                    #"
+    echo "# Website:  http://arloor.com/                              #"
+    echo "# Author: ARLOOR <admin@arloor.com>                         #"
+    echo "# Github: https://github.com/arloor                         #"
+    echo "#############################################################"
+    echo
+}
+
+print_info
+
+
 [[ "$EUID" -ne '0' ]] && echo "Error:This script must be run as root!" && exit 1;
 
 ## 检查依赖
@@ -29,7 +43,7 @@ if [ "$FullDependence" == '1' ]; then
 fi
 }
 
-clear && echo -e "\n\033[36m# Check Dependence\033[0m\n"
+echo -e "\n\033[36m# Check Dependence\033[0m\n"
 CheckDependence wget,awk,xz,openssl,grep,dirname,file,cut,cat,cpio,gzip
 echo "Dependence Check done"
 
@@ -45,9 +59,11 @@ echo "Dependence Check done"
 
 echo -e "\n\033[36m# Install\033[0m\n"
 ## 下载kernel和initrd
+echo "initrd.img downloading...."
 wget --no-check-certificate -qO '/boot/initrd.img' "http://mirrors.aliyun.com/centos/8-stream/BaseOS/x86_64/os/isolinux/initrd.img"
+echo "vmlinuz downloading...."
 wget --no-check-certificate -qO '/boot/vmlinuz' "http://mirrors.aliyun.com/centos/8-stream/BaseOS/x86_64/os/isolinux/vmlinuz"
-
+echo "done"
 
 ## 查看网络信息 ip、网关、掩码
   DEFAULTNET="$(ip route show |grep -o 'default via [0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}.*' |head -n1 |sed 's/proto.*\|onlink.*//g' |awk '{print $NF}')";
@@ -64,9 +80,7 @@ wget --no-check-certificate -qO '/boot/vmlinuz' "http://mirrors.aliyun.com/cento
 [[ -n "$GATE" ]] && [[ -n "$MASK" ]] && [[ -n "$IPv4" ]] || {
 echo "Not found \`ip command\`, Exit！please use centos7 as Base os." && exit 1
 }
-echo [IPV4] $IPv4
-echo [GATEWAY]]  $GATE  
-echo [MASK]  $MASK $NETSUB
+
 
 ##检查/etc/sysconfig/network-scripts
 [[ ! -d '/etc/sysconfig/network-scripts' ]] && echo "/etc/sysconfig/network-scripts not exit. please use centos7 as base os.exit." && exit 1
@@ -87,6 +101,17 @@ echo [MASK]  $MASK $NETSUB
       done
   }
 }
+
+echo -e "\n\033[36m# Network Infomation\033[0m"
+[[ "$AutoNet" -eq '1' ]]&&{
+  echo DHCP:  enable
+}||{
+  echo DHCP:  disable
+}
+echo IPV4： $IPv4
+echo GATEWAY：  $GATE  
+echo MASK：  $MASK $NETSUB
+
 
 ### 备份grub文件
 [[ ! -f $GRUBDIR/$GRUBFILE ]] && echo "Error! Not Found $GRUBFILE. " && exit 1;
@@ -132,13 +157,10 @@ mv -f $GRUBDIR/$GRUBFILE $GRUBDIR/$GRUBFILE.bak;
 
 ## 从已有menuentry判断/boot是否为单独分区
 [[ -n "$(grep 'linux.*/\|kernel.*/' /tmp/grub.new |awk '{print $2}' |tail -n 1 |grep '^/boot/')" ]] && Type='InBoot' || Type='NoBoot';
-echo $Type
 
 LinuxKernel="$(grep 'linux.*/\|kernel.*/' /tmp/grub.new |awk '{print $1}' |head -n 1)";
-echo $LinuxKernel #linux16
 [[ -z "$LinuxKernel" ]] && echo "Error! read grub config! " && exit 1;
 LinuxIMG="$(grep 'initrd.*/' /tmp/grub.new |awk '{print $1}' |tail -n 1)";
-echo $LinuxIMG #initrd16
 ## 如果没有initrd 则增加initrd
 [ -z "$LinuxIMG" ] && sed -i "/$LinuxKernel.*\//a\\\tinitrd\ \/" /tmp/grub.new && LinuxIMG='initrd';
 
@@ -175,9 +197,8 @@ sed -i '$a\\n' /tmp/grub.new;
 ## 删除saved_entry ——即下次默认启动的
 [[ -f  $GRUBDIR/grubenv ]] && sed -i 's/saved_entry/#saved_entry/g' $GRUBDIR/grubenv;
 
+echo -e "\n\033[36m# Due to reboot\033[0m"
+echo -e "\n\033[33m\033[04mYour VPS will reboot to install Centos8.\nPlease enter the VNC in 100 seconds!\nThen you can setup the system and start the installation!\n\033[0m\n"
 
-echo "Enter any key to start Centos8 install " &&read aaa
-echo "install will start"
-
-sleep 3 && reboot >/dev/null 2>&1
-LASTLINE
+echo  "Enter any key to reboot Or Ctrl+C to cancel:"&& read a
+sleep 1 && reboot >/dev/null 2>&1
