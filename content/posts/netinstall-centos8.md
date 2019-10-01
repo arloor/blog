@@ -18,7 +18,7 @@ centos8在前几天发布了，但是云服务大厂们往往不会第一时间�
 ## 安装视频
 
 <div class="iframe-container">
-    <iframe src="https://www.youtube.com/embed/vCQVPBTfWb8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <iframe src="https://www.youtube.com/embed/R4PDWmtQ6Zw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
 
 
@@ -27,6 +27,7 @@ centos8在前几天发布了，但是云服务大厂们往往不会第一时间�
 执行以下命令，
 
 ```shell
+cat /etc/redhat-release
 wget -qO install.sh http://arloor.com/install-centos8-from-centos7.sh&& bash install.sh
 ```
 
@@ -44,7 +45,15 @@ wget -qO install.sh http://arloor.com/install-centos8-from-centos7.sh&& bash ins
 
 ## 一些问题
 
-During the installation I face a problem /sbin/dmsquash-live-root: write error: No space left on device and after this some "timeout scripts" are started with the following fail of the installation.
+### vps内存过小导致的安装失败
+
+如果内存小于2g会报如下错误：
+
+```
+/sbin/dmsquash-live-root: write error: No space left on device
+```
+
+原因在于：
 
 At this point, the guest has successfully booted the kernel and is running in initramfs environment. The installer initramfs is loading a squashfs file, which would be located at <CentOS DVD root>/LiveOS/squashfs.img. In this case, I believe it might be loading it from http://kickstart.corp.example.com/install/LiveOS/squashfs.img - or it might even be loading it over the internet from the CentOS package repository servers.
 
@@ -58,14 +67,23 @@ Since the squashfs.img download was incomplete, mounting it will fail, and then 
 
 How much RAM does your guest VM have assigned to it? If the VM is tiny, you might be running out of memory.
 
-## 另外两种
+### Ucloud安装失败
+
+可能原因：Ucloud不支持pxeboot网卡安装
+
+
+
+## 另外三种
+
+> 尽自己备忘
 
 **grub2直接引导iso**
 
-vps必须要有两块磁盘
+vps必须要有两块磁盘，因为一块硬盘会mount iso文件，无法用于安装新系统
 
 ```
 wget http://mirrors.aliyun.com/centos/8/isos/x86_64/CentOS-8-x86_64-1905-boot.iso -O /boot/boot.iso
+
 
 cat >> /boot/grub2/grub.cfg <<\EOF
 menuentry 'centos8-iso-boot' --unrestricted {
@@ -75,12 +93,28 @@ menuentry 'centos8-iso-boot' --unrestricted {
 }
 EOF
 
-reboot
+```
+
+**设置本地stage2**
+
+同样需要两块硬盘
+
+```
+wget http://mirrors.aliyun.com/centos/8-stream/BaseOS/x86_64/os/images/install.img -qO /boot/net8/squashfs.img
+wget --no-check-certificate -qO '/boot/net8/initrd.img' "http://mirrors.aliyun.com/centos/8-stream/BaseOS/x86_64/os/isolinux/initrd.img"
+wget --no-check-certificate -qO '/boot/net8/vmlinuz' "http://mirrors.aliyun.com/centos/8-stream/BaseOS/x86_64/os/isolinux/vmlinuz"
+cat >> /boot/grub2/grub.cfg <<\EOF
+menuentry "centos8-netboot-dhcp-localstage2" {
+       set root=hd0,msdos1	       set root=hd0,msdos1
+       linux16 /boot/net8/vmlinuz ro ip=dhcp nameserver=223.6.6.6 inst.repo=http://mirrors.aliyun.com/centos/8-stream/BaseOS/x86_64/os/ inst.lang=zh_CN inst.keymap=us	       linux16 /boot/net8/vmlinuz ro ip=dhcp nameserver=223.6.6.6 inst.repo=http://mirrors.aliyun.com/centos/8-stream/BaseOS/x86_64/os/  inst.lang=zh_CN inst.keymap=us inst.stage2=hd:/dev/vda1:/boot/net8/squashfs.img
+       initrd16 /boot/net8/initrd.img	       initrd16 /boot/net8/initrd.img
+}	
+EOF
 ```
 
 **memdisk引导ISO**
 
-内存要够大。亲测可以在1g内存的机器上使用memdisk加载centos6的netinstall.iso，centos7、8不行，
+内存要够大。亲测可以在1g内存的机器上使用memdisk加载centos6的netinstall.iso，centos7、8不行。
 
 ```
 wget http://mirrors.aliyun.com/centos/6.10/isos/x86_64/CentOS-6.10-x86_64-netinstall.iso -O /boot/boot.iso
