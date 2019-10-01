@@ -22,6 +22,7 @@ wget https://codeload.github.com/libuv/libuv/zip/v1.30.0 -O libuv-1.30.0.zip
 unzip libuv-1.30.0.zip
 cd libuv-1.30.0
 apt install automake libtool autoconf
+bash autogen.sh
 ./configure --prefix=/usr
 make
 make install
