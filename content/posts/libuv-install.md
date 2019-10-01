@@ -53,8 +53,8 @@ EOF
 **编译运行**
 
 ```
-gcc a.c -luv -o a
-./a
+gcc a.c -luv -o a&&./a
+
 # Now quitting.
 ```
 
