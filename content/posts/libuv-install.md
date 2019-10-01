@@ -149,6 +149,7 @@ Idle stop!
 
 uv_loop_t *loop;
 struct sockaddr_in addr;
+const char * ENTER="请输入任意文字：\n";
 
 typedef struct {
     uv_write_t req;
@@ -173,8 +174,24 @@ void echo_write(uv_write_t *req, int status) {
     free_write_req(req);
 }
 
+void first_write(uv_write_t *req, int status){
+    if (status) {
+        fprintf(stderr, "Write error %s\n", uv_strerror(status));
+    }else{
+        fprintf(stderr,"提示发送成功\n");
+    }
+
+    write_req_t *wr = (write_req_t*) req;
+    free(wr);
+}
+
 void echo_read(uv_stream_t *client, ssize_t nread, const uv_buf_t *buf) {
+
     if (nread > 0) {
+        //截取char*，增加\0
+        buf->base[nread]=0;
+        fprintf(stderr,"%ld:%s",nread,buf->base);
+
         write_req_t *req = (write_req_t*) malloc(sizeof(write_req_t));
         req->buf = uv_buf_init(buf->base, nread);
         uv_write((uv_write_t*) req, client, &req->buf, 1, echo_write);
@@ -199,6 +216,11 @@ void on_new_connection(uv_stream_t *server, int status) {
     uv_tcp_t *client = (uv_tcp_t*) malloc(sizeof(uv_tcp_t));
     uv_tcp_init(loop, client);
     if (uv_accept(server, (uv_stream_t*) client) == 0) {
+        //发送提示信息
+        write_req_t *req = (write_req_t*) malloc(sizeof(write_req_t));
+        req->buf = uv_buf_init((char *)ENTER, strlen(ENTER));
+        uv_write((uv_write_t*) req,(uv_stream_t*)  client, &req->buf, 1, first_write);
+
         uv_read_start((uv_stream_t*) client, alloc_buffer, echo_read);
     }
     else {
