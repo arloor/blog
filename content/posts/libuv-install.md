@@ -27,7 +27,7 @@ make
 make install
 ```
 
-## 编写一个简单的例子
+## 一个没有handle的loop
 ```shell
 # 使用cat编辑a.c
 cat > a.c << EOF
@@ -54,7 +54,7 @@ EOF
 ```
 gcc a.c -luv -o a
 ./a
-Now quitting.
+# Now quitting.
 ```
 
 **说明**
@@ -63,4 +63,73 @@ Now quitting.
 
 这个程序会马上退出，因为loop上没有注册监听的事件。
 
+## 带有idle handle的loop
 
+这个例子给loop增加一个idle handle，可以认为这是cpu进入空闲的事件。
+
+下面这个例子使用`uv_default_loop()`代替了上个例子的malloc和init，同时也没有显式得free这个default loop。
+
+ 这个例子的重点是创建了一个名为“idler”的handle，并将其注册到loop中，然后启动loop。代码如下：
+
+ ```c
+     uv_idle_t idler;
+
+    uv_idle_init(uv_default_loop(), &idler);
+    uv_idle_start(&idler, count_check_stop);
+```
+1. uv_idle_t idler;——在栈上分配一个idle handle
+2. uv_idle_init(uv_default_loop(), &idler);——注册该handle到default loop
+3. uv_idle_start(&idler, count_check_stop);——注册该handle的回调为count_check_stop函数
+4. uv_run(uv_default_loop(), UV_RUN_DEFAULT);——loop开始循环
+5. ......
+
+uv_run执行后，每当idle事件发生时，都会调用count_check_stop函数，会对计数器加一，如果计数器大于5000000，则会uv_idle_stop这个handle（移除该handle）。这导致loop中没有handle等待触发，所以loop也会退出整个进程退出。
+
+总结一下，在loop的malloc、init后，需要注册handle，完成handle的内存分配、init（注册到loop）、start（注册回调函数）。需要移除该handle时对该handle执行stop。
+
+
+```c
+#include <stdio.h>
+#include <uv.h>
+
+int64_t counter = 0;
+
+void count_check_stop(uv_idle_t* handle) {
+    counter++;
+
+    if(counter%1000000==0){
+        printf("%ld idle\n",counter/1000000);
+
+    }
+
+    if (counter >= 5000000) {
+        printf("Idle stop!");
+        uv_idle_stop(handle);
+    }
+}
+
+int main() {
+    uv_idle_t idler;
+
+    uv_idle_init(uv_default_loop(), &idler);
+    uv_idle_start(&idler, count_check_stop);
+
+    printf("Idling...\n");
+    uv_run(uv_default_loop(), UV_RUN_DEFAULT);
+
+    uv_loop_close(uv_default_loop());
+    return 0;
+}
+```
+
+输出
+
+```shell
+Idling...
+1 idle
+2 idle
+3 idle
+4 idle
+5 idle
+Idle stop!
+```
