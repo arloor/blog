@@ -142,14 +142,18 @@ echo $LinuxIMG #initrd16
 ## 如果没有initrd 则增加initrd
 [ -z "$LinuxIMG" ] && sed -i "/$LinuxKernel.*\//a\\\tinitrd\ \/" /tmp/grub.new && LinuxIMG='initrd';
 
+
+
 ## 分未Inboot和NoBoot修改加载kernel和initrd的
 [[ "$Type" == 'InBoot' ]] && {
-  sed -i "/$LinuxKernel.*\//c\\\t$LinuxKernel\\t\/boot\/vmlinuz inst.stage2=file:\/\/squashfs.img ip=dhcp inst.repo=http:\/\/mirrors.aliyun.com\/centos\/8-stream\/BaseOS\/x86_64\/os\/ inst.lang=zh_CN inst.keymap=us" /tmp/grub.new;
+  [[ "$AutoNet" -eq '1' ]] && sed -i "/$LinuxKernel.*\//c\\\t$LinuxKernel\\t\/boot\/vmlinuz  ip=dhcp inst.repo=http:\/\/mirrors.aliyun.com\/centos\/8-stream\/BaseOS\/x86_64\/os\/ inst.lang=zh_CN inst.keymap=us" /tmp/grub.new;
+  [[ "$AutoNet" -eq '0' ]] && sed -i "/$LinuxKernel.*\//c\\\t$LinuxKernel\\t\/boot\/vmlinuz  ip=$IPv4::$GATE:$MASK:my_hostname:eth0:none inst.repo=http:\/\/mirrors.aliyun.com\/centos\/8-stream\/BaseOS\/x86_64\/os\/ inst.lang=zh_CN inst.keymap=us" /tmp/grub.new;
   sed -i "/$LinuxIMG.*\//c\\\t$LinuxIMG\\t\/boot\/initrd.img" /tmp/grub.new;
 }
 
 [[ "$Type" == 'NoBoot' ]] && {
-  sed -i "/$LinuxKernel.*\//c\\\t$LinuxKernel\\t\/vmlinuz inst.stage2=file:\/\/squashfs.img ip=dhcp inst.repo=http:\/\/mirrors.aliyun.com\/centos\/8-stream\/BaseOS\/x86_64\/os\/ inst.lang=zh_CN inst.keymap=us" /tmp/grub.new;
+  [[ "$AutoNet" -eq '1' ]] && sed -i "/$LinuxKernel.*\//c\\\t$LinuxKernel\\t\/vmlinuz  ip=dhcp inst.repo=http:\/\/mirrors.aliyun.com\/centos\/8-stream\/BaseOS\/x86_64\/os\/ inst.lang=zh_CN inst.keymap=us" /tmp/grub.new;
+  [[ "$AutoNet" -eq '0' ]] && sed -i "/$LinuxKernel.*\//c\\\t$LinuxKernel\\t\/boot\/vmlinuz  ip=$IPv4::$GATE:$MASK:my_hostname:eth0:none inst.repo=http:\/\/mirrors.aliyun.com\/centos\/8-stream\/BaseOS\/x86_64\/os\/ inst.lang=zh_CN inst.keymap=us" /tmp/grub.new;
   sed -i "/$LinuxIMG.*\//c\\\t$LinuxIMG\\t\/initrd.img" /tmp/grub.new;
 }
 
@@ -162,102 +166,6 @@ sed -i ''${INSERTGRUB}'r /tmp/grub.new' $GRUBDIR/$GRUBFILE;
 ## 删除saved_entry ——即下次默认启动的
 [[ -f  $GRUBDIR/grubenv ]] && sed -i 's/saved_entry/#saved_entry/g' $GRUBDIR/grubenv;
 
-[[ -d /boot/tmp ]] && rm -rf /boot/tmp;
-mkdir -p /boot/tmp;
-cd /boot/tmp;
-## 判断initrd压缩类型，centos8为：: xz compressed data 这里COMPTYPE为xz
-COMPTYPE="$(file /boot/initrd.img |grep -o ':.*compressed data' |cut -d' ' -f2 |sed -r 's/(.*)/\L\1/' |head -n1)"
-[[ -z "$COMPTYPE" ]] && echo "Detect compressed type fail." && exit 1;
-CompDected='0'
-for ListCOMP in `echo -en 'lzma\nxz\ngzip'`
-  do
-    if [[ "$COMPTYPE" == "$ListCOMP" ]]; then
-      CompDected='1'
-      if [[ "$COMPTYPE" == 'gzip' ]]; then
-        NewIMG="initrd.img.gz"
-      else
-        NewIMG="initrd.img.$COMPTYPE"
-      fi
-      mv -f "/boot/initrd.img" "/boot/$NewIMG"
-      break;
-    fi
-  done
-[[ "$CompDected" != '1' ]] && echo "Detect compressed type not support." && exit 1;
-[[ "$COMPTYPE" == 'lzma' ]] && UNCOMP='xz --format=lzma --decompress';
-[[ "$COMPTYPE" == 'xz' ]] && UNCOMP='xz --decompress';
-[[ "$COMPTYPE" == 'gzip' ]] && UNCOMP='gzip -d';
-##解压缩initrd，会产生# bin  dev  etc  init  initrd.img  lib  lib64  proc  root  run  sbin  shutdown  sys  sysroot  tmp  usr  var
-$UNCOMP < ../$NewIMG | cpio --extract --verbose --make-directories --no-absolute-filenames >>/dev/null 2>&1
-
-wget http://mirrors.aliyun.com/centos/8-stream/BaseOS/x86_64/os/images/install.img -O /boot/tmp/squashfs.img 
-## 编写ks.cfg
-cat >/boot/tmp/ks.cfg<<EOF
-#version=RHEL8
-autopart
-# Partition clearing information
-clearpart --all --initlabel
-# Use graphical install
-graphical
-# Keyboard layouts
-# old format: keyboard us
-# new format:
-keyboard --vckeymap=us --xlayouts='cn'
-# System language
-lang zh_CN.UTF-8
-# Reboot after installation
-reboot
-
-# Network information
-network  --bootproto=dhcp --device=ens3 --nameserver=223.6.6.6 --ipv6=auto --activate
-network  --hostname=localhost.localdomain
-repo --name="AppStream" --baseurl=http://mirrors.aliyun.com/centos/8-stream/BaseOS/x86_64/os/../../../AppStream/x86_64/os/
-# Use network installation
-url --url="http://mirrors.aliyun.com/centos/8-stream/BaseOS/x86_64/os/"
-# Root password
-rootpw --iscrypted $6$826CV/cZjV9KM4Z/$JuLYANEEg4Cxf58HTpT/oY1VN/SSAOM2//YETL31..O7l9JxGl3cFJJSyfgox88ypixOHPTMOfOTdHAFD2E3i.
-# Run the Setup Agent on first boot
-firstboot --enable
-# Do not configure the X Window System
-skipx
-# System services
-services --enabled="chronyd"
-# System timezone
-timezone Asia/Shanghai --isUtc
-
-%packages
-@^minimal-environment
-kexec-tools
-
-%end
-
-%addon com_redhat_kdump --enable --reserve-mb='auto'
-
-%end
-
-%post --interpreter=/bin/bash
-mkdir /root/.ssh
-#上传我的公钥（你们别用我的公钥。如果不小心用了，麻烦告诉我IP😝）
-echo ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDZQzKHfZLlFEdaRUjfSK4twhL0y7+v23Ko4EI1nl6E1/zYqloSZCH3WqQFLGA7gnFlqSAfEHgCdD/4Ubei5a49iG0KSPajS6uPkrB/eiirTaGbe8oRKv2ib4R7ndbwdlkcTBLYFxv8ScfFQv6zBVX3ywZtRCboTxDPSmmrNGb2nhPuFFwnbOX8McQO5N4IkeMVedUlC4w5//xxSU67i1i/7kZlpJxMTXywg8nLlTuysQrJHOSQvYHG9a6TbL/tOrh/zwVFbBS+kx7X1DIRoeC0jHlVJSSwSfw6ESrH9JW71cAvn6x6XjjpGdQZJZxpnR1NTiG4Q5Mog7lCNMJjPtwJ not@home > /root/.ssh/authorized_keys
-%end
-
-%anaconda
-pwpolicy root --minlen=6 --minquality=1 --notstrict --nochanges --notempty
-pwpolicy user --minlen=6 --minquality=1 --notstrict --nochanges --emptyok
-pwpolicy luks --minlen=6 --minquality=1 --notstrict --nochanges --notempty
-%end
-EOF
-
-# #设置是DHCp还是手动设置ip
-# [[ "$AutoNet" == '1' ]] && {
-#   sed -i 's/#ONDHCP\ //g' /boot/tmp/ks.cfg
-# } || {
-#   sed -i 's/#NODHCP\ //g' /boot/tmp/ks.cfg
-# }
-
-rm -rf ../$NewIMG;
-## 将解压后的initrd和创建的ks一起重新打包
-find . | cpio -H newc --create --verbose | gzip -9 > ../initrd.img;
-rm -rf /boot/tmp;
 
 echo "Enter any key to start Centos8 install " &&read aaa
 echo "install will start"
