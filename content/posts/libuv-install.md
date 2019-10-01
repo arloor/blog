@@ -1,5 +1,5 @@
 ---
-title: "Libuv安装"
+title: "Libuv教程"
 date: 2019-09-06T21:19:38+08:00
 draft: false
 categories: [ "undefined"]
@@ -11,7 +11,9 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
-试试看libuv
+到目前为止写了挺多网络编程的东西，要么用netty，要么用go。因为网络编程是IO密集的应用，用带gc的语言写，总是因为频繁的gc需求导致cpu占用过高。netty使用unsafepointer的使用堆外内存来避免频繁gc，但是这还是不够，因为你总得生成string这种堆内对象。只有一个办法来避免这种问题，那就是用没有gc的语言来编写网络编程了。
+
+libuv就是c语言的一个异步事件库，这篇博客就是来搞一下。
 <!--more-->
 
 ## 编译安装libuv
@@ -29,31 +31,28 @@ make install
 ```shell
 # 使用cat编辑a.c
 cat > a.c << EOF
-
-/*
- * a.c
- * empty msg loop
- * 这个例子新建了一个消息队列，但队列里没有任何消息，程序直接退出
- * Created on 2016/9/10
- */
 #include <stdio.h>
 #include <stdlib.h>
-#include "uv.h"
+#include <uv.h>
 
-int main(int argc, char *argv[])
-{
-    uv_loop_t *loop = uv_loop_new();  // 可以理解为新建一个消息队列
-    uv_run(loop, UV_RUN_DEFAULT);     // 启动消息队列，UV_RUN_DEFAULT模式下，当消息数为0时，就会退出消息循环。
-    printf("hello, world\n");
+int main() {
+    uv_loop_t *loop = malloc(sizeof(uv_loop_t));
+    uv_loop_init(loop);
+
+    printf("Now quitting.\n");
+    uv_run(loop, UV_RUN_DEFAULT);
+
+    uv_loop_close(loop);
+    free(loop);
     return 0;
 }
 EOF
 ```
 
-## 编译运行
+**编译运行**
 
 ```
 gcc a.c -luv -o a
 ./a
-# hello,world
+Now quitting.
 ```
