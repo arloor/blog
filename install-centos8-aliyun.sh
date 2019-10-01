@@ -156,9 +156,14 @@ echo $LinuxIMG #initrd16
 ## 增加空行
 sed -i '$a\\n' /tmp/grub.new;
 
-## 将新的menuentry插入到grub
-sed -i ''${INSERTGRUB}'i\\n' $GRUBDIR/$GRUBFILE;
-sed -i ''${INSERTGRUB}'r /tmp/grub.new' $GRUBDIR/$GRUBFILE;
+## 将新的menuentry插入到grub，作为第一个menuentry
+# sed -i ''${INSERTGRUB}'i\\n' $GRUBDIR/$GRUBFILE;
+# sed -i ''${INSERTGRUB}'r /tmp/grub.new' $GRUBDIR/$GRUBFILE;
+
+##  插入到grub尾部，并作为最后一个menuentry；同时设置超时时间为100s，以给与充分时间连接VNC
+sed -i ''${INSERTGRUB}'i\set timeout=100\n' $GRUBDIR/$GRUBFILE;
+sed -i '$i\\n' $GRUBDIR/$GRUBFILE
+sed -i '$r /tmp/grub.new' $GRUBDIR/$GRUBFILE
 ## 删除saved_entry ——即下次默认启动的
 [[ -f  $GRUBDIR/grubenv ]] && sed -i 's/saved_entry/#saved_entry/g' $GRUBDIR/grubenv;
 
