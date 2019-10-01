@@ -56,3 +56,11 @@ gcc a.c -luv -o a
 ./a
 Now quitting.
 ```
+
+**说明**
+
+这个例子创建了一个loop，该loop经历了malloc、init、run、close、free五个阶段，其中malloc和free是c语言内存管理，init、run、close则是loop的生命周期。
+
+这个程序会马上退出，因为loop上没有注册监听的事件。
+
+
