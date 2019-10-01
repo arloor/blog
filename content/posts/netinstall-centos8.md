@@ -29,12 +29,26 @@ mkdir /boot/net8
 cd /boot/net8
 wget http://mirrors.aliyun.com/centos/8-stream/BaseOS/x86_64/os/isolinux/vmlinuz -O vmlinuz
 wget http://mirrors.aliyun.com/centos/8-stream/BaseOS/x86_64/os/isolinux/initrd.img -O initrd.img
+wget http://mirrors.aliyun.com/centos/8-stream/BaseOS/x86_64/os/images/install.img -O /squashfs.img
 
 cat >> /boot/grub2/grub.cfg <<\EOF
-menuentry "centos8-netboot-dhcp" {
+menuentry "centos8-netboot-dhcp-localstage2" {
        set root=hd0,msdos1
-       linux16 /boot/net8/vmlinuz ro ip=dhcp nameserver=223.6.6.6 inst.repo=http://mirrors.aliyun.com/centos/8-stream/BaseOS/x86_64/os/ inst.lang=zh_CN inst.keymap=us
+       linux16 /boot/net8/vmlinuz ro ip=dhcp nameserver=223.6.6.6 inst.repo=http://mirrors.aliyun.com/centos/8-stream/BaseOS/x86_64/os/  inst.lang=zh_CN inst.keymap=us inst.stage2=hd:/dev/vda1:/boot/net8/squashfs.img
        initrd16 /boot/net8/initrd.img
+}
+
+menuentry "centos8-netboot-dhcp-localstage2" {
+       set root=hd0,msdos1
+       linux16 /boot/net8/vmlinuz ro ip=dhcp nameserver=223.6.6.6 inst.repo=http://mirrors.aliyun.com/centos/8-stream/BaseOS/x86_64/os/  inst.lang=zh_CN inst.keymap=us
+       initrd16 /boot/net8/initrd.img
+}
+
+
+menuentry "centos8-netboot-dhcp-localstage2-bwg" {
+       set root=hd0,msdos1
+       linux16 /net8/vmlinuz ro ip=dhcp nameserver=223.6.6.6 inst.repo=http://mirror.centos.org/centos/8-stream/BaseOS/x86_64/os/  inst.lang=zh_CN inst.keymap=us inst.stage2=hd:/dev/sda2:/squashfs.img
+       initrd16 //net8/initrd.img
 }
 EOF
 ```
@@ -171,6 +185,22 @@ device     fs_type label    mount point    UUID
 ```
 
 结合上文，应该能帮助理解三个注意点吧。
+
+## 一些问题
+
+During the installation I face a problem /sbin/dmsquash-live-root: write error: No space left on device and after this some "timeout scripts" are started with the following fail of the installation.
+
+At this point, the guest has successfully booted the kernel and is running in initramfs environment. The installer initramfs is loading a squashfs file, which would be located at <CentOS DVD root>/LiveOS/squashfs.img. In this case, I believe it might be loading it from http://kickstart.corp.example.com/install/LiveOS/squashfs.img - or it might even be loading it over the internet from the CentOS package repository servers.
+
+(If the latter is true, you can add a boot option inst.stage2=http://kickstart.corp.example.com/install to the append line in /var/lib/tftpboot/pxelinux/pxelinux.cfg/default to enforce loading it from a local source.)
+
+Since the root filesystem is not yet mounted, it would be loading it into a RAM disk. At this point the installer UI is not started yet, and the local disks haven't been touched at all, although the kernel has detected that /dev/vda is present.
+
+On an old CentOS 7 ISO image I have at hand, the squashfs.img file is 352 MiB in size. An up-to-date version is likely to be a bit larger than that; the output of curl (the tool that is actually doing the downloading) encapsulated in the messages logged by dracut-initqueue suggests that your squashfs.img is 432 MiB in size, and the download gets aborted at about the 75% point because there is not enough space (in the ramdisk, I assume).
+
+Since the squashfs.img download was incomplete, mounting it will fail, and then the RAM disk will still be 100% full, causing the No space left on device error message.
+
+How much RAM does your guest VM have assigned to it? If the VM is tiny, you might be running out of memory.
 
 ## 另外两种
 
