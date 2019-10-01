@@ -18,7 +18,7 @@ libuv就是c语言的一个异步事件库，这篇博客就是来搞一下。
 
 ## 编译安装libuv
 ```
-wget https://codeload.github.com/libuv/libuv/zip/v1.30.0
+wget https://codeload.github.com/libuv/libuv/zip/v1.30.0 -O libuv-1.30.0.zip
 unzip libuv-1.30.0.zip
 cd libuv-1.30.0
 apt install automake libtool autoconf
