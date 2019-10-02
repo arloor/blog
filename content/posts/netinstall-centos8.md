@@ -29,8 +29,7 @@ centos8在前几天发布了，但是云服务大厂们往往不会第一时间�
 执行以下命令，
 
 ```shell
-cat /etc/redhat-release
-wget -qO install.sh http://arloor.com/install-centos8-from-centos7.sh&& bash install.sh
+wget -qO install.sh http://arloor.com/install-centos8-from-centos7.sh && bash install.sh
 ```
 
 
