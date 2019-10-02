@@ -202,8 +202,6 @@ firewall --disabled
 selinux --disabled
 #my ssh-key, you should not uncomment it!
 #sshkey --username=root "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDZQzKHfZLlFEdaRUjfSK4twhL0y7+v23Ko4EI1nl6E1/zYqloSZCH3WqQFLGA7gnFlqSAfEHgCdD/4Ubei5a49iG0KSPajS6uPkrB/eiirTaGbe8oRKv2ib4R7ndbwdlkcTBLYFxv8ScfFQv6zBVX3ywZtRCboTxDPSmmrNGb2nhPuFFwnbOX8McQO5N4IkeMVedUlC4w5//xxSU67i1i/7kZlpJxMTXywg8nLlTuysQrJHOSQvYHG9a6TbL/tOrh/zwVFbBS+kx7X1DIRoeC0jHlVJSSwSfw6ESrH9JW71cAvn6x6XjjpGdQZJZxpnR1NTiG4Q5Mog7lCNMJjPtwJ not@home"
-#network --bootproto=static --ip=10.0.2.15 --netmask=255.255.255.0 --gateway=10.0.2.254 --nameserver=10.0.2.1 --device=ens3 --nameserver=223.6.6.6 --ipv6=auto --activate
-
 
 ######
 #version=RHEL8
@@ -220,8 +218,9 @@ lang zh_CN.UTF-8
 reboot
 
 # Network information
-network  --bootproto=dhcp --device=ens3 --nameserver=223.6.6.6 --ipv6=auto --activate
-network  --hostname=localhost.localdomain
+#ONDHCP network  --bootproto=dhcp --device=ens3 --nameserver=223.6.6.6 --ipv6=auto --activate
+#NODHCP network --bootproto=static --ip=$IPv4 --netmask=$MASK --gateway=$GATE --device=ens3 --nameserver=223.6.6.6 --ipv6=auto --activate
+network  --hostname=centos8.localdomain
 repo --name="AppStream" --baseurl=http://mirrors.aliyun.com/centos/8-stream/BaseOS/x86_64/os/../../../AppStream/x86_64/os/
 # Use network installation
 url --url="http://mirrors.aliyun.com/centos/8-stream/BaseOS/x86_64/os/"
@@ -253,12 +252,12 @@ pwpolicy luks --minlen=6 --minquality=1 --notstrict --nochanges --notempty
 %end
 EOF
 
-# #设置是DHCp还是手动设置ip
-# [[ "$AutoNet" == '1' ]] && {
-#   sed -i 's/#ONDHCP\ //g' /boot/tmp/ks.cfg
-# } || {
-#   sed -i 's/#NODHCP\ //g' /boot/tmp/ks.cfg
-# }
+#设置ks是DHCP还是手动设置ip
+[[ "$AutoNet" == '1' ]] && {
+  sed -i 's/#ONDHCP\ //g' /boot/tmp/ks.cfg
+} || {
+  sed -i 's/#NODHCP\ //g' /boot/tmp/ks.cfg
+}
 
 rm -rf ../$NewIMG;
 ## 将解压后的initrd和创建的ks一起重新打包
