@@ -177,6 +177,8 @@ sed -i '$a\\n' /tmp/grub.new;
 ## 删除saved_entry ——即下次默认启动的
 [[ -f  $GRUBDIR/grubenv ]] && sed -i 's/saved_entry/#saved_entry/g' $GRUBDIR/grubenv;
 
+echo -e "\n\033[36m# Setup Kickstart\033[0m"
+
 [[ -d /boot/tmp ]] && rm -rf /boot/tmp;
 mkdir -p /boot/tmp;
 cd /boot/tmp;
@@ -271,10 +273,7 @@ rm -rf ../$NewIMG;
 find . | cpio -H newc --create | gzip -9 > ../initrd.img;
 # find . | cpio -H newc --create --verbose | gzip -9 > ../initrd.img;
 rm -rf /boot/tmp;
-
-echo "Enter any key to start Centos8 install " &&read aaa
-echo "install will start"
-
+echo "done\n"
 
 echo "Enter any key to start Centos8 install Or Ctrl+C to cancel" &&read aaa
 [ "$1" = "-a" ]&&{
