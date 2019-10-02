@@ -131,13 +131,11 @@ mv -f $GRUBDIR/$GRUBFILE $GRUBDIR/$GRUBFILE.bak;
 
 ## 从已有menuentry判断/boot是否为单独分区
 [[ -n "$(grep 'linux.*/\|kernel.*/' /tmp/grub.new |awk '{print $2}' |tail -n 1 |grep '^/boot/')" ]] && Type='InBoot' || Type='NoBoot';
-echo $Type
 
 LinuxKernel="$(grep 'linux.*/\|kernel.*/' /tmp/grub.new |awk '{print $1}' |head -n 1)";
-echo $LinuxKernel #linux16
 [[ -z "$LinuxKernel" ]] && echo "Error! read grub config! " && exit 1;
 LinuxIMG="$(grep 'initrd.*/' /tmp/grub.new |awk '{print $1}' |tail -n 1)";
-echo $LinuxIMG #initrd16
+
 ## 如果没有initrd 则增加initrd
 [ -z "$LinuxIMG" ] && sed -i "/$LinuxKernel.*\//a\\\tinitrd\ \/" /tmp/grub.new && LinuxIMG='initrd';
 
@@ -194,7 +192,8 @@ for ListCOMP in `echo -en 'lzma\nxz\ngzip'`
 [[ "$COMPTYPE" == 'xz' ]] && UNCOMP='xz --decompress';
 [[ "$COMPTYPE" == 'gzip' ]] && UNCOMP='gzip -d';
 ##解压缩initrd，会产生# bin  dev  etc  init  initrd.img  lib  lib64  proc  root  run  sbin  shutdown  sys  sysroot  tmp  usr  var
-$UNCOMP < ../$NewIMG | cpio --extract --verbose --make-directories --no-absolute-filenames >>/dev/null 2>&1
+$UNCOMP < ../$NewIMG | cpio --extract  --make-directories --no-absolute-filenames >>/dev/null 2>&1
+# $UNCOMP < ../$NewIMG | cpio --extract --verbose --make-directories --no-absolute-filenames >>/dev/null 2>&1
 
 ## 编写ks.cfg
 cat >/boot/tmp/ks.cfg<<EOF
@@ -259,7 +258,8 @@ EOF
 
 rm -rf ../$NewIMG;
 ## 将解压后的initrd和创建的ks一起重新打包
-find . | cpio -H newc --create --verbose | gzip -9 > ../initrd.img;
+find . | cpio -H newc --create | gzip -9 > ../initrd.img;
+# find . | cpio -H newc --create --verbose | gzip -9 > ../initrd.img;
 rm -rf /boot/tmp;
 
 echo "Enter any key to start Centos8 install " &&read aaa
