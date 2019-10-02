@@ -168,14 +168,14 @@ LinuxIMG="$(grep 'initrd.*/' /tmp/grub.new |awk '{print $1}' |tail -n 1)";
 
 ## 分未Inboot和NoBoot修改加载kernel和initrd的
 [[ "$Type" == 'InBoot' ]] && {
-  [[ "$AutoNet" -eq '1' ]] && sed -i "/$LinuxKernel.*\//c\\\t$LinuxKernel\\t\/boot\/vmlinuz  ip=dhcp inst.repo=http:\/\/mirrors.aliyun.com\/centos\/8-stream\/BaseOS\/x86_64\/os\/ inst.lang=zh_CN inst.keymap=us" /tmp/grub.new;
-  [[ "$AutoNet" -eq '0' ]] && sed -i "/$LinuxKernel.*\//c\\\t$LinuxKernel\\t\/boot\/vmlinuz  ip=$IPv4::$GATE:$MASK:my_hostname:eth0:none inst.repo=http:\/\/mirrors.aliyun.com\/centos\/8-stream\/BaseOS\/x86_64\/os\/ inst.lang=zh_CN inst.keymap=us" /tmp/grub.new;
+  [[ "$AutoNet" -eq '1' ]] && sed -i "/$LinuxKernel.*\//c\\\t$LinuxKernel\\t\/boot\/vmlinuz  ip=dhcp inst.repo=http:\/\/mirrors.aliyun.com\/centos\/8-stream\/BaseOS\/x86_64\/os\/ inst.lang=zh_CN inst.keymap=cn selinux=0" /tmp/grub.new;
+  [[ "$AutoNet" -eq '0' ]] && sed -i "/$LinuxKernel.*\//c\\\t$LinuxKernel\\t\/boot\/vmlinuz  ip=$IPv4::$GATE:$MASK:my_hostname:eth0:none inst.repo=http:\/\/mirrors.aliyun.com\/centos\/8-stream\/BaseOS\/x86_64\/os\/ inst.lang=zh_CN inst.keymap=cn selinux=0" /tmp/grub.new;
   sed -i "/$LinuxIMG.*\//c\\\t$LinuxIMG\\t\/boot\/initrd.img" /tmp/grub.new;
 }
 
 [[ "$Type" == 'NoBoot' ]] && {
-  [[ "$AutoNet" -eq '1' ]] && sed -i "/$LinuxKernel.*\//c\\\t$LinuxKernel\\t\/vmlinuz  ip=dhcp inst.repo=http:\/\/mirrors.aliyun.com\/centos\/8-stream\/BaseOS\/x86_64\/os\/ inst.lang=zh_CN inst.keymap=us" /tmp/grub.new;
-  [[ "$AutoNet" -eq '0' ]] && sed -i "/$LinuxKernel.*\//c\\\t$LinuxKernel\\t\/boot\/vmlinuz  ip=$IPv4::$GATE:$MASK:my_hostname:eth0:none inst.repo=http:\/\/mirrors.aliyun.com\/centos\/8-stream\/BaseOS\/x86_64\/os\/ inst.lang=zh_CN inst.keymap=us" /tmp/grub.new;
+  [[ "$AutoNet" -eq '1' ]] && sed -i "/$LinuxKernel.*\//c\\\t$LinuxKernel\\t\/vmlinuz  ip=dhcp inst.repo=http:\/\/mirrors.aliyun.com\/centos\/8-stream\/BaseOS\/x86_64\/os\/ inst.lang=zh_CN inst.keymap=us selinux=0" /tmp/grub.new;
+  [[ "$AutoNet" -eq '0' ]] && sed -i "/$LinuxKernel.*\//c\\\t$LinuxKernel\\t\/boot\/vmlinuz  ip=$IPv4::$GATE:$MASK:my_hostname:eth0:none inst.repo=http:\/\/mirrors.aliyun.com\/centos\/8-stream\/BaseOS\/x86_64\/os\/ inst.lang=zh_CN inst.keymap=cn selinux=0" /tmp/grub.new;
   sed -i "/$LinuxIMG.*\//c\\\t$LinuxIMG\\t\/initrd.img" /tmp/grub.new;
 }
 
