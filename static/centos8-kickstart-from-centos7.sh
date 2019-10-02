@@ -1,5 +1,8 @@
 [[ "$EUID" -ne '0' ]] && echo "Error:This script must be run as root!" && exit 1;
 
+red="\033[31m"
+black="\033[0m"
+
 ## 检查依赖
 function CheckDependence(){
 FullDependence='0';
@@ -275,11 +278,12 @@ find . | cpio -H newc --create | gzip -9 > ../initrd.img;
 rm -rf /boot/tmp;
 echo -e  "done\n"
 
-echo "Enter any key to start Centos8 install Or Ctrl+C to cancel" &&read aaa
+echo   -e "${red}Enter any key to start Centos8 install Or Ctrl+C to cancel${black}" &&read aaa
+
 [ "$1" = "-a" ]&&{
-  echo -e "The VPS wiil reboot and installation will auto start and complete.\nAfter minutes, you can login the new centos8 OS with passwd 'arloor.com'"
+  echo -e "The VPS wiil reboot and installation will auto start and complete.\nAfter minutes, you can login the new centos8 OS with passwd '${red}arloor.com${black}'"
 }||{
-  echo -e "The VPS wiil reboot.\nThen you have 100 seconds to enter the vps's VNC\n and boot the 'Install Centos8 [ ]' menuentry to start the kickstart installation.\nYou can view the installation via VNC then.\nAfter minutes, you can login the new centos8 OS with passwd 'arloor.com'"
+  echo -e "The VPS wiil reboot.\nThen you have 100 seconds to enter the vps's VNC\n and boot the '${red}Install Centos8 [ ]${black}' menuentry to start the kickstart installation.\nYou can view the installation via VNC then.\nAfter minutes, you can login the new centos8 OS with passwd '${red}arloor.com${black}'"
 }
 
 sleep 3 && reboot >/dev/null 2>&1
