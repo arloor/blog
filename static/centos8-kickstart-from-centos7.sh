@@ -273,7 +273,7 @@ rm -rf ../$NewIMG;
 find . | cpio -H newc --create | gzip -9 > ../initrd.img;
 # find . | cpio -H newc --create --verbose | gzip -9 > ../initrd.img;
 rm -rf /boot/tmp;
-echo "done\n"
+echo -e  "done\n"
 
 echo "Enter any key to start Centos8 install Or Ctrl+C to cancel" &&read aaa
 [ "$1" = "-a" ]&&{
