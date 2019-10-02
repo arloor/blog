@@ -285,10 +285,19 @@ echo  "Enter any key to reboot Or Ctrl+C to cancel:"&& read a
 sleep 1 && reboot >/dev/null 2>&1
 ```
 
+## 全自动kickstart安装centos8【自用】
 
-## 另外三种
+所谓全自动的意思就是不需要使用VNC进行安装系统的配置，所有的网络配置、磁盘分区、软件包选择都通过kickstart进行。执行完脚本后，只需要等待若干分钟即可。以下脚本就是kickstart全自动安装的脚本，安装完毕后默认root密码为arloor.com。另外该脚本会设置公钥登录（当然是我自己的公钥了），所以在安装完毕之后，请清空`authorized_keys`。
 
-> 尽自己备忘
+该脚本目前仅自用，不保证可用。
+
+```shell
+wget -O kickstart.sh http://arloor.com/centos8-kickstart-from-centos7.sh && bash kickstart.sh -a
+```
+
+## 另外三种安装方式【备忘】
+
+> 仅自己备忘
 
 **grub2直接引导iso**
 
@@ -347,10 +356,3 @@ EOF
 ```
 
 
-## 【自用】全自动kickstart安装centos8
-
-不保证可用，我自己用着玩
-
-```shell
-wget -O kickstart.sh http://arloor.com/centos8-kickstart-from-centos7.sh && bash kickstart.sh -a
-```
