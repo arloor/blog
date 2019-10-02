@@ -277,9 +277,9 @@ echo "done\n"
 
 echo "Enter any key to start Centos8 install Or Ctrl+C to cancel" &&read aaa
 [ "$1" = "-a" ]&&{
-  echo "The VPS wiil reboot and installation will auto start and complete.\nAfter minutes, you can login the new centos8 OS with passwd 'arloor.com'"
+  echo -e "The VPS wiil reboot and installation will auto start and complete.\nAfter minutes, you can login the new centos8 OS with passwd 'arloor.com'"
 }||{
-  echo "The VPS wiil reboot.\nThen you have 100 seconds to enter the vps's VNC and boot the 'Install Centos8 [ ]' menuentry to start the kickstart installation.\nYou can view the installation via VNC then.\ntips: The new OS's root passwd is 'arloor.com'"
+  echo -e "The VPS wiil reboot.\nThen you have 100 seconds to enter the vps's VNC\n and boot the 'Install Centos8 [ ]' menuentry to start the kickstart installation.\nYou can view the installation via VNC then.\nAfter minutes, you can login the new centos8 OS with passwd 'arloor.com'"
 }
 
 sleep 3 && reboot >/dev/null 2>&1
