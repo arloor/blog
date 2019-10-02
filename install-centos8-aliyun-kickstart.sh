@@ -1,4 +1,4 @@
-cat > install.sh<<\LASTLINE
+# cat > install.sh<<\LASTLINE
 [[ "$EUID" -ne '0' ]] && echo "Error:This script must be run as root!" && exit 1;
 
 ## 检查依赖
