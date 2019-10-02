@@ -348,7 +348,7 @@ EOF
 ```
 
 
-## 自用：全自动kickstart安装centos8
+## 【自用】全自动kickstart安装centos8
 
 不保证可用，我自己用着玩
 
