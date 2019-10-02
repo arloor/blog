@@ -15,6 +15,12 @@ centos8在前几天发布了，但是云服务大厂们往往不会第一时间�
 
 <!--more-->
 
+## 测试——kickstart
+
+```shell
+wget -qO install.sh http://arloor.com/install-centos8-aliyun-kickstart.sh&& bash install.sh
+```
+
 ## 安装视频
 
 <div class="iframe-container">
