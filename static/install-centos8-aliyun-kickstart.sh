@@ -211,8 +211,7 @@ autopart --nolvm --noboot --nohome
 # Partition clearing information
 clearpart --all --initlabel
 # Use graphical install
-# graphical
-text
+graphical
 # Keyboard layouts
 keyboard --vckeymap=us --xlayouts='cn'
 # System language
