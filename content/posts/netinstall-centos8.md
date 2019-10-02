@@ -353,5 +353,5 @@ EOF
 不保证可用，我自己用着玩
 
 ```shell
-wget -O install.sh http://arloor.com/centos8-kickstart.sh && bash install.sh -a
+wget -O kickstart.sh http://arloor.com/centos8-kickstart-from-centos7.sh && bash kickstart.sh -a
 ```
