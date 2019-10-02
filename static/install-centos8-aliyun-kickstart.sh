@@ -1,4 +1,3 @@
-cat > install.sh<<\LASTLINE
 [[ "$EUID" -ne '0' ]] && echo "Error:This script must be run as root!" && exit 1;
 
 ## 检查依赖
@@ -156,14 +155,17 @@ echo $LinuxIMG #initrd16
 ## 增加空行
 sed -i '$a\\n' /tmp/grub.new;
 
-## 将新的menuentry插入到grub，作为第一个menuentry
-# sed -i ''${INSERTGRUB}'i\\n' $GRUBDIR/$GRUBFILE;
-# sed -i ''${INSERTGRUB}'r /tmp/grub.new' $GRUBDIR/$GRUBFILE;
-
-##  插入到grub尾部，并作为最后一个menuentry；同时设置超时时间为100s，以给与充分时间连接VNC
-sed -i ''${INSERTGRUB}'i\set timeout=100\n' $GRUBDIR/$GRUBFILE;
-sed -i '$i\\n' $GRUBDIR/$GRUBFILE
-sed -i '$r /tmp/grub.new' $GRUBDIR/$GRUBFILE
+## 根据是否-a，决定将新的条目查到第一个还是尾部
+[ "$1" = "-a" ]&&{
+  ## 将新的menuentry插入到grub，作为第一个menuentry
+  sed -i ''${INSERTGRUB}'i\\n' $GRUBDIR/$GRUBFILE;
+  sed -i ''${INSERTGRUB}'r /tmp/grub.new' $GRUBDIR/$GRUBFILE;
+}||{
+  ##  插入到grub尾部，并作为最后一个menuentry；同时设置超时时间为100s，以给与充分时间连接VNC
+  sed -i ''${INSERTGRUB}'i\set timeout=100\n' $GRUBDIR/$GRUBFILE;
+  sed -i '$i\\n' $GRUBDIR/$GRUBFILE
+  sed -i '$r /tmp/grub.new' $GRUBDIR/$GRUBFILE
+}
 ## 删除saved_entry ——即下次默认启动的
 [[ -f  $GRUBDIR/grubenv ]] && sed -i 's/saved_entry/#saved_entry/g' $GRUBDIR/grubenv;
 
@@ -196,13 +198,10 @@ $UNCOMP < ../$NewIMG | cpio --extract --verbose --make-directories --no-absolute
 
 ## 编写ks.cfg
 cat >/boot/tmp/ks.cfg<<EOF
-# screenshot
-autostep --autoscreenshot
 #version=RHEL8
-ignoredisk --only-use=vda
-autopart --type=lvm
+autopart
 # Partition clearing information
-clearpart --all --initlabel --drives=vda
+clearpart --all --initlabel
 # Use graphical install
 graphical
 # Keyboard layouts
@@ -211,15 +210,17 @@ graphical
 keyboard --vckeymap=us --xlayouts='cn'
 # System language
 lang zh_CN.UTF-8
+# Reboot after installation
+reboot
 
 # Network information
-network  --bootproto=dhcp --device=ens3 --ipv6=auto --activate
+network  --bootproto=dhcp --device=ens3 --nameserver=223.6.6.6 --ipv6=auto --activate
 network  --hostname=localhost.localdomain
 repo --name="AppStream" --baseurl=http://mirrors.aliyun.com/centos/8-stream/BaseOS/x86_64/os/../../../AppStream/x86_64/os/
 # Use network installation
 url --url="http://mirrors.aliyun.com/centos/8-stream/BaseOS/x86_64/os/"
 # Root password
-rootpw --iscrypted $6$w3HgtcuIAa/OVfk9$d5Z7W7zxxNeyOo.3ZCM1rw9/DkONhB6LuL.fKtthYQMms7twzkPFrpM.Y0URIwmVORFGpTOXgb7hNFBL0P4/O.
+rootpw --iscrypted $6$826CV/cZjV9KM4Z/$JuLYANEEg4Cxf58HTpT/oY1VN/SSAOM2//YETL31..O7l9JxGl3cFJJSyfgox88ypixOHPTMOfOTdHAFD2E3i.
 # Run the Setup Agent on first boot
 firstboot --enable
 # Do not configure the X Window System
@@ -239,12 +240,17 @@ kexec-tools
 
 %end
 
+%post --interpreter=/bin/bash
+mkdir /root/.ssh
+#上传我的公钥（你们别用我的公钥。如果不小心用了，麻烦告诉我IP😝）
+echo ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDZQzKHfZLlFEdaRUjfSK4twhL0y7+v23Ko4EI1nl6E1/zYqloSZCH3WqQFLGA7gnFlqSAfEHgCdD/4Ubei5a49iG0KSPajS6uPkrB/eiirTaGbe8oRKv2ib4R7ndbwdlkcTBLYFxv8ScfFQv6zBVX3ywZtRCboTxDPSmmrNGb2nhPuFFwnbOX8McQO5N4IkeMVedUlC4w5//xxSU67i1i/7kZlpJxMTXywg8nLlTuysQrJHOSQvYHG9a6TbL/tOrh/zwVFbBS+kx7X1DIRoeC0jHlVJSSwSfw6ESrH9JW71cAvn6x6XjjpGdQZJZxpnR1NTiG4Q5Mog7lCNMJjPtwJ not@home > /root/.ssh/authorized_keys
+%end
+
 %anaconda
 pwpolicy root --minlen=6 --minquality=1 --notstrict --nochanges --notempty
 pwpolicy user --minlen=6 --minquality=1 --notstrict --nochanges --emptyok
 pwpolicy luks --minlen=6 --minquality=1 --notstrict --nochanges --notempty
 %end
-
 EOF
 
 # #设置是DHCp还是手动设置ip
@@ -263,4 +269,3 @@ echo "Enter any key to start Centos8 install " &&read aaa
 echo "install will start"
 
 sleep 3 && reboot >/dev/null 2>&1
-LASTLINE
