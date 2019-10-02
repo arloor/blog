@@ -44,9 +44,11 @@ echo "Dependence Check done"
 
 echo -e "\n\033[36m# Install\033[0m\n"
 ## 下载kernel和initrd
+echo "initrd.img downloading...."
 wget --no-check-certificate -qO '/boot/initrd.img' "http://mirrors.aliyun.com/centos/8-stream/BaseOS/x86_64/os/isolinux/initrd.img"
+echo "vmlinuz downloading...."
 wget --no-check-certificate -qO '/boot/vmlinuz' "http://mirrors.aliyun.com/centos/8-stream/BaseOS/x86_64/os/isolinux/vmlinuz"
-
+echo "done"
 
 ## 查看网络信息 ip、网关、掩码
   DEFAULTNET="$(ip route show |grep -o 'default via [0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}.[0-9]\{1,3\}.*' |head -n1 |sed 's/proto.*\|onlink.*//g' |awk '{print $NF}')";
@@ -63,9 +65,6 @@ wget --no-check-certificate -qO '/boot/vmlinuz' "http://mirrors.aliyun.com/cento
 [[ -n "$GATE" ]] && [[ -n "$MASK" ]] && [[ -n "$IPv4" ]] || {
 echo "Not found \`ip command\`, Exit！please use centos7 as Base os." && exit 1
 }
-echo [IPV4] $IPv4
-echo [GATEWAY]]  $GATE  
-echo [MASK]  $MASK $NETSUB
 
 ##检查/etc/sysconfig/network-scripts
 [[ ! -d '/etc/sysconfig/network-scripts' ]] && echo "/etc/sysconfig/network-scripts not exit. please use centos7 as base os.exit." && exit 1
@@ -86,6 +85,17 @@ echo [MASK]  $MASK $NETSUB
       done
   }
 }
+
+echo -e "\n\033[36m# Network Infomation\033[0m"
+[[ "$AutoNet" -eq '1' ]]&&{
+  echo DHCP:  enable
+}||{
+  echo DHCP:  disable
+}
+echo IPV4： $IPv4
+echo GATEWAY：  $GATE  
+echo MASK：  $MASK $NETSUB
+echo
 
 ### 备份grub文件
 [[ ! -f $GRUBDIR/$GRUBFILE ]] && echo "Error! Not Found $GRUBFILE. " && exit 1;
