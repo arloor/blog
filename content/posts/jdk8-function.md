@@ -1,5 +1,5 @@
 ---
-title: "Jdk8 Function"
+title: "Jdk8的function包以及::用法"
 date: 2019-10-24T22:04:01+08:00
 draft: false
 categories: [ "undefined"]
