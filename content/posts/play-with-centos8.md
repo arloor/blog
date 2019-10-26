@@ -127,3 +127,4 @@ service squid start
 systemctl enable squid
 ```
 
+git config --global http.proxy http://proxyUsername:proxyPassword@proxy.server.com:port

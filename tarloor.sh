@@ -1,6 +1,6 @@
 #! /bin/bash
 
-# path /usr/local/bin/arloor
+## path: /usr/local/bin/tarloor
 
 hugoURL=https://github.com/gohugoio/hugo/releases/download/v0.54.0/hugo_extended_0.54.0_Linux-64bit.tar.gz
 
@@ -18,17 +18,13 @@ print_info(){
 print_info
 
 
-# 设置代理
-[ -f /usr/lib/systemd/system/proxy.service ] && {
-        service proxy start
-        proxystart=1
-        sleep 3 #等待代理启动
-        # 设置http代理，使用方法：
-        export http_proxy=http://127.0.0.1:8081
-        export https_proxy=http://127.0.0.1:8081
-        git config --global http.proxy 'http://127.0.0.1:8081'
-        git config --global https.proxy 'http://127.0.0.1:8081'
-}
+
+proxystart=1
+# 设置http代理，使用方法：
+export http_proxy=http://arloor:passwd@cn2.ddnspod.xyz:20000
+export https_proxy=http://arloor:passwd@cn2.ddnspod.xyz:20000
+git config --global http.proxy 'http://arloor:passwd@cn2.ddnspod.xyz:20000'
+git config --global https.proxy 'http://arloor:passwd@cn2.ddnspod.xyz:20000'
 
 # 检查/root/blog是否存在，存在则update
 [ ! -d /root/blog ] && echo "arloor blog not exits. git clone...." && {
@@ -45,7 +41,7 @@ print_info
 hashugo=$(hugo version|grep Hugo) && [ "" != " $hashugo" ] && hugo version || {
         echo install hugo extended...;
         mkdir /tmp/hugo
-        wget $hugoURL -qO /tmp/hugo/hugo.tar.gz;
+        wget $hugoURL -O /tmp/hugo/hugo.tar.gz;
         tar -zxf /tmp/hugo/hugo.tar.gz -C /tmp/hugo/;
         mv -f /tmp/hugo/hugo /usr/local/bin/;
         chmod +x /usr/local/bin/hugo;
@@ -54,11 +50,10 @@ hashugo=$(hugo version|grep Hugo) && [ "" != " $hashugo" ] && hugo version || {
 
 # 现在可以关闭代理了
 [ "$proxystart" = "1" ]&&{
-        service proxy stop;
         export http_proxy=
         export https_proxy=
-        git config --global --unset http.proxy
-        git config --global --unset https.proxy
+        #git config --global --unset http.proxy
+        #git config --global --unset https.proxy
 }
 
 # 检查httpd是否安装
