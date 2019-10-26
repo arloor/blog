@@ -57,6 +57,8 @@ yum -y install httpd-tools
 touch /etc/squid/passwd && chown squid /etc/squid/passwd
 htpasswd -b /etc/squid/passwd arloor somepasswd
 
+
+# 别执行以下cat，仅仅是列出关键信息
 cat > /etc/squid/squid.conf<<EOF
 #文件开头
 # 选择的认证方式为basic，认证程序路径和密码文件路径。
@@ -127,4 +129,8 @@ service squid start
 systemctl enable squid
 ```
 
-git config --global http.proxy http://proxyUsername:proxyPassword@proxy.server.com:port
+
+```
+git config --global http.proxy 'http://user:passwd@host:20000'
+git config --global https.proxy 'http://user:passed@host:20000'
+```
