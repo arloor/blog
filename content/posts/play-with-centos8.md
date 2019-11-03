@@ -63,6 +63,8 @@ service squid start
 systemctl enable squid
 ```
 
+squid.conf内容
+
 ```
 # 选择的认证方式为basic，认证程序路径和密码文件路径。
 auth_param basic program /usr/lib64/squid/basic_ncsa_auth /etc/squid/passwd
@@ -175,6 +177,7 @@ request_header_access Pragma deny all
 request_header_access Keep-Alive deny all
 ```
 
+这样git就可以使用这个代理了。
 
 ```
 git config --global http.proxy 'http://user:passwd@host:20000'
