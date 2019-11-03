@@ -50,6 +50,7 @@ yum --enablerepo=elrepo-kernel install -y kernel-ml  #以后升级也是执行�
 ## 安装squid并设置高匿及密码
 
 ```shell
+# squid4.4
 yum install -y squid
 
 ##设置密码
