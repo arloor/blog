@@ -1,5 +1,5 @@
 ---
-title: "Spring Aop"
+title: "Spring Aop使用"
 date: 2019-11-04T19:05:58+08:00
 draft: false
 categories: [ "undefined"]
@@ -10,6 +10,9 @@ description : ""
 keywords:
 - 刘港欢 arloor moontell
 ---
+
+来记一下spring aop的使用
+<!--more-->
 
 ## 概念：
 - 方面（Aspect）： 一个关注点的模块化，这个关注点实现可能另外横切多个对象。事务
