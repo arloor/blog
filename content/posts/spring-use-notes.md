@@ -96,6 +96,80 @@ public class TestInterceptorController {
 **使用场景**：结合拦截器和@ModelAttribute可以方便在Controller方法前设置一些需要用到的属性。
 
 
+## springboot设置ssl
 
 
+```
+keytool -genkey -alias myhostname -storetype PKCS12 -keyalg RSA -keysize 2048 -keystore keystore.p12
+# 输入密码123456，其他直接按enter
+```
 
+创建名为keystore.p12的密钥库，并将它移动到main/resources下。
+
+application.properties如下
+
+server.port= 8443
+server.ssl.key-store= classpath:keystore.p12
+server.ssl.key-store-password= 123456
+server.ssl.keyStoreType= PKCS12
+server.ssl.keyAlias= myhostname
+
+## 上传文件
+
+[参见](https://blog.csdn.net/gnail_oug/article/details/80324120)
+
+Controller:
+
+```java
+@Controller
+@CommonsLog
+public class UploadController {
+
+    @GetMapping("/")
+    public String upload() {
+        return "upload";
+    }
+
+    @PostMapping("/uploadfile")
+    @ResponseBody
+    public String upload(@RequestParam("file") MultipartFile file) {
+        if (file.isEmpty()) {
+            return "上传失败，请选择文件";
+        }
+
+        String fileName = file.getOriginalFilename();
+
+        String userHome=System.getProperty("user.home");
+        String parentDirPath =String.format( "%s/upload/",userHome);
+        File parentDir = new File(parentDirPath);
+        if (!parentDir.exists()) {
+            parentDir.mkdirs();
+        }
+
+        String filePath = parentDirPath + fileName;
+        File target = new File(filePath);
+        String absolutePath = target.getAbsolutePath();
+        try {
+            //复制文件，如果存在则覆盖
+            Files.copy(file.getInputStream(), Paths.get(absolutePath),REPLACE_EXISTING);
+            String msg=String.format("success: to %s",absolutePath);
+            log.info(msg);
+            return msg;
+        } catch (IOException e) {
+            log.error(e.toString(), e);
+            return e.toString();
+        }
+    }
+}
+```
+
+upload.html:
+
+```html
+<div style="line-height: 3em;width: 50%;font-family: 'Microsoft YaHei UI'">
+    <form  method="post" action="/uploadfile" enctype="multipart/form-data">
+        <input style="margin: auto;width: 100%;font-size: 1.5rem" type="file" name="file"><br>
+        <input style="margin: auto;font-size: 1.5rem" type="submit" value="确定">
+    </form>
+</div>
+```
