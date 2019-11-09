@@ -184,3 +184,17 @@ request_header_access Keep-Alive deny all
 git config --global http.proxy 'http://user:passwd@host:20000'
 git config --global https.proxy 'http://user:passed@host:20000'
 ```
+
+上面的设置已经对该http_proxy进行了密码认证。但是网络上有一堆扫代理的机器，很有可能有人暴力破解这个代理，然后用于访问非法网站。。。
+
+如果用途只是用于代理github，那么建议增加两个配置项：
+
+```
+## 在acl部分
+acl github dstdomain .github.com
+
+## 在http_access部分
+http_access deny !github
+```
+
+这样squid仅仅允许访问github.com了。
