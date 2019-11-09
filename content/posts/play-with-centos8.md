@@ -198,3 +198,5 @@ http_access deny !github
 ```
 
 这样squid仅仅允许访问github.com了。
+
+[squid的一些命令](https://my.oschina.net/u/125259/blog/310289)
