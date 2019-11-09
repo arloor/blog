@@ -57,13 +57,13 @@ hashugo=$(hugo version|grep Hugo) && [ "" != " $hashugo" ] && hugo version || {
 }
 
 # 检查httpd是否安装
-hashttpd=$(rpm -qa httpd) && [ ! -z $hashttpd ] && echo httpd installed ||{
-        echo "install httpd...";
-        yum install httpd -y;
-        service httpd start;
-        systemctl enable httpd;
+nginx=$(rpm -qa nginx) && [ ! -z $nginx ] && echo nginx installed ||{
+        echo "install nginx...";
+        yum install nginx -y;
+        service nginx start;
+        systemctl enable nginx;
 }
 
 cd /root/blog
-hugo -d /var/www/html/
-service httpd reload
+hugo -d /usr/share/nginx/html/
+service nginx reload
