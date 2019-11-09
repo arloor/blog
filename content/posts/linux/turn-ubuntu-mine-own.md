@@ -174,7 +174,7 @@ RestartSec=5
 
 如何修改gnome shell css:直接修改：/usr/share/gnome-shell/theme/ubuntu.css，在最底部加入：
 
-ubuntu 18.04为修改`/usr/share/gnome-shell/theme/ubuntu.css`
+ubuntu 18.10为修改`/usr/share/gnome-shell/theme/ubuntu.css`
 
 ```
 #panel,#panel *{
