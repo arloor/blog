@@ -1,5 +1,5 @@
 ---
-title: "Nginx安装以及反向代理设置(HTTPS)"
+title: "Nginx安装使用：webserver及反向代理"
 date: 2019-08-15T20:38:59+08:00
 draft: false
 categories: [ "undefined"]
@@ -15,7 +15,9 @@ keywords:
 <!--more-->
 
 
-## 添加rpm源安装nginx
+## centos7添加rpm源安装nginx
+
+> centos8直接yum安装即可
 
 ```shell
 rpm -ivh http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm
@@ -42,11 +44,45 @@ req是openssl证书请求的子命令
 
 ```shell
 # vi /etc/nginx/nginx.conf
-worker_processes 1;
+# For more information on configuration, see:
+#   * Official English Documentation: http://nginx.org/en/docs/
+#   * Official Russian Documentation: http://nginx.org/ru/docs/
+
+user nginx;
+worker_processes auto;
+error_log /var/log/nginx/error.log;
+pid /run/nginx.pid;
+
+# Load dynamic modules. See /usr/share/doc/nginx/README.dynamic.
+include /usr/share/nginx/modules/*.conf;
+
 events {
     worker_connections 1024;
 }
+
 http {
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+
+    access_log  /var/log/nginx/access.log  main;
+
+    sendfile            on;
+    tcp_nopush          on;
+    tcp_nodelay         on;
+    keepalive_timeout   65;
+    types_hash_max_size 2048;
+
+    include             /etc/nginx/mime.types;
+    default_type        application/octet-stream;
+
+    # Load modular configuration files from the /etc/nginx/conf.d directory.
+    # See http://nginx.org/en/docs/ngx_core_module.html#include
+    # for more information.
+    include /etc/nginx/conf.d/*.conf;
+
+
+    # github反代开始
     upstream github {
         ip_hash;
         server github.com:443;
@@ -54,7 +90,7 @@ http {
 
     server {
         listen       443 ssl;
-        server_name  localhost;
+        server_name  git.arloor.com;
 
         ssl_certificate      nginx.crt;
         ssl_certificate_key  nginx.key;
@@ -73,13 +109,62 @@ http {
         }
 
     }
-server {
-    listen       80;
-    server_name  localhost;
-    # 返回301状态码，永久重定向
-    rewrite ^(.*)$  https://$host$1 permanent;
+
+    server {
+        listen       80;
+        server_name  git.arloor.com;
+        # 返回301状态码，永久重定向
+        rewrite ^(.*)$  https://$host$1 permanent;
+    }
+    # github反代结束
+
+    # 默认80网站
+    server {
+        listen       80 default_server;
+        listen       [::]:80 default_server;
+        server_name  _;
+        # 博客路径
+	    root         /usr/share/nginx/html;
+
+        # Load configuration files for the default server block.
+        include /etc/nginx/default.d/*.conf;
+
+        location / {
+        }
+
+	    # 上传文件的路径
+        location /upload {
+            root   html;
+            index  index.html index.htm;
+            proxy_pass http://upload/;
+        }
+
+        # 上传文件的路径
+        location /uploadfile {
+            root   html;
+            index  index.html index.htm;
+            proxy_pass http://upload/uploadfile;
+        } 
+
+
+        error_page 404 /404.html;
+            location = /40x.html {
+        }
+
+        error_page 500 502 503 504 /50x.html;
+            location = /50x.html {
+        }
+    }
+
+    # 用于上传文件
+    upstream upload {
+        ip_hash;
+        server localhost:8080;
+    }
+
 }
-}
+
+
 ```
 
 以上配置就完成了80、443端口到github的反向代理。
