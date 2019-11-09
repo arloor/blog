@@ -1,5 +1,5 @@
 ---
-title: "Spring随用随机"
+title: "Spring随用随记"
 date: 2019-11-09T22:13:53+08:00
 draft: false
 categories: [ "undefined"]
