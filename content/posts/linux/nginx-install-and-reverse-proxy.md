@@ -124,7 +124,7 @@ http {
         listen       [::]:80 default_server;
         server_name  _;
         # 博客路径
-	    root         /usr/share/nginx/html;
+        root         /usr/share/nginx/html;
 
         # Load configuration files for the default server block.
         include /etc/nginx/default.d/*.conf;
@@ -132,7 +132,7 @@ http {
         location / {
         }
 
-	    # 上传文件的路径
+        # 上传文件的路径
         location /upload {
             root   html;
             index  index.html index.htm;
