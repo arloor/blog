@@ -417,34 +417,12 @@ trace arloor.com
 
 # 流量转发
 
-**iptables转发静态域名解析（域名指向的ip不变）的host**
 
-写了一个支持域名的iptables转发脚本，执行以下命令即可使用
-
-```shell
-wget -O iptables.sh https://raw.githubusercontent.com/arloor/iptablesUtils/master/iptables.sh;bash iptables.sh;
+```
+wget -qO natcfg.sh https://raw.githubusercontent.com/arloor/iptablesUtils/master/natcfg.sh && bash natcfg.sh
 ```
 
-题外话（自己备忘）：某端口流量转发到本机其他端口：(从localhost访问，这个转发无效)
-
-```shell
-iptables -t nat -A PREROUTING -p tcp --dport 8081 -j REDIRECT --to-ports 8080
-```
-
-**删除本机某端口上的转发**
-
-```shell
-wget -O rmPreNatRule.sh https://raw.githubusercontent.com/arloor/iptablesUtils/master/rmPreNatRule.sh;bash rmPreNatRule.sh 8080[要删除的端口号]
-```
-
-**iptables转发动态解析的域名（ddns）**
-
-执行以下命令
-
-```shell
-wget -O dnat-install.sh https://raw.githubusercontent.com/arloor/iptablesUtils/master/dnat-install.sh
-bash dnat-install.sh
-```
+支持到ddns和静态域名的iptables转发
 
 
 # 搭建网速测试网站
