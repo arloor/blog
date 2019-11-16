@@ -127,9 +127,9 @@ wget --no-check-certificate -qO '/boot/net8/initrd.img' "http://mirrors.aliyun.c
 wget --no-check-certificate -qO '/boot/net8/vmlinuz' "http://mirrors.aliyun.com/centos/8-stream/BaseOS/x86_64/os/isolinux/vmlinuz"
 cat >> /boot/grub2/grub.cfg <<\EOF
 menuentry "centos8-netboot-dhcp-localstage2" {
-       set root=hd0,msdos1	       set root=hd0,msdos1
-       linux16 /boot/net8/vmlinuz ro ip=dhcp nameserver=223.6.6.6 inst.repo=http://mirrors.aliyun.com/centos/8-stream/BaseOS/x86_64/os/ inst.lang=zh_CN inst.keymap=us	       linux16 /boot/net8/vmlinuz ro ip=dhcp nameserver=223.6.6.6 inst.repo=http://mirrors.aliyun.com/centos/8-stream/BaseOS/x86_64/os/  inst.lang=zh_CN inst.keymap=us inst.stage2=hd:/dev/vda1:/boot/net8/squashfs.img
-       initrd16 /boot/net8/initrd.img	       initrd16 /boot/net8/initrd.img
+       set root=hd0,msdos1
+       linux16 /boot/net8/vmlinuz ro ip=dhcp nameserver=223.6.6.6 inst.repo=http://mirrors.aliyun.com/centos/8-stream/BaseOS/x86_64/os/  inst.lang=zh_CN inst.keymap=us inst.stage2=hd:/dev/vda1:/boot/net8/squashfs.img
+       initrd16 /boot/net8/initrd.img
 }	
 EOF
 ```
