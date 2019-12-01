@@ -112,6 +112,7 @@ rmDnat(){
     rmIptablesNat $localport
     #删除临时文件  
     rm -f $base/${1}IP  
+    echo "done!"
 }
 
 testVars(){
