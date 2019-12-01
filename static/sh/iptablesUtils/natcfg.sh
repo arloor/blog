@@ -190,19 +190,19 @@ do
     case $todo in
     增加到域名的转发)
         addDnat
-        break
+        #break
         ;;
     删除到域名的转发)
         rmDnat
-        break
+        #break
         ;;
     增加到IP的转发)
         addSnat
-        break
+        #break
         ;;
     删除到IP的转发)
         rmSnat
-        break
+        #break
         ;;
     列出所有到域名的转发)
         lsDnat
