@@ -89,6 +89,11 @@ UtterancesTheme="github-light"
     weight = 10000
     url = "/about/"
 [[menu.main]]
+    name = "文件"
+    identifier = "file"
+    weight = 10000
+    url = "http://file.arloor.com/"
+[[menu.main]]
     name = "苏ICP备17024437号"
     weight = 99999
     identifier = "苏ICP备17024437号"
