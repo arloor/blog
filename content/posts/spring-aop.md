@@ -30,6 +30,7 @@ keywords:
 使用 jdk 动态代理和 CGlib 代理实现。对接口使用 jdk 动态代理，对只有实现的类提供CGlib代理。Spring 文档推荐对业务类增加接口，然后对接口使用 jdk 动态代理。
 
 > 不要在Controller上使用AOP，因为spring默认使用jdk代理，对controller不生效
+
 > 在进行相关配置后，上面的话就是屁话。例如在SpringBoot中约定aop对controller也生效
 
 ## 应用
