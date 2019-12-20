@@ -33,6 +33,15 @@ keywords:
 
 ## 应用
 
+**增加pom依赖**
+
+```
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-aop</artifactId>
+</dependency>
+```
+
 在实际应用spring aop时，仅仅需要写好@Aspect、@PointCut以及Advice(@Before、@Around等)。下面上一段代码实例；
 
 **切面定义**
