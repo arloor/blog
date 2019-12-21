@@ -118,9 +118,9 @@ xx.xx.xx.xx proxy
 
 # windows 客户端安装
 
-下载[proxygo.exe](https://github.com/arloor/HttpProxy/releases/download/v1.4/proxygo.exe)和[pac.txt](https://github.com/arloor/HttpProxy/releases/download/v1.4/pac.txt)（这两个文件需要在相同文件夹）
+下载[proxygo.exe](https://github.com/arloor/HttpProxy/releases/download/v1.5/proxygo.exe)和[pac.txt](https://github.com/arloor/HttpProxy/releases/download/v1.5/pac.txt)和[proxy.json](https://github.com/arloor/HttpProxy/releases/download/v1.5/proxy.json)。（三个文件需要在同一文件夹）
 
-编辑 C:\Windows\System32\drivers\etc\hosts ，会要求系统管理员权限，点击允许。如果那个文件不能直接编辑，则将他复制出来进行编辑，再移回原文件夹。
+编辑 `C:\Windows\System32\drivers\etc\hosts` ，会要求系统管理员权限，点击允许。如果那个文件不能直接编辑，则将他复制出来进行编辑，再移回原文件夹。
 
 需要在这个文件夹中增加一行`xx.xx.xx.xx proxy`  注意把`xx.xx.xx.xx`换成自己服务器的ip。注意这一行前面不要加`#`哦。
 
