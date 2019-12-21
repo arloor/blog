@@ -220,8 +220,8 @@ request_header_access Keep-Alive deny all
 这样git就可以使用这个代理了。
 
 ```
-git config --global http.proxy 'http://user:passwd@host:20000'
-git config --global https.proxy 'http://user:passed@host:20000'
+git config --global http.proxy "http://user:passwd@host:20000"
+git config --global https.proxy "http://user:passed@host:20000"
 ```
 
 上面的设置已经对该http_proxy进行了密码认证。但是网络上有一堆扫代理的机器，很有可能有人暴力破解这个代理，然后用于访问非法网站。。。
