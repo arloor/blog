@@ -1,7 +1,7 @@
 ---
 title: "Deep Learning"
 date: 2019-11-16T00:23:54+08:00
-draft: false
+draft: true
 categories: [ "undefined"]
 tags: ["undefined"]
 weight: 10
