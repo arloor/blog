@@ -68,6 +68,39 @@ service elasticsearch restart
 
 或[https://www.elastic.co/guide/en/elasticsearch/reference/6.6/index.html](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/index.html)
 
+## 新建索引
 
+以下操作在`elasticsearch-head`操作
 
+```
+put /users
+
+{
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 0
+  },
+  "mappings": {
+    "user": {
+      "properties": {
+        "name": {
+          "type": "text"
+        }
+      }
+    }
+  }
+}
+```
+
+- index_name只能是小写，且不能出现一些特殊字符
+- `number_of_replicas`副本数量在这里设置成0.因为是单节点的es，设置大于0的副本数不起作用，且在head中会看到`unassigned`。
+
+## 增加document
+
+```
+PUT users/user/1
+{
+  "name":"刘港欢"
+}
+```
 
