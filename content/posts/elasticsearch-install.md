@@ -62,4 +62,12 @@ service elasticsearch restart
 
 直接使用chrome扩展：[https://chrome.google.com/webstore/detail/elasticsearch-head/ffmkiejjmecolpfloofpjologoblkegm/](https://chrome.google.com/webstore/detail/elasticsearch-head/ffmkiejjmecolpfloofpjologoblkegm/)
 
+## 官方文档
+
+[https://esdoc.arloor.com/guide/en/elasticsearch/reference/6.6/index.html](https://esdoc.arloor.com/guide/en/elasticsearch/reference/6.6/index.html)
+
+或[https://www.elastic.co/guide/en/elasticsearch/reference/6.6/index.html](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/index.html)
+
+
+
 
