@@ -77,13 +77,23 @@ systemctl start nftables
 
 ## 一些其他情况
 
-关于端口段的nat，只需要在脚本中采取如下变现形式：
+**1** 关于端口段的nat，只需要在脚本中采取如下变现形式：
 
 ```
 nft add rule ip nat PREROUTING tcp dport 20000-30000 counter dnat to 8.8.8.8:20000-30000
 ```
 
 要注意，源端口段和目标端口段一定要一样，不然nat会出现不符合预期的情况。
+
+**2**  nat转发首先需要开启ip_forward功能
+
+```
+    echo "端口转发开启"
+    sed -n '/^net.ipv4.ip_forward=1/'p /etc/sysctl.conf | grep -q "net.ipv4.ip_forward=1"
+    if [ $? -ne 0 ]; then
+        echo -e "net.ipv4.ip_forward=1" >> /etc/sysctl.conf && sysctl -p
+    fi
+```
 
 ## 参考文档
 
