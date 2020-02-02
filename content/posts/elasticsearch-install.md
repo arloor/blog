@@ -18,15 +18,15 @@ keywords:
 
 ## 安装
 
+一开始下载tar.gz然后手动起的，一执行报个错说不能用root用户启动，索性直接用rpm安装，帮你把所有事情做好，包括设置systemd服务，这样很爽
+<!--more-->
+
 ```shell
 wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.6.2.rpm
 wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.6.2.rpm.sha512
 shasum -a 512 -c elasticsearch-6.6.2.rpm.sha512 
 sudo rpm --install elasticsearch-6.6.2.rpm
 ```
-<!--more-->
-
-一开始下载tar.gz然后手动起的，一执行报个错说不能用root用户启动，索性直接用rpm安装，帮你把所有事情做好，包括设置systemd服务，这样很爽
 
 贴一下官方文档:[https://www.elastic.co/guide/en/elasticsearch/reference/6.6/rpm.html](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/rpm.html)
 
