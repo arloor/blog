@@ -84,3 +84,7 @@ nft add rule ip nat PREROUTING tcp dport 20000-30000 counter dnat to 8.8.8.8:200
 ```
 
 要注意，源端口段和目标端口段一定要一样，不然nat会出现不符合预期的情况。
+
+## 参考文档
+
+[redhat8 nftables](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/configuring_and_managing_networking/getting-started-with-nftables_configuring-and-managing-networking)
