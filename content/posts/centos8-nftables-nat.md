@@ -32,8 +32,8 @@ add chain nat POSTROUTING { type nat hook postrouting priority 100 ; }
 add rule ip nat PREROUTING tcp dport $localPort counter dnat to $remoteIP:$remotePort
 add rule ip nat PREROUTING udp dport $localPort counter dnat to $remoteIP:$remotePort
 # masquerade为自动寻找网卡ip
-# nft add rule ip nat POSTROUTING ip daddr 47.52.154.91 tcp dport 8100 counter masquerade
-# nft add rule ip nat POSTROUTING ip daddr 47.52.154.91 udp dport 8100 counter masquerade
+# add rule ip nat POSTROUTING ip daddr $remoteIP tcp dport $remotePort counter masquerade
+# add rule ip nat POSTROUTING ip daddr $remoteIP tcp dport $remotePort counter masquerade
 add rule ip nat POSTROUTING ip daddr $remoteIP tcp dport $remotePort counter snat to $localIP
 add rule ip nat POSTROUTING ip daddr $remoteIP udp dport $remotePort counter snat to $localIP
 ```
