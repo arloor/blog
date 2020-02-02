@@ -62,13 +62,13 @@ chmod u+x /etc/nftables/diy.nft
 include "/etc/nftables/diy.nft"
 ```
 
-**2** 开机运行相关systemd服务
+**2** 开机运行该脚本
 
 ```
 systemctl enable nftables
 ```
 
-**3** 不重启，立即执行改systemd服务
+**3** 不重启，立即执行该脚本
 
 ```
 systemctl start nftables
@@ -77,7 +77,7 @@ systemctl start nftables
 
 ## 一些其他情况
 
-**1** 关于端口段的nat，只需要在脚本中采取如下变现形式：
+**1** 关于端口段的nat，只需要在脚本中采取如下表现形式：
 
 ```
 nft add rule ip nat PREROUTING tcp dport 20000-30000 counter dnat to 8.8.8.8:20000-30000
