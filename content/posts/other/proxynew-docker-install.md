@@ -81,9 +81,9 @@ windows系统的朋友不需要做这一小节说的东西哈
 sudo su
 mkdir /usr/local/proxy
 cd /usr/local/proxy
-wget --no-check-certificate -O proxy.json https://github.com/arloor/HttpProxy/releases/download/v1.5/proxy.json
-wget --no-check-certificate -O pac.txt https://github.com/arloor/HttpProxy/releases/download/v1.5/pac.txt
-wget --no-check-certificate -O proxygo https://github.com/arloor/HttpProxy/releases/download/v1.5/proxygo
+wget --no-check-certificate -O proxy.json http://file.arloor.com/proxygo/proxy.json
+wget --no-check-certificate -O pac.txt http://file.arloor.com/proxygo/pac.txt
+wget --no-check-certificate -O proxygo http://file.arloor.com/proxygo/proxygo
 chmod +x proxygo
 
 cat > /lib/systemd/system/proxy.service <<EOF
