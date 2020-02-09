@@ -52,3 +52,24 @@ java的Future接口很简单，取消、阻塞等待完成、检查是否被取�
 
 [Github地址](https://github.com/arloor/Future)
 
+测试类
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        ExecutorService pool = Executors.newFixedThreadPool(1);
+        FutureListener listener = (someFutureTask -> {
+            System.out.println("任务完成");
+            System.out.println("结果是："+someFutureTask.get0());
+        });
+        SomeFutureTask<String> someFutureTask =
+                new SomeFutureTask<String>(() -> "done").addListener(listener); // 增加listener
+        pool.execute(someFutureTask);
+        pool.execute(someFutureTask);
+        pool.execute(someFutureTask);
+        // 关闭线程池
+//        pool.shutdownNow();
+    }
+}
+```
+
