@@ -15,6 +15,8 @@ keywords:
 
 ![](/img/netty-future-promise-uml.png)
 
+<!--more-->
+
 ## java Future
 
 ```java
