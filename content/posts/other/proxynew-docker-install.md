@@ -79,11 +79,11 @@ windows系统的朋友不需要做这一小节说的东西哈
 
 ```shell
 sudo su
-mkdir /usr/local/proxy
+mkdir /usr/local/proxys
 cd /usr/local/proxy
-wget --no-check-certificate -O proxy.json http://file.arloor.com/proxygo/proxy.json
-wget --no-check-certificate -O pac.txt http://file.arloor.com/proxygo/pac.txt
-wget --no-check-certificate -O proxygo http://file.arloor.com/proxygo/proxygo
+wget --no-check-certificate -O proxy.json https://cdn.arloor.com/proxygo/proxy.json
+wget --no-check-certificate -O pac.txt https://cdn.arloor.com/proxygo/pac.txt
+wget --no-check-certificate -O proxygo https://cdn.arloor.com/proxygo/proxygo
 chmod +x proxygo
 
 cat > /lib/systemd/system/proxy.service <<EOF
@@ -118,7 +118,7 @@ xx.xx.xx.xx proxy
 
 # windows 客户端安装
 
-下载[proxygo.exe](https://github.com/arloor/HttpProxy/releases/download/v1.5/proxygo.exe)和[pac.txt](https://github.com/arloor/HttpProxy/releases/download/v1.5/pac.txt)和[proxy.json](https://github.com/arloor/HttpProxy/releases/download/v1.5/proxy.json)。（三个文件需要在同一文件夹）
+下载[proxygo.exe](https://cdn.arloor.com/proxygo/proxygo.exe)和[pac.txt](https://cdn.arloor.com/proxygo/pac.txt)和[proxy.json](https://cdn.arloor.com/proxygo/proxy.json)。（三个文件需要在同一文件夹）
 
 编辑 `C:\Windows\System32\drivers\etc\hosts` ，会要求系统管理员权限，点击允许。如果那个文件不能直接编辑，则将他复制出来进行编辑，再移回原文件夹。
 
