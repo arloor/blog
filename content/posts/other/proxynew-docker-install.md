@@ -134,7 +134,7 @@ xx.xx.xx.xx proxy
 2. 访问[http://127.0.0.1:9999/pac](http://127.0.0.1:9999/pac)。如果不能访问则说明客户端启动失败；如果看到“404 page not found”说明pac.txt与exe文件不在同一文件夹中
 3. 查看系统代理设置，是否使用了本代理：是否是pac模式，pac地址 http://127.0.0.1:9999/pac
 4. 查看浏览器的代理设置是否被插件修改，例如SwitchyOmega
-5. 如果还是不行，请联系 admin@arloor.com, 只要方便，一定解答
+5. 如果还是不行，请联系 admin@arloor.com
 
 # 设置客户端开机启动
 
