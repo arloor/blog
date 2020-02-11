@@ -132,3 +132,65 @@ test
 switched to db test
 > 
 ```
+
+
+## 增加用户
+
+使用`mongo`进入交互终端
+
+```shell
+use admin
+
+db.createUser(
+  {
+    user: "superuser",
+    pwd: "changeMeToAStrongPassword",
+    roles: [ "root" ]
+  }
+)
+
+show users
+
+# {
+#    "_id" : "admin.superuser",
+#    "userId" : UUID("7c2aee5c-6af5-4e25-ae0f-4422c6a8a03c"),
+#    "user" : "superuser",
+#    "db" : "admin",
+#    "roles" : [
+#            {
+#              "role" : "root",
+#              "db" : "admin"
+#            }
+#    ],
+#    "mechanisms" : [
+#            "SCRAM-SHA-1",
+#            "SCRAM-SHA-256"
+#    ]
+#  }
+
+db.shutdownServer() #关闭
+exit
+```
+
+## 开启用户认证
+
+修改配置文件
+
+```
+vim /etc/mongod.conf
+
+## 增加如下：
+security:
+  authorization: "enabled"
+```
+
+启动mongod
+
+```
+service mongod start
+```
+
+进入mongo交互终端
+
+```
+mongo -u superuser  -p changeMeToAStrongPassword
