@@ -13,6 +13,8 @@ keywords:
 
 参考文档:[linuxconfig.org](https://linuxconfig.org/how-to-install-mongodb-on-redhat-8)
 
+<!--more-->
+
 ## 安装过程
 
 **1** 下载安装包到`/opt`，并解压缩，创建文件夹的软链接
