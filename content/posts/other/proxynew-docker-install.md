@@ -79,7 +79,7 @@ windows系统的朋友不需要做这一小节说的东西哈
 
 ```shell
 sudo su
-mkdir /usr/local/proxys
+mkdir /usr/local/proxy
 cd /usr/local/proxy
 wget --no-check-certificate -O proxy.json https://cdn.arloor.com/proxygo/proxy.json
 wget --no-check-certificate -O pac.txt https://cdn.arloor.com/proxygo/pac.txt
