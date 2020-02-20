@@ -194,3 +194,13 @@ service mongod start
 
 ```
 mongo -u superuser  -p changeMeToAStrongPassword
+```
+
+v=node-v10.19.0-linux-x64
+wget https://nodejs.org/dist/latest-v10.x/node-v10.19.0-linux-x64.tar.xz
+tar xf  ${v}.tar.xz  -C /opt
+ln -fs /opt/${v}/bin/npm   /usr/local/bin/ 
+ln -fs /opt/${v}/bin/node   /usr/local/bin/
+node -v
+git clone https://github.com/handshake-org/hs-airdrop.git
+cd hs-airdrop && npm install
