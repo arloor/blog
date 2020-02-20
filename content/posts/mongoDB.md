@@ -196,11 +196,13 @@ service mongod start
 mongo -u superuser  -p changeMeToAStrongPassword
 ```
 
-v=node-v10.19.0-linux-x64
-wget https://nodejs.org/dist/latest-v10.x/node-v10.19.0-linux-x64.tar.xz
-tar xf  ${v}.tar.xz  -C /opt
-ln -fs /opt/${v}/bin/npm   /usr/local/bin/ 
-ln -fs /opt/${v}/bin/node   /usr/local/bin/
-node -v
-git clone https://github.com/handshake-org/hs-airdrop.git
-cd hs-airdrop && npm install
+```
+yum install epel-release -y
+yum install gcc gettext autoconf libtool automake make pcre-devel asciidoc xmlto c-ares-devel libev-devel libsodium-devel mbedtls-devel -y
+export http_proxy=http://localhost:8081
+export https_proxy=http://localhost:8081
+wget https://github.com/shadowsocks/shadowsocks-libev/releases/download/v3.3.4/shadowsocks-libev-3.3.4.tar.gz
+tar -zxvf shadowsocks-libev-3.3.4.tar.gz
+./configure --disable-documentation
+make && make install
+    ```
