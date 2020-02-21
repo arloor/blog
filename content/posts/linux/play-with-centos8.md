@@ -239,3 +239,72 @@ http_access deny !github
 这样squid仅仅允许访问github.com了。
 
 [squid的一些命令](https://my.oschina.net/u/125259/blog/310289)
+
+## 安装ss-libev
+
+```shell
+# 安装依赖
+yum install gcc gettext autoconf libtool automake make pcre-devel asciidoc xmlto c-ares-devel libev-devel -y
+# 安装libsodium
+libsodium_file="libsodium-1.0.17"
+libsodium_url="https://github.com/jedisct1/libsodium/releases/download/1.0.17/libsodium-1.0.17.tar.gz"
+wget -O "${libsodium_file}.tar.gz" "${libsodium_url}"
+tar zxf ${libsodium_file}.tar.gz
+cd ${libsodium_file}
+./configure --prefix=/usr && make && make install
+# 安装mbedtls
+mbedtls_file="mbedtls-2.16.0"
+mbedtls_url="https://tls.mbed.org/download/mbedtls-2.16.0-gpl.tgz"
+wget -O "${mbedtls_file}-gpl.tgz" "${mbedtls_url}"
+tar xf ${mbedtls_file}-gpl.tgz
+cd ${mbedtls_file}
+make SHARED=1 CFLAGS=-fPIC
+make DESTDIR=/usr install
+# 安装ss-libev
+wget -O shadowsocks-libev-3.3.4.tar.gz https://github.com/shadowsocks/shadowsocks-libev/releases/download/v3.3.4/shadowsocks-libev-3.3.4.tar.gz
+tar zxf shadowsocks-libev-3.3.4.tar.gz
+cd shadowsocks-libev-3.3.4
+./configure --disable-documentation
+make && make install
+# 配置动态库链接地址
+sed -n '/^\/usr\/local\/lib/'p /etc/ld.so.conf.d/local.conf | grep -q "/usr/local/lib"
+if [ $? -ne 0 ]; then
+    echo -e "/usr/local/lib" >> /etc/ld.so.conf.d/local.conf && ldconfig
+fi
+# 配置
+mkdir /etc/shadowsocks-libev
+cat > /etc/shadowsocks-libev/config.json <<EOF
+{
+    "server":"0.0.0.0",
+    "server_port":10000,
+    "password":"passwd",
+    "timeout":300,
+    "user":"nobody",
+    "method":"aes-256-gcm",
+    "fast_open":false,
+    "nameserver":"8.8.8.8",
+    "mode":"tcp_and_udp"
+}
+EOF
+
+cat > /lib/systemd/system/ss.service <<EOF
+[Unit]
+Description=ss-server
+Documentation=man:shadowsocks-libev(8)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/ss-server -c /etc/shadowsocks-libev/config.json
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+systemctl enable ss
+systemctl daemon-reload
+systemctl start ss
+```

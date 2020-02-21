@@ -196,7 +196,10 @@ service mongod start
 mongo -u superuser  -p changeMeToAStrongPassword
 ```
 
-```
+
+## fedora31安装shadowsocks-libev
+
+```shell
 yum install epel-release -y
 yum install gcc gettext autoconf libtool automake make pcre-devel asciidoc xmlto c-ares-devel libev-devel libsodium-devel mbedtls-devel -y
 export http_proxy=http://localhost:8081
@@ -205,4 +208,6 @@ wget https://github.com/shadowsocks/shadowsocks-libev/releases/download/v3.3.4/s
 tar -zxvf shadowsocks-libev-3.3.4.tar.gz
 ./configure --disable-documentation
 make && make install
-    ```
+```
+
+
