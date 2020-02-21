@@ -308,3 +308,16 @@ systemctl enable ss
 systemctl daemon-reload
 systemctl start ss
 ```
+
+## fedora31安装shadowsocks-libev
+
+```shell
+yum install epel-release -y
+yum install gcc gettext autoconf libtool automake make pcre-devel asciidoc xmlto c-ares-devel libev-devel libsodium-devel mbedtls-devel -y
+export http_proxy=http://localhost:8081
+export https_proxy=http://localhost:8081
+wget https://github.com/shadowsocks/shadowsocks-libev/releases/download/v3.3.4/shadowsocks-libev-3.3.4.tar.gz
+tar -zxvf shadowsocks-libev-3.3.4.tar.gz
+./configure --disable-documentation
+make && make install
+```

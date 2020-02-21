@@ -196,18 +196,41 @@ service mongod start
 mongo -u superuser  -p changeMeToAStrongPassword
 ```
 
+## java编程
 
-## fedora31安装shadowsocks-libev
+依赖：
 
-```shell
-yum install epel-release -y
-yum install gcc gettext autoconf libtool automake make pcre-devel asciidoc xmlto c-ares-devel libev-devel libsodium-devel mbedtls-devel -y
-export http_proxy=http://localhost:8081
-export https_proxy=http://localhost:8081
-wget https://github.com/shadowsocks/shadowsocks-libev/releases/download/v3.3.4/shadowsocks-libev-3.3.4.tar.gz
-tar -zxvf shadowsocks-libev-3.3.4.tar.gz
-./configure --disable-documentation
-make && make install
+```xml
+<dependency>
+  <groupId>org.mongodb</groupId>
+  <artifactId>mongodb-driver-sync</artifactId>
+  <version>3.12.1</version>
+</dependency>
 ```
 
+简单使用：
+
+```java
+        final String uriString = "mongodb://superuser:changeMeToAStrongPassword@arloor.com:27017/";
+        MongoClient mongoClient = MongoClients.create(uriString);
+        //展示所有数据库
+        MongoCursor<String> iterator = mongoClient.listDatabaseNames().iterator();
+        while (iterator.hasNext()){
+            String next = iterator.next();
+            System.out.println(next);
+        }
+
+        MongoDatabase database = mongoClient.getDatabase("test");
+        MongoCollection<Document> collection = database.getCollection("a");
+        Document doc = new Document("name", "MongoDB")
+                .append("type", "database")
+                .append("count", 1)
+                .append("versions", Arrays.asList("v3.2", "v3.0", "v2.6"))
+                .append("info", new Document("x", 203).append("y", 102));
+        collection.insertOne(doc);
+```
+
+更多请参加[mongoDB java driver](http://mongodb.github.io/mongo-java-driver/4.0/driver/)
+
+请注意，mongoDB的java driver分同步和异步两种
 
