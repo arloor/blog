@@ -81,6 +81,71 @@ http {
     # for more information.
     include /etc/nginx/conf.d/*.conf;
 
+    # 默认80网站
+    server {
+        listen       80 default_server;
+        listen       [::]:80 default_server;
+        server_name  _;
+        # 博客路径
+        root         /usr/share/nginx/html;
+
+        # Load configuration files for the default server block.
+        include /etc/nginx/default.d/*.conf;
+
+        location / {
+        }
+
+        # 上传文件的路径
+        # /upload 映射到http://{$upload}/  注意url末尾的“/”加或不加会有区别
+        location /upload {
+            root   html;
+            index  index.html index.htm;
+            proxy_pass http://upload/;
+        }
+
+        # 上传文件的路径
+        # /uploadfile 映射到http://{$upload}/uploadfile 注意url末尾的“/”加或不加会有区别
+        location /uploadfile {
+            root   html;
+            index  index.html index.htm;
+            proxy_pass http://upload/uploadfile;
+        } 
+
+
+        error_page 404 /404.html;
+            location = /40x.html {
+        }
+
+        error_page 500 502 503 504 /50x.html;
+            location = /50x.html {
+        }
+    }
+
+    # 用于上传文件
+    upstream upload {
+        ip_hash;
+        server localhost:8080;
+    }
+
+    server {
+        listen       80;
+        server_name  file.arloor.com moontell.cn;
+
+
+        location / {
+            root   html;
+            index  index.html index.htm;
+            client_max_body_size 0;
+            proxy_pass http://upload;
+            # 因为是本地服务，还是要把IP等信息传过去的（不需要高匿，反而需要客户的真实信息）
+            proxy_set_header    Host             $host;#保留代理之前的host
+            proxy_set_header    X-Real-IP        $remote_addr;#保留代理之前的真实客户端ip
+            proxy_set_header    X-Forwarded-For  $proxy_add_x_forwarded_for;
+            proxy_set_header    HTTP_X_FORWARDED_FOR $remote_addr;#在多级代理的情况下，记录每次代理之前的客户端真实ip
+            proxy_redirect      default;#指定修改被代理服务器返回的响应头中的location头域跟refresh头域数值
+        }
+    }
+    # 用于上传文件结束
 
     # github反代开始
     upstream github {
@@ -117,51 +182,6 @@ http {
         rewrite ^(.*)$  https://$host$1 permanent;
     }
     # github反代结束
-
-    # 默认80网站
-    server {
-        listen       80 default_server;
-        listen       [::]:80 default_server;
-        server_name  _;
-        # 博客路径
-        root         /usr/share/nginx/html;
-
-        # Load configuration files for the default server block.
-        include /etc/nginx/default.d/*.conf;
-
-        location / {
-        }
-
-        # 上传文件的路径
-        location /upload {
-            root   html;
-            index  index.html index.htm;
-            proxy_pass http://upload/;
-        }
-
-        # 上传文件的路径
-        location /uploadfile {
-            root   html;
-            index  index.html index.htm;
-            proxy_pass http://upload/uploadfile;
-        } 
-
-
-        error_page 404 /404.html;
-            location = /40x.html {
-        }
-
-        error_page 500 502 503 504 /50x.html;
-            location = /50x.html {
-        }
-    }
-
-    # 用于上传文件
-    upstream upload {
-        ip_hash;
-        server localhost:8080;
-    }
-
 }
 ```
 
