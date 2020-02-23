@@ -130,7 +130,7 @@ fi
 ## 使用方式：
 
 ```
-wget -O nat http://cdn.arloor.com/nat
+wget -O nat http://cdn.arloor.com/tool/nat
 chmod +x nat
 ./nat nat.conf
 ```
