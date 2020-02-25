@@ -92,7 +92,7 @@ paginate = 10
     name = "文件"
     identifier = "file"
     weight = 10000
-    url = "http://arloor.com:8080/"
+    url = "http://pan.arloor.com/"
 [[menu.main]]
     name = "苏ICP备17024437号"
     weight = 99999
