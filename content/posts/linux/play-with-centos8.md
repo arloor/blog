@@ -321,3 +321,54 @@ tar -zxvf shadowsocks-libev-3.3.4.tar.gz
 ./configure --disable-documentation
 make && make install
 ```
+
+## 配置dns
+
+首要要是知道，centos8使用NetworkManager.service来配置网络，而不是centos7默认的network.service
+
+我们已经熟悉centos7中配置dns的方式了：
+
+在`/etc/sysconfig/network-scripts/ifcfg-ethx`中增加:
+
+```
+PEERDNS=no
+DNS1=233.6.6.6
+DNS2=233.5.5.5
+```
+
+然后`service network restart`生效。
+
+`PEERDNS=no`指，不将远端dhcp-server（前提：BOOTPROTO=dhcp）发来dns写入/etc/resolv.conf。而是使用DNS1、DNS2
+
+在centos8中，NetworkManager.service依然兼容ifcfg-xxxx脚本的方式来配置网络，所以以上方案仍然可行。只不过，不懂为什么centos8的ifcfg脚本默认加上双引号：
+
+```
+PEERDNS="no"
+DNS1="223.6.6.6"
+DNS2="223.5.5.5"
+```
+
+而且最后应该执行`service NetworkManager restart`，使生效。
+
+关于PEERDNS的解释，可以看`service network restart`的一段解释：
+
+> PEERDNS=no to mean "never touch resolv.conf". NetworkManager interprets it to say "never add automatic (DHCP, PPP, VPN, etc.) nameservers to resolv.conf".   
+
+另一种方案： 让NetWorkManager不管理DNS，由用户自己管理`/etc/resolv.conf`
+
+```
+cat > /etc/NetworkManager/conf.d/90-dns-none.conf <<EOF
+[main]
+dns=none
+EOF
+```
+
+自己在/etc/resolv.conf写入：
+
+```
+search localdomain #意义不明，不知道要不要加
+nameserver 223.6.6.6
+nameserver 223.5.5.5
+```
+
+然后`systemctl reload NetworkManager`

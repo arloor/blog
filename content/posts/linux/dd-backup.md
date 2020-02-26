@@ -185,14 +185,15 @@ DNS3=114.114.114.114
 
 10 PEERDNS
 
-- 是否在这里定义网卡的DNS
-- yes：如果DNS{1、2}设置，则写入/etc/resolv.conf，作为系统DNS;
-- no：即使DNS{1、2}设置，也不写入/etc/resolv.conf
-- BOOTPROTO为dhcp时，dhcp会自动设置DNS服务器，不需要设置PEERDNS
+- 是否自动从自动获取IP的方式（如dhcp）中获取DNS写入`/etc/resolv.conf`
+- no：不从dhcp获取dns，而是使用配置的DNS1、DNS2;
+- yes：使用dhcp获取的dns
+- BOOTPROTO为dhcp时，dhcp会自动设置DNS服务器，此时PEERDNS默认为yes，意味着使用DHCP指定的dns
+- BOOTPROTO不为自动获取ip时，此时PEERDNS默认为no，需要设置DNS1、DNS2作为dns
 
 11 DNS{1, 2}
 
-- DNS地址。当PEERDNS为yes时会被写入/etc/resolv.conf中。
+- DNS地址。当PEERDNS为no时会被写入/etc/resolv.conf中。
 
 12 NM_CONTROLLED
 
