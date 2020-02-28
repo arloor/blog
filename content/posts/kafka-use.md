@@ -19,15 +19,13 @@ keywords:
 wget -O kafka_2.12-2.4.0.tgz https://downloads.apache.org/kafka/2.4.0/kafka_2.12-2.4.0.tgz
 tar -xzf kafka_2.12-2.4.0.tgz
 cd kafka_2.12-2.4.0
-#启动zookeeper
-(bin/zookeeper-server-start.sh config/zookeeper.properties &)
-
-
 vim config/server.properties
 #内网ip
 #listeners=PLAINTEXT://192.168.0.115:9092
 #外网ip
 #advertised.listeners=PLAINTEXT://121.36.xx.xx:9092
+#启动zookeeper
+(bin/zookeeper-server-start.sh config/zookeeper.properties &)
 #启动kafka
 (bin/kafka-server-start.sh config/server.properties &)
 # 创建topic
@@ -39,5 +37,7 @@ jps -l
 ```
 
 ## demo
+
+没错，我就是kafa都需要demo的人
 
 [丑陋的demo](https://github.com/arloor/kafka-demo)
