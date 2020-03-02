@@ -126,9 +126,9 @@ Please enter phone number:
 
 内容：tdjni.dll(需要放在`-Djava.library.path=`指定的目录)； `dll/`路径下还有三个dll，需要放在系统的path中，供tdjni.dll动态链接。
 
-## 创建 Idea maven项目
+## Idea maven项目
 
-以上，我们成功运行了示例代码，那么应该如何使用tdjni.dll自己开发玩具呢？请看[arloor/tdlib-use](https://github.com/arloor/tdlib-use)
+以上很麻烦吧，那么如何跳过以上步骤，直接享受开发的乐趣呢？请看[arloor/tdlib-use](https://github.com/arloor/tdlib-use)
 
 运行说明：
 
