@@ -211,5 +211,5 @@ Install the project...
 运行：
 
 ```
-java -Dnoproxy=true -Djava.library.path=/usr/local/bin  -jar tdlib-use-1.0-SNAPSHOT-jar-with-dependencies.jar 
+java -Dproxy=http -Djava.library.path=/usr/local/bin  -jar tdlib-use-1.0-SNAPSHOT-jar-with-dependencies.jar
 ```
