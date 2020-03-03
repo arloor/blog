@@ -141,3 +141,73 @@ Please enter phone number:
 - 点击运行，会进入电报登录过程
 
 更多情况，还请移步Github
+
+放一张效果图，打印出所有文字消息：
+
+![](/img/tdlib-use-msgs.png)
+
+## centos8 编译tdjni.so和安装相关依赖
+
+```
+yum install -y gcc gcc-c++ git make cmake openssl-devel zlib-devel php
+wget -O gperf-3.1.tar.gz  http://ftp.gnu.org/pub/gnu/gperf/gperf-3.1.tar.gz
+tar xf gperf-3.1.tar.gz
+cd gperf-3.1
+BUILD_LIBS=${HOME}/build_libs
+export PATH=${BUILD_LIBS}/bin:${PATH}
+export PKG_CONFIG_PATH=${BUILD_LIBS}/lib/pkgconfig:${PKG_CONFIG_PATH}
+if [ -f autogen.sh ]; then
+    ./autogen.sh
+fi
+./configure \
+    --prefix=${BUILD_LIBS} \
+    CFLAGS="-I${BUILD_LIBS}/include" \
+    LDFLAGS="-L${BUILD_LIBS}/lib"
+make
+make install
+cp src/gperf ${BUILD_LIBS}/bin
+cd ~
+
+##自行安装jdk8 
+## 并确定JAVA_HOME，我的是/usr/java/jdk1.8.0_131 所以下文cmake我添加了-DJAVA_HOME=/usr/java/jdk1.8.0_131/
+
+rm -rf td
+git clone https://github.com/tdlib/td.git
+cd td
+git checkout v1.6.0
+rm -rf build
+mkdir build
+cd build
+export CXXFLAGS=""
+cmake -DCMAKE_BUILD_TYPE=Release -DJAVA_HOME=/usr/java/jdk1.8.0_131/ -DCMAKE_INSTALL_PREFIX:PATH=../example/java/td -DTD_ENABLE_JNI=ON ..
+cmake --build . --target install
+cd ..
+cd example/java
+rm -rf build
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Release -DJAVA_HOME=/usr/java/jdk1.8.0_131/ -DCMAKE_INSTALL_PREFIX:PATH=/usr/local -DTd_DIR:PATH=$(readlink -e ../td/lib/cmake/Td) ..
+cmake --build . --target install
+cd ../../..
+cd ..
+ls -l /usr/local
+```
+
+看到以下，则说明编译成功，libtdjni.so在`/usr/local/bin/libtdjni.so`
+
+
+
+```
+[100%] Built target tdjni
+Install the project...
+-- Install configuration: "Release"
+-- Installing: /usr/local/bin/libtdjni.so
+-- Set runtime path of "/usr/local/bin/libtdjni.so" to ""
+```
+
+
+运行：
+
+```
+java -Dnoproxy=true -Djava.library.path=/usr/local/bin  -jar tdlib-use-1.0-SNAPSHOT-jar-with-dependencies.jar 
+```
