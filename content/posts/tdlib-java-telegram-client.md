@@ -148,6 +148,8 @@ Please enter phone number:
 
 ## centos8 编译tdjni.so和安装相关依赖
 
+> centos7不用尝试了，cmake版本不符合要求
+
 ```
 yum install -y gcc gcc-c++ git make cmake openssl-devel zlib-devel php
 wget -O gperf-3.1.tar.gz  http://ftp.gnu.org/pub/gnu/gperf/gperf-3.1.tar.gz
