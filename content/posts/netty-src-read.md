@@ -161,5 +161,39 @@ For convenience, consider putting a HttpServerCodec before the HttpObjectAggrega
 
 看到这些，觉得我的HttpProxy可以重写了，站在netty的头上（之前在肩膀上），直接利用HttpCodec来解析请求、编码相应，netty Yes！
 
+## 收获三：http1.1 keepAlive的netty代码
+
+
+```
+    @Override
+    public void channelRead0(ChannelHandlerContext ctx, HttpObject msg) {
+        if (msg instanceof HttpRequest) {//仅处理init line和请求头，请求体不看
+            HttpRequest req = (HttpRequest) msg;
+
+            boolean keepAlive = HttpUtil.isKeepAlive(req); //这里面的逻辑是http1.0需要显示connection：keepAlive,http1.1默认keepALive除非connection:close
+            FullHttpResponse response = new DefaultFullHttpResponse(req.protocolVersion(), OK,
+                                                                    Unpooled.wrappedBuffer(CONTENT));
+            response.headers()
+                    .set(CONTENT_TYPE, TEXT_PLAIN)
+                    .setInt(CONTENT_LENGTH, response.content().readableBytes());
+
+            if (keepAlive) {
+                if (!req.protocolVersion().isKeepAliveDefault()) {
+                    response.headers().set(CONNECTION, KEEP_ALIVE);
+                }
+            } else {
+                // Tell the client we're going to close the connection.
+                response.headers().set(CONNECTION, CLOSE);
+            }
+
+            ChannelFuture f = ctx.write(response);
+
+            if (!keepAlive) {//如果不是长连接，写完成就Close Socket
+                f.addListener(ChannelFutureListener.CLOSE);
+            }
+        }
+    }
+```
+
 
 
