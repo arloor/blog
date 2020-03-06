@@ -117,7 +117,7 @@ List<String> ciphers = Arrays.asList("ECDHE - RSA - AES128 - SHA", "ECDHE - RSA 
 SslContext sslContext = SslContextBuilder.forServer(ssc.certificate(), ssc.privateKey()).sslProvider( SslProvider.OPENSSL).ciphers(ciphers).build();
 ```
 
-## 收获二：netty 编解码请求和响应
+## 收获二：netty 编解码Http请求和响应
 
 两种方式：
 
