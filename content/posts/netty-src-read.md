@@ -161,7 +161,11 @@ For convenience, consider putting a HttpServerCodec before the HttpObjectAggrega
 
 看到这些，觉得我的HttpProxy可以重写了，站在netty的头上（之前在肩膀上），直接利用HttpCodec来解析请求、编码相应，netty Yes！
 
-**2020-03-06更新** 站在netty头上的Httpproxy来了，地址：[arloor/forwardproxy](https://github.com/arloor/forwardproxy) 500行的http1.1代理
+**2020-03-06更新** 
+
+站在netty头上的Httpproxy来了，地址：[arloor/forwardproxy](https://github.com/arloor/forwardproxy) 
+
+500行的http1.1代理
 
 ## 收获三：http1.1 keepAlive的netty代码
 
