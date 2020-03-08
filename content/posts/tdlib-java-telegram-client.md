@@ -13,6 +13,8 @@ keywords:
 
 玩电报比较久了，电报的生态真的很开放，允许大家自建机器人，并提供bot api。但是电报bot会有很多限制，今天要做的是使用telegram的tdlib创建一个java的电报客户端。相似的东西其实已经有了，例如pytelethon，但是我用不惯python，今天就写一篇如何在windows10上使用java jni调用tdlib的文章。
 
+如果有什么问题，可以加电报群[https://t.me/popstary](https://t.me/popstary)讨论
+
 <!--more-->
 
 ## 编译Tdlib
