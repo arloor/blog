@@ -11,6 +11,9 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
+记录一下netty源码阅读相关的东西
+<!--more-->
+
 ## 搭建netty源码阅读环境
 
 克隆项目，并切换到指定的tag：4.1.46.Final版本
