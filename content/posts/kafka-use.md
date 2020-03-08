@@ -11,6 +11,9 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
+记录下kafka怎么用....
+<!--more-->
+
 ## 安装
 
 ```
@@ -35,8 +38,6 @@ jps -l
 #11040 org.apache.zookeeper.server.quorum.QuorumPeerMain
 #11042 kafka.Kafka
 ```
-
-<!--more-->
 
 ## demo
 
