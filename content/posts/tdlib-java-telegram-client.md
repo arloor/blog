@@ -1,5 +1,5 @@
 ---
-title: "Telegram tdlib java 使用"
+title: "Telegram java客户端"
 date: 2020-03-02T20:04:04+08:00
 draft: false
 categories: [ "undefined"]
