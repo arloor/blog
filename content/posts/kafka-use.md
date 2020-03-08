@@ -36,6 +36,8 @@ jps -l
 #11042 kafka.Kafka
 ```
 
+<!--more-->
+
 ## demo
 
 没错，我就是kafa都需要demo的人
