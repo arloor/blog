@@ -322,6 +322,17 @@ tar -zxvf shadowsocks-libev-3.3.4.tar.gz
 make && make install
 ```
 
+## 磁盘满了怎么办
+
+三条命令用起来：
+
+```
+df -lh # 判断哪个分区用尽了
+du -h --max-depth=1 #显示当前路径所有文件夹的大小
+ls -lhS #显示所有文件的大小(文件夹大小固定为4k)
+```
+
+
 ## 配置dns
 
 首要要是知道，centos8使用NetworkManager.service来配置网络，而不是centos7默认的network.service
