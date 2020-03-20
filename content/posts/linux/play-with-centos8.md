@@ -332,6 +332,46 @@ du -h --max-depth=1 #显示当前路径所有文件夹的大小
 ls -lhS #显示所有文件的大小(文件夹大小固定为4k)
 ```
 
+## 签发野卡ssl证书
+
+```
+ wget https://dl.eff.org/certbot-auto -O /usr/local/bin/certbot-auto
+ chmod 755 /usr/local/bin/certbot-auto
+ certbot-auto certonly  -d "*.example.com" --manual --preferred-challenges dns-01  --server https://acme-v02.api.letsencrypt.org/directory
+```
+
+按提示设置dns的TXT记录
+
+```
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Please deploy a DNS TXT record under the name
+_acme-challenge.example.com with the following value:
+
+FsIOpJ6xvLoxxxxxxxxxxxBiDzDMhFwmL-Go
+
+Before continuing, verify the record is deployed.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+```
+
+然后相关证书就在 /etc/letsencrypt/live/example.com 
+
+- chain.pem CA证书
+- cert.pem 证书
+- privkey.pem 证书私钥
+- fullchain.pem CA证书+证书（nginx使用）
+
+证书续期：
+
+```
+ certbot-auto renew
+```
+
+定时任务续期：
+
+```
+echo "45 0,12 * * * root /usr/local/bin/certbot-auto renew -q" | sudo tee -a /etc/crontab > /dev/null
+```
+
 
 ## 配置dns
 
