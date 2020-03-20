@@ -337,7 +337,7 @@ ls -lhS #显示所有文件的大小(文件夹大小固定为4k)
 ```
  wget https://dl.eff.org/certbot-auto -O /usr/local/bin/certbot-auto
  chmod 755 /usr/local/bin/certbot-auto
- certbot-auto certonly  -d "*.example.com" --manual --preferred-challenges dns-01  --server https://acme-v02.api.letsencrypt.org/directory
+ certbot-auto certonly  -d "*.example.com" -d "example.com" --manual --preferred-challenges dns-01  --server https://acme-v02.api.letsencrypt.org/directory
 ```
 
 按提示设置dns的TXT记录
