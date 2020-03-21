@@ -334,6 +334,8 @@ ls -lhS #显示所有文件的大小(文件夹大小固定为4k)
 
 ## 签发野卡ssl证书
 
+最好在国外centos8上操作，国内网络不好
+
 ```
  wget https://dl.eff.org/certbot-auto -O /usr/local/bin/certbot-auto
  chmod 755 /usr/local/bin/certbot-auto
