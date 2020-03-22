@@ -13,7 +13,7 @@ keywords:
 
 ## 处理socks5 connect请求
 
-```rust
+```java
 async fn handle_socks5_connect<'a>(
     server: &SharedPlainServerStatistic,
     stream: &mut TcpStream,
