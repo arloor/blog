@@ -1,5 +1,5 @@
 ---
-title: "Rust!冲冲冲"
+title: "Rust 冲冲冲"
 date: 2020-03-22T13:57:38+08:00
 draft: false
 categories: [ "undefined"]
