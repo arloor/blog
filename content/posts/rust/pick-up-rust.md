@@ -44,3 +44,9 @@ rust的网站这样描述自己：我们喜欢写document。rust确实提供了�
     - The Rust Prelude
 - [第七章使用-tokio-异步网络编程](https://blog.fninit.com/network-programming-with-rust-zh/ch07_00_index.html)
 - [TOKIO ASYNC&AWAIT 初探](https://stevenbai.top/rust/tokio_async_await-%E5%88%9D%E6%8E%A2/)
+
+## rust book阅读笔记
+
+当前进度 第15章
+
+## tokio学习笔记
