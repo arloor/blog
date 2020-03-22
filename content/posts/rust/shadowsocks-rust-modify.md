@@ -85,6 +85,41 @@ async fn handle_socks5_connect<'a>(
     }
 ```
 
+## 啊啊啊
+
+```java
+async fn proxy_server_handshake(
+    context: SharedContext,
+    remote_stream: STcpStream,
+    svr_cfg: &ServerConfig,
+    relay_addr: &Address,
+) -> io::Result<CryptoStream<STcpStream>> {
+    //todo: 进入改动点1
+    let mut stream = CryptoStream::new(context, remote_stream, svr_cfg);
+
+    trace!("got encrypt stream and going to send addr: {:?}", relay_addr);
+
+    // Send relay address to remote
+    //
+    // NOTE: `Address` handshake packets are very small in most cases,
+    // so it will be sent with the IV/Nonce data (implemented inside `CryptoStream`).
+    //
+    // For lower latency, first packet should be sent back quickly,
+    // so TCP_NODELAY should be kept enabled until the first data packet is received.
+    //todo: 进入改动点2
+    let mut addr_buf = BytesMut::with_capacity(relay_addr.serialized_len());
+    relay_addr.write_to_buf(&mut addr_buf);
+    stream.write_all(&addr_buf).await?;
+
+    // Here we should keep the TCP_NODELAY set until the first packet is received.
+    // https://github.com/shadowsocks/shadowsocks-libev/pull/746
+    //
+    // Reset TCP_NODELAY after the first packet is received and sent back.
+
+    Ok(stream)
+}
+```
+
 ## proxy_server_handshake调用创建CryptoStream
 
 ```
