@@ -34,13 +34,15 @@ async fn handle_socks5_connect<'a>(
             svr_s
         }
 ....
+    }
+}
 ```
 
 需要在这里修改成向server连接并发送http1.1 connect请求，并使用tls包裹
 
 ## 创建加密通信
 
-```
+```rust
     async fn connect_proxied_wrapped(
         context: SharedContext,
         svr_cfg: &ServerConfig,
@@ -55,7 +57,7 @@ async fn handle_socks5_connect<'a>(
 
 ## 加密信道创建
 
-```
+```rust
     pub async fn connect_proxied(
         context: SharedContext,
         svr_cfg: &ServerConfig,
@@ -82,7 +84,7 @@ async fn handle_socks5_connect<'a>(
 
 ## proxy_server_handshake调用创建CryptoStream
 
-```
+```rust
 impl<S> CryptoStream<S> {
     /// Create a new CryptoStream with the underlying stream connection
     pub fn new(context: SharedContext, stream: S, svr_cfg: &ServerConfig) -> CryptoStream<S> {
@@ -132,4 +134,34 @@ impl<S> CryptoStream<S> {
             read_status: ReadStatus::WaitIv(context, vec![0u8; prev_len], 0usize, method, svr_cfg.clone_key()),
         }
     }
+```
+
+## CryptoStream重写poll_read,poll_write来增加加解密
+
+```rust
+impl<S> AsyncRead for CryptoStream<S>
+where
+    S: AsyncRead + Unpin,
+{
+    fn poll_read(self: Pin<&mut Self>, ctx: &mut Context<'_>, buf: &mut [u8]) -> Poll<io::Result<usize>> {
+        self.priv_poll_read(ctx, buf)
+    }
+}
+
+impl<S> AsyncWrite for CryptoStream<S>
+where
+    S: AsyncWrite + Unpin,
+{
+    fn poll_write(self: Pin<&mut Self>, ctx: &mut Context<'_>, buf: &[u8]) -> Poll<io::Result<usize>> {
+        self.priv_poll_write(ctx, buf)
+    }
+
+    fn poll_flush(self: Pin<&mut Self>, ctx: &mut Context<'_>) -> Poll<io::Result<()>> {
+        self.priv_poll_flush(ctx)
+    }
+
+    fn poll_shutdown(self: Pin<&mut Self>, ctx: &mut Context<'_>) -> Poll<io::Result<()>> {
+        self.priv_poll_shutdown(ctx)
+    }
+}
 ```
