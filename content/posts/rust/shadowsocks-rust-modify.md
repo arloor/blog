@@ -1,5 +1,5 @@
 ---
-title: "Shadowsocks-rust源码阅读 To modify"
+title: "Shadowsocks-rust源码阅读【where to modify】"
 date: 2020-03-22T15:13:17+08:00
 draft: false
 categories: [ "undefined"]
@@ -10,6 +10,9 @@ description : ""
 keywords:
 - 刘港欢 arloor moontell
 ---
+
+看看shadowsocks-rust的源码，确定需要改哪里
+<!--more-->
 
 ## 处理socks5 connect请求
 
@@ -172,3 +175,5 @@ where
 
 - CryptoStream： poll_read，poll_write，poll_read_handshake 通过ssl加密
 - ProxyStream： proxy_server_handshake 通过Http connect传递地质
+
+https://github.com/tokio-rs/tokio/tree/master/tokio-tls
