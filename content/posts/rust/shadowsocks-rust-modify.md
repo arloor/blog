@@ -212,3 +212,5 @@ where
 - ProxyStream： proxy_server_handshake 通过Http connect传递地质
 
 https://github.com/tokio-rs/tokio/tree/master/tokio-tls
+
+/etc/pki/tls/certs/ca-bundle.crt
