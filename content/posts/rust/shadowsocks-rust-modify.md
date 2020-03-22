@@ -33,7 +33,7 @@ async fn handle_socks5_connect<'a>(
 
             svr_s
         }
-....
+
     }
 }
 ```
@@ -42,7 +42,7 @@ async fn handle_socks5_connect<'a>(
 
 ## 创建加密通信
 
-```rust
+```
     async fn connect_proxied_wrapped(
         context: SharedContext,
         svr_cfg: &ServerConfig,
@@ -57,7 +57,7 @@ async fn handle_socks5_connect<'a>(
 
 ## 加密信道创建
 
-```rust
+```
     pub async fn connect_proxied(
         context: SharedContext,
         svr_cfg: &ServerConfig,
@@ -84,7 +84,7 @@ async fn handle_socks5_connect<'a>(
 
 ## proxy_server_handshake调用创建CryptoStream
 
-```rust
+```
 impl<S> CryptoStream<S> {
     /// Create a new CryptoStream with the underlying stream connection
     pub fn new(context: SharedContext, stream: S, svr_cfg: &ServerConfig) -> CryptoStream<S> {
@@ -138,7 +138,7 @@ impl<S> CryptoStream<S> {
 
 ## CryptoStream重写poll_read,poll_write来增加加解密
 
-```rust
+```
 impl<S> AsyncRead for CryptoStream<S>
 where
     S: AsyncRead + Unpin,
