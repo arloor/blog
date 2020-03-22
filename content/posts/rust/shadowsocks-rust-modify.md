@@ -72,7 +72,7 @@ async fn handle_socks5_connect<'a>(
 
         // 创建tcp连接
         let server_stream = connect_proxy_server(&context, svr_cfg).await?;
-        // 处理加密方法handshake，并且返回加密后的信道（重写）
+        // 处理加密方法handshake，并且返回加密后的信道（重写），在这里面会发送CONNECT地质
         let proxy_stream = proxy_server_handshake(context.clone(), server_stream, svr_cfg, addr).await?;
 
         Ok(ProxyStream::Proxied {
@@ -166,4 +166,9 @@ where
 }
 ```
 
-在我这里仅需要重写poll_read，poll_write为包裹tls即可
+在我这里仅需要重写poll_read，poll_write为包裹tls即可  tokio-tls
+
+## 修改点
+
+- CryptoStream： poll_read，poll_write，poll_read_handshake 通过ssl加密
+- ProxyStream： proxy_server_handshake 通过Http connect传递地质
