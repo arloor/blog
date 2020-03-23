@@ -215,7 +215,7 @@ https://github.com/tokio-rs/tokio/tree/master/tokio-tls
 
 /etc/pki/tls/certs/ca-bundle.crt
 
-
+```
   187  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
   188  git clone https://github.com/arloor/socks5-https.git
   189  yum install -y git
@@ -237,3 +237,4 @@ cargo build --release
 
  libtun2socks.so --netif-ipaddr 172.19.0.2 --socks-server-addr 127.0.0.1:1080 --tunmtu 1500 --sock-path sock_path --dnsgw 127.0.0.1:5450 --loglevel warning --enable-udprelay
  libss-local.so -b 127.0.0.1 -l 1080 -t 600 -S /data/user_de/0/com.github.shadowsocks/no_backup/stat_main -c /data/user/0/com.github.shadowsocks/no_backup/shadowsocks.conf -V -u --acl /data/user_de/0/com.github.shadowsocks/no_backup/bypass-lan-china.acl --fast-open
+ ```
