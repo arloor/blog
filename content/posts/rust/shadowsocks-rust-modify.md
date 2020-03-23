@@ -215,6 +215,7 @@ https://github.com/tokio-rs/tokio/tree/master/tokio-tls
 
 /etc/pki/tls/certs/ca-bundle.crt
 
+yum install gcc gettext autoconf libtool automake make pcre-devel asciidoc xmlto c-ares-devel libev-devel -y
 dnf install openssl-devel
 SODIUM_LIB_DIR=/usr/lib64/
 SODIUM_SHARED=1
