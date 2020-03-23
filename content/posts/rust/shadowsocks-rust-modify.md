@@ -214,3 +214,9 @@ where
 https://github.com/tokio-rs/tokio/tree/master/tokio-tls
 
 /etc/pki/tls/certs/ca-bundle.crt
+
+dnf install openssl-devel
+SODIUM_LIB_DIR=/usr/lib64/
+SODIUM_SHARED=1
+openssl = {version = "0.10", optional = true}
+cargo build --release
