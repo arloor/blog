@@ -215,6 +215,18 @@ https://github.com/tokio-rs/tokio/tree/master/tokio-tls
 
 /etc/pki/tls/certs/ca-bundle.crt
 
+
+  187  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+  188  git clone https://github.com/arloor/socks5-https.git
+  189  yum install -y git
+  190  git clone https://github.com/arloor/socks5-https.git
+  191  cd socks5-https/
+  192  ls
+  193  cargo build --release
+  194  ls ~/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/
+  195  vim /etc/profile.d/rust.sh
+  196  ls  ~/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/
+  197  . /etc/profile.d/rust.sh
 yum install gcc gettext autoconf libtool automake make pcre-devel asciidoc xmlto c-ares-devel libev-devel -y
 dnf install openssl-devel
 SODIUM_LIB_DIR=/usr/lib64/
