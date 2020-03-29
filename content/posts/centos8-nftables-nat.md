@@ -101,15 +101,20 @@ nft add rule ip nat PREROUTING tcp dport 20000-30000 counter dnat to 8.8.8.8:200
 
 -----------------------------------------------------------------
 
-## centos8 nftables nat规则生成工具
+-----------------------------------------------------------------
 
-> 仅适用于centos8、redhat8、fedora31
+## nftables nat规则生成工具
+
+用途：便捷地设置nat流量转发
+
+> 适用于centos8、redhat8、fedora31和支持nftables的debian系linux发行版如debian10
 
 ## 准备工作
 
 1. 关闭firewalld
 2. 关闭selinux
 3. 开启内核端口转发
+4. 安装nftables（一般情况下，centos8默认包含nftables）
 
 以下一键完成：
 
@@ -119,11 +124,14 @@ systemctl disable firewalld
 setenforce 0
 sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config  
 sed -n '/^net.ipv4.ip_forward=1/'p /etc/sysctl.conf | grep -q "net.ipv4.ip_forward=1"
+echo 1 > /proc/sys/net/ipv4/ip_forward
 if [ $? -ne 0 ]; then
     echo -e "net.ipv4.ip_forward=1" >> /etc/sysctl.conf && sysctl -p
 fi
+yum install -y  nftables
 ```
 
+**debian系说明** 请自行使用apt安装nftables，并禁用iptables
 
 ## 使用说明
 
@@ -192,7 +200,28 @@ RANGE,50000,50010,baidu.com
 
 ## 一些需要注意的东西
 
-1. 本工具会清空所有防火墙规则（当然，防火墙没那么重要～
-2. 本机多个网卡的情况未作测试（大概率会有问题）
-3. 本工具在centos8、redhat8、fedora31上有效，其他发行版未作测试
-4. 与前作[arloor/iptablesUtils](https://github.com/arloor/iptablesUtils)不兼容，在两个工具之间切换时，请重装系统以确保系统纯净！
+1. 不支持多网卡
+2. 本工具在centos8、redhat8、fedora31上有效，其他发行版未作测试
+3. 与前作[arloor/iptablesUtils](https://github.com/arloor/iptablesUtils)不兼容，在两个工具之间切换时，请重装系统以确保系统纯净！
+
+## 如何停止以及卸载
+
+```shell
+## 停止定时监听域名解析地任务
+service nat stop
+## 清空nat规则
+nft add table ip nat
+nft delete table ip nat
+## 禁止开机启动
+systemctl disable nat
+```
+
+## 致谢
+
+1. [解决会清空防火墙的问题](https://github.com/arloor/nftables-nat-rust/pull/6)
+2. [ubuntu18.04适配](https://github.com/arloor/nftables-nat-rust/issues/1)
+
+
+## Telegram讨论组
+
+Telegram讨论组 https://t.me/popstary
