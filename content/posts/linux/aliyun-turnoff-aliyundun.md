@@ -20,7 +20,7 @@ Linux 服务器运维人员，都有一定程度的“洁癖”，既然是没�
 
 不搜索不知道，竟然有那么多站长们都已经关闭和清除阿里云盾（安骑士）了，并且好像方法还有好多种呢。
 
-## 方法1：卸载云盾监控屏蔽 IP
+## 方法1：aliyun官方方法
 
 阿里云云盾管理页面：https://yundun.console.aliyun.com/?p=aqs#/aqs/settings/setInstall
 
@@ -43,7 +43,17 @@ rm -rf /etc/init.d/agentwatch /usr/sbin/aliyun-service
 rm -rf /usr/local/aegis*
 ```
 
-3、屏蔽云盾 IP​
+3、 卸载云监控Java版本插件：
+
+云监控Java版本插件： https://help.aliyun.com/knowledge_detail/38859.html#h2-url-4
+
+```shell
+sudo /usr/local/cloudmonitor/wrapper/bin/cloudmonitor.sh stop
+sudo /usr/local/cloudmonitor/wrapper/bin/cloudmonitor.sh remove
+sudo rm -rf /usr/local/cloudmonitor
+```
+
+4、屏蔽云盾 IP​
 
 ```shell
 iptables -I INPUT -s 140.205.201.0/28 -j DROP
@@ -59,17 +69,7 @@ iptables -I INPUT -s 140.205.225.195/32 -j DROP
 iptables -I INPUT -s 140.205.225.204/32 -j DROP
 ```
 
-4、 卸载云监控Java版本插件：
-
-云监控Java版本插件： https://help.aliyun.com/knowledge_detail/38859.html#h2-url-4
-
-```shell
-sudo /usr/local/cloudmonitor/wrapper/bin/cloudmonitor.sh stop
-sudo /usr/local/cloudmonitor/wrapper/bin/cloudmonitor.sh remove
-sudo rm -rf /usr/local/cloudmonitor
-```
-
-## 方法2：CentOS 关闭 AliYunDun
+## 方法2：使用chkconfig
 
 使用 chkconfig --list 查看开机启动里面这个软件的服务名是什么，然后 off 掉 aegis 执行就可以了。
 
@@ -90,7 +90,7 @@ service aegis stop  # 停止服务
 chkconfig --del aegis  # 删除服务
 ```
  
-## 方法3：阿里云服务器关闭云盾
+## 方法3：手动kill相关进程
 
 阿里云服务器查杀关闭云盾进程
 
