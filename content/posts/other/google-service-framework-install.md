@@ -60,4 +60,4 @@ weight: 10
 
 另外，使用谷歌各项服务和在apkmirror上下载apk，都需要翻墙。
 
-**Telegram讨论组** https://t.me/popstary
+**Telegram讨论组** https://t.me/popstary 欢迎进群讨论
