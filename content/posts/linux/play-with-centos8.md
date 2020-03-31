@@ -425,3 +425,13 @@ nameserver 223.5.5.5
 ```
 
 然后`systemctl reload NetworkManager`
+
+## fedora31 关闭内核自动更新
+
+```
+echo "exclude=kernel*" >> /etc/dnf/dnf.conf 
+```
+
+## fedora31 安装n卡驱动
+
+[https://www.if-not-true-then-false.com/2015/fedora-nvidia-guide/](https://www.if-not-true-then-false.com/2015/fedora-nvidia-guide/)
