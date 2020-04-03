@@ -3,7 +3,7 @@ baseurl = "http://arloor.com"
 languageCode = "zh-CN"
 hasCJKLanguage = true
 
-title = "ARLOOR"
+title = "深切哀悼"
 theme = "hyde-hyde"
 
 ## Hugo Built-in Features
