@@ -27,7 +27,8 @@ paginate = 10
     author = "刘港欢"
     title = "ARLOOR博客"
     description = "====EOF===="
-    authorimage = "/img/head.jpeg"
+    #authorimage = "/img/head.jpeg"
+    authorimage = "/img/dao.jfif"
     dateformat = "Jan 2, 2006"
 
     # sidebar, copyright & license
