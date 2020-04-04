@@ -3,7 +3,7 @@ baseurl = "http://arloor.com"
 languageCode = "zh-CN"
 hasCJKLanguage = true
 
-title = "深切哀悼"
+title = "ARLOOR"
 theme = "hyde-hyde"
 
 ## Hugo Built-in Features
@@ -27,8 +27,8 @@ paginate = 10
     author = "刘港欢"
     title = "ARLOOR博客"
     description = "====EOF===="
-    #authorimage = "/img/head.jpeg"
-    authorimage = "/img/dao.jfif"
+    authorimage = "/img/head.jpeg"
+    #authorimage = "/img/dao.jfif"
     dateformat = "Jan 2, 2006"
 
     # sidebar, copyright & license
