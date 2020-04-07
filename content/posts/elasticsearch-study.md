@@ -397,4 +397,4 @@ public class MBM25SimilarityPlugin extends Plugin {
 
 similarity插件化调研的初步结果是意义不大，因为scripted_similarity基本可以代替插件化了
 
-下面看看function_score中的script_score.
+[Github地址](https://github.com/arloor/elasticsearch/tree/LGH-test)
