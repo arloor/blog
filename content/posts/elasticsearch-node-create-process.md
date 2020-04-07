@@ -1,7 +1,7 @@
 ---
 title: "Elasticsearch节点创建流程"
 date: 2020-04-03T15:13:08+08:00
-draft: false
+draft: true
 categories: [ "undefined"]
 tags: ["undefined"]
 weight: 10
