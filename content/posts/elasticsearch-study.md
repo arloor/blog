@@ -395,3 +395,6 @@ public class MBM25SimilarityPlugin extends Plugin {
 
 核心是indexModule.addXXXX方法，提供了扩展es各个功能的方法。
 
+similarity插件化调研的初步结果是意义不大，因为scripted_similarity基本可以代替插件化了
+
+下面看看function_score中的script_score.
