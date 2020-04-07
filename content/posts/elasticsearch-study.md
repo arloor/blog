@@ -308,3 +308,90 @@ POST /index/_open
 插件包含：jar包、脚本和配置文件。插件必须在集群中的每个节点安装，安装后必须重启节点，插件才可用（动态加载的实现看起来较困难。涉及到集群元数据的插件，需要整个集群的重启
 
 [插件编写指南](https://www.elastic.co/guide/en/elasticsearch/plugins/6.6/plugin-authors.html)
+
+
+**开发调试插件**
+
+es可以从classpath加载插件，但是在发行版的代码中，隐藏了这个这个功能。稍微改下代码，把这个东西放出来
+
+```
+Index: server/src/main/java/org/elasticsearch/node/Node.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- server/src/main/java/org/elasticsearch/node/Node.java	(revision 1c439191c30172708dceae79ce3125822f8d6e12)
++++ server/src/main/java/org/elasticsearch/node/Node.java	(date 1586246418270)
+@@ -265,6 +265,10 @@
+         this(environment, Collections.emptyList(), true);
+     }
+ 
++    public Node(Environment environment,Collection<Class<? extends Plugin>> classpathPlugins) {
++        this(environment, classpathPlugins, true);
++    }
++
+     /**
+      * Constructs a node
+      *
+```
+
+然后，修改BootStrap中的Node创建代码
+
+```
+Index: server/src/main/java/org/elasticsearch/bootstrap/Bootstrap.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- server/src/main/java/org/elasticsearch/bootstrap/Bootstrap.java	(revision 1c439191c30172708dceae79ce3125822f8d6e12)
++++ server/src/main/java/org/elasticsearch/bootstrap/Bootstrap.java	(date 1586246418279)
+@@ -214,22 +214,9 @@
+             throw new BootstrapException(e);
+         }
+
+-        node = new Node(environment) {
++        Collection plugins = new ArrayList<>();
++        Collections.addAll(plugins, MBM25SimilarityPlugin.class);
++        node = new Node(environment,plugins) {
+             @Override
+             protected void validateNodeBeforeAcceptingRequests(
+                 final BootstrapContext context,
+```
+
+下面是一个简单的插件（修改了BM25算法的参数）（这个插件没什么意义，修改BM25参数不需要搞插件）
+
+```
+package org.elasticsearch.plugin;
+
+import org.apache.lucene.search.similarities.BM25Similarity;
+import org.elasticsearch.index.IndexModule;
+import org.elasticsearch.plugins.Plugin;
+
+
+public class MBM25SimilarityPlugin extends Plugin {
+    public String name() {
+        return "elasticsearch-position-similarity";
+    }
+
+    public String description() {
+        return "Elasticsearch scoring plugin based on matching a term or a phrase relative to a position of the term in a searched field.";
+    }
+
+    public void onIndexModule(IndexModule indexModule) {
+        indexModule.addSimilarity("position", (settings, version, scriptService)->{
+            String DISCOUNT_OVERLAPS="discount_overlaps";
+            // BM25的k1默认是1.2 b默认是0.75
+            float k1 = settings.getAsFloat("k1", 1.4f);
+            float b = settings.getAsFloat("b", 0.8f);
+            boolean discountOverlaps = settings.getAsBoolean(DISCOUNT_OVERLAPS, true);
+
+            BM25Similarity similarity = new BM25Similarity(k1, b);
+            similarity.setDiscountOverlaps(discountOverlaps);
+            return similarity;
+        });
+    }
+}
+```
+
+核心是indexModule.addXXXX方法，提供了扩展es各个功能的方法。
+
