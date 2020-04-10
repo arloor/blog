@@ -17,7 +17,40 @@ print_info(){
 
 print_info
 
-yum install -y git tar  wget 
+
+
+## 检查依赖
+function CheckDependence(){
+FullDependence='0';
+for BIN_DEP in `echo "$1" |sed 's/,/\n/g'`
+  do
+    if [[ -n "$BIN_DEP" ]]; then
+      Founded='0';
+      for BIN_PATH in `echo "$PATH" |sed 's/:/\n/g'`
+        do
+          ls $BIN_PATH/$BIN_DEP >/dev/null 2>&1;
+          if [ $? == '0' ]; then
+            Founded='1';
+            break;
+          fi
+        done
+      if [ "$Founded" == '1' ]; then
+        echo -en "$BIN_DEP\t\t[\033[32mok\033[0m]\n";
+      else
+        FullDependence='1';
+        echo -en "$BIN_DEP\t\t[\033[31mfail\033[0m]\n";
+      fi
+    fi
+  done
+if [ "$FullDependence" == '1' ]; then
+  yum install -y git tar  wget 
+fi
+}
+
+clear && echo -e "\n\033[36m# Check Dependence\033[0m\n"
+CheckDependence wget,awk,xz,openssl,grep,dirname,file,cut,cat,cpio,gzip
+echo "Dependence Check done"
+
 
 
 proxystart=1
