@@ -1,7 +1,7 @@
 #! /bin/bash
 
 ## path: /usr/local/bin/tarloor
-## wgt -O /usr/local/bin/tarloor http://arloor.com/tarloor.sh
+## wget -O /usr/local/bin/tarloor http://arloor.com/tarloor.sh
 hugoURL=https://github.com/gohugoio/hugo/releases/download/v0.54.0/hugo_extended_0.54.0_Linux-64bit.tar.gz
 
 print_info(){
