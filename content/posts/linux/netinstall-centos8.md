@@ -155,4 +155,21 @@ menuentry 'Memdisk-centos6.10' {
 EOF
 ```
 
+## 安装后的设置
 
+
+```
+## 禁用firewalld
+service firewalld stop
+systemctl disable firewalld
+## 关闭selinux
+setenforce 0
+sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config  
+sestatus
+## 开启bbr
+uname -r  ##输出内核版本大于4.9
+echo net.core.default_qdisc=fq >> /etc/sysctl.conf
+echo net.ipv4.tcp_congestion_control=bbr >> /etc/sysctl.conf
+sysctl -p
+lsmod |grep bbr
+```
