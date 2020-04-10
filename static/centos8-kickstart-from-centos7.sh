@@ -253,7 +253,7 @@ kexec-tools
 
 %end
 
-%addon com_redhat_kdump --enable --reserve-mb='auto'
+%addon com_redhat_kdump --disable
 
 %end
 
