@@ -48,7 +48,7 @@ fi
 }
 
 clear && echo -e "\n\033[36m# Check Dependence\033[0m\n"
-CheckDependence wget,awk,xz,openssl,grep,dirname,file,cut,cat,cpio,gzip
+CheckDependence git tar  wget 
 echo "Dependence Check done"
 
 
