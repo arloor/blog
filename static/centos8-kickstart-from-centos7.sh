@@ -228,10 +228,10 @@ lang zh_CN.UTF-8
 #ONDHCP network  --bootproto=dhcp --device=ens3 --nameserver=223.6.6.6 --ipv6=auto --activate
 #NODHCP network --bootproto=static --ip=$IPv4 --netmask=$MASK --gateway=$GATE --device=ens3 --nameserver=223.6.6.6 --ipv6=auto --activate
 network  --hostname=centos8.localdomain
-repo --name="AppStream" --baseurl=http://mirrors.aliyun.com/centos/8-stream/BaseOS/x86_64/os/../../../AppStream/x86_64/os/
+repo --name="AppStream" --baseurl=http://mirrors.aliyun.com/centos/8/BaseOS/x86_64/os/../../../AppStream/x86_64/os/
 # Use network installation
-url --url="http://mirrors.aliyun.com/centos/8-stream/BaseOS/x86_64/os/"
-liveimg --url=http://mirrors.aliyun.com/centos/8-stream/BaseOS/x86_64/os/images/install.img --noverifyssl
+url --url="http://mirrors.aliyun.com/centos/8/BaseOS/x86_64/os/"
+liveimg --url=http://mirrors.aliyun.com/centos/8/BaseOS/x86_64/os/images/install.img --noverifyssl
 # Root password
 rootpw --plaintext arloor.com
 # SELinux configuration
