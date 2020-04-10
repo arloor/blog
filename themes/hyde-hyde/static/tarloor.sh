@@ -1,7 +1,7 @@
 #! /bin/bash
 
 ## path: /usr/local/bin/tarloor
-
+## wgt -O /usr/local/bin/tarloor http://arloor.com/tarloor.sh
 hugoURL=https://github.com/gohugoio/hugo/releases/download/v0.54.0/hugo_extended_0.54.0_Linux-64bit.tar.gz
 
 print_info(){
@@ -17,21 +17,22 @@ print_info(){
 
 print_info
 
+yum install -y git tar  wget 
 
 
 proxystart=1
 # 设置http代理，使用方法：
-export http_proxy=http://arloor:passwd@cn2.ddnspod.xyz:20000
-export https_proxy=http://arloor:passwd@cn2.ddnspod.xyz:20000
-git config --global http.proxy 'http://arloor:passwd@cn2.ddnspod.xyz:20000'
-git config --global https.proxy 'http://arloor:passwd@cn2.ddnspod.xyz:20000'
+export http_proxy=http://127.0.0.1:8081
+export https_proxy=http://127.0.0.1:8081
+git config --global http.proxy 'http://127.0.0.1:8081'
+git config --global https.proxy 'http://127.0.0.1:8081'
 
-# 检查/root/blog是否存在，存在则update
-[ ! -d /root/blog ] && echo "arloor blog not exits. git clone...." && {
-        git clone https://github.com/arloor/blog.git /root/blog
+# 检查/var/blog是否存在，存在则update
+[ ! -d /var/blog ] && echo "arloor blog not exits. git clone...." && {
+        git clone https://github.com/arloor/blog.git /var/blog
 } || { 
         echo "arloor's blog exits. git pull...."; 
-        cd /root/blog
+        cd /var/blog
         git pull;
 }
 
@@ -64,6 +65,6 @@ nginx=$(rpm -qa nginx) && [ ! -z $nginx ] && echo nginx installed ||{
         systemctl enable nginx;
 }
 
-cd /root/blog
+cd /var/blog
 hugo -d /usr/share/nginx/html/
 service nginx reload
