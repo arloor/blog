@@ -47,9 +47,9 @@ echo "Dependence Check done"
 echo -e "\n\033[36m# Install\033[0m\n"
 ## 下载kernel和initrd
 echo "initrd.img downloading...."
-wget --no-check-certificate -qO '/boot/initrd.img' "http://mirrors.aliyun.com/centos/8-stream/BaseOS/x86_64/os/isolinux/initrd.img"
+wget --no-check-certificate -qO '/boot/initrd.img' "http://mirrors.aliyun.com/centos/8/BaseOS/x86_64/os/isolinux/initrd.img"
 echo "vmlinuz downloading...."
-wget --no-check-certificate -qO '/boot/vmlinuz' "http://mirrors.aliyun.com/centos/8-stream/BaseOS/x86_64/os/isolinux/vmlinuz"
+wget --no-check-certificate -qO '/boot/vmlinuz' "http://mirrors.aliyun.com/centos/8/BaseOS/x86_64/os/isolinux/vmlinuz"
 echo "done"
 
 ## 查看网络信息 ip、网关、掩码
