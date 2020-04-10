@@ -48,7 +48,7 @@ fi
 }
 
 clear && echo -e "\n\033[36m# Check Dependence\033[0m\n"
-CheckDependence git tar  wget 
+CheckDependence git,tar,wget 
 echo "Dependence Check done"
 
 
