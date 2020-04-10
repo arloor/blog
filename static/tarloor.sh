@@ -4,21 +4,6 @@
 ## wget -O /usr/local/bin/tarloor http://arloor.com/tarloor.sh
 hugoURL=https://github.com/gohugoio/hugo/releases/download/v0.54.0/hugo_extended_0.54.0_Linux-64bit.tar.gz
 
-print_info(){
-    clear
-    echo "#############################################################"
-    echo "# Update ARLOOR.com contents                                #"
-    echo "# Website:  http://arloor.com/                              #"
-    echo "# Author: ARLOOR <admin@arloor.com>                         #"
-    echo "# Github: https://github.com/arloor                         #"
-    echo "#############################################################"
-    echo
-}
-
-print_info
-
-
-
 ## 检查依赖
 function CheckDependence(){
 FullDependence='0';
@@ -51,6 +36,18 @@ clear && echo -e "\n\033[36m# Check Dependence\033[0m\n"
 CheckDependence git,tar,wget 
 echo "Dependence Check done"
 
+print_info(){
+    clear
+    echo "#############################################################"
+    echo "# Update ARLOOR.com contents                                #"
+    echo "# Website:  http://arloor.com/                              #"
+    echo "# Author: ARLOOR <admin@arloor.com>                         #"
+    echo "# Github: https://github.com/arloor                         #"
+    echo "#############################################################"
+    echo
+}
+
+print_info
 
 
 proxystart=1
