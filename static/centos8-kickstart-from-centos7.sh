@@ -258,6 +258,7 @@ kexec-tools
 %end
 
 %post --interpreter=/usr/bin/bash --log=/root/ks-post.log
+#  https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/performing_an_advanced_rhel_installation/kickstart-script-file-format-reference_installing-rhel-as-an-experienced-user#post-script-in-kickstart-file_scripts-in-kickstart-file
 echo fq > /proc/sys/net/core/default_qdisc
 echo bbr > /proc/sys/net/ipv4/tcp_congestion_control
 yum install -y wget tar vim git 
