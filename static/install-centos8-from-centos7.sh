@@ -60,9 +60,9 @@ echo "Dependence Check done"
 echo -e "\n\033[36m# Install\033[0m\n"
 ## 下载kernel和initrd
 echo "initrd.img downloading...."
-wget --no-check-certificate -qO '/boot/initrd.img' "http://mirrors.aliyun.com/centos/8-stream/BaseOS/x86_64/os/isolinux/initrd.img"
+wget --no-check-certificate -qO '/boot/initrd.img' "http://mirrors.aliyun.com/centos/8.1.1911/BaseOS/x86_64/os/isolinux/initrd.img"
 echo "vmlinuz downloading...."
-wget --no-check-certificate -qO '/boot/vmlinuz' "http://mirrors.aliyun.com/centos/8-stream/BaseOS/x86_64/os/isolinux/vmlinuz"
+wget --no-check-certificate -qO '/boot/vmlinuz' "http://mirrors.aliyun.com/centos/8.1.1911/BaseOS/x86_64/os/isolinux/vmlinuz"
 echo "done"
 
 ## 查看网络信息 ip、网关、掩码
@@ -168,14 +168,14 @@ LinuxIMG="$(grep 'initrd.*/' /tmp/grub.new |awk '{print $1}' |tail -n 1)";
 
 ## 分未Inboot和NoBoot修改加载kernel和initrd的
 [[ "$Type" == 'InBoot' ]] && {
-  [[ "$AutoNet" -eq '1' ]] && sed -i "/$LinuxKernel.*\//c\\\t$LinuxKernel\\t\/boot\/vmlinuz  ip=dhcp inst.repo=http:\/\/mirrors.aliyun.com\/centos\/8-stream\/BaseOS\/x86_64\/os\/ inst.lang=zh_CN inst.keymap=cn selinux=0 inst.stage2=http:\/\/mirrors.aliyun.com\/centos\/8-stream\/BaseOS\/x86_64\/os\/" /tmp/grub.new;
-  [[ "$AutoNet" -eq '0' ]] && sed -i "/$LinuxKernel.*\//c\\\t$LinuxKernel\\t\/boot\/vmlinuz  ip=$IPv4::$GATE:$MASK:my_hostname:eth0:none inst.repo=http:\/\/mirrors.aliyun.com\/centos\/8-stream\/BaseOS\/x86_64\/os\/ inst.lang=zh_CN inst.keymap=cn selinux=0 inst.stage2=http:\/\/mirrors.aliyun.com\/centos\/8-stream\/BaseOS\/x86_64\/os\/" /tmp/grub.new;
+  [[ "$AutoNet" -eq '1' ]] && sed -i "/$LinuxKernel.*\//c\\\t$LinuxKernel\\t\/boot\/vmlinuz  ip=dhcp inst.repo=http:\/\/mirrors.aliyun.com\/centos\/8.1.1911\/BaseOS\/x86_64\/os\/ inst.lang=zh_CN inst.keymap=cn selinux=0 inst.stage2=http:\/\/mirrors.aliyun.com\/centos\/8.1.1911\/BaseOS\/x86_64\/os\/" /tmp/grub.new;
+  [[ "$AutoNet" -eq '0' ]] && sed -i "/$LinuxKernel.*\//c\\\t$LinuxKernel\\t\/boot\/vmlinuz  ip=$IPv4::$GATE:$MASK:my_hostname:eth0:none inst.repo=http:\/\/mirrors.aliyun.com\/centos\/8.1.1911\/BaseOS\/x86_64\/os\/ inst.lang=zh_CN inst.keymap=cn selinux=0 inst.stage2=http:\/\/mirrors.aliyun.com\/centos\/8.1.1911\/BaseOS\/x86_64\/os\/" /tmp/grub.new;
   sed -i "/$LinuxIMG.*\//c\\\t$LinuxIMG\\t\/boot\/initrd.img" /tmp/grub.new;
 }
 
 [[ "$Type" == 'NoBoot' ]] && {
-  [[ "$AutoNet" -eq '1' ]] && sed -i "/$LinuxKernel.*\//c\\\t$LinuxKernel\\t\/vmlinuz  ip=dhcp inst.repo=http:\/\/mirrors.aliyun.com\/centos\/8-stream\/BaseOS\/x86_64\/os\/ inst.lang=zh_CN inst.keymap=us selinux=0 inst.stage2=http:\/\/mirrors.aliyun.com\/centos\/8-stream\/BaseOS\/x86_64\/os\/" /tmp/grub.new;
-  [[ "$AutoNet" -eq '0' ]] && sed -i "/$LinuxKernel.*\//c\\\t$LinuxKernel\\t\/boot\/vmlinuz  ip=$IPv4::$GATE:$MASK:my_hostname:eth0:none inst.repo=http:\/\/mirrors.aliyun.com\/centos\/8-stream\/BaseOS\/x86_64\/os\/ inst.lang=zh_CN inst.keymap=cn selinux=0 inst.stage2=http:\/\/mirrors.aliyun.com\/centos\/8-stream\/BaseOS\/x86_64\/os\/" /tmp/grub.new;
+  [[ "$AutoNet" -eq '1' ]] && sed -i "/$LinuxKernel.*\//c\\\t$LinuxKernel\\t\/vmlinuz  ip=dhcp inst.repo=http:\/\/mirrors.aliyun.com\/centos\/8.1.1911\/BaseOS\/x86_64\/os\/ inst.lang=zh_CN inst.keymap=us selinux=0 inst.stage2=http:\/\/mirrors.aliyun.com\/centos\/8.1.1911\/BaseOS\/x86_64\/os\/" /tmp/grub.new;
+  [[ "$AutoNet" -eq '0' ]] && sed -i "/$LinuxKernel.*\//c\\\t$LinuxKernel\\t\/boot\/vmlinuz  ip=$IPv4::$GATE:$MASK:my_hostname:eth0:none inst.repo=http:\/\/mirrors.aliyun.com\/centos\/8.1.1911\/BaseOS\/x86_64\/os\/ inst.lang=zh_CN inst.keymap=cn selinux=0 inst.stage2=http:\/\/mirrors.aliyun.com\/centos\/8.1.1911\/BaseOS\/x86_64\/os\/" /tmp/grub.new;
   sed -i "/$LinuxIMG.*\//c\\\t$LinuxIMG\\t\/initrd.img" /tmp/grub.new;
 }
 
