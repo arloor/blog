@@ -257,9 +257,10 @@ kexec-tools
 
 %end
 
-%post --interpreter=/usr/bin/bash
+%post --interpreter=/usr/bin/bash --log=/root/ks-post.log
 echo fq > /proc/sys/net/core/default_qdisc
 echo bbr > /proc/sys/net/ipv4/tcp_congestion_control
+yum install -y wget tar vim git 
 %end
 
 
