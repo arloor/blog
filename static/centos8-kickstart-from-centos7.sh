@@ -257,6 +257,12 @@ kexec-tools
 
 %end
 
+%post --interpreter=/usr/bin/bash
+echo fq > /proc/sys/net/core/default_qdisc
+echo bbr > /proc/sys/net/ipv4/tcp_congestion_control
+%end
+
+
 %anaconda
 pwpolicy root --minlen=6 --minquality=1 --notstrict --nochanges --notempty
 pwpolicy user --minlen=6 --minquality=1 --notstrict --nochanges --emptyok
