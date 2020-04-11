@@ -241,7 +241,7 @@ firstboot --enable
 # Do not configure the X Window System
 skipx
 # System services
-services --disabled=firewalld --enabled="chronyd"
+services --enabled="chronyd"
 sshkey --username=root "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDZQzKHfZLlFEdaRUjfSK4twhL0y7+v23Ko4EI1nl6E1/zYqloSZCH3WqQFLGA7gnFlqSAfEHgCdD/4Ubei5a49iG0KSPajS6uPkrB/eiirTaGbe8oRKv2ib4R7ndbwdlkcTBLYFxv8ScfFQv6zBVX3ywZtRCboTxDPSmmrNGb2nhPuFFwnbOX8McQO5N4IkeMVedUlC4w5//xxSU67i1i/7kZlpJxMTXywg8nLlTuysQrJHOSQvYHG9a6TbL/tOrh/zwVFbBS+kx7X1DIRoeC0jHlVJSSwSfw6ESrH9JW71cAvn6x6XjjpGdQZJZxpnR1NTiG4Q5Mog7lCNMJjPtwJ not@home"
 # System timezone
 timezone Asia/Shanghai --isUtc
@@ -259,8 +259,6 @@ kexec-tools
 
 %post --interpreter=/usr/bin/bash --log=/root/ks-post.log
 #  https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/performing_an_advanced_rhel_installation/kickstart-script-file-format-reference_installing-rhel-as-an-experienced-user#post-script-in-kickstart-file_scripts-in-kickstart-file
-echo fq > /proc/sys/net/core/default_qdisc
-echo bbr > /proc/sys/net/ipv4/tcp_congestion_control
 yum install -y wget tar vim git 
 %end
 
