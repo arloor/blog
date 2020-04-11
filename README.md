@@ -7,9 +7,8 @@
 ## 安装[hugo 0.54 extended](https://github.com/gohugoio/hugo/releases/tag/v0.54.0) （需要支持 scss）
 
 ## 部署
-```
-bash deploy.sh
-````
-这样就直接部署到了我的centos7服务器上
 
-访问[arloor博客](http://arloor.com)
+```
+wget -O /usr/local/bin/tarloor http://arloor.com/tarloor.sh
+bash tarloor
+```
