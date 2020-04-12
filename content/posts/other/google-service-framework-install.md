@@ -8,7 +8,7 @@ tags: ["program"]
 weight: 10
 ---
 
-之前在telegram群里有人问，怎么给安卓手机安装谷歌三件套。他说的谷歌三件套大概就是google service framework(谷歌服务框架)、google play service、google play store。这里介绍一下如何安装这三个软件。
+之前在telegram群里有人问，怎么给安卓手机安装谷歌三件套。他说的谷歌三件套大概就是google service framework(谷歌服务框架)、google play service、google play store。这里介绍一下如何安装这三个软件。**对安卓10.0版本以上的华为手机无效**
 <!--more-->
 
 为了使用上面的谷歌四件套，首先手机需要能翻墙，如果不能翻墙，就没有必要继续看下去了。另外，这个博客仅适用于安卓手机。
