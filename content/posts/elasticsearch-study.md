@@ -191,58 +191,6 @@ GET /index/_search?explain=true
 }
 ```
 
-参数: 
-
-```
-[
-                {
-                  "value": 1.0,
-                  "description": "weight",
-                  "details": []
-                },
-                {
-                  "value": 1.7,
-                  "description": "query.boost",
-                  "details": []
-                },
-                {
-                  "value": 2.0,
-                  "description": "field.docCount",
-                  "details": []
-                },
-                {
-                  "value": 4.0,
-                  "description": "field.sumDocFreq",
-                  "details": []
-                },
-                {
-                  "value": 5.0,
-                  "description": "field.sumTotalTermFreq",
-                  "details": []
-                },
-                {
-                  "value": 1.0,
-                  "description": "term.docFreq",
-                  "details": []
-                },
-                {
-                  "value": 2.0,
-                  "description": "term.totalTermFreq",
-                  "details": []
-                },
-                {
-                  "value": 2.0,
-                  "description": "doc.freq",
-                  "details": []
-                },
-                {
-                  "value": 3.0,
-                  "description": "doc.length",
-                  "details": []
-                }
-              ]
-```
-
 注意：
 
 
@@ -398,3 +346,40 @@ public class MBM25SimilarityPlugin extends Plugin {
 similarity插件化调研的初步结果是意义不大，因为scripted_similarity基本可以代替插件化了
 
 [Github地址](https://github.com/arloor/elasticsearch/tree/LGH-test)
+
+
+## 再看scripted_similarity
+
+上文见识了scripted_weight的实例，但是没有看用于script的参数的含义，这里再来看下。
+
+各项参数定义的java类，是org.elasticsearch.index.similarity.ScriptedSimilarity类的私有静态内部类。elasticsearch的文档把这些参数写在了painless context中，链接：[painless-similarity-context.html](https://www.elastic.co/guide/en/elasticsearch/painless/6.6/painless-similarity-context.html)
+
+Variables
+
+- params (Map, read-only) 
+  - User-defined parameters passed in at query-time.(提供查询时传参能力，但是7.6版本已移除)
+- weight (float, read-only)
+  - The weight as calculated by a weight script（如果没有weight_script则为1）
+- query.boost (float, read-only)
+  - The boost value if provided by the query. If this is not provided the value is 1.0f.
+field.docCount (long, read-only)
+The number of documents that have a value for the current field.
+field.sumDocFreq (long, read-only)
+The sum of all terms that exist for the current field. If this is not available the value is -1.
+field.sumTotalTermFreq (long, read-only)
+The sum of occurrences in the index for all the terms that exist in the current field. If this is not available the value is -1.
+term.docFreq (long, read-only)
+The number of documents that contain the current term in the index.
+term.totalTermFreq (long, read-only)
+The total occurrences of the current term in the index.
+doc.length (long, read-only)
+The number of tokens the current document has in the current field. This is decoded from the stored norms and may be approximate for long fields
+doc.freq (long, read-only)
+The number of occurrences of the current term in the current document for the current field.
+
+- Query：查询语句携带的评分因子
+  - query.boost：因子，乘以评分得到最后评分
+- Term: 
+- Field：该字段的数据
+  - field.docCount: 分片(shard)中该field有值的文档数量
+  - 
