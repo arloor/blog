@@ -354,10 +354,11 @@ similarity插件化调研的初步结果是意义不大，因为scripted_similar
 
 各项参数定义的java类，是org.elasticsearch.index.similarity.ScriptedSimilarity类的私有静态内部类。elasticsearch的文档把这些参数写在了painless context中，链接：[painless-similarity-context.html](https://www.elastic.co/guide/en/elasticsearch/painless/6.6/painless-similarity-context.html)
 
-Variables
+参数：
 
 - params (Map, read-only) 
-  - User-defined parameters passed in at query-time.(提供查询时传参能力，但是7.6版本已移除)
+  - User-defined parameters passed in at query-time.
+  - (提供查询时传参能力，但是7.6版本已移除)
 - weight (float, read-only)
   - The weight as calculated by a weight script（如果没有weight_script则为1）
 - query.boost (float, read-only)
