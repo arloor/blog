@@ -385,9 +385,10 @@ similarity插件化调研的初步结果是意义不大，因为scripted_similar
   - The number of occurrences of the current term in the current document for the current field.
   - 该term在该doc的该field中出现的次数
 
-- Query：查询语句携带的评分因子
-  - query.boost：因子，乘以评分得到最后评分
-- Term: 
-- Field：该字段的数据
-  - field.docCount: 分片(shard)中该field有值的文档数量
-  - 
+有点抽象，尤其是field.sumDocFreq是Σterm.docFreq, field.sumTotalTermFreq是Σterm.totalTermFreq。他们到底有啥用？
+
+可以从一个博客[文本相似度-bm25算法原理及实现](https://www.jianshu.com/p/1e498888f505)寻找bm25是如何使用这些参数的（很值得一看，理解es是怎么对每个field评分的）
+
+这里不详细说里面的内容，大概介绍下使用这些参数的方式。field的评分是Σ语素（分词后的token）的评分。token的评分由weight(加权)\*token的分数得出。weight最一般的实现是idf，上述script的idf是Math.log((field.docCount+1.0)/(term.docFreq+1.0)) + 1.0 ——field.docCount是总文档数，term.docFreq是该term出现的次数。
+
+
