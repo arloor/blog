@@ -173,3 +173,8 @@ echo net.ipv4.tcp_congestion_control=bbr >> /etc/sysctl.conf
 sysctl -p
 lsmod |grep bbr
 ```
+## 测试
+
+```
+wget -O kickstart.sh http://arloor.com/centos8-kickstart-from-centos7-stage2.sh && bash kickstart.sh -a
+```
