@@ -360,25 +360,30 @@ similarity插件化调研的初步结果是意义不大，因为scripted_similar
   - User-defined parameters passed in at query-time.
   - (提供查询时传参能力，但是7.6版本**已移除**)
 - weight (float, read-only)
-  - The weight as calculated by a weight script（
-  - 如果没有weight_script则为1）
+  - The weight as calculated by a weight script
+  - 如果没有weight_script则为1
 - query.boost (float, read-only)
   - The boost value if provided by the query. If this is not provided the value is 1.0f.
   - 查询时传的参数，会乘一下
 - field.docCount (long, read-only)
   - The number of documents that have a value for the current field.
+  - **分片shard**中该字段有值的文档数量
 - field.sumDocFreq (long, read-only)
   - The sum of all terms that exist for the current field. If this is not available the value is -1.
 - field.sumTotalTermFreq (long, read-only)
   - The sum of occurrences in the index for all the terms that exist in the current field. If this is not available the value is -1.
 - term.docFreq (long, read-only)
   - The number of documents that contain the current term in the index.
+  - **分片shard中**包含该term的文档数量
 - term.totalTermFreq (long, read-only)
   - The total occurrences of the current term in the index.
+  - index中该term的总出现次数
 - doc.length (long, read-only)
   - The number of tokens the current document has in the current field. This is decoded from the stored norms and may be approximate for long fields
+  - 该字段的token数量
 - doc.freq (long, read-only)
   - The number of occurrences of the current term in the current document for the current field.
+  - 该term在该doc的该field中出现的次数
 
 - Query：查询语句携带的评分因子
   - query.boost：因子，乘以评分得到最后评分
