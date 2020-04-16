@@ -391,4 +391,4 @@ similarity插件化调研的初步结果是意义不大，因为scripted_similar
 
 这里不详细说里面的内容，大概介绍下使用这些参数的方式。field的评分是Σ语素（分词后的token）的评分。token的评分由weight(加权)\*token的分数得出。weight最一般的实现是idf，上述script的idf是Math.log((field.docCount+1.0)/(term.docFreq+1.0)) + 1.0 ——field.docCount是总文档数，term.docFreq是该term出现的次数。
 
-
+另一篇介绍BM25算法的文章[https://www.jianshu.com/p/0b372804ff45](https://www.jianshu.com/p/0b372804ff45)
