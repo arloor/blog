@@ -446,6 +446,10 @@ cd iperf-3.1.3
 ./configure
 make
 make install
+sed -n '/^\/usr\/local\/lib/'p /etc/ld.so.conf.d/local.conf | grep -q "/usr/local/lib"
+if [ $? -ne 0 ]; then
+    echo -e "/usr/local/lib" >> /etc/ld.so.conf.d/local.conf && ldconfig
+fi
 ```
 
 服务端
