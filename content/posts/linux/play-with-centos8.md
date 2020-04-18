@@ -435,3 +435,27 @@ echo "exclude=kernel*" >> /etc/dnf/dnf.conf
 ## fedora31 安装n卡驱动
 
 [https://www.if-not-true-then-false.com/2015/fedora-nvidia-guide/](https://www.if-not-true-then-false.com/2015/fedora-nvidia-guide/)
+
+## iperf使用
+
+```
+yum install -y wget gcc make
+wget https://iperf.fr/download/source/iperf-3.1.3-source.tar.gz
+tar zxvf iperf-3.1.3-source.tar.gz
+cd iperf-3.1.3
+./configure
+make
+make install
+```
+
+服务端
+
+```
+iperf3 -s
+```
+
+客户端
+
+```
+iperf3 -c 192.168.0.1
+```
