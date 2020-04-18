@@ -458,8 +458,8 @@ fi
 iperf3 -s
 ```
 
-客户端
+客户端(-R, --reverse，反向模式运行（Server 端发送，Client 端接收）；)
 
 ```
-iperf3 -c 192.168.0.1
+iperf3 -c 192.168.0.1 -R
 ```
