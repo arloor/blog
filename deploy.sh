@@ -1,4 +1,6 @@
 #! /bin/bash
+# wget -O /usr/local/bin/tarloor http://arloor.com/tarloor.sh
+
 # 当前使用hugo 0.53(支持scss)
 dir=/home/x1/blog
 dir=$PWD
