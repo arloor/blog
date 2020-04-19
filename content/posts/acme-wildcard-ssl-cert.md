@@ -11,6 +11,7 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
+用一下acme.sh，实现自动签发野卡证书的需求
 <!--more-->
 
 ## 下载安装acme.sh
