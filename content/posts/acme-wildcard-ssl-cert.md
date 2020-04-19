@@ -57,6 +57,8 @@ acme.sh --issue --dns dns_ali -d example.com -d *.example.com
 
 ## 会进行自动续签
 
+安装时有自动配置定时任务进行续签
+
 注意，所谓续签是将原证书失效，重新签发。
 
 ## 更新acme.sh
