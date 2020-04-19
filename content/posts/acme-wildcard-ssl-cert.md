@@ -49,10 +49,10 @@ acme.sh --issue --dns dns_ali -d example.com -d *.example.com
 ```
 
 ```
-[2020年 04月 19日 星期日 13:17:00 CST] Your cert is in  /root/.acme.sh/someme.me/someme.me.cer
-[2020年 04月 19日 星期日 13:17:00 CST] Your cert key is in  /root/.acme.sh/someme.me/someme.me.key
-[2020年 04月 19日 星期日 13:17:00 CST] The intermediate CA cert is in  /root/.acme.sh/someme.me/ca.cer
-[2020年 04月 19日 星期日 13:17:00 CST] And the full chain certs is there:  /root/.acme.sh/someme.me/fullchain.cer 
+[2020年 04月 19日 星期日 13:17:00 CST] Your cert is in  /root/.acme.sh/xxx.com/xxx.com.cer
+[2020年 04月 19日 星期日 13:17:00 CST] Your cert key is in  /root/.acme.sh/xxx.com/xxx.com.key
+[2020年 04月 19日 星期日 13:17:00 CST] The intermediate CA cert is in  /root/.acme.sh/xxx.com/ca.cer
+[2020年 04月 19日 星期日 13:17:00 CST] And the full chain certs is there:  /root/.acme.sh/xxx.com/fullchain.cer 
 ```
 
 ## 会进行自动续签
