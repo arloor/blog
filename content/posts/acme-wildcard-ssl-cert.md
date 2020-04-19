@@ -1,0 +1,75 @@
+---
+title: "acme.sh签发dnspod(腾讯云)和阿里云ssl野卡证书并自动续签"
+date: 2020-04-19T13:20:07+08:00
+draft: false
+categories: [ "undefined"]
+tags: ["undefined"]
+weight: 10
+subtitle: ""
+description : ""
+keywords:
+- 刘港欢 arloor moontell
+---
+
+## 下载安装acme.sh
+
+```
+curl https://get.acme.sh | sh
+```
+
+## 腾讯云
+
+https://www.dnspod.cn/console/user/security
+
+
+```
+# vim /etc/profile.d/dnspod.sh
+export DP_Id="API Token 的 ID"
+export DP_Key="API Token"
+```
+
+```
+acme.sh --issue --dns dns_dp -d example.com -d *.example.com
+```
+
+## 阿里云
+
+https://ak-console.aliyun.com/#/accesskey
+
+
+```
+# vim /etc/profile.d/dns_ali.sh
+export Ali_Key="xxx"
+export Ali_Secret="xxxx"
+```
+
+```
+acme.sh --issue --dns dns_ali -d example.com -d *.example.com 
+```
+
+```
+[2020年 04月 19日 星期日 13:17:00 CST] Your cert is in  /root/.acme.sh/someme.me/someme.me.cer
+[2020年 04月 19日 星期日 13:17:00 CST] Your cert key is in  /root/.acme.sh/someme.me/someme.me.key
+[2020年 04月 19日 星期日 13:17:00 CST] The intermediate CA cert is in  /root/.acme.sh/someme.me/ca.cer
+[2020年 04月 19日 星期日 13:17:00 CST] And the full chain certs is there:  /root/.acme.sh/someme.me/fullchain.cer 
+```
+
+## 会进行自动续签
+
+注意，所谓续签是将原证书失效，重新签发。
+
+## 更新acme.sh
+
+acme变得挺快的，更新就用这个
+
+```
+acme.sh --upgrade
+```
+
+```
+# 自动更新
+acme.sh  --upgrade  --auto-upgrade
+# 关闭自动更新
+acme.sh  --upgrade  --auto-upgrade 0
+```
+
