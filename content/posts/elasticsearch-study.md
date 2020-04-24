@@ -476,6 +476,32 @@ ExpressionScriptEngine
 }
 ```
 
-ScriptScoreFunctionBuilder.doToFunction
+```{
+  "query": {
+    "function_score": {
+      "query": {
+        "match": {
+          "body": "foo bar"
+        }
+      },
+      "boost_mode": "replace",
+      "functions": [
+        {
+          "script_score": {
+            "script": {
+              "source": "pure_df",
+              "lang": "expert_scripts",
+              "params": {
+                "field": "body",
+                "query": "foo bar"
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+```
 
- ScoreScript.LeafFactory searchScript = factory.newFactory(script.getParams(), context.lookup());
+
