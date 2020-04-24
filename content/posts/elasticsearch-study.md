@@ -428,3 +428,54 @@ https://www.elastic.co/guide/en/elasticsearch/reference/6.6/modules-scripting-en
 ```
 
 ExpressionScriptEngine
+
+```
+{
+  "query": {
+    "function_score": {
+      "query": {
+        "match": {
+          "body": "foo"
+        }
+      },
+      "functions": [
+        {
+          "script_score": {
+            "script": {
+              "source": "Math.log(2 + params._source.body)"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+```
+{
+  "query": {
+    "function_score": {
+      "query": {
+        "match": {
+          "body": "foo"
+        }
+      },
+      "functions": [
+        {
+          "script_score": {
+            "script": {
+              "lang": "expression",
+              "source": "2 + doc['body'].value"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+ScriptScoreFunctionBuilder.doToFunction
+
+ ScoreScript.LeafFactory searchScript = factory.newFactory(script.getParams(), context.lookup());
