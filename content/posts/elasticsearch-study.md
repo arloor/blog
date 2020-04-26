@@ -504,4 +504,33 @@ ExpressionScriptEngine
 }
 ```
 
+```
+{
+  "query": {
+    "function_score": {
+      "query": {
+        "match": {
+          "body": "foo bar baz"
+        }
+      },
+      "boost_mode": "replace",
+      "functions": [
+        {
+          "script_score": {
+            "script": {
+              "source": "pure_df",
+              "lang": "expert_scripts",
+              "params": {
+                "field": ["body","title"],
+                "query": "foo"
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
 
