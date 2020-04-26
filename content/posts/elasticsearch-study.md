@@ -476,12 +476,56 @@ ExpressionScriptEngine
 }
 ```
 
-```{
+
+## 测试
+
+```
+put /index
+{
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 0
+  },
+  "mappings": {
+    "_doc": {
+      "properties": {
+        "body": {
+          "type": "text"
+        }
+      }
+    }
+  }
+}
+
+
+PUT /index/_doc/1
+{
+  "body": "foo bar foo"
+}
+
+PUT /index/_doc/2
+{
+  "body": "foo bar baz"
+}
+
+PUT /index/_doc/3
+{
+  "body": "我是刘港欢"
+}
+
+PUT /index/_doc/3
+{
+  "body": "我是刘港=欢"
+}
+```
+
+```
+{
   "query": {
     "function_score": {
       "query": {
         "match": {
-          "body": "foo bar"
+          "body": "是我"
         }
       },
       "boost_mode": "replace",
@@ -493,7 +537,7 @@ ExpressionScriptEngine
               "lang": "expert_scripts",
               "params": {
                 "field": "body",
-                "query": "foo bar"
+                "query": "刘港欢"
               }
             }
           }
@@ -532,5 +576,3 @@ ExpressionScriptEngine
   }
 }
 ```
-
-
