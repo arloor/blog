@@ -513,7 +513,7 @@ PUT /index/_doc/3
   "body": "我是刘港欢"
 }
 
-PUT /index/_doc/3
+PUT /index/_doc/4
 {
   "body": "我是刘港=欢"
 }
