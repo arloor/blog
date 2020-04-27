@@ -11,7 +11,7 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
-在[Elasticsearch调研](https://arloor.com/posts/elasticsearch-study/)中，已经学习了es的similarity、plugin和在idea中debug启动。有了以上，就可以自己制作es评分插件。这篇博客说下如何自定义script_score实现自己的评分算法。
+在[Elasticsearch调研](/posts/elasticsearch-study/)中，已经学习了es的similarity、plugin和在idea中debug启动。有了以上，就可以自己制作es评分插件。这篇博客说下如何自定义script_score实现自己的评分算法。
 <!--more-->
 
 老规矩，先上项目地址[es-score-plugin](https://github.com/arloor/es-score-plugin)
