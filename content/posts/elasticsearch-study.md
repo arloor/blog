@@ -562,7 +562,7 @@ PUT /index/_doc/4
         {
           "script_score": {
             "script": {
-              "source": "pure_df",
+              "source": "horspool",
               "lang": "expert_scripts",
               "params": {
                 "field": ["body","title"],
