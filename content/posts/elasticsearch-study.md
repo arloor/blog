@@ -13,11 +13,7 @@ keywords:
 
 首先，关于es启动流程的大体介绍[lanffy.github.io](https://lanffy.github.io/2019/04/09/ElasticSearch-Start-Up-Process)。在这片文章中，将会主要关注加载插件的部分。
 
-org/elasticsearch/node/Node.java
-
-SimilarityProviders.java
-
-## 启动debug
+## 在idea中启动调试elasticsearch
 
 es6.6.2需要使用jdk11启动。
 
@@ -111,7 +107,7 @@ Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 解压到D:\elasticsearch-6.6.2
 
 
-Idea项目的vm options
+设置idea项目的vm options
 
 ```
 -Des.path.home=D:\elasticsearch-6.6.2
