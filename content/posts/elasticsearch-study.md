@@ -11,7 +11,12 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
+目的：调研elasticsearch的启动、debug、评分、插件以实现自定义评分插件。
+
 首先，关于es启动流程的大体介绍[lanffy.github.io](https://lanffy.github.io/2019/04/09/ElasticSearch-Start-Up-Process)。在这片文章中，将会主要关注加载插件的部分。
+
+[elaticsearch我的fork](https://github.com/arloor/elasticsearch/tree/LGH-test)
+<!--more-->
 
 ## 在idea中启动调试elasticsearch
 
@@ -339,14 +344,9 @@ public class MBM25SimilarityPlugin extends Plugin {
 
 核心是indexModule.addXXXX方法，提供了扩展es各个功能的方法。
 
-similarity插件化调研的初步结果是意义不大，因为scripted_similarity基本可以代替插件化了
-
-[Github地址](https://github.com/arloor/elasticsearch/tree/LGH-test)
-
-
 ## 再看scripted_similarity
 
-上文见识了scripted_weight的实例，但是没有看用于script的参数的含义，这里再来看下。
+上文见识了scripted_similarity的实例，但是没有看用于script的参数的含义，这里再来看下。
 
 各项参数定义的java类，是org.elasticsearch.index.similarity.ScriptedSimilarity类的私有静态内部类。elasticsearch的文档把这些参数写在了painless context中，链接：[painless-similarity-context.html](https://www.elastic.co/guide/en/elasticsearch/painless/6.6/painless-similarity-context.html)
 
@@ -388,6 +388,10 @@ similarity插件化调研的初步结果是意义不大，因为scripted_similar
 这里不详细说里面的内容，大概介绍下使用这些参数的方式。field的评分是Σ语素（分词后的token）的评分。token的评分由weight(加权)\*token的分数得出。weight最一般的实现是idf，上述script的idf是Math.log((field.docCount+1.0)/(term.docFreq+1.0)) + 1.0 ——field.docCount是总文档数，term.docFreq是该term出现的次数。
 
 另一篇介绍BM25算法的文章[https://www.jianshu.com/p/0b372804ff45](https://www.jianshu.com/p/0b372804ff45)
+
+对similarity的简单总结：es提供给similarity评分计算的参数有限。无法获取文档中某字段的值，也无法获取用户输入参数。另外，es通过script_similarity给我们提供了自定义相似度算法的方法（当然，只能使用es给我们的那些参数，不能扩展）。因此，使用插件来自定义similarity算法意义不大。
+
+在后面的博客中，将介绍使用插件来实现自定义script_score（function_score），以实现自定义评分算法。
 
 ## 使用插件扩展function——score
 
