@@ -14,7 +14,7 @@ keywords:
 在[Elasticsearch调研](/posts/elasticsearch-study/)中，已经学习了es的similarity、plugin和在idea中debug启动。有了以上，就可以自己制作es评分插件。这篇博客说下如何自定义script_score实现自己的评分算法。
 <!--more-->
 
-老规矩，先上项目地址[es-score-plugin](https://github.com/arloor/es-score-plugin)
+老规矩，先上项目地址[es-score-plugin](https://github.com/arloor/es-score-plugin) ——仅适用于elasticsearch6.6.2版本
 
 ## es插件项目的代码结构(maven项目)
 
@@ -194,3 +194,11 @@ horspool算法入参就两个文本，不受其他文档的影响，这是与es�
   }
 }
 ```
+
+## 参考文档
+
+[elasticsearch插件的开发--计算特征向量的相似度](https://www.cnblogs.com/whb-20160329/p/10472717.html)
+
+[Advanced scripts using script engines](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/modules-scripting-engine.html)
+
+[elasticsearch6.6.2 javaDoc](https://www.javadoc.io/doc/org.elasticsearch/elasticsearch/6.6.2/index.html) ——专家脚本模式有可能需要查查看
