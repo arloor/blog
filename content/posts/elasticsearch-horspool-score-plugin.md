@@ -16,6 +16,12 @@ keywords:
 
 老规矩，先上项目地址[es-score-plugin](https://github.com/arloor/es-score-plugin) ——仅适用于elasticsearch6.6.2版本
 
+## 目的
+
+es评分bm25或者tf-rdf考虑了分出来的token的频率和该文档在整个索引中的表现(权重)，虽然专业但是有点重，并且在某些特别的需求下不太好。
+
+在某些情况下，不如只考虑两个字符串之间的关系。相关的算法也挺多的，horspool是一种，我自己也实现了一种。
+
 ## es插件项目的代码结构(maven项目)
 
 跟着[Elasticsearch自定义插件开发](https://blog.csdn.net/L253272670/article/details/54141169)这个成功走通。
