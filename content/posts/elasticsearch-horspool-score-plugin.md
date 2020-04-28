@@ -202,3 +202,35 @@ horspool算法入参就两个文本，不受其他文档的影响，这是与es�
 [Advanced scripts using script engines](https://www.elastic.co/guide/en/elasticsearch/reference/6.6/modules-scripting-engine.html)
 
 [elasticsearch6.6.2 javaDoc](https://www.javadoc.io/doc/org.elasticsearch/elasticsearch/6.6.2/index.html) ——专家脚本模式有可能需要查查看
+
+## gist
+
+暂时没有用到但是有些作用的代码：
+
+```
+// 打印当前document某field的分词结果（terms）
+Terms terms = null;
+String temp="";
+try {
+    terms = reader.terms(field);
+    TermsEnum iterator = terms.iterator();
+    for (int i = 0; i < terms.size(); i++) {
+        BytesRef next = iterator.next();
+        if (next==null){
+            break;
+        }
+        temp+="|"+Term.toString(next);
+    }
+    System.out.println(value+"=="+temp);
+} catch (IOException e) {
+    e.printStackTrace();
+}
+```
+
+```
+// 获取某字段值（不推荐，推荐使用sourceLookup）
+Document document = reader.document(currentDocid);
+String doc=new String(document.getBinaryValue("_source").bytes);
+JSONObject jsonObject=JSONObject.parseObject(doc);
+String value=jsonObject.getString(field);
+```
