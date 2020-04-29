@@ -137,10 +137,12 @@ Please enter phone number:
 - 仅支持windows10
 - git clone https://github.com/arloor/tdlib-use
 - git checkout raw 
-- lib/: 存放dll文件；在运行前需要将lib/dll/下的三个文件放到path
+- lib/: 存放dll文件；在运行前需要将lib/dll/下的三个文件放到系统path指定的文件夹
 - doc/: 存放javaDocs，为了方便查阅文档，一并提供
 - 编辑 run configuration，在VM options中增加：`-Djava.library.path=lib`，以指定tgjni.dll的查询路径为lib/
 - 点击运行，会进入电报登录过程
+
+注意：如果你开了idea后再添加新的path，那么需要重启idea才能使新的path生效！！
 
 更多情况，还请移步Github
 
