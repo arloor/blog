@@ -13,4 +13,4 @@ keywords:
 
 [官方文档](https://lucene.apache.org/core/8_5_1/index.html)
 
-[官方demo](https://github.com/arloor/luence-demo)
+[demo项目](https://github.com/arloor/luence-demo)
