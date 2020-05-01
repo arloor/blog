@@ -178,3 +178,9 @@ lsmod |grep bbr
 ```
 wget -O kickstart.sh http://arloor.com/centos8-kickstart-from-centos7-stage2.sh && bash kickstart.sh -a
 ```
+
+## 重新安装centos8
+
+```
+ curl https://arloor.com/centos8-reinstall.sh|bash
+```
