@@ -128,15 +128,15 @@ LinuxIMG="$(grep 'initrd.*/' /var/temp.conf |awk '{print $1}' |tail -n 1)";
 ## 分未Inboot和NoBoot修改加载kernel和initrd的
 [[ "$Type" == 'InBoot' ]] && {
   sed -i "/$LinuxKernel.*\//c$LinuxKernel\\t\/boot\/vmlinuz" /var/temp.conf;
-  [[ "$AutoNet" -eq '1' ]] && sed -i "/options.*/coptions\\tip=dhcp inst.repo=http:\/\/mirrors.aliyun.com\/centos\/8.1.1911\/BaseOS\/x86_64\/os\/ inst.lang=zh_CN inst.keymap=cn selinux=0 inst.stage2=http:\/\/mirrors.aliyun.com\/centos\/8.1.1911\/BaseOS\/x86_64\/os\/" /var/temp.conf;
-  [[ "$AutoNet" -eq '0' ]] && sed -i "/options.*/coptions\\tip=$IPv4::$GATE:$MASK:my_hostname:eth0:none inst.repo=http:\/\/mirrors.aliyun.com\/centos\/8.1.1911\/BaseOS\/x86_64\/os\/ inst.lang=zh_CN inst.keymap=cn selinux=0 inst.stage2=http:\/\/mirrors.aliyun.com\/centos\/8.1.1911\/BaseOS\/x86_64\/os\/" /var/temp.conf;
+  [[ "$AutoNet" -eq '1' ]] && sed -i "/options.*/coptions ip=dhcp inst.repo=http:\/\/mirrors.aliyun.com\/centos\/8.1.1911\/BaseOS\/x86_64\/os\/ inst.lang=zh_CN inst.keymap=cn selinux=0 inst.stage2=http:\/\/mirrors.aliyun.com\/centos\/8.1.1911\/BaseOS\/x86_64\/os\/" /var/temp.conf;
+  [[ "$AutoNet" -eq '0' ]] && sed -i "/options.*/coptions ip=$IPv4::$GATE:$MASK:my_hostname:eth0:none inst.repo=http:\/\/mirrors.aliyun.com\/centos\/8.1.1911\/BaseOS\/x86_64\/os\/ inst.lang=zh_CN inst.keymap=cn selinux=0 inst.stage2=http:\/\/mirrors.aliyun.com\/centos\/8.1.1911\/BaseOS\/x86_64\/os\/" /var/temp.conf;
   sed -i "/$LinuxIMG.*\//c$LinuxIMG\\t\/boot\/initrd.img" /var/temp.conf;
 }
 
 [[ "$Type" == 'NoBoot' ]] && {
   sed -i "/$LinuxKernel.*\//c$LinuxKernel\\t\/vmlinuz" /var/temp.conf
-  [[ "$AutoNet" -eq '1' ]] && sed -i "/options.*/coptions\\tip=dhcp inst.repo=http:\/\/mirrors.aliyun.com\/centos\/8.1.1911\/BaseOS\/x86_64\/os\/ inst.lang=zh_CN inst.keymap=cn selinux=0 inst.stage2=http:\/\/mirrors.aliyun.com\/centos\/8.1.1911\/BaseOS\/x86_64\/os\/" /var/temp.conf;
-  [[ "$AutoNet" -eq '0' ]] && sed -i "/options.*/coptions\\tip=$IPv4::$GATE:$MASK:my_hostname:eth0:none inst.repo=http:\/\/mirrors.aliyun.com\/centos\/8.1.1911\/BaseOS\/x86_64\/os\/ inst.lang=zh_CN inst.keymap=cn selinux=0 inst.stage2=http:\/\/mirrors.aliyun.com\/centos\/8.1.1911\/BaseOS\/x86_64\/os\/" /var/temp.conf;
+  [[ "$AutoNet" -eq '1' ]] && sed -i "/options.*/coptions ip=dhcp inst.repo=http:\/\/mirrors.aliyun.com\/centos\/8.1.1911\/BaseOS\/x86_64\/os\/ inst.lang=zh_CN inst.keymap=cn selinux=0 inst.stage2=http:\/\/mirrors.aliyun.com\/centos\/8.1.1911\/BaseOS\/x86_64\/os\/" /var/temp.conf;
+  [[ "$AutoNet" -eq '0' ]] && sed -i "/options.*/coptions ip=$IPv4::$GATE:$MASK:my_hostname:eth0:none inst.repo=http:\/\/mirrors.aliyun.com\/centos\/8.1.1911\/BaseOS\/x86_64\/os\/ inst.lang=zh_CN inst.keymap=cn selinux=0 inst.stage2=http:\/\/mirrors.aliyun.com\/centos\/8.1.1911\/BaseOS\/x86_64\/os\/" /var/temp.conf;
   sed -i "/$LinuxIMG.*\//c$LinuxIMG\\t\/initrd.img" /var/temp.conf;
 }
 
