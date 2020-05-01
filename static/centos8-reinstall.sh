@@ -113,86 +113,39 @@ echo GATEWAY：  $GATE
 echo MASK：  $MASK $NETSUB
 
 
-### 备份grub文件
-[[ ! -f $GRUBDIR/$GRUBFILE ]] && echo "Error! Not Found $GRUBFILE. " && exit 1;
+# 展示最新的boot entry
+ cd /boot/loader/entries/
+ ls /boot/loader/entries/|tail -1|xargs cat > /var/temp.conf
+ [[ -n "$(grep 'linux.*/\|kernel.*/' /var/temp.conf |awk '{print $2}' |tail -n 1 |grep '^/boot/')" ]] && Type='InBoot' || Type='NoBoot';
 
-[[ ! -f $GRUBDIR/$GRUBFILE.old ]] && [[ -f $GRUBDIR/$GRUBFILE.bak ]] && mv -f $GRUBDIR/$GRUBFILE.bak $GRUBDIR/$GRUBFILE.old;
-mv -f $GRUBDIR/$GRUBFILE $GRUBDIR/$GRUBFILE.bak;
-[[ -f $GRUBDIR/$GRUBFILE.old ]] && cat $GRUBDIR/$GRUBFILE.old >$GRUBDIR/$GRUBFILE || cat $GRUBDIR/$GRUBFILE.bak >$GRUBDIR/$GRUBFILE;
-
-## 截取原grub中的第一个menuentry到/tmp/grub.new
-[[ "$GRUBOLD" == '0' ]] && {
-  READGRUB='/tmp/grub.read'
-  cat $GRUBDIR/$GRUBFILE |sed -n '1h;1!H;$g;s/\n/+++/g;$p' |grep -oPm 1 'menuentry\ .*\{.*\}\+\+\+' |sed 's/\+\+\+/\n/g' >$READGRUB
-  LoadNum="$(cat $READGRUB |grep -c 'menuentry ')"
-  if [[ "$LoadNum" -eq '1' ]]; then
-    cat $READGRUB |sed '/^$/d' >/tmp/grub.new;
-  elif [[ "$LoadNum" -gt '1' ]]; then
-    CFG0="$(awk '/menuentry /{print NR}' $READGRUB|head -n 1)";
-    CFG2="$(awk '/menuentry /{print NR}' $READGRUB|head -n 2 |tail -n 1)";
-    CFG1="";
-    for tmpCFG in `awk '/}/{print NR}' $READGRUB`
-      do
-        [ "$tmpCFG" -gt "$CFG0" -a "$tmpCFG" -lt "$CFG2" ] && CFG1="$tmpCFG";
-      done
-    [[ -z "$CFG1" ]] && {
-      echo "Error! read $GRUBFILE. ";
-      exit 1;
-    }
-
-    sed -n "$CFG0,$CFG1"p $READGRUB >/tmp/grub.new;
-    [[ -f /tmp/grub.new ]] && [[ "$(grep -c '{' /tmp/grub.new)" -eq "$(grep -c '}' /tmp/grub.new)" ]] || {
-      echo -ne "\033[31mError! \033[0mNot configure $GRUBFILE. \n";
-      exit 1;
-    }
-  fi
-  [ ! -f /tmp/grub.new ] && echo "Error! $GRUBFILE. " && exit 1;
-  ## 修改标头
-  sed -i "/menuentry.*/c\menuentry\ \'Install Centos8 \[$DIST\ $VER\]\'\ --class debian\ --class\ gnu-linux\ --class\ gnu\ --class\ os\ \{" /tmp/grub.new
-  sed -i "/echo.*Loading/d" /tmp/grub.new;
-  ## 找到在哪插入新的menuentry
-  INSERTGRUB="$(awk '/menuentry /{print NR}' $GRUBDIR/$GRUBFILE|head -n 1)"
-}
-
-
-## 从已有menuentry判断/boot是否为单独分区
-[[ -n "$(grep 'linux.*/\|kernel.*/' /tmp/grub.new |awk '{print $2}' |tail -n 1 |grep '^/boot/')" ]] && Type='InBoot' || Type='NoBoot';
-
-LinuxKernel="$(grep 'linux.*/\|kernel.*/' /tmp/grub.new |awk '{print $1}' |head -n 1)";
+ LinuxKernel="$(grep 'linux.*/\|kernel.*/' /var/temp.conf |awk '{print $1}' |head -n 1)";
 [[ -z "$LinuxKernel" ]] && echo "Error! read grub config! " && exit 1;
-LinuxIMG="$(grep 'initrd.*/' /tmp/grub.new |awk '{print $1}' |tail -n 1)";
+LinuxIMG="$(grep 'initrd.*/' /var/temp.conf |awk '{print $1}' |tail -n 1)";
 ## 如果没有initrd 则增加initrd
-[ -z "$LinuxIMG" ] && sed -i "/$LinuxKernel.*\//a\\\tinitrd\ \/" /tmp/grub.new && LinuxIMG='initrd';
-
-
+[ -z "$LinuxIMG" ] && sed -i "/$LinuxKernel.*\//a\\\tinitrd\ \/" /var/temp.conf && LinuxIMG='initrd';
 
 ## 分未Inboot和NoBoot修改加载kernel和initrd的
 [[ "$Type" == 'InBoot' ]] && {
-  [[ "$AutoNet" -eq '1' ]] && sed -i "/$LinuxKernel.*\//c\\\t$LinuxKernel\\t\/boot\/vmlinuz  ip=dhcp inst.repo=http:\/\/mirrors.aliyun.com\/centos\/8.1.1911\/BaseOS\/x86_64\/os\/ inst.lang=zh_CN inst.keymap=cn selinux=0 inst.stage2=http:\/\/mirrors.aliyun.com\/centos\/8.1.1911\/BaseOS\/x86_64\/os\/" /tmp/grub.new;
-  [[ "$AutoNet" -eq '0' ]] && sed -i "/$LinuxKernel.*\//c\\\t$LinuxKernel\\t\/boot\/vmlinuz  ip=$IPv4::$GATE:$MASK:my_hostname:eth0:none inst.repo=http:\/\/mirrors.aliyun.com\/centos\/8.1.1911\/BaseOS\/x86_64\/os\/ inst.lang=zh_CN inst.keymap=cn selinux=0 inst.stage2=http:\/\/mirrors.aliyun.com\/centos\/8.1.1911\/BaseOS\/x86_64\/os\/" /tmp/grub.new;
-  sed -i "/$LinuxIMG.*\//c\\\t$LinuxIMG\\t\/boot\/initrd.img" /tmp/grub.new;
+  sed -i "/$LinuxKernel.*\//c$LinuxKernel\\t\/boot\/vmlinuz" /var/temp.conf;
+  [[ "$AutoNet" -eq '1' ]] && sed -i "/options.*/coptions\\tip=dhcp inst.repo=http:\/\/mirrors.aliyun.com\/centos\/8.1.1911\/BaseOS\/x86_64\/os\/ inst.lang=zh_CN inst.keymap=cn selinux=0 inst.stage2=http:\/\/mirrors.aliyun.com\/centos\/8.1.1911\/BaseOS\/x86_64\/os\/" /var/temp.conf;
+  [[ "$AutoNet" -eq '0' ]] && sed -i "/options.*/coptions\\tip=$IPv4::$GATE:$MASK:my_hostname:eth0:none inst.repo=http:\/\/mirrors.aliyun.com\/centos\/8.1.1911\/BaseOS\/x86_64\/os\/ inst.lang=zh_CN inst.keymap=cn selinux=0 inst.stage2=http:\/\/mirrors.aliyun.com\/centos\/8.1.1911\/BaseOS\/x86_64\/os\/" /var/temp.conf;
+  sed -i "/$LinuxIMG.*\//c$LinuxIMG\\t\/boot\/initrd.img" /var/temp.conf;
 }
 
 [[ "$Type" == 'NoBoot' ]] && {
-  [[ "$AutoNet" -eq '1' ]] && sed -i "/$LinuxKernel.*\//c\\\t$LinuxKernel\\t\/vmlinuz  ip=dhcp inst.repo=http:\/\/mirrors.aliyun.com\/centos\/8.1.1911\/BaseOS\/x86_64\/os\/ inst.lang=zh_CN inst.keymap=us selinux=0 inst.stage2=http:\/\/mirrors.aliyun.com\/centos\/8.1.1911\/BaseOS\/x86_64\/os\/" /tmp/grub.new;
-  [[ "$AutoNet" -eq '0' ]] && sed -i "/$LinuxKernel.*\//c\\\t$LinuxKernel\\t\/vmlinuz  ip=$IPv4::$GATE:$MASK:my_hostname:eth0:none inst.repo=http:\/\/mirrors.aliyun.com\/centos\/8.1.1911\/BaseOS\/x86_64\/os\/ inst.lang=zh_CN inst.keymap=cn selinux=0 inst.stage2=http:\/\/mirrors.aliyun.com\/centos\/8.1.1911\/BaseOS\/x86_64\/os\/" /tmp/grub.new;
-  sed -i "/$LinuxIMG.*\//c\\\t$LinuxIMG\\t\/initrd.img" /tmp/grub.new;
+  sed -i "/$LinuxKernel.*\//c$LinuxKernel\\t\/vmlinuz" /var/temp.conf
+  [[ "$AutoNet" -eq '1' ]] && sed -i "/options.*/coptions\\tip=dhcp inst.repo=http:\/\/mirrors.aliyun.com\/centos\/8.1.1911\/BaseOS\/x86_64\/os\/ inst.lang=zh_CN inst.keymap=cn selinux=0 inst.stage2=http:\/\/mirrors.aliyun.com\/centos\/8.1.1911\/BaseOS\/x86_64\/os\/" /var/temp.conf;
+  [[ "$AutoNet" -eq '0' ]] && sed -i "/options.*/coptions\\tip=$IPv4::$GATE:$MASK:my_hostname:eth0:none inst.repo=http:\/\/mirrors.aliyun.com\/centos\/8.1.1911\/BaseOS\/x86_64\/os\/ inst.lang=zh_CN inst.keymap=cn selinux=0 inst.stage2=http:\/\/mirrors.aliyun.com\/centos\/8.1.1911\/BaseOS\/x86_64\/os\/" /var/temp.conf;
+  sed -i "/$LinuxIMG.*\//c$LinuxIMG\\t\/initrd.img" /var/temp.conf;
 }
 
-## 增加空行
-sed -i '$a\\n' /tmp/grub.new;
+sed -i "/title.*/ctitle reinstall-centos8" /var/temp.conf
+sed -i "/id.*/cid reinstall-centos8" /var/temp.conf
 
-## 根据是否-a，决定将新的条目查到第一个还是尾部
-[ "$1" = "-a" ]&&{
-  ## 将新的menuentry插入到grub，作为第一个menuentry
-  sed -i ''${INSERTGRUB}'i\\n' $GRUBDIR/$GRUBFILE;
-  sed -i ''${INSERTGRUB}'r /tmp/grub.new' $GRUBDIR/$GRUBFILE;
-}||{
-  ##  插入到grub尾部，并作为最后一个menuentry；同时设置超时时间为100s，以给与充分时间连接VNC
-  sed -i ''${INSERTGRUB}'i\set timeout=100\n' $GRUBDIR/$GRUBFILE;
-  sed -i '$i\\n' $GRUBDIR/$GRUBFILE
-  sed -i '$r /tmp/grub.new' $GRUBDIR/$GRUBFILE
-}
+
+rm -f /boot/loader/entries/temp.conf
+cp /var/temp.conf /boot/loader/entries/
+
 
 ## 删除saved_entry ——即下次默认启动的
 [[ -f  $GRUBDIR/grubenv ]] && sed -i 's/saved_entry/#saved_entry/g' $GRUBDIR/grubenv;
