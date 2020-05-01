@@ -183,4 +183,5 @@ wget -O kickstart.sh http://arloor.com/centos8-kickstart-from-centos7-stage2.sh 
 
 ```
  curl https://arloor.com/centos8-reinstall.sh|bash
+ curl https://arloor.com/centos8-kickstart-reinstall.sh|bash
 ```
