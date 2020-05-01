@@ -114,6 +114,7 @@ echo MASK：  $MASK $NETSUB
 
 
 # 展示最新的boot entry
+rm -f /boot/loader/entries/temp.conf
  cd /boot/loader/entries/
  ls /boot/loader/entries/|tail -1|xargs cat > /var/temp.conf
  [[ -n "$(grep 'linux.*/\|kernel.*/' /var/temp.conf |awk '{print $2}' |tail -n 1 |grep '^/boot/')" ]] && Type='InBoot' || Type='NoBoot';
