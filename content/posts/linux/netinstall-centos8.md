@@ -182,6 +182,8 @@ wget -O kickstart.sh http://arloor.com/centos8-kickstart-from-centos7-stage2.sh 
 ## 重新安装centos8
 
 ```
+ # 手动重新安装
  curl https://arloor.com/centos8-reinstall.sh|bash
+ # 全自动重新安装
  curl https://arloor.com/centos8-kickstart-reinstall.sh|bash
 ```
