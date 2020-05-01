@@ -1,19 +1,6 @@
-print_info(){
-    clear
-    echo "#############################################################"
-    echo "# reinstall Centos 8.                                       #"
-    echo "# Usage: bash install.sh                                    #"
-    echo "# Website:  http://arloor.com/                              #"
-    echo "# Author: ARLOOR <admin@arloor.com>                         #"
-    echo "# Github: https://github.com/arloor                         #"
-    echo "#############################################################"
-    echo
-}
-
-print_info
-
-
 [[ "$EUID" -ne '0' ]] && echo "Error:This script must be run as root!" && exit 1;
+
+black="\033[0m"
 
 ## 检查依赖
 function CheckDependence(){
@@ -43,7 +30,7 @@ if [ "$FullDependence" == '1' ]; then
 fi
 }
 
-echo -e "\n\033[36m# Check Dependence\033[0m\n"
+clear && echo -e "\n\033[36m# Check Dependence\033[0m\n"
 CheckDependence wget,awk,xz,openssl,grep,dirname,file,cut,cat,cpio,gzip
 echo "Dependence Check done"
 
@@ -81,7 +68,6 @@ echo "done"
 echo "Not found \`ip command\`, Exit！please use centos7 as Base os." && exit 1
 }
 
-
 ##检查/etc/sysconfig/network-scripts
 [[ ! -d '/etc/sysconfig/network-scripts' ]] && echo "/etc/sysconfig/network-scripts not exit. please use centos7 as base os.exit." && exit 1
 ## 检查本机是不是dhcp的 最终设置AutoNet 1-dhcp 0-static
@@ -111,7 +97,7 @@ echo -e "\n\033[36m# Network Infomation\033[0m"
 echo IPV4： $IPv4
 echo GATEWAY：  $GATE  
 echo MASK：  $MASK $NETSUB
-
+echo
 
 # 展示最新的boot entry
 rm -f /boot/loader/entries/temp.conf
@@ -136,8 +122,7 @@ LinuxIMG="$(grep 'initrd.*/' /var/temp.conf |awk '{print $1}' |tail -n 1)";
   sed -i "/$LinuxIMG.*\//c$LinuxIMG\\t\/initrd.img" /var/temp.conf;
 }
 
-[[ "$AutoNet" -eq '1' ]] && sed -i "/options.*/coptions ip=dhcp inst.repo=http:\/\/mirrors.aliyun.com\/centos\/8.1.1911\/BaseOS\/x86_64\/os\/ inst.lang=zh_CN inst.keymap=cn selinux=0 inst.stage2=http:\/\/mirrors.aliyun.com\/centos\/8.1.1911\/BaseOS\/x86_64\/os\/" /var/temp.conf;
-[[ "$AutoNet" -eq '0' ]] && sed -i "/options.*/coptions ip=$IPv4::$GATE:$MASK:my_hostname:eth0:none inst.repo=http:\/\/mirrors.aliyun.com\/centos\/8.1.1911\/BaseOS\/x86_64\/os\/ inst.lang=zh_CN inst.keymap=cn selinux=0 inst.stage2=http:\/\/mirrors.aliyun.com\/centos\/8.1.1911\/BaseOS\/x86_64\/os\/" /var/temp.conf;  
+sed -i "/options.*/coptions inst.ks=file:\/\/ks.cfg" /var/temp.conf;
 sed -i "/title.*/ctitle reinstall-centos8" /var/temp.conf
 sed -i "/id.*/cid reinstall-centos8" /var/temp.conf
 
@@ -145,12 +130,116 @@ sed -i "/id.*/cid reinstall-centos8" /var/temp.conf
 rm -f /boot/loader/entries/temp.conf
 cp /var/temp.conf /boot/loader/entries/
 
-
 ## 删除saved_entry ——即下次默认启动的
 [[ -f  $GRUBDIR/grubenv ]] && sed -i 's/saved_entry/#saved_entry/g' $GRUBDIR/grubenv;
 
-echo -e "\n\033[36m# Due to reboot\033[0m"
-echo -e "\n\033[33m\033[04mYour VPS will reboot to install Centos8.\nPlease enter the VNC in 100 seconds!\nThen you can setup the system and start the installation!\n\033[0m\n"
+echo -e "\n\033[36m# Setup Kickstart\033[0m"
 
-echo  "Enter any key to reboot Or Ctrl+C to cancel:"&& read a
-sleep 1 && reboot >/dev/null 2>&1
+[[ -d /boot/tmp ]] && rm -rf /boot/tmp;
+mkdir -p /boot/tmp;
+cd /boot/tmp;
+## 判断initrd压缩类型，centos8为：: xz compressed data 这里COMPTYPE为xz
+COMPTYPE="$(file /boot/initrd.img |grep -o ':.*compressed data' |cut -d' ' -f2 |sed -r 's/(.*)/\L\1/' |head -n1)"
+[[ -z "$COMPTYPE" ]] && echo "Detect compressed type fail." && exit 1;
+CompDected='0'
+for ListCOMP in `echo -en 'lzma\nxz\ngzip'`
+  do
+    if [[ "$COMPTYPE" == "$ListCOMP" ]]; then
+      CompDected='1'
+      if [[ "$COMPTYPE" == 'gzip' ]]; then
+        NewIMG="initrd.img.gz"
+      else
+        NewIMG="initrd.img.$COMPTYPE"
+      fi
+      mv -f "/boot/initrd.img" "/boot/$NewIMG"
+      break;
+    fi
+  done
+[[ "$CompDected" != '1' ]] && echo "Detect compressed type not support." && exit 1;
+[[ "$COMPTYPE" == 'lzma' ]] && UNCOMP='xz --format=lzma --decompress';
+[[ "$COMPTYPE" == 'xz' ]] && UNCOMP='xz --decompress';
+[[ "$COMPTYPE" == 'gzip' ]] && UNCOMP='gzip -d';
+##解压缩initrd，会产生# bin  dev  etc  init  initrd.img  lib  lib64  proc  root  run  sbin  shutdown  sys  sysroot  tmp  usr  var
+$UNCOMP < ../$NewIMG | cpio --extract  --make-directories --no-absolute-filenames >>/dev/null 2>&1
+# $UNCOMP < ../$NewIMG | cpio --extract --verbose --make-directories --no-absolute-filenames >>/dev/null 2>&1
+
+## 编写ks.cfg
+cat >/boot/tmp/ks.cfg<<EOF
+#version=RHEL8
+autopart --type=plain --nohome --noboot
+# Partition clearing information
+clearpart --all --initlabel
+# Reboot after installation
+reboot
+# Use graphical install
+graphical
+# Keyboard layouts
+keyboard --vckeymap=us --xlayouts='cn'
+# System language
+lang zh_CN.UTF-8
+
+# Network information
+#ONDHCP network  --bootproto=dhcp --device=ens3 --nameserver=223.6.6.6 --ipv6=auto --activate
+#NODHCP network --bootproto=static --ip=$IPv4 --netmask=$MASK --gateway=$GATE --device=ens3 --nameserver=223.6.6.6 --ipv6=auto --activate
+network  --hostname=centos8.localdomain
+repo --name="AppStream" --baseurl=http://mirrors.aliyun.com/centos/8.1.1911/BaseOS/x86_64/os/../../../AppStream/x86_64/os/
+# Use network installation
+url --url="http://mirrors.aliyun.com/centos/8.1.1911/BaseOS/x86_64/os/"
+liveimg --url=http://mirrors.aliyun.com/centos/8.1.1911/BaseOS/x86_64/os/images/install.img --noverifyssl
+# Root password
+rootpw --plaintext arloor.com
+# SELinux configuration
+selinux --disabled
+# Run the Setup Agent on first boot
+firstboot --enable
+# Do not configure the X Window System
+skipx
+# System services
+services --enabled="chronyd"
+sshkey --username=root "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDZQzKHfZLlFEdaRUjfSK4twhL0y7+v23Ko4EI1nl6E1/zYqloSZCH3WqQFLGA7gnFlqSAfEHgCdD/4Ubei5a49iG0KSPajS6uPkrB/eiirTaGbe8oRKv2ib4R7ndbwdlkcTBLYFxv8ScfFQv6zBVX3ywZtRCboTxDPSmmrNGb2nhPuFFwnbOX8McQO5N4IkeMVedUlC4w5//xxSU67i1i/7kZlpJxMTXywg8nLlTuysQrJHOSQvYHG9a6TbL/tOrh/zwVFbBS+kx7X1DIRoeC0jHlVJSSwSfw6ESrH9JW71cAvn6x6XjjpGdQZJZxpnR1NTiG4Q5Mog7lCNMJjPtwJ not@home"
+# System timezone
+timezone Asia/Shanghai --isUtc
+
+%packages
+@^minimal-environment
+kexec-tools
+kexec-tools
+
+%end
+
+%addon com_redhat_kdump --disable
+
+%end
+
+%post --interpreter=/usr/bin/bash --log=/root/ks-post.log
+#  https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/performing_an_advanced_rhel_installation/kickstart-script-file-format-reference_installing-rhel-as-an-experienced-user#post-script-in-kickstart-file_scripts-in-kickstart-file
+yum install -y wget tar vim git 
+%end
+
+
+%anaconda
+pwpolicy root --minlen=6 --minquality=1 --notstrict --nochanges --notempty
+pwpolicy user --minlen=6 --minquality=1 --notstrict --nochanges --emptyok
+pwpolicy luks --minlen=6 --minquality=1 --notstrict --nochanges --notempty
+%end
+EOF
+
+#设置ks是DHCP还是手动设置ip
+[[ "$AutoNet" == '1' ]] && {
+  sed -i 's/#ONDHCP\ //g' /boot/tmp/ks.cfg
+} || {
+  sed -i 's/#NODHCP\ //g' /boot/tmp/ks.cfg
+}
+
+rm -rf ../$NewIMG;
+## 将解压后的initrd和创建的ks一起重新打包
+find . | cpio -H newc --create | gzip -9 > ../initrd.img;
+# find . | cpio -H newc --create --verbose | gzip -9 > ../initrd.img;
+rm -rf /boot/tmp;
+echo -e  "done\n"
+
+echo   -e "\033[36mEnter any key to start Centos8 install Or Ctrl+C to cancel${black}" &&read aaa
+
+echo -e "The VPS wiil reboot.\nThen you have 100 seconds to enter the vps's VNC\n and boot the '\033[36mInstall Centos8 [ ]${black}' menuentry to start the kickstart installation.\nYou can view the installation via VNC then.\nAfter minutes, you can login the new centos8 OS with passwd '\033[36marloor.com${black}'"
+
+sleep 3 && reboot >/dev/null 2>&1
