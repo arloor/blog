@@ -1,7 +1,7 @@
 print_info(){
     clear
     echo "#############################################################"
-    echo "# Install Centos8 on a centos7 VPS.                         #"
+    echo "# reinstall Centos 8.                                       #"
     echo "# Usage: bash install.sh                                    #"
     echo "# Website:  http://arloor.com/                              #"
     echo "# Author: ARLOOR <admin@arloor.com>                         #"
