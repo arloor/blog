@@ -150,7 +150,7 @@ cp /var/temp.conf /boot/loader/entries/
 [[ -f  $GRUBDIR/grubenv ]] && sed -i 's/saved_entry/#saved_entry/g' $GRUBDIR/grubenv;
 
 echo -e "\n\033[36m# Due to reboot\033[0m"
-echo -e "\n\033[33m\033[04mYour VPS will reboot to install Centos8.\nPlease enter the VNC in 100 seconds!\nThen you can setup the system and start the installation!\n\033[0m\n"
+echo -e "\n\033[33m\033[04mYour VPS will reboot to install Centos8.\nPlease enter the VNC!\nThen you can setup the system and start the installation!\n\033[0m\n"
 
 echo  "Enter any key to reboot Or Ctrl+C to cancel:"&& read a
 sleep 1 && reboot >/dev/null 2>&1
