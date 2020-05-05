@@ -125,7 +125,7 @@ LinuxIMG="$(grep 'initrd.*/' /var/temp.conf |awk '{print $1}' |tail -n 1)";
 sed -i "/options.*/coptions inst.ks=file:\/\/ks.cfg" /var/temp.conf;
 sed -i "/title.*/ctitle reinstall-centos8" /var/temp.conf
 sed -i "/id.*/cid reinstall-centos8" /var/temp.conf
-
+sed -i "/version.*/cversion zthe-last" /var/temp.conf
 
 rm -f /boot/loader/entries/temp.conf
 cp /var/temp.conf /boot/loader/entries/

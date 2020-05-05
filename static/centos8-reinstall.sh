@@ -140,6 +140,7 @@ LinuxIMG="$(grep 'initrd.*/' /var/temp.conf |awk '{print $1}' |tail -n 1)";
 [[ "$AutoNet" -eq '0' ]] && sed -i "/options.*/coptions ip=$IPv4::$GATE:$MASK:my_hostname:eth0:none inst.repo=http:\/\/mirrors.aliyun.com\/centos\/8.1.1911\/BaseOS\/x86_64\/os\/ inst.lang=zh_CN inst.keymap=cn selinux=0 inst.stage2=http:\/\/mirrors.aliyun.com\/centos\/8.1.1911\/BaseOS\/x86_64\/os\/" /var/temp.conf;  
 sed -i "/title.*/ctitle reinstall-centos8" /var/temp.conf
 sed -i "/id.*/cid reinstall-centos8" /var/temp.conf
+sed -i "/version.*/cversion zthe-last" /var/temp.conf
 
 
 rm -f /boot/loader/entries/temp.conf
