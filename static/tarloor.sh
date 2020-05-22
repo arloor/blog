@@ -49,13 +49,15 @@ print_info(){
 
 print_info
 
+[ "$1" = "0" ]||{
+  proxystart=1
+  # 设置http代理，使用方法：
+  export http_proxy=http://127.0.0.1:8081
+  export https_proxy=http://127.0.0.1:8081
+  git config --global http.proxy 'http://127.0.0.1:8081'
+  git config --global https.proxy 'http://127.0.0.1:8081'
+}
 
-proxystart=1
-# 设置http代理，使用方法：
-export http_proxy=http://127.0.0.1:8081
-export https_proxy=http://127.0.0.1:8081
-git config --global http.proxy 'http://127.0.0.1:8081'
-git config --global https.proxy 'http://127.0.0.1:8081'
 
 # 检查/var/blog是否存在，存在则update
 [ ! -d /var/blog ] && echo "arloor blog not exits. git clone...." && {
