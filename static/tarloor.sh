@@ -28,7 +28,8 @@ for BIN_DEP in `echo "$1" |sed 's/,/\n/g'`
     fi
   done
 if [ "$FullDependence" == '1' ]; then
-  yum install -y git tar  wget 
+  echo "安装缺失的依赖....."
+  yum install -y git tar  wget > /dev/null
 fi
 }
 
