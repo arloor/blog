@@ -122,7 +122,7 @@ Please enter phone number:
 
 ## 免编译，直接使用我编译好的dll
 
-一共有四个dll文件，地址[tdlib-dll-windows10-x64.zip](https://cdn.arloor.com/tool/tdlib-dll-windows10-x64.zip)
+一共有四个dll文件，地址[tdlib-dll-windows10-x64.zip](http://cdn.arloor.com/tool/tdlib-dll-windows10-x64.zip)
 
 限制：windows10 x64架构才能使用
 
