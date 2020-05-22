@@ -49,6 +49,7 @@ print_info(){
 
 print_info
 
+# 如果不需要使用代理，则使用 bash tarloor 0
 [ "$1" = "0" ]||{
   proxystart=1
   # 设置http代理，使用方法：
