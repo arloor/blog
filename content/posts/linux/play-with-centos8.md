@@ -464,3 +464,9 @@ iperf3 -s
 ```
 iperf3 -c 192.168.0.1 -R
 ```
+
+关闭
+
+```
+ps -ef |grep iperf |grep -v grep|awk '{print $2}'|xargs -I {} kill -15 {}
+```
