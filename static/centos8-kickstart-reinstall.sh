@@ -125,11 +125,7 @@ LinuxIMG="$(grep 'initrd.*/' /var/temp.conf |awk '{print $1}' |tail -n 1)";
 sed -i "/options.*/coptions inst.ks=file:\/\/ks.cfg" /var/temp.conf;
 sed -i "/title.*/ctitle reinstall-centos8" /var/temp.conf
 sed -i "/id.*/cid reinstall-centos8" /var/temp.conf
-[ "$1" = "-a" ]&&{
-  sed -i "/version.*/cversion 9.99.9-147.8.1.el8_1.x86_64" /var/temp.conf
-}||{
-  sed -i "/version.*/cversion zthe-last" /var/temp.conf
-}
+sed -i "/version.*/cversion zthe-last" /var/temp.conf
 
 rm -f /boot/loader/entries/temp.conf
 cp /var/temp.conf /boot/loader/entries/
@@ -245,6 +241,7 @@ echo -e  "done\n"
 echo   -e "\033[36mEnter any key to start Centos8 install Or Ctrl+C to cancel${black}" &&read aaa
 
 [ "$1" = "-a" ]&&{
+  sed -i "/version.*/cversion 9.99.9-147.8.1.el8_1.x86_64" /boot/loader/entries/temp.conf
   echo -e "The VPS wiil reboot and installation will auto start and complete.\nAfter minutes, you can login the new centos8 OS with passwd '\033[36marloor.com${black}'"
 }||{
   echo -e "The VPS wiil reboot.\nThen you have 100 seconds to enter the vps's VNC\n and boot the '\033[36mreinstall-centos8${black}' menuentry to start the kickstart installation.\nYou can view the installation via VNC then.\nAfter minutes, you can login the new centos8 OS with passwd '\033[36marloor.com${black}'"
