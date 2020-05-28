@@ -14,6 +14,7 @@ keywords:
 [官方文档](https://lucene.apache.org/core/8_5_1/index.html)
 
 [demo项目](https://github.com/arloor/luence-demo)
+<!--more-->
 
 http://codepub.cn/2017/12/12/lucene-near-real-time-search/
 
