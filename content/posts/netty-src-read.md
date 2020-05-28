@@ -139,7 +139,7 @@ HttpRequestDecoder这个Decoder处理一个http request会产生三种类型的O
 
 1. 1个HttpRequest: 包含init line和请求头
 2. n或0个HttpContent：存放请求体，当Transfer-Encoding: chunked时，会产生多个HttpContent
-3. 1个LastHttpContent: 存放请求体，并标志该请求解析完毕。如果内容为空，则返回LastHttpContent.EMPTY_LAST_CONTENT
+3. 1个LastHttpContent: 存放请求体，并标志该请求解析完毕。如果内容为空，则返回LastHttpContent .EMPTY_LAST_CONTENT
 
 详细见：[https://netty.io/4.1/api/io/netty/handler/codec/http/HttpObjectDecoder.html](https://netty.io/4.1/api/io/netty/handler/codec/http/HttpObjectDecoder.html)
 
