@@ -348,7 +348,7 @@ public class MBM25SimilarityPlugin extends Plugin {
 
 上文见识了scripted_similarity的实例，但是没有看用于script的参数的含义，这里再来看下。
 
-各项参数定义的java类，是org.elasticsearch.index.similarity.ScriptedSimilarity类的私有静态内部类。elasticsearch的文档把这些参数写在了painless context中，链接：[painless-similarity-context.html](https://www.elastic.co/guide/en/elasticsearch/painless/6.6/painless-similarity-context.html)
+各项参数定义的java类，是org.elasticsearch. index.similarity.ScriptedSimilarity类的私有静态内部类。elasticsearch的文档把这些参数写在了painless context中，链接：[painless-similarity-context.html](https://www.elastic.co/guide/en/elasticsearch/painless/6.6/painless-similarity-context.html)
 
 参数：
 
