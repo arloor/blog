@@ -77,7 +77,13 @@ dir td/tdlib
 运行`bin`中的示例代码：
 
 1. 将 td\vcpkg\installed\x64-windows\bin中的三个ddl放到系统path中，让tdjni在运行时能找的到
-2. 进入`td\tdlib\bin`，执行`java '-Djava.library.path=.' org/drinkless/tdlib/example/Example`,输出如下：
+2. 进入`td\tdlib\bin`，执行
+
+```
+java '-Djava.library.path=.' org/drinkless/tdlib/example/Example
+```
+
+输出如下：
 
 ```
 TextEntities {
