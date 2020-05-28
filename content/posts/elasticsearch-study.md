@@ -385,7 +385,7 @@ public class MBM25SimilarityPlugin extends Plugin {
 
 可以从一个博客[文本相似度-bm25算法原理及实现](https://www.jianshu.com/p/1e498888f505)寻找bm25是如何使用这些参数的（很值得一看，理解es是怎么对每个field评分的）
 
-这里不详细说里面的内容，大概介绍下使用这些参数的方式。field的评分是Σ语素（分词后的token）的评分。token的评分由weight(加权)\*token的分数得出。weight最一般的实现是idf，上述script的idf是Math.log((field.docCount+1.0)/(term.docFreq+1.0)) + 1.0 ——field.docCount是总文档数，term.docFreq是该term出现的次数。
+这里不详细说里面的内容，大概介绍下使用这些参数的方式。field的评分是Σ语素（分词后的token）的评分。token的评分由weight(加权)\*token的分数得出。weight最一般的实现是idf，上述script的idf是Math.log((field.docCount+1.0) /(term.docFreq+1.0)) + 1.0 ——field.docCount是总文档数，term.docFreq是该term出现的次数。
 
 另一篇介绍BM25算法的文章[https://www.jianshu.com/p/0b372804ff45](https://www.jianshu.com/p/0b372804ff45)
 
