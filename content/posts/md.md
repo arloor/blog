@@ -22,7 +22,7 @@ keywords:
             <div contenteditable="true" oninput="mark()" id="textBox" style="min-height:1000px;height:auto !important;height:1000px;line-height:1.1rem;outline: 0px solid transparent;word-wrap:break-word; word-break:break-all;"></div>
         </td>
         <td width="50%" style="border: grey 5px solid;vertical-align:text-top;">
-            <div contenteditable="true" oninput="mark()" id="content" style="min-height:1000px;height:auto !important;height:1000px;line-height:1.1rem;outline: 0px solid transparent;word-wrap:break-word; word-break:break-all;"></div>
+            <div id="content" style="min-height:1000px;height:auto !important;height:1000px;line-height:1.1rem;outline: 0px solid transparent;word-wrap:break-word; word-break:break-all;"></div>
         </td>
     </tr>
 </table>
