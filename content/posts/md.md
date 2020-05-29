@@ -33,4 +33,4 @@ keywords:
         document.getElementById('content').innerHTML = marked(document.getElementById('textBox').innerText);
     }
 </script>
-<script src="http://cdn.arloor.com/marked.min.js"></script>
+<script src="/marked.min.js"></script>
