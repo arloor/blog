@@ -426,6 +426,15 @@ nameserver 223.5.5.5
 
 然后`systemctl reload NetworkManager`
 
+最正统的方法：
+
+```
+nmcli con mod <connectionName> ipv4.dns "8.8.8.8 8.8.4.4"
+nmcli con mod <connectionName> ipv4.ignore-auto-dns yes
+nmcli con down <connectionName>
+nmcli con up <connectionName>
+```
+
 ## fedora31 关闭内核自动更新
 
 ```
