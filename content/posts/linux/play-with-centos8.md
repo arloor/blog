@@ -429,6 +429,8 @@ nameserver 223.5.5.5
 最正统的方法：
 
 ```
+yum install -y bash-completion
+source /etc/profile.d/bash_completion.sh
 nmcli con mod <connectionName> ipv4.dns "8.8.8.8 8.8.4.4"
 nmcli con mod <connectionName> ipv4.ignore-auto-dns yes
 nmcli con down <connectionName>
