@@ -2,8 +2,8 @@
 title: "从register和accept的锁竞争问题到netty的nioEventLoop设计"
 date: 2020-06-05T19:05:40+08:00
 draft: false
-categories: [ "undefined"]
-tags: ["undefined"]
+categories: [ "netty"]
+tags: ["program"]
 weight: 10
 subtitle: ""
 description : ""
