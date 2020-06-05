@@ -19,6 +19,8 @@ keywords:
 
 上面只是引子，我想看看netty是如何处理这个细节的。关于netty的架构和设计，什么EventLoopGroup、EventLoop、Pipepline、ChannelHandler网上说的很多了。今天要做的是看netty如何封装java NIO的accept、register，如何进行select，下面开始。
 
+<!--more-->
+
 ## NioEventLoop.java
 
 EventLoop在netty的线程模型中就是一个线程，事件循环的意思。首先来看看他在循环做什么。
