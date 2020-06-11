@@ -1,0 +1,241 @@
+---
+title: "Http Utils的一段代码"
+date: 2020-06-11T11:02:45+08:00
+draft: false
+categories: [ "undefined"]
+tags: ["undefined"]
+weight: 10
+subtitle: ""
+description : ""
+keywords:
+- 刘港欢 arloor moontell
+---
+
+```
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.2</version>
+        </dependency>
+```
+
+```
+import com.google.common.collect.Lists;
+import lombok.extern.apachecommons.CommonsLog;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.config.CookieSpecs;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.socket.LayeredConnectionSocketFactory;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.X509Certificate;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+@CommonsLog
+public class HttpUtils {
+    private static CloseableHttpClient client;
+    private static final int READ_TIMEOUT = 100;
+
+    /**
+     * 静态构造
+     * 可以使用ssl
+     */
+    static {
+        // Create a trust manager that does not validate certificate chains
+        TrustManager[] trustAllCerts = new TrustManager[]{
+                new X509TrustManager() {
+                    public X509Certificate[] getAcceptedIssuers() {
+                        return null;
+                    }
+
+                    public void checkClientTrusted(X509Certificate[] certs, String authType) {
+                        // don't check
+                    }
+
+                    public void checkServerTrusted(X509Certificate[] certs, String authType) {
+                        // don't check
+                    }
+                }
+        };
+        SSLContext ctx = null;
+        try {
+            ctx = SSLContext.getInstance("TLS");
+            ctx.init(null, trustAllCerts, null);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (KeyManagementException e) {
+            e.printStackTrace();
+        }
+        LayeredConnectionSocketFactory sslSocketFactory = new SSLConnectionSocketFactory(ctx);
+
+        //连接管理器，设置总连接数和到单一host的最大连接数
+        PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
+        cm.setMaxTotal(50);
+        cm.setDefaultMaxPerRoute(5);
+
+        //默认请求配置，这里设置cookie策略
+        RequestConfig requestConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build();
+
+        //创建httpclient
+        client = HttpClients.custom().setConnectionManager(cm).setDefaultRequestConfig(requestConfig).setSSLSocketFactory(sslSocketFactory).build();
+    }
+
+    /**
+     * 发送post请求，请求体json,默认超时时间
+     *
+     * @param apiUrl
+     * @param param
+     * @return
+     */
+    public static String doPostJson(String apiUrl, Object param) throws IOException {
+        return doPostJson(apiUrl, apiUrl, READ_TIMEOUT);
+    }
+
+    /**
+     * 发送post请求，请求体json,超时时间
+     *
+     * @param apiUrl
+     * @param param
+     * @return
+     */
+    public static String doPostJson(String apiUrl, Object param, int readTimeout) throws IOException {
+        String json = JsonUtils.objectToJsonString(param);
+        String httpStr = null;
+        HttpPost httpPost = new HttpPost(apiUrl);
+        CloseableHttpResponse response = null;
+        //设置超时时间
+        RequestConfig config = RequestConfig.custom()
+                .setConnectionRequestTimeout(100)
+                .setConnectTimeout(100)
+                .setSocketTimeout(readTimeout)
+                .build();
+        httpPost.setConfig(config);
+
+        try {
+            StringEntity stringEntity = new StringEntity(json, "UTF-8");//解决中文乱码问题
+            stringEntity.setContentType("application/json;charset=utf-8");
+            httpPost.setEntity(stringEntity);
+            response = client.execute(httpPost);
+            HttpEntity entity = response.getEntity();
+            httpStr = EntityUtils.toString(entity, "UTF-8");
+        } catch (IOException e) {
+            log.error("HttpUtils post Failed!", e);
+            throw e;
+        } finally {
+            if (response != null) {
+                try {
+                    //消耗response的流【非必要】
+                    EntityUtils.consume(response.getEntity());
+                    //关闭response的底层connection【必要】
+                    response.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            //疑似没有必要，但框架HttpClientManager有这行
+            httpPost.releaseConnection();
+        }
+        return Optional.ofNullable(httpStr).orElseGet(String::new);
+    }
+
+    public static String doPostForm(String apiUrl, Map<String,String> params, int readTimeout) throws IOException{
+        String httpStr = null;
+        HttpPost httpPost = new HttpPost(apiUrl);
+        CloseableHttpResponse response = null;
+        //设置超时时间
+        RequestConfig config = RequestConfig.custom()
+                .setConnectionRequestTimeout(100)
+                .setConnectTimeout(100)
+                .setSocketTimeout(readTimeout)
+                .build();
+        httpPost.setConfig(config);
+
+        try {
+
+            List<BasicNameValuePair> data= Lists.newArrayList();
+            params.forEach((key,value)->{
+                data.add(new BasicNameValuePair(key,value));
+            });
+            httpPost.setEntity(new UrlEncodedFormEntity(data, HTTP.UTF_8));
+            response = client.execute(httpPost);
+            HttpEntity entity = response.getEntity();
+            httpStr = EntityUtils.toString(entity, "UTF-8");
+        } catch (IOException e) {
+            log.error("HttpUtils post Failed!", e);
+            throw e;
+        } finally {
+            if (response != null) {
+                try {
+                    //消耗response的流【非必要】
+                    EntityUtils.consume(response.getEntity());
+                    //关闭response的底层connection【必要】
+                    response.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            //疑似没有必要，但框架HttpClientManager有这行
+            httpPost.releaseConnection();
+        }
+        return Optional.ofNullable(httpStr).orElseGet(String::new);
+    }
+
+
+    public static String get(String apiUrl, int readTimeout) throws IOException{
+        String httpStr = null;
+        HttpGet get = new HttpGet(apiUrl);
+        CloseableHttpResponse response = null;
+        //设置超时时间
+        RequestConfig config = RequestConfig.custom()
+                .setConnectionRequestTimeout(100)
+                .setConnectTimeout(100)
+                .setSocketTimeout(readTimeout)
+                .build();
+        get.setConfig(config);
+
+        try {
+            response = client.execute(get);
+            HttpEntity entity = response.getEntity();
+            httpStr = EntityUtils.toString(entity, "UTF-8");
+        } catch (IOException e) {
+            log.error("HttpUtils post Failed!", e);
+            throw e;
+        } finally {
+            if (response != null) {
+                try {
+                    //消耗response的流【非必要】
+                    EntityUtils.consume(response.getEntity());
+                    //关闭response的底层connection【必要】
+                    response.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            //疑似没有必要，但框架HttpClientManager有这行
+            get.releaseConnection();
+        }
+        return Optional.ofNullable(httpStr).orElseGet(String::new);
+    }
+
+}
+```
+
