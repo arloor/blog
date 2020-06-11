@@ -11,6 +11,10 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
+简单的备忘，httpclient的代码
+<!--more-->
+
+
 ```
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
