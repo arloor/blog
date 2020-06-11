@@ -92,3 +92,123 @@ public @interface SomeAnnotation {
 
 关于`@Pointcut`的定义还可以使用其他形式。
 
+## aop实现单节点redis分布式锁
+
+```
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface DistLock {
+
+    public String lockPrefix() default "";
+
+    public int lockTime() default 10;
+
+}
+```
+
+```
+import org.apache.commons.lang3.StringUtils;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
+
+@Aspect
+@Component
+@Order(10)
+public class DistLockAspect {
+
+    @Resource(name = "redisHaCache")
+    private RedisHaCache redisHaCache;
+
+    @Pointcut("@annotation(com.cmbchina.ccd.pluto.fulltextmanager.aop.lock.DistLock)")
+    public void pointCut(){}
+
+    @Around("pointCut()")
+    public Object aroundMethod(ProceedingJoinPoint jp) throws Throwable {
+
+        MethodSignature signature = (MethodSignature) jp.getSignature();
+        Method method = signature.getMethod();
+
+        DistLock distLock = method.getAnnotation(DistLock.class);
+        if (distLock == null) {
+            return jp.proceed();
+        }
+
+        Annotation[][] parameterAnnotations = method.getParameterAnnotations();
+        Object distLockObj = null;
+        Object lockObjAnnotation = null;
+        int index = -1;
+        for (int i = 0; i < parameterAnnotations.length; i++) {
+            for (int j = 0; j < parameterAnnotations[i].length; j++) {
+                if (parameterAnnotations[i][j] instanceof DistLockObject) {
+                    lockObjAnnotation = parameterAnnotations[i][j];
+                    index = i;
+                    break;
+                }
+            }
+            if (index != -1) {
+                break;
+            }
+        }
+
+        if (index != -1) {
+            distLockObj = jp.getArgs()[index];
+        }
+
+        String key = distLock.lockPrefix();
+        if (distLockObj != null && lockObjAnnotation != null) {
+            String lockField = ((DistLockObject) lockObjAnnotation).objectLockField();
+            if (!StringUtils.isEmpty(lockField)) {
+                String methodName = "get" + StringUtils.capitalize(lockField);
+                Method getObjMethod = distLockObj.getClass().getMethod(methodName);
+                Object invoke = getObjMethod.invoke(distLockObj);
+                if (invoke != null) {
+                    key += invoke.toString();
+                }
+            } else {
+                key += distLockObj.toString();
+            }
+        }
+
+        if (!"OK".equals(redisHaCache.set(key, key, "NX", "EX", distLock.lockTime()))) {
+            throw new FullTextException("This object is already locked!");
+        }
+        try {
+            return jp.proceed();
+        } finally {
+            redisHaCache.del(key);
+        }
+
+    }
+
+}
+```
+
+```
+@Target(ElementType.PARAMETER)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface DistLockObject {
+
+    public String objectLockField() default "";
+
+}
+```
+
+```
+@DistLock(lockPrefix = DIST_LOCK_WORK_SPACE_OBJECT)
+    public int create(@DistLockObject(objectLockField = "objectId") WorkSpaceCreateVo workSpaceCreateVo) {
+```
+
