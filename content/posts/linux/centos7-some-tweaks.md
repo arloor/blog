@@ -52,6 +52,7 @@ echo "--------------------------------------------------------------------------
 EOF
 chmod +x /usr/local/bin/netsum
 /usr/local/bin/netsum
+if ! grep "/usr/local/bin/netsum" /etc/crontab > /dev/null; then echo "* * * * * root /usr/local/bin/netsum > /etc/motd" >> /etc/crontab; else echo 已设置定时任务; fi
 ```
 
 效果如下
