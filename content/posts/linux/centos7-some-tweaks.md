@@ -51,8 +51,12 @@ cat /proc/net/dev|tail -n +3|awk '{eth=$1;xin=$2 / 1073741824;xout=$10 / 1073741
 echo "--------------------------------------------------------------------------"
 EOF
 chmod +x /usr/local/bin/netsum
-/usr/local/bin/netsum
-if ! grep "/usr/local/bin/netsum" /etc/crontab > /dev/null; then echo "* * * * * root /usr/local/bin/netsum > /etc/motd" >> /etc/crontab; else echo 已设置定时任务; fi
+if ! grep "/usr/local/bin/netsum" /etc/crontab > /dev/null; 
+then 
+  echo "* * * * * root /usr/local/bin/netsum > /etc/motd" >> /etc/crontab; 
+else 
+  echo 已设置定时任务; 
+fi
 ```
 
 效果如下
