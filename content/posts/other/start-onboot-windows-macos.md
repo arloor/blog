@@ -33,7 +33,14 @@ Macos提供三种开机自启动的方式，详情可以看这里[三种方式�
                 <false/>
                 <key>RunAtLoad</key>
                 <true/>
+                <key>WorkingDirectory</key>
+                <string>/tmp</string>
                 <key>ProgramArguments</key>
+                <key>EnvironmentVariables</key>
+                <dict>
+	                <key>aPATH</key>
+	                <string>/bin:/usr/bin:/usr/local/bin</string>
+                </dict>
                 <array>
                         <string>/usr/bin/java</string>
                         <string>-jar</string>
