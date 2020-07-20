@@ -57,4 +57,19 @@ Macos提供三种开机自启动的方式，详情可以看这里[三种方式�
 
 ## windows开机自启动
 
-todo...
+编写`startup.vbs`，放到
+
+```
+C:\Users\你的用户名\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
+```
+
+文件夹下
+
+`startup.vbs`内容如下：
+
+```
+set ws=WScript.CreateObject("WScript.Shell")
+ws.Run "D:\startup.bat /start",0
+```
+
+其中startup.bat的内容就是启动需要的进程，例如`java -jar xx.jar`
