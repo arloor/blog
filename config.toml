@@ -90,11 +90,6 @@ paginate = 10
     weight = 10000
     url = "/about/"
 [[menu.main]]
-    name = "交流论坛"
-    identifier = "file"
-    weight = 10000
-    url = "https://bbs.arloor.com/"
-[[menu.main]]
     name = "苏ICP备17024437号"
     weight = 99999
     identifier = "苏ICP备17024437号"
