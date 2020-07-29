@@ -27,12 +27,18 @@ keywords:
 import com.google.common.collect.Lists;
 import lombok.extern.apachecommons.CommonsLog;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpEntityEnclosingRequest;
+import org.apache.http.HttpRequest;
+import org.apache.http.NoHttpResponseException;
+import org.apache.http.client.HttpRequestRetryHandler;
 import org.apache.http.client.config.CookieSpecs;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.conn.socket.LayeredConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.entity.StringEntity;
@@ -44,9 +50,12 @@ import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLException;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import java.io.IOException;
+import java.io.InterruptedIOException;
+import java.net.UnknownHostException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
@@ -100,7 +109,38 @@ public class HttpUtils {
         RequestConfig requestConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build();
 
         //创建httpclient
-        client = HttpClients.custom().setConnectionManager(cm).setDefaultRequestConfig(requestConfig).setSSLSocketFactory(sslSocketFactory).build();
+        client = HttpClients.custom()
+                .setConnectionManager(cm)
+                .setRetryHandler(buildRetryHandler(3))
+                .setDefaultRequestConfig(requestConfig)
+                .setSSLSocketFactory(sslSocketFactory)
+                .build();
+    }
+
+    private static HttpRequestRetryHandler buildRetryHandler(final int retryTime) {
+        return (exception, executionCount, context) -> {
+            if (executionCount >= retryTime) {
+                return false;
+            }
+            if (exception instanceof NoHttpResponseException) {
+                return true;
+            }
+            if (exception instanceof InterruptedIOException) {
+                return true;
+            }
+            if (exception instanceof UnknownHostException) {
+                return false;
+            }
+            if (exception instanceof ConnectTimeoutException) {
+                return false;
+            }
+            if (exception instanceof SSLException) {
+                return false;
+            }
+            HttpClientContext clientContext = HttpClientContext.adapt(context);
+            HttpRequest request = clientContext.getRequest();
+            return !(request instanceof HttpEntityEnclosingRequest);
+        };
     }
 
     /**
@@ -161,7 +201,7 @@ public class HttpUtils {
         return Optional.ofNullable(httpStr).orElseGet(String::new);
     }
 
-    public static String doPostForm(String apiUrl, Map<String,String> params, int readTimeout) throws IOException{
+    public static String doPostForm(String apiUrl, Map<String, String> params, int readTimeout) throws IOException {
         String httpStr = null;
         HttpPost httpPost = new HttpPost(apiUrl);
         CloseableHttpResponse response = null;
@@ -175,9 +215,9 @@ public class HttpUtils {
 
         try {
 
-            List<BasicNameValuePair> data= Lists.newArrayList();
-            params.forEach((key,value)->{
-                data.add(new BasicNameValuePair(key,value));
+            List<BasicNameValuePair> data = Lists.newArrayList();
+            params.forEach((key, value) -> {
+                data.add(new BasicNameValuePair(key, value));
             });
             httpPost.setEntity(new UrlEncodedFormEntity(data, HTTP.UTF_8));
             response = client.execute(httpPost);
@@ -204,7 +244,7 @@ public class HttpUtils {
     }
 
 
-    public static String get(String apiUrl, int readTimeout) throws IOException{
+    public static String get(String apiUrl, int readTimeout) throws IOException {
         String httpStr = null;
         HttpGet get = new HttpGet(apiUrl);
         CloseableHttpResponse response = null;
