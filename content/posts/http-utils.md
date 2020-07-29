@@ -106,7 +106,13 @@ public class HttpUtils {
         cm.setDefaultMaxPerRoute(5);
 
         //默认请求配置，这里设置cookie策略
-        RequestConfig requestConfig = RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build();
+        RequestConfig requestConfig = RequestConfig
+                .custom()
+                .setCookieSpec(CookieSpecs.STANDARD)
+                .setConnectionRequestTimeout(100)
+                .setConnectTimeout(200) // 连接超时
+                .setSocketTimeout(300) // 读超时
+                .build();
 
         //创建httpclient
         client = HttpClients.custom()
