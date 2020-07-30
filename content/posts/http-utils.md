@@ -103,7 +103,7 @@ public class HttpUtils {
         //连接管理器，设置总连接数和到单一host的最大连接数
         PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
         cm.setMaxTotal(50);
-        cm.setDefaultMaxPerRoute(5);
+        cm.setDefaultMaxPerRoute(50);
 
         //默认请求配置，这里设置cookie策略
         RequestConfig requestConfig = RequestConfig
