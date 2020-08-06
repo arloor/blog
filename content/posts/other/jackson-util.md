@@ -12,6 +12,7 @@ keywords:
 ---
 
 Jackson Util:
+<!--more-->
 
 ```java
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
