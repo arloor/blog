@@ -12,6 +12,7 @@ keywords:
 ---
 
 thymeleaf是springboot默认的模版引擎，最近需要“渲染模版”这个功能，想到了thymeleaf，记一下怎么用。
+<!--more-->
 
 ## 依赖
 
@@ -130,6 +131,14 @@ public class RenderUtil {
 
     }
 }
+```
+
+thymeleaf渲染非标记语言（没有tag）时，需要在外面包上自己的tag，例如：详情可见[textual语法](https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#textual-syntax)
+
+```
+[# th:each="item : ${items}"]
+  - [(${item})]
+/]
 ```
 
 ## 其他
