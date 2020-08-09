@@ -39,6 +39,7 @@ HKEY_CURRENT_USER\Software\Classes\Local Settings\Software\Microsoft\Windows\Cur
 ## 配置文件
 
 ```json
+
 // To view the default settings, hold "alt" while clicking on the "Settings" button.
 // For documentation on these settings, see: https://aka.ms/terminal-documentation
 
@@ -46,7 +47,7 @@ HKEY_CURRENT_USER\Software\Classes\Local Settings\Software\Microsoft\Windows\Cur
 {
     "$schema": "https://aka.ms/terminal-profiles-schema",
 
-    "defaultProfile": "{888d4c00-67f1-4c7b-bd07-fd1e167f8f2e}",
+    "defaultProfile": "{216617ca-b72e-47d5-a886-a170d4367c39}",
     "copyOnSelect": true,
 
     "profiles":
@@ -82,10 +83,9 @@ HKEY_CURRENT_USER\Software\Classes\Local Settings\Software\Microsoft\Windows\Cur
                 "colorScheme": "Atom",
                 "icon": "E:\\head.jpeg"
             },
-
             {
                 // Make changes here to the powershell.exe profile
-                "guid": "{888d4c00-67f1-4c7b-bd07-fd1e167f8f2e}",
+                "guid": "{216617ca-b72e-47d5-a886-a170d4367c39}",
                 "name": "广州移动",
                 "commandline" : "ssh root@cm.someme.me",
                 "hidden": false,
@@ -98,21 +98,8 @@ HKEY_CURRENT_USER\Software\Classes\Local Settings\Software\Microsoft\Windows\Cur
             },
             {
                 // Make changes here to the powershell.exe profile
-                "guid": "{afe52709-58f1-4d54-9880-454e5ab176a7}",
-                "name": "泉州cn2",
-                "commandline" : "ssh root@cn22.uovz.com -p 20000",
-                "hidden": false,
-                "fontFace": "Consolas",
-                "fontSize": 13,
-                "useAcrylic": true,
-                "acrylicOpacity": 0.9,
-                "colorScheme": "Atom",
-                "icon": "E:\\head.jpeg"
-            },
-            {
-                // Make changes here to the powershell.exe profile
                 "guid": "{560a88df-772b-4ec8-9e39-695a96fa49e6}",
-                "name": "新加坡2",
+                "name": "新加坡",
                 "commandline" : "ssh root@sg.someme.me",
                 "hidden": false,
                 "fontFace": "Consolas",
@@ -125,8 +112,8 @@ HKEY_CURRENT_USER\Software\Classes\Local Settings\Software\Microsoft\Windows\Cur
             {
                 // Make changes here to the powershell.exe profile
                 "guid": "{fb899ba0-e4ca-49bf-832f-1d63cb2a0e38}",
-                "name": "新加坡1",
-                "commandline" : "ssh root@sg1.someme.me",
+                "name": "腾讯云香港",
+                "commandline" : "ssh root@hk.someme.me -p 22",
                 "hidden": false,
                 "fontFace": "Consolas",
                 "fontSize": 13,
@@ -140,6 +127,19 @@ HKEY_CURRENT_USER\Software\Classes\Local Settings\Software\Microsoft\Windows\Cur
                 "guid": "{0f6d0460-17d3-43b4-abcc-b0136bfe29fa}",
                 "name": "快车道圣何塞",
                 "commandline" : "ssh root@gia.someme.me",
+                "hidden": false,
+                "fontFace": "Consolas",
+                "fontSize": 13,
+                "useAcrylic": true,
+                "acrylicOpacity": 0.9,
+                "colorScheme": "Atom",
+                "icon": "E:\\head.jpeg"
+            },
+            {
+                // Make changes here to the powershell.exe profile
+                "guid": "{9542f627-e35f-49e4-9c5d-647a0fb27b32}",
+                "name": "泉州cn2",
+                "commandline" : "ssh root@cn2.someme.me -p 20000",
                 "hidden": false,
                 "fontFace": "Consolas",
                 "fontSize": 13,
@@ -215,23 +215,8 @@ HKEY_CURRENT_USER\Software\Classes\Local Settings\Software\Microsoft\Windows\Cur
 
     // Add any keybinding overrides to this array.
     // To unbind a default keybinding, set the command to "unbound"
-     "keybindings":
-    [
-        // Copy and paste are bound to Ctrl+Shift+C and Ctrl+Shift+V in your defaults.json.
-        // These two lines additionally bind them to Ctrl+C and Ctrl+V.
-        // To learn more about selection, visit https://aka.ms/terminal-selection
-        { "command": {"action": "copy", "singleLine": false }, "keys": "ctrl+c" },
-        { "command": "paste", "keys": "ctrl+v" },
-
-        // Press Ctrl+Shift+F to open the search box
-        { "command": "find", "keys": "ctrl+shift+f" },
-
-        // Press Alt+Shift+D to open a new pane.
-        // - "split": "auto" makes this pane open in the direction that provides the most surface area.
-        // - "splitMode": "duplicate" makes the new pane use the focused pane's profile.
-        // To learn more about panes, visit https://aka.ms/terminal-panes
-        { "command": { "action": "splitPane", "split": "auto", "splitMode": "duplicate" }, "keys": "alt+shift+d" }
-    ]
+    "keybindings": [{ "command": "find", "keys": "ctrl+shift+f" }]
 }
+
 ```
 
