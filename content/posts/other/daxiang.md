@@ -470,3 +470,30 @@ dx.token=df8ef27b758ba78b9cd94ca7c00a20c7
 dx.pubId=137456346688
 dx.url=https://xmapi.vip.sankuai.com/api/pub/push
 ```
+
+```
+package com.sankuai.pcm.console.configuration;
+ 
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
+import org.springframework.context.annotation.Scope;
+ 
+@Configuration
+@ImportResource("classpath:mailsdk.xml")
+public class MTMailConfig {
+ 
+    @Bean
+    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+    public String localAppKey(){
+        return "5aceaf26df";//开放平台申请的appkey
+    }
+ 
+    @Bean
+    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+    public String mailServiceSecret(){
+        return "425fce0b12364b8cbf6ff0bfb239fc5d";//开放平台申请的secret
+    }
+}
+```
