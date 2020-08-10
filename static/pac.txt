@@ -8,14 +8,13 @@ var FindProxyForURL = function(init, profiles) {
         } while (typeof result !== "string" || result.charCodeAt(0) === 43);
         return result;
     };
-}("+\u81ea\u52a8proxy", {
-    "+\u81ea\u52a8proxy": function(url, host, scheme) {
+}("+AUTO_PROXY", {
+    "+AUTO_PROXY": function(url, host, scheme) {
         "use strict";
-        if (/(?:^|\.)gravatar\.com$/.test(host)) return "+ss-local";
-        if (/(?:^|\.)d36jcksde1wxzq\.cloudfront\.net$/.test(host)) return "+ss-local";
-        if (/(?:^|\.)d2wy8f7a9ursnm\.cloudfront\.net$/.test(host)) return "+ss-local";
-        if (/^github\.com$/.test(host)) return "+ss-local";
+        if (/(?:^|\.)dropbox\.com$/.test(host)) return "+ss-local";
+        if (/(?:^|\.)dropboxstatic\.com$/.test(host)) return "+ss-local";
         if (/(?:^|\.)camo\.githubusercontent\.com$/.test(host)) return "+ss-local";
+        if (/(?:^|\.)github\.com$/.test(host)) return "+ss-local";
         if (/(?:^|\.)avatars3\.githubusercontent\.com$/.test(host)) return "+ss-local";
         if (/(?:^|\.)avatars1\.githubusercontent\.com$/.test(host)) return "+ss-local";
         if (/(?:^|\.)avatars2\.githubusercontent\.com$/.test(host)) return "+ss-local";
@@ -34,13 +33,11 @@ var FindProxyForURL = function(init, profiles) {
         if (/^www\.google-analytics\.com$/.test(host)) return "+ss-local";
         if (/^raw\.githubusercontent\.com$/.test(host)) return "+ss-local";
         if (/(?:^|\.)github\.io$/.test(host)) return "+ss-local";
-        if (/(?:^|\.)elastic\.co$/.test(host)) return "+ss-local";
-        if (/(?:^|\.)taoluyun\.cc$/.test(host)) return "+ss-local";
-        if (/(?:^|\.)gravatar\.com$/.test(host)) return "+ss-local";
-        if (/(?:^|\.)jaegertracing\.io$/.test(host)) return "+ss-local";
-        return "+__ruleListOf_\u81ea\u52a8proxy";
+        if (/^proxy\.moontell\.cn$/.test(host)) return "DIRECT";
+        if (/^taoluyun\.cc$/.test(host)) return "+ss-local";
+        return "+__ruleListOf_AUTO_PROXY";
     },
-    "+__ruleListOf_\u81ea\u52a8proxy": function(url, host, scheme) {
+    "+__ruleListOf_AUTO_PROXY": function(url, host, scheme) {
         "use strict";
         if (/^http:\/\/blog\.ontrac\.com/.test(url)) return "DIRECT";
         if (/^http:\/\/store\.sprite\.org/.test(url)) return "DIRECT";
@@ -228,8 +225,6 @@ var FindProxyForURL = function(init, profiles) {
         if (/(?:^|\.)deezer\.com$/.test(host)) return "+ss-local";
         if (/(?:^|\.)desipro\.de$/.test(host)) return "+ss-local";
         if (/(?:^|\.)dingchin\.com\.tw$/.test(host)) return "+ss-local";
-        if (/(?:^|\.)discord\.com$/.test(host)) return "+ss-local";
-        if (/(?:^|\.)discord\.gg$/.test(host)) return "+ss-local";
         if (/(?:^|\.)discordapp\.com$/.test(host)) return "+ss-local";
         if (/(?:^|\.)discordapp\.net$/.test(host)) return "+ss-local";
         if (/(?:^|\.)dish\.com$/.test(host)) return "+ss-local";
@@ -453,7 +448,7 @@ var FindProxyForURL = function(init, profiles) {
         if (/(?:^|\.)encyclopedia\.com$/.test(host)) return "+ss-local";
         if (/(?:^|\.)fangeqiang\.com$/.test(host)) return "+ss-local";
         if (/(?:^|\.)fanqiangdang\.com$/.test(host)) return "+ss-local";
-        if (/(?:^|\.)feedly\.com$/.test(host)) return "+ss-local";
+        if (/(?:^|\.)cloud\.feedly\.com$/.test(host)) return "+ss-local";
         if (/(?:^|\.)feedx\.net$/.test(host)) return "+ss-local";
         if (/(?:^|\.)flyzy2005\.com$/.test(host)) return "+ss-local";
         if (/(?:^|\.)foreignpolicy\.com$/.test(host)) return "+ss-local";
@@ -499,7 +494,6 @@ var FindProxyForURL = function(init, profiles) {
         if (/(?:^|\.)go\.nesnode\.com$/.test(host)) return "+ss-local";
         if (/(?:^|\.)international-news\.newsmagazine\.asia$/.test(host)) return "+ss-local";
         if (/(?:^|\.)nikkei\.com$/.test(host)) return "+ss-local";
-        if (/(?:^|\.)nitter\.net$/.test(host)) return "+ss-local";
         if (/(?:^|\.)niu\.moe$/.test(host)) return "+ss-local";
         if (/(?:^|\.)nofile\.io$/.test(host)) return "+ss-local";
         if (/(?:^|\.)now\.com$/.test(host)) return "+ss-local";
@@ -1503,8 +1497,6 @@ var FindProxyForURL = function(init, profiles) {
         if (scheme === "http" && url.indexOf(".anyporn.com") >= 0) return "+ss-local";
         if (scheme === "http" && url.indexOf(".anysex.com") >= 0) return "+ss-local";
         if (/^http:\/\/anysex\.com/.test(url)) return "+ss-local";
-        if (scheme === "http" && url.indexOf(".ao3.org") >= 0) return "+ss-local";
-        if (/(?:^|\.)ao3\.org$/.test(host)) return "+ss-local";
         if (/(?:^|\.)aobo\.com\.au$/.test(host)) return "+ss-local";
         if (scheme === "http" && url.indexOf(".aofriend.com") >= 0) return "+ss-local";
         if (/^http:\/\/aofriend\.com/.test(url)) return "+ss-local";
@@ -1546,8 +1538,6 @@ var FindProxyForURL = function(init, profiles) {
         if (/(?:^|\.)archive\.org$/.test(host)) return "+ss-local";
         if (scheme === "http" && url.indexOf("archive.today") >= 0) return "+ss-local";
         if (/^https:\/\/archive\.today/.test(url)) return "+ss-local";
-        if (/(?:^|\.)archiveofourown\.com$/.test(host)) return "+ss-local";
-        if (/(?:^|\.)archiveofourown\.org$/.test(host)) return "+ss-local";
         if (scheme === "http" && url.indexOf(".arctosia.com") >= 0) return "+ss-local";
         if (/^http:\/\/arctosia\.com/.test(url)) return "+ss-local";
         if (/(?:^|\.)areca-backup\.org$/.test(host)) return "+ss-local";
@@ -1906,8 +1896,6 @@ var FindProxyForURL = function(init, profiles) {
         if (/(?:^|\.)cactusvpn\.com$/.test(host)) return "+ss-local";
         if (scheme === "http" && url.indexOf(".cafepress.com") >= 0) return "+ss-local";
         if (scheme === "http" && url.indexOf(".cahr.org.tw") >= 0) return "+ss-local";
-        if (scheme === "http" && url.indexOf(".caijinglengyan.com") >= 0) return "+ss-local";
-        if (/(?:^|\.)caijinglengyan\.com$/.test(host)) return "+ss-local";
         if (scheme === "http" && url.indexOf(".calameo.com/books") >= 0) return "+ss-local";
         if (scheme === "http" && url.indexOf("cn.calameo.com") >= 0) return "+ss-local";
         if (/^http:\/\/cn\.calameo\.com/.test(url)) return "+ss-local";
@@ -2986,8 +2974,6 @@ var FindProxyForURL = function(init, profiles) {
         if (/(?:^|\.)gabocorp\.com$/.test(host)) return "+ss-local";
         if (scheme === "http" && url.indexOf(".gaeproxy.com") >= 0) return "+ss-local";
         if (scheme === "http" && url.indexOf(".gaforum.org") >= 0) return "+ss-local";
-        if (scheme === "http" && url.indexOf(".gagaoolala.com") >= 0) return "+ss-local";
-        if (/(?:^|\.)gagaoolala\.com$/.test(host)) return "+ss-local";
         if (scheme === "http" && url.indexOf(".galaxymacau.com") >= 0) return "+ss-local";
         if (/(?:^|\.)galenwu\.com$/.test(host)) return "+ss-local";
         if (scheme === "http" && url.indexOf(".galstars.net") >= 0) return "+ss-local";
@@ -3085,9 +3071,18 @@ var FindProxyForURL = function(init, profiles) {
         if (/^http:\/\/softwaredownload\.gitbooks\.io/.test(url)) return "+ss-local";
         if (scheme === "http" && url.indexOf("github.com/getlantern") >= 0) return "+ss-local";
         if (/^https:\/\/gist\.github\.com/.test(url)) return "+ss-local";
-        if (scheme === "http" && url.indexOf(".github.io") >= 0) return "+ss-local";
-        if (/(?:^|\.)github\.io$/.test(host)) return "+ss-local";
-        if (/(?:^|\.)githubusercontent\.com$/.test(host)) return "+ss-local";
+        if (scheme === "http" && url.indexOf("http://cthlo.github.io/hktv") >= 0) return "+ss-local";
+        if (scheme === "http" && url.indexOf("hahaxixi.github.io") >= 0) return "+ss-local";
+        if (/^https:\/\/hahaxixi\.github\.io/.test(url)) return "+ss-local";
+        if (/(?:^|\.)haoel\.github\.io$/.test(host)) return "+ss-local";
+        if (/(?:^|\.)rg3\.github\.io$/.test(host)) return "+ss-local";
+        if (/(?:^|\.)sikaozhe1997\.github\.io$/.test(host)) return "+ss-local";
+        if (/(?:^|\.)sodatea\.github\.io$/.test(host)) return "+ss-local";
+        if (/(?:^|\.)terminus2049\.github\.io$/.test(host)) return "+ss-local";
+        if (/(?:^|\.)toutyrater\.github\.io$/.test(host)) return "+ss-local";
+        if (scheme === "http" && url.indexOf("wsgzao.github.io") >= 0) return "+ss-local";
+        if (/^https:\/\/wsgzao\.github\.io/.test(url)) return "+ss-local";
+        if (/(?:^|\.)raw\.githubusercontent\.com$/.test(host)) return "+ss-local";
         if (scheme === "http" && url.indexOf(".gizlen.net") >= 0) return "+ss-local";
         if (/(?:^|\.)gizlen\.net$/.test(host)) return "+ss-local";
         if (scheme === "http" && url.indexOf(".gjczz.com") >= 0) return "+ss-local";
@@ -3479,8 +3474,6 @@ var FindProxyForURL = function(init, profiles) {
         if (/(?:^|\.)hugoroy\.eu$/.test(host)) return "+ss-local";
         if (/(?:^|\.)huhaitai\.com$/.test(host)) return "+ss-local";
         if (/(?:^|\.)huhamhire\.com$/.test(host)) return "+ss-local";
-        if (scheme === "http" && url.indexOf(".huhangfei.com") >= 0) return "+ss-local";
-        if (/(?:^|\.)huhangfei\.com$/.test(host)) return "+ss-local";
         if (scheme === "http" && url.indexOf("huiyi.in") >= 0) return "+ss-local";
         if (scheme === "http" && url.indexOf(".hulkshare.com") >= 0) return "+ss-local";
         if (scheme === "http" && url.indexOf("humanrightsbriefing.org") >= 0) return "+ss-local";
@@ -3806,7 +3799,6 @@ var FindProxyForURL = function(init, profiles) {
         if (scheme === "http" && url.indexOf(".jyxf.net") >= 0) return "+ss-local";
         if (/(?:^|\.)k-doujin\.net$/.test(host)) return "+ss-local";
         if (/(?:^|\.)ka-wai\.com$/.test(host)) return "+ss-local";
-        if (/(?:^|\.)kadokawa\.co\.jp$/.test(host)) return "+ss-local";
         if (scheme === "http" && url.indexOf(".kagyu.org") >= 0) return "+ss-local";
         if (/(?:^|\.)kagyu\.org\.za$/.test(host)) return "+ss-local";
         if (scheme === "http" && url.indexOf(".kagyumonlam.org") >= 0) return "+ss-local";
@@ -4658,7 +4650,6 @@ var FindProxyForURL = function(init, profiles) {
         if (scheme === "http" && url.indexOf("paperb.us") >= 0) return "+ss-local";
         if (scheme === "http" && url.indexOf(".paradisehill.cc") >= 0) return "+ss-local";
         if (scheme === "http" && url.indexOf(".paradisepoker.com") >= 0) return "+ss-local";
-        if (/(?:^|\.)parsevideo\.com$/.test(host)) return "+ss-local";
         if (scheme === "http" && url.indexOf(".partycasino.com") >= 0) return "+ss-local";
         if (scheme === "http" && url.indexOf(".partypoker.com") >= 0) return "+ss-local";
         if (scheme === "http" && url.indexOf(".passion.com") >= 0) return "+ss-local";
@@ -4964,7 +4955,6 @@ var FindProxyForURL = function(init, profiles) {
         if (scheme === "http" && url.indexOf(".radicalparty.org") >= 0) return "+ss-local";
         if (/(?:^|\.)rael\.org$/.test(host)) return "+ss-local";
         if (scheme === "http" && url.indexOf("radicalparty.org") >= 0) return "+ss-local";
-        if (/(?:^|\.)radio\.garden$/.test(host)) return "+ss-local";
         if (scheme === "http" && url.indexOf("radioaustralia.net.au") >= 0) return "+ss-local";
         if (scheme === "http" && url.indexOf(".radiohilight.net") >= 0) return "+ss-local";
         if (/(?:^|\.)radiohilight\.net$/.test(host)) return "+ss-local";
@@ -5246,7 +5236,6 @@ var FindProxyForURL = function(init, profiles) {
         if (/(?:^|\.)shodanhq\.com$/.test(host)) return "+ss-local";
         if (/(?:^|\.)shooshtime\.com$/.test(host)) return "+ss-local";
         if (scheme === "http" && url.indexOf(".shop2000.com.tw") >= 0) return "+ss-local";
-        if (/(?:^|\.)shopee\.tw$/.test(host)) return "+ss-local";
         if (scheme === "http" && url.indexOf(".shopping.com") >= 0) return "+ss-local";
         if (scheme === "http" && url.indexOf(".showhaotu.com") >= 0) return "+ss-local";
         if (scheme === "http" && url.indexOf(".showtime.jp") >= 0) return "+ss-local";
@@ -6193,7 +6182,7 @@ var FindProxyForURL = function(init, profiles) {
         if (scheme === "http" && url.indexOf(".upornia.com") >= 0) return "+ss-local";
         if (/^http:\/\/upornia\.com/.test(url)) return "+ss-local";
         if (/(?:^|\.)uproxy\.org$/.test(host)) return "+ss-local";
-        if (/(?:^|\.)uptodown\.com$/.test(host)) return "+ss-local";
+        if (/^http:\/\/tor\.cn\.uptodown\.com\//.test(url)) return "+ss-local";
         if (scheme === "http" && url.indexOf(".upwill.org") >= 0) return "+ss-local";
         if (scheme === "http" && url.indexOf("ur7s.com") >= 0) return "+ss-local";
         if (/(?:^|\.)urbansurvival\.com$/.test(host)) return "+ss-local";
@@ -6891,6 +6880,6 @@ var FindProxyForURL = function(init, profiles) {
     "+ss-local": function(url, host, scheme) {
         "use strict";
         if (/^127\.0\.0\.1$/.test(host) || /^::1$/.test(host) || /^localhost$/.test(host)) return "DIRECT";
-        return "SOCKS5 127.0.0.1:1080; SOCKS 127.0.0.1:1080";
+        return "PROXY localhost:3128";
     }
 });
