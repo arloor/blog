@@ -497,3 +497,38 @@ public class MTMailConfig {
     }
 }
 ```
+
+```
+package com.sankuai.pcm.module.notice;
+
+import com.google.common.collect.Lists;
+import com.sankuai.pcm.module.notice.NoticeModuleImpl;
+import com.sankuai.pcm.module.notice.event.DeliveInEvent;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+
+import javax.annotation.Resource;
+
+@SpringBootTest
+// 因为引入了Thymeleaf的包，但是不需要使用thymeleaf，所以把这个autoconfiguration禁用
+@SpringBootApplication(
+        scanBasePackages = "com.sankuai.pcm",
+        exclude = {ThymeleafAutoConfiguration.class}
+)
+@RunWith(SpringRunner.class)
+public class NoticeTest {
+
+    @Resource
+    NoticeModuleImpl noticeModule;
+
+    @Test
+    public void NoticeTest() {
+        DeliveInEvent deliveInEvent = new DeliveInEvent("刘港欢", "liuganghuan", "PCM做的真好", "基础研发平台", "ch处理中", "youwenti", "https://arloor.com");
+        noticeModule.noticeByDaxiang(deliveInEvent, Lists.newArrayList("liuganghuan"));
+    }
+}
+```
