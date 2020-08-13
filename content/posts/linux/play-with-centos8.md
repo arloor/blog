@@ -433,6 +433,8 @@ yum install -y bash-completion
 source /etc/profile.d/bash_completion.sh
 nmcli con mod <connectionName> ipv4.dns "8.8.8.8 8.8.4.4"
 nmcli con mod <connectionName> ipv4.ignore-auto-dns yes
+nmcli con mod <connectionName> ipv4.addresses x.x.x.x/x(掩码)
+nmcli con mod <connectionName> ipv4.gateway x.x.x.x
 nmcli con up <connectionName>
 ```
 
