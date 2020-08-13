@@ -24,6 +24,9 @@ keywords:
 ```
 
 ```
+package com.sankuai.pcm.module.util;
+
+import com.dianping.cat.Cat;
 import com.google.common.collect.Lists;
 import lombok.extern.apachecommons.CommonsLog;
 import org.apache.http.HttpEntity;
@@ -43,7 +46,8 @@ import org.apache.http.conn.socket.LayeredConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
+//import org.apache.http.impl.client.HttpClients;
+import com.meituan.mtrace.http.HttpClients;  // 仅替换该包名
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
@@ -54,6 +58,7 @@ import javax.net.ssl.SSLException;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InterruptedIOException;
 import java.net.UnknownHostException;
 import java.security.KeyManagementException;
@@ -62,9 +67,10 @@ import java.security.cert.X509Certificate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 @CommonsLog
-public class HttpUtils {
+public class HttpUtil {
     private static CloseableHttpClient client;
     private static final int READ_TIMEOUT = 100;
 
@@ -168,7 +174,7 @@ public class HttpUtils {
      * @return
      */
     public static String doPostJson(String apiUrl, Object param, int readTimeout) throws IOException {
-        String json = JsonUtils.objectToJsonString(param);
+        String json = JsonUtil.toJson(param);
         String httpStr = null;
         HttpPost httpPost = new HttpPost(apiUrl);
         CloseableHttpResponse response = null;
@@ -193,7 +199,7 @@ public class HttpUtils {
         } finally {
             if (response != null) {
                 try {
-                    //消耗response的流【非必要】
+                    // 确保entity里的inputStream close
                     EntityUtils.consume(response.getEntity());
                     //关闭response的底层connection【必要】
                     response.close();
@@ -235,7 +241,7 @@ public class HttpUtils {
         } finally {
             if (response != null) {
                 try {
-                    //消耗response的流【非必要】
+                    // 确保entity里的inputStream close
                     EntityUtils.consume(response.getEntity());
                     //关闭response的底层connection【必要】
                     response.close();
@@ -272,7 +278,7 @@ public class HttpUtils {
         } finally {
             if (response != null) {
                 try {
-                    //消耗response的流【非必要】
+                    // 确保entity里的inputStream close
                     EntityUtils.consume(response.getEntity());
                     //关闭response的底层connection【必要】
                     response.close();
@@ -286,6 +292,45 @@ public class HttpUtils {
         return Optional.ofNullable(httpStr).orElseGet(String::new);
     }
 
+
+    public static void get(String apiUrl, int readTimeout, Consumer<InputStream> consumer) throws IOException {
+        HttpGet get = new HttpGet(apiUrl);
+        CloseableHttpResponse response = null;
+        //设置超时时间
+        RequestConfig config = RequestConfig.custom()
+                .setConnectionRequestTimeout(100)
+                .setConnectTimeout(100)
+                .setSocketTimeout(readTimeout)
+                .build();
+        get.setConfig(config);
+
+        try {
+            response = client.execute(get);
+            HttpEntity entity = response.getEntity();
+            try (InputStream inputStream = entity.getContent();) {
+                consumer.accept(inputStream);
+            }catch (Throwable e){
+                log.error("cosume inputStream失败",e);
+            }
+        } catch (IOException e) {
+            log.error("HttpUtils post Failed!", e);
+            throw e;
+        } finally {
+            if (response != null) {
+                try {
+                    // 确保entity里的inputStream close
+                    EntityUtils.consume(response.getEntity());
+                    //关闭response的底层connection【必要】
+                    response.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            //疑似没有必要，但框架HttpClientManager有这行
+            get.releaseConnection();
+        }
+    }
 }
+
 ```
 
