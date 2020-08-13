@@ -34,6 +34,11 @@ else
 fi
 # 检查UseDNS确实被关闭
 cat /etc/ssh/sshd_config|grep UseDNS
+
+sed -i "s/#ClientAliveInterval 0/ClientAliveInterval 60/g" /etc/ssh/sshd_config
+sed -i "s/#ClientAliveCountMax 3/ClientAliveCountMax 3/g" /etc/ssh/sshd_config
+# 确认修改
+grep ClientAlive sshd_config
 service sshd restart
 ```
 
