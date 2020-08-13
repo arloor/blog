@@ -177,7 +177,7 @@ fi
     LDFLAGS="-L${BUILD_LIBS}/lib"
 make
 make install
-cp src/gperf ${BUILD_LIBS}/bin
+/bin/cp -f src/gperf ${BUILD_LIBS}/bin
 cd ~
 
 ##自行安装jdk8 
