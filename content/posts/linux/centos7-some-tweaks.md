@@ -182,6 +182,8 @@ reboot
 uname -r  ##输出内核版本大于4.9
 echo net.core.default_qdisc=fq >> /etc/sysctl.conf
 echo net.ipv4.tcp_congestion_control=bbr >> /etc/sysctl.conf
+# sed -i "s/pfifo_fast/fq/g" /proc/sys/net/core/default_qdisc
+# sed -i "s/cubic/bbr/g" /proc/sys/net/ipv4/tcp_congestion_control
 sysctl -p
 lsmod |grep bbr
 ```
