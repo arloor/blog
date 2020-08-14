@@ -12,11 +12,12 @@ keywords:
 ---
 
 - 机器环境：centos7 2G内存
+- [clickhouse文档](https://clickhouse.tech/docs/en/)
 <!--more-->
 
 ## 安装
 
-参考文档： https://clickhouse.tech/docs/en/getting-started/install/
+[安装文档](https://clickhouse.tech/docs/en/getting-started/install/)
 
 ```shell
 # 需要cpu支持 SSE 4.2
