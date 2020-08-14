@@ -12,6 +12,7 @@ keywords:
 ---
 
 - 机器环境：centos7 2G内存
+<!--more-->
 
 ## 安装
 
@@ -31,3 +32,15 @@ echo "config @ /etc/clickhouse-server/config.xml"
 echo 
 } || echo "SSE 4.2 not supported"
 ```
+
+注：clickhouse的服务是用的`/etc/init.d`下的启动脚本
+
+**测试安装是否成功**
+
+```
+clickhouse-client
+select 1
+```
+
+效果如下图
+![](/img/clickhouse-client.png)
