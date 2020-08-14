@@ -44,3 +44,71 @@ select 1
 
 效果如下图
 <img src="/img/clickhouse-client.png" alt="" width="600px" style="max-width: 100%;">
+
+## 测试
+
+和很多数据库管理系统一样，clickhouse也有database和table的概念
+
+**创建数据库**
+
+```shell
+CREATE DATABASE IF NOT EXISTS test
+use test
+```
+
+**创建表**
+
+创建表和mysql也差不多，需要指定以下内容：
+
+1. 表名
+2. 表scheme：字段名和字段类型
+3. Table engine and its settings——决定查询怎么被执行
+
+```sql
+CREATE TABLE tutorial.hits_v1
+(
+    `WatchID` UInt64,
+    `JavaEnable` UInt8,
+    `Title` String,
+    `GoodEvent` Int16,
+    `EventTime` DateTime,
+    `EventDate` Date,
+    `CounterID` UInt32,
+    `ClientIP` UInt32,
+    ................
+    `URLHash` UInt64,
+    `CLID` UInt32,
+    `YCLID` UInt64,
+    `ShareService` String,
+    `ShareURL` String,
+    `ShareTitle` String,
+    `ParsedParams` Nested(
+        Key1 String,
+        Key2 String,
+        Key3 String,
+        Key4 String,
+        Key5 String,
+        ValueDouble Float64),
+    `IslandID` FixedString(16),
+    `RequestNum` UInt32,
+    `RequestTry` UInt8
+)
+ENGINE = MergeTree()
+PARTITION BY toYYYYMM(EventDate)
+ORDER BY (CounterID, EventDate, intHash32(UserID))
+SAMPLE BY intHash32(UserID)
+SETTINGS index_granularity = 8192
+```
+
+**查询**
+
+```sql
+SELECT
+    StartURL AS URL,
+    AVG(Duration) AS AvgDuration
+FROM tutorial.visits_v1
+WHERE StartDate BETWEEN '2014-03-23' AND '2014-03-30'
+GROUP BY URL
+ORDER BY AvgDuration DESC
+LIMIT 10
+```
