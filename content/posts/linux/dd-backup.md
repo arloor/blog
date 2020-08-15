@@ -186,8 +186,8 @@ DNS3=114.114.114.114
 10 PEERDNS
 
 - 是否自动从自动获取IP的方式（如dhcp）中获取DNS写入`/etc/resolv.conf`
-- no：不从dhcp获取dns，而是使用配置的DNS1、DNS2;
-- yes：使用dhcp获取的dns
+- no：不修改/etc/resolv.conf
+- yes：使用dhcp获取的dns或者下面配置的 DNS{1, 2}
 - BOOTPROTO为dhcp时，dhcp会自动设置DNS服务器，此时PEERDNS默认为yes，意味着使用DHCP指定的dns
 - BOOTPROTO不为自动获取ip时，此时PEERDNS默认为no，需要设置DNS1、DNS2作为dns
 
