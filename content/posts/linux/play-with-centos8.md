@@ -384,18 +384,18 @@ echo "45 0,12 * * * root /usr/local/bin/certbot-auto renew -q" | sudo tee -a /et
 在`/etc/sysconfig/network-scripts/ifcfg-ethx`中增加:
 
 ```
-PEERDNS=no
+PEERDNS=yes
 DNS1=233.6.6.6
 DNS2=233.5.5.5
 ```
 
 然后`service network restart`生效。
 
-`PEERDNS=no`指，不将远端dhcp-server（前提：BOOTPROTO=dhcp）发来dns写入/etc/resolv.conf。而是使用DNS1、DNS2
+`PEERDNS=yes`指，ifcfg脚本将接管`/etc/resolv.conf`，将其从DHCP或者DNS{1,2}配置得到的dns写到resolv.conf。
 
 在centos8中，NetworkManager.service依然兼容ifcfg-xxxx脚本的方式来配置网络，所以以上方案仍然可行。
 ```
-PEERDNS="no"
+PEERDNS="yes"
 DNS1="223.6.6.6"
 DNS2="223.5.5.5"
 ```
