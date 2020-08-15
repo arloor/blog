@@ -393,8 +393,7 @@ DNS2=233.5.5.5
 
 `PEERDNS=no`指，不将远端dhcp-server（前提：BOOTPROTO=dhcp）发来dns写入/etc/resolv.conf。而是使用DNS1、DNS2
 
-在centos8中，NetworkManager.service依然兼容ifcfg-xxxx脚本的方式来配置网络，所以以上方案仍然可行。只不过，不懂为什么centos8的ifcfg脚本默认加上双引号：
-
+在centos8中，NetworkManager.service依然兼容ifcfg-xxxx脚本的方式来配置网络，所以以上方案仍然可行。
 ```
 PEERDNS="no"
 DNS1="223.6.6.6"
