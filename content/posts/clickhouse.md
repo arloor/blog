@@ -1,5 +1,5 @@
 ---
-title: "Clickhoust使用学习"
+title: "Clickhouse使用学习"
 date: 2020-08-14T14:37:51+08:00
 draft: false
 categories: [ "undefined"]
