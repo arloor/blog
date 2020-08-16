@@ -1,6 +1,7 @@
 [[ "$EUID" -ne '0' ]] && echo "Error:This script must be run as root!" && exit 1;
 
 black="\033[0m"
+baseUrl="http://mirrors.huaweicloud.com/centos/8.2.2004"
 
 ## 检查依赖
 function CheckDependence(){
@@ -47,9 +48,9 @@ echo "Dependence Check done"
 echo -e "\n\033[36m# Install\033[0m\n"
 ## 下载kernel和initrd
 echo "initrd.img downloading...."
-wget --no-check-certificate -qO '/boot/initrd.img' "http://mirrors.huaweicloud.com/centos/8.2.2004/BaseOS/x86_64/os/isolinux/initrd.img"
+wget --no-check-certificate -qO '/boot/initrd.img' "${baseUrl}/BaseOS/x86_64/os/isolinux/initrd.img"
 echo "vmlinuz downloading...."
-wget --no-check-certificate -qO '/boot/vmlinuz' "http://mirrors.huaweicloud.com/centos/8.2.2004/BaseOS/x86_64/os/isolinux/vmlinuz"
+wget --no-check-certificate -qO '/boot/vmlinuz' "${baseUrl}/BaseOS/x86_64/os/isolinux/vmlinuz"
 echo "done"
 
 ## 查看网络信息 ip、网关、掩码
@@ -228,10 +229,10 @@ lang zh_CN.UTF-8
 #ONDHCP network  --bootproto=dhcp --device=ens3 --nameserver=223.6.6.6 --ipv6=auto --activate
 #NODHCP network --bootproto=static --ip=$IPv4 --netmask=$MASK --gateway=$GATE --device=ens3 --nameserver=223.6.6.6 --ipv6=auto --activate
 network  --hostname=centos8.localdomain
-repo --name="AppStream" --baseurl=http://mirrors.huaweicloud.com/centos/8.2.2004/BaseOS/x86_64/os/../../../AppStream/x86_64/os/
+repo --name="AppStream" --baseurl=${baseUrl}/BaseOS/x86_64/os/../../../AppStream/x86_64/os/
 # Use network installation
-url --url="http://mirrors.huaweicloud.com/centos/8.2.2004/BaseOS/x86_64/os/"
-liveimg --url=http://mirrors.huaweicloud.com/centos/8.2.2004/BaseOS/x86_64/os/images/install.img --noverifyssl
+url --url="${baseUrl}/BaseOS/x86_64/os/"
+liveimg --url=${baseUrl}/BaseOS/x86_64/os/images/install.img --noverifyssl
 # Root password
 rootpw --plaintext arloor.com
 # SELinux configuration
