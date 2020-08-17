@@ -3,7 +3,7 @@ print_info(){
     echo "#############################################################"
     echo "# reinstall Centos 8.                                       #"
     echo "# Usage: bash install.sh                                    #"
-    echo "# Website:  http://arloor.com/                              #"
+    echo "# Website:  http://www.arloor.com/                              #"
     echo "# Author: ARLOOR <admin@arloor.com>                         #"
     echo "# Github: https://github.com/arloor                         #"
     echo "#############################################################"

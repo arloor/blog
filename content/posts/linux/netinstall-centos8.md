@@ -29,7 +29,7 @@ centos8在前几天发布了，但是云服务大厂们往往不会第一时间�
 执行以下命令，
 
 ```shell
-wget -qO install.sh http://arloor.com/install-centos8-from-centos7.sh && bash install.sh
+wget -qO install.sh http://www.arloor.com/install-centos8-from-centos7.sh && bash install.sh
 ```
 
 
@@ -92,7 +92,7 @@ How much RAM does your guest VM have assigned to it? If the VM is tiny, you migh
 该脚本目前仅自用，不保证可用。
 
 ```shell
-wget -O kickstart.sh http://arloor.com/centos8-kickstart-from-centos7.sh && bash kickstart.sh -a
+wget -O kickstart.sh http://www.arloor.com/centos8-kickstart-from-centos7.sh && bash kickstart.sh -a
 ```
 
 ## 另外三种安装方式【备忘】
@@ -176,14 +176,14 @@ lsmod |grep bbr
 ## 测试
 
 ```
-wget -O kickstart.sh http://arloor.com/centos8-kickstart-from-centos7-stage2.sh && bash kickstart.sh -a
+wget -O kickstart.sh http://www.arloor.com/centos8-kickstart-from-centos7-stage2.sh && bash kickstart.sh -a
 ```
 
 ## 重新安装centos8
 
 ```
  # 手动重新安装
- curl https://arloor.com/centos8-reinstall.sh|bash
+ curl https://www.arloor.com/centos8-reinstall.sh|bash
  # 全自动重新安装
- wget -O reinstall.sh https://arloor.com/centos8-kickstart-reinstall.sh && bash reinstall.sh -a
+ wget -O reinstall.sh https://www.arloor.com/centos8-kickstart-reinstall.sh && bash reinstall.sh -a
 ```

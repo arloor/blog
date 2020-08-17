@@ -1,7 +1,7 @@
 #! /bin/bash
 
 ## path: /usr/local/bin/tarloor
-## wget -O /usr/local/bin/tarloor http://arloor.com/tarloor.sh
+## wget -O /usr/local/bin/tarloor http://www.arloor.com/tarloor.sh
 hugoURL=https://github.com/gohugoio/hugo/releases/download/v0.54.0/hugo_extended_0.54.0_Linux-64bit.tar.gz
 
 ## 检查依赖
@@ -41,7 +41,7 @@ print_info(){
     clear
     echo "#############################################################"
     echo "# Update ARLOOR.com contents                                #"
-    echo "# Website:  http://arloor.com/                              #"
+    echo "# Website:  http://www.arloor.com/                              #"
     echo "# Author: ARLOOR <admin@arloor.com>                         #"
     echo "# Github: https://github.com/arloor                         #"
     echo "#############################################################"
