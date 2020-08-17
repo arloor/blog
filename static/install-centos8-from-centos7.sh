@@ -3,7 +3,7 @@ print_info(){
     echo "#############################################################"
     echo "# Install Centos8 on a centos7 VPS.                         #"
     echo "# Usage: bash install.sh                                    #"
-    echo "# Website:  http://arloor.com/                              #"
+    echo "# Website:  http://www.arloor.com/                              #"
     echo "# Author: ARLOOR <admin@arloor.com>                         #"
     echo "# Github: https://github.com/arloor                         #"
     echo "#############################################################"

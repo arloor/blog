@@ -527,7 +527,7 @@ public class NoticeTest {
 
     @Test
     public void NoticeTest() {
-        DeliveInEvent deliveInEvent = new DeliveInEvent("刘港欢", "liuganghuan", "PCM做的真好", "基础研发平台", "ch处理中", "youwenti", "https://arloor.com");
+        DeliveInEvent deliveInEvent = new DeliveInEvent("刘港欢", "liuganghuan", "PCM做的真好", "基础研发平台", "ch处理中", "youwenti", "https://www.arloor.com");
         noticeModule.noticeByDaxiang(deliveInEvent, Lists.newArrayList("liuganghuan"));
     }
 }
