@@ -30,6 +30,7 @@ Java里面进行urlEncode很简单：
 ```
 
 就是这一段简单的代码藏了一个坑：`URLEncoder.encode`适用于`application/x-www-form-urlencoded`。在POST请求时，`x-www-form-urlencoded`在请求体中；GET请求时，则跟随在url的path后，被称为为queryString。由于历史原因，`x-www-form-urlencoded`要求将空格编码为加号（+）
+<!--more-->
 
 而另一份规范(RFC 2396，定义URI)里, URI里的保留字符都需转义成%HH格式(Section 3.4 Query Component)，因此空格会被编码成%20，加号+本身也作为保留字而被编成%2B，对于某些遵循RFC 2396标准的应用来说，它可能不接受查询字符串中出现加号+，认为它是非法字符。所以一个安全的举措是URL中统一使用%20来编码空格字符。
 
