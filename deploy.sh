@@ -4,7 +4,7 @@
 # 当前使用hugo 0.53(支持scss)
 dir=/home/x1/blog
 dir=$PWD
-host=sh.someme.me
+host=blog.arloor.com
 port=22
 
 git pull
@@ -17,6 +17,7 @@ git push
 ssh root@$host  -p$port "
 bash tarloor
 "
+echo "http://"$host
 
 #本地构建，然后上传的方式
 #====================================================================================================
