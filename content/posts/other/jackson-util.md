@@ -14,6 +14,25 @@ keywords:
 Jackson Util:
 <!--more-->
 
+```
+        <!--Jackson required包-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.11.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.11.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.11.2</version>
+        </dependency>
+```
+
 ```java
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -37,7 +56,7 @@ public class JsonUtil {
         return MAPPER.readValue(json, clazz);
     }
 
-    public static <T> T fromJson(String json, TypeReference valueTypeRef) throws IOException {
+    public static <T> T fromJson(String json, TypeReference<T> valueTypeRef) throws IOException {
         return MAPPER.readValue(json, valueTypeRef);
     }
 
