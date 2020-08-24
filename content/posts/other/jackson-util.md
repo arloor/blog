@@ -15,6 +15,11 @@ Jackson Util:
 <!--more-->
 
 ```
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>29.0-jre</version>
+        </dependency>
         <!--Jackson required包-->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
