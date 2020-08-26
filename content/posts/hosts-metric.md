@@ -14,21 +14,7 @@ keywords:
 ## bigGraph接口，查询hosts指标的代码
 
 ```
-curl 'http://localhost:8080/raptor/r/hosts/metric/bigGraph' \
-  -H 'Connection: keep-alive' \
-  -H 'Pragma: no-cache' \
-  -H 'Cache-Control: no-cache' \
-  -H 'Accept: application/json, text/plain, */*' \
-  -H 'X-Requested-With: XMLHttpRequest' \
-  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36' \
-  -H 'Content-Type: application/json' \
-  -H 'Origin: http://raptor.mws-test.sankuai.com' \
-  -H 'Referer: http://raptor.mws-test.sankuai.com/application/hosts?reportType=hour&date=&startDate=20200825190000&endDate=20200825195900&r=31494&ip=set-yp-infsh-cat-cat-mq-consumer-test01&group=set-yp-infsh-cat-cat-mq-consumer-test01&domain=RT_root.xr_realtime.hadoop-rt.c7_banma_ssd' \
-  -H 'Accept-Language: zh,en;q=0.9,zh-CN;q=0.8' \
-  -H 'Cookie: iam_organization=2; iam_project=53168; _ga=GA1.2.290940288.1595590424; _lxsdk_cuid=172b60f4ee1c8-03a6f2dbd86ecb-143e6257-168000-172b60f4ee1c8; _lxsdk=172b60f4ee1c8-03a6f2dbd86ecb-143e6257-168000-172b60f4ee1c8; deviceId=54c3c1e0-d6c8-11ea-8834-fbd709d2f352; al=jdqrmxjcpoccsoihcdvmgzsegeazslnc; uu=6ed50940-d6c8-11ea-900a-8dd95abad704; cid=1; ssoid=eAGFjy1LBFEYhblt2CQLgnHi7obhft_7mpy7rBgXDIJF7sdMXItiMbgGmyg2NymIcZdVQYMKrmLzF1hEGByriNkRMVsOnHAenhOhqc_7MYoHr8dfk4RGEgMlWsBsnHOHMeEStGccqIWqtXKpBMUEqNLmGdWbS5lb9Fkv25w3KjVKctJhTAhopybtSAO4bZjiGkR8O3k6f0waiP4L1j9Cc2hhePb-cZd0b0YvD9fJNiK1Wur96npvrbsR6tPlxWmxd1ns7xajnbejfjk8KUf9GRRvXR02G7-bAxT9-Q1QQjF3XNjArOAAiknsqiPc5RCstkGuEAFSgaZSYqaWY-ed9hasli3HQyZclYICC1znQTj5DatHaEA**eAENx8kBwCAIBMCWlGOBclwD_Zdg5jdMUwmmfRot6jQ4Ksq4mx0h-67sNQL3U3cU_jdxmH1t8AAa3RER; yun_portal_ssoid=eAGFjy1LBFEYhblt2CQLgnHi7obhft_7mpy7rBgXDIJF7sdMXItiMbgGmyg2NymIcZdVQYMKrmLzF1hEGByriNkRMVsOnHAenhOhqc_7MYoHr8dfk4RGEgMlWsBsnHOHMeEStGccqIWqtXKpBMUEqNLmGdWbS5lb9Fkv25w3KjVKctJhTAhopybtSAO4bZjiGkR8O3k6f0waiP4L1j9Cc2hhePb-cZd0b0YvD9fJNiK1Wur96npvrbsR6tPlxWmxd1ns7xajnbejfjk8KUf9GRRvXR02G7-bAxT9-Q1QQjF3XNjArOAAiknsqiPc5RCstkGuEAFSgaZSYqaWY-ed9hasli3HQyZclYICC1znQTj5DatHaEA**eAENx8kBwCAIBMCWlGOBclwD_Zdg5jdMUwmmfRot6jQ4Ksq4mx0h-67sNQL3U3cU_jdxmH1t8AAa3RER; u=1824058890; logan_session_token=j29likzrcgpt6d22izbt; _lxsdk_s=1742969dc5e-2e2-21a-06c%7C%7C234' \
-  --data-binary '{"domain":"RT_root.xr_realtime.hadoop-rt.c7_banma_ssd","group":"","endpoints":[],"startDate":"202008251900","endDate":"202008251959","sample":"avg","metric":"load.1minPerCPU","topK":20,"second":false}' \
-  --compressed \
-  --insecure
+/r/hosts/metric/bigGraph
 ```
 
 ## 1
