@@ -2,6 +2,7 @@
 
 black="\033[0m"
 # 可自行替换镜像的url
+# baseUrl="http://download.nus.edu.sg/mirror/centos/8.2.2004"
 baseUrl="http://mirrors.huaweicloud.com/centos/8.2.2004"
 
 ## 检查依赖
