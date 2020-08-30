@@ -11,7 +11,8 @@ print_info(){
 }
 
 print_info
-baseUrl="http://mirrors.aliyun.com/centos/8.1.1911"
+host="mirrors.ustc.edu.cn"
+version=7
 
 [[ "$EUID" -ne '0' ]] && echo "Error:This script must be run as root!" && exit 1;
 
@@ -60,9 +61,9 @@ echo "Dependence Check done"
 echo -e "\n\033[36m# Install\033[0m\n"
 ## 下载kernel和initrd
 echo "initrd.img downloading...."
-wget --no-check-certificate -qO '/boot/initrd.img' "https://mirror.xtom.com.hk/centos/7.8.2003/os/x86_64/isoinux/initrd.img"
+wget --no-check-certificate -qO '/boot/initrd.img' "http://${host}/centos/${version}/os/x86_64/isolinux/initrd.img"
 echo "vmlinuz downloading...."
-wget --no-check-certificate -qO '/boot/vmlinuz' "https://mirror.xtom.com.hk/centos/7.8.2003/os/x86_64/isolinux/vmlinuz"
+wget --no-check-certificate -qO '/boot/vmlinuz' "http://${host}/centos/${version}/os/x86_64/isolinux/vmlinuz"
 echo "done"
 
 ## 查看网络信息 ip、网关、掩码
@@ -168,14 +169,14 @@ LinuxIMG="$(grep 'initrd.*/' /tmp/grub.new |awk '{print $1}' |tail -n 1)";
 
 ## 分未Inboot和NoBoot修改加载kernel和initrd的
 [[ "$Type" == 'InBoot' ]] && {
-  [[ "$AutoNet" -eq '1' ]] && sed -i "/$LinuxKernel.*\//c\\\t$LinuxKernel\\t\/boot\/vmlinuz  ip=dhcp inst.repo=https:\/\/mirror.xtom.com.hk\/centos\/7.8.2003\/os\/x86_64\/ inst.lang=zh_CN inst.keymap=cn selinux=0 inst.stage2=https:\/\/mirror.xtom.com.hk\/centos\/7.8.2003\/os\/x86_64\/" /tmp/grub.new;
-  [[ "$AutoNet" -eq '0' ]] && sed -i "/$LinuxKernel.*\//c\\\t$LinuxKernel\\t\/boot\/vmlinuz  ip=$IPv4::$GATE:$MASK:my_hostname:eth0:none inst.repo=https:\/\/mirror.xtom.com.hk\/centos\/7.8.2003\/os\/x86_64\/ inst.lang=zh_CN inst.keymap=cn selinux=0 inst.stage2=https:\/\/mirror.xtom.com.hk\/centos\/7.8.2003\/os\/x86_64\/" /tmp/grub.new;
+  [[ "$AutoNet" -eq '1' ]] && sed -i "/$LinuxKernel.*\//c\\\t$LinuxKernel\\t\/boot\/vmlinuz  ip=dhcp inst.repo=https:\/\/${host}\/centos\/${version}\/os\/x86_64\/ inst.lang=zh_CN inst.keymap=cn selinux=0 inst.stage2=https:\/\/${host}\/centos\/${version}\/os\/x86_64\/" /tmp/grub.new;
+  [[ "$AutoNet" -eq '0' ]] && sed -i "/$LinuxKernel.*\//c\\\t$LinuxKernel\\t\/boot\/vmlinuz  ip=$IPv4::$GATE:$MASK:my_hostname:eth0:none inst.repo=https:\/\/${host}\/centos\/${version}\/os\/x86_64\/ inst.lang=zh_CN inst.keymap=cn selinux=0 inst.stage2=https:\/\/${host}\/centos\/${version}\/os\/x86_64\/" /tmp/grub.new;
   sed -i "/$LinuxIMG.*\//c\\\t$LinuxIMG\\t\/boot\/initrd.img" /tmp/grub.new;
 }
 
 [[ "$Type" == 'NoBoot' ]] && {
-  [[ "$AutoNet" -eq '1' ]] && sed -i "/$LinuxKernel.*\//c\\\t$LinuxKernel\\t\/vmlinuz  ip=dhcp inst.repo=https:\/\/mirror.xtom.com.hk\/centos\/7.8.2003\/os\/x86_64\/ inst.lang=zh_CN inst.keymap=us selinux=0 inst.stage2=https:\/\/mirror.xtom.com.hk\/centos\/7.8.2003\/os\/x86_64\/" /tmp/grub.new;
-  [[ "$AutoNet" -eq '0' ]] && sed -i "/$LinuxKernel.*\//c\\\t$LinuxKernel\\t\/vmlinuz  ip=$IPv4::$GATE:$MASK:my_hostname:eth0:none inst.repo=https:\/\/mirror.xtom.com.hk\/centos\/7.8.2003\/os\/x86_64\/ inst.lang=zh_CN inst.keymap=cn selinux=0 inst.stage2=https:\/\/mirror.xtom.com.hk\/centos\/7.8.2003\/os\/x86_64\/" /tmp/grub.new;
+  [[ "$AutoNet" -eq '1' ]] && sed -i "/$LinuxKernel.*\//c\\\t$LinuxKernel\\t\/vmlinuz  ip=dhcp inst.repo=https:\/\/${host}\/centos\/${version}\/os\/x86_64\/ inst.lang=zh_CN inst.keymap=us selinux=0 inst.stage2=https:\/\/${host}\/centos\/${version}\/os\/x86_64\/" /tmp/grub.new;
+  [[ "$AutoNet" -eq '0' ]] && sed -i "/$LinuxKernel.*\//c\\\t$LinuxKernel\\t\/vmlinuz  ip=$IPv4::$GATE:$MASK:my_hostname:eth0:none inst.repo=https:\/\/${host}\/centos\/${version}\/os\/x86_64\/ inst.lang=zh_CN inst.keymap=cn selinux=0 inst.stage2=https:\/\/${host}\/centos\/${version}\/os\/x86_64\/" /tmp/grub.new;
   sed -i "/$LinuxIMG.*\//c\\\t$LinuxIMG\\t\/initrd.img" /tmp/grub.new;
 }
 
