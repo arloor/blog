@@ -33,7 +33,7 @@ turnOnNat(){
     do
         arr2=(`echo $cell|tr ":" " "`)  #arr2=16 REJECT 0.0.0.0/0
         index=${arr2[0]}
-        echo 删除禁止FOWARD的规则——$index
+        echo 删除禁止FOWARD的规则$index
         iptables -D FORWARD $index
     done
     iptables --policy FORWARD ACCEPT
@@ -49,18 +49,18 @@ testVars(){
     # 判断端口是否为数字
     local valid=
     echo "$localport"|[ -n "`sed -n '/^[0-9][0-9]*$/p'`" ] && echo $remoteport |[ -n "`sed -n '/^[0-9][0-9]*$/p'`" ]||{
-       # echo  -e "${red}本地端口和目标端口请输入数字！！${black}";
+       echo  -e "${red}本地端口和目标端口请输入数字！！${black}";
        return 1;
     }
 
     # 检查输入的不是IP
-    if [ "$(echo  $remotehost |grep -E -o '([0-9]{1,3}[\.]){3}[0-9]{1,3}')" != "" ];then
-        local isip=true
-        local remote=$remotehost
-
-        # echo -e "${red}警告：你输入的目标地址是一个ip!${black}"
-        return 2;
-    fi
+    #if [ "$(echo  $remotehost |grep -E -o '([0-9]{1,3}[\.]){3}[0-9]{1,3}')" != "" ];then
+     #   local isip=true
+     #   local remote=$remotehost
+#
+ #       echo -e "${red}警告：你输入的目标地址是一个ip!${black}"
+  #      return 2;
+   # fi
 }
 
 dnat(){
@@ -81,7 +81,13 @@ EOF
 dnatIfNeed(){
   [ "$#" = "3" ]&&{
     local needNat=0
-    local remote=$(host -t a  $2|grep -E -o "([0-9]{1,3}[\.]){3}[0-9]{1,3}"|head -1)
+    # 如果已经是ip
+    if [ "$(echo  $2 |grep -E -o '([0-9]{1,3}[\.]){3}[0-9]{1,3}')" != "" ];then
+        local remote=$2
+    else
+        local remote=$(host -t a  $2|grep -E -o "([0-9]{1,3}[\.]){3}[0-9]{1,3}"|head -1)
+    fi
+
     if [ "$remote" = "" ];then
             echo Warn:解析失败
           return 1;
@@ -110,7 +116,7 @@ iptables -t nat -F PREROUTING
 iptables -t nat -F POSTROUTING
 EOF
 arr1=(`cat $conf`)
-for cell in ${arr1[@]}  
+for cell in ${arr1[@]}
 do
     arr2=(`echo $cell|tr ":" " "|tr ">" " "`)  #arr2=16 REJECT 0.0.0.0/0
     # 过滤非法的行
