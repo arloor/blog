@@ -10,8 +10,8 @@ touch $conf
 
     clear
     echo "#############################################################"
-    echo "# 设置iptables转发规则                                #"
-    echo "# Website:  http://www.arloor.com/                              #"
+    echo "# 设置iptables转发规则                                       #"
+    echo "# Website:  http://www.arloor.com/                          #"
     echo "# Author: ARLOOR <admin@arloor.com>                         #"
     echo "# Github: https://github.com/arloor                         #"
     echo "#############################################################"
