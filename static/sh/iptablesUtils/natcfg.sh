@@ -274,14 +274,14 @@ testVars(){
        return 1;
     }
 
-    # 检查输入的不是IP
-    if [ "$(echo  $remotehost |grep -E -o '([0-9]{1,3}[\.]){3}[0-9]{1,3}')" != "" ];then
-        local isip=true
-        local remote=$remotehost
+    # # 检查输入的不是IP
+    # if [ "$(echo  $remotehost |grep -E -o '([0-9]{1,3}[\.]){3}[0-9]{1,3}')" != "" ];then
+    #     local isip=true
+    #     local remote=$remotehost
 
-        # echo -e "${red}警告：你输入的目标地址是一个ip!${black}"
-        return 2;
-    fi
+    #     # echo -e "${red}警告：你输入的目标地址是一个ip!${black}"
+    #     return 2;
+    # fi
 }
 
 lsDnat(){
