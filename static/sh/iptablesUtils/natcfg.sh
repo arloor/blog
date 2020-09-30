@@ -242,16 +242,14 @@ addDnat(){
     #     return 1
     # fi
 
-    setupService
-    
-
     sed -i "s/^$localport.*/$localport>$remotehost:$remoteport/g" $conf
     [ "$(cat $conf|grep "$localport>$remotehost:$remoteport")" = "" ]&&{
             cat >> $conf <<LINE
 $localport>$remotehost:$remoteport
 LINE
     }
-    echo "成功添加转发规则 $localport>$remotehost:$remoteport 大约两分钟后规则会生效"
+    echo "成功添加转发规则 $localport>$remotehost:$remoteport"
+    setupService
 }
 
 rmDnat(){
