@@ -234,16 +234,16 @@ addDnat(){
     }
 
     echo -n "目标域名:" ;read remotehost
-    # 检查输入的不是IP
-    if [ "$remotehost" = "" -o "$(echo  $remotehost |grep -E -o '([0-9]{1,3}[\.]){3}[0-9]{1,3}')" != "" ];then
-        isip=true
-        remote=$remotehost
-        echo -e "${red}请输入一个ddns域名${black}"
-        return 1
-    fi
+    # # 检查输入的不是IP
+    # if [ "$remotehost" = "" -o "$(echo  $remotehost |grep -E -o '([0-9]{1,3}[\.]){3}[0-9]{1,3}')" != "" ];then
+    #     isip=true
+    #     remote=$remotehost
+    #     echo -e "${red}请输入一个ddns域名${black}"
+    #     return 1
+    # fi
 
     setupService
-    echo "成功添加转发规则 $localport>$remotehost:$remoteport 大约两分钟后规则会生效"
+    
 
     sed -i "s/^$localport.*/$localport>$remotehost:$remoteport/g" $conf
     [ "$(cat $conf|grep "$localport>$remotehost:$remoteport")" = "" ]&&{
@@ -251,6 +251,7 @@ addDnat(){
 $localport>$remotehost:$remoteport
 LINE
     }
+    echo "成功添加转发规则 $localport>$remotehost:$remoteport 大约两分钟后规则会生效"
 }
 
 rmDnat(){
@@ -335,14 +336,14 @@ rmSnat(){
 
 
 echo  -e "${red}你要做什么呢（请输入数字）？Ctrl+C 退出本脚本${black}"
-select todo in 增加到域名的转发 删除到域名的转发 列出所有到域名的转发 查看iptables转发规则
+select todo in 增加转发规则 删除转发规则 列出所有转发规则 查看当前iptables配置
 do
     case $todo in
-    增加到域名的转发)
+    增加转发规则)
         addDnat
         #break
         ;;
-    删除到域名的转发)
+    删除转发规则)
         rmDnat
         #break
         ;;
@@ -354,10 +355,10 @@ do
     #     rmSnat
     #     #break
     #     ;;
-    列出所有到域名的转发)
+    列出所有转发规则)
         lsDnat
         ;;
-    查看iptables转发规则)
+    查看当前iptables配置)
         echo "###########################################################"
         iptables -L PREROUTING -n -t nat --line-number
         iptables -L POSTROUTING -n -t nat --line-number
