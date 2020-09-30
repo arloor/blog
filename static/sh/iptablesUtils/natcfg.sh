@@ -6,7 +6,7 @@ mkdir $base 2>/dev/null
 conf=$base/conf
 touch $conf
 
-# wget wget --no-check-certificate -qO natcfg.sh http://www.arloor.com/sh/iptablesUtils/natcfg.sh && bash natcfg.sh
+# wget wget --no-check-certificate -qO natcfg.sh http://blog.arloor.com/sh/iptablesUtils/natcfg.sh && bash natcfg.sh
 echo -e "${red}用途${black}: 便捷的设置iptables端口转发"
 echo -e "${red}项目地址${black}: https://github.com/arloor/iptablesUtils"
 echo -e "${red}注意1${black}: 到域名的转发规则在添加后需要等待2分钟才会生效，且在机器重启后仍然有效"
