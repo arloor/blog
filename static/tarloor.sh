@@ -41,7 +41,7 @@ print_info(){
     clear
     echo "#############################################################"
     echo "# Update ARLOOR.com contents                                #"
-    echo "# Website:  http://www.arloor.com/                              #"
+    echo "# Website:  http://www.arloor.com/                          #"
     echo "# Author: ARLOOR <admin@arloor.com>                         #"
     echo "# Github: https://github.com/arloor                         #"
     echo "#############################################################"
