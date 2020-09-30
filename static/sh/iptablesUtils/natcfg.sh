@@ -9,10 +9,12 @@ touch $conf
 # wget wget --no-check-certificate -qO natcfg.sh http://blog.arloor.com/sh/iptablesUtils/natcfg.sh && bash natcfg.sh
 
     clear
-    echo -e "#############################################################"
-    echo -e "# ${red}用途${black}: 便捷的设置iptables端口转发                 #"
-    echo -e "# ${red}项目地址${black}: https://github.com/arloor/iptablesUtils    #"
-    echo -e "#############################################################"
+    echo "#############################################################"
+    echo "# 设置iptables转发规则                                #"
+    echo "# Website:  http://www.arloor.com/                              #"
+    echo "# Author: ARLOOR <admin@arloor.com>                         #"
+    echo "# Github: https://github.com/arloor                         #"
+    echo "#############################################################"
     echo
 
 
@@ -217,7 +219,7 @@ addDnat(){
         return 1;
     }
 
-    echo -n "目标域名:" ;read remotehost
+    echo -n "目标域名/IP:" ;read remotehost
     # # 检查输入的不是IP
     # if [ "$remotehost" = "" -o "$(echo  $remotehost |grep -E -o '([0-9]{1,3}[\.]){3}[0-9]{1,3}')" != "" ];then
     #     isip=true
