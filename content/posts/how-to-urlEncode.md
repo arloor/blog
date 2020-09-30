@@ -11,9 +11,8 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
-<!--more-->
-
 Java里面进行urlEncode很简单：
+<!--more-->
 
 ```java
     public static void main(String[] args) {
