@@ -287,6 +287,7 @@ do
     case $todo in
     增加转发规则)
         addDnat
+        echo  -e "${red}你要做什么呢（请输入数字）？Ctrl+C 退出本脚本${black}"
         #break
         ;;
     删除转发规则)
