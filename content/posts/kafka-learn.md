@@ -11,7 +11,7 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
-文档搬运工，先看文档。用自己的语言把文档里的话重新组织，如有错漏，纯属我菜。
+**用自己的语言重新组织kafka文档，如有错漏，纯属我菜，造成损失，概不负责**
 
 目标：看完[DESIGN](https://kafka.apache.org/documentation/#design)、[IMPLEMENTATION](https://kafka.apache.org/documentation/#implementation)、[OPERATIONS](https://kafka.apache.org/documentation/#operations)
 <!--more-->
@@ -118,7 +118,46 @@ kafka有rebalance-protocal：消费组协调者会将动态的id授予消费组�
 
 这个保证可以分为两个问题：发的消息的持久化保证（produce后不会丢），保证会被消费（一定会consume）
 
-kafka的保证是这样的，produce时，消息一旦被标记为“committed”，除非repicate leader的所有broker都挂了，该消息才会完全丢失。（这里涉及的replicate、failover下面会讲）。这又可能存在重复produce的问题：committed响应丢失了，于是producer再生产一条。在0.11.0.0之后，producer可以修改配置，使重复produce变为幂等的（producer加id，消息增加序列号）。0.11.0.0之后，同样支持类似事物地将多个消息同时发送到多个partition，要么全部失败，要么全部成功，这用于确保准确地被“处理一次”。
+kafka的保证是这样的，produce时，消息一旦被标记为“committed”，除非repicate leader的所有broker都挂了，该消息才会完全丢失。（这里涉及的replicate、failover下面会讲）。这又可能存在重复produce的问题：committed响应丢失了，于是producer再生产一条。
+
+在0.11.0.0之后，kafka的producer增加了**幂等生产**和**跨分区原子写入**，并基于这两个功能，对kafka stream的read-process-write增加了**Exact-Once**支持。
+
+**幂等生产**：producer可以修改配置，使重复produce变为幂等的（producer加id，消息增加序列号）。
+**跨分区原子写入**：0.11.0.0之后，同样支持类似事物地将多个消息同时发送到多个partition，要么全部失败，要么全部成功，这用于确保准确地被“处理一次”。当然，producer可以控制是不是要等待committed，毕竟并不是所有场景都要求强持久化保证。
+
+在Kafka stream中可以通过事务保证 准确地被消费一次。kafka stream可以认为是read-process-write：从一个topic消费数据，处理一下，再发送到另一个topic。在这个过程中的能被保证的“Exact-Once”是，我一定能准确地write一次到另一个topic——失败了我就退回consume的offset，直到成功一次。示例代码如下：
+
+```
+KafkaProducer producer = createKafkaProducer(
+  "bootstrap.servers", "localhost:9092",
+  "transactional.id", "my-transactional-id");
+
+KafkaConsumer consumer = createKafkaConsumer(
+  "bootstrap.servers", "localhost:9092",
+  "group.id", "my-group-id",
+  "isolation.level", "read_committed");
+
+consumer.subscribe(singleton("inputTopic"));
+
+producer.initTransactions();
+
+while (true) {
+  ConsumerRecords records = consumer.poll(Long.MAX_VALUE);
+  // 开启事务
+  producer.beginTransaction();
+  for (ConsumerRecord record : records)
+    producer.send(producerRecord(“outputTopic”, record));
+  // 如果失败，退回consumer的offset，再试一次
+  producer.sendOffsetsToTransaction(currentOffsets(consumer), group);  
+  producer.commitTransaction();
+}
+```
+
+## replication
+
+这个有点长，慢慢搞....
+
+
 
 
 
