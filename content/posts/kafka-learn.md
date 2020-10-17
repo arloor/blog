@@ -11,7 +11,7 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
-**用自己的语言重新组织kafka文档，如有错漏，纯属我菜，造成损失，概不负责**
+**用自己的语言组织kafka文档，如有错漏，纯属我菜，造成损失，概不负责**
 
 目标：看完[DESIGN](https://kafka.apache.org/documentation/#design)、[IMPLEMENTATION](https://kafka.apache.org/documentation/#implementation)、[OPERATIONS](https://kafka.apache.org/documentation/#operations)
 <!--more-->
