@@ -9,7 +9,7 @@ port=22
 
 git pull
 git add .
-git commit -m "自动提交 @arloor $(date)"
+git commit -m "commit @arloor $(date)"
 git push
 
 # 调用服务器上的更新博客脚本方式
