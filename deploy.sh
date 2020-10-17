@@ -12,6 +12,13 @@ git add .
 git commit -m "commit @arloor $(date)"
 git push
 
+
+echo $?
+if [ "$?"=0  ]
+then 
+    echo "done"
+fi
+
 # 调用服务器上的更新博客脚本方式
 # 该脚本会检查httpd、hugo、和git仓库，实现完全自动化
 ssh root@$host  -p$port "
