@@ -116,6 +116,12 @@ kafka有rebalance-protocal：消费组协调者会将动态的id授予消费组�
 - 最少一次（可能重复消费） —Messages are never lost but may be redelivered.
 - 准确的一次 —this is what people actually want, each message is delivered once and only once.
 
+这个保证可以分为两个问题：发的消息的持久化保证（produce后不会丢），保证会被消费（一定会consume）
+
+kafka的保证是这样的，produce时，消息一旦被标记为“committed”，除非repicate leader的所有broker都挂了，该消息才会完全丢失。（这里涉及的replicate、failover下面会讲）。这又可能存在重复produce的问题：committed响应丢失了，于是producer再生产一条。在0.11.0.0之后，producer可以修改配置，使重复produce变为幂等的（producer加id，消息增加序列号）。0.11.0.0之后，同样支持类似事物地将多个消息同时发送到多个partition，要么全部失败，要么全部成功，这用于确保准确地被“处理一次”。
+
+
+
 
 
 
