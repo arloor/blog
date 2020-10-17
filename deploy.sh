@@ -13,17 +13,17 @@ git commit -m "commit @arloor $(date)"
 git push
 if [ "$?" = 0  ]
 then 
-    echo "done"
+    # 调用服务器上的更新博客脚本方式
+    # 该脚本会检查httpd、hugo、和git仓库，实现完全自动化
+    ssh root@$host  -p$port "
+    bash tarloor
+    "
+echo "请访问： http://"$host
 else
-    echo "fail"
+    echo "推送失败"
 fi
 
-# 调用服务器上的更新博客脚本方式
-# 该脚本会检查httpd、hugo、和git仓库，实现完全自动化
-ssh root@$host  -p$port "
-bash tarloor
-"
-echo "请访问： http://"$host
+
 
 #本地构建，然后上传的方式
 #====================================================================================================
