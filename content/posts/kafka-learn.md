@@ -60,6 +60,14 @@ kafka很依赖文件系统来存储和缓存消息。很多人有一个概念：
 
 这样就减少了bytes copying。
 
+### 压缩
+
+kakfa提供批量压缩的功能，将一组消息进行一次压缩，而不是将每个消息进行一次压缩——相同字符更多意味着更高的压缩率。kafka支持：GZIP, Snappy, LZ4 and ZStandard
+
+
+## Producer
+
+...
 
 
 
