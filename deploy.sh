@@ -12,6 +12,8 @@ git add .
 git commit -m "commit @arloor $(date)"
 git push
 
+
+echo $?
 if [ "$?"=0  ]
 then 
     echo "done"
