@@ -11,12 +11,11 @@ git pull
 git add .
 git commit -m "commit @arloor $(date)"
 git push
-
-
-echo $?
-if [ "$?"=0  ]
+if [ "$?" = 0  ]
 then 
     echo "done"
+else
+    echo "fail"
 fi
 
 # 调用服务器上的更新博客脚本方式
