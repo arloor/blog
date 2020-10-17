@@ -18,9 +18,9 @@ then
     ssh root@$host  -p$port "
     bash tarloor
     "
-echo "\033[32m 请访问： http://"$host"\033[0m"
+echo -e "\033[32m 请访问： http://"$host"\033[0m"
 else
-    echo "\033[32m 推送失败 \033[0m"
+    echo -e "\033[32m 推送失败 \033[0m"
 fi
 
 
