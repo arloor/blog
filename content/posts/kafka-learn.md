@@ -44,7 +44,7 @@ kafka很依赖文件系统来存储和缓存消息。很多人有一个概念：
 
 为了解决太多IO操作，kafka抽象出“message set”的概念，进行batch write和batch read，也就是一次行写多条消息，一次性读多条消息。另外一个好处是，减少网络传输rtt对qps、吞吐量的影响。
 
-为了解决太多bytes copying，producer、broker、consumer使用一样的二进制格式，避免在中间进行消息解码，从而利用操作系统在socket和pageCache之间直接双向传输的系统调用，在linux中，使用sendfile(socket,file,len)。(这一段就是说要使用0拷贝技术，下面将啥是0拷贝)
+为了解决太多bytes copying，producer、broker、consumer使用一样的二进制格式，避免在中间进行消息解码，从而利用操作系统在socket和pageCache之间直接双向传输的系统调用，在linux中，使用sendfile(socket,file,len)。(这一段就是说要使用0拷贝技术)
 
 通常读文件，并写到socket有四次拷贝，两次系统调用：
 
@@ -59,6 +59,8 @@ kafka很依赖文件系统来存储和缓存消息。很多人有一个概念：
 2. 通过DMA模块直接将pagecache写到NIC buffer
 
 这样就减少了bytes copying。
+
+参考文档：[深入剖析Linux IO原理和几种零拷贝机制的实现——含java实现](https://juejin.im/post/6844903949359644680)
 
 ### 压缩
 
