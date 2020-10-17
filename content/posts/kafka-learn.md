@@ -16,7 +16,7 @@ keywords:
 目标：看完[DESIGN](https://kafka.apache.org/documentation/#design)、[IMPLEMENTATION](https://kafka.apache.org/documentation/#implementation)、[OPERATIONS](https://kafka.apache.org/documentation/#operations)
 <!--more-->
 
-分片、拷贝 很多东西都是这样的，比如redis cluster、es、hbase。
+partition、replaction、failover 很多东西都是这样的，比如redis cluster、es、hbase。
 
 ## 持久化
 
