@@ -106,7 +106,11 @@ kafka完全不一样。 我们的主题被分为多个有序的partition，每�
 
 ### 静态成员资格
 
-kafka有rebalance-protocal：消费组协调者会将动态的id授予消费组的成员，当消费者重新启动时，会授予新的id——这导致消费会发生漂移（partition-consumer的对应关系变化）。如果不想发生消费漂移，则可以启用 static membership，加一个配置`ConsumerConfig#GROUP_INSTANCE_ID_CONFIG`即可。
+kafka有rebalance-protocal：消费组协调者会将动态的id授予消费组的成员，当消费者重新启动时，会授予新的id——这导致消费会发生漂移（partition-consumer的对应关系变化）。如果不想发生消费漂移，则可以启用 static membership，加一个配置即可:
+
+```
+ConsumerConfig#GROUP_INSTANCE_ID_CONFIG
+```
 
 ## 消息分发保证
 
