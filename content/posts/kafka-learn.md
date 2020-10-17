@@ -69,7 +69,41 @@ kakfa提供批量压缩的功能，将一组消息进行一次压缩，而不是
 
 ## Producer
 
-...
+### 负载均衡
+
+producer直接向该partition的leader broker发送数据（中间没有任何路由层）。为了让producer能够直接找到对应的leader broker，所有的kafka节点都会回应对元数据的请求——想要知道哪些sever是活着的、当前分区的leader分别是谁。
+
+插一句，rabbitMQ的架构中在producer和queue之前有个交换机的概念，exchange就是这里说的路由层
+
+客户端控制自己将把消息发送给哪个partition。路由可以完全随机，也可以指定路由键控制相同的key发送到相同的分区，当然还可以override确定partition的方法。根据路由建指定分区能够很好地将逻辑上在一起的数据，控制在同一分区上，并且相应地由同一消费者消费。
+
+### 异步发送
+
+前面提到kafka通过batch操作，减少小的IO操作频率，减少rtt对吞吐量和qps的影响。kafka会在内存中积累多个消息，并且一次发送出去。producer可以设置成达到特定大小的buffer(64k)或固定的时间(10ms)进行一次batch send。
+
+
+## Consumer
+
+consumer的工作方式是向partition的leader发起“fetch”请求，指定开始的offset，从而拿到一大块数据。所以consumer控制着自己的消费，并且可以进行消息回溯（重新消费过去的数据）。相似的，redis cluster中slave同步master也是一样的，由消费者（slave）来发起“fetch”请求。
+
+### 推和拉的模式
+
+producer - broker - consumer
+
+producer向broker发送消息时，使用的是push；consumer从broker获取数据使用的是pull——大多数消息系统都是这样。kafka称自己是pull-based，毕竟消费的部分才是重点。
+
+推和拉都有优劣。推的模式下，下游很有可能被生产者压垮。拉的模式下，消费者可以控制消费速率，但是可能产生消息积压（很常见）。所以kakfa增加了一个broker，把所有问题都给broker来抗，简化producer和consumer这两个会出现在业务方代码里的东西。broker模式是一种常见的架构模式，通过borker可以增加可交互性（《软件架构》）
+
+pull-based的另一个好处是拉的consumer可以控制batch。在push-based系统中，producer必须控制是立刻发送消息，还是积累到一定数量（却不知道这个数量会不会压垮下游）。
+
+拉的方式不好的地方在于，如果broker没有数据，consumer还是会进行轮训(busy-waiting)。为了解决这个，consumer的fetch请求中会有参数控制，无数据时block到有数据到达，或者等到有足够多的bytes到达。
+
+### consumer position
+
+大多数消息系统在broker上保存关于consumer消费到哪里的元数据。也就是当broker交给consumer一份数据时，broker立刻记录或收到consumer的ack后记录。这种模式可能出现broker和consumer状态不一致的请款给，可能出现消息丢失或者重复消费。
+
+kafka完全不一样。 我们的主题被分为多个有序的partition，每个partition固定地被消费组中的一个消费者消费。消费者自己确定当前的offset，不再需要broker和consumer之间同步消费的offset。
+
 
 
 
