@@ -212,3 +212,42 @@ public @interface DistLockObject {
     public int create(@DistLockObject(objectLockField = "objectId") WorkSpaceCreateVo workSpaceCreateVo) {
 ```
 
+## 其他声明PointCut的方式
+
+上面都是用注解来声明PointCut的，还有一些其他方式：
+
+### execution + args获取方法参数
+
+```java
+    private static final String POINT_CUT = "execution(public * com.arloor.test.common.xxx.service.impl.xxxService.someMethod(..)) && args(paramA, paramB, paramC)"
+
+    @Pointcut(POINT_CUT)
+    public void pointCut() {
+    }
+
+    @Around(value = POINT_CUT)
+    public Object doAroundAdvice(ProceedingJoinPoint point, String paramA, List<String> paramB, String paramC) throws Throwable {
+        Object result = point.proceed();
+        return result;
+    }
+```
+
+args中指出的参数可以直接在`doAroundAdvice`使用。注意类型需要一致，否则spring会起不起来
+
+### execution ||
+
+```java
+    private static final String POINT_CUT = "execution(public * com.xxx.xxx.common.xx.integration.xx.*(..))" +
+            "|| execution(public * com.xxx.xxx.common.auth.integration.xx.*(..))" +
+            "|| execution(public * com.xx.xxx.xxx.auth.xxx.xxx.*(..))";
+
+    @Pointcut(POINT_CUT)
+    public void pointCut() {`
+    }
+
+    @Around(value = POINT_CUT)
+    public Object doAroundAdvice(ProceedingJoinPoint point) throws Throwable {
+        Object result = point.proceed();
+        return result;
+    }
+```
