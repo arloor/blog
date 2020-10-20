@@ -242,7 +242,7 @@ args中指出的参数可以直接在`doAroundAdvice`使用。注意类型需要
             "|| execution(public * com.xx.xxx.xxx.auth.xxx.xxx.*(..))";
 
     @Pointcut(POINT_CUT)
-    public void pointCut() {`
+    public void pointCut() {
     }
 
     @Around(value = POINT_CUT)
