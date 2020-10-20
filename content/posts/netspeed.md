@@ -1,5 +1,5 @@
 ---
-title: "网速监控"
+title: "HttpProxy网速监控"
 date: 2020-10-20T19:59:42+08:00
 draft: false
 categories: [ "undefined"]
