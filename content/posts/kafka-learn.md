@@ -194,6 +194,27 @@ replicated log是leader和follower之间进行同步的依据，mysql的binlog�
 
 kakfa选择一个broker作为controller，并注册到zookeepr上，只有这个controller能执行failover，将某个partition的follower提升为leader（相当于做了个分布式锁）。
 
+## 实现
+
+### 网络层
+
+一个很简单直接的NIO
+
+1. sendfile通过给MessageSet接口一个writeTo接口实现，利用FileChannel.transferto使用零拷贝
+2. reactor模式：一个boss线程，多个worker线程
+
+
+### 消息
+
+组成：
+
+1. 变长header
+2. 变长key 
+3. 变长value
+
+以前是MessageSet，现在是RecordBatch
+
+### log
 
 
 > TBD.
