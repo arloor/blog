@@ -26,7 +26,7 @@ paginate = 10
     layoutReverse = false
     author = "刘港欢"
     title = "ARLOOR博客"
-    description = "==show me the blog=="
+    description = "我的博客就是我"
     authorimage = "/img/head.jpeg"
     #authorimage = "/img/dao.jfif"
     dateformat = "Jan 2, 2006"
