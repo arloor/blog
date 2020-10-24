@@ -161,6 +161,8 @@ while (true) {
 
 分片是很多中间件为了高性能采取的措施，拷贝则是中间件为了可用性采取的措施。因为高可用，高性能基本上是中间件的基本需求，所以分片+拷贝这样的设计思路也很常见（比如redis）。拷贝这一设计是为了高可用，高可用最简单的一点就是，当master挂了的时候，slave能够顶上去，而有谁顶上去这件事又涉及到CAP中的另外两个要素，一致性和分区容错性。这一节其实就是围绕kafka分片的拷贝展开，然后介绍kafka如何解决一致性和分区容错性。
 
+kakfa的高可用高度依赖zookeeper，所以实现起来还是比较简单的：某一个broker作为controller，他负责执行故障迁移（从partitiong的ISR中挑选一个作为leader）。
+
 其他系统基于拷贝提供了一些额外功能，比如读写分离（master写，slave读），但是kakfa认为这些功能有一些坏处，所以拷贝仅仅是拷贝，不提供其他功能。
 
 kafka以topic的分区为粒度进行repliacte，每个分区都有一个leader，以及0或多个follower。拷贝的总数（包含leader）被成为`replication factor`。大多数情况下，broker的数量远小于分区数——也就是一个broker可能承担多个partition的leader角色。
@@ -172,7 +174,7 @@ follower像consumer一样从leader消费数据（pull）(redis也是一样，由
 1. 保持与kafka的会话，依赖于kafka的心跳机制——依赖zookeeper的很多中间件都会把这个作为一个条件（redis不依赖zookeeper，所以没这个）
 2. 如果node是follower，则不能落后于leader太多。通过`replica.lag. time.max.ms`配置进行控制
 
-kafka使用“in sync”来描述满足上述条件的node，而不是说“活着”。in sync是比较重要的一个概念，leader会在内存中保存in sync replications的信息（ISR）。如果一个follower不再满足上述两个条件，leader会将其从ISR中移除。
+kafka使用“in sync”来描述满足上述条件的node，而不是说“活着”。in sync是比较重要的一个概念，leader会在内存中保存in sync replications的信息（ISR）,并且会向zookeeper同步。如果一个follower不再满足上述两个条件，leader会将其从ISR中移除。
 
 当所有的ISR都将一个消息追加到自己log的尾部时，kafka认为一个消息commited了（注意：仅仅是ISR中的node，不是全部follower）。而且只有committed的消息会被消费者消费。而且当leader挂掉时，只有ISR中的follower才会被提升为leader，所以消费者不用担心发生failover时原先有的消息丢失。而从生产者的视角看，可以设置是否等待committed的参数（取决于更看重持久化，还是延迟）。
 
@@ -182,15 +184,15 @@ kafka能保证一个committed的消息不会丢失，只要有至少一个ISR no
 
 replicated log是leader和follower之间进行同步的依据，mysql的binlog，redis的resp协议格式的log。
 
+合法票数：与redis做对比，redis集群需要半数以上的同意，才能选举成为leader，也就是2f+1个node能容忍f个宕机节点。kakfa不采用这种“少数服从多数”的选举方式，kafka仅以ISR中的node作为候选。这种模式，能够以f+1个node，容忍f个宕机节点。并且在分区数远大于broker数时，能够较好地保证leader分布的均匀。(然后解释了一大通。。)
 
+另外，一个follower从宕机中恢复，并且需要重新加入ISR时，需要先权量同步当前leader（不难理解）
 
+### 从broker视角看failover
 
+上面说的replication都是从partition维度看的。实际上一个kafka集群有很多broker，所谓的leader，follower其实都是broker。一个broker会是topicA的leader，同时是topicB，topicC的follower。
 
-
-
-
-
-
+kakfa选择一个broker作为controller，并注册到zookeepr上，只有这个controller能执行failover，将某个partition的follower提升为leader（相当于做了个分布式锁）。
 
 
 
