@@ -265,4 +265,6 @@ public class ForkJoinPoolTest {
 }
 ```
 
+另一个注意点：有人说，多个子任务不要挨个`.fork`，需要`ForkJoinTask .invokeAll(..)`，他们说的原因我测下并不能复现。这里先盲从下，推荐使用`invokeAll()`
+
 
