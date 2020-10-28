@@ -14,6 +14,7 @@ keywords:
 这篇博客不是科普什么是`ForkJoinPool`，不是介绍他的原理，而是结合一个具体的场景来说什么时候应该使用他。
 
 我们先看javaDoc中关于`RecursiveTask`使用的例子：(如果不知道`RecursiveTask`，可以先去查一下)
+<!--more-->
 
 ```
  class Fibonacci extends RecursiveTask<Integer> {
@@ -39,9 +40,11 @@ keywords:
 Main线程提交4个父任务，每个父任务都会拆分出4个子任务，并且等待所有子任务都完成（使用countDownLatch等待）
 ```
 
-第一个问题，如果threadPool的线程数为4，能正常执行完所有父任务吗？答案是不行，因为4个父任务就占满了所有的线程，没有空余线程可执行子任务，但父任务需要等待子任务都完成
+第一个问题，如果threadPool的线程数为4，能正常执行完所有父任务吗？答案是不行，因为4个父任务就占满了所有的线程，没有空余线程可执行子任务，但父任务需要等待子任务都完成。
 
 所以，threadpool的线程数需要大于4才能保证顺利执行，比如5个线程。这种情况下：在一开始，只有一个线程在工作，其余的4个线程拿着父任务就在当监工了，这就是你们经常嘲讽的“一核有难，多核围观”，真的是太low了。
+
+在这里的Main提交的是4个任务，在Web服务，消息队列消费者这种应用中，提交父任务数量大于线程池数量的情况是很常见的。因此绝对不可以这样的父子任务（父等待所有子）提交到同一个线程池！
 
 那使用两个线程池呢？第一个问题：线程利用率仍然不高；第二个问题：如果是递归的，不知道需要多少层，搞动态数量的线程池吗？
 
@@ -157,7 +160,7 @@ public class ThreadPoolTest {
 
 这归功于`.join()`方法的特殊机制，它不等同于`CountDownLatch`的`await`，具体原理我暂时也不懂。但是可以记住，在`ForkJoinPool`中使用`CountDownLatch`是愚蠢的做法。
 
-```
+```java
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
