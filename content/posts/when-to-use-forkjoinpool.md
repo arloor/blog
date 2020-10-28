@@ -156,7 +156,7 @@ public class ThreadPoolTest {
 
 ThreadPoolTest日志如下：最夸张的是，刚好能看到`thread-4`全程在围观
 
-```shell
+```java
 22:20:28.114 [pool-1-thread-4] INFO  - ParentRunnable 3 start
 22:20:28.114 [pool-1-thread-3] INFO  - ParentRunnable 2 start
 22:20:28.114 [pool-1-thread-2] INFO  - ParentRunnable 1 start
@@ -313,7 +313,7 @@ public class ForkJoinPoolTest {
 
 日志如下：这里可以看到`pool-2`一刻都没有闲着，他在处理子任务
 
-```shell
+```java
 22:22:25.797 [pool-2] INFO  - ParentAction 1 start
 22:22:25.797 [pool-3] INFO  - ParentAction 3 start
 22:22:25.797 [pool-0] INFO  - ParentAction 2 start
