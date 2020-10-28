@@ -50,7 +50,7 @@ Main线程提交4个父任务，每个父任务都会拆分出4个子任务，�
 
 结合以上，在父任务依赖（等待）子任务的场景下，不适合在threadpool中再次提交到threadpool（即使是不同的threadPool）
 
-代码如下：耗时13秒
+代码如下：耗时16秒（下有日志）
 
 ```java
 import org.slf4j.Logger;
@@ -154,7 +154,53 @@ public class ThreadPoolTest {
 }
 ```
 
-这种场景比较适合`ForkJoinPool`，代码如下: 耗时6秒
+ThreadPoolTest日志如下：
+
+```
+22:20:28.114 [pool-1-thread-4] INFO  - ParentRunnable 3 start
+22:20:28.114 [pool-1-thread-3] INFO  - ParentRunnable 2 start
+22:20:28.114 [pool-1-thread-2] INFO  - ParentRunnable 1 start
+22:20:28.114 [pool-1-thread-1] INFO  - ParentRunnable 0 start
+22:20:29.123 [pool-1-thread-5] INFO  - SonRunnable 0/0 start
+22:20:30.127 [pool-1-thread-5] INFO  - SonRunnable 0/0 done
+22:20:30.127 [pool-1-thread-5] INFO  - SonRunnable 2/0 start
+22:20:31.131 [pool-1-thread-5] INFO  - SonRunnable 2/0 done
+22:20:31.131 [pool-1-thread-5] INFO  - SonRunnable 1/0 start
+22:20:32.145 [pool-1-thread-5] INFO  - SonRunnable 1/0 done
+22:20:32.145 [pool-1-thread-5] INFO  - SonRunnable 1/1 start
+22:20:33.147 [pool-1-thread-5] INFO  - SonRunnable 1/1 done
+22:20:33.147 [pool-1-thread-5] INFO  - SonRunnable 3/0 start
+22:20:34.151 [pool-1-thread-5] INFO  - SonRunnable 3/0 done
+22:20:34.151 [pool-1-thread-5] INFO  - SonRunnable 2/1 start
+22:20:35.155 [pool-1-thread-5] INFO  - SonRunnable 2/1 done
+22:20:35.155 [pool-1-thread-5] INFO  - SonRunnable 2/2 start
+22:20:36.159 [pool-1-thread-5] INFO  - SonRunnable 2/2 done
+22:20:36.159 [pool-1-thread-5] INFO  - SonRunnable 1/2 start
+22:20:37.162 [pool-1-thread-5] INFO  - SonRunnable 1/2 done
+22:20:37.162 [pool-1-thread-5] INFO  - SonRunnable 3/1 start
+22:20:38.164 [pool-1-thread-5] INFO  - SonRunnable 3/1 done
+22:20:38.164 [pool-1-thread-5] INFO  - SonRunnable 0/1 start
+22:20:39.177 [pool-1-thread-5] INFO  - SonRunnable 0/1 done
+22:20:39.177 [pool-1-thread-5] INFO  - SonRunnable 2/3 start
+22:20:40.192 [pool-1-thread-5] INFO  - SonRunnable 2/3 done
+22:20:40.192 [pool-1-thread-5] INFO  - SonRunnable 1/3 start
+22:20:41.206 [pool-1-thread-3] INFO  - ParentRunnable 2 done
+22:20:41.206 [pool-1-thread-5] INFO  - SonRunnable 1/3 done
+22:20:41.206 [pool-1-thread-3] INFO  - SonRunnable 3/2 start
+22:20:41.206 [pool-1-thread-5] INFO  - SonRunnable 0/2 start
+22:20:42.213 [pool-1-thread-5] INFO  - SonRunnable 0/2 done
+22:20:42.213 [pool-1-thread-2] INFO  - ParentRunnable 1 done
+22:20:42.213 [pool-1-thread-3] INFO  - SonRunnable 3/2 done
+22:20:42.213 [pool-1-thread-5] INFO  - SonRunnable 0/3 start
+22:20:42.213 [pool-1-thread-2] INFO  - SonRunnable 3/3 start
+22:20:43.228 [pool-1-thread-2] INFO  - SonRunnable 3/3 done
+22:20:43.228 [pool-1-thread-5] INFO  - SonRunnable 0/3 done
+22:20:44.231 [pool-1-thread-1] INFO  - ParentRunnable 0 done
+22:20:44.231 [pool-1-thread-4] INFO  - ParentRunnable 3 done
+22:20:44.231 [main] INFO  - 耗时:16123
+```
+
+这种场景比较适合`ForkJoinPool`，代码如下: 耗时6秒（下有日志）
 
 运行一下这段代码，就会发现，`pool-1`这个线程在打出`parent 0 start`后，还能处理`son 0/1 start`之类的子任务，而不是在`parent 0 done`前啥都不做。
 
@@ -263,6 +309,52 @@ public class ForkJoinPoolTest {
     }
 
 }
+```
+
+日志如下：
+
+```
+22:22:25.797 [pool-2] INFO  - ParentAction 1 start
+22:22:25.797 [pool-3] INFO  - ParentAction 3 start
+22:22:25.797 [pool-0] INFO  - ParentAction 2 start
+22:22:25.797 [pool-1] INFO  - ParentAction 0 start
+22:22:26.818 [pool-3] INFO  - SonAction 3/0 start
+22:22:26.818 [pool-1] INFO  - SonAction 0/0 start
+22:22:26.818 [pool-2] INFO  - SonAction 1/0 start
+22:22:26.818 [pool-0] INFO  - SonAction 2/0 start
+22:22:27.831 [pool-0] INFO  - SonAction 2/0 done
+22:22:27.831 [pool-3] INFO  - SonAction 3/0 done
+22:22:27.831 [pool-1] INFO  - SonAction 0/0 done
+22:22:27.831 [pool-2] INFO  - SonAction 1/0 done
+22:22:27.831 [pool-3] INFO  - SonAction 3/1 start
+22:22:27.831 [pool-0] INFO  - SonAction 2/1 start
+22:22:27.831 [pool-2] INFO  - SonAction 1/1 start
+22:22:27.831 [pool-1] INFO  - SonAction 0/1 start
+22:22:28.834 [pool-0] INFO  - SonAction 2/1 done
+22:22:28.834 [pool-2] INFO  - SonAction 1/1 done
+22:22:28.834 [pool-1] INFO  - SonAction 0/1 done
+22:22:28.834 [pool-2] INFO  - SonAction 1/2 start
+22:22:28.834 [pool-3] INFO  - SonAction 3/1 done
+22:22:28.834 [pool-1] INFO  - SonAction 0/2 start
+22:22:28.834 [pool-0] INFO  - SonAction 2/2 start
+22:22:28.834 [pool-3] INFO  - SonAction 3/2 start
+22:22:29.843 [pool-2] INFO  - SonAction 1/2 done
+22:22:29.843 [pool-0] INFO  - SonAction 2/2 done
+22:22:29.843 [pool-3] INFO  - SonAction 3/2 done
+22:22:29.843 [pool-2] INFO  - SonAction 1/3 start
+22:22:29.843 [pool-1] INFO  - SonAction 0/2 done
+22:22:29.843 [pool-0] INFO  - SonAction 2/3 start
+22:22:29.843 [pool-1] INFO  - SonAction 0/3 start
+22:22:29.843 [pool-3] INFO  - SonAction 3/3 start
+22:22:30.857 [pool-1] INFO  - SonAction 0/3 done
+22:22:30.857 [pool-0] INFO  - SonAction 2/3 done
+22:22:30.857 [pool-2] INFO  - SonAction 1/3 done
+22:22:30.857 [pool-3] INFO  - SonAction 3/3 done
+22:22:31.871 [pool-2] INFO  - ParentAction 1 done
+22:22:31.871 [pool-3] INFO  - ParentAction 3 done
+22:22:31.871 [pool-1] INFO  - ParentAction 0 done
+22:22:31.871 [pool-0] INFO  - ParentAction 2 done
+22:22:31.871 [main] INFO  - 耗时:6082
 ```
 
 另一个注意点：有人说，多个子任务不要挨个`.fork`，需要`ForkJoinTask .invokeAll(..)`，他们说的原因我测下并不能复现。这里先盲从下，推荐使用`invokeAll()`
