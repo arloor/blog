@@ -202,7 +202,7 @@ ThreadPoolTest日志如下：最夸张的是，刚好能看到`thread-4`全程�
 
 这种场景比较适合`ForkJoinPool`，代码如下: 耗时6秒，简单计算下每个父任务完成都需要6秒，这说明4个线程都在饱和的工作（下有日志）
 
-运行一下这段代码，就会发现，`pool-1`这个线程在打出`parent 0 start`后，还能处理`son 0/1 start`之类的子任务，而不是在`parent 0 done`前啥都不做。
+运行一下这段代码，就会发现，`pool-2`这个线程在打出`ParentAction 1 start`后，还能处理`SonAction 1/0 start`之类的子任务，而不是在`ParentAction 1 done`前啥都不做。
 
 这归功于`.join()`方法的特殊机制，它不等同于`CountDownLatch`的`await`，具体原理我暂时也不懂。但是可以记住，在`ForkJoinPool`中使用`CountDownLatch`是愚蠢的做法。
 
