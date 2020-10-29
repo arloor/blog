@@ -108,12 +108,33 @@ public class JsonUtil {
     }
 
     public static void main(String[] args) throws IOException {
-        ImmutableMap map = ImmutableMap.of("a", "b", "c", "d");
+        ImmutableMap map = ImmutableMap.of("a", Some.A, "b", Some.B);
         String s = JsonUtil.toJson(map);
         System.out.println(s);
-        Object o = JsonUtil.fromJson(s, new TypeReference<Map>() {
+        Map<String,Some> result = JsonUtil.fromJson(s, new TypeReference<Map<String,Some>>() {
         });
-        System.out.println(o);
+        System.out.println(result);
+        System.out.println("Class: "+result.get("a").getClass().getName());
+    }
+
+    public enum Some {
+        A("a", 1), B("b", 2);
+
+        private String name;
+        private int id;
+
+        Some(String name, int id) {
+            this.name = name;
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public int getId() {
+            return id;
+        }
     }
 }
 ```
@@ -121,6 +142,13 @@ public class JsonUtil {
 输出：
 
 ```
-{"a":"b","c":"d"}
-{a=b, c=d}
+{"a":"A","b":"B"}
+{a=A, b=B}
+Class: JsonUtil$Some
+```
+
+反序列化的时候，推荐使用`TypeReference<T>`，这样可以保留范型信息，上面的例子能体现。
+
+```
+Map<String,Some> result = JsonUtil.fromJson(s, new TypeReference<Map<String,Some>>({});
 ```
