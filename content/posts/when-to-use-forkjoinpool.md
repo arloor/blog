@@ -357,6 +357,13 @@ public class ForkJoinPoolTest {
 22:22:31.871 [main] INFO  - 耗时:6082
 ```
 
-另一个注意点：有人说，多个子任务不要挨个`.fork`，需要`ForkJoinTask .invokeAll(..)`，他们说的原因我测下并不能复现。这里先盲从下，推荐使用`invokeAll()`
+另一个注意点：有人说，多个子任务不要挨个`.fork()`，需要`ForkJoinTask .invokeAll(..)`，他们说，`.fork()`不能充分利用线程，说有线程会当监工，我实测并没有这个问题。
+
+`.fork()`和`ForkJoinTask .invokeAll(..)`区别在于：
+
+1. `.fork()`是异步的，需要`.join()`或者`.get(timeout,timeunit)`来获取结果
+2. `.invokeAll()`则是同步的，当其返回时所有的任务都完成了
+
+所以，当需要进行超时处理时，使用`.fork()`，不需要则可以使用`invokeAll`
 
 
