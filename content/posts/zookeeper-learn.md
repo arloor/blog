@@ -63,3 +63,15 @@ zookeeper也有临时节点，临时节点的生命周期在与客户端session�
 ## 开发者指南
 
 [zookeeperProgrammers.html](https://zookeeper.apache.org/doc/r3.6.2/zookeeperProgrammers.html)
+
+## PAXOS两阶段提交
+
+```shell
+prepare(N)  # N>任何n
+promise(N,n,v)
+
+propose(N,?) # 如果上面的v！=null，取上面的v；如果v==null，可以自定义
+accept(N,?)
+```
+
+[basic-paxos](https://tangwz.com/post/basic-paxos/)
