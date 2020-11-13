@@ -149,7 +149,8 @@ Idle stop!
 
 uv_loop_t *loop;
 struct sockaddr_in addr;
-const char * ENTER="请输入任意文字：\n";
+const char *ENTER = "请输入任意文字：\n";
+const char *echo = "ECHO: ";
 
 typedef struct {
     uv_write_t req;
@@ -157,13 +158,13 @@ typedef struct {
 } write_req_t;
 
 void free_write_req(uv_write_t *req) {
-    write_req_t *wr = (write_req_t*) req;
+    write_req_t *wr = (write_req_t *) req;
     free(wr->buf.base);
     free(wr);
 }
 
 void alloc_buffer(uv_handle_t *handle, size_t suggested_size, uv_buf_t *buf) {
-    buf->base = (char*) malloc(suggested_size);
+    buf->base = (char *) malloc(suggested_size);
     buf->len = suggested_size;
 }
 
@@ -174,33 +175,44 @@ void echo_write(uv_write_t *req, int status) {
     free_write_req(req);
 }
 
-void first_write(uv_write_t *req, int status){
+void first_write(uv_write_t *req, int status) {
     if (status) {
         fprintf(stderr, "Write error %s\n", uv_strerror(status));
-    }else{
-        fprintf(stderr,"提示发送成功\n");
+    } else {
+        fprintf(stderr, "提示发送成功\n");
     }
 
-    write_req_t *wr = (write_req_t*) req;
+    write_req_t *wr = (write_req_t *) req;
     free(wr);
 }
 
 void echo_read(uv_stream_t *client, ssize_t nread, const uv_buf_t *buf) {
 
     if (nread > 0) {
-        //截取char*，增加\0
-        buf->base[nread]=0;
-        fprintf(stderr,"%ld:%s",nread,buf->base);
-
-        write_req_t *req = (write_req_t*) malloc(sizeof(write_req_t));
-        req->buf = uv_buf_init(buf->base, nread);
-        uv_write((uv_write_t*) req, client, &req->buf, 1, echo_write);
+        //截取char*，增加\0，仅仅是为了打印的时候不多打，如果用于业务不要加这个，这是数组越界
+        buf->base[nread] = 0;
+        fprintf(stderr, "%ld:%s", nread, buf->base);
+        // 创建写buf，增加ECHO提示
+        int length = strlen(echo) + nread;
+        char *buff = (char *) calloc(length, sizeof(char));
+        int i;
+        for (i = 0; i < strlen(echo); i++) {
+            buff[i] = echo[i];
+        }
+        for (int j = 0; j <nread ; ++j) {
+            buff[j+i]=buf->base[j];
+        }
+        // 释放读到的buf
+        free(buf->base);
+        write_req_t *req = (write_req_t *) malloc(sizeof(write_req_t));
+        req->buf = uv_buf_init(buff, length);// 写的buff需要在写回调中才能free，否则报错
+        uv_write((uv_write_t *) req, client, &req->buf, 1, echo_write);
         return;
     }
     if (nread < 0) {
         if (nread != UV_EOF)
             fprintf(stderr, "Read error %s\n", uv_err_name(nread));
-        uv_close((uv_handle_t*) client, NULL);
+        uv_close((uv_handle_t *) client, NULL);
     }
 
     free(buf->base);
@@ -213,18 +225,17 @@ void on_new_connection(uv_stream_t *server, int status) {
         return;
     }
 
-    uv_tcp_t *client = (uv_tcp_t*) malloc(sizeof(uv_tcp_t));
+    uv_tcp_t *client = (uv_tcp_t *) malloc(sizeof(uv_tcp_t));
     uv_tcp_init(loop, client);
-    if (uv_accept(server, (uv_stream_t*) client) == 0) {
+    if (uv_accept(server, (uv_stream_t *) client) == 0) {
         //发送提示信息
-        write_req_t *req = (write_req_t*) malloc(sizeof(write_req_t));
-        req->buf = uv_buf_init((char *)ENTER, strlen(ENTER));
-        uv_write((uv_write_t*) req,(uv_stream_t*)  client, &req->buf, 1, first_write);
+        write_req_t *req = (write_req_t *) malloc(sizeof(write_req_t));
+        req->buf = uv_buf_init((char *) ENTER, strlen(ENTER));
+        uv_write((uv_write_t *) req, (uv_stream_t *) client, &req->buf, 1, first_write);
 
-        uv_read_start((uv_stream_t*) client, alloc_buffer, echo_read);
-    }
-    else {
-        uv_close((uv_handle_t*) client, NULL);
+        uv_read_start((uv_stream_t *) client, alloc_buffer, echo_read);
+    } else {
+        uv_close((uv_handle_t *) client, NULL);
     }
 }
 
@@ -236,8 +247,9 @@ int main() {
 
     uv_ip4_addr("0.0.0.0", DEFAULT_PORT, &addr);
 
-    uv_tcp_bind(&server, (const struct sockaddr*)&addr, 0);
-    int r = uv_listen((uv_stream_t*) &server, DEFAULT_BACKLOG, on_new_connection);
+    uv_tcp_bind(&server, (const struct sockaddr *) &addr, 0);
+    fprintf(stderr, "开始监听%d，请新开命令行输入：nc localhost %d\n", DEFAULT_PORT, DEFAULT_PORT);
+    int r = uv_listen((uv_stream_t *) &server, DEFAULT_BACKLOG, on_new_connection);
     if (r) {
         fprintf(stderr, "Listen error %s\n", uv_strerror(r));
         return 1;
