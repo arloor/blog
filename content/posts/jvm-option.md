@@ -95,7 +95,12 @@ JVM引入动态年龄计算，主要基于如下两点考虑：[美团技术博�
 
 2、concurrent mode failure，主要是由于cms的无法处理浮动垃圾（Floating Garbage）引起的。这个跟cms的机制有关。cms的并发清理阶段，用户线程还在运行，因此不断有新的垃圾产生，而这些垃圾不在这次清理标记的范畴里头，cms无法再本次gc清除掉，这些就是浮动垃圾。由于这种机制，cms年老代回收的阈值不能太高，否则就容易预留的内存空间很可能不够(因为本次gc同时还有浮动垃圾产生)，从而导致concurrent mode failure发生。可以通过-XX:CMSInitiatingOccupancyFraction的值来调优。
 
-## 7.systemd的java服务设置jvm参数
+## 7.内存泄漏检查
+
+1. dump内存后使用MAT查看
+2. 使用`jmap -histo:live pid`查看
+
+## 8.systemd的java服务设置jvm参数
 
 service：
 
