@@ -19,7 +19,7 @@ keywords:
 gc_option='-XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintHeapAtGC -Xloggc:gc.log'
 ```
 
-这会把gc信息打印到jvm进程工作目录的`gc.log`中。
+这会把gc信息打印到jvm进程工作目录的`gc.log`中，每次进程重启，都会覆盖之前的gc日志
 
 ## 小的总结
 
@@ -94,3 +94,32 @@ JVM引入动态年龄计算，主要基于如下两点考虑：[美团技术博�
 1、promotion failure，是在minor gc过程中，survivor的剩余空间不足以容纳eden及当前在用survivor区间存活对象，只能将容纳不下的对象移到年老代(promotion)，而此时年老代满了无法容纳更多对象，通常伴随full gc，因而导致的promotion failure。这种情况通常需要增加年轻代大小，尽量让新生对象在年轻代的时候尽量清理掉。
 2、concurrent mode failure，主要是由于cms的无法处理浮动垃圾（Floating Garbage）引起的。这个跟cms的机制有关。cms的并发清理阶段，用户线程还在运行，因此不断有新的垃圾产生，而这些垃圾不在这次清理标记的范畴里头，cms无法再本次gc清除掉，这些就是浮动垃圾。由于这种机制，cms年老代回收的阈值不能太高，否则就容易预留的内存空间很可能不够(因为本次gc同时还有浮动垃圾产生)，从而导致concurrent mode failure发生。可以通过-XX:CMSInitiatingOccupancyFraction的值来调优。
 
+## 7.systemd的java服务设置jvm参数
+
+service：
+
+```
+[Unit]
+Description=forwardproxy-Http代理
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+WorkingDirectory=/opt/proxy
+EnvironmentFile=/opt/proxy/jvm_option
+ExecStart=/usr/bin/java $gc_option $heap_option -jar /opt/proxy/forwardproxy-1.0-jar-with-dependencies.jar -c /opt/proxy/proxy.properties
+LimitNOFILE=100000
+Restart=always
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target
+```
+
+作用是从`EnvironmentFile`读取`gc_option`和`heap_option`。注意`EnvironmentFile`不可以不存在。经过上面的实战，我配置的参数如下：
+
+```
+gc_option='-XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintHeapAtGC -Xloggc:gc.log'
+# 分别为最小堆，最大堆，新生代大小，触发gc的元空间大小（一般是fullgc）两个survivor与eden区比值（=6，则2:6，默认为8即每个survivor为1/10的年轻代大小）
+heap_option='-Xms400m -Xmx400m -Xmn150m -XX:MetaspaceSize=40M -XX:SurvivorRatio=4'
+```
