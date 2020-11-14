@@ -131,3 +131,10 @@ gc_option='-XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintHeapAtGC -Xloggc
 # 分别为最小堆，最大堆，新生代大小，触发gc的元空间大小（一般是fullgc）两个survivor与eden区比值（=6，则2:6，默认为8即每个survivor为1/10的年轻代大小）
 heap_option='-Xms400m -Xmx400m -Xmn150m -XX:MetaspaceSize=40M -XX:SurvivorRatio=4'
 ```
+
+另外，为了方便，可以设置以下alias：
+
+```
+alias sta='jps -l |grep forward|awk '\''{print $1}'\'' | xargs -I {} jstat -gc {}'
+alias num='jps -l |grep forward|awk '\''{print $1}'\'' | xargs -I {} jmap -histo:live {}'
+```
