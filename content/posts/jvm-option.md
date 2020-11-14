@@ -92,6 +92,7 @@ JVM引入动态年龄计算，主要基于如下两点考虑：[美团技术博�
 ## 6.cms的promotion failure和concurrent mode failure
 
 1、promotion failure，是在minor gc过程中，survivor的剩余空间不足以容纳eden及当前在用survivor区间存活对象，只能将容纳不下的对象移到年老代(promotion)，而此时年老代满了无法容纳更多对象，通常伴随full gc，因而导致的promotion failure。这种情况通常需要增加年轻代大小，尽量让新生对象在年轻代的时候尽量清理掉。
+
 2、concurrent mode failure，主要是由于cms的无法处理浮动垃圾（Floating Garbage）引起的。这个跟cms的机制有关。cms的并发清理阶段，用户线程还在运行，因此不断有新的垃圾产生，而这些垃圾不在这次清理标记的范畴里头，cms无法再本次gc清除掉，这些就是浮动垃圾。由于这种机制，cms年老代回收的阈值不能太高，否则就容易预留的内存空间很可能不够(因为本次gc同时还有浮动垃圾产生)，从而导致concurrent mode failure发生。可以通过-XX:CMSInitiatingOccupancyFraction的值来调优。
 
 ## 7.systemd的java服务设置jvm参数
@@ -117,6 +118,8 @@ WantedBy=multi-user.target
 ```
 
 作用是从`EnvironmentFile`读取`gc_option`和`heap_option`。注意`EnvironmentFile`不可以不存在。经过上面的实战，我配置的参数如下：
+
+/opt/proxy/jvm_option
 
 ```
 gc_option='-XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintHeapAtGC -Xloggc:gc.log'
