@@ -22,14 +22,14 @@ rpm -ivh jdk15.rpm
 update-alternatives --config java
 ```
 
-### jvm 参数
+## jvm 参数
 
 ```
 gc_option="-XX:+UseZGC -Xlog:safepoint,classhisto*=trace,age*,gc*=info:file=/opt/proxy/gc.log:uptime,tid,tags"
 heap_option='-Xms400m -Xmx400m'
 ```
 
-### GC日志
+## GC日志
 
 **查看gc的关键信息**
 
