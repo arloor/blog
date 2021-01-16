@@ -11,7 +11,7 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
-在组里大佬分享ZGC后，心情激动下，整理下ZGc的东西。
+在组里大佬分享ZGC后，心情激动下，整理下ZGC的东西。
 <!--more-->
 
 ## 安装jdk15
