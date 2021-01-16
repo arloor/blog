@@ -41,6 +41,12 @@ cat /opt/proxy/gc.log|grep -E "gc,start|gc,phases.*Pause|gc,phases|gc,heap|gc,he
 
 ![GC日志解析0](/img/zgc-gc-log-0.png)
 
+**精简GC信息（去除统计信息）**
+
+```
+cat /opt/proxy/gc.log |grep -v "gc,stats"|grep -v "safepoint"
+```
+
 
 **GC信息统计**：可以定时的打印垃圾收集信息，观察10秒内、10分钟内、10个小时内，从启动到现在的所有统计信息。利用这些统计信息，可以排查定位一些异常点。
 
