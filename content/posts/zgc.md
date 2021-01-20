@@ -123,6 +123,16 @@ GC Roots 数量大，单次GC停顿时间长
 
 值得一提的是，我们并不是在所有这些问题都解决后才全量部署所有集群。即使开始有各种各样的毛刺，但计算后发现，有各种问题的ZGC也比之前的CMS对服务可用性影响小。所以从开始准备使用ZGC到全量部署，大概用了2周的时间。在之后的3个月时间里，我们边做业务需求，边跟进这些问题，最终逐个解决了上述问题，从而使ZGC在各个集群上达到了一个更好表现。
 
+## 使用jconsole连接远程jvm
+
+远程jvm增加参数：
+
+```
+-Djava.rmi.server.hostname=xx.xx.xx.xx -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=8089 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false
+```
+
+xx.xx.xx.xx要么是域名，要么是ip
+
 ## 参考文档
 
 - [新一代垃圾回收器ZGC的探索与实践](https://tech.meituan.com/2020/08/06/new-zgc-practice-in-meituan.html)
