@@ -25,7 +25,7 @@ update-alternatives --config java
 ## jvm 参数
 
 ```
-gc_option="-XX:+UseZGC -Xlog:safepoint,classhisto*=trace,age*,gc*=info:file=/opt/proxy/gc.log:uptime,tid,tags"
+gc_option="-XX:+UseZGC  -XX:-ZProactive  -Xlog:safepoint,classhisto*=trace,age*,gc*=info:file=/opt/proxy/gc.log:uptime,tid,tags"
 heap_option='-Xms400m -Xmx400m'
 ```
 
@@ -128,5 +128,5 @@ GC Roots 数量大，单次GC停顿时间长
 - [新一代垃圾回收器ZGC的探索与实践](https://tech.meituan.com/2020/08/06/new-zgc-practice-in-meituan.html)
 - [java9 gc log参数迁移](https://cloud.tencent.com/developer/article/1340305)
 - `java -Xlog:help` 中对于日志参数的说明
-
+- [ZGC gc策略及回收过程-源码分析](https://www.cnblogs.com/JunFengChan/p/11707542.html)
 
