@@ -159,7 +159,9 @@ keyboard --vckeymap=cn --xlayouts='cn'
 lang zh_CN.UTF-8
 
 # Network information
-network  --hostname=localhost.localdomain
+network  --hostname=rhel8.localdomain
+# 用于非dhcp的机器，即使用静态IP的机器
+# network --bootproto=static --ip=$IPv4 --netmask=$MASK --gateway=$GATE --device=ens3 --nameserver=223.6.6.6 --ipv6=auto --activate
 
 # Use network installation
 url --url="http://someme.me/rhel8-install/BaseOS/"
