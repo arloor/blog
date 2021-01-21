@@ -1,5 +1,5 @@
 ---
-title: "Redhat8 Install"
+title: "centos8没了，那就直接用redhat8"
 date: 2021-01-21T11:36:10+08:00
 draft: false
 categories: [ "undefined"]
@@ -11,6 +11,9 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
+2020年12月8日，红帽宣布将从2021年12月31日起停止维护centos系统，转而将精力投向centos stream。2021年1月20日，红帽又宣布rhel系统的开发者订阅可以用于小型生产环境，允许授权16台主机获得红帽的更新。原文链接[新年，新的Red Hat Enterprise Linux程序：访问RHEL的更简便方法](https://www.redhat.com/en/blog/new-year-new-red-hat-enterprise-linux-programs-easier-ways-access-rhel)。
+
+但是想要在云服务器上安装rhel系统在当前并不是一件简单的事情，这篇博客就是通过一种方式来安装redhat8系统
 
 ## 参考文档
 
