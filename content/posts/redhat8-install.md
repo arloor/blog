@@ -141,6 +141,7 @@ kickstart配置文件文档:[CHAPTER 4. CREATING KICKSTART FILES](https://access
 autopart --type=plain --nohome --noboot
 # Partition clearing information
 clearpart --all --initlabel
+reboot
 # Use graphical install
 graphical
 
