@@ -130,6 +130,10 @@ ip=$IPv4::$GATE:$MASK:my_hostname:eth0:none
 
 把ks.cfg上传到镜像网站上，然后在linux16后增加`inst.ks=http://someme.me/rhel8-install/ks.cfg`即可激活下面的kickstart配置
 
+kickstart配置文件文档:[CHAPTER 4. CREATING KICKSTART FILES](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/performing_an_advanced_rhel_installation/creating-kickstart-files_installing-rhel-as-an-experienced-user)
+
+[在线生成kickstart](https://access.redhat.com/labsinfo/kickstartconfig)
+
 例子：
 
 ```
