@@ -13,7 +13,7 @@ keywords:
 
 2020年12月8日，红帽宣布将从2021年12月31日起停止维护centos系统，转而将精力投向centos stream。2021年1月20日，红帽又宣布rhel系统的开发者订阅可以用于小型生产环境，允许授权16台主机获得红帽的更新。原文链接[新年，新的Red Hat Enterprise Linux程序：访问RHEL的更简便方法](https://www.redhat.com/en/blog/new-year-new-red-hat-enterprise-linux-programs-easier-ways-access-rhel)。
 
-但是想要在云服务器上安装rhel系统在当前并不是一件简单的事情，这篇博客就是通过一种方式来安装redhat8系统
+但是想要在云服务器上安装rhel系统在当前并不是一件简单的事情，这篇博客就是介绍一种安装rhel8的方式。
 
 ## 参考文档
 
@@ -22,7 +22,7 @@ keywords:
 
 ## 过程简述
 
-1. 搭建redhat8的安装源，类似阿里云腾讯云的centos镜像网站
+1. 搭建redhat8的安装源，类似阿里云腾讯云的centos镜像网站
 2. 下载redhat8的isolinux的内核和init程序的img文件
 3. 编写grub2启动的menuentry，填写相关内核参数，以使用上述的内核文件和init程序启动redhat8安装程序。
 4. 安装redhat系统
