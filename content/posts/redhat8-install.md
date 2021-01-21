@@ -142,7 +142,8 @@ autopart --type=plain --nohome --noboot
 # Partition clearing information
 clearpart --all --initlabel
 # Use graphical install
-graphical
+# graphical
+text
 
 
 %packages
@@ -163,6 +164,7 @@ url --url="http://someme.me/rhel8-install/BaseOS/"
 
 # SELinux configuration
 selinux --disabled
+firewall --disabled
 
 # Run the Setup Agent on first boot
 firstboot --enable
@@ -175,6 +177,8 @@ timezone Asia/Shanghai --isUtc
 
 # Root password
 rootpw --plaintext arloor.com
+services --enabled="chronyd"
+sshkey --username=root "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDZQzKHfZLlFEdaRUjfSK4twhL0y7+v23Ko4EI1nl6E1/zYqloSZCH3WqQFLGA7gnFlqSAfEHgCdD/4Ubei5a49iG0KSPajS6uPkrB/eiirTaGbe8oRKv2ib4R7ndbwdlkcTBLYFxv8ScfFQv6zBVX3ywZtRCboTxDPSmmrNGb2nhPuFFwnbOX8McQO5N4IkeMVedUlC4w5//xxSU67i1i/7kZlpJxMTXywg8nLlTuysQrJHOSQvYHG9a6TbL/tOrh/zwVFbBS+kx7X1DIRoeC0jHlVJSSwSfw6ESrH9JW71cAvn6x6XjjpGdQZJZxpnR1NTiG4Q5Mog7lCNMJjPtwJ not@home"
 
 %addon com_redhat_kdump --disable --reserve-mb='auto'
 
