@@ -119,14 +119,14 @@ ip=$IPv4::$GATE:$MASK:my_hostname:eth0:none
 
 指定initd文件的位置
 
-## 安装redhat系统
+## 4 安装redhat系统
 
 ![](/img/redhat8-install-0.jpg)
 ![](/img/redhat8-install-1.jpg)
 ![](/img/redhat8-install-2.jpg)
 ![](/img/redhat8-install-3.jpg)
 
-## kickstart文件
+## 5 kickstart文件
 
 把ks.cfg上传到镜像网站上，然后在linux16后增加`inst.ks=http://someme.me/rhel8-install/ks.cfg`即可激活下面的kickstart配置
 
@@ -184,3 +184,10 @@ pwpolicy user --minlen=6 --minquality=1 --notstrict --nochanges --emptyok
 pwpolicy luks --minlen=6 --minquality=1 --notstrict --nochanges --notempty
 %end
 ```
+
+## 6 终极放送
+
+```
+wget -O install.sh https://blog.arloor.com/install-rhel8-form-centos7.sh & bash install.sh
+```
+
