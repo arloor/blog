@@ -142,8 +142,7 @@ autopart --type=plain --nohome --noboot
 # Partition clearing information
 clearpart --all --initlabel
 # Use graphical install
-# graphical
-text
+graphical
 
 
 %packages
