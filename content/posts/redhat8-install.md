@@ -1,5 +1,5 @@
 ---
-title: "centos8没了，那就直接用redhat8"
+title: "Centos8没了，那就用rhel8"
 date: 2021-01-21T11:36:10+08:00
 draft: false
 categories: [ "undefined"]
