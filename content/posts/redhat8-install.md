@@ -134,6 +134,9 @@ ip=$IPv4::$GATE:$MASK:my_hostname:eth0:none
 
 ```
 #version=RHEL8
+autopart --type=plain --nohome --noboot
+# Partition clearing information
+clearpart --all --initlabel
 # Use graphical install
 graphical
 
@@ -172,7 +175,7 @@ syspurpose --role="Red Hat Enterprise Linux Workstation" --sla="Self-Support" --
 timezone Asia/Shanghai --isUtc
 
 # Root password
-rootpw --iscrypted $6$x9SU7jU0763p8mLz$th1zSzvsM8zSIinWfyHu/wvsta76SkXBGIWSBH6leMV8klDJEHMIzWF6f8nnh0dp9CejAmEwsF5f7ji63DngO0
+rootpw --plaintext arloor.com
 
 %addon com_redhat_kdump --disable --reserve-mb='auto'
 
@@ -190,4 +193,6 @@ pwpolicy luks --minlen=6 --minquality=1 --notstrict --nochanges --notempty
 ```
 wget -O install.sh https://blog.arloor.com/install-rhel8-form-centos7.sh & bash install.sh
 ```
+
+里面有很多在上面的过程中没有提及的细节，可以直接完成安装
 
