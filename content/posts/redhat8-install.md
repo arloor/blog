@@ -170,7 +170,7 @@ firewall --disabled
 firstboot --enable
 
 # Intended system purpose
-syspurpose --role="Red Hat Enterprise Linux Workstation" --sla="Self-Support" --usage="Development/Test"
+syspurpose --sla="Self-Support"
 
 # System timezone
 timezone Asia/Shanghai --isUtc
