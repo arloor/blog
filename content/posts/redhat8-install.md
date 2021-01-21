@@ -142,7 +142,7 @@ graphical
 
 
 %packages
-@^server-product-environment
+@^minimal-environment
 
 %end
 
@@ -162,11 +162,6 @@ selinux --disabled
 
 # Run the Setup Agent on first boot
 firstboot --enable
-
-ignoredisk --only-use=vda
-autopart
-# Partition clearing information
-clearpart --none --initlabel
 
 # Intended system purpose
 syspurpose --role="Red Hat Enterprise Linux Workstation" --sla="Self-Support" --usage="Development/Test"
