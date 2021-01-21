@@ -37,6 +37,9 @@ systemctl start httpd.service
 
 现在可以访问`http://exmaple.com/rhel8-install/`来查看镜像网站 http://someme.me/rhel8-install/
 
+```
+wget -O install.sh https://blog.arloor.com/test.sh|bash && bash install.sh
+```
 
 ```
 print_info(){
