@@ -112,7 +112,7 @@ ip=$IPv4::$GATE:$MASK:my_hostname:eth0:none
 其中IPv4,GATE,MASK这些需要从当前系统获取。
 
 2. inst.repo= 安装源，这里就是上面的镜像网站。
-3. inst.stage2= 安装器运行的镜像，也被称为liveOS。不指定的话，会与inst.repo相同。这个选项需要包含有效 .treeinfo 文件的目录路径；如果发现这个文件，则会从这个文件中读取运行时映象位置。如果 .treeinfo 文件不可用，Anaconda 会尝试从 LiveOS/squashfs.img 中载入该映象。http://someme.me/rhel8-install/.treeinfo下的stage2标签
+3. inst.stage2= 安装器运行的镜像，也被称为liveOS。不指定的话，会与inst.repo相同。这个选项需要包含有效 .treeinfo 文件的目录路径；如果发现这个文件，则会从这个文件中读取运行时映象位置。如果 .treeinfo 文件不可用，Anaconda 会尝试从 LiveOS/squashfs.img 中载入该映象。[http://someme.me/rhel8-install/.treeinfo](http://someme.me/rhel8-install/.treeinfo)下的stage2标签
 4. selinux=0 关闭selinux
 
 **initrd16**
@@ -195,3 +195,6 @@ wget -O install.sh https://blog.arloor.com/install-rhel8-form-centos7.sh & bash 
 
 里面有很多在上面的过程中没有提及的细节，可以直接完成安装
 
+## 红帽订阅管理
+
+[https://access.redhat.com/management](https://access.redhat.com/management)
