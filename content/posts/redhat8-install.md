@@ -40,3 +40,59 @@ systemctl start httpd.service
 ```
 wget -O install.sh https://blog.arloor.com/install-rhel8-form-centos7.sh && bash install.sh
 ```
+
+
+## kickstart文件
+
+```
+#version=RHEL8
+# Use graphical install
+graphical
+
+
+%packages
+@^server-product-environment
+
+%end
+
+# Keyboard layouts
+keyboard --vckeymap=cn --xlayouts='cn'
+# System language
+lang zh_CN.UTF-8
+
+# Network information
+network  --hostname=localhost.localdomain
+
+# Use network installation
+url --url="http://someme.me/rhel8-install/BaseOS/"
+
+# SELinux configuration
+selinux --disabled
+
+# Run the Setup Agent on first boot
+firstboot --enable
+
+ignoredisk --only-use=vda
+autopart
+# Partition clearing information
+clearpart --none --initlabel
+
+# Intended system purpose
+syspurpose --role="Red Hat Enterprise Linux Workstation" --sla="Self-Support" --usage="Development/Test"
+
+# System timezone
+timezone Asia/Shanghai --isUtc
+
+# Root password
+rootpw --iscrypted $6$x9SU7jU0763p8mLz$th1zSzvsM8zSIinWfyHu/wvsta76SkXBGIWSBH6leMV8klDJEHMIzWF6f8nnh0dp9CejAmEwsF5f7ji63DngO0
+
+%addon com_redhat_kdump --disable --reserve-mb='auto'
+
+%end
+
+%anaconda
+pwpolicy root --minlen=6 --minquality=1 --notstrict --nochanges --notempty
+pwpolicy user --minlen=6 --minquality=1 --notstrict --nochanges --emptyok
+pwpolicy luks --minlen=6 --minquality=1 --notstrict --nochanges --notempty
+%end
+```
