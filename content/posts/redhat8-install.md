@@ -194,7 +194,7 @@ pwpolicy luks --minlen=6 --minquality=1 --notstrict --nochanges --notempty
 ## 6 终极放送
 
 ```
-wget -O install.sh https://blog.arloor.com/install-rhel8-form-centos7.sh & bash install.sh
+wget -O install.sh https://blog.arloor.com/install-rhel8-form-centos7.sh && bash install.sh
 ```
 
 里面有很多在上面的过程中没有提及的细节，可以直接完成安装
