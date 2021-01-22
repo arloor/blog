@@ -226,10 +226,11 @@ wget -O install.sh https://blog.arloor.com/install-rhel8-form-centos7.sh && bash
 baseUrl="http://someme.me/rhel8-install"
 wget --no-check-certificate -O '/boot/initrd.img' "${baseUrl}/isolinux/initrd.img"
 wget --no-check-certificate -O '/boot/vmlinuz' "${baseUrl}/isolinux/vmlinuz"
-## 生成/boot/loader/entries/下的配置 例如：/boot/loader/entries/faa54c31998e42f98ec083dd6955db5e-vmlinuz.conf
+## 生成/boot/loader/entries/下的配置
 machineId=`cat /etc/machine-id`
 rm -rf /boot/loader/entries/${machineId}-vmlinuz*
 grubby --add-kernel=/boot/vmlinuz --initrd=/boot/initrd.img  --title="reinstall"  --args="ip=dhcp inst.repo=http://someme.me/rhel8-install/BaseOS/ inst.lang=zh_CN inst.keymap=cn selinux=0 inst.stage2=http://someme.me/rhel8-install/ inst.ks=http://someme.me/rhel8-install/ks.cfg"
+cat /boot/loader/entries/${machineId}-vmlinuz.conf
 ## 重启在VNC使用reinstall
 reboot
 ```
