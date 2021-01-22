@@ -53,12 +53,12 @@ keywords:
 # 下面这个链接自己在下载页面复制
 wget https://access.cdn.redhat.com/content/origin/files/sha256/30/30fd8dff2d29a384bd97886fa826fa5be872213c81e853eae3f9d9674f720ad0/rhel-8.3-x86_64-dvd.iso?_auth_=xxxxxxxxxxx -O redhat8.iso
 lsof -i:80
-yum install httpd
+yum install -y httpd
 mkdir /mnt/rhel8-install/
-mount -o loop,ro -t iso9660 ~/redhat8.iso
 mount -o loop,ro -t iso9660 ~/redhat8.iso /mnt/rhel8-install/
 cp -r /mnt/rhel8-install/ /var/www/html/
 systemctl start httpd.service
+umount /mnt/rhel8-install/
 ```
 
 现在可以访问`http://exmaple.com/rhel8-install/`来查看镜像网站 http://someme.me/rhel8-install/
