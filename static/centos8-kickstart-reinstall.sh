@@ -104,8 +104,6 @@ echo
 machineId=`cat /etc/machine-id`
 rm -rf /boot/loader/entries/${machineId}-vmlinuz*
 grubby --add-kernel=/boot/vmlinuz --initrd=/boot/initrd.img  --title="reinstall"  --args="inst.ks=file://ks.cfg"
-## 删除saved_entry ——即下次默认启动的
-[[ -f  $GRUBDIR/grubenv ]] && sed -i 's/saved_entry/#saved_entry/g' $GRUBDIR/grubenv;
 
 echo -e "\n\033[36m# Setup Kickstart\033[0m"
 
@@ -216,7 +214,8 @@ echo -e  "done\n"
 echo   -e "\033[36mEnter any key to start Centos8 install Or Ctrl+C to cancel${black}" &&read aaa
 
 [ "$1" = "-a" ]&&{
-  sed -i "/version.*/cversion 9.99.9-147.8.1.el8_1.x86_64" /boot/loader/entries/temp.conf
+  ## 删除saved_entry ——即下次默认启动的
+  [[ -f  $GRUBDIR/grubenv ]] && sed -i 's/saved_entry.*/saved_entry '${machineId}'-vmlinuz/g' $GRUBDIR/grubenv;
   echo -e "The VPS wiil reboot and installation will auto start and complete.\nAfter minutes, you can login the new centos8 OS with passwd '\033[36marloor.com${black}'"
 }||{
   echo -e "The VPS wiil reboot.\nThen you have 100 seconds to enter the vps's VNC\n and boot the '\033[36mreinstall-centos8${black}' menuentry to start the kickstart installation.\nYou can view the installation via VNC then.\nAfter minutes, you can login the new centos8 OS with passwd '\033[36marloor.com${black}'"

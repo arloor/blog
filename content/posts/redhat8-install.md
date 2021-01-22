@@ -231,4 +231,5 @@ machineId=`cat /etc/machine-id`
 rm -rf /boot/loader/entries/${machineId}-vmlinuz*
 grubby --add-kernel=/boot/vmlinuz --initrd=/boot/initrd.img  --title="reinstall"  --args="ip=dhcp inst.repo=http://someme.me/rhel8-install/BaseOS/ inst.lang=zh_CN inst.keymap=cn selinux=0 inst.stage2=http://someme.me/rhel8-install/ inst.ks=http://someme.me/rhel8-install/ks.cfg"
 ## 重启在VNC使用reinstall
+reboot
 ```
