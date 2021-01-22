@@ -13,7 +13,7 @@ keywords:
 
 2020年12月8日，红帽宣布将从2021年12月31日起停止维护centos系统，转而将精力投向centos stream。2021年1月20日，红帽又宣布rhel系统的开发者订阅可以用于小型生产环境，允许授权16台主机获得红帽的更新。原文链接[新年，新的Red Hat Enterprise Linux程序：访问RHEL的更简便方法](https://www.redhat.com/en/blog/new-year-new-red-hat-enterprise-linux-programs-easier-ways-access-rhel)。
 
-但是想要在云服务器上安装rhel系统在当前并不是一件简单的事情，这篇博客就是介绍一种安装rhel8的方式。
+但是想要在云服务器上安装rhel系统在当前并不是一件简单的事情，这篇博客就是介绍一种自动安装rhel8的方式：pxeboot+kickstart。
 
 ## 参考文档
 
@@ -97,7 +97,7 @@ menuentry 'Install Centos8 [ ]' --class debian --class gnu-linux --class gnu --c
 
 这是内核启动参数，这些参数就是控制如何启动安装系统的系统。一般安装系统的时候我们使用的是linux发行版提供的DVD iso或者boot iso。DVD iso是一个大而全的东西，boot iso也提供了足够用于安装系统的东西。我们这种方式比较特别，启动安装过程的东西只有内核和initd程序，这是不够的。这些内核启动参数就是告诉内核，哪里能找到安装所需的软件。
 
-关于这些参数的更多解释：[Anaconda Boot Options](https://github.com/rhinstaller/anaconda/blob/rhel-8.0/docs/boot-options.rst)或者查看[rhel7这部分的文档](https://access.redhat.com/documentation/zh-cn/red_hat_enterprise_linux/7/html/installation_guide/chap-anaconda-boot-options)（rhel8这部分文档不全）
+关于这些参数的更多解释：[Anaconda Boot Options](https://github.com/rhinstaller/anaconda/blob/rhel-8.0/docs/boot-options.rst)或者查看[高级安装-引导选项](https://access.redhat.com/documentation/zh-cn/red_hat_enterprise_linux/8/html/performing_an_advanced_rhel_installation/kickstart-and-advanced-boot-options_installing-rhel-as-an-experienced-user)
 
 这里简单讲下我们用到的参数：
 
@@ -133,6 +133,8 @@ ip=$IPv4::$GATE:$MASK:my_hostname:eth0:none
 kickstart配置文件文档:[CHAPTER 4. CREATING KICKSTART FILES](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/performing_an_advanced_rhel_installation/creating-kickstart-files_installing-rhel-as-an-experienced-user)
 
 [在线生成kickstart](https://access.redhat.com/labsinfo/kickstartconfig)
+
+[kickstart文件参考](https://access.redhat.com/documentation/zh-cn/red_hat_enterprise_linux/8/html/performing_an_advanced_rhel_installation/kickstart_references)
 
 例子：
 
