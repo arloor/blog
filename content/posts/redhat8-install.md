@@ -15,6 +15,25 @@ keywords:
 
 但是想要在云服务器上安装rhel系统在当前并不是一件简单的事情，这篇博客就是介绍一种自动安装rhel8的方式：pxeboot+kickstart。
 
+## 一次标准的pxeboot流程
+
+1. 机器从网络启动，触发 pxe 相关的固件模块发送 DHCP 请求，请求以广播方式向整个网段传播
+2. DHCP server 接收到请求，并响应请求，回应 ip 信息和 next_ip(tftp ip 的地址)
+3. 机器配置接收到的 ip 和其他网络信息，发送 ARP 广播，获取 tftp server 的 mac 地址
+4. 拿到 tftp server 的 ip 和 mac，机器就向 tftp server 请求启动脚本 pxelinux.0
+5. tftp server 应答启动脚本 pxelinux.0
+6. 执行 pxelinux.0 文件，机器把 pxe 对应的功能在内存里开始运行
+7. pxe 模块根据约定，向 TFTP server 发起请求，获取启动脚本 pxelinux.cfg
+8. 根据启动脚本的内容，请求并加载内核文件 vmlinuz、initrd.img
+9. 启动安装系统流程，到指定的地址下载 kickstart（ftp/http）。
+10. 根据 kickstart 文件从对应的地址（nfs/http/ftp）下载安装包安装系统，并自动配置所有的选项
+11. 系统安装完成
+
+引用自[cizixs.com](https://cizixs.com/2017/01/09/pxe-boot-process/)
+
+我们的流程是从8开始，省略之前的步骤，也更适合用于阿里云，腾讯云这种
+
+
 ## 参考文档
 
 1. [红帽开发者网站-rhel下载](https://developers.redhat.com/products/rhel/download)
