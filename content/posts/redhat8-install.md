@@ -219,3 +219,16 @@ wget -O install.sh https://blog.arloor.com/install-rhel8-form-centos7.sh && bash
 ## 红帽订阅管理
 
 [https://access.redhat.com/management](https://access.redhat.com/management)
+
+## rhel8重新安装系统
+
+```
+echo "initrd.img downloading...."
+wget --no-check-certificate -qO '/boot/initrd.img' "${baseUrl}/BaseOS/x86_64/os/isolinux/initrd.img"
+echo "vmlinuz downloading...."
+wget --no-check-certificate -qO '/boot/vmlinuz' "${baseUrl}/BaseOS/x86_64/os/isolinux/vmlinuz"
+echo "done"
+## 生成/boot/loader/entries/下的配置 例如：/boot/loader/entries/faa54c31998e42f98ec083dd6955db5e-vmlinuz.conf
+grubby --add-kernel=/boot/vmlinuz --initrd=/boot/initrd.img  --title="reinstall"  --args="ip=dhcp inst.repo=http://someme.me/rhel8-install/BaseOS/ inst.lang=zh_CN inst.keymap=cn selinux=0 inst.stage2=http://someme.me/rhel8-install/"
+## 重启在VNC使用reinstall
+```
