@@ -33,12 +33,6 @@ keywords:
 
 我们的流程是从8开始，省略之前的步骤，也更适合用于阿里云，腾讯云这种
 
-
-## 参考文档
-
-1. [红帽开发者网站-rhel下载](https://developers.redhat.com/products/rhel/download)
-2. [使用 HTTP 或 HTTPS 创建安装源](https://access.redhat.com/documentation/zh-cn/red_hat_enterprise_linux/8/html/performing_an_advanced_rhel_installation/creating-installation-sources-for-kickstart-installations_installing-rhel-as-an-experienced-user#creating-an-installation-source-on-http_creating-installation-sources-for-kickstart-installations)
-
 ## 过程简述
 
 1. 搭建redhat8的安装源，类似阿里云腾讯云的centos镜像网站
@@ -53,7 +47,7 @@ keywords:
 
 首先到[红帽开发者网站-rhel下载](https://developers.redhat.com/products/rhel/download)注册开发者账号，然后下载rhel8的DVD iso到一台提供http服务的公网vps上。
 
-然后挂载该镜像到一个目录，然后启动httpd服务
+然后挂载该镜像到一个目录，然后启动httpd服务（文档:[使用 HTTP 或 HTTPS 创建安装源](https://access.redhat.com/documentation/zh-cn/red_hat_enterprise_linux/8/html/performing_an_advanced_rhel_installation/creating-installation-sources-for-kickstart-installations_installing-rhel-as-an-experienced-user#creating-an-installation-source-on-http_creating-installation-sources-for-kickstart-installations)）
 
 ```shell
 # 下面这个链接自己在下载页面复制
