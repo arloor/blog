@@ -1,7 +1,7 @@
 [[ "$EUID" -ne '0' ]] && echo "Error:This script must be run as root!" && exit 1;
 
 black="\033[0m"
-baseUrl="http://mirrors.huaweicloud.com/centos/8.1.1911"
+baseUrl="http://mirrors.huaweicloud.com/centos/8"
 
 ## 检查依赖
 function CheckDependence(){
@@ -101,36 +101,9 @@ echo MASK：  $MASK $NETSUB
 echo
 
 # 展示最新的boot entry
-rm -f /boot/loader/entries/temp.conf
- cd /boot/loader/entries/
- ls /boot/loader/entries/|tail -1|xargs cat > /var/temp.conf
- [[ -n "$(grep 'linux.*/\|kernel.*/' /var/temp.conf |awk '{print $2}' |tail -n 1 |grep '^/boot/')" ]] && Type='InBoot' || Type='NoBoot';
-
- LinuxKernel="$(grep 'linux.*/\|kernel.*/' /var/temp.conf |awk '{print $1}' |head -n 1)";
-[[ -z "$LinuxKernel" ]] && echo "Error! read grub config! " && exit 1;
-LinuxIMG="$(grep 'initrd.*/' /var/temp.conf |awk '{print $1}' |tail -n 1)";
-## 如果没有initrd 则增加initrd
-[ -z "$LinuxIMG" ] && sed -i "/$LinuxKernel.*\//a\\\tinitrd\ \/" /var/temp.conf && LinuxIMG='initrd';
-
-## 分未Inboot和NoBoot修改加载kernel和initrd的
-[[ "$Type" == 'InBoot' ]] && {
-  sed -i "/$LinuxKernel.*\//c$LinuxKernel\\t\/boot\/vmlinuz" /var/temp.conf;
-  sed -i "/$LinuxIMG.*\//c$LinuxIMG\\t\/boot\/initrd.img" /var/temp.conf;
-}
-
-[[ "$Type" == 'NoBoot' ]] && {
-  sed -i "/$LinuxKernel.*\//c$LinuxKernel\\t\/vmlinuz" /var/temp.conf
-  sed -i "/$LinuxIMG.*\//c$LinuxIMG\\t\/initrd.img" /var/temp.conf;
-}
-
-sed -i "/options.*/coptions inst.ks=file:\/\/ks.cfg" /var/temp.conf;
-sed -i "/title.*/ctitle reinstall-centos8" /var/temp.conf
-sed -i "/id.*/cid reinstall-centos8" /var/temp.conf
-sed -i "/version.*/cversion zthe-last" /var/temp.conf
-
-rm -f /boot/loader/entries/temp.conf
-cp /var/temp.conf /boot/loader/entries/
-
+machineId=`cat /etc/machine-id`
+rm -rf /boot/loader/entries/${machineId}-vmlinuz*
+grubby --add-kernel=/boot/vmlinuz --initrd=/boot/initrd.img  --title="reinstall"  --args="inst.ks=file://ks.cfg"
 ## 删除saved_entry ——即下次默认启动的
 [[ -f  $GRUBDIR/grubenv ]] && sed -i 's/saved_entry/#saved_entry/g' $GRUBDIR/grubenv;
 
@@ -191,6 +164,7 @@ liveimg --url=${baseUrl}/BaseOS/x86_64/os/images/install.img --noverifyssl
 rootpw --plaintext arloor.com
 # SELinux configuration
 selinux --disabled
+firewall --disabled
 # Run the Setup Agent on first boot
 firstboot --enable
 # Do not configure the X Window System
