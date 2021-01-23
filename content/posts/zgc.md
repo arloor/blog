@@ -25,7 +25,7 @@ update-alternatives --config java
 ## jvm 参数
 
 ```
-gc_option="-XX:+UseZGC  -XX:-ZProactive  -Xlog:safepoint,classhisto*=trace,age*,gc*=info:file=/opt/proxy/gc.log:uptime,tid,tags"
+gc_option="-XX:+UseZGC  -XX:-ZProactive -XX:ZCollectionInterval=300 -Xlog:safepoint,classhisto*=trace,age*,gc*=info:file=/opt/proxy/gc.log:uptime,tid,tags"
 heap_option='-Xms400m -Xmx400m'
 ```
 
