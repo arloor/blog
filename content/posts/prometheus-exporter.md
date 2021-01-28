@@ -11,6 +11,9 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
+prometheus监控比较火，接入prometheus监控的第一步就是提供expoter，这里就是记录下怎么提供。
+<!--more-->
+
 ```
     <dependencies>
         <!-- https://mvnrepository.com/artifact/io.prometheus/simpleclient -->
@@ -64,4 +67,4 @@ testA_total{a="a",b="b",} 2368.0
 testA_created{a="a",b="b",} 1.61175989861E9
 ```
 
-irate(testA_total[2m])
+实际上，并不需要这么僵硬地引入这些依赖，只要返回的报文跟上面一样就行了。
