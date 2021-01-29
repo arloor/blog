@@ -55,6 +55,17 @@ Macos提供三种开机自启动的方式，详情可以看这里[三种方式�
 
 更多详情可以见[launchd.info](https://www.launchd.info/)
 
+如果想实现类似`systemctl restart xx`的能力，可以使用下面的脚本：
+
+```
+#! /bin/sh
+launchctl stop com.connect
+sleep 1
+launchctl unload -w ~/Library/LaunchAgents/com.connect.plist
+sleep 1
+launchctl load -w ~/Library/LaunchAgents/com.connect.plist
+```
+
 ## windows开机自启动
 
 编写`startup.vbs`，放到
