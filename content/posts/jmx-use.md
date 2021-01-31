@@ -11,6 +11,9 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
+搞下jvm信息的监控
+<!--more-->
+
 ```java
 import java.lang.management.ClassLoadingMXBean;
 import java.lang.management.CompilationMXBean;
