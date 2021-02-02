@@ -263,16 +263,20 @@ sudo dpkg-reconfigure ca-certificates   #选择ask,勾选CharlesRoot.crt(按空�
         </mirror>  
       </mirrors>
 
-      <proxy>
-        <id>optional</id>
-        <active>true</active>
-        <protocol>http</protocol>
-        <username>proxyuser</username>
-        <password>proxypass</password>
-        <host>localhost</host>
-        <port>3128</port>
-        <nonProxyHosts>maven.aliyun.com|some.host.com</nonProxyHosts>
-    </proxy>
+      <proxies> 
+        <proxy> 
+          <id>optional</id>  
+          <active>true</active>  
+          <protocol>http</protocol>  
+          <username>proxyuser</username>  
+          <password>proxypass</password>  
+          <host>localhost</host>  
+          <port>3128</port>  
+          <nonProxyHosts>maven.aliyun.com|some.host.com</nonProxyHosts> 
+        </proxy> 
+      </proxies>
+
+      </proxies>
 </settings>
 ```
 
