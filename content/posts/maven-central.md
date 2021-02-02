@@ -159,7 +159,9 @@ gpg --keyserver hkp://keyserver.ubuntu.com:11371 --recv-keys 公钥ID 查询公�
 
 ## mvn deploy
 
-然后就可以执行`mvn clean deploy`了，如果是第一次执行的话，记得到最初的sonatype issue上回复下
+然后就可以执行`mvn clean deploy`了，如果是第一次执行的话，记得到最初的sonatype issue上回复下。
+
+之后可以到https://oss.sonatype.org/#stagingRepositories 这个网址，把你刚推上去的jar包 先close，再release（-SNAPSHOT的包不需要这个操作）
 
 最好不要在idea中做mvn deploy，在命令行执行吧，因为检验gpg密钥的时候需要跳一个窗口出来验证下gpg的密码,如下：
 
