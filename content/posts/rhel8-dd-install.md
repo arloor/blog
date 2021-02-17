@@ -19,6 +19,7 @@ keywords:
 - [Linux格式化数据盘](https://www.alibabacloud.com/help/zh/doc-detail/25426.htm?spm=5176.2020520101disk.109.d25426.6c124df57ytrxv)
 - [CentOS8修改网卡名称eth0](https://www.cnblogs.com/leoshi/p/12503088.html)
 - [制作 Linux 镜像](https://cloud.tencent.com/document/product/213/17814)
+- [Linux_LVM_磁盘扩容](https://www.cnblogs.com/hellojesson/p/4582908.html)
 
 ## 创建镜像
 
@@ -171,20 +172,20 @@ wget http://blog.arloor.com/sh/InstallNET.sh -O InstallNET.sh&& bash  InstallNET
 
 ```shell
    64  fdisk -l      查看磁盘
-   65  fdisk /dev/sdb  对新添加的磁盘进行分区，此处使用整块盘
-   66  mkfs.ext4 /dev/sdb1   对新分的区进行格式化
-   67  fdisk /dev/sdb  将格式化好的盘改成lvm（8e）格式
+   65  fdisk /dev/vda  对新添加的磁盘进行分区，此处使用整块盘
+   66  mkfs.ext4 /dev/vda3   对新分的区进行格式化
+   67  fdisk /dev/vda  将格式化好的盘改成lvm（8e）格式
    68  fdisk -l  查看格式化好的盘是否是lvm格式
    69  vgdisplay   查看系统中的逻辑组
    70  pvdisplay   查看系统中的物理卷
-   71  pvcreate /dev/sdb1   将新分好区的磁盘做成逻辑卷
+   71  pvcreate /dev/vda3   将新分好区的磁盘做成逻辑卷
    72  pvdisplay  查看系统中的物理卷
    73  lvdisplay   查看系统中的逻辑卷
-   74  vgextend VG1 /dev/sdb1  扩展已有逻辑组
+   74  vgextend rhel /dev/vda3  扩展已有逻辑组
    75  vgdisplay  查看扩展后的逻辑组
-   76  lvextend -L 328.6G /dev/VG1/LogVol01  将之前的逻辑卷扩展到328.6G，不是扩展了328.6G 
+   76  lvextend -L 45G /dev/rhel/root  将之前的逻辑卷扩展到328.6G，不是扩展了328.6G 
    77  lvdisplay   查看扩展后的逻辑卷
    78  df -Th 查看系统磁盘使用情况，发现还是原来大小
-   79  resize2fs /dev/VG1/LogVol01  需要重设一下扩展后的逻辑卷
+   79  resize2fs /dev/rhel/root  需要重设一下扩展后的逻辑卷
    80  df -Th 这次再看的话，已经改过来了
    ```
