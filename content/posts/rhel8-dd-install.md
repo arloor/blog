@@ -183,7 +183,7 @@ wget http://blog.arloor.com/sh/InstallNET.sh -O InstallNET.sh&& bash  InstallNET
    73  lvdisplay   查看系统中的逻辑卷
    74  vgextend rhel /dev/vda3  扩展已有逻辑组
    75  vgdisplay  查看扩展后的逻辑组
-   76  lvextend -L 45G /dev/rhel/root  将之前的逻辑卷扩展到328.6G，不是扩展了328.6G 
+   76  lvextend -L 45G /dev/rhel/root  将之前的逻辑卷扩展到45G，不是扩展了45G 
    77  lvdisplay   查看扩展后的逻辑卷
    78  df -Th 查看系统磁盘使用情况，发现还是原来大小
    79  resize2fs /dev/rhel/root  需要重设一下扩展后的逻辑卷
