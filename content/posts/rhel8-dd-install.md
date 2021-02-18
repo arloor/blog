@@ -1,5 +1,5 @@
 ---
-title: "Rhel8 Dd Install"
+title: "dd安装rhel8"
 date: 2021-02-17T14:27:20+08:00
 draft: false
 categories: [ "undefined"]
