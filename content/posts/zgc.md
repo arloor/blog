@@ -34,7 +34,8 @@ heap_option='-Xms400m -Xmx400m'
 **查看gc的关键信息**
 
 ```java
-cat /opt/proxy/gc.log|grep -E "gc,start|gc,phases.*Pause|gc,phases|gc,heap|gc,heap.*Used:.*)"
+alias lgc='grep -E "gc,start|gc,phases.*Pause|gc,phases|gc,heap|gc,heap.*Used:.*)"'
+lgc /opt/proxy/gc.log
 ```
 
 初始标记（Pause Mark Start）、再次标记（Pause Mark End）、初始转移（Pause Relocate Start）会STW；如果在GC过程中出现Used比例=100%，则有出现内存分配阻塞（Allocation Stall），也会引起应用停顿。
