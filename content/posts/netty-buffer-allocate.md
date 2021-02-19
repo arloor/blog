@@ -17,10 +17,12 @@ keywords:
 io.netty.util.internal.PlatformDependent#incrementMemoryCounter
 ```
 
-方法增加这个计数器。debug的时候把断点设在这里，就能看到一些有趣的调用栈，如下：
+方法增加这个计数器。通过这个看到了netty内存分配的一点东西，特意记录一下。
+<!--more-->
 
-![](/img/netty-new-direct-buffer-stack.png)
+debug的时候把断点设在incrementMemoryCounter方法里，就能看到一些有趣的调用栈，如下：
+
+<img src="/img/netty-new-direct-buffer-stack.png" alt="" width="850px" style="max-width: 100%;">
 
 这个调用栈从开始到read的部分，在之前的文章[从register和accept的锁竞争问题到netty的nioEventLoop设计](/posts/netty/select-register-nioeventloop/)已经看过一遍了，可以直接从read后的部分开始。
 
-<!--more-->
