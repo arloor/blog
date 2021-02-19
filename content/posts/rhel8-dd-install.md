@@ -166,26 +166,28 @@ I/O 大小(最小/最佳)：512 字节 / 512 字节
 
 ## dd安装
 
+```shell
 wget http://blog.arloor.com/sh/InstallNET.sh -O InstallNET.sh&& bash  InstallNET.sh -dd http://someme.me/rhel8-install/rhel8.img.gz
+```
 
 ## 磁盘扩容
 
 ```shell
-   64  fdisk -l      查看磁盘
-   65  fdisk /dev/vda  对新添加的磁盘进行分区，此处使用整块盘
-   66  mkfs.ext4 /dev/vda3   对新分的区进行格式化
-   67  fdisk /dev/vda  将格式化好的盘改成lvm（8e）格式
-   68  fdisk -l  查看格式化好的盘是否是lvm格式
-   69  vgdisplay   查看系统中的逻辑组
-   70  pvdisplay   查看系统中的物理卷
-   71  pvcreate /dev/vda3   将新分好区的磁盘做成逻辑卷
-   72  pvdisplay  查看系统中的物理卷
-   73  lvdisplay   查看系统中的逻辑卷
-   74  vgextend rhel /dev/vda3  扩展已有逻辑组
-   75  vgdisplay  查看扩展后的逻辑组
-   76  lvextend -L 45G /dev/rhel/root  将之前的逻辑卷扩展到45G，不是扩展了45G 
-   77  lvdisplay   查看扩展后的逻辑卷
-   78  df -Th 查看系统磁盘使用情况，发现还是原来大小
-   79  resize2fs /dev/rhel/root  需要重设一下扩展后的逻辑卷
-   80  df -Th 这次再看的话，已经改过来了
-   ```
+fdisk -l      #查看磁盘
+fdisk /dev/vda  #对新添加的磁盘进行分区，此处使用整块盘
+mkfs.ext4 /dev/vda3   #对新分的区进行格式化
+fdisk /dev/vda  #将格式化好的盘改成lvm（8e）格式
+fdisk -l  #查看格式化好的盘是否是lvm格式
+vgdisplay   #查看系统中的逻辑组
+pvdisplay   #查看系统中的物理卷
+pvcreate /dev/vda3   #将新分好区的磁盘做成逻辑卷
+pvdisplay  #查看系统中的物理卷
+lvdisplay   #查看系统中的逻辑卷
+vgextend rhel /dev/vda3  #扩展已有逻辑组
+vgdisplay  #查看扩展后的逻辑组
+lvextend -L 45G /dev/rhel/root  #将之前的逻辑卷扩展到45G，不是扩展了45G 
+lvdisplay   #查看扩展后的逻辑卷
+df -Th #查看系统磁盘使用情况，发现还是原来大小
+resize2fs /dev/rhel/root  #需要重设一下扩展后的逻辑卷
+df -Th #这次再看的话，已经改过来了
+```
