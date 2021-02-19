@@ -1,0 +1,26 @@
+---
+title: "Netty内存池实现"
+date: 2021-02-19T17:38:07+08:00
+draft: false
+categories: [ "undefined"]
+tags: ["undefined"]
+weight: 10
+subtitle: ""
+description : ""
+keywords:
+- 刘港欢 arloor moontell
+---
+
+之前在做netty的java应用监控的时候，看到一个用于监控netty直接内存使用量的属性——`PlatformDependent类的 DIRECT_MEMORY_COUNTER`。每次进行直接内存分配的时候，都会调用
+
+```
+io.netty.util.internal.PlatformDependent#incrementMemoryCounter
+```
+
+方法增加这个计数器。debug的时候把断点设在这里，就能看到一些有趣的调用栈，如下：
+
+![](/img/netty-new-direct-buffer-stack.png)
+
+这个调用栈从开始到read的部分，在之前的文章[从register和accept的锁竞争问题到netty的nioEventLoop设计](/posts/netty/select-register-nioeventloop/)已经看过一遍了，可以直接从read后的部分开始。
+
+<!--more-->
