@@ -54,10 +54,10 @@ print_info
 [ "$1" = "0" ]||{
   proxystart=1
   # 设置http代理，使用方法：
-  export http_proxy=http://127.0.0.1:8081
-  export https_proxy=http://127.0.0.1:8081
-  git config --global http.proxy 'http://127.0.0.1:8081'
-  git config --global https.proxy 'http://127.0.0.1:8081'
+  export http_proxy=http://127.0.0.1:3128
+  export https_proxy=http://127.0.0.1:3128
+  git config --global http.proxy 'http://127.0.0.1:3128'
+  git config --global https.proxy 'http://127.0.0.1:3128'
 }
 
 
