@@ -29,7 +29,7 @@ keywords:
 wget http://blog.arloor.com/install-rhel8-form-centos7.sh -O a.sh&& bash a.sh
 ```
 
-核心注意点：/boot单独分区为简单分区200M，根分区(/)使用lvm分区3.2G，软件选择最小安装
+核心注意点：/boot单独分区为简单分区200M，根分区(/)使用lvm分区3.2G，格式ext4，软件选择最小安装
 
 网卡配置选择为dhcp，dd到vps上之后可能需要改为静态ip
 
