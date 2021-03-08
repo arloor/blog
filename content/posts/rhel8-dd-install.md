@@ -191,3 +191,13 @@ df -Th #查看系统磁盘使用情况，发现还是原来大小
 resize2fs /dev/rhel/root  #需要重设一下扩展后的逻辑卷
 df -Th #这次再看的话，已经改过来了
 ```
+
+## youtube分享
+
+侦察兵中有一句流传很多年的话：所谓同伴，就是他看到你倒下，就会翻山越岭地过来，而你看到他，却能重新站立。
+
+部队地真正意义，不在于你有多强，在于与你背靠背地人有多棒。
+
+<div class="iframe-container">
+    <iframe src="https://www.youtube.com/embed/pNIh9QmE-9o" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
