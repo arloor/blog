@@ -11,13 +11,14 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
+记录下如何把自己的项目发不到maven中央仓库
+<!--more-->
+
 ## 1. 到sonatype上提交issue创建maven的groupid
 
 可能有很多人要问这个不知名的sonatype是什么鬼东西？其实这就是maven中央仓库的托管机构。
 
 首先需要注册sonatype的账号，账号名和密码需要记住，后面指的账号名和密码都是这个。
-
-<!--more-->
 
 issue内容如下：
 
