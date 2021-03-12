@@ -17,6 +17,8 @@ keywords:
 
 首先需要注册sonatype的账号，账号名和密码需要记住，后面指的账号名和密码都是这个。
 
+<!--more-->
+
 issue内容如下：
 
 ![](/img/sonatype-create-project-id.png)
