@@ -11,6 +11,8 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
+<!--more-->
+
 ```
 # macos include path
 /Library/Developer/CommandLineTools/SDKs/MacOSX10.15.sdk/usr/include/pthread.h
