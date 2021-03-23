@@ -132,7 +132,17 @@ chmod +x /etc/rc.d/rc.local
 
 ## 添加虚拟化所需的一些磁盘驱动
 
-这边rhel8不需要这一步
+腾讯云上的rhel8不需要这一步
+
+可以看到已经有kvm所需的virtio驱动
+
+```
+lsinitrd /boot/initramfs-$(uname -r).img | grep virtio
+-rw-r--r--   1 root     root         8992 Aug  4  2020 usr/lib/modules/4.18.0-240.10.1.el8_3.x86_64/kernel/drivers/block/virtio_blk.ko.xz
+-rw-r--r--   1 root     root        15156 Aug  4  2020 usr/lib/modules/4.18.0-240.10.1.el8_3.x86_64/kernel/drivers/char/virtio_console.ko.xz
+-rw-r--r--   1 root     root        24804 Aug  4  2020 usr/lib/modules/4.18.0-240.10.1.el8_3.x86_64/kernel/drivers/net/virtio_net.ko.xz
+-rw-r--r--   1 root     root         8536 Aug  4  2020 usr/lib/modules/4.18.0-240.10.1.el8_3.x86_64/kernel/drivers/scsi/virtio_scsi.ko.xz
+```
 
 ## 清空历史记录
 
