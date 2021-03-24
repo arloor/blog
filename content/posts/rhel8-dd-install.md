@@ -132,7 +132,17 @@ chmod +x /etc/rc.d/rc.local
 
 ## 添加虚拟化所需的一些磁盘驱动
 
-腾讯云上的rhel8不需要这一步
+在/etc/dracut.conf里添加
+
+```
+add_drivers+="virtio_console virtio_net virtio_scsi virtio_blk"
+```
+
+然后
+
+```
+dracut -f 
+```
 
 可以看到已经有kvm所需的virtio驱动
 
