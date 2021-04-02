@@ -6,7 +6,8 @@
 ## Blog: https://moeclub.org
 ## Written By MoeClub.org
 
-
+export http_proxy="http://192.168.1.6:3128"
+export https_proxy="http://192.168.1.6:3128"
 export tmpVER=''
 export tmpDIST=''
 export tmpURL=''
