@@ -23,21 +23,21 @@ new post with no content
 
 关于集群的全局决策，例如调度。一键搭建脚本通常将控制面的组件放在一台机器上
 
-## Kube-apiserver
+### Kube-apiserver
 
 是k8s的控制面的前端，暴露k8s的api
 
 可水平扩展，部署多台kube-apiserver来负载均衡
 
-## etcd
+### etcd
 
 k8s数据存储
 
-## kube-scheduler
+### kube-scheduler
 
 监视没有分配node的pod，并且为其分配node
 
-## kube-controller-manager
+### kube-controller-manager
 
 运行controller进程的组件
 
@@ -53,15 +53,19 @@ k8s数据存储
 
 kubelet使用PodSpecs来运行容器，并保证他们健康
 
-## kube-proxy
+### kube-proxy
 
 控制网络传输，使用操作系统包过滤层或者自己进行流量转发
 
-## 容器运行时
+### 容器运行时
 
 docker、containerd 负责运行容器的软件
 
-## 
+## DNS
+
+集群需要DNS
+
+
 
 
 
