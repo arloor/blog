@@ -4,7 +4,7 @@
 # 当前使用hugo 0.53(支持scss)
 dir=/home/x1/blog
 dir=$PWD
-host=blog.arloor.com
+host=arloor.com
 port=22
 
 git pull
@@ -16,7 +16,7 @@ then
     # 调用服务器上的更新博客脚本方式
     # 该脚本会检查httpd、hugo、和git仓库，实现完全自动化
     ssh root@$host  -p$port -t "
-    bash tarloor 0 # 0不使用代理，1使用代理
+    bash tarloor 1 # 0不使用代理，1使用代理
     "
 echo -e "\033[32m 请访问： http://"$host"\033[0m"
 else
