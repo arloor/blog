@@ -275,8 +275,6 @@ sudo dpkg-reconfigure ca-certificates   #选择ask,勾选CharlesRoot.crt(按空�
           <nonProxyHosts>maven.aliyun.com|some.host.com</nonProxyHosts> 
         </proxy> 
       </proxies>
-
-      </proxies>
 </settings>
 ```
 
