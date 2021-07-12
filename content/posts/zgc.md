@@ -34,7 +34,7 @@ heap_option='-Xms400m -Xmx400m'
 **查看gc的关键信息**
 
 ```java
-alias lgc='grep -E "gc,start|gc,phases.*Pause|gc,phases|gc,heap|gc,heap.*Used:.*)"'
+alias lgc='grep -E "gc,start|gc,phases.*Pause|gc,phases|gc,heap|gc,heap.*Used:.*\)"'
 lgc /opt/proxy/gc.log
 ```
 
