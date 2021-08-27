@@ -39,7 +39,8 @@ alias lgc='grep -E "gc,start|gc,phases.*Pause|gc,phases|gc,heap|gc,heap.*Used:.*
 lgc /var/log/gc.log
 
 # 复杂版
-grep --color=auto -E "gc,start|gc,phases.*Pause|gc,phases|gc,heap|gc,heap.*Used:.*\)" $(ls /var/log/gc* | sort |grep -Ev "log\.[0-9]+"|tail -n 1)
+alias lgc='grep --color=auto -E "gc,start|gc,phases.*Pause|gc,phases|gc,heap|gc,heap.*Used:.*\)" $(ls /var/log/gc* | sort |grep -Ev "log\.[0-9]+"|tail -n 1)'
+lgc
 ```
 
 初始标记（Pause Mark Start）、再次标记（Pause Mark End）、初始转移（Pause Relocate Start）会STW；如果在GC过程中出现Used比例=100%，则有出现内存分配阻塞（Allocation Stall），也会引起应用停顿。
