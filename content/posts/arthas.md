@@ -25,3 +25,7 @@ java -jar arthas-boot.jar
 ## 安装idea插件
 
 [arthas idea](https://plugins.jetbrains.com/plugin/13581-arthas-idea)
+
+## 官方文档
+
+[quick-start.html](https://arthas.aliyun.com/doc/quick-start.html)
