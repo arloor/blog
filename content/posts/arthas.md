@@ -17,11 +17,12 @@ arthas用来动态调试很好用
 ## 安装arthas
 
 ```
+sudo -iu sankuai
 export http_proxy="http://172.23.24.158:3128"
 export https_proxy="http://172.23.24.158:3128"
-mkdir arthas;cd arthas;wget "https://arthas.aliyun.com/download/latest_version?mirror=aliyun" -O arthas-packaging-3.5.3-bin.zip;unzip  arthas-packaging-3.5.3-bin.zip
+mkdir arthas;cd arthas;wget "https://arthas.aliyun.com/download/latest_version?mirror=aliyun" -O arthas-packaging-3.5.3-bin.zip;unzip  arthas-packaging-3.5.3-bin.zip;cd ..
 
-java -jar arthas-boot.jar
+java -jar arthas/arthas-boot.jar
 ```
 
 ## 安装idea插件
