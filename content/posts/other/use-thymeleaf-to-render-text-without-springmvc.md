@@ -34,14 +34,33 @@ thymeleaf是springboot默认的模版引擎，最近需要“渲染模版”这�
 ## 代码
 
 ```java
+import java.util.HashMap;
+import java.util.Map;
+
+public final class RenderParam {
+    private Map<String, Object> map = new HashMap<>();
+
+    public Map<String, Object> getContent() {
+        return map;
+    }
+
+    public RenderParam add(String key, Object value) {
+        map.put(key, value);
+        return this;
+    }
+}
+```
+
+```java
+package com.arloor.forwardproxy.util;
+
+import com.arloor.forwardproxy.vo.RenderParam;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.StringTemplateResolver;
-
-import java.util.Map;
 
 public class RenderUtil {
     private final static TemplateEngine textEngine = new TemplateEngine();
@@ -67,27 +86,27 @@ public class RenderUtil {
      * 使用 Thymeleaf 渲染 Text模版
      * Text模版语法见：https://www.thymeleaf.org/doc/tutorials/3.0/usingthymeleaf.html#textual-syntax
      *
-     * @param template 模版
-     * @param params   参数
+     * @param template    模版
+     * @param renderParam 参数
      * @return 渲染后的Text
      */
-    public static String text(String template, Map<String, Object> params) {
+    public static String text(String template, RenderParam renderParam) {
 
         Context context = new Context();
-        context.setVariables(params);
+        context.setVariables(renderParam.getContent());
         return textEngine.process(template, context);
     }
 
     /**
      * 使用 Thymeleaf 渲染 Html模版
      *
-     * @param template Html模版
-     * @param params   参数
+     * @param template    Html模版
+     * @param renderParam 参数
      * @return 渲染后的html
      */
-    public static String html(String template, Map<String, Object> params) {
+    public static String html(String template, RenderParam renderParam) {
         Context context = new Context();
-        context.setVariables(params);
+        context.setVariables(renderParam.getContent());
         return htmlEngine.process(template, context);
     }
 
@@ -99,7 +118,7 @@ public class RenderUtil {
     public static void main(String[] args) {
         // 渲染String
         String string_template = "这是[(${name.toString()})]"; // 直接name其实就行了，这里就是展示能调用java对象的方法
-        String value = RenderUtil.text(string_template, ImmutableMap.of("name", "ARLOOR"));
+        String value = RenderUtil.text(string_template, new RenderParam().add("name", "ARLOOR"));
         System.out.println(value);
 
         // 渲染List
@@ -109,9 +128,9 @@ public class RenderUtil {
          * [/]
          */
         String list_template = "[# th:each=\"item : ${items}\"]\n" +
-                "  - [(${item})]\n" +
+                " - [(${item})]\n" +
                 "[/]";
-        String value1 = RenderUtil.text(list_template, ImmutableMap.of("items", Lists.newArrayList("第一个", "第二个")));
+        String value1 = RenderUtil.text(list_template, new RenderParam().add("items", Lists.newArrayList("第一个", "第二个", "第三个")));
         System.out.println(value1);
 
         // 渲染Map
@@ -121,14 +140,13 @@ public class RenderUtil {
          * [/]
          */
         String map_template = "[# th:each=\"key : ${map.keySet()}\"]\n" +
-                " 这是 - [(${map.get(key)})]\n" +
+                " - [(${map.get(key)})]\n" +
                 "[/]";
-        String value2 = RenderUtil.text(map_template, ImmutableMap.of("map", ImmutableMap.of("a", "甲", "b", "乙")));
+        String value2 = RenderUtil.text(map_template, new RenderParam().add("map", ImmutableMap.of("a", "b", "c", "d")));
         System.out.println(value2);
 
         String html_template = "这是<span th:text=\"${name}\"></span>";
-        System.out.println(RenderUtil.html(html_template, ImmutableMap.of("name", "ARLOOR")));
-
+        System.out.println(RenderUtil.html(html_template, new RenderParam().add("name", "ARLOOR")));
     }
 }
 ```
