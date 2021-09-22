@@ -18,8 +18,8 @@ arthas用来动态调试很好用
 
 ```
 sudo -iu sankuai
-export http_proxy="http://172.23.24.158:3128"
-export https_proxy="http://172.23.24.158:3128"
+export http_proxy="http://11.38.138.136:3128"
+export https_proxy="http://11.38.138.136:3128"
 mkdir arthas;cd arthas;wget "https://arthas.aliyun.com/download/latest_version?mirror=aliyun" -O arthas-packaging-3.5.3-bin.zip;unzip -o arthas-packaging-3.5.3-bin.zip;cd ..
 
 java -jar arthas/arthas-boot.jar
