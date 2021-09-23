@@ -5,6 +5,7 @@
 dir=/home/x1/blog
 dir=$PWD
 host=$([ "$1" == ""]&&"arloor.com"||"$1")
+echo $host
 port=22
 
 git pull
