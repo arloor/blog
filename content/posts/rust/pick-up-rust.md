@@ -48,6 +48,44 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 使用rust-init程序，需要额外下载visual studio 2019的安装器，并安装visual c++ 生成工具、windows 10 sdk、英文语言包
 
+**设置代理**
+
+rustup安装和更新使用中科大镜像：
+
+```
+export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
+export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
+
+## windows：
+$ENV:RUSTUP_DIST_SERVER='https://mirrors.ustc.edu.cn/rust-static'
+$ENV:RUSTUP_UPDATE_ROOT='https://mirrors.ustc.edu.cn/rust-static/rustup'
+
+## 然后运行安装脚本/rustup-init.exe
+```
+
+Cargo是rust的包管理工具，类似java的maven，设置代理如下：
+
+```shell
+cat >> ~/.cargo/config <<\EOF
+[http]
+proxy = "127.0.0.1:1087"
+[https]
+proxy = "127.0.0.1:1087"
+EOF
+```
+
+或者使用中科大镜像
+
+```shell
+cat >> ~/.cargo/config <<\EOF
+[source.crates-io]
+registry = "https://github.com/rust-lang/crates.io-index"
+replace-with = 'ustc'
+[source.ustc]
+registry = "git://mirrors.ustc.edu.cn/crates.io-index"
+EOF
+```
+
 **集成开发环境**
 
 我使用的是Intellij ide+[rust插件](https://plugins.jetbrains.com/plugin/8182-rust)
