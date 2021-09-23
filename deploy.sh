@@ -4,7 +4,7 @@
 # 当前使用hugo 0.53(支持scss)
 dir=/home/x1/blog
 dir=$PWD
-host=$([ "$1" = "" ]&&"arloor.com"||"$1")
+host=`[ "$1" = "" ]&&"arloor.com"||"$1"`
 echo $host
 port=22
 
