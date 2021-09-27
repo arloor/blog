@@ -27,7 +27,7 @@ then
     ssh root@hk.gcall.me  -p22 -t "
     bash tarloor 0 # 0不使用代理，1使用代理
     "
-echo -e "\033[32m 请访问： http://"$host"\033[0m"
+echo -e "\033[32m 请访问： https://"$host"\033[0m"
 else
     echo -e "\033[32m 推送失败 \033[0m"
 fi
