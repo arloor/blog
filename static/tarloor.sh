@@ -33,10 +33,6 @@ if [ "$FullDependence" == '1' ]; then
 fi
 }
 
-clear && echo -e "\n\033[36m# Check Dependence\033[0m\n"
-CheckDependence git,tar,wget 
-echo "Dependence Check done"
-
 print_info(){
     clear
     echo "#############################################################"
@@ -49,6 +45,10 @@ print_info(){
 }
 
 print_info
+
+echo -e "\n\033[36m# Check Dependence\033[0m\n"
+CheckDependence git,tar,wget 
+echo "Dependence Check done"
 
 # 如果不需要使用代理，则使用 bash tarloor 0
 [ "$1" = "0" ]||{
