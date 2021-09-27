@@ -61,7 +61,7 @@ protocol.setMaxKeepAliveRequests(600); // 表示一个socket连接处理600次�
 
 ## acceptCount是个啥玩意
 
-其实就是控制全连接队列的长度，详见[TCP 半连接队列和全连接队列满了会发生什么？又该如何应对？](https://cloud.tencent.com/developer/article/1638042)
+用于控制全连接队列的长度，详见[TCP 半连接队列和全连接队列满了会发生什么？又该如何应对？](https://cloud.tencent.com/developer/article/1638042)
 ![](/img/accept-queue.png)
 
 ## http客户端代码
