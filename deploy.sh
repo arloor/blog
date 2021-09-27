@@ -4,7 +4,7 @@
 # 当前使用hugo 0.53(支持scss)
 dir=/home/x1/blog
 dir=$PWD
-host=$([ "$1" = "" ]&& echo "arloor.com"|| echo "$1")
+host=$([ "$1" = "" ]&& echo "sg.gcall.me"|| echo "$1")
 echo $host
 port=22
 
@@ -16,8 +16,12 @@ if [ "$?" = 0  ]
 then 
     # 调用服务器上的更新博客脚本方式
     # 该脚本会检查httpd、hugo、和git仓库，实现完全自动化
-    ssh root@$host  -p$port -t "
-    bash tarloor 1 # 0不使用代理，1使用代理
+    # ssh root@$host  -p$port -t "
+    # bash tarloor 0 # 0不使用代理，1使用代理
+    # "
+
+    ssh root@sg.gcall.me  -p22 -t "
+    bash tarloor 0 # 0不使用代理，1使用代理
     "
 
     ssh root@hk.gcall.me  -p22 -t "
