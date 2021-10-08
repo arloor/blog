@@ -92,9 +92,9 @@ hashugo=$(hugo version|grep Hugo) && [ "" != " $hashugo" ] && hugo version || {
 }
 
 # 检查httpd是否安装
-nginx=$(nginx -v 2>&1|grep nginx) && [ "" != "$nginx" ] && echo nginx installed ||{
+nginx=$(nginx -v 2>&1|grep "nginx version") && [ "" != "$nginx" ] && echo nginx installed ||{
         echo "install nginx...";
-        apt install nginx -y;
+        apt install nginx-full -y;
         service nginx start;
         systemctl enable nginx;
 }
