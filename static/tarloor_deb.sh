@@ -2,6 +2,7 @@
 
 ## path: /usr/local/bin/tarloor
 ## wget -O /usr/local/bin/tarloor http://www.arloor.com/tarloor.sh
+## wget -O /usr/local/bin/tarloor http://www.arloor.com/tarloor_deb.sh
 hugoURL=https://github.com/gohugoio/hugo/releases/download/v0.54.0/hugo_extended_0.54.0_Linux-64bit.tar.gz
 
 ## 检查依赖
