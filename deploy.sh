@@ -5,7 +5,6 @@
 dir=/home/x1/blog
 dir=$PWD
 host=$([ "$1" = "" ]&& echo "sg.gcall.me"|| echo "$1")
-echo $host
 port=22
 
 git pull
@@ -25,6 +24,10 @@ then
     "
 
     ssh root@hk.gcall.me  -p22 -t "
+    bash tarloor 0 # 0不使用代理，1使用代理
+    "
+
+    ssh root@bwg.arloor.com  -p22 -t "
     bash tarloor 0 # 0不使用代理，1使用代理
     "
 echo -e "\033[32m 请访问： https://"$host"\033[0m"
