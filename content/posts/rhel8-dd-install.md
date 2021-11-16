@@ -190,8 +190,8 @@ I/O 大小(最小/最佳)：512 字节 / 512 字节
 ## dd安装
 
 ```shell
-wget http://blog.arloor.com/sh/InstallNET.sh -O InstallNET.sh&& bash  InstallNET.sh -dd http://someme.me/rhel8-install/rhel8.img.gz
-wget http://blog.arloor.com/sh/InstallNET.sh -O InstallNET.sh&& bash  InstallNET.sh -dd https://repo-1252282974.cos.ap-shanghai.myqcloud.com/rhel/rhel8.img.gz
+wget https://www.arloor.com/sh/InstallNET.sh -O InstallNET.sh&& bash  InstallNET.sh -dd http://someme.me/rhel8-install/rhel8.img.gz
+wget https://www.arloor.com/sh/InstallNET.sh -O InstallNET.sh&& bash  InstallNET.sh -dd https://repo-1252282974.cos.ap-shanghai.myqcloud.com/rhel/rhel8.img.gz
 ```
 
 ## 磁盘扩容
