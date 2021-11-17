@@ -35,6 +35,7 @@ else
     echo -e "\033[32m 推送失败 \033[0m"
 fi
 
+rm -rf /tmp/hugod
 mkdir /tmp/hugod
 hugo -d /tmp/hugod
 cd /tmp/hugod
