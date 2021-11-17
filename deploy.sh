@@ -9,7 +9,8 @@ port=22
 
 git pull
 git add .
-git commit -m "commit @arloor $(date)"
+msg="commit @arloor $(date)"
+git commit -m "$msg"
 git push
 if [ "$?" = 0  ]
 then 
@@ -37,7 +38,7 @@ hugo -d /tmp/arloor.github.io
 
 cd /tmp/arloor.github.io
 git add .
-git commit -m "init"
+git commit -m "$msg"
 git push -f
 cd $dir
 
