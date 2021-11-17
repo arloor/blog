@@ -16,7 +16,7 @@ then
     # 调用服务器上的更新博客脚本方式
     # 该脚本会检查httpd、hugo、和git仓库，实现完全自动化
      ssh root@$host  -p$port -t "
-     rm -rf /var/blog
+#     rm -rf /var/blog
      wget -O /usr/local/bin/tarloor https://raw.githubusercontent.com/arloor/blog/master/static/tarloor_deb.sh
      bash tarloor 0 # 0不使用代理，1使用代理
      "
