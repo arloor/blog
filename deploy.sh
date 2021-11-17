@@ -35,6 +35,16 @@ else
     echo -e "\033[32m 推送失败 \033[0m"
 fi
 
+mkdir /tmp/hugod
+hugo -d /tmp/hugod
+cd /tmp/hugod
+git init
+git add .
+git commit -m "init"
+git remote add origin https://github.com/arloor/arloor.github.io.git
+git push origin master -f
+cd -
+
 
 
 #本地构建，然后上传的方式
