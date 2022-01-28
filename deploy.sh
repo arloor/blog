@@ -4,7 +4,7 @@
 # 当前使用hugo 0.53(支持scss)
 dir=/home/x1/blog
 dir=$PWD
-host=$([ "$1" = "" ]&& echo "hk.gcall.me"|| echo "$1")
+host=$([ "$1" = "" ]&& echo "hk.arloor.dev"|| echo "$1")
 port=22
 
 git pull
