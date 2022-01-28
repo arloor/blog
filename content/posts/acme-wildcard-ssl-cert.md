@@ -20,6 +20,13 @@ keywords:
 curl https://get.acme.sh | sh
 ```
 
+## 注册账号
+
+```
+acme.sh --register-account -m xxxx@qq.com
+```
+
+主要用于acme给你通知，例如某些证书被吊销之类的
 
 ## 腾讯云
 
@@ -63,6 +70,12 @@ acme.sh --issue --dns dns_ali -d example.com -d *.example.com
 安装时有自动配置定时任务进行续签
 
 注意，所谓续签是将原证书失效，重新签发。
+
+要停止续签某域名的话，手动执行
+
+```shell
+acme.sh --remove -d example.com
+```
 
 ## 更新acme.sh
 
