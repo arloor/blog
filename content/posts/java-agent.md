@@ -121,12 +121,13 @@ public class VmClassLoader {
 
 Java Agent是以单独jar包的形式发布的，jar包本身有一些规范：
 
-MANIFEST.MF文件，静态加载必须指定Premain-Class这个类；动态加载必须指定Agent-Class。通常也会加入Can-Redefine-Classes 和 Can-Retransform-Classes 选项。
+`MANIFEST.MF`文件，静态加载必须指定`Premain-Class`这个类；动态加载必须指定`Agent-Class`。通常也会加入`Can-Redefine-Classes` 和 `Can-Retransform-Classes` 选项。
 
-Premain-Class一定要有premain方法，动态加载一定要有agentmain方法
+`Premain-Class`一定要有premain方法，动态加载一定要有agentmain方法
 
-MANIFEST.MF可以使用maven的maven-jar-plugin进行配置：
+`MANIFEST.MF`可以使用maven的`maven-jar-plugin`进行配置：
 
+```xml
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
@@ -185,6 +186,7 @@ MANIFEST.MF可以使用maven的maven-jar-plugin进行配置：
     </build>
 
 </project>
+```
 
 这里面还有个maven-shade-plugin插件将javassist的类移动到com.meituan.mtrace.agent.javassist。这么做的原因是避开类加载导致的问题，先不展开
 
