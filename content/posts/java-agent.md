@@ -427,6 +427,7 @@ arthas反编译我们修改后的ThreadPoolExecutor类，看到已经被正确�
 ## 根因
 
 很长一段时间，我一筹莫展，直到用arthas的jad反编译来看看字节码修改是否生效，才发现了一些端倪：
+![](/img/arthas-jad-trace-runnable.png)
 
 TraceRunnable、Context等类竟然有两个类，一个由SystemClassLoader加载（AppClassLoader），一个由BootstrapClassLoader加载（null）。mtrace的跨线程传递trace其实就是将当前span放到threadlocal中，跨线程时把父线程的threadlocal的span放置到子线程的threadlocal中。而Context类就是threadlocal的容器。但是现在Context类实际有两个，业务代码把span放到ContextA类中，threapool从ContextB类中拿span，但是ContextB中并没有span，这就导致了跨线程传递失败。
 
