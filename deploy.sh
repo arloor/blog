@@ -28,16 +28,16 @@ fi
 
 
 
-# rm -rf /tmp/arloor.github.io
-# hugo -d /tmp/arloor.github.io
+rm -rf /tmp/arloor.github.io
+hugo -d /tmp/arloor.github.io
 
-# cd /tmp/arloor.github.io
-# git init
-# git add .
-# git commit -m "init"
-# git remote add origin https://github.com/arloor/arloor.github.io.git
-# git push origin master -f
-# cd $dir
+cd /tmp/arloor.github.io
+git init
+git add .
+git commit -m "init"
+git remote add origin https://github.com/arloor/arloor.github.io.git
+git push origin master -f
+cd $dir
 
 
 
