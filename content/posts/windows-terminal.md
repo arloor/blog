@@ -192,26 +192,28 @@ HKEY_CURRENT_USER\Software\Classes\Local Settings\Software\Microsoft\Windows\Cur
 
     // Add custom color schemes to this array
     "schemes": [{
-        "name": "Atom",
-        "black": "#000000",
-        "red": "#fd5ff1",
-        "green": "#87c38a",
-        "yellow": "#ffd7b1",
-        "blue": "#85befd",
-        "purple": "#b9b6fc",
-        "cyan": "#85befd",
-        "white": "#e0e0e0",
-        "brightBlack": "#000000",
-        "brightRed": "#fd5ff1",
-        "brightGreen": "#94fa36",
-        "brightYellow": "#f5ffa8",
-        "brightBlue": "#96cbfe",
-        "brightPurple": "#b9b6fc",
-        "brightCyan": "#85befd",
-        "brightWhite": "#e0e0e0",
-        "background": "#161719",
-        "foreground": "#c5c8c6"
-    }],
+            "background": "#161719",
+            "black": "#000000",
+            "blue": "#7DC1FD",
+            "brightBlack": "#000000",
+            "brightBlue": "#BADCFE",
+            "brightCyan": "#85BEFD",
+            "brightGreen": "#87E331",
+            "brightPurple": "#B9B6FC",
+            "brightRed": "#FD5FF1",
+            "brightWhite": "#E0E0E0",
+            "brightYellow": "#F5FFA8",
+            "cursorColor": "#FFFFFF",
+            "cyan": "#85BEFD",
+            "foreground": "#C5C8C6",
+            "green": "#3B803A",
+            "name": "Atom",
+            "purple": "#B9B6FC",
+            "red": "#FD5FF1",
+            "selectionBackground": "#FFFFFF",
+            "white": "#E0E0E0",
+            "yellow": "#FFD7B1"
+        }],
 
     // Add any keybinding overrides to this array.
     // To unbind a default keybinding, set the command to "unbound"
