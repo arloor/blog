@@ -39,6 +39,29 @@ Acquire::http::Proxy "https://user:passwd@server:port/";
 Acquire::https::Proxy "https://user:passwd@server:port/";
 ```
 
+## apt不更新某软件
+
+ubuntu保留特定软件不更新的方法
+
+apt-mark 可以对软件包进行设置（手动/自动）安装标记，也可以用来处理软件包的 dpkg(1) 选中状态，以及列出或过滤拥有某个标记的软件包。
+apt-mark常用命令
+apt-mark auto – 标记指定软件包为自动安装
+apt-mark manual – 标记指定软件包为手动安装
+apt-mark minimize-manual – Mark all dependencies of meta packages as automatically installed.
+apt-mark hold – 标记指定软件包为保留(held back)，阻止软件自动更新
+apt-mark unhold – 取消指定软件包的保留(held back)标记，解除阻止自动更新
+apt-mark showauto – 列出所有自动安装的软件包
+apt-mark showmanual – 列出所有手动安装的软件包
+apt-mark showhold – 列出设为保留的软件包
+
+比如保留某个软件不更新可以使用hold标记,如docker
+sudo apt-mark hold docker*
+
+sudo apt-mark showhold
+
+如果要解除保留可以使用unhold
+sudo apt-mark unhold docker*
+
 ## git设置
 
 由于wsl支持windows和linux的命令互操作，你实际上会有两个git，一个wsl的git，一个windows的git.exe。下面说说wsl的git怎么使用
