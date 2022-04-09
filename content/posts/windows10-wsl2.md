@@ -41,10 +41,11 @@ Acquire::https::Proxy "https://user:passwd@server:port/";
 
 ## apt不更新某软件
 
-ubuntu保留特定软件不更新的方法
+apt-mark 可以对软件包进行设置（手动/自动）安装标记，也可以用来处理软件包的 dpkg(1) 选中状态，以及列出或过滤拥有某个标记的软件包。 
 
-apt-mark 可以对软件包进行设置（手动/自动）安装标记，也可以用来处理软件包的 dpkg(1) 选中状态，以及列出或过滤拥有某个标记的软件包。
 apt-mark常用命令
+
+```
 apt-mark auto – 标记指定软件包为自动安装
 apt-mark manual – 标记指定软件包为手动安装
 apt-mark minimize-manual – Mark all dependencies of meta packages as automatically installed.
@@ -61,6 +62,7 @@ sudo apt-mark showhold
 
 如果要解除保留可以使用unhold
 sudo apt-mark unhold docker*
+```
 
 ## git设置
 
