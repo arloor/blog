@@ -86,7 +86,7 @@ EOF
 
 **集成开发环境**
 
-我使用的是Intellij ide+[rust插件](https://plugins.jetbrains.com/plugin/8182-rust)
+我使用的是Clion+[rust插件](https://plugins.jetbrains.com/plugin/8182-rust)
 
 其他开发环境有[https://www.rust-lang.org/zh-CN/tools](https://www.rust-lang.org/zh-CN/tools)
 
