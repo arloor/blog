@@ -44,10 +44,8 @@ cat > /usr/local/bin/netsum << \EOF
 echo ""
 echo Time: $(date)
 cat /proc/uptime| awk -F. '{run_days=$1 / 86400;run_hour=($1 % 86400)/3600;run_minute=($1 % 3600)/60;run_second=$1 % 60;printf("uptime：\033[32m%d天%d时%d分%d秒\033[0m\n",run_days,run_hour,run_minute,run_second)}'
-echo "--------------------------------------------------------------------------"
-echo 流量累计使用情况：
-printf "%6s %9s %9s\n" "eth" "out" "in"
-cat /proc/net/dev|tail -n +3|awk '{eth=$1;xin=$2 / 1073741824;xout=$10 / 1073741824;printf("%6s \033[32m%7.2fGB\033[0m \033[32m%7.2fGB\033[0m\n",eth,xout,xin)}'
+echo "--------------------------------------------------------------------------" 
+cat /proc/net/dev|tail -n +3|awk 'BEGIN{sumIn=0;sumOut=0;printf("流量累计使用情况：\n%6s %9s %9s\n","eth","out","in")} {eth=$1;sumIn+=$2;sumOut+=$10;xin=$2 / 1073741824;xout=$10 / 1073741824;printf("%6s \033[32m%7.2fGB\033[0m \033[32m%7.2fGB\033[0m\n",eth,xout,xin)} END{printf("%6s \033[32m%7.2fGB\033[0m \033[32m%7.2fGB\033[0m\n","sum:",sumOut / 1073741824,sumIn / 1073741824)}'
 echo "--------------------------------------------------------------------------"
 EOF
 chmod +x /usr/local/bin/netsum
@@ -62,13 +60,16 @@ fi
 效果如下
 
 ```
-Time: Sat May 2 02:18:44 CST 2020
-uptime：56天4时5分47秒
+
+Time: Wed Apr 13 01:52:27 CST 2022
+uptime：40天6时9分42秒
 --------------------------------------------------------------------------
 流量累计使用情况：
    eth       out        in
-   lo:    0.00GB    0.00GB
- eth0:  186.87GB  187.18GB
+   lo:    0.11GB    0.11GB
+ eth0:  152.35GB  150.13GB
+ eth1:    0.06GB    0.00GB
+  sum:  152.52GB  150.25GB
 --------------------------------------------------------------------------
 ```
 
