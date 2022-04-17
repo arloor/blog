@@ -69,13 +69,7 @@ weight: 10
 
 这是一个偏前端的博客，估计很久不会有其他前端文章，所以把这个小东西也放在这。
 
-### 对hyde-hyde主题的小改动
 
-对高分屏的宽度适配。下面这个是我自己提的issue，自己找到的方法
-
->this theme is a very good theme except that when I use a 1080p display, the article tag elemets' size is fixed at 630. I want to make this value bigger or reponsive. Can I get some Help? Thanks!
-
->I have solved this issue by edit "themes/hyde-hyde/assets/scss/hyde-hyde/_variables.scss" -> $content-max-width: 70rem;
 
 ### 对博客中出现的图片宽度进行定制
 
