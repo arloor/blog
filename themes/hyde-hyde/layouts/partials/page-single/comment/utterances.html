@@ -1,13 +1,7 @@
-
 <script src="https://utteranc.es/client.js"
         repo="{{ .Site.Params.UtterancesRepo }}"
         issue-term="{{ .Site.Params.UtterancesIssueTerm }}"
         theme="{{ with .Site.Params.UtterancesTheme }}{{ . }}{{else}}github-light{{ end }}"
         crossorigin="anonymous"
         async>
-        
-</script>
-<!-- 下面是自己增加的 用于增大评论栏大小 -->
-<script>
-document.head.insertAdjacentHTML("beforeend", "<style>\n    .utterances {\n      position: relative;\n      box-sizing: border-box;\n      width: 100%;\n      max-width: 100%;\n      margin-left: auto;\n      margin-right: auto;\n    }\n    .utterances-frame {\n      position: absolute;\n      left: 0;\n      right: 0;\n      width: 1px;\n      min-width: 100%;\n      max-width: 100%;\n      height: 100%;\n      border: 0;\n    }\n  </style>");
 </script>

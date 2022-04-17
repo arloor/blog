@@ -1,7 +1,7 @@
 // mobile ~320..480px
 // 320px ~ 16rem/16px ~ 18.8235/17px ~ 17.7778/18px
 // 480px ~ 30rem/16px ~ 28.2353rem/17px ~ 26.6667rem/18px
-@media (min-width: 0rem) and (max-width: 60rem) {
+@media (min-width: 320px) and (max-width: 767px) {
   html,
   body {
     font-size: $small-device-font-size;
@@ -71,17 +71,11 @@
   .social {
     padding: 1em 0 1em 0;
   }
-
-  .pagination{
-    text-align:center;//分页水平居中
-    padding-inline-start: 0;//为居中消除padding
-    font-size: 120%;//分页在小屏幕中放大
-  }
 }
 
 // tablet/medium device ~768px+
 // 768px ~ 48em/16px ~ 45.1765em/17px ~ 42.6667/18px
-@media (min-width: 60rem) {
+@media (min-width: 768px) {
   html,
   body {
     font-size: $small-device-font-size;
@@ -135,17 +129,11 @@
   input#menuToggle + label {
     display: none;
   }
-
-  .show-in-small{
-    display: none;
-  }
-
 }
-
 
 // Large devices (laptops/desktops, 992px and up)
 // ~ 62rem/16px ~ 58.3529rem/17px ~ 55.1111rem/18px
-@media (min-width: 100rem) {
+@media (min-width: 992px) {
   html,
   body {
     font-size: $large-device-font-size;
@@ -165,8 +153,6 @@
   .portfolio-container {
     width: 68rem;
   }
-
-
 }
 
 // Large device ~1024px
