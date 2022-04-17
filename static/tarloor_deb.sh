@@ -3,7 +3,8 @@
 ## path: /usr/local/bin/tarloor
 ## wget -O /usr/local/bin/tarloor http://www.arloor.com/tarloor.sh
 ## wget -O /usr/local/bin/tarloor http://www.arloor.com/tarloor_deb.sh
-hugoURL=https://github.com/gohugoio/hugo/releases/download/v0.54.0/hugo_extended_0.54.0_Linux-64bit.tar.gz
+hugoVersion="0.97.2"
+hugoURL=https://github.com/gohugoio/hugo/releases/download/v${hugoVersion}/hugo_extended_${hugoVersion}_Linux-64bit.tar.gz
 
 ## 检查依赖
 function CheckDependence(){
@@ -51,8 +52,8 @@ echo -e "\n\033[36m# Check Dependence\033[0m\n"
 CheckDependence git,tar,wget 
 echo "Dependence Check done"
 
-# 如果不需要使用代理，则使用 bash tarloor 0
-[ "$1" = "0" ]||{
+# 如果需要使用代理，则使用 bash tarloor 1
+[ "$1" = "1" ]&&{
   proxystart=1
   # 设置http代理，使用方法：
   export http_proxy=http://127.0.0.1:3128
@@ -74,7 +75,7 @@ echo "Dependence Check done"
 
 # 检查hugo是否安装
 
-hashugo=$(hugo version|grep Hugo) && [ "" != " $hashugo" ] && hugo version || {
+hashugo=$(hugo version|grep ${hugoVersion}) && [ "" != " $hashugo" ] && hugo version || {
         echo install hugo extended...;
         mkdir /tmp/hugo
         wget $hugoURL -O /tmp/hugo/hugo.tar.gz;
