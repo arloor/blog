@@ -11,6 +11,10 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
+
+给出一致性hash的代码
+<!--more-->
+
 ```
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
