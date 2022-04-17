@@ -1,40 +1,27 @@
 <div>
-	<div class="show-in-small">
-		{{ if and (isset .Site.Params "authorimage") (not (isset .Site.Params.social "gravatar")) }}
-		{{ with .Site.Params.authorimage }}
-		{{ $strippedSlash := ($.Site.Params.authorimage | replaceRE "^(/)+(.*)" "$2") }}
-		{{ $authorImage := (printf "%s/%s" $.Site.BaseURL $strippedSlash) }}
-		<div class="author-image">
-			<a href="/"><img src="{{$.Site.Params.authorimage}}" alt="Author Image"
-					class="img--circle img--headshot element--center"></a>
-		</div>
-		{{ end }}
-		{{ end }}
-	</div>
 	<ul class="sidebar-nav">
-		{{ $currentPage := . }}
-		{{ range .Site.Menus.main }}
-		{{ if .HasChildren }}
-		<li {{ if $currentPage.HasMenuCurrent "main" . }}class="active" {{ end }}>
-			<a href="#">{{ .Pre }}
-				<span>{{ .Name }}</span>
-			</a>
-			<ul class="sidebar-nav">
-				{{ range .Children }}
-				<li {{ if $currentPage.IsMenuCurrent "main" . }}class="active" {{ end }}>
-					<a href="{{ .URL }}">{{ .Name | title }}</a>
+		{{ $currentPage := . }} 
+		{{ range .Site.Menus.main }} 
+			{{ if .HasChildren }}
+			<li {{ if $currentPage.HasMenuCurrent "main" . }}class="active"{{ end }}>
+				<a href="#">{{ .Pre }}
+					<span>{{ .Name }}</span>
+				</a>
+				<ul class="sidebar-nav">
+					{{ range .Children }}
+					<li {{ if $currentPage.IsMenuCurrent "main" . }}class="active"{{ end }}>
+						<a href="{{ .URL }}">{{ .Name | title }}</a>
+					</li>
+					{{ end }}
+				</ul>
+			</li>
+			{{ else }} <!-- No children -->
+				<li>
+					<a href="{{.URL}}">{{ .Pre }}
+						<span>{{ .Name | title }}</span>
+					</a>
 				</li>
-				{{ end }}
-			</ul>
-			{{ else }}
-			<!-- No children -->
-		<li>
-			<a href="{{.URL}}">{{ .Pre }}
-				<span>{{ .Name | title }}</span>
-			</a>
-		</li>
+			{{ end }} 
 		{{ end }}
-		{{ end }}
-		</li>
 	</ul>
 </div>
