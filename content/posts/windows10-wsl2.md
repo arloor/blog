@@ -1,5 +1,5 @@
 ---
-title: "windows wsl2使用"
+title: "Windows WSL2使用"
 date: 2022-04-06T13:45:23+08:00
 draft: false
 categories: [ "undefined"]
