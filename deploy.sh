@@ -19,7 +19,7 @@ then
      ssh root@$host  -p$port -t "
 #     rm -rf /var/blog
 #     wget -O /usr/local/bin/tarloor https://raw.githubusercontent.com/arloor/blog/master/static/tarloor.sh
-     bash tarloor 0 # 0不使用代理，1使用代理
+     bash tarloor #使用代理: bash tarloor 1 
      "
 echo -e "\033[32m 请访问： https://"$host"\033[0m"
 else
