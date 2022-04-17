@@ -1,5 +1,5 @@
 ---
-title: "本博客对Hyde-Hyde主题的一些小修改"
+title: "Hyde-Hyde主题修改"
 date: 2022-04-17T20:22:35+08:00
 draft: false
 categories: [ "undefined"]
