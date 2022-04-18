@@ -80,6 +80,9 @@
   body {
     font-size: $small-device-font-size;
   }
+  .show-in-small{
+    display: none;
+  }
   .sidebar {
     bottom: 0;
     left: 0;
