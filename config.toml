@@ -70,32 +70,32 @@ paginate = 10
 
 ## Main Menu
 [[menu.main]]
+    name = "首页"
+    weight = 1
+    identifier = "首页"
+    url = "/"
+[[menu.main]]
     name = "文章"
-    weight = 10
+    weight = 2
     identifier = "文章"
     url = "/posts/"
 [[menu.main]]
     name = "分类"
-    weight = 100
+    weight = 3
     identifier = "分类"
     url = "/categories/"
 [[menu.main]]
-    name = "标签"
-    weight = 1000
-    identifier = "标签"
-    url = "/tags/"
-[[menu.main]]
     name = "About"
     identifier = "about"
-    weight = 10000
+    weight = 4
     url = "/about/"
 [[menu.main]]
     name = "网速监控"
     identifier = "a网速监控"
-    weight = 10000
+    weight = 5
     url = "/net"
 [[menu.main]]
     name = "苏ICP备17024437号"
-    weight = 99999
+    weight = 6
     identifier = "苏ICP备17024437号"
     url = "http://beian.miit.gov.cn/"
