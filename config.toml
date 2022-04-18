@@ -70,11 +70,6 @@ paginate = 10
 
 ## Main Menu
 [[menu.main]]
-    name = "首页"
-    weight = 1
-    identifier = "首页"
-    url = "/"
-[[menu.main]]
     name = "文章"
     weight = 2
     identifier = "文章"
@@ -91,7 +86,7 @@ paginate = 10
     url = "/about/"
 [[menu.main]]
     name = "网速监控"
-    identifier = "a网速监控"
+    identifier = "网速监控"
     weight = 5
     url = "/net"
 [[menu.main]]

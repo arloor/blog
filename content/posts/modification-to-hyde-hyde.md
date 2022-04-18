@@ -39,3 +39,14 @@ themes/hyde-hyde/static/github.min.css
 themes/hyde-hyde/static/highlight.min.js
 themes/hyde-hyde/static/img/head.jpeg
 ```
+
+## 移动设备的menu增加作者图片并链接到首页
+
+移动设备上缺失了一个回到首页的链接，增加该链接，具体commitid为[156c16c8b0a237a3c5a7c98bf20d5ebb4dac1d28](https://github.com/arloor/blog/commit/156c16c8b0a237a3c5a7c98bf20d5ebb4dac1d28)
+
+修改文件：
+
+```shell
+themes/hyde-hyde/layouts/partials/sidebar.html
+themes/hyde-hyde/assets/scss/hyde-hyde/_responsive.scss
+```
