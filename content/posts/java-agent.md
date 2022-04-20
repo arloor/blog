@@ -3,7 +3,7 @@ title: "Java Agent实现指南"
 date: 2022-03-07T14:11:11+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["监控"]
+tags: ["可观测性"]
 weight: 10
 subtitle: ""
 description : ""
@@ -264,7 +264,7 @@ public class Agent {
 
 1. 将让BootstrapClassloader加载agent.jar中的类
 
-    1. 一定需要使用BootstrapClassloader加载agent.jar中的类，无论是启动时增加-Xbootclasspath/a:${JAVA_AGENT_JAR_PARH}还是显式调用instrumentation.appendToBootstrapClassLoaderSearch(new JarFile(new File(agentArgs)));
+    1. 一定需要使用BootstrapClassloader加载agent.jar中的类，无论是启动时增加**-Xbootclasspath/a:${JAVA_AGENT_JAR_PARH}**还是显式调用**instrumentation.appendToBootstrapClassLoaderSearch(new JarFile(new File(agentArgs)));**
 
 2. 注册ClassFileTransformer，ClassFileTransformer去做具体的字节码修改，内部使用javassist实现。
 
