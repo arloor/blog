@@ -77,8 +77,8 @@ paginate = 10
 [[menu.main]]
     name = "分类"
     weight = 3
-    identifier = "分类"
-    url = "/categories/"
+    identifier = "tags"
+    url = "/tags/"
 [[menu.main]]
     name = "About"
     identifier = "about"
