@@ -38,7 +38,7 @@ skywalking搞了STAM流拓扑分析方法，具体见[README-cn.md](https://gith
 ```java
 message SegmentReference {
     ......
-    // Entry Span(server span)会有此字段，表客户端地址
+    // Entry Span(server span)会有此字段，表服务端的地址
     string networkAddressUsedAtPeer = 8;
 }
 
@@ -51,7 +51,7 @@ message SpanObject {
 ```
 
 
-client和server都有远端地址字段，这样拓扑分析既可以从client视角进行，也可以从server视角进行。networkAddressUsedAtPeer被以下两个类用到，他们都是在`agent-analyzer`模块下，接下来我们就可以进入到阅读代码的阶段，看看这两个类到底是如何做STAM的。
+networkAddressUsedAtPeer被以下两个类用到，他们都是在`agent-analyzer`模块下，接下来我们就可以进入到阅读代码的阶段，看看这两个类到底是如何做STAM的。
 
 ```shell
 MultiScopesAnalysisListener
@@ -157,7 +157,7 @@ nodeManager.find(StorageModule.NAME).provider().getService(StorageDAO.class)
     }
 ```
 
-接下来聚焦**NetworkAddressAliasMappingListener**，这个类的java doc写了一段话：使用segment reference中的信息，设置network address与Server、ServiceInstance之间的别名映射。这个别名映射将在MultiScopesAnalysisListener解析ExitSpan时使用，用以设置正确的目标Service和ServiceInstance。**这就是STAM的关键**
+接下来聚焦**NetworkAddressAliasMappingListener**，这个类的java doc写了一段话：使用EntrySpan的segment reference中的信息，设置network address与Server、ServiceInstance之间的别名映射。这个别名映射将在MultiScopesAnalysisListener解析ExitSpan时使用，用以设置正确的目标Service和ServiceInstance。**这就是STAM的关键**
 
 ```
 /**
@@ -170,4 +170,202 @@ nodeManager.find(StorageModule.NAME).provider().getService(StorageDAO.class)
  */
  ```
 
+具体代码见如下，也比较简单就是构造了一个network address、Service、ServiceInstance的三元组，然后交给了core模块的SourceReciever。
+
+```java
+    @Override
+    public void parseEntry(SpanObject span, SegmentObject segmentObject) {
+        if (span.getSkipAnalysis()) { // 跳过分析
+            return;
+        }
+        if (log.isDebugEnabled()) {
+            log.debug("service instance mapping listener parse reference");
+        }
+        if (!span.getSpanLayer().equals(SpanLayer.MQ)) { // 非MQ
+            span.getRefsList().forEach(segmentReference -> {
+                if (RefType.CrossProcess.equals(segmentReference.getRefType())) { // 是跨进程类型
+                    final String networkAddressUsedAtPeer = namingControl.formatServiceName( // 格式化上游的network地址
+                        segmentReference.getNetworkAddressUsedAtPeer());
+                    if (config.getUninstrumentedGatewaysConfig().isAddressConfiguredAsGateway( // 是网关地址则跳过映射，网关应该是透明的，不属于具体的Service
+                        networkAddressUsedAtPeer)) {
+                        /*
+                         * If this network address has been set as an uninstrumented gateway, no alias should be set.
+                         */
+                        return;
+                    }
+                    final String serviceName = namingControl.formatServiceName(segmentObject.getService()); //下游的Service
+                    final String instanceName = namingControl.formatInstanceName( // 下游的ServiceInstance
+                        segmentObject.getServiceInstance());
+
+                    // 构造别名关系
+                    final NetworkAddressAliasSetup networkAddressAliasSetup = new NetworkAddressAliasSetup();
+                    networkAddressAliasSetup.setAddress(networkAddressUsedAtPeer);
+                    networkAddressAliasSetup.setRepresentService(serviceName);
+                    networkAddressAliasSetup.setRepresentServiceNodeType(NodeType.Normal);
+                    networkAddressAliasSetup.setRepresentServiceInstance(instanceName);
+                    networkAddressAliasSetup.setTimeBucket(TimeBucket.getMinuteTimeBucket(span.getStartTime()));
+
+                    //发送给core模块的SourceReceiver
+                    sourceReceiver.receive(networkAddressAliasSetup);
+                }
+
+            });
+        }
+    }
+```
+
+接下来走到core模块的SourceReceiverImpl,这个类将不同类型的source分派到不同的处理流程上，NetworkAddressAliasSetup类型的source分配到NetworkAddressAliasSetupDispatcher上，其代码是：
+
+```java
+public class NetworkAddressAliasSetupDispatcher implements SourceDispatcher<NetworkAddressAliasSetup> {
+    @Override
+    public void dispatch(final NetworkAddressAliasSetup source) { 
+        // 在这里将source转换成metric。变成了metric，就能进入指标处理系统了，可以认为是脱胎换骨了。
+        final NetworkAddressAlias networkAddressAlias = new NetworkAddressAlias();
+        networkAddressAlias.setTimeBucket(source.getTimeBucket());
+        networkAddressAlias.setAddress(source.getAddress());
+        networkAddressAlias.setRepresentServiceId(source.getRepresentServiceId());
+        networkAddressAlias.setRepresentServiceInstanceId(source.getRepresentServiceInstanceId());
+        networkAddressAlias.setLastUpdateTimeBucket(source.getTimeBucket());
+        MetricsStreamProcessor.getInstance().in(networkAddressAlias); // 丢进指标处理系统
+    }
+}
+```
+
+MetricsStreamProcessor是指标聚合、计算的入口类，其将指标根据class丢进对应的**MetricsAggregateWorker**，这是一个非常重要的类，承担着L1 aggregation（一级聚合）的职责，将原始的数据，聚合成一分钟的数据，减少网络和内存占用。关于一级聚合和二级聚合可以参见[Skywalking项目后台oap-server的指标聚合](https://blog.liguohao.cn/2021/09/30/skywalking-oap-server-roles)。这个MetricsAggregateWorker的功能其实比较简单，类似Raptor用的QueueThread，包含一个queue，异步enqueue，同时还有线程poll，做的工作也简单，combine相同的指标，例如total++，最大耗时重算等等，但是**抽象的封装的是真好，可以学习**。执行完聚合后，交给pipeline的下一个worker处理。
+
+```java
+        MetricsRemoteWorker remoteWorker = new MetricsRemoteWorker(moduleDefineHolder, remoteReceiverWorkerName);
+        MetricsAggregateWorker aggregateWorker = new MetricsAggregateWorker(
+            moduleDefineHolder, remoteWorker, stream.getName(), l1FlushPeriod);
+```
+
+看上面的代码，**MetricsAggregateWorker**的nextWorker是MetricsRemoteWorker，就是发送给L2 aggregation。部署模型又能决定这里的发送方式了，[Skywalking项目后台oap-server的指标聚合](https://blog.liguohao.cn/2021/09/30/skywalking-oap-server-roles)讲到默认情况下，L1和L2聚合是混布的，所以不涉及到跨进程传输，非混布下，就涉及到路由设计了，有兴趣可以关注下，毕竟路由设计也是一个难点。
+
+这条路继续往下有点深了，先暂且收收，快进到NetAddressAlias怎么用于STAM吧。首先注意到**MultiScopesAnalysisListener**有一个networkAddressAliasCache，这个缓存是在如下地方定时更新的，从dao里查询更新，并更新缓存，常规操作。
+
+```
+    /**
+     * Update the cached data updated in last 1 minutes.
+     */
+    private void updateNetAddressAliasCache(ModuleDefineHolder moduleDefineHolder) {
+        INetworkAddressAliasDAO networkAddressAliasDAO = moduleDefineHolder.find(StorageModule.NAME)
+                                                                           .provider()
+                                                                           .getService(
+                                                                               INetworkAddressAliasDAO.class);
+        NetworkAddressAliasCache addressInventoryCache = moduleDefineHolder.find(CoreModule.NAME)
+                                                                           .provider()
+                                                                           .getService(NetworkAddressAliasCache.class);
+        long loadStartTime;
+        if (addressInventoryCache.currentSize() == 0) {
+            /**
+             * As a new start process, load all known network alias information.
+             */
+            loadStartTime = TimeBucket.getMinuteTimeBucket(System.currentTimeMillis() - 60_000L * 60 * 24 * ttl);
+        } else {
+            loadStartTime = TimeBucket.getMinuteTimeBucket(System.currentTimeMillis() - 60_000L * 10);
+        }
+        List<NetworkAddressAlias> addressInventories = networkAddressAliasDAO.loadLastUpdate(loadStartTime);
+
+        addressInventoryCache.load(addressInventories);
+    }
+```
+
+
+再细看**MultiScopesAnalysisListener**是如何处理ExitSpan的，并不神奇哈：
+
+```java
+    /**
+     * The exit span should be transferred to the service, instance and relationships from the client side detect
+     * point.
+     */
+    @Override
+    public void parseExit(SpanObject span, SegmentObject segmentObject) {
+        if (span.getSkipAnalysis()) {
+            return;
+        }
+
+        SourceBuilder sourceBuilder = new SourceBuilder(namingControl);
+
+        final String networkAddress = span.getPeer(); // 获取到服务端的网络地址
+        if (StringUtil.isEmpty(networkAddress)) {
+            return;
+        }
+
+        // 设置客户端信息
+        sourceBuilder.setSourceServiceName(segmentObject.getService());
+        sourceBuilder.setSourceNodeType(NodeType.Normal);
+        sourceBuilder.setSourceServiceInstanceName(segmentObject.getServiceInstance());
+
+        final NetworkAddressAlias networkAddressAlias = networkAddressAliasCache.get(networkAddress);
+        if (networkAddressAlias == null) { // 如果服务端网络地址没有别名映射
+            sourceBuilder.setDestServiceName(networkAddress);
+            sourceBuilder.setDestServiceInstanceName(networkAddress);
+            sourceBuilder.setDestNodeType(NodeType.fromSpanLayerValue(span.getSpanLayer()));
+        } else {// 如果服务端网络地址没有别名映射，使用别名映射
+            /*
+             * If alias exists, mean this network address is representing a real service.
+             */
+            final IDManager.ServiceID.ServiceIDDefinition serviceIDDefinition = IDManager.ServiceID.analysisId(
+                networkAddressAlias.getRepresentServiceId());
+            final IDManager.ServiceInstanceID.InstanceIDDefinition instanceIDDefinition = IDManager.ServiceInstanceID
+                .analysisId(
+                    networkAddressAlias.getRepresentServiceInstanceId());
+            sourceBuilder.setDestServiceName(serviceIDDefinition.getName());
+            /*
+             * Some of the agent can not have the upstream real network address, such as https://github.com/apache/skywalking-nginx-lua.
+             * Keeping dest instance name as NULL makes no instance relation generate from this exit span.
+             */
+            if (!config.shouldIgnorePeerIPDue2Virtual(span.getComponentId())) {
+                sourceBuilder.setDestServiceInstanceName(instanceIDDefinition.getName());
+            }
+            sourceBuilder.setDestNodeType(NodeType.Normal);
+        }
+
+        sourceBuilder.setDetectPoint(DetectPoint.CLIENT);
+        sourceBuilder.setComponentId(span.getComponentId());
+        setPublicAttrs(sourceBuilder, span);
+        exitSourceBuilders.add(sourceBuilder);
+
+        // 数据库慢访问，这里不关注
+        if (RequestType.DATABASE.equals(sourceBuilder.getType())) {
+            boolean isSlowDBAccess = false;
+
+            DatabaseSlowStatementBuilder slowStatementBuilder = new DatabaseSlowStatementBuilder(namingControl);
+            slowStatementBuilder.setServiceName(networkAddress);
+            slowStatementBuilder.setId(segmentObject.getTraceSegmentId() + "-" + span.getSpanId());
+            slowStatementBuilder.setLatency(sourceBuilder.getLatency());
+            slowStatementBuilder.setTimeBucket(TimeBucket.getRecordTimeBucket(span.getStartTime()));
+            slowStatementBuilder.setTraceId(segmentObject.getTraceId());
+            for (KeyStringValuePair tag : span.getTagsList()) {
+                if (SpanTags.DB_STATEMENT.equals(tag.getKey())) {
+                    String sqlStatement = tag.getValue();
+                    if (StringUtil.isNotEmpty(sqlStatement)) {
+                        if (sqlStatement.length() > config.getMaxSlowSQLLength()) {
+                            slowStatementBuilder.setStatement(sqlStatement.substring(0, config.getMaxSlowSQLLength()));
+                        } else {
+                            slowStatementBuilder.setStatement(sqlStatement);
+                        }
+                    }
+                } else if (SpanTags.DB_TYPE.equals(tag.getKey())) {
+                    String dbType = tag.getValue();
+                    DBLatencyThresholdsAndWatcher thresholds = config.getDbLatencyThresholdsAndWatcher();
+                    int threshold = thresholds.getThreshold(dbType);
+                    if (sourceBuilder.getLatency() > threshold) {
+                        isSlowDBAccess = true;
+                    }
+                }
+            }
+
+            if (StringUtil.isEmpty(slowStatementBuilder.getStatement())) {
+                String statement = StringUtil.isEmpty(
+                    span.getOperationName()) ? "[No statement]" : "[No statement]/" + span.getOperationName();
+                slowStatementBuilder.setStatement(statement);
+            }
+            if (isSlowDBAccess) {
+                dbSlowStatementBuilders.add(slowStatementBuilder);
+            }
+        }
+    }
+```
 
