@@ -19,8 +19,12 @@ keywords:
 ## 使用示例
 
 ```java
+ProcessTree<ThriftSpanList> processTree = new ProcessTree<>();
+
 final Node<ThriftSpanList, Set<DependencyCell>> firstNode = processTree.setFirstNode(sceneProcessor);
 final Node<Set<DependencyCell>, Void> sceneDependencyNode = firstNode.addNext(sceneDependencyProcessor);
+
+processTree.handle(list);
 ```
 
 ## 具体代码
@@ -131,6 +135,10 @@ public class AsyncWay<INPUT> extends Way<INPUT> {
     }
 }
 ```
+
+## 局限性
+
+相比java的stream，只支持map（一转一），不支持flatMap（一转多）
 
 ## 参考文档
 
