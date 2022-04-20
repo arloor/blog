@@ -264,7 +264,7 @@ public class Agent {
 
 1. 将让BootstrapClassloader加载agent.jar中的类
 
-    1. 一定需要使用BootstrapClassloader加载agent.jar中的类，可以使用
+    1. 一定需要使用BootstrapClassloader加载agent.jar中的类，可以使用如下两种方式
     ```
     启动参数：-Xbootclasspath/a:${JAVA_AGENT_JAR_PARH}
     运行时代码：instrumentation.appendToBootstrapClassLoaderSearch(new JarFile(new File(agentArgs)))
