@@ -3,7 +3,7 @@
 ## path: /usr/local/bin/tarloor
 ## wget -O /usr/local/bin/tarloor http://www.arloor.com/tarloor.sh
 ## wget -O /usr/local/bin/tarloor http://www.arloor.com/tarloor_deb.sh
-hugoVersion="0.97.2"
+hugoVersion="0.96.0"
 hugoURL=https://github.com/gohugoio/hugo/releases/download/v${hugoVersion}/hugo_extended_${hugoVersion}_Linux-64bit.tar.gz
 
 ## 检查依赖
