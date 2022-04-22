@@ -372,6 +372,8 @@ MetricsStreamProcessor是指标聚合、计算的入口类，其将指标根据c
 
 ## skywalking数据流图
 
+[点击查看大图](/img/skywalking-process.svg)
+
 ![](/img/skywalking-process.svg)
 
 ## 一点问题
