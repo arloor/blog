@@ -240,7 +240,7 @@ MetricsStreamProcessor是指标聚合、计算的入口类，其将指标根据c
             moduleDefineHolder, remoteWorker, stream.getName(), l1FlushPeriod);
 ```
 
-看上面的代码，**MetricsAggregateWorker**的nextWorker是MetricsRemoteWorker，就是发送给L2 aggregation。部署模型又能决定这里的发送方式了，[Skywalking项目后台oap-server的指标聚合](https://blog.liguohao.cn/2021/09/30/skywalking-oap-server-roles)讲到默认情况下，L1和L2聚合是混布的，所以不涉及到跨进程传输，非混布下，就涉及到路由设计了，有兴趣可以关注下，毕竟路由设计也是一个难点。
+看上面的代码，**MetricsAggregateWorker**的nextWorker是MetricsRemoteWorker，就是发送给L2 aggregation。部署模型又能决定这里的发送方式了，[Skywalking项目后台oap-server的指标聚合](https://blog.liguohao.cn/2021/09/30/skywalking-oap-server-roles)讲到默认情况下，L1和L2聚合是Mixed部署的，所以不涉及到跨进程传输，非Mixed就涉及到路由设计了。skywalking的路由比较简单，从zk或k8s获取机器列表，三种路由策略：alwaysFirst、HashCode(默认)、Rolling。
 
 这条路继续往下有点深了，先暂且收收，快进到NetAddressAlias怎么用于STAM吧。首先注意到**MultiScopesAnalysisListener**有一个networkAddressAliasCache，这个缓存是在如下地方定时更新的，从dao里查询更新，并更新缓存，常规操作。
 
