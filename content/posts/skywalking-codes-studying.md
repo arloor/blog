@@ -372,3 +372,7 @@ MetricsStreamProcessor是指标聚合、计算的入口类，其将指标根据c
 ## skywalking数据流图
 
 ![](/img/skywalking-process.svg)
+
+## 一点问题
+
+metrics处理部分，是先做MAL计算，再做L1 聚合，对于成功率这种计算，就不准确了。
