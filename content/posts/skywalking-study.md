@@ -95,6 +95,8 @@ OAL脚本定义了原始数据的来源from、过滤规则filter和处理函数f
 
 **MAL处理原生metrics数据，他们是本身做过客户端聚合的**
 
+Sample family：同名不同tag的指标
+
 MAL处理metrics数据和其他系统的metrics数据，例如opencensus和prometheus。指标数据的格式跟prometheus很像：metricname+tags+value。具体metrics的协议见[Meter.proto](https://github.com/apache/skywalking-data-collect-protocol/blob/master/language-agent/Meter.proto)
 
 ```
