@@ -1,5 +1,5 @@
 ---
-title: "Skywalking v8.9.1 源码阅读——深入了解STAM实现"
+title: "Skywalking v8.9.1 源码阅读"
 date: 2022-04-20T14:18:04+08:00
 draft: false
 categories: [ "undefined"]
@@ -11,8 +11,9 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
-skywalking搞了STAM流拓扑分析方法，具体见[README-cn.md](https://github.com/wu-sheng/STAM/blob/master/README-cn.md)，简单来说就是将上游的Service、Service Instance等信息放在下游span中，从而一个span就具有上游Service和下游Service的信息，从而直接聚合出一个依赖关系，避免了通过时间窗口聚合。这篇文章里还介绍了暂存Peer network address <-> Service Name关系，从而解决“下游并不知道自己上游的Service名是什么的问题”，今天的目标是看看这到底是如何解决的。
+skywalking搞了STAM流拓扑分析方法，具体见[README-cn.md](https://github.com/wu-sheng/STAM/blob/master/README-cn.md)，简单来说就是将上游的Service、Service Instance等信息放在下游span中，从而一个span就具有上游Service和下游Service的信息，从而直接聚合出一个依赖关系，避免了通过时间窗口聚合。
 
+这篇博客的内容是从STAM实现到skywalking的整体架构。
 <!--more-->
 
 ## Tracing协议
