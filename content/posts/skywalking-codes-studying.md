@@ -100,7 +100,7 @@ agent-analyzer:
 nodeManager.find(StorageModule.NAME).provider().getService(StorageDAO.class)
 ```
 
-## agent-analyzer模块代码阅读
+## STAM实现解析
 
 我们先看看其对外暴露的ISegmentParserService.class被哪些模块使用了，可以看到agent-analyzer直接被三个trace上报的api依赖。
 
@@ -369,3 +369,6 @@ MetricsStreamProcessor是指标聚合、计算的入口类，其将指标根据c
     }
 ```
 
+## skywalking数据流图
+
+![](/img/skywalking-process.svg)
