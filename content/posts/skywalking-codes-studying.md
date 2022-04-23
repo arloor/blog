@@ -105,7 +105,11 @@ nodeManager.find(StorageModule.NAME).provider().getService(StorageDAO.class)
 
 我们先看看其对外暴露的ISegmentParserService.class被哪些模块使用了，可以看到agent-analyzer直接被三个trace上报的api依赖。
 
-![](/img/agent-analyzer-usage.png)
+```
+TraceSegmentReportBaseServletHandler # Http上报入口
+TraceSegmentHandler # kafka上报入口
+TraceSegmentReportServiceHandler # GRPC上报入口
+```
 
 再看其内部实现，agent-analyzer模块整体基于监听器模式，也是事件驱动的：来一个segment，则通知已注册的监听器。监听器注册逻辑如下：
 
