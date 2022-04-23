@@ -69,7 +69,7 @@ echo "Dependence Check done"
 } || { 
         echo "arloor's blog exits. git pull...."; 
         cd /var/blog
-        git pull;
+        git pull --ff-only;
 }
 
 
