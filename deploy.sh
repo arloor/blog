@@ -29,7 +29,7 @@ fi
 
 
 rm -rf /tmp/arloor.github.io
-hugo -d /tmp/arloor.github.io
+hugo -d /tmp/arloor.github.io &>/dev/null
 
 cd /tmp/arloor.github.io
 git init
