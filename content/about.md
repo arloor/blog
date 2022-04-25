@@ -10,7 +10,10 @@ date: 2019-08-21T22:03:30+08:00
 - 大厂基础架构，独立负责美团trace观测系统
 - 收获[Github](https://github.com/arloor)千星
 - 爱折腾、爱实操、爱记录
-- [附件简历](/liuganghuan-resume.pdf)
+
+## 个人简历
+
+[个人简历](/liuganghuan-resume.pdf)
 
 ## 工作经历
 
