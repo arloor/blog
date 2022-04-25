@@ -33,8 +33,8 @@ hugo -d /tmp/arloor.github.io
 
 cd /tmp/arloor.github.io
 git init
-git add .
-git commit -m "init"
+git add . 2>/dev/null
+git commit -m "init" 1>/dev/null
 git remote add origin https://github.com/arloor/arloor.github.io.git
 git push origin master -f
 cd $dir
