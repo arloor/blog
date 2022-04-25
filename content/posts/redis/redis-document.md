@@ -3,7 +3,7 @@ title: "Redis文档摘要"
 date: 2019-08-20T20:00:39+08:00
 draft: false
 categories: [ "redis"]
-tags: ["undefined"]
+tags: ["redis"]
 weight: 10
 subtitle: ""
 description : ""

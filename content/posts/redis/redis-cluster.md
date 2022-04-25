@@ -3,7 +3,7 @@ title: "Redis Cluster实现"
 date: 2019-09-23T23:13:50+08:00
 draft: false
 categories: [ "redis"]
-tags: ["undefined"]
+tags: ["redis"]
 weight: 10
 subtitle: ""
 description : ""

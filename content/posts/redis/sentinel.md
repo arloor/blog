@@ -3,7 +3,7 @@ title: "Redis哨兵实现-sentinel.c"
 date: 2019-09-12T18:25:31+08:00
 draft: false
 categories: [ "redis"]
-tags: ["undefined"]
+tags: ["redis"]
 weight: 10
 subtitle: ""
 description : ""

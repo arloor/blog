@@ -3,7 +3,7 @@ title: "Psync2——redis备份机制的发展【转载】"
 date: 2019-09-05T21:20:30+08:00
 draft: false
 categories: [ "redis"]
-tags: ["undefined"]
+tags: ["redis"]
 weight: 10
 subtitle: ""
 description : ""

@@ -3,7 +3,7 @@ title: "Redis集群扩容迁移"
 date: 2019-08-10T14:01:47+08:00
 draft: false
 categories: [ "redis"]
-tags: ["undefined"]
+tags: ["redis"]
 weight: 10
 subtitle: ""
 description : ""
