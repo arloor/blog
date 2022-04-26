@@ -13,13 +13,13 @@ wget -O /usr/local/bin/tarloor http://www.arloor.com/tarloor.sh
 bash tarloor
 ```
 
-## nginx配置
+## nginx配置（ubuntu下）
 
 ```shell
-cat > /etc/nginx/sites-enabled/www.arloor.com <<\EOF
+cat > /etc/nginx/sites-enabled/default <<\EOF
 server {
-    listen 80;                    # 80端口不作为default server
-    listen [::]:80;               # 80端口不作为default server
+    listen 80 default_server;                   
+    listen [::]:80 default_server;               
     server_name          www.arloor.com;
     return               301 https://$host$request_uri;
 }
