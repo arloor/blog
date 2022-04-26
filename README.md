@@ -12,3 +12,35 @@
 wget -O /usr/local/bin/tarloor http://www.arloor.com/tarloor.sh
 bash tarloor
 ```
+
+## nginx配置
+
+```shell
+cat > /etc/nginx/sites-enabled/www.arloor.com <<\EOF
+server {
+    listen 80;                    # 80端口不作为default server
+    listen [::]:80;               # 80端口不作为default server
+    server_name          www.arloor.com;
+    return               301 https://$host$request_uri;
+}
+
+server {
+    listen               443 ssl default_server;
+    listen               [::]:443 ssl default_server;
+
+    root /opt/proxy;
+    index index.html index.htm index.nginx-debian.html;
+    server_name          www.arloor.com;
+
+    ssl_certificate      /opt/proxy/fullchain;
+    ssl_certificate_key  /opt/proxy/private.key;
+    error_page 404 /404.html;
+    location / {
+                # First attempt to serve request as file, then
+                # as directory, then fall back to displaying a 404.
+                try_files $uri $uri/ =404;
+    }
+}
+EOF
+service nginx restart
+```
