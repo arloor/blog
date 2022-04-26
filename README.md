@@ -25,8 +25,8 @@ server {
 }
 
 server {
-    listen               443 ssl default_server;
-    listen               [::]:443 ssl default_server;
+    listen               443 ssl http2 default_server;
+    listen               [::]:443 ssl http2 default_server;
 
     root /opt/proxy;
     index index.html index.htm index.nginx-debian.html;
