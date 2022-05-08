@@ -98,3 +98,9 @@ sed -i "s/UseDNS.*/UseDNS no/g" /etc/ssh/sshd_config
 ```
 
 将匹配`UseDNS.*`的行都换成`UseDNS no`，并写入原文件。支持正则表达式，见[sed_regular_expressions](https://www.yiibai.com/sed/sed_regular_expressions.html)
+
+## sed删除行
+
+```shell
+sed -i '/^alias nt=.*/d' .bashrc
+```
