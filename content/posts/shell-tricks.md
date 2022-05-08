@@ -17,18 +17,22 @@ keywords:
 ## 统计客户端连接数
 
 ```shell
-netstat -nt|tail -n +3|awk -F "[ :]+"  -v OFS=" " '$5!="22" && $7!="443" && $7!="80" && $7>10000 {print $0,$6}'|awk '{print $7}'|sort|uniq -c
+cat > /usr/local/bin/nt <<\EOF
+netstat -ntp|tail -n +3|awk -F "[ :]+"  -v OFS="" '$5!="22" && $7>1024 {printf("%15s   => %15s:%-5s %s\n",$6,$4,$5,$9)}'|sort|uniq -c
+EOF
+chmod +x /usr/local/bin/nt
+nt
 ```
 
 **说明**
 
-过滤了localPort为22（到ssh的连接）、remotePort在10000以下（如80，443等公开服务）的连接，剩下的连接可以认为是remote主动发起连接的，可以认为是本机的client。
+过滤了localPort为22（到ssh的连接）、remotePort在1024以下（如80，443等公开服务）的连接，剩下的连接可以认为是remote主动发起连接的，可以认为是本机的client。
 
 **效果**
 
 ```shell
-      2 42.192.xx.xx
-      1 61.170.xx.xx
+      1  122.233.185.35   =>   192.168.0.115:443   643067/nginx
+      2  122.233.185.35   =>   192.168.0.115:80    -
 ```
 
 **用到的知识**
