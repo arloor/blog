@@ -63,7 +63,7 @@ service nginx restart
 
 ```shell
 cat >/usr/local/bin/arloor <<\EOF
-awk -F" # " '$3~"(.*post.*|.*about.*|.*page.*|.*tags.*|^/$)" && $4==200 {printf("%-15s %24s %-50s\n",$1,$2,$3)}' /var/log/nginx/arloor.access.log
+awk -F" # " '$3~"(.*post.*|.*about.*|.*page.*|.*tags.*|^/$)" && $4==200 {printf("%-15s %s %-30s %s\n",$1,$2,$3,$5)}' /var/log/nginx/arloor.access.log
 EOF
 chmod +x /usr/local/bin/arloor
 arloor
