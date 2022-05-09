@@ -17,11 +17,22 @@ bash tarloor
 
 ```shell
 cat > /etc/nginx/sites-enabled/default <<\EOF
+log_format  arloor  '$remote_addr # [$time_iso8601] # "$request_uri" # '
+                    '$status # '
+                    '"$http_user_agent" # "$request_time"';
+
 server {
-    listen 80 default_server;                   
-    listen [::]:80 default_server;               
+    listen 80 default_server;
+    listen [::]:80 default_server;
     server_name          www.arloor.com;
     return               301 https://$host$request_uri;
+}
+
+server {
+    listen               443 ssl http2;
+    listen               [::]:443 ssl http2;
+    server_name          arloor.com;
+    return               301 https://www.arloor.com$request_uri;
 }
 
 server {
@@ -30,6 +41,7 @@ server {
 
     root /opt/proxy;
     index index.html index.htm index.nginx-debian.html;
+    access_log /var/log/nginx/arloor.access.log arloor;
     server_name          www.arloor.com;
 
     ssl_certificate      /opt/proxy/fullchain;
@@ -43,4 +55,26 @@ server {
 }
 EOF
 service nginx restart
+```
+
+## 查看nginx访问日志
+
+基于以上log_format，提供一个查看本博客访问日志的脚本：
+
+```shell
+cat >/usr/local/bin/arloor <<\EOF
+awk -F" # " '$3~"(.*post.*|.*about.*|.*page.*|.*tags.*|^/$)" && $4==200 {printf("%-15s %24s %-50s\n",$1,$2,$3)}' /var/log/nginx/arloor.access.log
+EOF
+chmod +x /usr/local/bin/arloor
+arloor
+```
+
+效果如下：
+
+```shell
+112.2.xxx.xxx   [2022-05-09T11:02:26+08:00] "/about/"
+223.70.xxx.x    [2022-05-09T11:02:46+08:00] "/posts/redis/redis-cluster/"
+14.25.xxx.xxx   [2022-05-09T11:03:45+08:00] "/posts/i-was-young/"
+113.89.xx.xx    [2022-05-09T11:03:58+08:00] "/posts/shell-tricks/"
+110.53.xx.xx    [2022-05-09T11:04:01+08:00] "/posts/shell-tricks/"
 ```
