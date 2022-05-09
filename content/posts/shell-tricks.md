@@ -18,7 +18,7 @@ keywords:
 
 ```shell
 cat > /usr/local/bin/nt <<\EOF
-netstat -ntp|tail -n +3|awk -F "[ :]+"  -v OFS="" '$5!="22" && $7>1024 && $7!=8080 {printf("%15s   => %15s:%-5s %s\n",$6,$4,$5,$9)}'|sort|uniq -c
+netstat -ntp|tail -n +3|awk -F "[ :]+"  -v OFS="" '$5!="22" && $7>1024 && $7!=8080 {printf("%15s   => %15s:%-5s %s\n",$6,$4,$5,$9)}'|sort|uniq -c|sort -rn
 EOF
 chmod +x /usr/local/bin/nt
 nt
