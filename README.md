@@ -19,7 +19,7 @@ bash tarloor
 cat > /etc/nginx/sites-enabled/default <<\EOF
 log_format  arloor  '$remote_addr # [$time_iso8601] # "$request_uri" # '
                     '$status # '
-                    '"$http_user_agent" # "$request_time"';
+                    '"$http_user_agent" # "$request_time" # "$http_referer"';
 
 server {
     listen 80 default_server;
