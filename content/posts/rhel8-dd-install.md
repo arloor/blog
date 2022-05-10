@@ -256,4 +256,6 @@ blscfg模块不在使用menuentry在grub.cfg中保存启动项，而是在`/boot
 ```
 sed -i "s/^GRUB_ENABLE_BLSCFG=.*/GRUB_ENABLE_BLSCFG=false/g" /etc/default/grub
 grub2-mkconfig -o /boot/grub2/grub.cfg
+rm -rf /boot/grub2/grub.cfg.bak
+rm -rf /boot/grub2/grub.cfg.old
 ```
