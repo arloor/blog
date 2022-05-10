@@ -503,3 +503,15 @@ iperf3 -c 192.168.0.1 -R
 ```
 ps -ef |grep iperf |grep -v grep|awk '{print $2}'|xargs -I {} kill -15 {}
 ```
+
+## 安装旧版本golang，并设置不自动更新
+
+```shell
+dnf search golang
+dnf list golang --showduplicates
+dnf install -y golang-1.16.12-1.module+el8.5.0+13637+960c7771
+## 设置不自动更新golang相关的包
+vim /etc/yum.conf
+## 在[main]下增加
+exclude=golang*
+```
