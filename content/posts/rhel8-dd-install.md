@@ -189,6 +189,8 @@ I/O 大小(最小/最佳)：512 字节 / 512 字节
 
 ## dd安装
 
+dd安装使用了www.cxthhhhh.com的脚本，详见[一键网络重装系统 - 魔改版](https://www.cxthhhhh.com/network-reinstall-system-modify)
+
 ```shell
 ## 下载www.cxthhhhh.com的网络dd脚本
 wget --no-check-certificate -qO ~/Network-Reinstall-System-Modify.sh 'https://www.cxthhhhh.com/CXT-Library/Network-Reinstall-System-Modify/Network-Reinstall-System-Modify.sh' && chmod a+x ~/Network-Reinstall-System-Modify.sh
@@ -246,4 +248,13 @@ vim /etc/dnf/dnf.conf
 proxy=<scheme>://<ip-or-hostname>[:port]
 proxy_username=
 proxy_password=
+```
+
+## 解决centos8因blscfg模块导致的dd安装失败问题
+
+blscfg模块不在使用menuentry在grub.cfg中保存启动项，而是在`/boot/loader`中保存启动项。现在的网络安装脚本都不支持blscfg，所以需要禁用该模块
+
+```
+sed -i "s/^GRUB_ENABLE_BLSCFG=.*/GRUB_ENABLE_BLSCFG=false/g" /etc/default/grub
+grub2-mkconfig -o /boot/grub2/grub.cfg
 ```
