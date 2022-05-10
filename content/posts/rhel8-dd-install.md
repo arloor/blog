@@ -192,7 +192,8 @@ I/O 大小(最小/最佳)：512 字节 / 512 字节
 ```shell
 ## 下载www.cxthhhhh.com的网络dd脚本
 wget --no-check-certificate -qO ~/Network-Reinstall-System-Modify.sh 'https://www.cxthhhhh.com/CXT-Library/Network-Reinstall-System-Modify/Network-Reinstall-System-Modify.sh' && chmod a+x ~/Network-Reinstall-System-Modify.sh
-## dd安装
+## 如果是国内vps会遇到下载debian的包失败的问题，需要自己设置http代理
+## dd安装，镜像的root密码是arloor.com
 bash ~/Network-Reinstall-System-Modify.sh  -DD "https://repo-1252282974.cos.ap-shanghai.myqcloud.com/rhel/rhel8.img.gz"
 ```
 
@@ -237,12 +238,12 @@ resize2fs /dev/rhel/root  #需要重设一下扩展后的逻辑卷
 df -Th #这次再看的话，已经改过来了
 ```
 
-## 好片分享
+## 设置dnf代理
 
-侦察兵中有一句流传很多年的话：所谓同伴，就是他看到你倒下，就会翻山越岭地过来，而你看到他，却能重新站立。
-
-部队地真正意义，不在于你有多强，在于与你背靠背地人有多棒。
-
-<div class="iframe-container">
-    <iframe src="https://www.youtube.com/embed/pNIh9QmE-9o" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</div>
+```shell
+vim /etc/dnf/dnf.conf
+在[main]的最后面加上
+proxy=<scheme>://<ip-or-hostname>[:port]
+proxy_username=
+proxy_password=
+```
