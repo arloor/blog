@@ -192,7 +192,7 @@ I/O 大小(最小/最佳)：512 字节 / 512 字节
 ```shell
 ## 下载www.cxthhhhh.com的网络dd脚本
 wget --no-check-certificate -qO ~/Network-Reinstall-System-Modify.sh 'https://www.cxthhhhh.com/CXT-Library/Network-Reinstall-System-Modify/Network-Reinstall-System-Modify.sh' && chmod a+x ~/Network-Reinstall-System-Modify.sh
-## 如果是国内vps会遇到下载debian的包失败的问题，需要自己设置http代理
+## 如果是国内vps会遇到连接deb.debian.org失败的问题，需要自己设置http代理
 ## dd安装，镜像的root密码是arloor.com
 bash ~/Network-Reinstall-System-Modify.sh  -DD "https://repo-1252282974.cos.ap-shanghai.myqcloud.com/rhel/rhel8.img.gz"
 ```
