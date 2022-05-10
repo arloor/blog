@@ -190,8 +190,10 @@ I/O 大小(最小/最佳)：512 字节 / 512 字节
 ## dd安装
 
 ```shell
-wget https://www.arloor.com/sh/InstallNET.sh -O InstallNET.sh&& bash  InstallNET.sh -dd http://someme.me/rhel8-install/rhel8.img.gz
-wget https://www.arloor.com/sh/InstallNET.sh -O InstallNET.sh&& bash  InstallNET.sh -dd https://repo-1252282974.cos.ap-shanghai.myqcloud.com/rhel/rhel8.img.gz
+## 下载www.cxthhhhh.com的网络dd脚本
+wget --no-check-certificate -qO ~/Network-Reinstall-System-Modify.sh 'https://www.cxthhhhh.com/CXT-Library/Network-Reinstall-System-Modify/Network-Reinstall-System-Modify.sh' && chmod a+x ~/Network-Reinstall-System-Modify.sh
+## dd安装
+bash ~/Network-Reinstall-System-Modify.sh  -DD "https://repo-1252282974.cos.ap-shanghai.myqcloud.com/rhel/rhel8.img.gz"
 ```
 
 ## 红帽开发者订阅续约
