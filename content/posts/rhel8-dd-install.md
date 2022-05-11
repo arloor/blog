@@ -13,7 +13,102 @@ keywords:
 
 <!--more-->
 
-## 参考文档
+## dd安装
+
+```shell
+## 如果是国内vps会遇到连接deb.debian.org失败的问题，需要自己设置http代理
+## 镜像的root密码是arloor.com
+wget http://cdn.arloor.com/rhel/Core_Install_v3.1.sh -O install.sh&&bash install.sh -dd "http://cdn.arloor.com/rhel/rhel8.img.gz"
+```
+
+dd安装使用了www.cxthhhhh.com的脚本，详见[一键网络重装系统 - 魔改版](https://www.cxthhhhh.com/network-reinstall-system-modify)
+
+## centos8因blscfg模块导致的dd安装失败问题
+
+如果原linux发行版是centos8、rocky linux8等，会因为grub2的blscfg模块导致报错。
+
+blscfg模块不在使用menuentry在grub.cfg中保存启动项，而是在`/boot/loader`中保存启动项。现在的网络安装脚本都不支持blscfg，所以需要禁用该模块
+
+```
+sed -i "s/^GRUB_ENABLE_BLSCFG=.*/GRUB_ENABLE_BLSCFG=false/g" /etc/default/grub
+grub2-mkconfig -o /boot/grub2/grub.cfg
+rm -rf /boot/grub2/grub.cfg.bak
+rm -rf /boot/grub2/grub.cfg.old
+```
+
+## 安装后的操作
+
+### 磁盘扩容
+
+镜像本身只使用了3.2G空间，需要扩容以使用全部磁盘空间
+
+```shell
+fdisk -l      #查看磁盘
+#对新添加的磁盘进行分区，此处使用整块盘
+#并将格式化好的盘改成lvm（8e）格式
+fdisk /dev/vda  
+vgdisplay   #查看系统中的逻辑组
+pvdisplay   #查看系统中的物理卷
+pvcreate /dev/vda3   #将新分好区的磁盘做成逻辑卷
+pvdisplay  #查看系统中的物理卷
+lvdisplay   #查看系统中的逻辑卷
+vgextend rhel /dev/vda3  #扩展已有逻辑组
+vgdisplay  #查看扩展后的逻辑组
+lvextend -L 45G /dev/rhel/root  #将之前的逻辑卷扩展到45G，不是扩展了45G 
+lvdisplay   #查看扩展后的逻辑卷
+df -Th #查看系统磁盘使用情况，发现还是原来大小
+resize2fs /dev/rhel/root  #需要重设一下扩展后的逻辑卷
+df -Th #这次再看的话，已经改过来了
+```
+
+### 注册vps到redhat以获取更新
+
+未注册的vps是无法yum update的，这里需要先行注册红帽开发者计划
+
+```shell
+sudo subscription-manager remove --all
+sudo subscription-manager unregister
+sudo subscription-manager clean
+sudo subscription-manager register
+sudo subscription-manager refresh
+sudo subscription-manager attach --auto
+```
+
+**红帽开发者计划续约：**红帽开发者计划有效期只有一年，一年后就需要重新注册，流程也比较简单，详见[红帽](https://developers.redhat.com/articles/renew-your-red-hat-developer-program-subscription?extIdCarryOver=true&sc_cid=701f2000001Css5AAC#how_to_re_register_for_your_red_hat_developer_subscription)
+
+简单总结：需要你再次注册一年期的开发者订阅，而不提供“续约”，因为续约这种服务是需要付费的（资本主义操了
+
+再次注册也很简单，用浏览器无痕模式打开[developers.redhat.com](http://developers.redhat.com/)，然后登陆，然后登出，最后关闭所有浏览器。过一会到[红帽订阅管理网站](http://access.redhat.com/management)就能看到新的开发者订阅。
+
+之前的红帽服务器需要重新注册：
+
+
+```shell
+sudo subscription-manager remove --all
+sudo subscription-manager unregister
+sudo subscription-manager clean
+sudo subscription-manager register
+sudo subscription-manager refresh
+sudo subscription-manager attach --auto
+```
+
+### 设置dnf代理
+
+国内vps访问redhat的官方源比较慢，需要设置dnf的代理
+
+```shell
+vim /etc/dnf/dnf.conf
+在[main]的最后面加上
+proxy=<scheme>://<ip-or-hostname>[:port]
+proxy_username=
+proxy_password=
+```
+
+## 上述镜像是如何创建的
+
+这部分是写给想自己创建rhel8镜像的同学看的。
+
+### 参考文档
 
 - [制作Linux的DD包](https://cosmiccat.net/2018/06/333/)
 - [Linux格式化数据盘](https://www.alibabacloud.com/help/zh/doc-detail/25426.htm?spm=5176.2020520101disk.109.d25426.6c124df57ytrxv)
@@ -21,7 +116,7 @@ keywords:
 - [制作 Linux 镜像](https://cloud.tencent.com/document/product/213/17814)
 - [Linux_LVM_磁盘扩容](https://www.cnblogs.com/hellojesson/p/4582908.html)
 
-## 创建镜像
+### 创建镜像
 
 安装系统
 
@@ -33,7 +128,7 @@ wget http://blog.arloor.com/install-rhel8-form-centos7.sh -O a.sh&& bash a.sh
 
 网卡配置选择为dhcp，dd到vps上之后可能需要改为静态ip
 
-## 修改网卡
+### 修改网卡
 
 查看当前网卡
 
@@ -94,7 +189,7 @@ grub2-mkconfig -o /boot/grub2/grub.cfg
 
 检查/etc/udev/rules.d/70-persistent-net.rules是否存在，如果存在则删除
 
-## 关闭防火墙和selinux
+### 关闭防火墙和selinux
 
 ```shell
 ## 禁用firewalld
@@ -106,7 +201,7 @@ sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config
 sestatus
 ```
 
-## 修复启动
+### 修复启动
 
 打开系统的引导文件
 
@@ -116,7 +211,7 @@ sestatus
 
 如果是的话请修改成hd0,1
 
-## 最后修改/etc/fstab
+### 最后修改/etc/fstab
 
 将/boot使用的分区删掉
 
@@ -130,7 +225,7 @@ mount /dev/vda1 /boot
 chmod +x /etc/rc.d/rc.local
 ```
 
-## 添加虚拟化所需的一些磁盘驱动
+### 添加虚拟化所需的一些磁盘驱动
 
 在/etc/dracut.conf里添加
 
@@ -157,13 +252,13 @@ lsinitrd /boot/initramfs-$(uname -r).img | grep virtio
 -rw-r--r--   1 root     root         8536 Aug  4  2020 usr/lib/modules/4.18.0-240.10.1.el8_3.x86_64/kernel/drivers/scsi/virtio_scsi.ko.xz
 ```
 
-## 清空历史记录
+### 清空历史记录
 
 ```
 echo "" > .bash_history
 ```
 
-## dd
+### dd
 
 ```
 mount /dev/vdb1 /mnt
@@ -185,77 +280,4 @@ I/O 大小(最小/最佳)：512 字节 / 512 字节
 
 ```
 (dd   bs=512 count=[fdisk命令中最大的end数+1] if=/dev/vda | gzip -9 > /mnt/rhel8.img.gz &)
-```
-
-## dd安装
-
-dd安装使用了www.cxthhhhh.com的脚本，详见[一键网络重装系统 - 魔改版](https://www.cxthhhhh.com/network-reinstall-system-modify)
-
-```shell
-## 下载www.cxthhhhh.com的网络dd脚本
-wget http://cdn.arloor.com/rhel/Core_Install_v3.1.sh -O install.sh&&bash install.sh -dd "http://cdn.arloor.com/rhel/rhel8.img.gz"
-## 如果是国内vps会遇到连接deb.debian.org失败的问题，需要自己设置http代理
-## dd安装，镜像的root密码是arloor.com
-```
-
-## 红帽开发者订阅续约
-
-详见[红帽](https://developers.redhat.com/articles/renew-your-red-hat-developer-program-subscription?extIdCarryOver=true&sc_cid=701f2000001Css5AAC#how_to_re_register_for_your_red_hat_developer_subscription)
-
-简单总结：需要你再次注册一年期的开发者订阅，而不提供“续约”，因为续约这种服务是需要付费的（资本主义操了
-
-再次注册也很简单，用浏览器无痕模式打开[developers.redhat.com](http://developers.redhat.com/)，然后登陆，然后登出，最后关闭所有浏览器。过一会到[红帽订阅管理网站](http://access.redhat.com/management)就能看到新的开发者订阅。
-
-之前的红帽服务器需要重新注册：
-
-```
-sudo subscription-manager remove --all
-sudo subscription-manager unregister
-sudo subscription-manager clean
-sudo subscription-manager register
-sudo subscription-manager refresh
-sudo subscription-manager attach --auto
-```
-
-## 磁盘扩容
-
-```shell
-fdisk -l      #查看磁盘
-fdisk /dev/vda  #对新添加的磁盘进行分区，此处使用整块盘
-mkfs.ext4 /dev/vda3   #对新分的区进行格式化
-fdisk /dev/vda  #将格式化好的盘改成lvm（8e）格式
-fdisk -l  #查看格式化好的盘是否是lvm格式
-vgdisplay   #查看系统中的逻辑组
-pvdisplay   #查看系统中的物理卷
-pvcreate /dev/vda3   #将新分好区的磁盘做成逻辑卷
-pvdisplay  #查看系统中的物理卷
-lvdisplay   #查看系统中的逻辑卷
-vgextend rhel /dev/vda3  #扩展已有逻辑组
-vgdisplay  #查看扩展后的逻辑组
-lvextend -L 45G /dev/rhel/root  #将之前的逻辑卷扩展到45G，不是扩展了45G 
-lvdisplay   #查看扩展后的逻辑卷
-df -Th #查看系统磁盘使用情况，发现还是原来大小
-resize2fs /dev/rhel/root  #需要重设一下扩展后的逻辑卷
-df -Th #这次再看的话，已经改过来了
-```
-
-## 设置dnf代理
-
-```shell
-vim /etc/dnf/dnf.conf
-在[main]的最后面加上
-proxy=<scheme>://<ip-or-hostname>[:port]
-proxy_username=
-proxy_password=
-```
-
-## 解决centos8因blscfg模块导致的dd安装失败问题
-
-blscfg模块不在使用menuentry在grub.cfg中保存启动项，而是在`/boot/loader`中保存启动项。现在的网络安装脚本都不支持blscfg，所以需要禁用该模块
-
-```
-sed -i "s/^GRUB_ENABLE_BLSCFG=.*/GRUB_ENABLE_BLSCFG=false/g" /etc/default/grub
-grub2-mkconfig -o /boot/grub2/grub.cfg
-rm -rf /boot/grub2/grub.cfg.bak
-rm -rf /boot/grub2/grub.cfg.old
 ```
