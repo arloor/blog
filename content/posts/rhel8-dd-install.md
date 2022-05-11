@@ -1,6 +1,6 @@
 ---
 title: "dd安装rhel8"
-date: 2021-02-17T14:27:20+08:00
+date: 2022-05-11T14:27:20+08:00
 draft: false
 categories: [ "undefined"]
 tags: ["undefined"]
@@ -11,9 +11,12 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
+centos8没有了，虽然Red Hat推出了开发者计划，允许用户使用免费的rhel8，但是云服务厂商普遍没有提供rhel8的镜像，一般的用户还是没有办法在vps上用上rhel8，就连centos8的替代品rocky linux、almalinux大部分云服务厂商也没有提供。
+
+这个博客就是介绍下，如何在公有云vps上通过dd写盘安装rhel8系统。
 <!--more-->
 
-## dd安装
+## dd安装脚本
 
 ```shell
 ## 如果是国内vps会遇到连接deb.debian.org失败的问题，需要自己设置http代理
@@ -74,7 +77,7 @@ sudo subscription-manager refresh
 sudo subscription-manager attach --auto
 ```
 
-**红帽开发者计划续约：**红帽开发者计划有效期只有一年，一年后就需要重新注册，流程也比较简单，详见[红帽](https://developers.redhat.com/articles/renew-your-red-hat-developer-program-subscription?extIdCarryOver=true&sc_cid=701f2000001Css5AAC#how_to_re_register_for_your_red_hat_developer_subscription)
+**红帽开发者计划续约**： 红帽开发者计划有效期只有一年，一年后就需要重新注册，流程也比较简单，详见[红帽](https://developers.redhat.com/articles/renew-your-red-hat-developer-program-subscription?extIdCarryOver=true&sc_cid=701f2000001Css5AAC#how_to_re_register_for_your_red_hat_developer_subscription)
 
 简单总结：需要你再次注册一年期的开发者订阅，而不提供“续约”，因为续约这种服务是需要付费的（资本主义操了
 
