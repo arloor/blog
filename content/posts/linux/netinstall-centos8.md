@@ -19,9 +19,7 @@ centos8在前几天发布了，但是云服务大厂们往往不会第一时间�
 
 ## 安装视频
 
-<div class="iframe-container">
-    <iframe src="https://www.youtube.com/embed/R4PDWmtQ6Zw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</div>
+[youtube](https://www.youtube.com/embed/R4PDWmtQ6Zw)
 
 
 ## 脚本
