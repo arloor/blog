@@ -97,7 +97,9 @@ sudo subscription-manager attach --auto
 
 ### 删除旧内核
 
-因为该镜像只给boot分区留了200M，升级几次内核后，boot分区就不够用了。这里提供下删除旧内核的方式
+因为该镜像只给boot分区留了200M，升级几次内核后，boot分区就不够用了。这里提供下删除旧内核的两种方式
+
+**方式1：直接删除内核和启动镜像**
 
 ```shell
 ls /boot/vmlinuz-*|grep -v "rescue"|sort -r|tail -n +2|xargs -I {} rm -rf {}
@@ -107,6 +109,16 @@ grub2-mkconfig -o /boot/grub2/grub.cfg
 rm -rf /boot/grub2/grub.cfg.bak
 rm -rf /boot/grub2/grub.cfg.old
 ```
+
+这种方式没有更新yum的已安装软件缓存
+
+**通过dnf删除老内核**
+
+```shell
+dnf remove --oldinstallonly --setopt installonly_limit=2 kernel
+```
+
+执行该脚本要求系统运行在已安装的最新内核上。如果不是，请重启并选择第一个启动项启动系统，然后再执行该命令。
 
 
 ### 设置dnf代理
