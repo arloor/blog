@@ -95,6 +95,20 @@ sudo subscription-manager refresh
 sudo subscription-manager attach --auto
 ```
 
+### 删除旧内核
+
+因为该镜像只给boot分区留了200M，升级几次内核后，boot分区就不够用了。这里提供下删除旧内核的方式
+
+```shell
+ls /boot/vmlinuz-*|grep -v "rescue"|sort -r|tail -n +2|xargs -I {} rm -rf {}
+ls /boot/initramfs-*|grep -v "rescue"|sort -r|tail -n +2|xargs -I {} rm -rf {}
+sed -i "s/^GRUB_ENABLE_BLSCFG=.*/GRUB_ENABLE_BLSCFG=false/g" /etc/default/grub
+grub2-mkconfig -o /boot/grub2/grub.cfg
+rm -rf /boot/grub2/grub.cfg.bak
+rm -rf /boot/grub2/grub.cfg.old
+```
+
+
 ### 设置dnf代理
 
 国内vps访问redhat的官方源比较慢，需要设置dnf的代理
