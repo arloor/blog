@@ -99,7 +99,7 @@ sudo subscription-manager attach --auto
 
 因为该镜像只给boot分区留了200M，升级几次内核后，boot分区就不够用了。这里提供下删除旧内核的两种方式
 
-**方式1：直接删除内核和启动镜像**
+**方式1：直接删除内核和启动镜像(推荐)**
 
 ```shell
 ls /boot/vmlinuz-*|grep -v "rescue"|sort -r|tail -n +2|xargs -I {} rm -rf {}
