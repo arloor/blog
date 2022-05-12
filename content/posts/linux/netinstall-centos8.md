@@ -19,7 +19,7 @@ centos8在前几天发布了，但是云服务大厂们往往不会第一时间�
 
 ## 安装视频
 
-[youtube](https://www.youtube.com/embed/R4PDWmtQ6Zw)
+[youtube](https://www.youtube.com/watch?v=R4PDWmtQ6Zw)
 
 
 ## 脚本
