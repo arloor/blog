@@ -39,7 +39,7 @@ server {
     listen               443 ssl http2 default_server;
     listen               [::]:443 ssl http2 default_server;
 
-    root /opt/proxy;
+    root /usr/share/nginx/html;
     index index.html index.htm index.nginx-debian.html;
     access_log /var/log/nginx/arloor.access.log arloor;
     server_name          www.arloor.com;
