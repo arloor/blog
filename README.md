@@ -9,6 +9,7 @@
 ## 部署
 
 ```
+## 支持centos8和ubuntu20.04
 wget -O /usr/local/bin/tarloor http://www.arloor.com/tarloor.sh
 bash tarloor
 ```
