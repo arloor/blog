@@ -2,6 +2,13 @@
 
 ## path: /usr/local/bin/tarloor
 ## wget -O /usr/local/bin/tarloor http://arloor.com/tarloor.sh
+
+is_deb="1"
+if ! grep debian /etc/os-release &>/dev/null;
+then
+  is_deb="0"
+fi
+
 hugoVersion="0.96.0"
 hugoURL=https://github.com/gohugoio/hugo/releases/download/v${hugoVersion}/hugo_extended_${hugoVersion}_Linux-64bit.tar.gz
 ## 检查依赖
@@ -29,7 +36,12 @@ for BIN_DEP in `echo "$1" |sed 's/,/\n/g'`
   done
 if [ "$FullDependence" == '1' ]; then
   echo "安装缺失的依赖....."
-  yum install -y git tar  wget > /dev/null
+  if [ "is_deb" == "1" ]; 
+  then
+    apt install -y git tar  wget > /dev/null;
+  else
+    yum install -y git tar  wget > /dev/null;
+  fi;
 fi
 }
 
@@ -98,6 +110,23 @@ nginx=$(rpm -qa nginx) && [ ! -z $nginx ] && echo nginx installed ||{
         service nginx start;
         systemctl enable nginx;
 }
+
+if [ "is_deb" == "1" ]; 
+then
+  nginx=$(nginx -v 2>&1|grep "nginx version") && [ "" != "$nginx" ] && echo nginx installed ||{
+      echo "install nginx...";
+      apt install nginx-full -y;
+      service nginx start;
+      systemctl enable nginx;
+  }
+else
+  nginx=$(rpm -qa nginx) && [ ! -z $nginx ] && echo nginx installed ||{
+      echo "install nginx...";
+      yum install nginx -y;
+      service nginx start;
+      systemctl enable nginx;
+  }
+fi;
 
 cd /var/blog
 hugo -d /usr/share/nginx/html/
