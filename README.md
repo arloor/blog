@@ -13,7 +13,7 @@ wget -O /usr/local/bin/tarloor http://www.arloor.com/tarloor.sh
 bash tarloor
 ```
 
-## nginx配置（ubuntu下）
+## nginx配置（ubuntu20.04下）
 
 ```shell
 cat > /etc/nginx/sites-enabled/default <<\EOF
@@ -46,6 +46,50 @@ server {
 
     ssl_certificate      /opt/proxy/fullchain;
     ssl_certificate_key  /opt/proxy/private.key;
+    error_page 404 /404.html;
+    location / {
+                # First attempt to serve request as file, then
+                # as directory, then fall back to displaying a 404.
+                try_files $uri $uri/ =404;
+    }
+}
+EOF
+service nginx restart
+```
+
+## nginx配置(rhel8下)
+
+```shell
+cat > /etc/nginx/conf.d/arloor.conf <<\EOF
+log_format  arloor  '$remote_addr # [$time_iso8601] # "$request_uri" # '
+                    '$status # '
+                    '"$http_user_agent" # "$request_time" # "$http_referer"';
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name          www.arloor.com;
+    return               301 https://$host$request_uri;
+}
+
+server {
+    listen               443 ssl http2;
+    listen               [::]:443 ssl http2;
+    server_name          arloor.com;
+    return               301 https://www.arloor.com$request_uri;
+}
+
+server {
+    listen               443 ssl http2 default_server;
+    listen               [::]:443 ssl http2 default_server;
+
+    root /opt/proxy;
+    index index.html index.htm index.nginx-debian.html;
+    access_log /var/log/nginx/arloor.access.log arloor;
+    server_name          www.arloor.com;
+
+    ssl_certificate      /root/.acme.sh/arloor.com/fullchain.cer;
+    ssl_certificate_key  /root/.acme.sh/arloor.com/arloor.com.key;
     error_page 404 /404.html;
     location / {
                 # First attempt to serve request as file, then
