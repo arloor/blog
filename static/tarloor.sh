@@ -7,6 +7,9 @@ is_deb="1"
 if ! grep debian /etc/os-release &>/dev/null;
 then
   is_deb="0"
+  echo "使用redhat系命令"
+else
+  echo "使用debian系命令"
 fi
 
 hugoVersion="0.96.0"
@@ -60,7 +63,7 @@ print_info
 
 echo -e "\n\033[36m# Check Dependence\033[0m\n"
 CheckDependence git,tar,wget 
-echo "Dependence Check done"
+echo -e "\n\033[36m# Dependence Check done\033[0m\n"
 
 # 如果不需要使用代理，则使用 bash tarloor 0
 [ "$1" = "1" ]&&{
@@ -74,10 +77,10 @@ echo "Dependence Check done"
 
 
 # 检查/var/blog是否存在，存在则update
-[ ! -d /var/blog ] && echo "arloor blog not exits. git clone...." && {
+[ ! -d /var/blog ] && echo -e "\n\033[36marloor blog not exits. git clone....\033[0m\n" && {
         git clone https://github.com/arloor/blog.git /var/blog
 } || { 
-        echo "arloor's blog exits. git pull...."; 
+        echo -e "\n\033[36marloor's blog exits. git pull....\033[0m\n"
         cd /var/blog
         git pull --ff-only;
 }
@@ -86,7 +89,7 @@ echo "Dependence Check done"
 # 检查hugo是否安装
 
 hashugo=$(hugo version|grep ${hugoVersion}) && [ "" != " $hashugo" ] && hugo version || {
-        echo install hugo extended...;
+        echo -e "\n\033[36m# Installing hugo extended...\033[0m\n"
         mkdir /tmp/hugo
         wget $hugoURL -O /tmp/hugo/hugo.tar.gz;
         tar -zxf /tmp/hugo/hugo.tar.gz -C /tmp/hugo/;
@@ -104,24 +107,17 @@ hashugo=$(hugo version|grep ${hugoVersion}) && [ "" != " $hashugo" ] && hugo ver
 }
 
 # 检查httpd是否安装
-nginx=$(rpm -qa nginx) && [ ! -z $nginx ] && echo nginx installed ||{
-        echo "install nginx...";
-        yum install nginx -y;
-        service nginx start;
-        systemctl enable nginx;
-}
-
 if [ "$is_deb" == "1" ]; 
 then
-  nginx=$(nginx -v 2>&1|grep "nginx version") && [ "" != "$nginx" ] && echo nginx installed ||{
-      echo "install nginx...";
+  nginx=$(nginx -v 2>&1|grep "nginx version") && [ "" != "$nginx" ] && echo -e "\n\033[36m# nginx installed\033[0m\n" ||{
+      echo -e "\n\033[36m# Installing nginx\033[0m\n"
       apt install nginx-full -y;
       service nginx start;
       systemctl enable nginx;
   }
 else
-  nginx=$(rpm -qa nginx) && [ ! -z $nginx ] && echo nginx installed ||{
-      echo "install nginx...";
+  nginx=$(rpm -qa nginx) && [ ! -z $nginx ] && echo -e "\n\033[36m# nginx installed\033[0m\n" ||{
+      echo -e "\n\033[36m# Installing nginx\033[0m\n"
       yum install nginx -y;
       service nginx start;
       systemctl enable nginx;
