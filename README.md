@@ -44,8 +44,8 @@ server {
     access_log /var/log/nginx/arloor.access.log arloor;
     server_name          www.arloor.com;
 
-    ssl_certificate      /opt/proxy/fullchain;
-    ssl_certificate_key  /opt/proxy/private.key;
+    ssl_certificate      /root/.acme.sh/arloor.com/fullchain.cer;
+    ssl_certificate_key  /root/.acme.sh/arloor.com/arloor.com.key;
     error_page 404 /404.html;
     location / {
                 # First attempt to serve request as file, then
