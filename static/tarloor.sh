@@ -36,11 +36,11 @@ for BIN_DEP in `echo "$1" |sed 's/,/\n/g'`
   done
 if [ "$FullDependence" == '1' ]; then
   echo "安装缺失的依赖....."
-  if [ "is_deb" == "1" ]; 
+  if [ "$is_deb" == "1" ]; 
   then
-    apt install -y git tar  wget > /dev/null;
+    apt install -y git tar  wget ;
   else
-    yum install -y git tar  wget > /dev/null;
+    yum install -y git tar  wget;
   fi;
 fi
 }
@@ -111,7 +111,7 @@ nginx=$(rpm -qa nginx) && [ ! -z $nginx ] && echo nginx installed ||{
         systemctl enable nginx;
 }
 
-if [ "is_deb" == "1" ]; 
+if [ "$is_deb" == "1" ]; 
 then
   nginx=$(nginx -v 2>&1|grep "nginx version") && [ "" != "$nginx" ] && echo nginx installed ||{
       echo "install nginx...";
