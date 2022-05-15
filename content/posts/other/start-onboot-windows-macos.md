@@ -79,8 +79,12 @@ C:\Users\你的用户名\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\S
 `startup.vbs`内容如下：
 
 ```
-set ws=WScript.CreateObject("WScript.Shell")
-ws.Run "D:\startup.bat /start",0
+set forward=WScript.CreateObject("WScript.Shell")
+forward.Run "taskkill /f /im forward.exe",0,True
+forward.Run "C:\Users\arloor\go\bin\forward.exe -conf D:\bin\caddyfile -log E:\data\var\log\forward.log -socks5conf=D:\bin\socks5.yaml",0
 ```
 
-其中startup.bat的内容就是启动需要的进程，例如`java -jar xx.jar`
+1. 先关闭forward.exe，末尾的`0,True`表示不开启窗口，等待该命令结束再执行下一行
+2. 再启动forward.exe，末尾的`0`表示不开启窗口
+
+具体Run命令见[www.vbsedit.com](https://www.vbsedit.com/html/6f28899c-d653-4555-8a59-49640b0e32ea.asp)
