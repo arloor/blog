@@ -17,7 +17,7 @@
 	"extensions": [],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
+	"forwardPorts": [1313],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
 	// "postCreateCommand": "uname -a",
@@ -27,7 +27,6 @@
 	"features": {
 		"git": "latest",
 		"git-lfs": "latest",
-		"sshd": "latest",
 		"golang": "1.18",
 		"rust": "latest"
 	}
