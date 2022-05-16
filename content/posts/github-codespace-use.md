@@ -29,7 +29,7 @@ keywords:
 
 1. 访问[https://github.com/codespaces](https://github.com/codespaces)
 2. 访问[https://github.com/codespaces/new](https://github.com/codespaces/new)创建你的codespace，，输入项目名、分支、地区。地区我选的是美西。因为大陆局域网的原因，想要流畅的使用codespace肯定要科学上网的，我的科学上网途径在美西所以选择了美西。
-3. 创建完毕后会自动跳转到https://${user}-${repo}-${id}.github.dev/的页面，等待docker容器创建完成后，你就可以看到一个vscode的页面。不同于github.dev，这是一个全功能的vs code，你可以使用docker的shell。
+3. 创建完毕后会自动跳转到codespaces的页面，等待docker容器创建完成后，你就可以看到一个vscode的页面。不同于github.dev，这是一个全功能的vs code，你可以使用docker的shell。
 
 ## 使用codespaces
 
