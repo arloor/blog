@@ -11,7 +11,7 @@ msg="commit @arloor $(date)"
 git commit -m "$msg"
 if git push; then
   for i in $host; do
-    ssh root@i -p$port -t "
+    ssh root@$i -p$port -t "
           bash tarloor 1 #使用代理: bash tarloor 1
           "
     echo -e "\033[32m 请访问： https://"$i"\033[0m"
