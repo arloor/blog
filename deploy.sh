@@ -1,5 +1,5 @@
 #! /bin/bash
-hosts="arloor.com ti.arloor.com"
+hosts="ti.arloor.com"
 msg="commit @arloor $(date)"
 #
 # 上传到arloor.github.io
@@ -25,7 +25,8 @@ git pull && git add . && git commit -m "$msg" && git push && {
     echo -e "\033[32m 请访问： https://"${host}"\033[0m"
   done
 } && {
-  githubio
+  #githubio
+  echo
 } || {
   echo -e "\033[32m 推送失败 \033[0m"
 }
