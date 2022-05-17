@@ -2,17 +2,16 @@
 hosts="arloor.com 42.192.15.60"
 
 msg="commit @arloor $(date)"
-git pull&&git add .&&git commit -m "$msg"&&{
+git pull && git add . && git commit -m "$msg" && {
   for host in $hosts; do
-      ssh root@${host} -t "
+    ssh root@${host} -t "
             bash tarloor 1 #使用代理: bash tarloor 1
             "
-      echo -e "\033[32m 请访问： https://"${host}"\033[0m"
-    done
-}||{
+    echo -e "\033[32m 请访问： https://"${host}"\033[0m"
+  done
+} || {
   echo -e "\033[32m 推送失败 \033[0m"
 }
-
 
 #githubio
 
