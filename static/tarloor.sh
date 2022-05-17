@@ -78,6 +78,7 @@ echo -e "\n\033[36m# Dependence Check done\033[0m\n"
   cd /var/blog
   git pull --ff-only || {
     echo "git pull 失败，重新clone"
+    cd $home
     rm -rf /var/blog
     git clone https://github.com/arloor/blog.git /var/blog
   }
