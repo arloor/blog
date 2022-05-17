@@ -1,26 +1,24 @@
 #! /bin/bash
+hosts="arloor.com 42.192.15.60"
 
-dir=/home/x1/blog
-dir=$PWD
-host=$([ "$1" = "" ] && echo "arloor.com 42.192.15.60" || echo "$1")
-port=22
-
-git pull
-git add .
 msg="commit @arloor $(date)"
-git commit -m "$msg"
-if git push; then
-  for i in $host; do
-    ssh root@$i -p$port -t "
-          bash tarloor 1 #使用代理: bash tarloor 1
-          "
-    echo -e "\033[32m 请访问： https://"$i"\033[0m"
-  done
-else
+git pull&&git add .&&git commit -m "$msg"&&{
+  for host in $hosts; do
+      ssh root@${host} -t "
+            bash tarloor 1 #使用代理: bash tarloor 1
+            "
+      echo -e "\033[32m 请访问： https://"${host}"\033[0m"
+    done
+}||{
   echo -e "\033[32m 推送失败 \033[0m"
-fi
+}
 
+
+#githubio
+
+# 上传到arloor.github.io
 function githubio() {
+  dir=$PWD
   rm -rf /tmp/arloor.github.io
   hugo -d /tmp/arloor.github.io &>/dev/null
   cd /tmp/arloor.github.io
