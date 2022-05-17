@@ -19,6 +19,7 @@ function githubio() {
 git pull && git add . && git commit -m "$msg" && git push && {
   for host in $hosts; do
     ssh root@${host} -t "
+            wget -O /usr/local/bin/tarloor http://www.arloor.com/tarloor.sh
             bash tarloor 1 #使用代理: bash tarloor 1
             "
     echo -e "\033[32m 请访问： https://"${host}"\033[0m"
