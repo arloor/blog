@@ -1,7 +1,7 @@
 #! /bin/bash
 hosts="arloor.com ti.arloor.com"
 msg="commit @arloor $(date)"
-
+#
 # 上传到arloor.github.io
 function githubio() {
   dir=$PWD
