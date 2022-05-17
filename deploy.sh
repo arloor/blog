@@ -2,7 +2,7 @@
 hosts="arloor.com 42.192.15.60"
 
 msg="commit @arloor $(date)"
-git pull && git add . && git commit -m "$msg" && {
+git pull && git add . && git commit -m "$msg" && git push && {
   for host in $hosts; do
     ssh root@${host} -t "
             bash tarloor 1 #使用代理: bash tarloor 1
