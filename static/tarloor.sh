@@ -77,8 +77,9 @@ echo -e "\n\033[36m# Dependence Check done\033[0m\n"
   echo -e "\n\033[36marloor's blog exits. git pull....\033[0m\n"
   cd /var/blog
   git pull --ff-only || {
-    echo "拉取更新失败，退出"
-    exit 1
+    echo "git pull 失败，重新clone"
+    rm -rf /var/blog
+    git clone https://github.com/arloor/blog.git /var/blog
   }
 }
 
