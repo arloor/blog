@@ -1,5 +1,5 @@
 #! /bin/bash
-hosts="arloor.com 42.192.15.60"
+hosts="arloor.com ti.arloor.com"
 msg="commit @arloor $(date)"
 
 # 上传到arloor.github.io
