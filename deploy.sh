@@ -9,11 +9,11 @@ git pull && git add . && git commit -m "$msg" && git push && {
             "
     echo -e "\033[32m 请访问： https://"${host}"\033[0m"
   done
+} && {
+  githubio
 } || {
   echo -e "\033[32m 推送失败 \033[0m"
 }
-
-#githubio
 
 # 上传到arloor.github.io
 function githubio() {
