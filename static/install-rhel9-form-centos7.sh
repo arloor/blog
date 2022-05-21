@@ -1,3 +1,4 @@
+# wget https://ti.arloor.com/install-rhel9-form-centos7.sh -O install-rhel9-form-centos7.sh&&bash install-rhel9-form-centos7.sh
 print_info(){
     clear
     echo "#############################################################"
@@ -168,14 +169,14 @@ LinuxIMG="$(grep 'initrd.*/' /tmp/grub.new |awk '{print $1}' |tail -n 1)";
 
 ## 分未Inboot和NoBoot修改加载kernel和initrd的
 [[ "$Type" == 'InBoot' ]] && {
-  [[ "$AutoNet" -eq '1' ]] && sed -i "/$LinuxKernel.*\//c\\\t$LinuxKernel\\t\/boot\/vmlinuz  ip=dhcp inst.repo=http:\/\/someme.me\/rhel8-install\/BaseOS\/ inst.lang=zh_CN inst.keymap=cn selinux=0 inst.stage2=http:\/\/someme.me\/rhel8-install\/ " /tmp/grub.new;
-  [[ "$AutoNet" -eq '0' ]] && sed -i "/$LinuxKernel.*\//c\\\t$LinuxKernel\\t\/boot\/vmlinuz  ip=$IPv4::$GATE:$MASK:my_hostname:eth0:none inst.repo=http:\/\/someme.me\/rhel8-install\/BaseOS\/ inst.lang=zh_CN inst.keymap=cn selinux=0 inst.stage2=http:\/\/someme.me\/rhel8-install\/ " /tmp/grub.new;
+  [[ "$AutoNet" -eq '1' ]] && sed -i "/$LinuxKernel.*\//c\\\t$LinuxKernel\\t\/boot\/vmlinuz  ip=dhcp inst.repo=http:\/\/bwg.arloor.dev\/rhel\/BaseOS\/ inst.lang=zh_CN inst.keymap=cn selinux=0 inst.stage2=http:\/\/bwg.arloor.dev\/rhel\/ " /tmp/grub.new;
+  [[ "$AutoNet" -eq '0' ]] && sed -i "/$LinuxKernel.*\//c\\\t$LinuxKernel\\t\/boot\/vmlinuz  ip=$IPv4::$GATE:$MASK:my_hostname:eth0:none inst.repo=http:\/\/bwg.arloor.dev\/rhel\/BaseOS\/ inst.lang=zh_CN inst.keymap=cn selinux=0 inst.stage2=http:\/\/bwg.arloor.dev\/rhel\/ " /tmp/grub.new;
   sed -i "/$LinuxIMG.*\//c\\\t$LinuxIMG\\t\/boot\/initrd.img" /tmp/grub.new;
 }
 
 [[ "$Type" == 'NoBoot' ]] && {
-  [[ "$AutoNet" -eq '1' ]] && sed -i "/$LinuxKernel.*\//c\\\t$LinuxKernel\\t\/vmlinuz  ip=dhcp inst.repo=http:\/\/someme.me\/rhel8-install\/BaseOS\/ inst.lang=zh_CN inst.keymap=us selinux=0 inst.stage2=http:\/\/someme.me\/rhel8-install\/ " /tmp/grub.new;
-  [[ "$AutoNet" -eq '0' ]] && sed -i "/$LinuxKernel.*\//c\\\t$LinuxKernel\\t\/vmlinuz  ip=$IPv4::$GATE:$MASK:my_hostname:eth0:none inst.repo=http:\/\/someme.me\/rhel8-install\/BaseOS\/ inst.lang=zh_CN inst.keymap=cn selinux=0 inst.stage2=http:\/\/someme.me\/rhel8-install\/ " /tmp/grub.new;
+  [[ "$AutoNet" -eq '1' ]] && sed -i "/$LinuxKernel.*\//c\\\t$LinuxKernel\\t\/vmlinuz  ip=dhcp inst.repo=http:\/\/bwg.arloor.dev\/rhel\/BaseOS\/ inst.lang=zh_CN inst.keymap=us selinux=0 inst.stage2=http:\/\/bwg.arloor.dev\/rhel\/ " /tmp/grub.new;
+  [[ "$AutoNet" -eq '0' ]] && sed -i "/$LinuxKernel.*\//c\\\t$LinuxKernel\\t\/vmlinuz  ip=$IPv4::$GATE:$MASK:my_hostname:eth0:none inst.repo=http:\/\/bwg.arloor.dev\/rhel\/BaseOS\/ inst.lang=zh_CN inst.keymap=cn selinux=0 inst.stage2=http:\/\/bwg.arloor.dev\/rhel\/ " /tmp/grub.new;
   sed -i "/$LinuxIMG.*\//c\\\t$LinuxIMG\\t\/initrd.img" /tmp/grub.new;
 }
 
