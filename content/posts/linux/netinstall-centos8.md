@@ -34,7 +34,27 @@ wget -qO install.sh http://www.arloor.com/install-centos8-from-centos7.sh && bas
 上述脚本所做：
 
 1. 从阿里云镜像网站下载`vmlinuz`和`initrd.img`到`/boot/net8`文件夹
-2. 编写grub2启动项
+2. 编写grub2启动项，示例所示，主要关注linux16那行的内核参数
+
+```shell
+menuentry 'Install Centos8 [ ]' --class debian --class gnu-linux --class gnu --class os {
+        load_video
+        set gfxpayload=keep
+        insmod gzio
+        insmod part_msdos
+        insmod ext2
+        set root='hd0,msdos1'
+        if [ x$feature_platform_search_hint = xy ]; then
+          search --no-floppy --fs-uuid --set=root --hint='hd0,msdos1'  4b499d76-769a-40a0-93dc-4a31a59add28
+        else
+          search --no-floppy --fs-uuid --set=root 4b499d76-769a-40a0-93dc-4a31a59add28
+        fi
+        linux16 /boot/vmlinuz  ip=dhcp inst.repo=http://bwg.arloor.dev/rhel/BaseOS/ inst.lang=zh_CN inst.keymap=cn selinux=0 inst.stage2=http://bwg.arloor.dev/rhel/
+        initrd16        /boot/initrd.img
+}
+```
+
+
 
 
 在做完之后，可以通过阿里云后台的VNC连接到服务器，然后重启服务器，，选择`install centos8 [ ]`启动项进行启动，随后就会进入centos8安装过程。
