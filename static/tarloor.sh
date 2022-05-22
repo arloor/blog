@@ -2,6 +2,14 @@
 
 hugoVersion="0.96.0"
 hugoURL=https://github.com/gohugoio/hugo/releases/download/v${hugoVersion}/hugo_extended_${hugoVersion}_Linux-64bit.tar.gz
+is_deb="1"
+if ! grep debian /etc/os-release &>/dev/null; then
+  is_deb="0"
+  echo "使用redhat系命令"
+else
+  echo "使用debian系命令"
+fi
+
 ## 检查依赖
 function CheckDependence() {
   FullDependence='0'
@@ -32,27 +40,6 @@ function CheckDependence() {
     fi
   fi
 }
-
-print_info() {
-  clear
-  echo "#############################################################"
-  echo "# Update ARLOOR.com contents                                #"
-  echo "# Website:  http://www.arloor.com/                          #"
-  echo "# Author: ARLOOR <admin@arloor.com>                         #"
-  echo "# Github: https://github.com/arloor                         #"
-  echo "#############################################################"
-  echo
-}
-
-print_info
-
-is_deb="1"
-if ! grep debian /etc/os-release &>/dev/null; then
-  is_deb="0"
-  echo "使用redhat系命令"
-else
-  echo "使用debian系命令"
-fi
 
 echo -e "\n\033[36m# Check Dependence\033[0m\n"
 CheckDependence git,tar,wget
