@@ -3,7 +3,7 @@ title: "Elasticsearch简单入门"
 date: 2020-01-07T19:45:16+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["undefined"]
+tags: ["Elasticsearch"]
 weight: 10
 subtitle: ""
 description : ""

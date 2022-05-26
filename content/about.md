@@ -11,14 +11,23 @@ date: 2019-08-21T22:03:30+08:00
 
 ## 专业技能
 
-- 常用开发语言：java（80%）、go(20%)。
-- 喜爱技术、喜爱开源，Github获得1900左右star，120 follower。
-- 阅读过redis、elasticsearch、netty、skywalking的源码，相关源码分享见[博客](https://www.arloor.com)
-- 深度参与美团指标监控系统开发，熟悉指标采集、上报、分析、聚合、存储、降采样的实现。
-- 全流程参与美团链路追踪系统的开发，熟悉java agent、链路拓扑分析等技术，广泛使用redis、elasticsearch、hbase、kafka、rpc等技术。
-- 曾使用go语言开发redis集群代理，让用户像使用单机redis一样使用redis集群，在此过程中熟悉redis resp协议、redis集群实现（拷贝、分片、故障迁移）。
-- 熟悉网络编程，阅读过《TCP/IP卷一》、《Unix网络编程》、《Java Nio》等相关书籍。熟练使用java Netty和go进行网络编程，相关项目见[HttpProxy](https://github.com/arloor/HttpProxy)和[forward](https://github.com/arloor/forward)。
-- 熟悉shell脚本编程，[相关开源项目](https://github.com/arloor/iptablesUtils)在Github获得1100Star。
+- 常用开发语言：
+    - java 80%
+    - go 20%
+- 开源贡献：
+    - Github获得1854star，122 follower
+    - [shell编程以设置iptables NAT转发](https://github.com/arloor/iptablesUtils)获得1100Star
+    - [全功能http代理](https://github.com/arloor/HttpProxy)及其[客户端](https://github.com/arloor/forward)
+- 源码阅读：
+    - [redis](https://www.arloor.com/tags/redis/)
+    - [Elasticsearch](https://www.arloor.com/tags/Elasticsearch/)
+    - [netty](https://www.arloor.com/tags/netty/)
+    - [skywalking监控系统](https://www.arloor.com/tags/%E5%8F%AF%E8%A7%82%E6%B5%8B%E6%80%A7/)
+- 大型项目：
+    - 美团链路追踪系统的开发，熟悉java agent、链路拓扑分析等技术，广泛使用redis、elasticsearch、hbase、kafka、rpc等技术。
+    - 美团指标监控系统开发，熟悉指标采集、上报、分析、聚合、存储、降采样的实现。
+    - 使用go语言开发redis集群代理，让用户像使用单机redis一样使用redis集群，在此过程中熟悉redis resp协议、redis集群实现（拷贝、分片、故障迁移）。
+    - 基于ElasticSearch的搜索平台建设。
 
 ## 工作经历
 
