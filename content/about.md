@@ -20,13 +20,13 @@ date: 2019-08-21T22:03:30+08:00
     - [全功能http代理](https://github.com/arloor/HttpProxy)及其[客户端](https://github.com/arloor/forward)
 - 源码阅读：
     - [redis](https://www.arloor.com/tags/redis/)
-    - [Elasticsearch](https://www.arloor.com/tags/Elasticsearch/)
+    - [Elasticsearch](https://www.arloor.com/tags/elasticsearch/)
     - [netty](https://www.arloor.com/tags/netty/)
     - [skywalking监控系统](https://www.arloor.com/tags/%E5%8F%AF%E8%A7%82%E6%B5%8B%E6%80%A7/)
 - 大型项目：
-    - 美团链路追踪系统的开发，熟悉java agent、链路拓扑分析等技术，广泛使用redis、elasticsearch、hbase、kafka、rpc等技术。
-    - 美团指标监控系统开发，熟悉指标采集、上报、分析、聚合、存储、降采样的实现。
-    - 使用go语言开发redis集群代理，让用户像使用单机redis一样使用redis集群，在此过程中熟悉redis resp协议、redis集群实现（拷贝、分片、故障迁移）。
+    - 美团唯一链路追踪系统的开发，广泛使用redis、elasticsearch、hbase、kafka、rpc等技术。
+    - 美团唯一监控系统开发，熟悉指标采集、上报、分析、聚合、存储、降采样的实现。
+    - 使用go语言开发redis集群代理，让用户像使用单机redis一样使用redis集群，在此过程中熟悉redis resp协议、拷贝、分片、故障迁移。
     - 基于ElasticSearch的搜索平台建设。
 
 ## 工作经历
