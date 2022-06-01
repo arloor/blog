@@ -11,6 +11,9 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
+记录下如何使用pprof
+<!--more-->
+
 ## 进程开启pprof
 
 修改代码，增加pprof的import，并监听端口
@@ -41,7 +44,6 @@ Entering interactive mode (type "help" for commands, "o" for options)
 (pprof) web
 (pprof)
 ```
-
 
 ## 使用pprof和graphviz对cpu profile提供更好的可视化
 
