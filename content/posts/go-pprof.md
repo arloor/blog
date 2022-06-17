@@ -53,8 +53,8 @@ graphviz安装见[https://graphviz.org/download/](https://graphviz.org/download/
 $ go get -u github.com/google/pprof
 $ pprof -http=:6060 C:\Users\arloor\pprof\pprof.mtrace-collector.samples.cpu.001.pb.gz
 Serving web UI on http://localhost:6060
-$ pprof -http=:6060 http://10.196.3.175:8080/debug/pprof/profile
-Fetching profile over HTTP from http://10.196.3.175:8080/debug/pprof/profile
+$ pprof -http=:6060 http://localhost:9999/debug/pprof/profile
+Fetching profile over HTTP from http://localhost:9999/debug/pprof/profile
 ```
 
 火焰图效果：
