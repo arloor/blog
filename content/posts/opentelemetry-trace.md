@@ -149,3 +149,95 @@ public enum Tracer {
 ## 再看下类图
 
 ![](/img/opentelemetry-trace-class-view.png)
+
+## 重要类解析
+
+### public interface Context
+
+上下文，kv结构，用于保存span和baggage，存放在ThreadLocalContextStorage中，因此是Threadlocal的。
+
+静态方法 `current()` 获取当前threadlocal的span和baggage
+
+成员方法 `get(ContextKey<V> key)` 相当于map的get，key可以是`SpanContextKey.KEY`或者`BaggageContextKey.KEY`，分别对应Span和Baggage
+
+成员方法 `with(ContextKey<V> k1, V v1);` 相当于map的put
+
+成员方法 `Scope makeCurrent()`，将this设置到当前线程的threadlocal中，**返回的scope是一个闭包，捕获了之前的threadlocal的Context，调用scope的close方法会将之前的Context恢复到threadlocal中。Scope是必须close的。**
+
+若干个`wrap`方法，跨线程封装Runnable、Callable、Executor，进入子线程前备份当前threadlocal，退出时恢复备份。
+
+### Scope
+
+```java
+public interface Scope extends AutoCloseable {
+
+  /**
+   * Returns a {@link Scope} that does nothing. Represents attaching a {@link Context} when it is
+   * already attached.
+   */
+  static Scope noop() {
+    return NoopScope.INSTANCE;
+  }
+
+  @Override
+  void close();
+}
+```
+
+scope指span的生效范围。类比方法执行的压栈出栈，进入一个scope前要先备份局部变量，退出scope时要恢复这些备份。opentelemetry里用闭包来捕获备份，具体见**ThreadLocalContextStorage#attach**，如下：
+
+```java
+  @Override
+  public Scope attach(Context toAttach) {
+    if (toAttach == null) {
+      // Null context not allowed so ignore it.
+      return NoopScope.INSTANCE;
+    }
+
+    Context beforeAttach = current(); // 进入scope前的Context，被下面的闭包补货
+    if (toAttach == beforeAttach) {
+      return NoopScope.INSTANCE;
+    }
+
+    THREAD_LOCAL_STORAGE.set(toAttach);
+
+    return () -> {
+      if (current() != toAttach) {
+        logger.log(
+            Level.FINE,
+            "Context in storage not the expected context, Scope.close was not called correctly");
+      }
+      THREAD_LOCAL_STORAGE.set(beforeAttach);
+    };
+  }
+```
+
+
+
+### Span
+
+```java
+@ThreadSafe
+final class RecordEventsReadableSpan implements ReadWriteSpan {
+    private static final Logger logger = Logger.getLogger(RecordEventsReadableSpan.class.getName());
+    private final SpanLimits spanLimits;
+    private final SpanContext context; // 需要传递给子span和跨进程传递的内容：traceId、spanId、flags(采样标识）、traceState（不同trace实现供应商所传递的系统信息）
+    private final SpanContext parentSpanContext;
+    private final SpanProcessor spanProcessor; // span的处理器，在结束时调用
+    private final List<LinkData> links; // 父子关系外的其他关系
+    private final int totalRecordedLinks;
+    private final SpanKind kind; // INTERNAL、SERVER、CLIENT、PRODUCER、CONSUMER
+    private final AnchoredClock clock;
+    private final Resource resource; // 系统信息
+    private final InstrumentationLibraryInfo instrumentationLibraryInfo;
+    private final long startEpochNanos;
+    private final Object lock = new Object();
+    private String name;
+    @Nullable
+    private AttributesMap attributes; // 无时间属性的埋点
+    private final List<EventData> events; // 有时间属性的埋点
+    private int totalRecordedEvents = 0;
+    private StatusData status = StatusData.unset();
+    private long endEpochNanos;
+    private boolean hasEnded;
+```
