@@ -98,7 +98,7 @@ public enum Tracer {
         OpenTelemetry openTelemetry = OpenTelemetrySdk.builder()
                 .setTracerProvider(sdkTracerProvider)
                 // 跨进程传播规则
-                .setPropagators(ContextPropagators.create(W3CTraceContextPropagator.getInstance()))
+                .setPropagators(ContextPropagators.create(TextMapPropagator.composite(W3CTraceContextPropagator.getInstance(), W3CBaggagePropagator.getInstance())))
                 .buildAndRegisterGlobal();
         this.delegate = openTelemetry.getTracer("http-proxy");
     }
@@ -241,3 +241,14 @@ final class RecordEventsReadableSpan implements ReadWriteSpan {
     private long endEpochNanos;
     private boolean hasEnded;
 ```
+
+## Context传播
+
+这里的Context就是上面Context类中的SpanContext和Baggage。这些也是需要传递给子span和跨进程传播的内容。设置opentelemetry SDK的传播规则如下：
+
+```java
+OpenTelemetrySdk.builder()
+.setPropagators(ContextPropagators.create(TextMapPropagator.composite(W3CTraceContextPropagator.getInstance(), W3CBaggagePropagator.getInstance())));
+```
+
+跨进程传播的原理很简单——上游将Context设置到http或者rpc的header中，下游从header中取出http。opentelemetry抽象出了carrier、inject和extract这些概念。carrier承载context，inject将context设置到carrier中，extract将context从carrier中取出。具体例子可以看[#context-propagation](https://opentelemetry.io/docs/instrumentation/java/manual/#context-propagation)
