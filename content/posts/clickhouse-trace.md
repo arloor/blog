@@ -280,6 +280,9 @@ func (h *SpanHandler) Percentiles(w http.ResponseWriter, req bunrouter.Request) 
 
 	m := make(map[string]interface{})
 
+    // 子查询作为表
+    // groupBy time =》 一行是一分钟的聚合数据（分位线、个数、错误数）
+    // orderBy time asc，控制递增
 	subq := h.CH().NewSelect().
 		Model((*SpanIndex)(nil)).
 		WithAlias("qsNaN", "quantilesTDigest(0.5, 0.9, 0.99)(`span.duration`)").
@@ -303,6 +306,8 @@ func (h *SpanHandler) Percentiles(w http.ResponseWriter, req bunrouter.Request) 
 		OrderExpr("time ASC").
 		Limit(10000)
 
+    // groupBy 空元组，表示都放在一行
+    // groupArray 表示将所有值变成一个数组
 	if err := h.CH().NewSelect().
 		ColumnExpr("groupArray(count) AS count").
 		ColumnExpr("groupArray(rate) AS rate").
@@ -354,4 +359,5 @@ insert into table spans_index  ("span.trace_id","span.id",attr_keys,attr_values)
 ;
 
 select * from spans_index where attr_values[indexOf(attr_keys, 'a')] = 'a';
+select groupArray(`span.id`) from spans_index group by tuple();
 ```
