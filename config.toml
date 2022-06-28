@@ -52,8 +52,8 @@ paginate = 10
     toc="hugo"
 
 [params.meta]
-    keywords="刘港欢,  arloor, moontell"
-    description = "刘港欢的博客——专注java、go与网络编程"
+    keywords="刘港欢, arloor, moontell"
+    description = "今天，你学习了吗"
 
 ## Social Accounts
 [params.social]
