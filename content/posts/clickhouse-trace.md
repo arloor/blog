@@ -3,7 +3,7 @@ title: "Clickhouse Trace"
 date: 2022-06-28T15:35:44+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["undefined"]
+tags: ["可观测性"]
 weight: 10
 subtitle: ""
 description : ""
