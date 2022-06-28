@@ -12,6 +12,7 @@ keywords:
 ---
 
 探索几种clickhouse存储trace的方案
+<!--more-->
 
 ## uptrace实现
 
