@@ -328,3 +328,29 @@ func (h *SpanHandler) Percentiles(w http.ResponseWriter, req bunrouter.Request) 
 	return httputil.JSON(w, m)
 }
 ```
+
+### 测试数据集
+
+```sql
+CREATE TABLE IF NOT EXISTS spans_index (
+  "span.trace_id" String ,
+  "span.id" UInt64,
+  "span.duration" Int64,
+  attr_keys Array(LowCardinality(String)) ,
+  attr_values Array(String) 
+)
+ENGINE = MergeTree()
+ORDER BY ("span.trace_id");
+
+truncate table spans_index;
+
+insert into table spans_index  ("span.trace_id","span.id",attr_keys,attr_values) values 
+('aaaaaaa',1,array('a','b','c'),['a','b','c']),
+('bbbbbbb',2,array('a','b','c'),['b','c','d']),
+('ccccccc',3,array('a','b','c'),['c','d','e']),
+('ddddddd',4,array('a','b','c'),['d','e','f']),
+('eeeeeee',5,array('a','b','c'),['e','f','g'])
+;
+
+select * from spans_index where attr_values[indexOf(attr_keys, 'a')] = 'a';
+```
