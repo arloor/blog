@@ -3,7 +3,7 @@ title: "Facts About Me"
 date: 2019-08-21T22:03:30+08:00
 ---
 
-**程序员是Research and Development，不是背八股文**
+**信条：程序员的职责是Research and Development，而不是死记硬背！！**
 
 ## 专业技能
 
