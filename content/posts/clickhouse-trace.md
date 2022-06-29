@@ -335,6 +335,54 @@ func (h *SpanHandler) Percentiles(w http.ResponseWriter, req bunrouter.Request) 
 }
 ```
 
+类似的功能Mtrace目前是使用Es的date_histogram和avg的两层聚合来做的，查询DSL是：
+
+```json
+{
+	"size": 0,
+	"timeout": "10s",
+	"query": {
+		"bool": {
+			"must": [{
+				"range": {
+					"mt_datetime": {
+						"from": "2022-06-29 14:09:48+0800",
+						"to": "2022-06-29 15:09:48+0800",
+						"include_lower": true,
+						"include_upper": true,
+						"boost": 1.0
+					}
+				}
+			}],
+			"adjust_pure_negative": true,
+			"boost": 1.0
+		}
+	},
+	"aggregations": {
+		"trace_date": {
+			"date_histogram": {
+				"field": "mt_datetime",
+				"format": "yyyy-MM-dd HH:mm:ss",
+				"interval": "1m",
+				"offset": 0,
+				"order": {
+					"_key": "asc"
+				},
+				"keyed": false,
+				"min_doc_count": 0
+			},
+			"aggregations": {
+				"duration": {
+					"avg": {
+						"field": "slow_query"
+					}
+				}
+			}
+		}
+	}
+}
+```
+
 ### 测试数据集
 
 ```sql
