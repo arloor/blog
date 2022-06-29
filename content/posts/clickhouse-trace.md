@@ -16,6 +16,8 @@ keywords:
 
 ## uptrace实现
 
+[开源地址](https://github.com/uptrace/uptrace)
+
 uptrace创建了两张表，一张是spans_index索引表，用于搜索，另一张是原始数据表。
 
 ```sql
