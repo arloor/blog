@@ -44,7 +44,8 @@ select 1
 ```
 
 效果如下图
-<img src="/img/clickhouse-client.png" alt="" width="600px" style="max-width: 100%;">
+
+![](/img/clickhouse-client.png)
 
 ## 测试
 
