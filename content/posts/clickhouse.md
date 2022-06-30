@@ -1,6 +1,6 @@
 ---
 title: "Clickhouse文档学习"
-date: 2020-08-14T14:37:51+08:00
+date: 2022-06-30T14:37:51+08:00
 draft: false
 categories: [ "undefined"]
 tags: ["undefined"]
@@ -86,9 +86,52 @@ MemTable是在内存中的数据结构，用于保存最近更新的数据，会
 
 ### MergeTree详解
 
+参考[mergetree文档](https://clickhouse.com/docs/zh/engines/table-engines/mergetree-family/mergetree)
 
- 
+- paritition: 可以按照任意标准进行分区，例如按月、按日或按事件类型。
+- 数据片段（dataPart）：一段有序的数据
+- 主键（order by）:不同于mysql，这里的主键仅指按照什么规则进行排序。
+- 颗粒（granular）：颗粒的大小=稀疏索引的粒度。通过index_granularity控制一个粒度所包含的行数。
+- 跳数索引：用于一次性越过多个颗粒。主键和颗粒粒度决定了每隔多少行标记一个offset。如果很多个颗粒的主键都是一样的，就可以考虑通过跳数索引来一次行越过多个颗粒（另一种思路是在主键中加入新的列）。跳数索引有minmax(类似主键索引)、set、各种布隆过滤器。
+
+**分区键和主键的作用**：ClickHouse 会依据主键索引剪掉不符合的数据，依据按月分区的分区键剪掉那些不包含符合数据的分区
 
  ## 向量引擎
 
  通过SIMD(Single Instruction Multiple Data)加速操作，ClickHouse使用SSE 4.2指令集。关于SIMD可见[向量化并行（vectorization）](https://zhuanlan.zhihu.com/p/337756824)
+
+ ## 低基数类型
+
+```java
+Set set=new HashSet<>(list)
+```
+
+考虑从list生成set，如果list不断膨胀，膨胀到非常大，最后生成的set的大小仍然比较小，则这个数据集就是低基数的。用sql描述就是：
+
+```sql
+select distinct column的结果比较小
+```
+
+低基数类型实际是使用**字典索引**。把遇到的元素都加入到字典中，每个元素一个index。然后用index代替元素本身，从而缩减存储和查询成本。
+
+![](/img/low-cardinality.webp)
+
+
+ 相对于低基数，高基数问题是监控场景下的常见问题：
+
+> 高基数（High-Cardinality）的定义为在一个数据列中的数据基本上不重复，或者说重复率非常低。邮件地址，用户名等都可以被认为是高基数数据。   
+> 每一条数据称为一个样本（sample），由以下三部分组成：  
+> - 指标/时间线（time-series）：metricName + tagValues
+> - 时间戳（timestamp）：一个精确到毫秒的时间戳;
+> - 样本值（value）：表示当前样本的值。
+> 
+> 比如随着时间流逝，云原生场景下 tag 出现 pod/container ID之类，也有些 tag 出现 userId，甚至有些 tag 是 url，而这些 tag 组合时，时间线膨胀得非常厉害。
+
+## 分布式
+
+- 分片（shard）：创建分布式表
+- 拷贝（replicate）：创建ReplicatedMergeTree
+- 使用zookeeper进行分布式协作
+
+为了防止生成过多part，采用写本地表、查分布式表的方式。   
+为了方式生成过多part，采取大批量的写入，采用10000以上的批次
