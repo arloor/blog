@@ -408,6 +408,9 @@ insert into table spans_index  ("span.trace_id","span.id",attr_keys,attr_values)
 ('eeeeeee',5,array('a','b','c'),['e','f','g'])
 ;
 
+---- 根据tag搜索
 select * from spans_index where attr_values[indexOf(attr_keys, 'a')] = 'a';
 select groupArray(`span.id`) from spans_index group by tuple();
+---- 根据tag groupby
+select attr_values[indexOf(attr_keys, 'a')] as a, count(1),groupArray(`span.id`) from spans_index group by a order by a;
 ```
