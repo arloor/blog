@@ -135,3 +135,27 @@ select distinct column的结果比较小
 
 为了防止生成过多part，采用写本地表、查分布式表的方式。   
 为了方式生成过多part，采取大批量的写入，采用10000以上的批次
+
+## Clickhouse与ES对比
+
+
+- ClickHouse写入吞吐量大，单服务器日志写入量在50MB到200MB/s，每秒写入超过60w记录数，是ES的5倍以上。在ES中比较常见的写Rejected导致数据丢失、写入延迟等问题，在ClickHouse中不容易发生。
+
+- 查询速度快，官方宣称数据在pagecache中，单服务器查询速率大约在2-30GB/s；没在pagecache的情况下，查询速度取决于磁盘的读取速率和数据的压缩率。经测试ClickHouse的查询速度比ES快5-30倍以上。
+
+- ClickHouse比ES服务器成本更低。一方面ClickHouse的数据压缩比比ES高，相同数据占用的磁盘空间只有ES的1/3到1/30，节省了磁盘空间的同时，也能有效的减少磁盘IO，这也是ClickHouse查询效率更高的原因之一；另一方面ClickHouse比ES占用更少的内存，消耗更少的CPU资源。我们预估用ClickHouse处理日志可以将服务器成本降低一半。
+
+- 相比ES，ClickHouse稳定性更高，运维成本更低。ES中不同的Group负载不均衡，有的Group负载高，会导致写Rejected等问题，需要人工迁移索引；在ClickHouse中**通过集群和Shard策略**，采用轮询写的方法，可以让数据比较均衡的分布到所有节点。ES中一个大查询可能导致OOM的问题；ClickHouse通过**预设的查询限制**，会查询失败，不影响整体的稳定性。ES需要进行冷热数据分离，每天200T的数据搬迁，稍有不慎就会导致搬迁过程发生问题，一旦搬迁失败，热节点可能很快就会被撑爆，导致一大堆人工维护恢复的工作；ClickHouse按天分partition，一般不需要考虑冷热分离，特殊场景用户确实需要冷热分离的，数据量也会小很多，ClickHouse自带的冷热分离机制就可以很好的解决。
+
+- ClickHouse采用SQL语法，比ES的DSL更加简单，学习成本更低。
+
+## clickhouse查询限制
+
+|参数|参考值|作用|
+|---|---|----------|
+|max_threads|32|用于控制一个用户的查询线程数|
+|max_memory_usage|10000000000|单个查询最多能够使用内存大小9.31G|
+|max_execution_time|30|单个查询最大执行时间|
+|skip_unavailable_shards|1|在通过分布式表查询的时候，当某一个shard无法访问时，其他shard的数据仍然可以查询|
+
+如果以上查询限制还是不够的话，可以手动kill query终止慢查询的执行。
