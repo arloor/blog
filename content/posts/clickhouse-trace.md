@@ -413,4 +413,5 @@ select * from spans_index where attr_values[indexOf(attr_keys, 'a')] = 'a';
 select groupArray(`span.id`) from spans_index group by tuple();
 ---- 根据tag groupby
 select attr_values[indexOf(attr_keys, 'a')] as a, count(1),groupArray(`span.id`) from spans_index group by a order by a;
+--- 这里根据array中的值group by，最好增加attr_keys的布隆过滤跳数索引，减少数据访问量。对用常用的group by，可以考虑增加物化视图（通过放大写，加速查询）
 ```
