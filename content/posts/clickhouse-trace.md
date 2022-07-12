@@ -373,7 +373,7 @@ from
             10000
     )
 group by
-    tuple()
+    tuple() 
 limit
     1000
 
