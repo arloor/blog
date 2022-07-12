@@ -337,6 +337,46 @@ func (h *SpanHandler) Percentiles(w http.ResponseWriter, req bunrouter.Request) 
 }
 ```
 
+写成sql是：
+
+```sql
+select
+    groupArray(count) AS count,
+    groupArray(rate) AS rate,
+    groupArray(time) AS time,
+    groupArray(errorCount) AS errorCount,
+    groupArray(errorRate) AS errorRate,
+    groupArray(p50) AS p50,
+    groupArray(p90) AS p90,
+    groupArray(p99) AS p99
+from
+    (
+        WITH 1 as interval,
+        WITH quantilesTDigest(0.5, 0.9, 0.99)(`span.duration`) as qsNaN,
+        WITH if(isNaN(qsNaN [1]), [0, 0, 0], qsNaN) as qs,
+        select
+            sum(`span.count`) AS count,
+            sum(`span.count`) / $ interval AS rate,
+            toStartOfInterval(`span.time`, INTERVAL interval minute) AS time,
+            sumIf(`span.count`, `span.status_code` = 'error') AS errorCount,
+            sumIf(`span.count`, `span.status_code` = 'error') / interval AS errorRate,
+            round(qs [1]) AS p50,
+            round(qs [2]) AS p90,
+            round(qs [3]) AS p99
+      	where appkey="testappkey" and `span.time` between xx and xx and attr_values[indexOf(attr_keys, 'some_key')] = 'some_value'
+        group by
+            time
+        order by
+            time ASC
+        limit
+            10000
+    )
+group by
+    tuple()
+limit
+    1000
+```
+
 类似的功能Mtrace目前是使用Es的date_histogram和avg的两层聚合来做的，查询DSL是：
 
 ```json
