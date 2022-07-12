@@ -376,7 +376,7 @@ group by
     tuple() 
 limit
     1000
-
+```
 
 类似的功能Mtrace目前是使用Es的date_histogram和avg的两层聚合来做的，查询DSL是：
 
