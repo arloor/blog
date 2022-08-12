@@ -58,3 +58,8 @@ A调用B时，标记请求来源于A，这个标记通过trace透传给B，B收�
 ## 结语
 
 本文主题是trace，先介绍了trace个案分析在可观测性体系中的作用，最后介绍了从trace生成性能指标的核心在于trace可以“跨进程网络传输分类标记”的能力。
+
+## 参考文档
+
+1. [CNCF 可观测性白皮书中文版](https://mp.weixin.qq.com/s/2xt1kHqJ2Sj2c4u08d1ejA)
+2. [助力可观察性统一平台：SLS Trace服务发布](https://developer.aliyun.com/article/783621)
