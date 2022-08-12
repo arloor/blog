@@ -30,7 +30,7 @@ metrics、trace、log被称为可观测性的三大支柱（也称三大主要�
 
 个人认为，**可观测性在实践上就是打破metrics、trace、log的信息孤岛，通过metrics、trace、log关联让问题定位这件事变得自动**。OpenTelemetry的可观测性白皮书是这样来做metrics、trace、log关联的：上报metrics时报文中有Exampler（良好的例子），其实就是traceId，用于关联metrics和trace。log中包含traceId、spanId，用于关联trace和log。通过这些关联字段（主要就是traceId），从metrics找trace、从trace找log，就是一件十分简单并且可以集成到paas平台的事情。
 
-## 从trace生成性能指标(Metrics)
+## 从trace生成metrics(也称为Dependency分析)
 
 在上面介绍什么是可观测性时，已经介绍了trace承上启下关联metrics和log的能力，这是trace在“个案”分析上的作用，但并不止于此。
 
