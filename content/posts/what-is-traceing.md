@@ -1,5 +1,5 @@
 ---
-title: "What Is Traceing"
+title: "什么是trace，分布式调用监控的本质是什么？"
 date: 2022-08-12T14:40:45+08:00
 draft: false
 categories: [ "undefined"]
