@@ -68,6 +68,32 @@ NetworkAddressAliasMappingListener
 2. clone仓库，并且clone子模块
 3. maven clean compile编译protobuf和grpc
 
+```xml
+<settings>
+    <proxies>
+        <proxy>
+          <id>optional</id>
+          <active>true</active>
+          <protocol>http</protocol>
+          <username>proxyuser</username>
+          <password>proxypass</password>
+          <host>localhost</host>
+          <port>3128</port>
+          <nonProxyHosts>maven.aliyun.com|example.com</nonProxyHosts>
+        </proxy>
+    </proxies>
+    ....
+</settings>
+```
+
+```shell
+git clone https://github.com/apache/skywalking.git
+cd skywalking/
+git submodule init
+git submodule update
+mvn package -Pbackend -Dmaven.test.skip=true
+```
+
 ## 启动流程
 
 上面已经找到了关键类，但目前还不知道skywalking是怎么走到这段代码的，需要看下启动流程才行。skywalking的模块化设计还是挺值得借鉴的。
