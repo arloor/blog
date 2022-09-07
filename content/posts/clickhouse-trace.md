@@ -11,14 +11,17 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
-探索几种clickhouse存储trace的方案
+clickhouse是开源的纯列式数据库，定位是OLAP数据库。因为他的一些特性，也广泛用于监控领域，一方面代替时序数据库，存储多维度指标，另一方面也用于存储trace数据。这个博客的目的就是调研下业界如何使用clickhouse存储trace的，围绕表结构和查询sql语句展开，主要调研[开源地址](https://github.com/uptrace/uptrace)的实现。
 <!--more-->
 
-## uptrace实现
+## 表结构
 
-[开源地址](https://github.com/uptrace/uptrace)
+uptrace创建了两张表，一张是`spans_index`索引表，用于搜索，另一张是原始数据表`spans_data`。
 
-uptrace创建了两张表，一张是spans_index索引表，用于搜索，另一张是原始数据表。
+### `spans_index`索引表
+
+- 对于trace元数据中固定字段（span.system、span.group_id等）直接设置单独属性。
+- 对于用户自定义的attribute（本身是个map的数据结构），使用两个array分别存储key和value。
 
 ```sql
 CREATE TABLE spans_index (
@@ -61,7 +64,7 @@ CREATE TABLE spans_index (
   "exception.type" LowCardinality(String) Codec(?CODEC),
   "exception.message" String Codec(?CODEC),
 
-  INDEX idx_attr_keys attr_keys TYPE bloom_filter(0.01) GRANULARITY 8,
+  INDEX idx_attr_keys attr_keys TYPE bloom_filter(0.01) GRANULARITY 8, /*使用布隆过滤器索引attribute key*/
   INDEX idx_duration "span.duration" TYPE minmax GRANULARITY 1
 )
 ENGINE = ?(REPLICATED)MergeTree()
@@ -69,9 +72,11 @@ ORDER BY (project_id, "span.system", "span.group_id", "span.time")
 PARTITION BY toDate("span.time")
 TTL toDate("span.time") + INTERVAL ?TTL DELETE
 SETTINGS ttl_only_drop_parts = 1
+```
 
---migration:split
+### `spans_data`原始数据表
 
+```sql
 CREATE TABLE spans_data (
   trace_id UUID Codec(?CODEC),
   id UInt64 Codec(?CODEC),
@@ -87,9 +92,20 @@ SETTINGS ttl_only_drop_parts = 1,
          index_granularity = 128
 ```
 
-查询spanData很简单，就是根据traceId来点查，主要看根据spanIndex搜索，这个过程中也能看到很多clickhouse的聚合、分位线等操作。
+查询spanData很简单，就是根据traceId来点查，不做过多分析。我们主要看根据spanIndex搜索，这个过程中也能看到很多clickhouse的聚合、分位线等操作。
 
-### spanIndex查询
+## spans_index查询
+
+sql实例：
+
+```sql
+---- 根据attribute搜索
+select * from spans_index where 'project_id'='xxxx' and xxxxx and  attr_values[indexOf(attr_keys, 'a')] = 'a';
+```
+
+精髓在于使用attr_keys和attr_values这两个array来实现map的效果，经过和同行的一些交流，这种用法是公认比较成熟的做法。
+
+### uptrace实现解析
 
 核心方法在
 
@@ -266,7 +282,101 @@ func appendCond(b []byte, cond uql.Cond, bb []byte) []byte {
 }
 ```
 
-### 聚合出每分钟的平均耗时，错误率等
+## 聚合出每分钟的平均耗时，错误率等
+
+sql实例：
+
+```sql
+select
+    groupArray(count) AS count,
+    groupArray(rate) AS rate,
+    groupArray(time) AS time,
+    groupArray(errorCount) AS errorCount,
+    groupArray(errorRate) AS errorRate,
+    groupArray(p50) AS p50,
+    groupArray(p90) AS p90,
+    groupArray(p99) AS p99
+from
+    (
+		-- 以一分钟为聚合粒度
+        WITH 1 as interval,
+		-- 计算qps时，一分钟=60秒
+		60 as intervalTime,
+        quantilesTDigest(0.5, 0.9, 0.99)(`span.duration`) as qsNaN,
+        if(isNaN(qsNaN [1]), [0, 0, 0], qsNaN) as qs,
+        select
+            sum(`span.count`) AS count,
+            sum(`span.count`) / $ intervalTime AS rate,
+            toStartOfInterval(`span.time`, INTERVAL interval minute) AS time,
+            sumIf(`span.count`, `span.status_code` = 'error') AS errorCount,
+            sumIf(`span.count`, `span.status_code` = 'error') / intervalTime AS errorRate,
+            round(qs [1]) AS p50,
+            round(qs [2]) AS p90,
+            round(qs [3]) AS p99
+      	where xxxxxxxxxxxx
+        group by
+            time
+        order by
+            time ASC
+        limit
+            10000
+    )
+group by
+    -- 以空元组为group by，最终结果为一行
+    tuple() 
+limit
+    1000
+```
+
+对应的聚合功能在es也是支持的，需要使用date_histogram和avg的两层聚合，DSL如下：
+
+```json
+{
+	"size": 0,
+	"timeout": "10s",
+	"query": {
+		"bool": {
+			"must": [{
+				"range": {
+					"mt_datetime": {
+						"from": "2022-06-29 14:09:48+0800",
+						"to": "2022-06-29 15:09:48+0800",
+						"include_lower": true,
+						"include_upper": true,
+						"boost": 1.0
+					}
+				}
+			}],
+			"adjust_pure_negative": true,
+			"boost": 1.0
+		}
+	},
+	"aggregations": {
+		"trace_date": {
+			"date_histogram": {
+				"field": "mt_datetime",
+				"format": "yyyy-MM-dd HH:mm:ss",
+				"interval": "1m",
+				"offset": 0,
+				"order": {
+					"_key": "asc"
+				},
+				"keyed": false,
+				"min_doc_count": 0
+			},
+			"aggregations": {
+				"duration": {
+					"avg": {
+						"field": "slow_query"
+					}
+				}
+			}
+		}
+	}
+}
+```
+
+### uptrace代码实现
 
 ```go
 func (h *SpanHandler) Percentiles(w http.ResponseWriter, req bunrouter.Request) error {
@@ -334,95 +444,6 @@ func (h *SpanHandler) Percentiles(w http.ResponseWriter, req bunrouter.Request) 
 	fillHoles(m, f.TimeGTE, f.TimeLT, groupPeriod)
 
 	return httputil.JSON(w, m)
-}
-```
-
-写成sql是：
-
-```sql
-select
-    groupArray(count) AS count,
-    groupArray(rate) AS rate,
-    groupArray(time) AS time,
-    groupArray(errorCount) AS errorCount,
-    groupArray(errorRate) AS errorRate,
-    groupArray(p50) AS p50,
-    groupArray(p90) AS p90,
-    groupArray(p99) AS p99
-from
-    (
-		-- 以一分钟为聚合粒度
-        WITH 1 as interval,
-        WITH quantilesTDigest(0.5, 0.9, 0.99)(`span.duration`) as qsNaN,
-        WITH if(isNaN(qsNaN [1]), [0, 0, 0], qsNaN) as qs,
-        select
-            sum(`span.count`) AS count,
-            sum(`span.count`) / $ interval AS rate,
-            toStartOfInterval(`span.time`, INTERVAL interval minute) AS time,
-            sumIf(`span.count`, `span.status_code` = 'error') AS errorCount,
-            sumIf(`span.count`, `span.status_code` = 'error') / interval AS errorRate,
-            round(qs [1]) AS p50,
-            round(qs [2]) AS p90,
-            round(qs [3]) AS p99
-      	where xxxxxxxxxxxx
-        group by
-            time
-        order by
-            time ASC
-        limit
-            10000
-    )
-group by
-    tuple() 
-limit
-    1000
-```
-
-类似的功能Mtrace目前是使用Es的date_histogram和avg的两层聚合来做的，查询DSL是：
-
-```json
-{
-	"size": 0,
-	"timeout": "10s",
-	"query": {
-		"bool": {
-			"must": [{
-				"range": {
-					"mt_datetime": {
-						"from": "2022-06-29 14:09:48+0800",
-						"to": "2022-06-29 15:09:48+0800",
-						"include_lower": true,
-						"include_upper": true,
-						"boost": 1.0
-					}
-				}
-			}],
-			"adjust_pure_negative": true,
-			"boost": 1.0
-		}
-	},
-	"aggregations": {
-		"trace_date": {
-			"date_histogram": {
-				"field": "mt_datetime",
-				"format": "yyyy-MM-dd HH:mm:ss",
-				"interval": "1m",
-				"offset": 0,
-				"order": {
-					"_key": "asc"
-				},
-				"keyed": false,
-				"min_doc_count": 0
-			},
-			"aggregations": {
-				"duration": {
-					"avg": {
-						"field": "slow_query"
-					}
-				}
-			}
-		}
-	}
 }
 ```
 
