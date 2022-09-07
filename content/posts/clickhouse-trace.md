@@ -447,7 +447,7 @@ func (h *SpanHandler) Percentiles(w http.ResponseWriter, req bunrouter.Request) 
 }
 ```
 
-### 测试数据集
+## 测试数据集
 
 ```sql
 CREATE TABLE IF NOT EXISTS spans_index (
