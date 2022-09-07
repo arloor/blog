@@ -11,14 +11,14 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
-clickhouse是开源的纯列式数据库，定位是OLAP数据库。因为他的一些特性，也广泛用于监控领域，一方面代替时序数据库，存储多维度指标，另一方面也用于存储trace数据。这个博客的目的就是调研下业界如何使用clickhouse存储trace的，围绕表结构和查询sql语句展开，主要调研[开源地址](https://github.com/uptrace/uptrace)的实现。
+clickhouse是开源的纯列式数据库，定位是OLAP数据库。因为他的一些特性，也广泛用于监控领域，一方面代替时序数据库，存储多维度指标，另一方面也用于存储trace数据。这个博客的目的就是调研下业界如何使用clickhouse存储trace的，围绕表结构和查询sql语句展开，主要调研[uptrace](https://github.com/uptrace/uptrace)的实现。
 <!--more-->
 
 ## 表结构
 
 uptrace创建了两张表，一张是`spans_index`索引表，用于搜索，另一张是原始数据表`spans_data`。
 
-### `spans_index`索引表
+### spans_index索引表
 
 - 对于trace元数据中固定字段（span.system、span.group_id等）直接设置单独属性。
 - 对于用户自定义的attribute（本身是个map的数据结构），使用两个array分别存储key和value。
@@ -74,7 +74,7 @@ TTL toDate("span.time") + INTERVAL ?TTL DELETE
 SETTINGS ttl_only_drop_parts = 1
 ```
 
-### `spans_data`原始数据表
+### spans_data原始数据表
 
 ```sql
 CREATE TABLE spans_data (
@@ -282,7 +282,7 @@ func appendCond(b []byte, cond uql.Cond, bb []byte) []byte {
 }
 ```
 
-## 聚合出每分钟的平均耗时，错误率等
+## 使用聚合函数计算耗时、qps等性能指标
 
 sql实例：
 
