@@ -477,3 +477,30 @@ select groupArray(`span.id`) from spans_index group by tuple();
 select attr_values[indexOf(attr_keys, 'a')] as a, count(1),groupArray(`span.id`) from spans_index group by a order by a;
 --- 这里根据array中的值group by，最好增加attr_keys的布隆过滤跳数索引，减少数据访问量。对用常用的group by，可以考虑增加物化视图（通过放大写，加速查询）
 ```
+
+## 优化效果
+
+原来我们使用es存储span的索引，因为大数据部门的es维护状况差，es的查询和写入性能很差（维护状况好的话，相信es也可以有很好的表现的）。切换到clickhouse后，在查询性能、写入性能、存储用量上都有明显的提升。
+
+- clickhouse部署情况：3分片2副本，共6台机器（64核/256G/89424G）
+- es部署情况：每日创建索引，450分片，单副本；日写入720亿记录，占用13TB存储。
+- 查询性能：平均耗时降低至原来的十分之一，tp99降低至原来的八分之一，消除超时的情况（超时时间为15秒）。**目前clickhouse在复杂查询、大结果集等情况下表现比es稳定，表现在tp90等耗时较低**，具体查询性能见下表（35qps）：
+
+|存储|平均耗时|TP50|TP90| TP95 | TP99 |
+|  ----  | ----  | ---- | ---- | ---- | ---- |
+| es  | 1110ms | 850ms | 1966ms | 2500ms | 4000ms |
+| clickhouse  | 133ms | 103ms | 184ms | 226ms | 537ms |
+
+- 写入性能：每日写入2000亿原始数据（全量数据的16%），是原ES方案的3倍。待clickhouse扩容后还可提升写入量。
+- 磁盘空间占用：结论：磁盘占用是es的1/9（相同写入量，相同副本数）。每天2000亿记录下，每天写入4TB，双副本是8TB，压缩率是18%。
+- 查询qps峰值：我们没有对clickhouse进行专门压测，目前峰值qps为50qps，clickhouse无压力。压测可参考[ClickHouse与Elasticsearch压测实践（京东云）](https://www.toutiao.com/article/7137119576009048609/?app=news_article&timestamp=1661759655&use_new_style=1&req_id=20220829155415010158147053180502E7&group_id=7137119576009048609&share_token=95add52e-5ec3-42d7-84b3-1f975de2fc65&tt_from=copy_link&utm_source=copy_link&utm_medium=toutiao_android&utm_campaign=client_share&source=m_redirect)，引用下其结论(压测环境请在原文中查看)：
+
+> 1）clickhouse对并发有一定的支持，并不是不支持高并发，可以通过调整max_thread提高并发
+> - max_thread=32时，支持最大TPS 是37，相应TP99是122
+> - max_thread=2时，支持最大TPS 是66，相应TP99是155
+> - max_thread=1时，支持最大TPS 是86，相应TP99是206
+
+> 2）在并发方面Elasticsearch比clickhouse支持的更好，但是相应的响应速度慢很多
+
+> - Elasticsearch：对应的TPS是192，TP99是3050
+> - clickhouse：对应的TPS 是86，TP99是206
