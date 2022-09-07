@@ -499,6 +499,7 @@ select attr_values[indexOf(attr_keys, 'a')] as a, count(1),groupArray(`span.id`)
 > - max_thread=32时，支持最大TPS 是37，相应TP99是122
 > - max_thread=2时，支持最大TPS 是66，相应TP99是155
 > - max_thread=1时，支持最大TPS 是86，相应TP99是206
+>  
 > 2）在并发方面Elasticsearch比clickhouse支持的更好，但是相应的响应速度慢很多
 > - Elasticsearch：对应的TPS是192，TP99是3050
 > - clickhouse：对应的TPS 是86，TP99是206
