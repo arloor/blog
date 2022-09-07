@@ -3,7 +3,7 @@ title: "About Arloor"
 date: 2019-08-21T22:03:30+08:00
 ---
 
-**信条：程序员的职责是Research and Development，而不是死记硬背！！**
+**信条：Research and Development!**
 
 ## 专业技能
 
