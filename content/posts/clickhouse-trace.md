@@ -20,7 +20,7 @@ uptrace创建了两张表，一张是`spans_index`索引表，用于搜索，另
 
 ### spans_index索引表
 
-- 对于trace元数据中固定字段（span.system、span.group_id等）直接设置单独属性。
+- 对于trace元数据中固定字段（span.system、span.group_id等）直接设置单独字段。
 - 对于用户自定义的attribute（本身是个map的数据结构），使用两个array分别存储key和value。
 
 ```sql
