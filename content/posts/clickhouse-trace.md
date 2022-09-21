@@ -493,7 +493,7 @@ select attr_values[indexOf(attr_keys, 'a')] as a, count(1),groupArray(`span.id`)
 
 - 写入性能：每日写入2000亿原始数据（全量数据的16%），是原ES方案的3倍。待clickhouse扩容后还可提升写入量。
 - 磁盘空间占用：结论：磁盘占用是es的1/9（相同写入量，相同副本数）。每天2000亿记录下，每天写入4TB，双副本是8TB，压缩率是18%。
-- 查询qps峰值：我们没有对clickhouse进行专门压测，目前峰值qps为50qps，clickhouse无压力。压测可参考[ClickHouse与Elasticsearch压测实践（京东云）](https://www.toutiao.com/article/7137119576009048609/?app=news_article&timestamp=1661759655&use_new_style=1&req_id=20220829155415010158147053180502E7&group_id=7137119576009048609&share_token=95add52e-5ec3-42d7-84b3-1f975de2fc65&tt_from=copy_link&utm_source=copy_link&utm_medium=toutiao_android&utm_campaign=client_share&source=m_redirect)，引用下其结论(**压测环境请在原文中查看**)：
+- 查询qps峰值：我们没有对clickhouse进行专门压测，目前峰值qps为50qps，clickhouse无压力。压测可参考[ClickHouse与Elasticsearch压测实践（京东云）](https://www.toutiao.com/article/7137119576009048609/?app=news_article&timestamp=1661759655&use_new_style=1&req_id=20220829155415010158147053180502E7&group_id=7137119576009048609&share_token=95add52e-5ec3-42d7-84b3-1f975de2fc65&tt_from=copy_link&utm_source=copy_link&utm_medium=toutiao_android&utm_campaign=client_share&source=m_redirect)，引用其结论(**压测环境请在原文中查看**)：
 
 > 1）clickhouse对并发有一定的支持，并不是不支持高并发，可以通过调整max_thread提高并发
 > - max_thread=32时，支持最大TPS 是37，相应TP99是122
@@ -503,3 +503,25 @@ select attr_values[indexOf(attr_keys, 'a')] as a, count(1),groupArray(`span.id`)
 > 2）在并发方面Elasticsearch比clickhouse支持的更好，但是相应的响应速度慢很多
 > - Elasticsearch：对应的TPS是192，TP99是3050
 > - clickhouse：对应的TPS 是86，TP99是206
+
+## ClickHouse存储统计sql
+
+```sql
+SELECT
+    table,
+    sum(rows) AS num_row,
+    formatReadableSize(sum(data_uncompressed_bytes)) AS uncompress,
+    formatReadableSize(sum(data_compressed_bytes)) AS compress,
+    round((sum(data_compressed_bytes) / sum(data_uncompressed_bytes)) * 100, 0) AS compress_ratio
+FROM system.parts
+WHERE table = 'xxxxx(只能查本地表)'
+GROUP BY table
+
+Query id: d79e4c12-100a-487f-8f9d-4f32ea4f3791
+
+┌─table────────────────────┬─────num_row─┬─uncompress─┬─compress─┬─compress_ratio─┐
+│ spans_index_2022_08_29_0 │ 66920399971 │ 7.43 TiB   │ 1.33 TiB │             18 │
+└──────────────────────────┴─────────────┴────────────┴──────────┴────────────────┘
+
+1 rows in set. Elapsed: 0.004 sec. 
+```
