@@ -520,7 +520,7 @@ GROUP BY table
 Query id: d79e4c12-100a-487f-8f9d-4f32ea4f3791
 
 ┌─table────────────────────┬─────num_row─┬─uncompress─┬─compress─┬─compress_ratio─┐
-│ spans_index_2022_08_29_0 │ 66920399971 │ 7.43 TiB   │ 1.33 TiB │             18 │
+│        xxxxx(只能查本地表) │ 66920399971 │ 7.43 TiB   │ 1.33 TiB │             18 │
 └──────────────────────────┴─────────────┴────────────┴──────────┴────────────────┘
 
 1 rows in set. Elapsed: 0.004 sec. 
