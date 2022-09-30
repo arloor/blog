@@ -63,4 +63,5 @@ fi
 ```
 
 为什么放在没有放在比较常规的路径下，因为看到说威联通重启是会删除一些系统外增加的脚本
+参考[QNAP NAS添加计划任务](https://codeantenna.com/a/w4pm5BElD1)和[威联通:自定义ssh登录方式](https://wiki.xiongmx.com/doku.php?id=%E5%A8%81%E8%81%94%E9%80%9A:%E8%87%AA%E5%AE%9A%E4%B9%89ssh%E7%99%BB%E5%BD%95%E6%96%B9%E5%BC%8F)
 
