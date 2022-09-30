@@ -22,4 +22,6 @@ keywords:
 4. 开启nas的ssh功能
 5. ssh到nas上，执行`lxc exec ${容器名} -- /bin/bash`
 
+> ssh到某机器并且一键登入容器可以:`ssh xxx@xxx.com -t 'lxc exec ${容器名} -- /bin/bash'`
+
 lxd的容器完全可以当成富容器来用，除了不能ssh，也是有systemd的，可以运行daemon程序，这点很重要。
