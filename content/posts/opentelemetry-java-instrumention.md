@@ -33,7 +33,72 @@ keywords:
 
 ## AgentInitializer类
 
-还是先看注释：这个类被OpenTelemetryAgent调用，因此由bootstrapClassLoader加载，因此可以畅通地使用agent的其他类（同样被bootstrapClassLoader加载）
+还是先看注释：这个类被OpenTelemetryAgent调用，因此由bootstrapClassLoader加载，因此可以**畅通地使用**agent的其他类（因为其他类同样被bootstrapClassLoader加载）
 
-## 未完待续...
+> 这也符合在上面提到的，在premain和agentmain的类中做尽可能少的事
+
+这个类实际上做了三件事：
+
+1. 创建AgentClassloader
+2. 使用AgentClassloader加载AgentStarterImpl类
+3. 调用AgentStarterImpl进行agent的初始化（该类所加载的所有类都是由AgentClassLoader加载的，**该类的所有活动都在AgentClassLoader的范围内**）
+
+### AgentClassloader
+
+otel的classloader整体思想是目标jar在agent.jar中，目标jar中都是.classdata文件，以确保不会被其他类加载器加载到。
+
+该classloader的父亲类加载器在jdk8及以下是null(BootstrapClassLoader)，在jdk9及以上是PlatformClassLoader（目测应该类似BootstrapClassLoader）。
+
+除此之外，还有一些细节在代码中，例如
+
+1. 不能在AgentClassLoader中使用slfj
+2. 为了获取agent.jar中的resource，需要一个proxy对象
+3. 针对promtheus的exporter类使用到的jdk httpserver做了加载的排除
+4. 对otel自身用到的grpc类做了排除
+
+### AgentStarterImpl
+
+构造如下，涉及到一个类型强转：
+
+```java
+  private static AgentStarter createAgentStarter(
+      ClassLoader agentClassLoader, Instrumentation instrumentation, File javaagentFile)
+      throws Exception {
+    Class<?> starterClass =
+        agentClassLoader.loadClass("io.opentelemetry.javaagent.tooling.AgentStarterImpl");
+    Constructor<?> constructor =
+        starterClass.getDeclaredConstructor(Instrumentation.class, File.class);
+    // 这里有类型强转到interface
+    return (AgentStarter) constructor.newInstance(instrumentation, javaagentFile);
+  }
+```
+
+这里分析下为什么这个类型强转没有遇到类加载问题？不要觉得这里啰嗦，自动埋点的难点只有两个，一个是怎么做字节码修改，另一个就是处理类加载隔离。
+
+AgentStarterImpl是AgentClassLoader加载的，他是AgentStarter这个接口的实现类（由BootstrapClassloader加载）。因为AgentStartImpl extends(impl) AgentStartImpl, 且 AgentClassLoader extends BootstrapClassLoader（逻辑上的父子关系）。
+
+AgentStarterImpl又创建了各种插件的extensionClassLoader，独立classloader的目的是为了避免与用户代码的影响。
+
+最后将extensionClassLoader设置为线程上下文的Classloader，并安装BytebuddyAgent来做字节码修改。
+
+```java
+  @Override
+  public void start() {
+    extensionClassLoader = createExtensionClassLoader(getClass().getClassLoader(), javaagentFile);
+    ClassLoader savedContextClassLoader = Thread.currentThread().getContextClassLoader();
+    try {
+      Thread.currentThread().setContextClassLoader(extensionClassLoader);
+      AgentInstaller.installBytebuddyAgent(instrumentation);
+    } finally {
+      Thread.currentThread().setContextClassLoader(savedContextClassLoader);
+    }
+  }
+```
+
+### BytebuddyAgent
+
+这里是字节码修改的部分，暂时不深究，无非就是插入一些代码。
+
+
+
 
