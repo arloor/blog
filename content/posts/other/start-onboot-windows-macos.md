@@ -66,6 +66,57 @@ sleep 1
 launchctl load -w ~/Library/LaunchAgents/com.connect.plist
 ```
 
+### 资源限制
+
+unix系统都限制了可打开文件数，如何修改呢？
+
+1. 新建Library/LaunchDaemons/limit.maxfiles.plist文件，写入
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>  
+ <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"  
+         "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+ <plist version="1.0">  
+   <dict>
+     <key>Label</key>
+     <string>limit.maxfiles</string>
+     <key>ProgramArguments</key>
+     <array>
+       <string>launchctl</string>
+       <string>limit</string>
+       <string>maxfiles</string>
+       <string>64000</string>
+       <string>524288</string>
+     </array>
+     <key>RunAtLoad</key>
+     <true/>
+     <key>ServiceIPC</key>
+     <false/>
+   </dict>
+ </plist>
+```
+
+2. 修改文件权限
+
+```shell
+ sudo chown root:wheel /Library/LaunchDaemons/limit.maxfiles.plist
+ sudo chmod 644 /Library/LaunchDaemons/limit.maxfiles.plist
+```
+
+3. 加载plist文件(或重启系统后生效 launchd在启动时会自动加载该目录的plist)
+
+```shell
+sudo launchctl load -w /Library/LaunchDaemons/limit.maxfiles.plist
+```
+
+4. 确认更改后的限制
+
+```shell
+ launchctl limit maxfiles
+```
+
+详见[Mac OS X下的资源限制](https://zidongwudaijun.com/2017/02/max-osx-ulimit/)
+
 ## windows开机自启动
 
 编写`startup.vbs`，放到
