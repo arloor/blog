@@ -14,7 +14,7 @@ keywords:
 需要安装指定版本的thrift，记录下homebrew安装指定版本软件的方法。
 <!--more-->
 
-```shell
+```bash
 brew tap-new $USER/local-tap1
 brew extract --version='0.14.1' thrift $USER/local-tap1
 brew install thrift@0.14.1
@@ -29,8 +29,8 @@ brew install thrift@0.14.1
 
 对于某些软件，homebrew本身提供了多个版本，例如mysql提供了5.6、5.7版本
 
-```shell
-~/blog (master*) » brew search mysql                                        ganghuanliu@MacBook-Pro
+```bash
+brew search mysql                                    
 ==> Formulae
 automysqlbackup          mysql-client ✔           mysql-sandbox            mysql@5.7
 mysql                    mysql-client@5.7         mysql-search-replace     mysqltuner
@@ -39,7 +39,7 @@ mysql++                  mysql-connector-c++      mysql@5.6                qt-my
 mysql-connector-python            mysql-utilities                   navicat-for-mysql
 mysql-shell                       mysqlworkbench                    sqlpro-for-mysql
 ----------------------------------------------------------------------------------------------------
-~/blog (master*) » brew install mysql@5.7                                   ganghuanliu@MacBook-Pro
+brew install mysql@5.7                                 
 ```
 
 但是大多数软件并没有官方多版本
@@ -66,7 +66,7 @@ mysql-shell                       mysqlworkbench                    sqlpro-for-m
 
 `homebrew/core`是一个git仓库，git log中有着软件的历史版本，将历史版本的formula复制到自定义的tap中即可安装任意版本的软件，具体流程如下：
 
-```console
+```bash
 brew tap-new $USER/local-tap1
 brew extract --version='0.14.1' thrift $USER/local-tap1
 brew install thrift@0.14.1
@@ -155,15 +155,14 @@ end
 2. 通过git log查看历史版本中的url，从url中确定版本
 
 
-```console
-~ » brew tap-info homebrew/core                                                                                           ganghuanliu@MacBook-Pro
+```bash
+brew tap-info homebrew/core                                                                                          
 homebrew/core: 2 commands, 5873 formulae
 /usr/local/Homebrew/Library/Taps/homebrew/homebrew-core (6,238 files, 633.8MB)
 From: https://github.com/Homebrew/homebrew-core
 --------------------------------------------------------------------------------------------------------------------------------------------------
-~ » cd /usr/local/Homebrew/Library/Taps/homebrew/homebrew-core                                                            ganghuanliu@MacBook-Pro
---------------------------------------------------------------------------------------------------------------------------------------------------
-/usr/local/Homebrew/Library/Taps/homebrew/homebrew-core (master) » git log -p -- Formula/thrift.rb | grep -e ^commit -e 'url "http'
+cd /usr/local/Homebrew/Library/Taps/homebrew/homebrew-core
+git log -p -- Formula/thrift.rb | grep -e ^commit -e 'url "http'
 commit 306904d90d17c0ffbfb024ec818235b9bc8f7b35
 commit 2d25d7fdb9ed8527c15cb4c9dcc36e846b9059e9
 -  url "https://www.apache.org/dyn/closer.lua?path=thrift/0.15.0/thrift-0.15.0.tar.gz"

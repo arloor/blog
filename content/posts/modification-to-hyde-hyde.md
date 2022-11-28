@@ -40,6 +40,8 @@ themes/hyde-hyde/static/highlight.min.js
 themes/hyde-hyde/static/img/head.jpeg
 ```
 
+代码高亮这块用到的js和css参见[https://highlightjs.org/](https://highlightjs.org/)
+
 ## 移动设备的menu增加作者图片并链接到首页
 
 移动设备上缺失了一个回到首页的链接，增加该链接，具体commitid为[156c16c8b0a237a3c5a7c98bf20d5ebb4dac1d28](https://github.com/arloor/blog/commit/156c16c8b0a237a3c5a7c98bf20d5ebb4dac1d28)
