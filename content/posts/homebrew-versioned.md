@@ -12,14 +12,13 @@ keywords:
 ---
 
 需要安装指定版本的thrift，记录下homebrew安装指定版本软件的方法。
+<!--more-->
 
-```
+```zsh
 brew tap-new $USER/local-tap1
 brew extract --version='0.14.1' thrift $USER/local-tap1
 brew install thrift@0.14.1
 ```
-
-<!--more-->
 
 ## 参考文档
 
