@@ -40,7 +40,7 @@ themes/hyde-hyde/static/highlight.min.js
 themes/hyde-hyde/static/img/head.jpeg
 ```
 
-代码高亮这块用到的js和css参见[https://highlightjs.org/](https://highlightjs.org/)
+代码高亮这块用到的js和css参见[https://highlightjs.org/](https://highlightjs.org/)，当前用的主题是`atom-one-dark`
 
 ## 移动设备的menu增加作者图片并链接到首页
 
