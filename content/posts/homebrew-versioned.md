@@ -60,7 +60,7 @@ mysql-shell                       mysqlworkbench                    sqlpro-for-m
 
 `homebrew/core`是一个git仓库，git log中有着软件的历史版本，将历史版本的formula复制到自定义的tap中即可安装任意版本的软件，具体流程如下：
 
-```shell
+```console
 brew tap-new $USER/local-tap1
 brew extract --version='0.14.1' thrift $USER/local-tap1
 brew install thrift@0.14.1
@@ -149,7 +149,7 @@ end
 2. 通过git log查看历史版本中的url，从url中确定版本
 
 
-```shell
+```console
 ~ » brew tap-info homebrew/core                                                                                           ganghuanliu@MacBook-Pro
 homebrew/core: 2 commands, 5873 formulae
 /usr/local/Homebrew/Library/Taps/homebrew/homebrew-core (6,238 files, 633.8MB)
