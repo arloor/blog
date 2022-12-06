@@ -1,5 +1,5 @@
 ---
-title: "Redis集群扩容迁移"
+title: "Redis集群slot迁移"
 date: 2019-08-10T14:01:47+08:00
 draft: false
 categories: [ "redis"]
