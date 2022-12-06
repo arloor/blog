@@ -108,7 +108,7 @@ service nginx restart
 
 ```shell
 cat >/usr/local/bin/arloor <<\EOF
-tail -n 10000 `ls -ltc /var/log/nginx/arloor.access.log*|head -n 1|awk '{print $9}'`|awk -F" # " '$3~"(.*post.*|.*about.*|.*page.*|.*tags.*|^\"/\"$)" && $4==200 {printf("%s [%-15s] %-30s %-15s\n",$2,$1,$3,substr($5,0,40))}'
+tail -n 10000 `ls -ltc /var/log/nginx/arloor.access.log*|head -n 1|awk '{print $9}'`|awk -F" # " '$3~"(.*post.*|.*about.*|.*page.*|.*tags.*|^\"/\"$)" && $4==200 {printf("%s %-17s %-30s %-15s\n",$2,"["$1"]",$3,substr($5,0,40))}'
 EOF
 chmod +x /usr/local/bin/arloor
 arloor
