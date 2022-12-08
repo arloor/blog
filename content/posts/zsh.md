@@ -1,5 +1,5 @@
 ---
-title: "ohMyzsh使用"
+title: "oh-my-zsh使用"
 date: 2022-12-08T15:00:02+08:00
 draft: false
 categories: [ "undefined"]
