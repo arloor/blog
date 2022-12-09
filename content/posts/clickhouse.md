@@ -84,7 +84,7 @@ MemTable是在内存中的数据结构，用于保存最近更新的数据，会
 >    1）冗余存储，对于某个key，实际上除了最新的那条记录外，其他的记录都是冗余无用的，但是仍然占用了存储空间。因此需要进行Compact操作(合并多个SSTable)来清除冗余的记录。     
  >   2）读取时需要从最新的倒着查询，直到找到某个key的记录。最坏情况需要查询完所有的SSTable，这里可以通过前面提到的索引/布隆过滤器来优化查找速度。
 
-### MergeTree详解
+### MergeTree相关概念
 
 参考[mergetree文档](https://clickhouse.com/docs/zh/engines/table-engines/mergetree-family/mergetree)
 
@@ -95,6 +95,63 @@ MemTable是在内存中的数据结构，用于保存最近更新的数据，会
 - 跳数索引：用于一次性越过多个颗粒。主键和颗粒粒度决定了每隔多少行标记一个offset。如果很多个颗粒的主键都是一样的，就可以考虑通过跳数索引来一次行越过多个颗粒（另一种思路是在主键中加入新的列）。跳数索引有minmax(类似主键索引)、set、各种布隆过滤器。
 
 **分区键和主键的作用**：ClickHouse 会依据主键索引剪掉不符合的数据，依据按月分区的分区键剪掉那些不包含符合数据的分区
+
+### MergeTree存储结构
+
+[ClickHouse内核分析-MergeTree的存储结构和查询加速](https://developer.aliyun.com/article/761931?spm=a2c6h.12873639.article-detail.5.32324011wLItBr)
+
+MergeTree表引擎的涉及到的核心文件有 
+
+|文件名|描述|作用|
+|---|----|---|
+|**primary.idx**|索引文件|用于存放稀疏索引|
+|**[Column].mrk2**|标记文件|保存了bin文件中数据的偏移信息，用于建立primary.idx和[Column].bin文件之间的映射|
+|**[Column].bin**|数据文件|存储数据，默认使用lz4压缩存储|
+
+
+以下面的DDL为例：
+
+- partition by 日期、小时、地域
+- 主键是action_id、scene_id...
+- 有avatar_id上的minmax索引
+
+```sql
+CREATE TABLE user_action_log (
+  `time` DateTime DEFAULT CAST('1970-01-01 08:00:00', 'DateTime') COMMENT '日志时间',
+  `action_id` UInt16 DEFAULT CAST(0, 'UInt16') COMMENT '日志行为类型id',
+  `action_name` String DEFAULT '' COMMENT '日志行为类型名',
+  `region_name` String DEFAULT '' COMMENT '区服名称',
+  `uid` UInt64 DEFAULT CAST(0, 'UInt64') COMMENT '用户id',
+  `level` UInt32 DEFAULT CAST(0, 'UInt32') COMMENT '当前等级',
+  `trans_no` String DEFAULT '' COMMENT '事务流水号',
+  `ext_head` String DEFAULT '' COMMENT '扩展日志head',
+  `avatar_id` UInt32 DEFAULT CAST(0, 'UInt32') COMMENT '角色id',
+  `scene_id` UInt32 DEFAULT CAST(0, 'UInt32') COMMENT '场景id',
+  `time_ts` UInt64 DEFAULT CAST(0, 'UInt64') COMMENT '秒单位时间戳',
+  index avatar_id_minmax (avatar_id) type minmax granularity 3
+) ENGINE = MergeTree()
+PARTITION BY (toYYYYMMDD(time), toHour(time), region_name)
+ORDER BY (action_id, scene_id, time_ts, level, uid)
+PRIMARY KEY (action_id, scene_id, time_ts, level);
+```
+
+这张表的逻辑存储如下，主要展示partition、data part和Merge Tree的分层结构
+
+![](/img/66d86b762c174040b825b6e67a2365f9.png)
+
+可以看到idx、mrk2、bin文件都是data part级别的，我们在看下这些文件是如何存储data part的。
+
+![](/img/591a344f77664e9fb66b4ba00da20f3a.png)
+
+- primary.idx即稀疏索引，每个颗粒的第一个object会存储在primary.idx中（有多少颗粒，就有多少稀疏索引
+- [column].mrk2是一个kv结构，存储primary.idx中的object在bin中的offset
+- [column].bin数据文件
+    - 存储压缩后的数据
+    - 以块的形式存储，多个颗粒形成一个block并进行压缩 
+
+针对这种存储结构，clikhouse查询时，会先通过primary.idx找到大致的范围，再通过mrk2找到bin文件中位置，最后解压block得到数据
+
+
 
  ## 向量引擎
 
