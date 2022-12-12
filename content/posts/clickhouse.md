@@ -211,7 +211,7 @@ select distinct column的结果比较小
 - 拷贝（replicate）：创建ReplicatedMergeTree
 - 使用zookeeper进行分布式协作
 
-sharding规则在`metrika.xml`中配置，三分片两副本配置的例子如下:
+sharding规则在`config.xml`的remote_servers中，也可以在`metrika.xml`中配置，三分片两副本配置的例子如下:
 
 ```xml
     <clickhouse_remote_servers>
