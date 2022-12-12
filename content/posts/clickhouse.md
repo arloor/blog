@@ -106,7 +106,7 @@ MemTable是在内存中的数据结构，用于保存最近更新的数据，会
 $partitionId_$minBlock_$maxBlock_$level
 ```
 
-并且，一个partition是分为多个目录的举个实际的例子如下：
+并且，一个partition是分为多个目录的，举个实际的例子如下：
 
 ```shell
 ls |grep 8f244a4f142a2f3c5ea8da2fbc25405b
@@ -210,6 +210,64 @@ select distinct column的结果比较小
 - 分片（shard）：创建分布式表
 - 拷贝（replicate）：创建ReplicatedMergeTree
 - 使用zookeeper进行分布式协作
+
+sharding规则在`metrika.xml`中配置，三分片两副本配置的例子如下:
+
+```xml
+    <clickhouse_remote_servers>
+        <cluster>
+            <shard>
+                <weight>1</weight>
+                <internal_replication>true</internal_replication>
+                <replica>
+                    <host>host1</host>
+                    <port>9000</port>
+                    <user>xxxx</user>
+                    <password>xxxx</password>
+                </replica>
+                <replica>
+                    <host>host2</host>
+                    <port>9000</port>
+                    <user>xxxx</user>
+                    <password>xxxx</password>
+                </replica>
+            </shard>
+            <shard>
+                <weight>1</weight>
+                <internal_replication>true</internal_replication>
+                <replica>
+                    <host>host3</host>
+                    <port>9000</port>
+                    <user>xxxx</user>
+                    <password>xxxx</password>
+                </replica>
+                <replica>
+                    <host>host4</host>
+                    <port>9000</port>
+                    <user>xxxx</user>
+                    <password>xxxx</password>
+                </replica>
+            </shard>
+
+            <shard>
+                <weight>1</weight>
+                <internal_replication>true</internal_replication>
+                <replica>
+                    <host>host5</host>
+                    <port>9000</port>
+                    <user>xxxx</user>
+                    <password>xxxx</password>
+                </replica>
+                <replica>
+                    <host>host6</host>
+                    <port>9000</port>
+                    <user>xxxx</user>
+                    <password>xxxx</password>
+                </replica>
+            </shard>
+        </cluster>
+    </clickhouse_remote_servers>
+```
 
 为了防止生成过多part，采用写本地表、查分布式表的方式。   
 为了方式生成过多part，采取大批量的写入，采用10000以上的批次
