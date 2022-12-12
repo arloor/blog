@@ -100,7 +100,28 @@ MemTable是在内存中的数据结构，用于保存最近更新的数据，会
 
 [ClickHouse内核分析-MergeTree的存储结构和查询加速](https://developer.aliyun.com/article/761931?spm=a2c6h.12873639.article-detail.5.32324011wLItBr)
 
-MergeTree表引擎的涉及到的核心文件有 
+表的数据存储在$path/data/$database/$table目录下，该目录下的子目录格式为：
+
+```plaintext
+$partitionId_$minBlock_$maxBlock_$level
+```
+
+并且，一个partition是分为多个目录的举个实际的例子如下：
+
+```shell
+ls |grep 8f244a4f142a2f3c5ea8da2fbc25405b
+8f244a4f142a2f3c5ea8da2fbc25405b_0_106_20
+8f244a4f142a2f3c5ea8da2fbc25405b_107_112_1
+8f244a4f142a2f3c5ea8da2fbc25405b_107_135_2
+8f244a4f142a2f3c5ea8da2fbc25405b_113_118_1
+8f244a4f142a2f3c5ea8da2fbc25405b_119_119_0
+8f244a4f142a2f3c5ea8da2fbc25405b_119_124_1
+8f244a4f142a2f3c5ea8da2fbc25405b_120_120_0
+```
+
+可以看到第一个文件夹的存储了0到106的block，并且经过了20次compaction。不同的partition不会做compaction到一起。**我们每次insert都会生成一个Data part，而这个data part就是一个level为0的目录**。
+
+Data Part目录下的核心文件有 
 
 |文件名|描述|作用|
 |---|----|---|
