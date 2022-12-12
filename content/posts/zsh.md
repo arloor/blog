@@ -11,6 +11,8 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
+<!--more-->
+
 ## 安装zsh和ohMyZsh
 
 ```shell
