@@ -50,7 +50,7 @@ Entering interactive mode (type "help" for commands, "o" for options)
 graphviz安装见[https://graphviz.org/download/](https://graphviz.org/download/)
 
 ```shell
-$ go get -u github.com/google/pprof
+$ go install github.com/google/pprof@latest
 $ pprof -http=:6060 C:\Users\arloor\pprof\pprof.mtrace-collector.samples.cpu.001.pb.gz
 Serving web UI on http://localhost:6060
 $ pprof -http=:6060 http://localhost:9999/debug/pprof/profile
