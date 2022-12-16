@@ -35,4 +35,20 @@ Set-ExecutionPolicy -ExecutionPolicy Unrestricted  -Scope LocalMachine
 Invoke-Expression (&starship init powershell)
 ```
 
+## Linux Bash
+
+```shell
+cd /usr/share/fonts
+mkdir nerd-fonts
+cd nerd-fonts
+wget https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.2/3270.zip -O 3270.zip
+unzip 3270.zip
+
+cat >> ~/.bashrc <<\EOF
+eval "$(starship init bash)"
+EOF
+usermod -s /bin/bash $USER
+curl -sS https://starship.rs/install.sh | sh
+```
+
 
