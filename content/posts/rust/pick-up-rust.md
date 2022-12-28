@@ -38,7 +38,7 @@ rust的网站这样描述自己：我们喜欢写document。rust确实提供了�
 ## 安装
 
 **MacOS、Linux**
-```
+```shell
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ```
 
@@ -50,7 +50,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 rustup安装和更新使用中科大镜像：
 
-```
+```shell
 export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
 export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
 
@@ -98,14 +98,14 @@ EOF
 
 ### 变量是默认不可变的
 
-```
+```rust
 let x = 5;
 x = 6; //编译器此时报错
 ```
 
 需要增加mut：
 
-```
+```rust
 let mut x = 5;
 x = 6;
 ```
@@ -146,7 +146,7 @@ owner可以简单理解为指向堆上数据的指针。那么，所有权系统
 
 那什么是Drop呢？回忆一下java8的try-with-resource语法：
 
-```
+```java
         try(InputStream in=new ByteArrayInputStream("aaaa".getBytes(StandardCharsets.UTF_8))){
             // doSomeThing...
         }catch (Throwable e){
@@ -161,9 +161,10 @@ try-with-resource会自动帮我们在finnal语句中调用资源的close方法�
 
 上面我们介绍了所有权系统，堆上数据一般都是Move trait的，传递这些参数将会移动所有权到新的作用域中。问题来了：
 
-```
+```rust
 fn main(){
     let s = String::from("string");
+    useString(s);
     println!{"{}",s}; //这里将报错
 
 }
@@ -175,7 +176,7 @@ fn useString(s: String){
 
 上面的代码报错是符合所有权系统的原则的。如果我们还想使用`s`,需要改成这样：
 
-```
+```rust
 fn main(){
     let s = String::from("string");
     let s=useString(s);
@@ -192,7 +193,7 @@ fn useString(s: String) -> String{
 
 借用允许不获取所有权的情况下使用变量。我们可以这样改造代码：
 
-```
+```rust
 fn main() {
     let s = String::from("string");
     useString(&s);
@@ -211,7 +212,7 @@ fn useString(s: &String) {
 
 为什么“引用必须总是有效的”？因为引用所指向的数据如果已经被释放，那么就会导致一些错误，这就是“悬垂指针”。“悬垂指针”也是内存安全问题的一种，rust也致力于在编译器暴露这种问题，他的解决方案就是“生命周期注解参数”：
 
-```
+```rust
 fn main() {
     let s = String::from("string");
     let sl = String::from("longer string");
