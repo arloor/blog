@@ -232,3 +232,29 @@ fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
 
 rust的编译器能自动地判断一些引用的生命周期，所以不是所有情况都需要显式使用生命周期注解参数。不要畏惧生命周期注解参数，你只需要在编译器提醒你的时候加上他们。生命周期注解参数不会改变生命周期。
 
+## 使用musl编译fat可执行文件
+
+### 安装musl
+
+```shell
+cd /var/
+wget http://musl.libc.org/releases/musl-1.2.3.tar.gz -O musl-1.2.3.tar.gz
+tar -zxvf musl-1.2.3.tar.gz
+cd musl-1.2.3
+./configure
+make -j 2
+make install
+ln -fs /usr/local/musl/bin/musl-gcc /usr/local/bin/musl-gcc
+```
+
+### 安装musl toolchain
+
+```shell
+rustup target add x86_64-unknown-linux-musl
+```
+
+### 使用musl toolchain编译
+
+```shell
+cargo build --target x86_64-unknown-linux-musl
+```
