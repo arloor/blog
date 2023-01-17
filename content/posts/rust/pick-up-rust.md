@@ -84,6 +84,12 @@ registry = "git://mirrors.ustc.edu.cn/crates.io-index"
 EOF
 ```
 
+## 卸载
+
+```shell
+rustup self uninstall
+```
+
 **集成开发环境**
 
 我使用的是Clion+[rust插件](https://plugins.jetbrains.com/plugin/8182-rust)
