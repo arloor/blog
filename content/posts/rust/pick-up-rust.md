@@ -37,9 +37,17 @@ rust的网站这样描述自己：我们喜欢写document。rust确实提供了�
 
 ## 安装
 
-**MacOS、Linux**
+**Linux**
+
+```shell
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --default-host x86_64-unknown-linux-gnu -y
+```
+
+**MacOS**
+
 ```shell
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+## linux下推荐使用x86_64-unknown-linux-musl
 ```
 
 **WINDOWS**
@@ -66,9 +74,9 @@ Cargo是rust的包管理工具，类似java的maven，设置代理如下：
 ```shell
 cat >> ~/.cargo/config <<\EOF
 [http]
-proxy = "127.0.0.1:1087"
+proxy = "127.0.0.1:7890"
 [https]
-proxy = "127.0.0.1:1087"
+proxy = "127.0.0.1:7890"
 EOF
 ```
 
