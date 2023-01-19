@@ -70,79 +70,175 @@ fi
 nftables的redirect（以下只代理tcp，不代理udp）
 
 ```shell
+cat > /lib/systemd/system/con.service <<EOF
+[Unit]
+Description=clash
+After=network.target
+
+[Service]
+Type=simple
+User=root
+ExecStartPre=nft flush ruleset
+ExecStart=/bin/su shellclash -c "/opt/con/clashnet -d /opt/con/"
+ExecStartPost=nft -f /etc/nftables/nftables-redirect-clash.nft
+Restart=on-failure
+RestartSec=3s
+LimitNOFILE=999999
+
+
+[Install]
+WantedBy=multi-user.target
+EOF
+```
+
+```shell
 mkdir /etc/nftables
 cat > /etc/nftables/nftables-redirect-clash.nft <<EOF
 table ip nat {
+	chain clash_dns {
+		meta l4proto udp redirect to :1053
+	}
+
 	chain PREROUTING {
 		type nat hook prerouting priority dstnat; policy accept;
-        # 截流客户端的dns请求
-		meta l4proto udp udp dport 53 counter packets 1 bytes 74 jump clash_dns
-        # 截流常见的port，不加下一行的话，则可以避免p2p的流量
-		meta l4proto tcp tcp dport { 22,53,587,465,995,993,143,80,443,8080} counter packets 0 bytes 0 jump clash
-        # 截流所有的port
-		meta l4proto tcp counter packets 2 bytes 3519 jump clash
+		meta l4proto udp udp dport 53 jump clash_dns
+		meta l4proto tcp tcp dport { 22,53,587,465,995,993,143,80,443,8080} jump clash
 	}
 
 	chain clash {
-        # 为防止回环，目标地址为局域网的直接放开
-		ip daddr 0.0.0.0/8 counter packets 0 bytes 0 return
-		ip daddr 10.0.0.0/8 counter packets 0 bytes 0 return
-		ip daddr 127.0.0.0/8 counter packets 0 bytes 0 return
-		ip daddr 100.64.0.0/10 counter packets 0 bytes 0 return
-		ip daddr 169.254.0.0/16 counter packets 0 bytes 0 return
-		ip daddr 172.16.0.0/12 counter packets 0 bytes 0 return
-		ip daddr 192.168.0.0/16 counter packets 0 bytes 0 return
-		ip daddr 224.0.0.0/4 counter packets 0 bytes 0 return
-		ip daddr 240.0.0.0/4 counter packets 0 bytes 0 return
-        # 源地址为内网的，重定向到clash的redir-port
-		meta l4proto tcp ip saddr 192.168.0.0/16 counter packets 2 bytes 3519 redirect to :7892
-		meta l4proto tcp ip saddr 10.0.0.0/8 counter packets 0 bytes 0 redirect to :7892
-	}
-
-    # 将客户端的dns请求重定向到clash的dns服务
-	chain clash_dns {
-		meta l4proto udp counter packets 1 bytes 74 redirect to :1053
-	}
-
-    # 用于代理网关本身，截流OUTPUT链
-	chain OUTPUT {
-		type nat hook output priority -100; policy accept;
-		meta l4proto tcp counter packets 0 bytes 0 jump clash_out
-		meta l4proto udp udp dport 53 counter packets 2 bytes 148 jump clash_dns_out
-	}
-
-	chain clash_out {
-        # 为防止回环，目标地址为局域网的直接放开
-		skgid 7890 counter packets 0 bytes 0 return
-		ip daddr 0.0.0.0/8 counter packets 0 bytes 0 return
-		ip daddr 10.0.0.0/8 counter packets 0 bytes 0 return
-		ip daddr 100.64.0.0/10 counter packets 0 bytes 0 return
-		ip daddr 127.0.0.0/8 counter packets 0 bytes 0 return
-		ip daddr 169.254.0.0/16 counter packets 0 bytes 0 return
-		ip daddr 192.168.0.0/16 counter packets 0 bytes 0 return
-		ip daddr 224.0.0.0/4 counter packets 0 bytes 0 return
-		ip daddr 240.0.0.0/4 counter packets 0 bytes 0 return
-		meta l4proto tcp counter packets 0 bytes 0 redirect to :7892
-	}
-
-	chain clash_dns_out {
-		skgid 7890 counter packets 2 bytes 148 return
-		meta l4proto udp counter packets 0 bytes 0 redirect to :1053
+		ip daddr 0.0.0.0/8 return
+		ip daddr 10.0.0.0/8 return
+		ip daddr 127.0.0.0/8 return
+		ip daddr 100.64.0.0/10 return
+		ip daddr 169.254.0.0/16 return
+		ip daddr 172.16.0.0/12 return
+		ip daddr 192.168.0.0/16 return
+		ip daddr 224.0.0.0/4 return
+		ip daddr 240.0.0.0/4 return
+		meta l4proto tcp ip saddr 192.168.0.0/16 redirect to :7892
+		meta l4proto tcp ip saddr 10.0.0.0/8 redirect to :7892
 	}
 }
+table ip6 nat {
+	chain clashv6_dns {
+		meta l4proto udp redirect to :1053
+	}
 
-# 防护墙，只允许哪放访问7890
+	chain PREROUTING {
+		type nat hook prerouting priority dstnat; policy accept;
+		meta l4proto udp udp dport 53 jump clashv6_dns
+	}
+}
 table ip filter {
 	chain INPUT {
 		type filter hook input priority filter; policy accept;
-		meta l4proto tcp ip saddr 10.0.0.0/8 tcp dport 7890 counter packets 0 bytes 0 accept
-		meta l4proto tcp ip saddr 127.0.0.0/8 tcp dport 7890 counter packets 0 bytes 0 accept
-		meta l4proto tcp ip saddr 192.168.0.0/16 tcp dport 7890 counter packets 0 bytes 0 accept
-		meta l4proto tcp ip saddr 172.16.0.0/12 tcp dport 7890 counter packets 0 bytes 0 accept
-		meta l4proto tcp tcp dport 7890 counter packets 0 bytes 0 reject
+		meta l4proto tcp ip saddr 10.0.0.0/8 tcp dport 7890 accept
+		meta l4proto tcp ip saddr 127.0.0.0/8 tcp dport 7890 accept
+		meta l4proto tcp ip saddr 192.168.0.0/16 tcp dport 7890 accept
+		meta l4proto tcp ip saddr 172.16.0.0/12 tcp dport 7890 accept
+		meta l4proto tcp tcp dport 7890 reject
+	}
+}
+table ip6 filter {
+	chain INPUT {
+		type filter hook input priority filter; policy accept;
+		meta l4proto tcp tcp dport 7890 reject
 	}
 }
 EOF
+
+if [ -z "$(id shellclash 2>/dev/null | grep 'root')" ];then
+			if ckcmd userdel useradd groupmod; then
+				userdel shellclash 2>/dev/null
+				useradd shellclash -u 7890
+				groupmod shellclash -g 7890
+				sed -Ei s/7890:7890/0:7890/g /etc/passwd
+			else
+				grep -qw shellclash /etc/passwd || echo "shellclash:x:0:7890:::" >> /etc/passwd
+			fi
+		fi
+
+cat > /etc/nftables/nftables-redirect-clash-local.nft <<EOF
+table ip nat {
+	chain PREROUTING {
+		type nat hook prerouting priority dstnat; policy accept;
+		meta l4proto udp udp dport 53 jump clash_dns
+		meta l4proto tcp tcp dport { 22,53,587,465,995,993,143,80,443,8080} jump clash
+		meta l4proto tcp jump clash
+	}
+
+	chain clash {
+		ip daddr 0.0.0.0/8 return
+		ip daddr 10.0.0.0/8 return
+		ip daddr 127.0.0.0/8 return
+		ip daddr 100.64.0.0/10 return
+		ip daddr 169.254.0.0/16 return
+		ip daddr 172.16.0.0/12 return
+		ip daddr 192.168.0.0/16 return
+		ip daddr 224.0.0.0/4 return
+		ip daddr 240.0.0.0/4 return
+		meta l4proto tcp ip saddr 192.168.0.0/16 redirect to :7892
+		meta l4proto tcp ip saddr 10.0.0.0/8 redirect to :7892
+	}
+
+	chain clash_dns {
+		meta l4proto udp redirect to :1053
+	}
+
+	chain clash_out {
+		skgid 7890 return
+		ip daddr 0.0.0.0/8 return
+		ip daddr 10.0.0.0/8 return
+		ip daddr 100.64.0.0/10 return
+		ip daddr 127.0.0.0/8 return
+		ip daddr 169.254.0.0/16 return
+		ip daddr 192.168.0.0/16 return
+		ip daddr 224.0.0.0/4 return
+		ip daddr 240.0.0.0/4 return
+		meta l4proto tcp redirect to :7892
+	}
+
+	chain OUTPUT {
+		type nat hook output priority -100; policy accept;
+		meta l4proto tcp jump clash_out
+		meta l4proto udp udp dport 53 jump clash_dns_out
+	}
+
+	chain clash_dns_out {
+		skgid 7890 return
+		meta l4proto udp redirect to :1053
+	}
+}
+table ip6 nat {
+	chain PREROUTING {
+		type nat hook prerouting priority dstnat; policy accept;
+		meta l4proto udp udp dport 53 jump clashv6_dns
+	}
+
+	chain clashv6_dns {
+		meta l4proto udp redirect to :1053
+	}
+}
+table ip filter {
+	chain INPUT {
+		type filter hook input priority filter; policy accept;
+		meta l4proto tcp ip saddr 10.0.0.0/8 tcp dport 7890 accept
+		meta l4proto tcp ip saddr 127.0.0.0/8 tcp dport 7890 accept
+		meta l4proto tcp ip saddr 192.168.0.0/16 tcp dport 7890 accept
+		meta l4proto tcp ip saddr 172.16.0.0/12 tcp dport 7890 accept
+		meta l4proto tcp tcp dport 7890 reject
+	}
+}
+table ip6 filter {
+	chain INPUT {
+		type filter hook input priority filter; policy accept;
+		meta l4proto tcp tcp dport 7890 reject
+	}
+}
+EOF
+nft flush ruleset
+service con restart
+nft -f /etc/nftables/nftables-redirect-clash-local.nft
 ```
 
 ## iptables-tpproxy
