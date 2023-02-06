@@ -66,6 +66,12 @@ sleep 1
 launchctl load -w ~/Library/LaunchAgents/com.connect.plist
 ```
 
+```shell
+launchctl bootout gui/$(launchctl manageruid) /Users/ganghuanliu/Library/LaunchAgents/com.connect.plist
+sleep 1
+launchctl bootstrap gui/$(launchctl manageruid) /Users/ganghuanliu/Library/LaunchAgents/com.connect.plist
+```
+
 ### 资源限制
 
 unix系统都限制了可打开文件数，如何修改呢？
