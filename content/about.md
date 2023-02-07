@@ -17,9 +17,9 @@ date: 2019-08-21T22:03:30+08:00
 - 美团：主机监控团队主要成员
 - 招商银行信用卡中心：Redis集群代理
 - 招商银行信用卡中心：基于ElasticSearch的搜索平台
-- 开源：[iptablesUtils](https://github.com/arloor/iptablesUtils) Star 1200+
-- 开源：[nftables-nat-rust](https://github.com/arloor/nftables-nat-rust) Star 500+
-- 开源：[HttpProxy](https://github.com/arloor/HttpProxy) Star 200+
+- 开源：[iptablesUtils](https://github.com/arloor/iptablesUtils) Star1200+
+- 开源：[nftables-nat-rust](https://github.com/arloor/nftables-nat-rust) Star500+
+- 开源：[HttpProxy](https://github.com/arloor/HttpProxy) Star200+
 
 ### 博客
 
