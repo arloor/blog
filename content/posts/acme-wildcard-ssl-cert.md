@@ -40,7 +40,7 @@ export DP_Key="API Token"
 ```
 
 ```
-acme.sh --issue --dns dns_dp -d example.com -d *.example.com
+acme.sh --issue --dns dns_dp -d example.com -d *.example.com -k 2048
 ```
 
 ## 阿里云
