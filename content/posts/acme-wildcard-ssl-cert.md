@@ -55,7 +55,7 @@ export Ali_Secret="xxxx"
 ```
 
 ```
-acme.sh --issue --dns dns_ali -d example.com -d *.example.com 
+acme.sh --issue --dns dns_ali -d example.com -d *.example.com -k 2048
 ```
 
 ```
