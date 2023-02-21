@@ -29,4 +29,5 @@ for host in $hosts; do
   echo -e "\033[32m 请访问： https://"${host}"\033[0m"
 done
 
+
 # githubio
