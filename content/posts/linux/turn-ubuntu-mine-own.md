@@ -255,12 +255,12 @@ sudo dpkg-reconfigure ca-certificates   #选择ask,勾选CharlesRoot.crt(按空�
                           https://maven.apache.org/xsd/settings-1.0.0.xsd">
 
       <mirrors>
-        <mirror>  
-            <id>alimaven</id>  
-            <name>aliyun maven</name>  
-            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>  
-            <mirrorOf>central</mirrorOf>          
-        </mirror>  
+          <mirror>
+          <id>aliyunmaven</id>
+          <mirrorOf>*</mirrorOf>
+          <name>阿里云公共仓库</name>
+          <url>https://maven.aliyun.com/repository/public</url>
+        </mirror>
       </mirrors>
 
       <proxies> 
@@ -299,10 +299,10 @@ git config --global credential.helper store
 # 设置http代理，使用方法：
 # 在terminal中输入 ". pass" （前提是将此路径加入path）
 # 效果：该terminal将使用如下的代理
-export http_proxy=http://127.0.0.1:8081
-export https_proxy=http://127.0.0.1:8081
-git config --global http.proxy 'http://127.0.0.1:8081'
-git config --global https.proxy 'http://127.0.0.1:8081'
+export http_proxy=http://127.0.0.1:3128
+export https_proxy=http://127.0.0.1:3128
+git config --global http.proxy 'http://127.0.0.1:3128'
+git config --global https.proxy 'http://127.0.0.1:3128'
 
 #git config --global --unset http.proxy
 #git config --global --unset https.proxy
