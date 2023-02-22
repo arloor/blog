@@ -76,6 +76,30 @@ memory=4GB
 #debugConsole=true
 ```
 
+## 快速设置代理
+
+我的环境是在windows中使用clash for windows，为了让WSL中能用上代理，专门写了两个脚本：
+
+```shell
+# /usr/local/bin/pass
+
+## nameserver就是windows的地址，主要要给clash for windows打开allow lan
+gateway=`cat /etc/resolv.conf|grep  -E "^nameserver"| awk '{print $2}'`
+export http_proxy=http://${gateway}:7890
+export https_proxy=http://${gateway}:7890
+git config --global http.proxy ${http_proxy}
+git config --global https.proxy ${http_proxy}
+```
+
+```shell
+# /usr/local/bin/unpass
+export http_proxy=
+export https_proxy=
+```
+
+这样在启用和关闭代理时只要执行`. pass`和`. unpass`即可
+
+
 ## apt设置代理
 
 默认安装的ubuntu的默认源是官方源，国内比较慢，直接配置apt代理，支持我的ProxyOverTls哦。
