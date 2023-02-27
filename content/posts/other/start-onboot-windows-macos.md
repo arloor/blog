@@ -49,6 +49,16 @@ Macos提供三种开机自启动的方式，详情可以看这里[三种方式�
                         <string>-Xmx100m</string>
                         <string>/path/to/your.jar</string>
                 </array>
+                <key>SoftResourceLimits</key>
+                <dict>
+	                <key>NumberOfFiles</key>
+	                <integer>65536</integer>
+                </dict>
+                <key>HardResourceLimits</key>
+                <dict>
+	                <key>NumberOfFiles</key>
+	                <integer>65536</integer>
+                </dict>
         </dict>
 </plist>
 ```
@@ -72,10 +82,16 @@ unload和load是老旧的launchctl命令，`man launchctl`能看到，官方推�
 使用新命令来达成上面的效果就是：
 
 ```shell
-launchctl bootout gui/$(id -u) /Users/ganghuanliu/Library/LaunchAgents/com.connect.plist
+launchctl bootout gui/$(id -u) ~/Library/LaunchAgents/com.connect.plist
 launchctl disable gui/$(id -u)/com.connect
 launchctl enable gui/$(id -u)/com.connect
-launchctl bootstrap gui/$(id -u) /Users/ganghuanliu/Library/LaunchAgents/com.connect.plist
+launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.connect.plist
+```
+
+service是否被disable的db文件地址如下，需要在恢复模式关闭安全模式才能修改。
+
+```shell
+/private/var/db/com.apple.xpc.launchd/disabled.$(id -u).plist 
 ```
 
 ### 资源限制
