@@ -72,10 +72,10 @@ unload和load是老旧的launchctl命令，`man launchctl`能看到，官方推�
 使用新命令来达成上面的效果就是：
 
 ```shell
-launchctl bootout gui/$(launchctl manageruid) /Users/ganghuanliu/Library/LaunchAgents/com.connect.plist
-launchctl disable gui/$(launchctl manageruid)/com.connect
-launchctl enable gui/$(launchctl manageruid)/com.connect
-launchctl bootstrap gui/$(launchctl manageruid) /Users/ganghuanliu/Library/LaunchAgents/com.connect.plist
+launchctl bootout gui/$(id -u) /Users/ganghuanliu/Library/LaunchAgents/com.connect.plist
+launchctl disable gui/$(id -u)/com.connect
+launchctl enable gui/$(id -u)/com.connect
+launchctl bootstrap gui/$(id -u) /Users/ganghuanliu/Library/LaunchAgents/com.connect.plist
 ```
 
 ### 资源限制
