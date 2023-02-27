@@ -64,10 +64,12 @@ sleep 1
 launchctl load -w ~/Library/LaunchAgents/com.connect.plist
 ```
 
-或者使用下面的脚本：
+unload和load是老旧的launchctl命令，`man launchctl`能看到，官方推荐我们使用 bootstrap | bootout | enable | disable
 > - unload -w 等同于bootout + disable，停止进程并禁用开机自启动。
 > - load -w 等同于enable + bootstrap，启动进程并设置开机自启动。 
 > - bootstrap和bootout只有在service是enable的状态下才有效。所以下面的脚本中，bootout在disable之前，bootstrap后enable之后。
+
+使用新命令来达成上面的效果就是：
 
 ```shell
 launchctl bootout gui/$(launchctl manageruid) /Users/ganghuanliu/Library/LaunchAgents/com.connect.plist
