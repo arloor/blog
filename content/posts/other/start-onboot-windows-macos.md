@@ -65,15 +65,15 @@ launchctl load -w ~/Library/LaunchAgents/com.connect.plist
 ```
 
 或者使用下面的脚本：
-1. unload -w 等同于disable + bootout，停止进程并禁用开机自启动
-2. load -w 等同于 bootstrap + enable，启动进程并设置开机自启动
+> - unload -w 等同于bootout + disable，停止进程并禁用开机自启动。
+> - load -w 等同于enable + bootstrap，启动进程并设置开机自启动。 
+> - bootstrap和bootout只有在service是enable的状态下才有效。所以下面的脚本中，bootout在disable之前，bootstrap后enable之后。
 
 ```shell
-launchctl disable gui/$(launchctl manageruid)/com.connect
 launchctl bootout gui/$(launchctl manageruid) /Users/ganghuanliu/Library/LaunchAgents/com.connect.plist
-sleep 1
-launchctl bootstrap gui/$(launchctl manageruid) /Users/ganghuanliu/Library/LaunchAgents/com.connect.plist
+launchctl disable gui/$(launchctl manageruid)/com.connect
 launchctl enable gui/$(launchctl manageruid)/com.connect
+launchctl bootstrap gui/$(launchctl manageruid) /Users/ganghuanliu/Library/LaunchAgents/com.connect.plist
 ```
 
 ### 资源限制
