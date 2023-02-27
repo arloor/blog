@@ -88,7 +88,7 @@ launchctl enable gui/$(id -u)/com.connect
 launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.connect.plist
 ```
 
-service是否被disable的db文件地址如下，需要在恢复模式关闭安全模式才能修改。
+service是否被disable的db文件地址如下。MacOS不会自动删除db文件中无效的service，这导致执行`launchctl print-disabled gui/$(id -u)`时会看到一些无效的service。手动删除这些无效的service，需要先在恢复模式关闭安全模式，然后才能通过vim修改。
 
 ```shell
 /private/var/db/com.apple.xpc.launchd/disabled.$(id -u).plist 
