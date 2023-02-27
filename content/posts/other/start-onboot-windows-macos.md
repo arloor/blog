@@ -59,12 +59,14 @@ Macos提供三种开机自启动的方式，详情可以看这里[三种方式�
 
 ```
 #! /bin/sh
-launchctl stop com.connect
-sleep 1
 launchctl unload -w ~/Library/LaunchAgents/com.connect.plist
 sleep 1
 launchctl load -w ~/Library/LaunchAgents/com.connect.plist
 ```
+
+或者使用下面的脚本：
+1. unload -w 等同于disable + bootout，停止进程并禁用开机自启动
+2. load -w 等同于 bootstrap + enable，启动进程并设置开机自启动
 
 ```shell
 launchctl disable gui/$(launchctl manageruid)/com.connect
