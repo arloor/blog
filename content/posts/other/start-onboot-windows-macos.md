@@ -29,8 +29,8 @@ Macos提供三种开机自启动的方式，详情可以看这里[三种方式�
         <dict>
                 <key>Label</key>
                 <string>com.connect</string>
-                <key>Disabled</key>          
-                <false/>
+                <!-- <key>Disabled</key>          
+                <false/> -->
                 <key>KeepAlive</key>
                 <false/>
                 <key>RunAtLoad</key>
@@ -67,9 +67,11 @@ launchctl load -w ~/Library/LaunchAgents/com.connect.plist
 ```
 
 ```shell
+launchctl disable gui/$(launchctl manageruid)/com.connect
 launchctl bootout gui/$(launchctl manageruid) /Users/ganghuanliu/Library/LaunchAgents/com.connect.plist
 sleep 1
 launchctl bootstrap gui/$(launchctl manageruid) /Users/ganghuanliu/Library/LaunchAgents/com.connect.plist
+launchctl enable gui/$(launchctl manageruid)/com.connect
 ```
 
 ### 资源限制
