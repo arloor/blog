@@ -26,42 +26,58 @@ keywords:
 
 lxd的容器完全可以当成富容器来用，除了不能ssh，也是有systemd的，可以运行daemon程序，这点很重要。
 
-## 关闭sshd密码登陆
+## 使用Rsync备份文件到威联通
 
-威联通的默认设置无法关闭sshd密码登陆，导致nas一直会被爆破，手动更改sshd的配置也会被qnap覆盖掉，所以需要自定义crontab来不断检查配置
+### 威联通Rsync服务配置
 
-```shell
-# vim /share/CACHEDEV1_DATA/repo/disable_sshd_passwd.sh 
-#! /bin/bash
-echo $(date)
-if grep -E "^PasswordAuthentication no$" /etc/config/ssh/sshd_config; then
-  echo "passwd is disabled;do nothing"
-else
-  sed -i 's/^PasswordAuthentication .*/PasswordAuthentication no/g' /etc/config/ssh/sshd_config
-  if grep -E "^PasswordAuthentication no$" /etc/config/ssh/sshd_config; then
-    echo "passwd is disabled"
-  else
-    echo "append passwd disable to sshd_config"
-    echo "PasswordAuthentication no" >>/etc/config/ssh/sshd_config
-  fi
-  sshd_pid=$(ps -ef | grep "/usr/sbin/sshd -f /etc/config/ssh/sshd_config -p 22" | grep -v "grep" | awk '{print $1}')
-  echo $sshd_pid
-  [ "$sshd_pid" = "" ] && {
-    echo "not running"
-  } || {
-    echo "kill sshd"
-    kill -15 $sshd_pid
-  }
-  /usr/sbin/sshd -f /etc/config/ssh/sshd_config -p 22
-  echo "start sshd"
-fi
-```
+首先到AppCenter中安装HBS3文件备份中心。
+
+![](/img/Snipaste_2023-03-02_22-07-43.png)
+
+然后打开HBS3的Rsync服务，详细配置如下
+
+![](/img/Snipaste_2023-03-02_22-10-38.png)
+
+第三步，在设置中打开ssh服务，因为rync使用了ssh服务。这里我们ssh端口设置成2222了，后面会用到。建议只在需要的时候打开ssh服务，不建议长时间打开ssh服务，因为威联通的ssh服务无法设置禁用密码登陆，密码简单的情况可能有被爆破的风险。
+
+![](/img/Snipaste_2023-03-02_22-13-12.png)
+
+至此，威联通上的rsync服务就配置好了，剩下的是rsync命令的使用了。
+
+### rsync命令使用
+
+参考：[Linux rsync 命令同步文件与目录/文件夹](https://www.myfreax.com/how-to-use-rsync-for-local-and-remote-data-transfer-and-synchronization/)
+
+
+安装rsync：
 
 ```shell
-## crontab -e
-* * * * * /bin/bash /share/CACHEDEV1_DATA/repo/disable_sshd_passwd.sh > /share/CACHEDEV1_DATA/repo/sshd_disable_passwd.log
+# ubuntu
+sudo apt install -y rsync
+# centos
+sudo yum install -y rsync
+# Mac
+# 看着是自带的
 ```
 
-为什么放在没有放在比较常规的路径下，因为看到说威联通重启是会删除一些系统外增加的脚本
-参考[QNAP NAS添加计划任务](https://codeantenna.com/a/w4pm5BElD1)和[威联通:自定义ssh登录方式](https://wiki.xiongmx.com/doku.php?id=%E5%A8%81%E8%81%94%E9%80%9A:%E8%87%AA%E5%AE%9A%E4%B9%89ssh%E7%99%BB%E5%BD%95%E6%96%B9%E5%BC%8F)
+从其他地方备份到威联通上
 
+```shell
+rsync -avtP  -e "ssh -p ${ssh_port}" \
+--exclude=${exclude1} \
+--exclude=${exclude2} \
+${src} \
+${user}@${host}:/share/CACHEDEV1_DATA/${target}
+```
+
+- ${ssh_port} 是威联通ssh服务的端口，在我的配置下是2222
+- --exclude 用于排除一些文件或文件夹
+- ${src} 是原文件夹
+- ${user} 是NAS的用户
+- /share/CACHEDEV1_DATA/ 是威联通共享文件夹所在的目录，可以根据自己的情况调整
+- -a 存档模式，等效于-rlptgoD。此选项指示rsync递归同步目录，传输特殊设备和块设备，保留符号链接，组，所有权和权限等。
+- -z 此选项将强制rsync在数据发送给目标计算机之前对数据进行压缩。
+- -P 使用此选项时，rsync将在传输过程中显示进度条并保留部分传输的文件。在慢速或不稳定的网络连接传输大文件时非常有用。
+- --delete使用此选项时，rsync将从目标位置删除相同的文件。适合用于镜像文件。
+- -q 此选项禁止显示非错误消息。-e此选项使您可以选择其他远程shell程序。默认使用ssh。
+-t 该选项用与保持文件的mtime属性不变。mtime是文件的修改时间。如果没有指定-t选项时，目标文件mtime属性会设置为系统时间，导致下次更新检测到mtime不同，从而导致增量更新无效。
