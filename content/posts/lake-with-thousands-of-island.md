@@ -1,5 +1,5 @@
 ---
-title: "Lake With Thousands of Island"
+title: "千岛湖之旅"
 date: 2023-03-07T23:35:10+08:00
 draft: false
 categories: [ "undefined"]
