@@ -172,6 +172,29 @@ PRIMARY KEY (action_id, scene_id, time_ts, level);
 
 针对这种存储结构，clikhouse查询时，会先通过primary.idx找到大致的范围，再通过mrk2找到bin文件中位置，最后解压block得到数据
 
+### Projection
+
+- [Projection：快手对 ClickHouse 的重磅贡献](https://toutiao.io/posts/x3yg1p0/preview)
+- [Clickhouse Projection 特性探索](https://xie.infoq.cn/article/f5ef2cfb9cd41bd817f5d1075)
+
+Projection广泛用于预聚合的场景。最大的优势是两点：
+
+1. 预聚合，使用空间换时间。写入时就进行聚合，查询时不需要再从明细数据计算出聚合结果。
+2. Projection是表中表的结构，原始表和Projection可以有不同的主键（不同的排序索引），从而实现多序，满足不同的查询需求。
+
+详细解释下第二点：原始表video_log的排序索引是 (user_id, device_id)。我们知道where一定要包含排序索引的一部份才能使用到ck的稀疏索引的优势。
+
+![](/img/00d7eab63e6a98e28f3c0d6c604a3e70.png)
+
+下面增加一个group by hour domain的Projection：
+
+![](/img/25586bdd75ff9fb7ae5441a991ea5aa5.png)
+
+此时，Projection表的主键就是 (hour domain)，此时where条件里就可以高效使用hour和domain了。
+
+Projection的存储结构如下：重点是共享源Part的Partition，有自己的新主键（新排序索引）。
+
+![](/img/a833238d914f720c27559b9b8ce3f95b.png)
 
 
  ## 向量引擎
