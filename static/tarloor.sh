@@ -1,5 +1,8 @@
 #! /bin/bash
 
+dir=/var/blog
+repo=https://github.com/arloor/blog.git
+
 hugoVersion="0.96.0"
 hugoURL=https://github.com/gohugoio/hugo/releases/download/v${hugoVersion}/hugo_extended_${hugoVersion}_Linux-64bit.tar.gz
 is_deb="1"
@@ -55,17 +58,17 @@ echo -e "\n\033[36m# Dependence Check done\033[0m\n"
   git config --global https.proxy 'http://127.0.0.1:3128'
 }
 
-# 检查/var/blog是否存在，存在则update
-[ ! -d /var/blog ] && echo -e "\n\033[36marloor blog not exits. git clone....\033[0m\n" && {
-  git clone https://github.com/arloor/blog.git /var/blog
+# 检查${dir}是否存在，存在则update
+[ ! -d ${dir} ] && echo -e "\n\033[36m${repo} not exits. git clone....\033[0m\n" && {
+  git clone ${repo} ${dir}
 } || {
   echo -e "\n\033[36marloor's blog exits. git pull....\033[0m\n"
-  cd /var/blog
+  cd ${dir}
   git pull --ff-only || {
     echo "git pull 失败，重新clone"
     cd $home
-    rm -rf /var/blog
-    git clone https://github.com/arloor/blog.git /var/blog
+    rm -rf ${dir}
+    git clone ${repo} ${dir}
   }
 }
 
@@ -106,6 +109,6 @@ else
   }
 fi
 
-cd /var/blog
+cd ${dir}
 hugo -d /usr/share/nginx/html/
 service nginx reload
