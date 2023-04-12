@@ -1,8 +1,17 @@
 #! /bin/bash
 
-repoName=blog
+useProxy=$1
+[ "$2" = "" ]&&repoName=blog||repoName=$2
 dir=/var/${repoName}
 repo=https://github.com/arloor/${repoName}.git
+
+echo "仓库名：$repoName"
+echo "仓库地址：$repo"
+[ "$useProxy" = "1" ] && {
+  echo "----- 使用代理"
+}||{
+    echo "----- 不使用代理"
+}
 
 hugoVersion="0.96.0"
 hugoURL=https://github.com/gohugoio/hugo/releases/download/v${hugoVersion}/hugo_extended_${hugoVersion}_Linux-64bit.tar.gz
@@ -50,7 +59,7 @@ CheckDependence git,tar,wget
 echo -e "\n\033[36m# Dependence Check done\033[0m\n"
 
 # 如果不需要使用代理，则使用 bash tarloor 0
-[ "$1" = "1" ] && {
+[ "$useProxy" = "1" ] && {
   proxystart=1
   # 设置http代理，使用方法：
   export http_proxy=http://127.0.0.1:3128
