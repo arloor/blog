@@ -1,7 +1,8 @@
 #! /bin/bash
 
-dir=/var/blog
-repo=https://github.com/arloor/blog.git
+repo=blog
+dir=/var/${repo}
+repo=https://github.com/arloor/${repo}.git
 
 hugoVersion="0.96.0"
 hugoURL=https://github.com/gohugoio/hugo/releases/download/v${hugoVersion}/hugo_extended_${hugoVersion}_Linux-64bit.tar.gz
@@ -110,5 +111,5 @@ else
 fi
 
 cd ${dir}
-hugo -d /usr/share/nginx/html/
+hugo -d /usr/share/nginx/html/${repo}
 service nginx reload
