@@ -112,5 +112,6 @@ fi
 
 cd ${dir}
 mkdir /usr/share/nginx/html/${repo}
+echo /usr/share/nginx/html/${repo}
 hugo -d /usr/share/nginx/html/${repo}
 service nginx reload
