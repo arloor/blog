@@ -111,5 +111,5 @@ else
 fi
 
 cd ${dir}
-hugo -d /usr/share/nginx/html/${repoName}
+hugo -d /usr/share/nginx/html/
 service nginx reload
