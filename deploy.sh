@@ -22,7 +22,7 @@ git pull && git add . && git commit -m "$msg" && git push || {
 }
 
 for host in $hosts; do
-  ssh root@${host} -t "
+  ssh root@${host} "
             wget "https://www.arloor.com/tarloor.sh" -O /usr/local/bin/tarloor
             bash tarloor 1 blog #使用代理: bash tarloor 1
             "
