@@ -507,6 +507,7 @@ select attr_values[indexOf(attr_keys, 'a')] as a, count(1),groupArray(`span.id`)
 ## ClickHouse存储统计sql
 
 ```sql
+with 'xxxxx' as table_name --只能查本地表
 SELECT
     table,
     sum(rows) AS num_row,
@@ -514,8 +515,7 @@ SELECT
     formatReadableSize(sum(data_compressed_bytes)) AS compress,
     round((sum(data_compressed_bytes) / sum(data_uncompressed_bytes)) * 100, 0) AS compress_ratio
 FROM system.parts
-WHERE table = 'xxxxx(只能查本地表)'
-GROUP BY table
+WHERE table = table_name GROUP BY table
 
 Query id: d79e4c12-100a-487f-8f9d-4f32ea4f3791
 
