@@ -515,7 +515,9 @@ SELECT
     formatReadableSize(sum(data_compressed_bytes)) AS compress,
     round((sum(data_compressed_bytes) / sum(data_uncompressed_bytes)) * 100, 0) AS compress_ratio
 FROM system.parts
-WHERE table = table_name GROUP BY table
+WHERE active=1
+-- and table = table_name
+GROUP BY table
 
 Query id: d79e4c12-100a-487f-8f9d-4f32ea4f3791
 
