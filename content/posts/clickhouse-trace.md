@@ -518,7 +518,9 @@ FROM system.parts
 WHERE active=1
 -- and table = table_name
 GROUP BY table
+```
 
+```shell
 Query id: d79e4c12-100a-487f-8f9d-4f32ea4f3791
 
 ┌─table────────────────────┬─────num_row─┬─uncompress─┬─compress─┬─compress_ratio─┐
