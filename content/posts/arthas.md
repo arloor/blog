@@ -17,22 +17,8 @@ arthas用来动态调试很好用
 ## 安装arthas
 
 ```bash
-sudo -iu sankuai
-export http_proxy="http://11.39.114.32:3128"
-export https_proxy="http://11.39.114.32:3128"
-cd ~
-mkdir arthas;cd arthas;wget "https://arthas.aliyun.com/download/latest_version?mirror=aliyun" -O arthas-packaging-3.5.3-bin.zip;unzip -o arthas-packaging-3.5.3-bin.zip;cd ~
-
-if ! grep "~/arthas/arthas-boot.jar" ~/.bashrc > /dev/null;
-then
-  cat >> ~/.bashrc <<EOF
-alias debug='java -jar ~/arthas/arthas-boot.jar'
-EOF
-else
-  echo 已设置alias;
-fi
-. ~/.bashrc
-debug
+curl -O https://arthas.aliyun.com/arthas-boot.jar
+java -jar arthas-boot.jar #--repo-mirror aliyun --use-http
 ```
 
 ## 安装idea插件
