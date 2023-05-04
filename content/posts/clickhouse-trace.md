@@ -516,8 +516,10 @@ SELECT
     round((sum(data_compressed_bytes) / sum(data_uncompressed_bytes)) * 100, 0) AS compress_ratio
 FROM system.parts
 WHERE active=1
+and database!='system'
 -- and table = table_name
 GROUP BY table
+order by num_row desc
 ```
 
 ```shell
