@@ -1,7 +1,7 @@
 ---
-title: "Xray新traceId"
+title: "新traceId格式"
 date: 2023-05-10T11:26:48+08:00
-draft: true
+draft: false
 categories: [ "undefined"]
 tags: ["notion"]
 weight: 10
@@ -11,7 +11,7 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
-# Xray新traceId
+# 新traceId格式
 
 ## **背景**
 
@@ -167,7 +167,7 @@ TraceId：服务器 IP + ID 产⽣的时间 + ⾃增序列 + 当前进程号 ，
 
 IOS/Android/WEB当前使用Zipkin (B3) HTTP header传递traceId，相关header为X-B3-TraceId.
 
-为避免兼容性问题，老的header不改动，新增一个header：xray-trace-id来传递新的traceId。
+为避免兼容性问题，老的header不改动，新增一个header：x-trace-id来传递新的traceId。
 
 ![https://wdcdn.qpic.cn/MTY4ODg1Njc4MzQxMjk1Mw_738916_tni8iGkxyECGxmWL_1679556804?w=701&h=571](/img/MTY4ODg1Njc4MzQxMjk1Mw_738916_tni8iGkxyECGxmWL_1679556804.png)
 
