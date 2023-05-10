@@ -1,6 +1,6 @@
 ---
 title: "trace详情搜索性能优化"
-date: 2023-05-10T11:27:33+08:00
+date: 2023-05-10T14:28:41+08:00
 draft: false
 categories: [ "undefined"]
 tags: ["notion"]
@@ -36,7 +36,7 @@ SETTINGS use_skip_indexes = 0
 
 我们在clickhouse中执行这样的请求需要耗时8秒（sit环境下，prod环境则在1s以内，尚可接受）
 
-![Untitled](Untitled.png)
+![e45b5c0534c778bc587737f74925b525.png](/img/e45b5c0534c778bc587737f74925b525.png)
 
 ## 问题分析
 
@@ -51,7 +51,7 @@ SETTINGS use_skip_indexes = 0
 
 从explain中无法获取更多的信息。
 
-![Untitled](Untitled%201.png)
+![4331c90cadd0856256e0b0ed5a026564.png](/img/4331c90cadd0856256e0b0ed5a026564.png)
 
 ### Clickhouse日志
 
@@ -114,7 +114,7 @@ GROUP BY trace_id
 
 可以看到第一步根据MinMax索引，第一步就可以过滤掉730个part，只剩下一个part待扫描，这里时间字段的MinMax索引起了大作用。
 
-![Untitled](Untitled%202.png)
+![cdbf33bccfb9034bbca46770e44e2b3e.png](/img/cdbf33bccfb9034bbca46770e44e2b3e.png)
 
 ### Clickhouse trace日志
 
@@ -245,7 +245,7 @@ CREATE TABLE if not exists tracing_trace_id_index_distributed on cluster default
 
 1. 判断是新traceId还是老traceId：长度为32位的16进制字符串并且从前41位还原出的时间戳在前后最近的一小时内，则认为是新traceId，否则为老traceId。
 2. 对于新traceId，一个traceId对应一个时间。collector从traceId中解码出该时间，并将这个时间作为trace_id_time写入ClickHouse。
-3. 对于老traceId，不能从traceId还原出唯一的时间，只能记录span开始时间。而且一个traceId将记录到多个span开始时间。我们将traceId和时间的mapping分别写入ck和redis。因为被选中而写入ck的时间可能不同，所以select语句中时间范围是加减一小时。
+3. 对于老traceId，不能从traceId还原出唯一的时间，只能记录span开始时间。而且一个traceId将记录到多个span开始时间。我们将traceId和时间的mapping分别写入ck和RedKV。因为被选中而写入ck的时间可能不同，所以select语句中时间范围是加减一小时。
 
 在描述写入过程中时间是如何被处理的后，就可以确定我们的查询语句。
 
@@ -283,7 +283,7 @@ SelectExecutor): Spreading mark ranges among streams (default reading)
 
 explain:
 
-![Untitled](Untitled%203.png)
+![84e2413a2d9a929a0c5fac1efdaca8f3.png](/img/84e2413a2d9a929a0c5fac1efdaca8f3.png)
 
 ### KV存储设计
 
@@ -298,9 +298,9 @@ explain:
 3. 将新traceId索引写入ck
 4. 新traceId的详情查询走traceId索引
 
-### 迭代二 使用Redis完成对老traceId的查询加速
+### 迭代二 使用RedKV完成对老traceId的查询加速
 
-1. redis容量评估 【已完成】100万qps，应该满足不了
-2. 申请redis资源
-3. 老TraceId写入时间写入redis
-4. 从redis查询老traceID对应的时间
+1. RedKV容量评估 【已完成】100万qps，应该满足不了
+2. 申请RedKV资源
+3. 老TraceId写入时间写入RedKV
+4. 从RedKV查询老traceID对应的时间
