@@ -1,6 +1,6 @@
 ---
-title: "Entry级别拓扑及性能指标计算 857ee36d561942099b49ef297814c14e"
-date: 2023-05-09T21:47:19+08:00
+title: "Entry级别拓扑及性能指标计算"
+date: 2023-05-10T11:15:59+08:00
 draft: true
 categories: [ "undefined"]
 tags: ["undefined"]
@@ -24,7 +24,7 @@ select count(xx), avg(yy) from data_source where .... group by zz
 
 目前大多数的开源产品和商业产品所提供的拓扑分析功能，都是如实地记录某RPC节点的上游和下游，这像是架构图中的物理视图，在描述一种物理的存在和组织形式。就像使用逻辑视图来补充物理视图一样，用户真正需要的拓扑分析往往不限于描绘一种物理的调用关系，还需要描绘某一个业务场景下的的上下游关系，这些上下游调用关系共同完成了某一个具体的业务功能，例如订单、商品等。
 
-![](https://wdcdn.qpic.cn/MTY4ODg1Njc4MzQxMjk1Mw_448689_X8_WmAD3Tncia0rU_1679888443?w=1431&h=436)
+![https://wdcdn.qpic.cn/MTY4ODg1Njc4MzQxMjk1Mw_448689_X8_WmAD3Tncia0rU_1679888443?w=1431&h=436](/img/MTY4ODg1Njc4MzQxMjk1Mw_448689_X8_WmAD3Tncia0rU_1679888443.png)
 
 从物理上的拓扑到逻辑上拓扑的演变，从实现上来讲就是细化分类标准。之前，同事已经提出了场景和Entry（入口）的概念：Entry是某个trace起点的RPC Service或HttpURL；场景则是多个Entry的集合，比如下单场景就会有多个不同的入口。场景和Entry本身是有业务含义的，我们要做的是以场景和Entry作为分类标准，生成拓扑图和上下游调用性能指标。考虑到，场景是多个Entry的集合，所以我们先做Entry级别的拓扑，而后通过聚合Entry下的数据生成场景级别数据。
 
@@ -60,7 +60,7 @@ bool error = 8; // 状态，用于还原总失败率
 
 ### **架构**
 
-![](https://wdcdn.qpic.cn/MTY4ODg1Njc4MzQxMjk1Mw_762510_6o32c4aaByAnfvJL_1679899203?w=761&h=321)
+![https://wdcdn.qpic.cn/MTY4ODg1Njc4MzQxMjk1Mw_762510_6o32c4aaByAnfvJL_1679899203?w=761&h=321](/img/MTY4ODg1Njc4MzQxMjk1Mw_762510_6o32c4aaByAnfvJL_1679899203.png)
 
 增加Trace Topology应用，使用MQ与Trace Collector解耦。
 
@@ -165,7 +165,7 @@ SETTINGS ttl_only_drop_parts = 1
 
 Trace Topology的实现示意图如下：
 
-![](https://wdcdn.qpic.cn/MTY4ODg1Njc4MzQxMjk1Mw_874620__h1E_lsBIV28Pk5f_1679903573?w=511&h=891)
+![https://wdcdn.qpic.cn/MTY4ODg1Njc4MzQxMjk1Mw_874620__h1E_lsBIV28Pk5f_1679903573?w=511&h=891](/img/MTY4ODg1Njc4MzQxMjk1Mw_874620__h1E_lsBIV28Pk5f_1679903573.png)
 
 其中有一个关键在于，MQ生产时的partKey是随机还是Entry，是否要将相同的entry路由到相同的机器上？优劣对比如下：
 
@@ -385,7 +385,7 @@ select distinct entry
 
 性能较差
 
-```prolog
+```bash
 <Debug> executeQuery: (from [::1]:52053) select downstream_app, upstream_app, sum(count) as total, sum(total_duration) / sum(count) as avg_duration, max(max_duration) as max_duration, sum(error) as error from RPC_statistics_time where entry in ('[GET]/rpc') and time BETWEEN '2023-03-31 00:00:00' and '2023-04-01 00:00:00' group by downstream_app, upstream_app (stage: Complete)
 <Debug> InterpreterSelectQuery: MergeTreeWhereOptimizer: condition "(entry IN ('[GET]/rpc')) AND (time >= '2023-03-31 00:00:00') AND (time <= '2023-04-01 00:00:00')" moved to PREWHERE
 <Trace> ContextAccess (default): Access granted: SELECT(entry, time, downstream_app, upstream_app, count, total_duration, max_duration, error) ON cat.RPC_statistics_time
@@ -414,7 +414,7 @@ select distinct entry
 
 性能较好
 
-```prolog
+```bash
 <Debug> executeQuery: (from [::1]:52053) select downstream_app, upstream_app, sum(count) as total, sum(total_duration) / sum(count) as avg_duration, max(max_duration) as max_duration, sum(error) as error from RPC_statistics where entry in ('[GET]/rpc') and time BETWEEN '2023-03-31 00:00:00' and '2023-04-01 00:00:00' group by downstream_app, upstream_app (stage: Complete)
 <Debug> InterpreterSelectQuery: MergeTreeWhereOptimizer: condition "(entry IN ('[GET]/rpc')) AND (time >= '2023-03-31 00:00:00') AND (time <= '2023-04-01 00:00:00')" moved to PREWHERE
 <Trace> ContextAccess (default): Access granted: SELECT(entry, time, downstream_app, upstream_app, count, total_duration, max_duration, error) ON cat.RPC_statistics
