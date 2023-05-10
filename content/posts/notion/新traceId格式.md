@@ -177,12 +177,12 @@ IOS/Android/WEB当前使用Zipkin (B3) HTTP header传递traceId，相关header�
 
 ## **参考资料**
 
-1. https://juejin.cn/post/6844903562007314440 分布式唯⼀id：snowflake算法思考
+1. [分布式唯⼀id：snowflake算法思考](https://juejin.cn/post/6844903562007314440)
 
-2.  https://github.com/baidu/uid-generator/blob/master/README.zh_cn.md 百度UidGenerator
+2. [百度UidGenerator](https://github.com/baidu/uid-generator/blob/master/README.zh_cn.md)
 
-3. https://www.cnblogs.com/throwable/p/14343086.html UUID
+3. [UUID](https://www.cnblogs.com/throwable/p/14343086.html)
 
-4. https://github.com/f4b6a3/uuid-creator UUIDv1⽣成
+4. [UUIDv1⽣成](https://github.com/f4b6a3/uuid-creator)
 
 5. [分布式唯一ID系列（2）——UUID适合做分布式ID吗-阿里云开发者社区](https://developer.aliyun.com/article/714229)
