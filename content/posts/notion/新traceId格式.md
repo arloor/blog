@@ -39,7 +39,11 @@ keywords:
 
 ● 事件id（0-16383），单个tick⾥⾃增
 
-单机每秒钟可以⽣成1638亿个id JDK中没有提供V1版本的UUID，需要参考开源的代码：com.github.f4b6a3.uuid.factory.AbstTimeBasedFactory
+单机每秒钟可以⽣成1638亿个id JDK中没有提供V1版本的UUID，需要参考开源的代码：
+
+```shell
+com.github.f4b6a3.uuid.factory.AbstTimeBasedFactory
+```
 
 **问题：**虽然使用了时间作为字段之一，但是把时间分成了三段，并把最低的32位移位到了最高的32位，破坏了时间的有序性，详见下面的代码：
 
