@@ -1,9 +1,9 @@
 ---
 title: "Xray新traceId"
-date: 2023-05-10T11:21:14+08:00
+date: 2023-05-10T11:24:48+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["undefined"]
+tags: ["notion"]
 weight: 10
 subtitle: ""
 description : ""

@@ -1,9 +1,9 @@
 ---
 title: "trace详情搜索性能优化"
-date: 2023-05-10T11:21:16+08:00
+date: 2023-05-10T11:24:49+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["undefined"]
+tags: ["notion"]
 weight: 10
 subtitle: ""
 description : ""
@@ -298,3 +298,9 @@ explain:
 3. 将新traceId索引写入ck
 4. 新traceId的详情查询走traceId索引
 
+### 迭代二 使用RedKV完成对老traceId的查询加速
+
+1. RedKV容量评估 【已完成】100万qps，应该满足不了
+2. 申请RedKV资源
+3. 老TraceId写入时间写入RedKV
+4. 从RedKV查询老traceID对应的时间
