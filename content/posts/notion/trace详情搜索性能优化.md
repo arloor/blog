@@ -238,14 +238,14 @@ CREATE TABLE if not exists tracing_trace_id_index_distributed on cluster default
  ENGINE = Distributed('default_cluster', , 'tracing_trace_id_index', rand());
 ```
 
-> 因为clickhouse-http-java的0.3.2版本并不支持`SimpleAggregateFunction(groupUniqArrayArray,Array(String))` 类型的聚合函数，相关支持在此[PR](https://github.com/ClickHouse/clickhouse-java/pull/1054) （代码很简单），已升级到0.4.4版本来引入该修复PR。
+> 因为clickhouse-http-java的0.3.2版本并不支持`groupUniqArrayArray` 类型的`SimpleAggregateFunction`聚合函数，相关支持在此[PR](https://github.com/ClickHouse/clickhouse-java/pull/1054) （代码很简单），已升级到0.4.4版本来引入该修复PR。
 > 
 
 写入过程：
 
 1. 判断是新traceId还是老traceId：长度为32位的16进制字符串并且从前41位还原出的时间戳在前后最近的一小时内，则认为是新traceId，否则为老traceId。
 2. 对于新traceId，一个traceId对应一个时间。collector从traceId中解码出该时间，并将这个时间作为trace_id_time写入ClickHouse。
-3. 对于老traceId，不能从traceId还原出唯一的时间，只能记录span开始时间。而且一个traceId将记录到多个span开始时间。我们将traceId和时间的mapping分别写入ck和RedKV。因为被选中而写入ck的时间可能不同，所以select语句中时间范围是加减一小时。
+3. 对于老traceId，不能从traceId还原出唯一的时间，只能记录span开始时间。而且一个traceId将记录到多个span开始时间。我们将traceId和时间的mapping分别写入ck和Redis。因为被选中而写入ck的时间可能不同，所以select语句中时间范围是加减一小时。
 
 在描述写入过程中时间是如何被处理的后，就可以确定我们的查询语句。
 
@@ -298,9 +298,9 @@ explain:
 3. 将新traceId索引写入ck
 4. 新traceId的详情查询走traceId索引
 
-### 迭代二 使用RedKV完成对老traceId的查询加速
+### 迭代二 使用Redis完成对老traceId的查询加速
 
-1. RedKV容量评估 【已完成】100万qps，应该满足不了
-2. 申请RedKV资源
-3. 老TraceId写入时间写入RedKV
-4. 从RedKV查询老traceID对应的时间
+1. Redis容量评估 【已完成】100万qps，应该满足不了
+2. 申请Redis资源
+3. 老TraceId写入时间写入Redis
+4. 从Redis查询老traceID对应的时间
