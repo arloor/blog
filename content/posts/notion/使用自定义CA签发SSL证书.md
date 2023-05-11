@@ -15,8 +15,8 @@ keywords:
 
 ## 签发CA并使用CA签发SSL证书
 
-- 在 `~/ca` 创建CA证书和私钥，私钥为 `cakey.pem` ，公钥为 `ca.pem` 。 `ca.pem` 后续将被系统信任。
-- 在 `~/ca/certs` 创建自定义SSL证书，私钥为 `privkey.pem` ，公钥为 `cert.pem`
+1. 在 `~/ca` 创建CA证书和私钥，私钥为 `cakey.pem` ，公钥为 `ca.pem` 。 `ca.pem` 后续将被安装到系统并信任。
+2. 在 `~/ca/certs` 创建自定义SSL证书，私钥为 `privkey.pem` ，公钥为 `cert.pem`。他们将被用于启动https服务。
 
 ```bash
 [ ! -d ~/ca ] &&{
