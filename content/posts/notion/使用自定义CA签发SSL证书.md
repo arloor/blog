@@ -23,7 +23,6 @@ keywords:
     mkdir ~/ca
 }
 cd ~/ca
-
 [ ! -f cakey.pem -o ! -f ca.pem ]&&{
   if [ -f cakey.pem ]; then
     rm -f cakey.pem
@@ -31,8 +30,36 @@ cd ~/ca
   if [ -f ca.pem ]; then
       rm -f ca.pem
   fi
+cat > openssl.conf <<\EOF
+[ req ]
+# Options for the `req` tool (`man req`).
+default_bits        = 2048
+distinguished_name  = req_distinguished_name
+string_mask         = utf8only
+
+# Extension to add when the -x509 option is used.
+x509_extensions     = v3_ca
+
+[ req_distinguished_name ]
+# See <https://en.wikipedia.org/wiki/Certificate_signing_request>.
+countryName                     = Country Name (2 letter code)
+stateOrProvinceName             = State or Province Name
+localityName                    = Locality Name
+0.organizationName              = Organization Name
+organizationalUnitName          = Organizational Unit Name
+commonName                      = Common Name
+emailAddress                    = Email Address
+
+[ v3_ca ]
+# Extensions for a typical CA (`man x509v3_config`).
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid:always,issuer
+basicConstraints = critical, CA:true
+keyUsage = critical, digitalSignature, cRLSign, keyCertSign
+EOF
+
 # 使用liuganghuan.com创建SSL证书，作为CA
-openssl req -x509 -newkey rsa:4096 -sha256 -nodes -keyout temp.pem -out ca.pem -days 36500 -subj "/C=cn/ST=ShangHai/L=ShangHai/O=liuganghuan/OU=liuganghuan/CN=liuganghuan.com/emailAddress=admin@arloor.com"
+openssl req -config ~/ca/openssl.conf -x509 -newkey rsa:4096 -sha256 -nodes -keyout temp.pem -extensions v3_ca -out ca.pem -days 36500 -subj "/C=cn/ST=ShangHai/L=ShangHai/O=liuganghuan/OU=liuganghuan/CN=liuganghuan.com/emailAddress=admin@arloor.com"
 openssl rsa -inform PEM -in temp.pem -outform PEM -out cakey.pem
 openssl x509 -in ca.pem -noout -text
 echo 
@@ -85,3 +112,7 @@ cat ~/ca/ca.pem >> cert.pem
 ![fac03ac28e578a2a458b150fef497290.png](/img/fac03ac28e578a2a458b150fef497290.png)
 
 ![8d7b336fd9e376eb116acb1e7d93d69a.png](/img/8d7b336fd9e376eb116acb1e7d93d69a.png)
+
+## 参考文档
+
+[CA & OpenSSL自签名证书](https://juejin.cn/post/7092789498823573518#heading-20)
