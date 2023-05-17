@@ -39,7 +39,7 @@ keywords:
 
 总览：
 
-![44fdaa375722b9dc40a1e4420fa49f55.png](/img/44fdaa375722b9dc40a1e4420fa49f55.png)
+![44fdaa375722b9dc40a1e4420fa49f55.png](/img/业务拓扑-总览.drawio.png)
 
 聚焦展示：
 
