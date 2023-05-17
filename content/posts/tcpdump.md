@@ -25,7 +25,9 @@ tcpdump  -A 'tcp port 80 and (((ip[2:2] - ((ip[0]&0xf)<<2)) - ((tcp[12]&0xf0)>>2
 
 `-A` 表示用ASCII编码打印tcp包内容，用于查看http等明文协议
 
-可以增加`and src host 101.33.xx.xx` 的条件来指定来源ip，此时只打印请求，`and host 101.33.xx.xx`，此时请求和响应都会打印。
+可以增加`and src host 101.33.xx.xx` 的条件来指定来源ip，此时只打印请求;增加`and dest host 101.33.xx.xx`，此时只打印响应；增加`and host 101.33.xx.xx`，此时请求和响应都会打印。
+
+具体条件表达式可以参见`man pcap-filter`
 
 只适用于IPv4的原因是上面的表达式中用到IPv4协议头部字段中的长度，换成IPv6的包，就不对了。
 
