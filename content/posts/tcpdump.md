@@ -11,7 +11,7 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
-工作中需要用到tcpdump，这里做一下备忘，主要知识来源是 `man tcpdump`。
+工作中需要用到tcpdump，这里做一下备忘，主要知识来源是 `man tcpdump`和ChatGPT-4。
 
 ## 常用命令
 
