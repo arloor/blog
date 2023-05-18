@@ -20,7 +20,7 @@ keywords:
 查看IPv4的到80端口的http协议明文。
 
 ```bash
-tcpdump  -A 'tcp port 80 and (((ip[2:2] - ((ip[0]&0xf)<<2)) - ((tcp[12]&0xf0)>>2)) != 0)'
+tcpdump  -A -nn -s 0 'tcp port 80 and (((ip[2:2] - ((ip[0]&0xf)<<2)) - ((tcp[12]&0xf0)>>2)) != 0)'
 ```
 
 `-A` 表示用ASCII编码打印tcp包内容，用于查看http等明文协议
@@ -50,7 +50,7 @@ sudo tcpdump -i lo
 
 ## 向ChatGPT的提问
 
-为什么有时候tcpdump没有在length n后面打印http的请求详情？
+### 为什么有时候tcpdump没有在length n后面打印http的请求详情？
 
 `tcpdump` 是一个非常强大的网络工具，用于捕获网络上的数据包。它可以显示关于 TCP/IP 和其他网络包的详细信息，但并不总是显示应用层协议（如 HTTP）的详细内容。
 
@@ -63,3 +63,17 @@ sudo tcpdump -i lo
 3. **`tcpdump` 的输出选项**：`tcpdump` 的默认输出可能不包括 HTTP 请求的详细信息。使用 `-A` 参数（表示 ASCII），或 `-X` 参数（表示十六进制和 ASCII）可以显示 HTTP 头部和主体内容。例如：`tcpdump -A 'port 80'` 或 `tcpdump -X 'port 80'`。
 
 需要注意的是，为了能正确解析和显示 HTTP 内容，`tcpdump` 需要能够捕获到完整的 TCP 连接，包括 SYN/SYN-ACK/ACK 握手过程。如果开始部分被遗漏，`tcpdump` 可能无法正确解析后续的 HTTP 数据包。
+
+### tcpdump中怎么显示port而不是port的别名
+
+默认情况下，tcpdump会尝试将已知的端口号转换为服务名称（例如，将80端口转换为http）。如果你想让tcpdump直接显示端 maverick.   
+
+默认情况下，tcpdump会将端口显示为服务名称，比如将"80"显示为"http"。如果你希望tcpdump直接显示端口号，而不是服务名称，你可以使用 `-nn` 参数。"-n" 参数的作用是不把主机的网络地址转换成名字，"-nn" 参数的作用是不把网络地址和端口转换成家名书。
+
+例如，你可以运行以下命令：
+
+```bash
+tcpdump -nn 'port 80'
+```
+
+在这个命令中，tcpdump将会显示端口号，而不是将它们转换为服务名称。
