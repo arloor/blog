@@ -31,6 +31,10 @@ http1.1的拆包是基于`\r\n`分割符的，而http2将报文分成不同的�
 
 <img src="/img/http2-frame-first-9-bytes.svg" alt="" width="700px" style="max-width: 100%;">
 
+
+{{<imgx src="/img/http2-frame-first-9-bytes.svg" alt="" width="700px" style="max-width: 100%;">}}
+
+
 1. 24位表示payload长度
 2. 8位表示帧类型
 3. 8位flag，用于控制
