@@ -86,10 +86,15 @@ weight: 10
 为了避免这个问题。使用下面的方式：
 
 ```
-<img src="/img/ssnodes.png" alt="" width="850px" style="max-width: 100%;">
+{{< img ssnodes.png 850 >}}
+或
+{{< img ssnodes.png >}}
 ```
 这样，图片的宽度，取得就是 min(850px,100%)了。850px这个值可以自行调整，找到在电脑显示器上合适的宽度
 
 > 有小朋友要问了，能不能直接 img的属性里写 width= "min( 850px, 100%)"。我查了，css3不行，不知道以后css4会不会加进这个min()
 
-{{<img /img/ssnodes.png>}}
+
+具体可以查看 `layouts/img.html` 指定的hugo shortcode
+
+
