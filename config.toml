@@ -19,7 +19,7 @@ paginate = 10
 [params]
     
     UtterancesRepo = "arloor/blog" # https://utteranc.es/
-    UtterancesIssueTerm = "pathname" # pathname, url, title, og:title
+    UtterancesIssueTerm = "title" # pathname, url, title, og:title
     UtterancesTheme = "github-light" # github-light or github-dark
 
     layoutReverse = false
