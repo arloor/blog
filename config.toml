@@ -20,7 +20,7 @@ paginate = 10
     
     UtterancesRepo = "arloor/blog" # https://utteranc.es/
     UtterancesIssueTerm = "pathname" # pathname, url, title, og:title
-    UtterancesTheme = "github-light" # github-light or github-dark
+    UtterancesTheme = "github-dark" # github-light or github-dark
 
     layoutReverse = false
     author = "刘港欢"
