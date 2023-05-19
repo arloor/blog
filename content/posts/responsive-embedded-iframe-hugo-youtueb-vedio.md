@@ -93,3 +93,4 @@ weight: 10
 > 有小朋友要问了，能不能直接 img的属性里写 width= "min( 850px, 100%)"。我查了，css3不行，不知道以后css4会不会加进这个min()
 
 <img src="/img/ssnodes.png" alt="" width="600px" style="max-width: 100%;">
+{{<img /img/ssnodes.png 600>}}
