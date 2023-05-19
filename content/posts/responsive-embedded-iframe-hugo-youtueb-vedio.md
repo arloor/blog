@@ -95,6 +95,8 @@ weight: 10
 > 有小朋友要问了，能不能直接 img的属性里写 width= "min( 850px, 100%)"。我查了，css3不行，不知道以后css4会不会加进这个min()
 
 
+{{< img ssnodes.png >}}
+
 具体可以查看 `layouts/img.html` 指定的hugo shortcode
 
 
