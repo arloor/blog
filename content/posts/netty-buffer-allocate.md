@@ -22,7 +22,7 @@ io.netty.util.internal.PlatformDependent#incrementMemoryCounter
 
 debug的时候把断点设在incrementMemoryCounter方法里，就能看到一些有趣的调用栈，如下：
 
-<img src="/img/netty-new-direct-buffer-stack.png" alt="" width="850px" style="max-width: 100%;">
+{{< imgx src="/img/netty-new-direct-buffer-stack.png" alt="" width="850px" style="max-width: 100%;">}}
 
 这个调用栈从开始到read的部分，在之前的文章[从register和accept的锁竞争问题到netty的nioEventLoop设计](/posts/netty/select-register-nioeventloop/)已经看过一遍了。现在直接从`PooledByteBufAllocator#newDirectBuffer`看池化的直接内存是怎样分配的。非池化的直接内存也会增加计数，但是这里就不关注了。
 

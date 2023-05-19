@@ -29,10 +29,7 @@ http1.1的拆包是基于`\r\n`分割符的，而http2将报文分成不同的�
 
 二进制帧是http2传输中的最小单元。每一个帧都有一个固定9字节的头部，通过这个头部定义帧类型、帧长度、控制用的flag，以及streamId。在9字节头部的后面才是该帧的payload（有效载荷），如下图所示。
 
-<img src="/img/http2-frame-first-9-bytes.svg" alt="" width="700px" style="max-width: 100%;">
-
-
-{{<imgx src="/img/http2-frame-first-9-bytes.svg" alt="" width="700px" style="max-width: 100%;">}}
+{{< imgx src="/img/http2-frame-first-9-bytes.svg" alt="" width="700px" style="max-width: 100%;">}}
 
 
 1. 24位表示payload长度
@@ -61,7 +58,7 @@ end loop
 
 我们再看看http2网络分层：
 
-<img src="/img/http2-layer.svg" alt="" width="700px" style="max-width: 100%;">
+{{< imgx src="/img/http2-layer.svg" alt="" width="700px" style="max-width: 100%;">}}
 
 其实http2引入了一个二进制分帧层，至于分出来的帧是不是http消息，其实完全可以由开发者定义。结合http2引入的一些新特性：拥塞控制，多路复用，server push，总有一种tcp over tcp的感觉，在应用层再做一遍tcp做好了的事情，更好地利用单条tcp连接。这里自然而然的有了一个问题，为什么不把拥塞控制，多路复用，server push用在udp上，实现一个tcp over udp。
 

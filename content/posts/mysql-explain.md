@@ -42,11 +42,11 @@ WHERE project_id IN ('a', 'b', 'c')
   and user_type = 'xxx_user'
   and user_id = '11111'
 ```
-<img src="/img/mysql_explain.png" alt="" width="600px" style="max-width: 100%;">
+{{< imgx src="/img/mysql_explain.png" alt="" width="600px" style="max-width: 100%;">}}
 
 以上就是一个简单的EXPALIN使用的例子，接下来看看mysql官方文档怎么解释这些字段的。
 
-<img src="/img/explain_columns.png" alt="" width="600px" style="max-width: 100%;">
+{{< imgx src="/img/explain_columns.png" alt="" width="600px" style="max-width: 100%;">}}
 
 - id: 查询标识符，标示union联合查询这种有多个子查询
 - select_type: 查询类型
