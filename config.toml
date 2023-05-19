@@ -15,18 +15,19 @@ summarylength = 160
 
 paginate = 10
 
+[params.utteranc]
+    enable = true
+    repo = "arloor/blog"    # 存储评论的Repo，格式为 owner/repo
+    issueTerm = "pathname"  #表示你选择以那种方式让github issue的评论和你的文章关联。
+    theme = "github-light" # 样式主题，有github-light和github-dark两种
+
 ## Site Settings
 [params]
-# 取消注释以开启评论
-#UtterancesRepo= "arloor/blog"
-#tterancesIssueTerm = "pathname"
-#UtterancesTheme="github-light"
-
 
     layoutReverse = false
     author = "刘港欢"
     title = "ARLOOR博客"
-    description = "给自己的歌"
+    description = "你等一哈"
     authorimage = "/img/head.jpeg"
     #authorimage = "/img/dao.jfif"
     dateformat = "Jan 2, 2006"
