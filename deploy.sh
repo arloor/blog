@@ -1,5 +1,8 @@
 #! /bin/bash
 
+# 在项目目录下创建img的软连接
+ln -fs static/img img
+
 hosts="ti.arloor.com"
 msg="commit @arloor $(date)"
 
