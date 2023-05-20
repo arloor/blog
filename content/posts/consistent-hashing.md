@@ -15,7 +15,7 @@ keywords:
 给出一致性hash的代码
 <!--more-->
 
-```
+```java
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentSkipListMap;
