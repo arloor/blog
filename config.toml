@@ -87,7 +87,7 @@ paginate = 10
     name = "工具站"
     identifier = "工具站"
     weight = 5
-    url = "https://dc6.arloor.dev"
+    url = "https://dc6.arloor.dev:444"
 [[menu.main]]
     name = "苏ICP备17024437号"
     weight = 6
