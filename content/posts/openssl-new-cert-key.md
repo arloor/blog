@@ -62,3 +62,27 @@ openssl rsa -inform PEM -in privkey.pem -outform PEM -out rsa_aes_privkey.pem
 scp root@dc9.arloor.dev:/root/.acme.sh/arloor.dev/arloor.dev.key ./privkey.pem
 scp root@dc9.arloor.dev:/root/.acme.sh/arloor.dev/fullchain.cer ./cert.pem
 ```
+
+## openssl s_client
+
+通过 `s_client` 发送http1.1的请求并打印响应。不支持http2的二进制数据
+
+- `-quiet` 表示不打印证书信息
+- `-ign_eof` 表示处理半关闭
+
+更多可以看 `man openssl`的 s_client 部分
+
+```shell
+(echo -ne "GET /ip HTTP/1.1\r\nConnection: Close\r\n\r\n") |openssl s_client -quiet -ign_eof -alpn h2,http/1.1 -ignore_critical  -connect p.arloor.dev:444 2>/dev/null
+```
+
+交互式终端：在最后增加 `-crlf` 将换行设置为http协议的 `\r\n`
+
+```shell
+openssl s_client -quiet -ign_eof -alpn h2,http/1.1 -ignore_critical  -connect hk.arloor.dev:444 -crlf 2>/dev/null
+GET /ip HTTP/1.1
+
+HTTP/1.1 200 OK
+Content-Length: 12
+Date: Wed, 24 May 2023 06:53:01 GMT
+```
