@@ -58,10 +58,6 @@ openssl pkcs8 -topk8 -inform PEM -in privkey.pem -out pkcs8_private_key.pem -out
 openssl rsa -inform PEM -in privkey.pem -outform PEM -out rsa_aes_privkey.pem
 ```
 
-```shell
-scp root@dc9.arloor.dev:/root/.acme.sh/arloor.dev/arloor.dev.key ./privkey.pem
-scp root@dc9.arloor.dev:/root/.acme.sh/arloor.dev/fullchain.cer ./cert.pem
-```
 
 ## openssl s_client
 
