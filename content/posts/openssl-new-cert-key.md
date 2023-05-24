@@ -79,7 +79,7 @@ scp root@dc9.arloor.dev:/root/.acme.sh/arloor.dev/fullchain.cer ./cert.pem
 交互式终端：在最后增加 `-crlf` 将换行设置为http协议的 `\r\n`
 
 ```shell
-openssl s_client -quiet -ign_eof -alpn h2,http/1.1 -ignore_critical  -connect www.arloor.com:443 -crlf 2>/dev/null
+openssl s_client -showcerts -ign_eof -alpn h2,http/1.1 -ignore_critical  -connect www.arloor.com:443 -crlf 2>/dev/null
 ```
 
 试试继续输入`GET / HTTP/1.1`加两个Enter。
