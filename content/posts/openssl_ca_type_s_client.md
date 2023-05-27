@@ -117,6 +117,8 @@ cat ~/ca/ca.pem >> cert.pem
 
 [CA & OpenSSL自签名证书](https://juejin.cn/post/7092789498823573518#heading-20)
 
+# 私钥的各种格式
+
 在 OpenSSL 和其他加密库中，您可能会遇到两种格式的私钥：`-----BEGIN RSA PRIVATE KEY-----` 和 `-----BEGIN PRIVATE KEY-----`。这两种格式的主要区别在于它们的编码方式和包含的信息。
 
 1. `-----BEGIN RSA PRIVATE KEY-----`：
@@ -165,7 +167,7 @@ openssl rsa -inform PEM -in privkey.pem -outform PEM -out rsa_aes_privkey.pem
 ```
 
 
-## openssl s_client
+# openssl s_client
 
 通过 `s_client` 发送http1.1的请求并打印响应。不支持http2的二进制数据
 
