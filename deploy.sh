@@ -1,6 +1,6 @@
 #! /bin/bash
 
-hosts="www.arloor.com"
+hosts="hk.arloor.dev"
 msg="commit @arloor $(date)"
 
 # 上传到arloor.github.io
