@@ -42,13 +42,13 @@ x509_extensions     = v3_ca
 
 [ req_distinguished_name ]
 # See <https://en.wikipedia.org/wiki/Certificate_signing_request>.
-countryName                     = Country Name (2 letter code)
-stateOrProvinceName             = State or Province Name
-localityName                    = Locality Name
-0.organizationName              = Organization Name
-organizationalUnitName          = Organizational Unit Name
+countryName_min                 = 0
+stateOrProvinceName_min         = 0
+localityName_min                = 0
+organizationName_min            = 0
+organizationalUnitName_min      = 0
 commonName                      = Common Name
-emailAddress                    = Email Address
+emailAddress_min                = 0
 
 [ v3_ca ]
 # Extensions for a typical CA (`man x509v3_config`).
@@ -59,7 +59,7 @@ keyUsage = critical, digitalSignature, cRLSign, keyCertSign
 EOF
 
 # 使用liuganghuan.com创建SSL证书，作为CA
-openssl req -config ~/ca/openssl.conf -x509 -newkey rsa:4096 -sha256 -nodes -keyout temp.pem -extensions v3_ca -out ca.pem -days 36500 -subj "/C=cn/ST=ShangHai/L=ShangHai/O=liuganghuan/OU=liuganghuan/CN=liuganghuan.com/emailAddress=admin@arloor.com"
+openssl req -config ~/ca/openssl.conf -x509 -newkey rsa:4096 -sha256 -nodes -keyout temp.pem -extensions v3_ca -out ca.pem -days 36500 -subj "/CN=liuganghuan"
 openssl rsa -inform PEM -in temp.pem -outform PEM -out cakey.pem
 openssl x509 -in ca.pem -noout -text
 echo 
@@ -73,7 +73,7 @@ echo -e "\033[32m================================\033[0m"
 cd ~/ca/certs
 # 使用CA给arloor.com颁发证书
 openssl genrsa -out privkey.pem 2048
-openssl req -new -key privkey.pem -out localhost.csr -subj "/C=cn/ST=ShangHai/L=ShangHai/O=liuganghuan/OU=liuganghuan/CN=arloor.com/emailAddress=admin@arloor.com"
+openssl req -new -key privkey.pem -out localhost.csr -subj "/CN=arloor.com"
 # 设置证书的使用范围
 cat > cert.ext <<EOF
 authorityKeyIdentifier=keyid,issuer
