@@ -17,6 +17,7 @@ sudo qemu-nbd --connect=/dev/nbd0 centos9.qcow2
 fdisk -l /dev/nbd0
 sudo mount /dev/nbd0p4 /mnt
 chroot /mnt /bin/bash
+echo "PermitRootLogin yes" >/etc/ssh/sshd_config.d/01-permitrootlogin.conf
 vim /etc/shadow
 删除root后的密码
 exit
