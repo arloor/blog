@@ -107,3 +107,15 @@ sed -i "s/UseDNS.*/UseDNS no/g" /etc/ssh/sshd_config
 ```shell
 sed -i '/^alias nt=.*/d' .bashrc
 ```
+
+## 统计git仓库中用户代码行
+
+```shell
+echo > /usr/local/bin/ncode <<\EOF
+[ "$1" = "" ]&&user=arloor||user=$1
+echo ${user}\'s work summary:
+git log --author="${user}" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf "added lines: %s, removed lines: %s, total lines: %s", add, subs, loc }'
+EOF
+chmod +x /usr/local/bin/ncode
+ncode arloor
+```
