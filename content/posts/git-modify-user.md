@@ -25,4 +25,4 @@ keywords:
 git commit --amend --author="arloor <admin@arloor.com>" --no-edit&&git rebase --continue
 ```
 
-4. 如果需要更新到远程仓库， 使用 git push -f（请确保修改的commit 不会影响其他人）
+4. 如果需要更新到远程仓库， 使用 `git push -f`（请确保修改的 `commit` 不会影响其他人）
