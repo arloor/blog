@@ -18,7 +18,7 @@ keywords:
 
 ```shell
 cat > /usr/local/bin/nt <<\EOF
-netstat -nt|tail -n +3|awk -F "[ :]+"  -v OFS="" '$5<10000 && $5!="22" && $7>1024 {printf("%15s   => %15s:%-5s %s\n",$6,$4,$5,$9)}'|sort|uniq -c|sort -rn
+netstat -nt|grep -E "ESTABLISHED|CLOSE_WAIT"|tail -n +3|awk -F "[ :]+"  -v OFS="" '$5<10000 && $5!="22" && $7>1024 {printf("%15s   => %15s:%-5s %s\n",$6,$4,$5,$9)}'|sort|uniq -c|sort -rn
 EOF
 chmod +x /usr/local/bin/nt
 nt
