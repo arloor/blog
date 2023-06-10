@@ -189,6 +189,8 @@ openssl s_client -showcerts -ign_eof -alpn http/1.1 -ignore_critical  -connect w
 
 ## 从pem格式证书和私钥生成pkcs12
 
+surge mac的MitM解析https数据可以导入pkcs12格式的ca证书，这里就转换下
+
 ```shell
 openssl pkcs12 -export -inkey cakey.pem -in ca.pem -password pass:"123456" -out ca.p12
 ```
