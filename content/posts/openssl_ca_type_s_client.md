@@ -186,3 +186,15 @@ openssl s_client -showcerts -ign_eof -alpn http/1.1 -ignore_critical  -connect w
 
 试试继续输入`GET / HTTP/1.1`加两个Enter。
 
+
+## 从pem格式证书和私钥生成pkcs12
+
+```shell
+openssl pkcs12 -export -inkey cakey.pem -in ca.pem -password pass:"123456" -out ca.p12
+```
+
+查看：
+
+```shell
+openssl pkcs12 -in ca.p12 -password pass:"123456" -info
+```
