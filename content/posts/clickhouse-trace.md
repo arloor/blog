@@ -531,3 +531,25 @@ Query id: d79e4c12-100a-487f-8f9d-4f32ea4f3791
 
 1 rows in set. Elapsed: 0.004 sec. 
 ```
+
+如果要查整个集群的占用，from后面可以跟：`clusterAllReplicas('default_cluster', system, parts)`
+
+例如如下的shell命令
+
+```shell
+query=$(cat <<EOF
+SELECT
+    table,
+    sum(rows) AS num_row,
+    formatReadableSize(sum(data_uncompressed_bytes)) AS uncompress,
+    formatReadableSize(sum(data_compressed_bytes)) AS compress,
+    round((sum(data_compressed_bytes) / sum(data_uncompressed_bytes)) * 100, 0) AS compress_ratio
+FROM clusterAllReplicas('default_cluster', system, parts)
+WHERE active=1
+and database!='system'
+GROUP BY table
+order by num_row desc
+EOF
+)
+clickhouse client -h 10.0.214.26 --database xxxx --send_logs_level=trace --log-level=trace --server_logs_file='/tmp/query.log' --query "$query Format PrettyCompactMonoBlock" |sed 's/\x1b\[[0-9;]*m//g'
+```
