@@ -532,7 +532,7 @@ Query id: d79e4c12-100a-487f-8f9d-4f32ea4f3791
 1 rows in set. Elapsed: 0.004 sec. 
 ```
 
-如果要查整个集群的占用，from后面可以跟：`clusterAllReplicas('default_cluster', system, parts)`
+如果要查整个集群的占用，from后面可以跟：`clusterAllReplicas('cluster_name', system, parts)`
 
 例如如下的shell命令
 
