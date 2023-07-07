@@ -120,7 +120,7 @@ chmod +x /usr/local/bin/ncode
 ncode arloor
 ```
 
-## 简化命令
+## Clickhouse简化命令
 
 场景：使用 clickhouse client 连接数据库时，经常要带一些参数，例如ip、用户名等。每次都输入这些信息的话，会比较麻烦。一种解法是写alias，但是在一些场景下免不了`source ~/.zsh_rc`。另一种更通用的方式是写个shell脚本：
 
@@ -128,4 +128,15 @@ ncode arloor
 exec /usr/bin/clickhouse client -h 10.0.218.10 --database xxxx --send_logs_level=trace --log-level=trace --server_logs_file='/tmp/query.log' "$@"
 ```
 
-核心是最后的 `"$@"` ，其他则是将ck查询的日志传送到本地
+核心是最后的 `"$@"` ，其他则是将ck查询的日志传送到本地。
+
+在shell脚本中，`"$@"`和`$@`有不同的行为：
+
+- `"$@"` 保留了每个参数的引号，并且将每个参数视为单独的字符串。所以，如果你传递了多个参数，它们会被视为多个独立的参数。
+- `$@` 不保留每个参数的引号，参数之间的空格会被解释为参数分隔符。
+
+在你的例子中，当你执行 `/usr/local/bin/ck --query "select 1"`时，`"$@"` 会把 `--query` 和 `"select 1"` 作为两个独立的参数，而 `$@` 会把它们看作一个参数 `--query select 1`（空格没有被保留）。
+
+在Clickhouse的情况下，它需要`--query`后面跟着的查询字符串作为单独的参数。如果你使用`$@`，查询字符串 `"select 1"` 会和 `--query` 合并为一个参数，而Clickhouse期望它们是分开的，这就是为什么会报错。
+
+所以在这种情况下，使用 `"$@"` 是正确的，因为它会把 `--query` 和 `"select 1"` 作为两个独立的参数传递给 Clickhouse 客户端。
