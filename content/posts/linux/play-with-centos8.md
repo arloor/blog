@@ -30,6 +30,13 @@ sestatus
 reboot
 ```
 
+## 测速
+
+```shell
+podman run  --rm --net host --name speedtest docker.io/arloor/speedtest
+#打开80端口
+```
+
 ## 启用elrepo
 
 ```
