@@ -125,7 +125,7 @@ ncode arloor
 场景：使用 clickhouse client 连接数据库时，经常要带一些参数，例如ip、用户名等。每次都输入这些信息的话，会比较麻烦。一种解法是写alias，但是在一些场景下免不了`source ~/.zsh_rc`。另一种更通用的方式是写个shell脚本：
 
 ```shell
-exec /usr/bin/clickhouse client -h 10.0.218.10 --database xxxx --send_logs_level=trace --log-level=trace --server_logs_file='/tmp/query.log' "$@"
+/usr/bin/clickhouse client -h 10.0.218.10 --database xxxx --send_logs_level=trace --log-level=trace --server_logs_file='/tmp/query.log' "$@"
 ```
 
 核心是最后的 `"$@"` ，其他则是将ck查询的日志传送到本地。
