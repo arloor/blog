@@ -54,14 +54,13 @@ keywords:
 wget https://access.cdn.redhat.com/content/origin/files/sha256/30/30fd8dff2d29a384bd97886fa826fa5be872213c81e853eae3f9d9674f720ad0/rhel-8.3-x86_64-dvd.iso?_auth_=xxxxxxxxxxx -O redhat8.iso
 lsof -i:80
 yum install -y httpd
-mkdir /mnt/rhel8-install/
-mount -o loop,ro -t iso9660 ~/redhat8.iso /mnt/rhel8-install/
-cp -r /mnt/rhel8-install/ /var/www/html/
+mkdir /var/www/html/rhel8-install/
+mount -o loop,ro -t iso9660 ~/redhat8.iso /var/www/html/rhel8-install/
 systemctl start httpd.service
-umount /mnt/rhel8-install/
+# umount /var/www/html/rhel8-install/
 ```
 
-现在可以访问`http://exmaple.com/rhel8-install/`来查看镜像网站 http://someme.me/rhel8-install/
+现在可以访问`http://199.180.115.74/rhel8-install/`来查看镜像网站 http://someme.me/rhel8-install/
 
 
 ## 2. 下载内核文件和initd程序文件
