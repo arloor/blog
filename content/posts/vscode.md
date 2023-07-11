@@ -34,7 +34,8 @@ keywords:
     "editor.lineHeight": 1.6,
     "editor.fontLigatures": false,
     "editor.fontVariations": false,
-    "terminal.integrated.defaultProfile.linux": "zsh"
+    "terminal.integrated.defaultProfile.linux": "zsh",
+    "git.enableSmartCommit": true
 }
 ```
 
