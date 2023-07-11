@@ -11,7 +11,7 @@ weight: 10
 
 # shell关闭占用某端口应用，并重启
 
-```
+```shell
 #! /bin/bash
 #set path to support crontab
 export PATH=$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/usr/local/go/bin:/root/bin
