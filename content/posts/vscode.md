@@ -1,5 +1,5 @@
 ---
-title: "vscode"
+title: "VS Code"
 date: 2023-07-11T19:07:00+08:00
 draft: false
 categories: [ "undefined"]
