@@ -33,7 +33,8 @@ keywords:
     "editor.fontFamily": "'JetBrains Mono', Menlo, Monaco, 'Courier New', monospace",
     "editor.lineHeight": 1.6,
     "editor.fontLigatures": false,
-    "editor.fontVariations": false
+    "editor.fontVariations": false,
+    "terminal.integrated.defaultProfile.linux": "zsh"
 }
 ```
 
