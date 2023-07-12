@@ -13,19 +13,18 @@ keywords:
 
 ## 准备安装源
 
-首先到[红帽开发者网站-rhel下载](https://developers.redhat.com/products/rhel/download)注册开发者账号，然后下载rhel8的DVD iso到一台提供http服务的公网vps上。
+首先到[红帽开发者网站-rhel下载](https://developers.redhat.com/products/rhel/download)注册开发者账号，然后下载rhel9的DVD iso到一台提供http服务的公网vps上。
 
-然后挂载该镜像到一个目录，然后启动httpd服务（文档:[使用 HTTP 或 HTTPS 创建安装源](https://access.redhat.com/documentation/zh-cn/red_hat_enterprise_linux/8/html/performing_an_advanced_rhel_installation/creating-installation-sources-for-kickstart-installations_installing-rhel-as-an-experienced-user#creating-an-installation-source-on-http_creating-installation-sources-for-kickstart-installations)）
+然后挂载该镜像到一个目录，然后启动httpd服务（文档:[使用 HTTP 或 HTTPS 创建安装源](https://access.redhat.com/documentation/zh-cn/red_hat_enterprise_linux/9/html-single/performing_an_advanced_rhel_9_installation/index#creating-installation-sources-for-kickstart-installations_installing-rhel-as-an-experienced-user)）
 
 ```shell
 # 下面这个链接自己在下载页面复制
-wget https://access.cdn.redhat.com/content/origin/files/sha256/30/30fd8dff2d29a384bd97886fa826fa5be872213c81e853eae3f9d9674f720ad0/rhel-8.3-x86_64-dvd.iso?_auth_=xxxxxxxxxxx -O redhat8.iso
+wget https://access.cdn.redhat.com/content/origin/files/sha256/30/30fd8dff2d29a384bd97886fa826fa5be872213c81e853eae3f9d9674f720ad0/rhel-9.2-x86_64-dvd.iso?_auth_=xxxxxxxxxxx -O redhat9.iso
 lsof -i:80
 yum install -y httpd
-mkdir /var/www/html/rhel8-install/
-mount -o loop,ro -t iso9660 ~/redhat8.iso /var/www/html/rhel8-install/
+mkdir /var/www/html/rhel9-install/
+mount -o loop,ro -t iso9660 ~/redhat9.iso /var/www/html/rhel9-install/
 systemctl start httpd.service
-# umount /var/www/html/rhel8-install/
 ```
 
 ## 准备kickstart自动安装配置
@@ -104,10 +103,10 @@ kickstart配置文件可以参考rhel9的文档：- [kickstart_references](https
 sed -i 's/GRUB_ENABLE_BLSCFG.*/GRUB_ENABLE_BLSCFG=true/g' /etc/default/grub
 grub2-mkconfig -o /boot/grub2/grub.cfg
 # 2. 下载网络安装的kernel
-url="http://199.180.115.74"
+url="http://xxxx"
 ks_url="${url}/ks.cfg" #kickstart配置文件地址
-base_url="${url}/rhel8-install"
-## 可以从http://199.180.115.74/rhel8-install/.treeinfo确认地址
+base_url="${url}/rhel9-install"
+## 可以从http://xxxx/rhel9-install/.treeinfo确认地址
 kernel_url="${base_url}/images/pxeboot/vmlinuz"
 init_url="${base_url}/images/pxeboot/initrd.img"
 curl -k  "${init_url}" -o '/boot/initrd.img'
@@ -216,7 +215,7 @@ I/O 大小(最小/最佳)：512 字节 / 512 字节
 /dev/vda1  *       2048 2099199 2097152   1G 83 Linux
 /dev/vda2       2099200 8390655 6291456   3G 8e Linux LVM
 
-(dd   bs=512 count=[fdisk命令中最大的end数(这里是8390655)+1] if=/dev/vda | gzip -9 > /mnt/rhel8.img.gz &)
+(dd   bs=512 count=[fdisk命令中最大的end数(这里是8390655)+1] if=/dev/vda | gzip -9 > /dd/9.img.gz &)
 (dd   bs=512 count=8390656 if=/dev/vda | gzip -9 > /dd/9.img.gz &)
 watch -n 5 pkill -USR1 ^dd$  # 每五秒输出一次进度
 ```
