@@ -157,17 +157,14 @@ chmod +x /etc/rc.d/rc.local
 
 ### 添加virtio驱动
 
-在/etc/dracut.conf里添加
-
 ```shell
+cat >> /etc/dracut.conf <<EOF
 add_drivers+=" virtio_console virtio_net virtio_scsi virtio_blk "
-```
-然后
-
-```shell
+EOF
 dracut -f
 lsinitrd /boot/initramfs-$(uname -r).img | grep virtio
 ```
+
 
 可以看到已经有virtio了：
 
@@ -200,9 +197,14 @@ df -TH
 ```shell
 echo "" > .bash_history
 fdisk -l -u /dev/vda
+last=$(fdisk -l -u /dev/vda|tail -n 1 |awk '{print $3}') 
+echo $last
+(dd   bs=512 count=$(expr ${last} + 1) if=/dev/vda | gzip -9 > /dd/9.img.gz &)
+watch -n 5 pkill -USR1 ^dd$  # 每五秒输出一次进度
 ```
 
 ```shell
+fdisk -l -u /dev/vda
 Disk /dev/vda：120 GiB，128849018880 字节，251658240 个扇区
 单元：扇区 / 1 * 512 = 512 字节
 扇区大小(逻辑/物理)：512 字节 / 512 字节
@@ -213,9 +215,7 @@ I/O 大小(最小/最佳)：512 字节 / 512 字节
 设备       启动    起点    末尾    扇区 大小 Id 类型
 /dev/vda1  *       2048 2099199 2097152   1G 83 Linux
 /dev/vda2       2099200 8390655 6291456   3G 8e Linux LVM
-```
 
-```shell
 (dd   bs=512 count=[fdisk命令中最大的end数(这里是8390655)+1] if=/dev/vda | gzip -9 > /mnt/rhel8.img.gz &)
 (dd   bs=512 count=8390656 if=/dev/vda | gzip -9 > /dd/9.img.gz &)
 watch -n 5 pkill -USR1 ^dd$  # 每五秒输出一次进度
