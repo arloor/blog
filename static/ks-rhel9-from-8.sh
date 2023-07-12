@@ -8,7 +8,6 @@ curl -k  "${kernel_url}" -o '/boot/vmlinuz'
 machineId=`cat /etc/machine-id`
 rm -rf /boot/loader/entries/${machineId}-vmlinuz*
 grubby --add-kernel=/boot/vmlinuz  --make-default --initrd=/boot/initrd.img  --title="reinstall"  --args="ip=dhcp inst.ks=http://199.180.115.74/ks.cfg"
-cat /boot/loader/entries/${machineId}-vmlinuz.conf
 
 [[ -f  /boot/grub2/grubenv ]] && sed -i 's/saved_entry.*/saved_entry='${machineId}'-vmlinuz/g' /boot/grub2/grubenv;
 grep saved_entry /boot/grub2/grubenv
