@@ -282,6 +282,25 @@ df -Th #这次再看的话，已经改过来了
 subscription-manager register
 subscription-manager attach --auto
 ```
+
+**红帽开发者计划续约**： 红帽开发者计划有效期只有一年，一年后就需要重新注册，流程也比较简单，详见[红帽](https://developers.redhat.com/articles/renew-your-red-hat-developer-program-subscription?extIdCarryOver=true&sc_cid=701f2000001Css5AAC#how_to_re_register_for_your_red_hat_developer_subscription)
+
+简单总结：需要你再次注册一年期的开发者订阅，而不提供“续约”，因为续约这种服务是需要付费的（资本主义操了
+
+再次注册也很简单，用浏览器无痕模式打开[developers.redhat.com](http://developers.redhat.com/)，然后登陆，然后登出，最后关闭所有浏览器。过一会到[红帽订阅管理网站](http://access.redhat.com/management)就能看到新的开发者订阅。
+
+之前的红帽服务器需要重新注册：
+
+
+```shell
+sudo subscription-manager remove --all
+sudo subscription-manager unregister
+sudo subscription-manager clean
+sudo subscription-manager register
+sudo subscription-manager refresh
+sudo subscription-manager attach --auto
+```
+
 ### sshd关闭密码登陆等
 
 密码登陆可能有风险，而且我又使用了公钥登陆，就关闭密码登陆了
