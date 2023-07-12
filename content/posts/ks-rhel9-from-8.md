@@ -11,6 +11,8 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
+自动安装是通过 `pxeboot` + ` kickstart`实现的，要想成功自动安装，机器内存要求好像是至少2G或者4G，这个忘记了。
+
 ## 准备安装源
 
 首先到[红帽开发者网站-rhel下载](https://developers.redhat.com/products/rhel/download)注册开发者账号，然后下载rhel9的DVD iso到一台提供http服务的公网vps上。
@@ -36,7 +38,7 @@ systemctl start httpd.service
 | root密码 | arloor，并且允许root通过ssh的密码登陆 |
 | ssh密钥 | 为方便自己，设置了ssh公钥，大家自行删除 |
 | 分区 | 为了制作镜像，这里的分区是最小分区： `/boot` 1G， `/` 3G的ext4类型的LVM。后面会涉及到扩容操作。如果不需要制作镜像，可以把reqpart到logvol都改为 `autopart --nohome`这一行|
-| 其他 | 关闭了selinux和firewalld，并安装了httpd |
+| 其他 | 关闭了selinux、firewalld、kdump，并安装了httpd |
 
 ```shell
 #version=RHEL9
