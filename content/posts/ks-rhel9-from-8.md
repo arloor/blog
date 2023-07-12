@@ -249,7 +249,7 @@ export https_proxy=xxx
 最后安装：
 
 ```shell
-wget http://cdn.arloor.com/rhel/Core_Install_v3.1.sh -O install.sh&&bash install.sh -dd "http://mi.arloor.com/9.img.gz"
+wget http://cdn.arloor.com/rhel/Core_Install_v3.1.sh -O install.sh&&bash install.sh -dd "http://repo-1252282974.cos.ap-shanghai.myqcloud.com/rhel/9.img.gz"
 ```
 
 ### dd后磁盘扩容 
