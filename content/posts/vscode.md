@@ -88,7 +88,7 @@ TIPS：
             "type": "lldb",
             "request": "launch",
             "name": "Debug",
-            "program": "${workspaceFolder}/target/debug/rust_http_proxy",
+            "program": "${workspaceFolder}/target/debug/${workspaceFolderBasename}",
             "args": [],
             "cwd": "${workspaceFolder}",
             "preLaunchTask": "${defaultBuildTask}",
