@@ -49,7 +49,7 @@ reqpart
 part /boot --fstype="xfs" --size=1024 
 part pv.559 --fstype="lvmpv" --size=3072
 volgroup rhel --pesize=4096 pv.559
-logvol / --fstype="xfs" --size=3060 --name=root --vgname=
+logvol / --fstype="xfs" --size=3060 --name=root --vgname=rhel
 # Reboot after installation
 reboot
 # Use graphical install
