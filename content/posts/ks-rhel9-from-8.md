@@ -172,4 +172,108 @@ lsinitrd /boot/initramfs-$(uname -r).img | grep virtio
 -rw-r--r--   1 root     root        24804 Aug  4  2020 usr/lib/modules/4.18.0-240.10.1.el8_3.x86_64/kernel/drivers/net/virtio_net.ko.xz
 -rw-r--r--   1 root     root         8536 Aug  4  2020 usr/lib/modules/4.18.0-240.10.1.el8_3.x86_64/kernel/drivers/scsi/virtio_scsi.ko.xz
 ```
- 
+
+### 添加第二块磁盘
+
+在腾讯云新建云硬盘，并挂载后，执行：
+
+```shell
+mkfs -t ext4 /dev/vdb
+mkdir /dd
+mount /dev/vdb /dd
+df -TH
+```
+如果要自动挂载，可以加到 `/etc/fstab` 下，内容为：
+
+```shell
+/dev/vdb /dd   ext4 defaults     0   0
+```
+参考腾讯云的[云盘初始化文档](https://cloud.tencent.com/document/product/1207/81981#Steps)
+
+### 开始dd
+
+```shell
+echo "" > .bash_history
+fdisk -l -u /dev/vda
+```
+
+```shell
+Disk /dev/vda：120 GiB，128849018880 字节，251658240 个扇区
+单元：扇区 / 1 * 512 = 512 字节
+扇区大小(逻辑/物理)：512 字节 / 512 字节
+I/O 大小(最小/最佳)：512 字节 / 512 字节
+磁盘标签类型：dos
+磁盘标识符：0x534b09a5
+
+设备       启动    起点    末尾    扇区 大小 Id 类型
+/dev/vda1  *       2048 2099199 2097152   1G 83 Linux
+/dev/vda2       2099200 8390655 6291456   3G 8e Linux LVM
+```
+
+```shell
+(dd   bs=512 count=[fdisk命令中最大的end数(这里是8390655)+1] if=/dev/vda | gzip -9 > /mnt/rhel8.img.gz &)
+(dd   bs=512 count=8390656 if=/dev/vda | gzip -9 > /dd/9.img.gz &)
+watch -n 5 pkill -USR1 ^dd$  # 每五秒输出一次进度
+```
+
+### 获取dd镜像
+
+```shell
+subscription-manager register
+subscription-manager attach --auto
+yum install -y nginx
+systemctl start nginx
+ln -fs /dd/9.img.gz /usr/share/nginx/html/9.img.gz
+wget http://mi.arloor.com/9.img.gz -O 9.img.gz
+```
+### 安装dd镜像
+
+centos8/9先关闭blscfg
+
+```shell
+sed -i "s/^GRUB_ENABLE_BLSCFG=.*/GRUB_ENABLE_BLSCFG=false/g" /etc/default/grub
+grub2-mkconfig -o /boot/grub2/grub.cfg
+rm -rf /boot/grub2/grub.cfg.bak
+rm -rf /boot/grub2/grub.cfg.old
+```
+
+因为dd脚本需要使用debian的源，国内vps需要设置代理：
+
+```shell
+export http_proxy=xxx
+export https_proxy=xxx
+```
+
+最后安装：
+
+```shell
+wget http://cdn.arloor.com/rhel/Core_Install_v3.1.sh -O install.sh&&bash install.sh -dd "http://mi.arloor.com/9.img.gz"
+```
+
+### dd后磁盘扩容 
+
+```shell
+fdisk -l      #查看磁盘
+#对新添加的磁盘进行分区，此处使用整块盘
+#并将格式化好的盘改成lvm（8e）格式
+fdisk /dev/vda  
+vgdisplay   #查看系统中的逻辑组
+pvdisplay   #查看系统中的物理卷
+pvcreate /dev/vda3   #将新分好区的磁盘做成逻辑卷
+pvdisplay  #查看系统中的物理卷
+lvdisplay   #查看系统中的逻辑卷
+vgextend rhel /dev/vda3  #扩展已有逻辑组
+vgdisplay  #查看扩展后的逻辑组
+lvextend -L 45G /dev/rhel/root  #将之前的逻辑卷扩展到45G。根据你的实际情况设置调整后的大小
+lvdisplay   #查看扩展后的逻辑卷
+df -Th #查看系统磁盘使用情况，发现还是原来大小
+resize2fs /dev/rhel/root  #需要重设一下扩展后的逻辑卷
+df -Th #这次再看的话，已经改过来了
+```
+
+### 注册到红帽
+
+```shell
+subscription-manager register
+subscription-manager attach --auto
+```
