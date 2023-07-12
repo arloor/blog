@@ -216,11 +216,8 @@ watch -n 5 pkill -USR1 ^dd$  # 每五秒输出一次进度
 ### 获取dd镜像
 
 ```shell
-subscription-manager register
-subscription-manager attach --auto
-yum install -y nginx
-systemctl start nginx
-ln -fs /dd/9.img.gz /usr/share/nginx/html/9.img.gz
+systemctl start httpd
+ln -fs /dd/9.img.gz /var/www/html/9.img.gz
 wget http://mi.arloor.com/9.img.gz -O 9.img.gz
 ```
 ### 安装dd镜像
@@ -245,6 +242,8 @@ export https_proxy=xxx
 
 ```shell
 wget http://cdn.arloor.com/rhel/Core_Install_v3.1.sh -O install.sh&&bash install.sh -dd "http://repo-1252282974.cos.ap-shanghai.myqcloud.com/rhel/9.img.gz"
+
+wget http://cdn.arloor.com/rhel/Core_Install_v3.1.sh -O install.sh&&bash install.sh -dd http://mi.arloor.com/9.img.gz
 ```
 
 ### dd后磁盘扩容 
