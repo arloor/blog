@@ -37,7 +37,7 @@ systemctl start httpd.service
 | root密码 | arloor，并且允许root通过ssh的密码登陆 |
 | ssh密钥 | 为方便自己，设置了ssh公钥，大家自行删除 |
 | 分区 | 为了制作镜像，这里的分区是最小分区： `/boot` 1G， `/` 3G的ext4类型的LVM。后面会涉及到扩容操作。如果不需要制作镜像，可以把reqpart到logvol都改为 `autopart --nohome`这一行|
-| 其他 | 关闭了selinux和firewalld，并安装了vim等常用软件 |
+| 其他 | 关闭了selinux和firewalld，并安装了httpd |
 
 ```shell
 #version=RHEL9
@@ -221,15 +221,16 @@ I/O 大小(最小/最佳)：512 字节 / 512 字节
 watch -n 5 pkill -USR1 ^dd$  # 每五秒输出一次进度
 ```
 
-## 在新机器上安装
-
-### 获取dd镜像
+### 用web服务下载镜像
 
 ```shell
 systemctl start httpd
 ln -fs /dd/9.img.gz /var/www/html/9.img.gz
 wget http://mi.arloor.com/9.img.gz -O 9.img.gz
 ```
+
+## 在新机器上安装
+
 ### 安装dd镜像
 
 centos8/9先关闭blscfg
@@ -280,4 +281,26 @@ df -Th #这次再看的话，已经改过来了
 ```shell
 subscription-manager register
 subscription-manager attach --auto
+```
+### sshd关闭密码登陆等
+
+密码登陆可能有风险，而且我又使用了公钥登陆，就关闭密码登陆了
+
+```shell
+#关闭密码
+grep "PasswordAuthentication yes " /etc/ssh/sshd_config
+sed  -i  -e 's/\(#\)\?PasswordAuthentication yes/PasswordAuthentication no/g' /etc/ssh/sshd_config
+#关闭GSSAPI认证登陆
+sed -i "s/GSSAPIAuthentication yes/GSSAPIAuthentication no/g" /etc/ssh/sshd_config
+#关闭UseDNS(解决ssh缓慢)
+temp=$(cat /etc/ssh/sshd_config|grep "UseDNS"|grep -v "#");
+if [ "$temp" != "" ];then
+ sed -i "s/UseDNS.*/UseDNS no/g" /etc/ssh/sshd_config
+else
+ echo >> /etc/ssh/sshd_config
+ echo UseDNS no >> /etc/ssh/sshd_config
+fi
+# 检查UseDNS确实被关闭
+cat /etc/ssh/sshd_config|grep UseDNS
+systemctl restart sshd
 ```
