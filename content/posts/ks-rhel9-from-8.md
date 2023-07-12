@@ -226,7 +226,7 @@ watch -n 5 pkill -USR1 ^dd$  # 每五秒输出一次进度
 ```shell
 systemctl start httpd
 ln -fs /dd/9.img.gz /var/www/html/9.img.gz
-wget http://mi.arloor.com/9.img.gz -O 9.img.gz
+wget http://xxxx/9.img.gz -O 9.img.gz
 ```
 
 ## 在新机器上安装
@@ -252,7 +252,7 @@ export https_proxy=xxx
 最后安装：
 
 ```shell
-wget http://cdn.arloor.com/rhel/Core_Install_v3.1.sh -O install.sh&&bash install.sh -dd http://cdn.arloor.com/rhel/9.img.gz
+wget http://cdn.arloor.com/rhel/Core_Install_v3.1.sh -O install.sh&&bash install.sh -dd http://xxxx/9.img.gz
 ```
 
 ### dd后磁盘扩容 
