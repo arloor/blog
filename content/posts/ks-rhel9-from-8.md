@@ -143,7 +143,17 @@ grubby的 `--args` 是指定内核参数，可以参考rhel9官方文档：- [Bo
 
 ### /etc/fstab
 
-将 `/boot` 前的UUID=，改为`/dev/vda1`
+~~将 `/boot` 前的UUID=，改为`/dev/vda1`~~ (搬瓦工的机器是/dev/sda1，会启动不了，所以还是在rc.local中mount)
+
+将/boot使用的分区删掉
+
+然后在rc.local或者其他能自启动的地方加上
+
+```shell
+sed -i "/.*\/boot.*/d" /etc/fstab
+echo "mount /dev/vda1 /boot" >> /etc/rc.d/rc.local
+chmod +x /etc/rc.d/rc.local
+```
 
 ### 添加virtio驱动
 
