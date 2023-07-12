@@ -266,10 +266,10 @@ pvdisplay  #查看系统中的物理卷
 lvdisplay   #查看系统中的逻辑卷
 vgextend rhel /dev/vda3  #扩展已有逻辑组
 vgdisplay  #查看扩展后的逻辑组
-lvextend -L 45G /dev/rhel/root  #将之前的逻辑卷扩展到45G。根据你的实际情况设置调整后的大小
+lvextend -l 99%FREE -r /dev/rhel/root  #将之前的逻辑卷扩展到45G。根据你的实际情况设置调整后的大小
 lvdisplay   #查看扩展后的逻辑卷
-df -Th #查看系统磁盘使用情况，发现还是原来大小
-resize2fs /dev/rhel/root  #需要重设一下扩展后的逻辑卷
+# df -Th #查看系统磁盘使用情况，发现还是原来大小
+# resize2fs /dev/rhel/root  #需要重设一下扩展后的逻辑卷
 df -Th #这次再看的话，已经改过来了
 ```
 
