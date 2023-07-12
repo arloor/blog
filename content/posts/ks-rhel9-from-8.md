@@ -76,12 +76,7 @@ timezone Asia/Shanghai --utc
 
 %packages
 @^minimal-environment
-tuned
-vim
-git
-tar
-wget
-curl
+httpd
 
 %end
 
