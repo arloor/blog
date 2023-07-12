@@ -37,14 +37,14 @@ systemctl start httpd.service
 | :---: | :---: |
 | root密码 | arloor，并且允许root通过ssh的密码登陆 |
 | ssh密钥 | 为方便自己，设置了ssh公钥，大家自行删除 |
-| 分区 | 为了制作镜像，这里的分区是最小分区： `/boot` 1G， `/` 3G的ext4类型的LVM。后面会涉及到扩容操作。如果不需要制作镜像，可以把reqpart到logvol都改为 `autopart --nohome`这一行|
+| 分区 | 为了制作镜像，这里的分区是最小分区： `/boot` 1G， `/` 3G的ext4类型的LVM。后面会涉及到扩容操作。如果不需要制作镜像，可以把reqpart到logvol都改为 `autopart --nohome --noswap`这一行|
 | 其他 | 关闭了selinux、firewalld、kdump，并安装了httpd |
 
 ```shell
 #version=RHEL9
 ignoredisk --only-use="sda|hda|xda|vda|xvda|nvme0n1"
 clearpart --all --initlabel
-# autopart --nohome
+# autopart --nohome --noswap
 reqpart
 part /boot --fstype="xfs" --size=1024 
 part pv.559 --fstype="lvmpv" --size=3072
