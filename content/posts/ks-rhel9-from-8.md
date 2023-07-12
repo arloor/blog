@@ -197,9 +197,9 @@ df -TH
 ```shell
 echo "" > .bash_history
 fdisk -l -u /dev/vda
-last=$(fdisk -l -u /dev/vda|tail -n 1 |awk '{print $3}') 
+last=$(fdisk -l -u /dev/vda|tail -n 1 |awk '{print $3}') # 获取分区的末尾
 echo $last
-(dd   bs=512 count=$(expr ${last} + 1) if=/dev/vda | gzip -9 > /dd/9.img.gz &)
+(dd   bs=512 count=$(expr ${last} + 1) if=/dev/vda | gzip -9 > /dd/9.img.gz &) ## dd到末尾+1
 watch -n 5 pkill -USR1 ^dd$  # 每五秒输出一次进度
 ```
 
