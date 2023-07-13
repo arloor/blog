@@ -11,7 +11,7 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
-自动安装是通过 `pxeboot` + ` kickstart`实现的，要想成功自动安装，机器内存要求好像是至少2G或者4G，这个忘记了。
+自动安装是通过 `pxeboot` + ` kickstart`实现的，自动安装因为要通过内存承载liveos，所以内存要大一点。通过腾讯云CVM测试，英特尔CPU需要2G内存，AMD CPU需要4G内存，才能自动安装。对于不同品牌的最小内存要求不同这点，我也很困惑。
 
 ## 准备安装源
 
