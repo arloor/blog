@@ -18,7 +18,7 @@ keywords:
 
 ```shell
 cat > /usr/local/bin/nt <<\EOF
-netstat -nt|grep -E "ESTABLISHED|CLOSE_WAIT"|tail -n +3|awk -F "[ :]+"  -v OFS="" '$5<10000 && $5!="22" && $7>1024 {printf("%15s   => %15s:%-5s %s\n",$6,$4,$5,$9)}'|sort|uniq -c|sort -rn
+netstat -ntp|grep -E "ESTABLISHED|CLOSE_WAIT"|tail -n +3|awk -F "[ :]+"  -v OFS="" '$5<10000 && $5!="22" && $7>1024 {printf("%15s   => %15s:%-5s %s\n",$6,$4,$5,$9)}'|sort|uniq -c|sort -rn
 EOF
 chmod +x /usr/local/bin/nt
 nt
@@ -31,7 +31,9 @@ nt
 **效果**
 
 ```shell
-     10  124.78.xxx.xxx   =>       10.0.4.10:443
+     22    209.9.xxx.xx   =>       10.0.4.10:443   144085/rust_xx
+      2  222.70.xxx.xxx   =>       10.0.4.10:443   144085/rust_xx
+      2   101.90.xx.xxx   =>       10.0.4.10:443   144085/rust_xx
 ```
 
 **用到的知识**
