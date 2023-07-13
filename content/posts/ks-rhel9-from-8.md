@@ -176,6 +176,8 @@ lsinitrd /boot/initramfs-$(uname -r).img | grep virtio
 -rw-r--r--   1 root     root        12336 Feb 15 00:45 usr/lib/modules/5.14.0-284.11.1.el9_2.x86_64/kernel/drivers/scsi/virtio_scsi.ko.xz
 ```
 
+> 看了下腾讯云默认的virtio驱动是不包含 `virtio_scsi` 和 `virtio_console` ，不确定是否可以去掉。
+
 ### 添加第二块磁盘
 
 在腾讯云新建云硬盘，并挂载后，执行：
@@ -195,14 +197,18 @@ df -TH
 
 ### 开始dd
 
+一键完成：
+
 ```shell
-echo "" > .bash_history
 fdisk -l -u /dev/vda
 last=$(fdisk -l -u /dev/vda|tail -n 1 |awk '{print $3}') # 获取分区的末尾
 echo $last
+echo "" > .bash_history # 清空历史命令
 (dd   bs=512 count=$(expr ${last} + 1) if=/dev/vda | gzip -9 > /dd/9.img.gz &) ## dd到末尾+1
 watch -n 5 pkill -USR1 ^dd$  # 每五秒输出一次进度
 ```
+
+手动步骤：
 
 ```shell
 fdisk -l -u /dev/vda
@@ -259,10 +265,8 @@ wget http://cdn.arloor.com/rhel/Core_Install_v3.1.sh -O install.sh&&bash install
 ### dd后磁盘扩容 
 
 ```shell
-fdisk -l      #查看磁盘
 #对新添加的磁盘进行分区，此处使用整块盘
-#并将格式化好的盘改成lvm（8e）格式
-fdisk /dev/vda  
+fdisk /dev/vda  # 然后输入n，一路回车，最后输入w使分区生肖
 vgdisplay   #查看系统中的逻辑组
 pvdisplay   #查看系统中的物理卷
 pvcreate /dev/vda3   #将新分好区的磁盘做成逻辑卷
@@ -270,7 +274,7 @@ pvdisplay  #查看系统中的物理卷
 lvdisplay   #查看系统中的逻辑卷
 vgextend rhel /dev/vda3  #扩展已有逻辑组
 vgdisplay  #查看扩展后的逻辑组
-lvextend -l 99%FREE -r /dev/rhel/root  #将之前的逻辑卷扩展
+lvextend -l 99%FREE -r /dev/rhel/root  #将之前的逻辑卷扩展。-l 99%FREE 表示占用99%的剩余空间；-r表示修改文件系统大小，通过resize2fs或者xfs_growfs实现
 lvdisplay   #查看扩展后的逻辑卷
 # df -Th #查看系统磁盘使用情况，发现还是原来大小
 # resize2fs /dev/rhel/root  #需要重设一下扩展后的逻辑卷
@@ -284,7 +288,7 @@ subscription-manager register
 subscription-manager attach --auto
 ```
 
-**红帽开发者计划续约**： 红帽开发者计划有效期只有一年，一年后就需要重新注册，流程也比较简单，详见[红帽](https://developers.redhat.com/articles/renew-your-red-hat-developer-program-subscription?extIdCarryOver=true&sc_cid=701f2000001Css5AAC#how_to_re_register_for_your_red_hat_developer_subscription)
+**红帽开发者计划续约**： 红帽开发者计划有效期只有一年，一年后就需要重新注册，详见[红帽的说明](https://developers.redhat.com/articles/renew-your-red-hat-developer-program-subscription?extIdCarryOver=true&sc_cid=701f2000001Css5AAC#how_to_re_register_for_your_red_hat_developer_subscription)
 
 简单总结：需要你再次注册一年期的开发者订阅，而不提供“续约”，因为续约这种服务是需要付费的（资本主义操了
 
