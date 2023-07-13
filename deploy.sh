@@ -1,7 +1,7 @@
 #! /bin/bash
 
 hosts="ti.arloor.com mi.arloor.com"
-msg="commit @arloor $(date '+%Y-%m-%d %H:%M:%S')"
+msg="commit @arloor $(date '+%F %T %z %A')"
 
 # 上传到arloor.github.io
 function githubio() {
