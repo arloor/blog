@@ -106,7 +106,7 @@ sed -i 's/GRUB_ENABLE_BLSCFG.*/GRUB_ENABLE_BLSCFG=true/g' /etc/default/grub
 grub2-mkconfig -o /boot/grub2/grub.cfg
 # 2. 下载网络安装的kernel
 url="http://199.180.115.74"
-ks_url="${url}/ks.cfg" #kickstart配置文件地址
+ks_url="https://www.arloor.com/ks.cfg" #kickstart配置文件地址
 base_url="${url}/rhel9-install"
 ## 可以从http://xxxx/rhel9-install/.treeinfo确认地址
 kernel_url="${base_url}/images/pxeboot/vmlinuz"
