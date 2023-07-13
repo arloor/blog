@@ -266,7 +266,7 @@ wget http://cdn.arloor.com/rhel/Core_Install_v3.1.sh -O install.sh&&bash install
 
 ```shell
 #对新添加的磁盘进行分区，此处使用整块盘
-fdisk /dev/vda  # 然后输入n，一路回车，最后输入w使分区生肖
+fdisk /dev/vda  # 然后输入n，一路回车，最后输入w使分区生效
 vgdisplay   #查看系统中的逻辑组
 pvdisplay   #查看系统中的物理卷
 pvcreate /dev/vda3   #将新分好区的磁盘做成逻辑卷
