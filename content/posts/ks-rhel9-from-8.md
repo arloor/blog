@@ -329,3 +329,16 @@ fi
 cat /etc/ssh/sshd_config|grep UseDNS
 systemctl restart sshd
 ```
+
+### 删除旧内核
+
+我们的镜像boot分区只有1G，如果内核越来越多，可能因为boot分区满导致yum更新失败。提供个删除旧内核的脚本：
+
+```shell
+ls -l /boot/loader/entries
+ls /boot/vmlinuz-*|grep -v "rescue"|sort -r|tail -n +2|xargs -I {} grubby --remove-kernel={}&&rm -rf {}
+ls -l /boot/loader/entries
+ls /boot/initramfs-*|grep -v "rescue"|sort -r|tail -n +2|xargs -I {} rm -rf {}
+sed -i "s/^GRUB_ENABLE_BLSCFG=.*/GRUB_ENABLE_BLSCFG=true/g" /etc/default/grub
+grub2-mkconfig -o /boot/grub2/grub.cfg
+```
