@@ -339,5 +339,5 @@ systemctl restart sshd
 ```shell
 sudo rpm -q kernel # 查看内核数量
 sudo dnf remove --oldinstallonly --setopt installonly_limit=2 kernel -y
-sudo rpm -q kernel # 在此查看内核数量
+sudo rpm -q kernel # 再次查看内核数量
 ```
