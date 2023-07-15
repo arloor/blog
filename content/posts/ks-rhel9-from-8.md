@@ -337,10 +337,7 @@ systemctl restart sshd
 但是还是提供个删除旧内核的脚本：
 
 ```shell
-ls -l /boot/loader/entries
-ls /boot/vmlinuz-*|grep -v "rescue"|sort -r|tail -n +2|xargs -I {} grubby --remove-kernel={}&&rm -rf {}
-ls -l /boot/loader/entries
-ls /boot/initramfs-*|grep -v "rescue"|sort -r|tail -n +2|xargs -I {} rm -rf {}
-sed -i "s/^GRUB_ENABLE_BLSCFG=.*/GRUB_ENABLE_BLSCFG=true/g" /etc/default/grub
-grub2-mkconfig -o /boot/grub2/grub.cfg
+sudo rpm -q kernel # 查看内核数量
+sudo dnf remove --oldinstallonly --setopt installonly_limit=2 kernel
+sudo rpm -q kernel # 在此查看内核数量
 ```
