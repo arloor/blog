@@ -52,7 +52,7 @@ public class MemoryMonitorTest {
 }
 ```
 
-```shel
+```shell
 buffer_pool_direct    8193
 buffer_pool_mapped    0
 buffer_pool_mapped___non_volatile_memory    0
