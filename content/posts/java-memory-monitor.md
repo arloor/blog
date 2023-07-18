@@ -38,7 +38,9 @@ public class MemoryMonitorTest {
         for (BufferPoolMXBean bufferPool : bufferPoolMXBeans) {
             map.put("buffer_pool_" + fixName(bufferPool.getName()), bufferPool.getMemoryUsed());
         }
-        System.out.println(map);
+        for (Map.Entry<String, Long> entry : map.entrySet()) {
+            System.out.println(String.format("%18s    %s",entry.getKey(),entry.getValue()));
+        }
     }
 
     private static String fixName(String name) {
@@ -48,6 +50,15 @@ public class MemoryMonitorTest {
     private static MemoryMXBean memoryMXBean = ManagementFactory.getMemoryMXBean();
     private static List<BufferPoolMXBean> bufferPoolMXBeans = ManagementFactory.getPlatformMXBeans(BufferPoolMXBean.class);
 }
+```
+
+```shel
+buffer_pool_direct    8193
+buffer_pool_mapped    0
+buffer_pool_mapped___non_volatile_memory    0
+      direct_netty    -1
+              heap    18083112
+          non_heap    16355616
 ```
 
 ## netty直接内存监控在JDK9+的使用
