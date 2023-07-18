@@ -229,7 +229,7 @@ podman exec -it  demo-control-plane crictl images # 查看集群中的镜像列�
 
 集群中的镜像列表如下：
 
-```shell
+```txt
 IMAGE                                      TAG                  IMAGE ID            SIZE
 docker.io/arloor/rust_http_proxy           1.0                  540e623206d7e       22.2MB
 docker.io/kindest/kindnetd                 v20230511-dc714da8   b0b1fa0f58c6e       27.7MB
