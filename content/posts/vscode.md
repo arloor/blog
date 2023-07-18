@@ -99,3 +99,7 @@ TIPS：
 ```
 
 4. 按F5开启调试，F5 resume调试。
+
+## 设置word wrap
+
+发现在设置中修改不好使，倒是有个快捷键 `option + z` 或 `alt + z`

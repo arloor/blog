@@ -11,6 +11,8 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
+<!--more-->
+
 环境：rhel9.2
 
 - [Install Tools](https://kubernetes.io/docs/tasks/tools/)
@@ -168,7 +170,7 @@ kind create cluster --name prod --wait 5m
 
 再看 kubeconfig文件，可以看到两个context，两个cluster，两个user
 
-```shell
+```yaml
 apiVersion: v1
 clusters:
 - cluster:
