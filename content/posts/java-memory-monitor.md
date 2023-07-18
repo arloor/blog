@@ -61,13 +61,50 @@ buffer_pool_mapped___non_volatile_memory    0
           non_heap    16355616
 ```
 
-## netty直接内存监控在JDK9+的使用
+## jdk9以上设置 `-Dio.netty.tryReflectionSetAccessible=true` 的说明
 
-在JDK9+需要增加vm options：
+要统计netty直接内存使用量，实际使用的是netty中PlatformDependent类的`DIRECT_MEMORY_COUNTER`变量。
+
+netty在初始化这个变量前，会检查时候能反射拿到DirectByteBuffer的构造方法。
+
+在jdk9以上，拿构造方法被认为是`illegal reflective access`会看到这样的警告信息：
 
 ```shell
--Dio.netty.tryReflectionSetAccessible=true --add-opens java.base/java.nio=ALL-UNNAMED
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by io.netty.util.internal.ReflectionUtil (file:/C:/Users/arloor/.m2/repository/io/netty/netty-all/4.1.53.Final/netty-all-4.1.53.Final.jar) to constructor java.nio.DirectByteBuffer(long,int)
+WARNING: Please consider reporting this to the maintainers of io.netty.util.internal.ReflectionUtil
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
 ```
+
+所以有人就在github上提issue了：[https://github.com/netty/netty/pull/7650](https://github.com/netty/netty/pull/7650)
+
+netty的解决方案是：默认关闭这个反射拿构造方法的操作，相关代码：
+
+```java
+    // PlatformDependent0.java
+private static boolean explicitTryReflectionSetAccessible0(){
+        // we disable reflective access
+        return SystemPropertyUtil.getBoolean("io.netty.tryReflectionSetAccessible",javaVersion()< 9);
+        }
+```
+
+我们为了统计直接内存使用量，所以需要把这个打开
+
+## jdk16以上设置 `--add-opens java.base/java.nio=ALL-UNNAMED` 的说明
+
+如果不设置，则统计netty直接内存使用量时，会在反射获取 `DirectByteBuffer` 的构造函数 `private java.nio.DirectByteBuffer(long,int)` 的时候抛出下面的异常，导致无法获取：
+
+```shell
+java.lang.reflect.InaccessibleObjectException: 
+Unable to make private java.nio.DirectByteBuffer(long,int) accessible: 
+module java.base does not "opens java.nio" to unnamed module @5a4aa2f2
+```
+
+![](/directByteBufferConstructor.png)
+
+相关的一些issue：[renaissance-benchmarks的issue](https://github.com/renaissance-benchmarks/renaissance/issues/241)
+
 
 ## Netty直接内存泄漏排查
 
