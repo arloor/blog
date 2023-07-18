@@ -17,6 +17,7 @@ keywords:
 - 堆内存使用量
 - 非堆内存使用量
 - bufferPool内存使用量，主要有nio direct buffer和Mapped buffer
+<!--more-->
 
 ```java
 import io.netty.util.internal.PlatformDependent;
