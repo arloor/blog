@@ -224,7 +224,7 @@ podman build -t rust_http_proxy .
 podman tag rust_http_proxy:latest rust_http_proxy:1.0 # k8s的Kubernetes imagePullPolicy 不允许使用latest的镜像。所以给个版本标记
 yum install -y docker # 安装podman的docker兼容层，用于下面的docker-image命令
 kind load docker-image rust_http_proxy:1.0 --name demo
-podman exec -it  demo-control-plane crictl images # 查看集群中的镜像列表
+podman exec -it demo-control-plane crictl images # 查看集群中的镜像列表
 ```
 
 集群中的镜像列表如下：
@@ -287,4 +287,46 @@ export HTTPS_PROXY=
 EOF
 apt update
 apt install -y vim
+```
+
+### 创建工作负载
+
+```shell
+# 给控制面node增加label app=all
+kubectl label nodes demo-control-plane app=all
+
+# 加载镜像，并将镜像导入到集群
+podman pulll docker.io/arloor/rust_http_proxy
+podman tag docker.io/arloor/rust_http_proxy:latest rust_http_proxy:1.0
+kind load docker-image rust_http_proxy:1.0 --name demo
+
+## 独立启动pod
+kubectl run proxy --image=localhost/rust_http_proxy:1.0
+kubectl get pods --show-labels
+kubectl delete pod proxy
+
+## 通过deployment启动pod
+cat > a.yaml <<EOF
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: proxy-deployment
+spec:
+  replicas: 1 # tells deployment to run 2 pods matching the template
+  selector:
+    matchLabels:
+      app: all
+  template:
+    metadata:
+      labels:
+        app: all
+    spec:
+      containers:
+      - name: proxy
+        image: localhost/rust_http_proxy:1.0
+        ports:
+        - containerPort: 3128
+EOF
+kubectl apply -f a.yaml # 新建一个deployment
+kubectl get deployments --show-labels
 ```

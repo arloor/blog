@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: proxy-deployment
+spec:
+  replicas: 1 # tells deployment to run 2 pods matching the template
+  selector:
+    matchLabels:
+      app: all
+  template:
+    metadata:
+      labels:
+        app: all
+    spec:
+      containers:
+      - name: proxy
+        image: localhost/rust_http_proxy:1.0
+        ports:
+        - containerPort: 3128
+
