@@ -17,6 +17,8 @@ keywords:
 
 - [Install Tools](https://kubernetes.io/docs/tasks/tools/)
 - [Kind Quick Start](https://kind.sigs.k8s.io/docs/user/quick-start/)
+- [install-kubeadm](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/)
+- [create-cluster-kubeadm](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/)
 
 ## kubectl
 
@@ -291,7 +293,12 @@ setenforce 0
 sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config  
 sudo yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
 
-sudo systemctl enable --now kubelet
+sudo systemctl enable --now kubelet # 启动kubelet服务，但是会一直重启，这是正常的
 kubelet --version # Kubernetes v1.27.3
 kubectl version --short # Client Version: v1.27.3
 ```
+
+### 初始化控制面节点
+
+控制面节点是控制面组件运行的地方，包括etcd和api server。是kubectl打交道的地方
+
