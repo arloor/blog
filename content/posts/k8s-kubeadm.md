@@ -54,10 +54,6 @@ sudo sysctl --system
 wget  https://github.com/containerd/containerd/releases/download/v1.7.2/containerd-1.7.2-linux-amd64.tar.gz -O containerd.tar.gz
 tar -zxvf containerd.tar.gz -C /usr/local
 containerd -v # 1.7.2
-## systemd服务
-wget https://raw.githubusercontent.com/containerd/containerd/main/containerd.service -O /lib/systemd/system/containerd.service
-systemctl daemon-reload
-systemctl enable --now containerd
 ## runc
 wget https://github.com/opencontainers/runc/releases/download/v1.1.7/runc.amd64 -O /tmp/runc.amd64
 install -m 755 /tmp/runc.amd64 /usr/local/sbin/runc
@@ -70,8 +66,13 @@ mkdir -p /etc/containerd
 containerd config default > /etc/containerd/config.toml
 ## 使用Systemd作为cggroup驱动
 sed -i 's/SystemdCgroup = false/SystemdCgroup = true/'  /etc/containerd/config.toml
+cp /etc/containerd/config.toml /etc/containerd/config.toml.bak
+sed -i 's/sandbox_image.*/sandbox_image = "registry.aliyuncs.com/google_containers/pause:3.9"/' /etc/containerd/config.toml
 ## 从/etc/containerd/config.toml的disabled_plugins中去掉cri
-systemctl restart containerd
+## systemd服务
+wget https://raw.githubusercontent.com/containerd/containerd/main/containerd.service -O /lib/systemd/system/containerd.service
+systemctl daemon-reload
+systemctl enable --now containerd
 ```
 ### 安装kubtelet kubeadm kubectl
 
