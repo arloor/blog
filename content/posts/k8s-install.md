@@ -253,9 +253,12 @@ registry.k8s.io/pause                      3.7                  221177c6082a8   
 ### 进入控制面看看
 
 ```shell
-podman exec -it demo-control-plane /bin/bash
+echo "podman exec -it demo-control-plane /bin/bash" > /usr/local/bin/pssh
+chmod +x /usr/local/bin/pssh
+pssh
 ```
 
+设置下容器内的apt镜像 debian11
 ```shell
 ## 阿里云镜像
 cat > /etc/apt/sources.list <<EOF
