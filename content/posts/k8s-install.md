@@ -250,3 +250,48 @@ registry.k8s.io/pause                      3.7                  221177c6082a8   
 ```shell
 podman exec -it demo-control-plane /bin/sh
 ```
+
+## kubeadm安装控制面
+
+### 关闭swap
+
+```shell
+swapoff -a # 临时关闭
+sed -i '/.*swap.*/d' /etc/fstab # 永久关闭，下次开机生效
+```
+
+### 安装containerd
+
+当前版本为1.7.2
+
+```shell
+wget  https://github.com/containerd/containerd/releases/download/v1.7.2/containerd-1.7.2-linux-amd64.tar.gz -O containerd.tar.gz
+mkdir -p /usr/local/containerd
+tar -zxvf containerd.tar.gz -C /usr/local/containerd
+/usr/local/containerd/bin/containerd -v # 1.7.2
+echo 'export PATH=$PATH:/usr/local/containerd/bin/' > /etc/profile.d/containerd_path.sh
+. /etc/profile.d/containerd_path.sh
+containerd -v # 1.7.2
+```
+### 安装kubtelet kubeadm kubectl
+
+```shell
+cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
+enabled=1
+gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+exclude=kubelet kubeadm kubectl
+EOF
+
+## 关闭selinux
+setenforce 0
+sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config  
+sudo yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
+
+sudo systemctl enable --now kubelet
+kubelet --version # Kubernetes v1.27.3
+kubectl version --short # Client Version: v1.27.3
+```
