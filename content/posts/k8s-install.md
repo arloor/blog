@@ -19,6 +19,7 @@ keywords:
 - [Kind Quick Start](https://kind.sigs.k8s.io/docs/user/quick-start/)
 - [install-kubeadm](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/)
 - [create-cluster-kubeadm](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/)
+- [containerd get started](https://github.com/containerd/containerd/blob/main/docs/getting-started.md)
 
 ## kubectl
 
@@ -303,9 +304,24 @@ kubectl version --short # Client Version: v1.27.3
 控制面节点是控制面组件运行的地方，包括etcd和api server。是kubectl打交道的地方.
 
 ```shell
-echo 1 > /proc/sys/net/bridge/bridge-nf-call-iptables
-echo 1 > /proc/sys/net/bridge/bridge-nf-call-ip6tables
-echo 1 > /proc/sys/net/ipv4/ip_forward
+cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
+overlay
+br_netfilter
+EOF
+
+sudo modprobe overlay
+sudo modprobe br_netfilter
+
+# sysctl params required by setup, params persist across reboots
+cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-iptables  = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+net.ipv4.ip_forward                 = 1
+EOF
+
+# Apply sysctl params without reboot
+sudo sysctl --system
+
 kubeadm init --pod-network-cidr=192.168.0.0/16
 ```
 
