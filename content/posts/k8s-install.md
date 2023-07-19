@@ -269,12 +269,18 @@ sed -i '/.*swap.*/d' /etc/fstab # 永久关闭，下次开机生效
 
 ```shell
 wget  https://github.com/containerd/containerd/releases/download/v1.7.2/containerd-1.7.2-linux-amd64.tar.gz -O containerd.tar.gz
-mkdir -p /usr/local/containerd
-tar -zxvf containerd.tar.gz -C /usr/local/containerd
-/usr/local/containerd/bin/containerd -v # 1.7.2
-echo 'export PATH=$PATH:/usr/local/containerd/bin/' > /etc/profile.d/containerd_path.sh
-. /etc/profile.d/containerd_path.sh
+tar -zxvf containerd.tar.gz -C /usr/local
 containerd -v # 1.7.2
+wget https://raw.githubusercontent.com/containerd/containerd/main/containerd.service -O /usr/local/lib/systemd/system/containerd.service
+
+systemctl daemon-reload
+systemctl enable --now containerd
+wget https://github.com/opencontainers/runc/releases/download/v1.1.7/runc.amd64 -O /tmp/runc.amd64
+install -m 755 /tmp/runc.amd64 /usr/local/sbin/runc
+wget https://github.com/containernetworking/plugins/releases/download/v1.3.0/cni-plugins-linux-amd64-v1.3.0.tgz -O /tmp/cni-plugins-linux-amd64-v1.3.0.tgz
+mkdir -p /opt/cni/bin
+tar Cxzvf /opt/cni/bin /tmp/cni-plugins-linux-amd64-v1.3.0.tgz
+containerd config default > /etc/containerd/config.toml
 ```
 ### 安装kubtelet kubeadm kubectl
 
