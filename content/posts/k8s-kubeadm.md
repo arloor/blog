@@ -122,6 +122,7 @@ sed -i 's/imageRepository: registry.k8s.io/imageRepository: registry.aliyuncs.co
 # 将criSocket改成 unix:///run/containerd/containerd.sock containerd的
 # 将cgroupDriver改成systemd
 # 将advertiseAddress改成实际地址
+. unpass
 kubeadm config images pull --config /etc/kubernetes/init-default.yaml
 kubeadm init --config /etc/kubernetes/init-default.yaml
 
