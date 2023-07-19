@@ -21,6 +21,8 @@ keywords:
 - [create-cluster-kubeadm](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/)
 - [containerd get started](https://github.com/containerd/containerd/blob/main/docs/getting-started.md)
 
+- [kubernetes新版本使用kubeadm init的超全问题解决和建议](https://blog.csdn.net/weixin_52156647/article/details/129765134)
+
 ## kubectl
 
 ```shell
@@ -335,7 +337,16 @@ EOF
 
 # Apply sysctl params without reboot
 sudo sysctl --system
+# echo $(ip addr|grep "inet " |awk -F "[ /]+" '{print $3}'|grep -v "127.0.0.1") $(hostname) >> /etc/hosts
+echo 127.0.0.1 $(hostname) >> /etc/hosts
 
-kubeadm init --pod-network-cidr=192.168.0.0/16
+
+kubeadm config print init-defaults > /etc/kubernetes/init-default.yaml
+sed -i 's/imageRepository: registry.k8s.io/imageRepository: registry.aliyuncs.com\/google_containers/' /etc/kubernetes/init-default.yaml
+kubeadm config images pull --image-repository=registry.aliyuncs.com/google_containers
+kubeadm reset -y
+kubeadm init --pod-network-cidr=192.168.0.0/16 --image-repository=registry.aliyuncs.com/google_containers --v=5 --apiserver-advertise-address=10.0.4.17
+
+# kubeadm reset
 ```
 
