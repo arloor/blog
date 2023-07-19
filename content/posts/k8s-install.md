@@ -300,5 +300,11 @@ kubectl version --short # Client Version: v1.27.3
 
 ### 初始化控制面节点
 
-控制面节点是控制面组件运行的地方，包括etcd和api server。是kubectl打交道的地方
+控制面节点是控制面组件运行的地方，包括etcd和api server。是kubectl打交道的地方.
+
+```shell
+echo 1 > /proc/sys/net/bridge/bridge-nf-call-iptables
+echo 1 > /proc/sys/net/bridge/bridge-nf-call-ip6tables
+echo 1 > /proc/sys/net/ipv4/ip_forward
+```
 
