@@ -51,8 +51,8 @@ sudo sysctl --system
 当前版本为1.7.2
 
 ```shell
-wget  https://github.com/containerd/containerd/releases/download/v1.7.2/containerd-1.7.2-linux-amd64.tar.gz -O containerd.tar.gz
-tar -zxvf containerd.tar.gz -C /usr/local
+wget  https://github.com/containerd/containerd/releases/download/v1.7.2/containerd-1.7.2-linux-amd64.tar.gz -O /tmp/containerd.tar.gz
+tar -zxvf /tmp/containerd.tar.gz -C /usr/local
 containerd -v # 1.7.2
 ## runc
 wget https://github.com/opencontainers/runc/releases/download/v1.1.7/runc.amd64 -O /tmp/runc.amd64
@@ -204,3 +204,21 @@ kubeadm join 10.0.4.17:6443 --token abcdef.0123456789abcdef \
         --discovery-token-ca-cert-hash sha256:53732d5e7da9dc9b64050765e20475aa0e695b43279fe874da614c6bd1f39ea6
 ```
 
+设置kube config
+
+```shell
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+kubectl get cs # 使用kubectl与集群交互
+```
+
+### 解决network plugin未安装导致的node not ready
+
+```shell
+$ kubectl get nodes
+NAME   STATUS     ROLES           AGE   VERSION
+node   NotReady   control-plane   49m   v1.27.3
+$ kubectl describe nodes node|grep KubeletNotReady
+  Ready            False   Wed, 19 Jul 2023 22:52:58 +0800   Wed, 19 Jul 2023 22:06:46 +0800   KubeletNotReady              container runtime network not ready: NetworkReady=false reason:NetworkPluginNotReady message:Network plugin returns error: cni plugin not initialized
+```
