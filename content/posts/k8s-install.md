@@ -282,6 +282,13 @@ deb-src http://mirrors.tencentyun.com/debian/ bullseye-backports main contrib no
 deb http://mirrors.tencentyun.com/debian-security/ bullseye-security main contrib non-free
 deb-src http://mirrors.tencentyun.com/debian-security/ bullseye-security main contrib non-free
 EOF
+# 去除不知道哪里设置的http代理
+cat >> ~/.bashrc <<EOF 
+export https_proxy=
+export http_proxy=
+export HTTP_PROXY=
+export HTTPS_PROXY=
+EOF
 apt update
 apt install -y vim
 ```
