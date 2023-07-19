@@ -271,16 +271,24 @@ sed -i '/.*swap.*/d' /etc/fstab # 永久关闭，下次开机生效
 wget  https://github.com/containerd/containerd/releases/download/v1.7.2/containerd-1.7.2-linux-amd64.tar.gz -O containerd.tar.gz
 tar -zxvf containerd.tar.gz -C /usr/local
 containerd -v # 1.7.2
-wget https://raw.githubusercontent.com/containerd/containerd/main/containerd.service -O /usr/local/lib/systemd/system/containerd.service
-
+## systemd服务
+wget https://raw.githubusercontent.com/containerd/containerd/main/containerd.service -O /lib/systemd/system/containerd.service
 systemctl daemon-reload
 systemctl enable --now containerd
+## runc
 wget https://github.com/opencontainers/runc/releases/download/v1.1.7/runc.amd64 -O /tmp/runc.amd64
 install -m 755 /tmp/runc.amd64 /usr/local/sbin/runc
+## cni
 wget https://github.com/containernetworking/plugins/releases/download/v1.3.0/cni-plugins-linux-amd64-v1.3.0.tgz -O /tmp/cni-plugins-linux-amd64-v1.3.0.tgz
 mkdir -p /opt/cni/bin
 tar Cxzvf /opt/cni/bin /tmp/cni-plugins-linux-amd64-v1.3.0.tgz
+## 生成containerd配置文件
+mkdir -p /etc/containerd
 containerd config default > /etc/containerd/config.toml
+## 使用Systemd作为cggroup驱动
+sed -i 's/SystemdCgroup = false/SystemdCgroup = true/'  /etc/containerd/config.toml
+## 从/etc/containerd/config.toml的disabled_plugins中去掉cri
+systemctl restart containerd
 ```
 ### 安装kubtelet kubeadm kubectl
 
