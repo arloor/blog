@@ -19,11 +19,31 @@ keywords:
 
 ## kubeadm安装控制面
 
-### 关闭swap
+### 机器配置
 
 ```shell
+# 关闭swap
 swapoff -a # 临时关闭
 sed -i '/.*swap.*/d' /etc/fstab # 永久关闭，下次开机生效
+
+# 加载内核模块
+cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
+overlay
+br_netfilter
+EOF
+
+sudo modprobe overlay
+sudo modprobe br_netfilter
+
+# sysctl params required by setup, params persist across reboots
+cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-iptables  = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+net.ipv4.ip_forward                 = 1
+EOF
+
+# Apply sysctl params without reboot
+sudo sysctl --system
 ```
 
 ### 安装containerd
@@ -81,25 +101,8 @@ kubectl version --short # Client Version: v1.27.3
 控制面节点是控制面组件运行的地方，包括etcd和api server。是kubectl打交道的地方.
 
 ```shell
-cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
-overlay
-br_netfilter
-EOF
-
-sudo modprobe overlay
-sudo modprobe br_netfilter
-
-# sysctl params required by setup, params persist across reboots
-cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
-net.bridge.bridge-nf-call-iptables  = 1
-net.bridge.bridge-nf-call-ip6tables = 1
-net.ipv4.ip_forward                 = 1
-EOF
-
-# Apply sysctl params without reboot
-sudo sysctl --system
 # echo $(ip addr|grep "inet " |awk -F "[ /]+" '{print $3}'|grep -v "127.0.0.1") $(hostname) >> /etc/hosts
-echo 127.0.0.1 $(hostname) >> /etc/hosts
+# echo 127.0.0.1 $(hostname) >> /etc/hosts
 
 
 kubeadm config print init-defaults > /etc/kubernetes/init-default.yaml
