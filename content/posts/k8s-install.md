@@ -253,7 +253,34 @@ registry.k8s.io/pause                      3.7                  221177c6082a8   
 ### 进入控制面看看
 
 ```shell
-podman exec -it demo-control-plane /bin/sh
+podman exec -it demo-control-plane /bin/bash
+```
+
+```shell
+## 阿里云镜像
+cat > /etc/apt/sources.list <<EOF
+deb https://mirrors.aliyun.com/debian/ bullseye main non-free contrib
+deb-src https://mirrors.aliyun.com/debian/ bullseye main non-free contrib
+deb https://mirrors.aliyun.com/debian-security/ bullseye-security main
+deb-src https://mirrors.aliyun.com/debian-security/ bullseye-security main
+deb https://mirrors.aliyun.com/debian/ bullseye-updates main non-free contrib
+deb-src https://mirrors.aliyun.com/debian/ bullseye-updates main non-free contrib
+deb https://mirrors.aliyun.com/debian/ bullseye-backports main non-free contrib
+deb-src https://mirrors.aliyun.com/debian/ bullseye-backports main non-free contrib
+EOF
+## 腾讯云内网镜像
+cat > /etc/apt/sources.list << EOF
+deb http://mirrors.tencentyun.com/debian/ bullseye main contrib non-free
+deb-src http://mirrors.tencentyun.com/debian/ bullseye main contrib non-free
+deb http://mirrors.tencentyun.com/debian/ bullseye-updates main contrib non-free
+deb-src http://mirrors.tencentyun.com/debian/ bullseye-updates main contrib non-free
+deb http://mirrors.tencentyun.com/debian/ bullseye-backports main contrib non-free
+deb-src http://mirrors.tencentyun.com/debian/ bullseye-backports main contrib non-free
+deb http://mirrors.tencentyun.com/debian-security/ bullseye-security main contrib non-free
+deb-src http://mirrors.tencentyun.com/debian-security/ bullseye-security main contrib non-free
+EOF
+apt update
+apt install -y vim
 ```
 
 ## kubeadm安装控制面
