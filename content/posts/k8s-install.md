@@ -291,6 +291,8 @@ apt install -y vim
 
 ### 创建工作负载
 
+[assign-pods-nodes](https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/)
+
 ```shell
 # 给控制面node增加label app=all
 kubectl label nodes demo-control-plane app=all
