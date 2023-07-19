@@ -282,7 +282,8 @@ deb-src http://mirrors.tencentyun.com/debian/ bullseye-backports main contrib no
 deb http://mirrors.tencentyun.com/debian-security/ bullseye-security main contrib non-free
 deb-src http://mirrors.tencentyun.com/debian-security/ bullseye-security main contrib non-free
 EOF
-# 去除不知道哪里设置的http代理
+# 这些Http代理环境变量是从主机传递过来的，如果不想要的话
+# 可以删除当前集群，然后清空http代理，重新闯将
 cat >> ~/.bashrc <<EOF 
 export https_proxy=
 export http_proxy=
