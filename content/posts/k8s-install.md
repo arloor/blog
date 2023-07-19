@@ -3,7 +3,7 @@ title: "K8s Install"
 date: 2023-07-18T20:15:30+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["undefined"]
+tags: ["k8s"]
 weight: 10
 subtitle: ""
 description : ""
