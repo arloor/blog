@@ -1,5 +1,5 @@
 ---
-title: "K8s Kubeadm"
+title: "K8s Kubeadm 1.27.3安装"
 date: 2023-07-19T19:48:26+08:00
 draft: false
 categories: [ "undefined"]
@@ -164,6 +164,16 @@ crictl --runtime-endpoint=unix:///run/containerd/containerd.sock ps -a
   sudo chown $(id -u):$(id -g) $HOME/.kube/config
 . unpass
 kubectl get cs # 使用kubectl与集群交互
+```
+
+让其他节点加入集群：我这里只用控制面了，就不操作了
+
+
+```shell
+Then you can join any number of worker nodes by running the following on each as root:
+
+kubeadm join 10.0.4.17:6443 --token oafxnp.o4w7gamzg4dz592m \
+	--discovery-token-ca-cert-hash sha256:67637fbffe6368ed94990172c0685e3c5f3d2ae53d70577f4e779e430ea9cafd 
 ```
 
 ### 解决network plugin未安装导致的node not ready
