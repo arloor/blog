@@ -216,9 +216,29 @@ ingress-nginx
 ```shell
 wget https://github.com/kubernetes/ingress-nginx/releases/download/helm-chart-4.7.1/ingress-nginx-4.7.1.tgz
 helm show values ingress-nginx-4.7.1.tgz > values.yaml # 查看可以配置的value
-# hostNetwork: true
-# hostPort 中的端口改下
+```
 
+修改values.yaml：改成使用hostNetwork，并且修改containerPort和HostPort为非常用端口（并保持一致）
+
+```yaml
+  containerPort:
+    http: 8080
+    https: 1443
+....
+  hostNetwork: true
+  ## Use host ports 80 and 443
+  ## Disabled by default
+  hostPort:
+    # -- Enable 'hostPort' or not
+    enabled: true
+    ports:
+      # -- 'hostPort' http port
+      http: 8080
+      # -- 'hostPort' https port
+      https: 1443
+```
+
+```shell
 ## 预下载registry.k8s.io的镜像
 helm template  ingress-nginx-4.7.1.tgz -f values.yaml > ingress-nginx-deploy.yaml
 for i in $(grep "image: " ingress-nginx-deploy.yaml | awk -F '[ "]+' '{print $3}'|uniq); do
@@ -230,9 +250,9 @@ systemctl stop rust_http_proxy
 kubectl apply -f ingress-nginx-deploy.yaml
 
 # helm install ingress-nginx ingress-nginx-4.7.1.tgz --create-namespace -n ingress-nginx -f values.yaml
-watch kubectl get pods -n ingress-nginx -o wide
-watch kubectl get services -n ingress-nginx -o wide
-watch kubectl get controller -n ingress-nginx -o wide
+watch kubectl get pods -o wide
+kubectl get services -o wide
+kubectl get controller -o wide
 ```
 
 ## 参考文档
