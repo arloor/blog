@@ -203,7 +203,7 @@ kubectl delete pod nginx # 删除这个pod
 
 ## 常用组件安装
 
-helm
+### helm包管理器
 
 ```shell
 wget https://get.helm.sh/helm-v3.12.0-linux-amd64.tar.gz -O /tmp/helm-v3.12.0-linux-amd64.tar.gz
@@ -211,14 +211,14 @@ tar -zxvf /tmp/helm-v3.12.0-linux-amd64.tar.gz -C /tmp
 mv /tmp/linux-amd64/helm  /usr/local/bin/
 ```
 
-ingress-nginx
+### ingress-nginx并通过hostNetwork暴露18080和1443端口
 
 ```shell
 wget https://github.com/kubernetes/ingress-nginx/releases/download/helm-chart-4.7.1/ingress-nginx-4.7.1.tgz
 helm show values ingress-nginx-4.7.1.tgz > values.yaml # 查看可以配置的value
 ```
 
-修改values.yaml：改成使用hostNetwork，并且修改containerPort和HostPort为非常用端口（并保持一致）
+修改values.yaml：改成使用hostNetwork，并且修改containerPort和HostPort为非常用端口（并保持一致）。我们的环境没有LoadBalencer，所以要用hostNetwork
 
 ```yaml
   containerPort:
