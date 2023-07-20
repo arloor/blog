@@ -238,7 +238,7 @@ helm show values ingress-nginx-4.7.1.tgz > values.yaml # 查看可以配置的va
 
 ## 预下载registry.k8s.io的镜像
 helm template  ingress-nginx-4.7.1.tgz -f values.yaml > ingress-nginx-deploy.yaml
-for i in $(grep "image: " ingress-nginx-deploy.yaml | awk '{print $2}'); do
+for i in $(grep "image: " ingress-nginx-deploy.yaml | awk -F '[ "]+' '{print $3}'|uniq); do
         echo $i
         crictl --runtime-endpoint=unix:///run/containerd/containerd.sock pull ${i}
 done
@@ -247,6 +247,8 @@ kubectl apply -f ingress-nginx-deploy.yaml
 
 # helm install ingress-nginx ingress-nginx-4.7.1.tgz --create-namespace -n ingress-nginx -f values.yaml
 watch kubectl get pods -n ingress-nginx -o wide
+watch kubectl get services -n ingress-nginx -o wide
+watch kubectl get controller -n ingress-nginx -o wide
 ```
 
 ## 参考文档
