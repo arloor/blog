@@ -10,18 +10,7 @@ description : ""
 keywords:
 - 刘港欢 arloor moontell
 ---
-
-## 参考文档
-
-- [install-kubeadm](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/)
-- [create-cluster-kubeadm](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/)
-- [containerd get started](https://github.com/containerd/containerd/blob/main/docs/getting-started.md)
-- [kubernetes新版本使用kubeadm init的超全问题解决和建议](https://blog.csdn.net/weixin_52156647/article/details/129765134)
-- [calico quick start](https://docs.tigera.io/calico/latest/getting-started/kubernetes/quickstart)
-- [containerd设置代理](https://blog.51cto.com/u_15343792/5142108)
-- [工作负载pods](https://kubernetes.io/docs/concepts/workloads/pods/)
-- [工作负载deployment](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
-- [使用kubeadm部署Kubernetes 1.27](https://blog.frognew.com/2023/06/kubeadm-install-kubernetes-1.27.html)
+<!--more-->
 
 ## kubeadm安装控制面
 
@@ -211,3 +200,16 @@ kubectl get pods -o wide # 显示nginx的pod正Running在192.168.254.8上
 curl 192.168.254.8
 kubectl delete pod nginx # 删除这个pod
 ```
+
+## 参考文档
+
+- [install-kubeadm](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/)
+- [create-cluster-kubeadm](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/)
+- [containerd get started](https://github.com/containerd/containerd/blob/main/docs/getting-started.md)
+- [kubernetes新版本使用kubeadm init的超全问题解决和建议](https://blog.csdn.net/weixin_52156647/article/details/129765134)
+- [calico quick start](https://docs.tigera.io/calico/latest/getting-started/kubernetes/quickstart)
+- [containerd设置代理](https://blog.51cto.com/u_15343792/5142108)
+- [工作负载pods](https://kubernetes.io/docs/concepts/workloads/pods/)
+- [工作负载deployment](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
+- [使用kubeadm部署Kubernetes 1.27](https://blog.frognew.com/2023/06/kubeadm-install-kubernetes-1.27.html)
+- [ingress-nginx deploy](https://kubernetes.github.io/ingress-nginx/deploy/)
