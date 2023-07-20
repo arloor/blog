@@ -209,6 +209,62 @@ tar -zxvf /tmp/helm-v3.12.0-linux-amd64.tar.gz -C /tmp
 mv /tmp/linux-amd64/helm  /usr/local/bin/
 ```
 
+```shell
+kubectl label node mi node-role.kubernetes.io/edge=
+cd /tmp
+wget https://github.com/kubernetes/ingress-nginx/releases/download/helm-chart-4.7.0/ingress-nginx-4.7.0.tgz
+helm show values ingress-nginx-4.7.0.tgz
+```
+
+```shell
+cat > values.yaml <<EOF
+controller:
+  ingressClassResource:
+    name: nginx
+    enabled: true
+    default: true
+    controllerValue: "k8s.io/ingress-nginx"
+  admissionWebhooks:
+    enabled: false
+  replicaCount: 1
+  image:
+    # registry: registry.k8s.io
+    # image: ingress-nginx/controller
+    # tag: "v1.8.0"
+    registry: docker.io
+    image: unreachableg/registry.k8s.io_ingress-nginx_controller
+    tag: "v1.8.0"
+    digest: sha256:626fc8847e967dc06049c0eda9e093d77a08feff80179ae97538ba8b118570f3
+  hostNetwork: true
+  nodeSelector:
+    node-role.kubernetes.io/edge: ''
+  affinity:
+    podAntiAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchExpressions:
+            - key: app
+              operator: In
+              values:
+              - nginx-ingress
+            - key: component
+              operator: In
+              values:
+              - controller
+          topologyKey: kubernetes.io/hostname
+  tolerations:
+      - key: node-role.kubernetes.io/master
+        operator: Exists
+        effect: NoSchedule
+      - key: node-role.kubernetes.io/master
+        operator: Exists
+        effect: PreferNoSchedule
+EOF
+systemctl stop rust_http_proxy
+helm install ingress-nginx ingress-nginx-4.7.0.tgz --create-namespace -n ingress-nginx -f values.yaml
+watch kubectl get pod -n ingress-nginx
+```
+
 ## 参考文档
 
 - [install-kubeadm](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/)
