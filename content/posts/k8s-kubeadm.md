@@ -255,12 +255,51 @@ for i in $(grep "image: " ingress-nginx-deploy.yaml | awk -F '[ "]+' '{print $3}
 done
 crictl --runtime-endpoint=unix:///run/containerd/containerd.sock images|grep registry.k8s.io
 systemctl disable rust_http_proxy --now #关闭所有占用80、443端口的服务
-kubectl apply -f ingress-nginx-deploy.yaml
+helm install ingress-nginx ingress-nginx-4.7.1.tgz --create-namespace -n ingress-nginx -f values.yaml
 
 # helm install ingress-nginx ingress-nginx-4.7.1.tgz --create-namespace -n ingress-nginx -f values.yaml
-watch kubectl get pods -o wide
+watch kubectl get pods -o wide  -n ingress-nginx
 kubectl get services -o wide
 kubectl get controller -o wide
+```
+
+```shell
+An example Ingress that makes use of the controller:
+  apiVersion: networking.k8s.io/v1
+  kind: Ingress
+  metadata:
+    name: example
+    namespace: foo
+  spec:
+    ingressClassName: nginx
+    rules:
+      - host: www.example.com
+        http:
+          paths:
+            - pathType: Prefix
+              backend:
+                service:
+                  name: exampleService
+                  port:
+                    number: 80
+              path: /
+    # This section is only required if TLS is to be enabled for the Ingress
+    tls:
+      - hosts:
+        - www.example.com
+        secretName: example-tls
+
+If TLS is enabled for the Ingress, a Secret containing the certificate and key must also be provided:
+
+  apiVersion: v1
+  kind: Secret
+  metadata:
+    name: example-tls
+    namespace: foo
+  data:
+    tls.crt: <base64 encoded cert>
+    tls.key: <base64 encoded key>
+  type: kubernetes.io/tls
 ```
 
 修改端口
