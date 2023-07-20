@@ -87,7 +87,7 @@ wget https://raw.githubusercontent.com/containerd/containerd/main/containerd.ser
 #  192.168.0.0/16是kubeadmin init --pod-network-cidr我们填入的地址，也是calico网络插件工作的地址
 Environment="HTTP_PROXY=http://127.0.0.1:3128/"
 Environment="HTTPS_PROXY=http://127.0.0.1:3128/"
-Environment="NO_PROXY =10.96.0.0/16,127.0.0.1,192.168.0.0/16,localhost"
+Environment="NO_PROXY=10.96.0.0/16,127.0.0.1,192.168.0.0/16,localhost"
 ```
 
 启动containerd服务
