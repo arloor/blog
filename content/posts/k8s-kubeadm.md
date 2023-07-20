@@ -162,7 +162,6 @@ crictl --runtime-endpoint=unix:///run/containerd/containerd.sock ps -a
   mkdir -p $HOME/.kube
   sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
   sudo chown $(id -u):$(id -g) $HOME/.kube/config
-. unpass
 kubectl get cs # 使用kubectl与集群交互
 ```
 
