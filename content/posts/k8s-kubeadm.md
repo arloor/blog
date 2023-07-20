@@ -222,7 +222,7 @@ helm show values ingress-nginx-4.7.1.tgz > values.yaml # 查看可以配置的va
 
 ```yaml
   containerPort:
-    http: 8080
+    http: 18080
     https: 1443
 ....
   hostNetwork: true
@@ -233,7 +233,7 @@ helm show values ingress-nginx-4.7.1.tgz > values.yaml # 查看可以配置的va
     enabled: true
     ports:
       # -- 'hostPort' http port
-      http: 8080
+      http: 18080
       # -- 'hostPort' https port
       https: 1443
 ```
@@ -242,7 +242,7 @@ helm show values ingress-nginx-4.7.1.tgz > values.yaml # 查看可以配置的va
 ## 预下载registry.k8s.io的镜像
 helm template  ingress-nginx-4.7.1.tgz -f values.yaml > ingress-nginx-deploy.yaml
 for i in $(grep "image: " ingress-nginx-deploy.yaml | awk -F '[ "]+' '{print $3}'|uniq); do
-        echo $i
+        echo 下载 $i
         crictl --runtime-endpoint=unix:///run/containerd/containerd.sock pull ${i}
 done
 crictl --runtime-endpoint=unix:///run/containerd/containerd.sock images|grep registry.k8s.io
