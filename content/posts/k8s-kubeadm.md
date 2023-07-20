@@ -15,7 +15,7 @@ keywords:
 - [create-cluster-kubeadm](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/)
 - [containerd get started](https://github.com/containerd/containerd/blob/main/docs/getting-started.md)
 - [kubernetes新版本使用kubeadm init的超全问题解决和建议](https://blog.csdn.net/weixin_52156647/article/details/129765134)
-
+- [calico quick start](https://docs.tigera.io/calico/latest/getting-started/kubernetes/quickstart)
 
 ## kubeadm安装控制面
 
@@ -66,11 +66,28 @@ mkdir -p /etc/containerd
 containerd config default > /etc/containerd/config.toml
 ## 使用Systemd作为cggroup驱动
 sed -i 's/SystemdCgroup = false/SystemdCgroup = true/'  /etc/containerd/config.toml
-cp /etc/containerd/config.toml /etc/containerd/config.toml.bak
+## 使用阿里云镜像的sandbox，和下面的kubeadm init --image-repository镜像保持一致，否则kubeadm init时控制面启动失败
 sed -i 's/sandbox_image.*/sandbox_image = "registry.aliyuncs.com\/google_containers\/pause:3.9"/' /etc/containerd/config.toml
 ## 从/etc/containerd/config.toml的disabled_plugins中去掉cri
 ## systemd服务
 wget https://raw.githubusercontent.com/containerd/containerd/main/containerd.service -O /lib/systemd/system/containerd.service
+```
+
+修改containerd.service的代理配置，否则镜像都拉不下来，calico网络插件也装不了
+
+```shell
+# 在[Service]块中增加代理配置
+# NO_PROXY中
+#  10.96.0.0/16是kubeadm init --service-cidr的默认地址
+#  192.168.0.0/16是kubeadmin init --pod-network-cidr我们填入的地址，也是calico网络插件工作的地址
+Environment="HTTP_PROXY=http://127.0.0.1:3128/"
+Environment="HTTPS_PROXY=http://127.0.0.1:3128/"
+Environment="NO_PROXY =10.96.0.0/16,127.0.0.1,192.168.0.0/16,localhost"
+```
+
+启动containerd服务
+
+```shell
 systemctl daemon-reload
 systemctl enable --now containerd
 ```
@@ -102,6 +119,7 @@ setenforce 0
 sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config  
 sudo yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
 # 在/etc/dnf/dnf.conf的[main]块中增加 exclude=kubelet kubeadm kubectl
+echo "exclude=kubelet kubeadm kubectl" >> /etc/dnf/dnf.conf
 
 sudo systemctl enable --now kubelet # 启动kubelet服务，但是会一直重启，这是正常的
 kubelet --version # Kubernetes v1.27.3
@@ -117,93 +135,20 @@ kubectl version --short # Client Version: v1.27.3
 # echo 127.0.0.1 $(hostname) >> /etc/hosts
 
 
-kubeadm config print init-defaults --component-configs KubeletConfiguration > /etc/kubernetes/init-default.yaml
-sed -i 's/imageRepository: registry.k8s.io/imageRepository: registry.aliyuncs.com\/google_containers/' /etc/kubernetes/init-default.yaml
-sed -i 's/criSocket: .*/criSocket: unix:\/\/\/run\/containerd\/containerd.sock/' /etc/kubernetes/init-default.yaml
-sed -i 's/cgroupDriver: .*/cgroupDriver: systemd/' /etc/kubernetes/init-default.yaml
+# kubeadm config print init-defaults --component-configs KubeletConfiguration > /etc/kubernetes/init-default.yaml
+# sed -i 's/imageRepository: registry.k8s.io/imageRepository: registry.aliyuncs.com\/google_containers/' /etc/kubernetes/init-default.yaml
+# sed -i 's/criSocket: .*/criSocket: unix:\/\/\/run\/containerd\/containerd.sock/' /etc/kubernetes/init-default.yaml
+# sed -i 's/cgroupDriver: .*/cgroupDriver: systemd/' /etc/kubernetes/init-default.yaml
 
-# 将advertiseAddress改成实际地址
-. unpass
-kubeadm config images pull --config /etc/kubernetes/init-default.yaml
-kubeadm init --config /etc/kubernetes/init-default.yaml
+# # 将advertiseAddress改成实际地址
+# kubeadm config images pull --config /etc/kubernetes/init-default.yaml
+# kubeadm init --config /etc/kubernetes/init-default.yaml
 
+echo $(ip addr|grep "inet " |awk -F "[ /]+" '{print $3}'|grep -v "127.0.0.1") $(hostname) >> /etc/hosts
+kubeadm config images pull --image-repository registry.aliyuncs.com/google_containers
+kubeadm init --pod-network-cidr=192.168.0.0/16 --image-repository registry.aliyuncs.com/google_containers --cri-socket unix:///run/containerd/containerd.sock
+crictl --runtime-endpoint=unix:///run/containerd/containerd.sock ps -a
 # 如果执行有问题，就kubeadm reset重新进行kubeadm init
-```
-
-```shell
-[init] Using Kubernetes version: v1.27.0
-[preflight] Running pre-flight checks
-        [WARNING Hostname]: hostname "node" could not be reached
-        [WARNING Hostname]: hostname "node": lookup node on 183.60.83.19:53: no such host
-[preflight] Pulling images required for setting up a Kubernetes cluster
-[preflight] This might take a minute or two, depending on the speed of your internet connection
-[preflight] You can also perform this action in beforehand using 'kubeadm config images pull'
-[certs] Using certificateDir folder "/etc/kubernetes/pki"
-[certs] Generating "ca" certificate and key
-[certs] Generating "apiserver" certificate and key
-[certs] apiserver serving cert is signed for DNS names [kubernetes kubernetes.default kubernetes.default.svc kubernetes.default.svc.cluster.local node] and IPs [10.96.0.1 10.0.4.17]
-[certs] Generating "apiserver-kubelet-client" certificate and key
-[certs] Generating "front-proxy-ca" certificate and key
-[certs] Generating "front-proxy-client" certificate and key
-[certs] Generating "etcd/ca" certificate and key
-[certs] Generating "etcd/server" certificate and key
-[certs] etcd/server serving cert is signed for DNS names [localhost node] and IPs [10.0.4.17 127.0.0.1 ::1]
-[certs] Generating "etcd/peer" certificate and key
-[certs] etcd/peer serving cert is signed for DNS names [localhost node] and IPs [10.0.4.17 127.0.0.1 ::1]
-[certs] Generating "etcd/healthcheck-client" certificate and key
-[certs] Generating "apiserver-etcd-client" certificate and key
-[certs] Generating "sa" key and public key
-[kubeconfig] Using kubeconfig folder "/etc/kubernetes"
-[kubeconfig] Writing "admin.conf" kubeconfig file
-[kubeconfig] Writing "kubelet.conf" kubeconfig file
-[kubeconfig] Writing "controller-manager.conf" kubeconfig file
-[kubeconfig] Writing "scheduler.conf" kubeconfig file
-[kubelet-start] Writing kubelet environment file with flags to file "/var/lib/kubelet/kubeadm-flags.env"
-[kubelet-start] Writing kubelet configuration to file "/var/lib/kubelet/config.yaml"
-[kubelet-start] Starting the kubelet
-[control-plane] Using manifest folder "/etc/kubernetes/manifests"
-[control-plane] Creating static Pod manifest for "kube-apiserver"
-[control-plane] Creating static Pod manifest for "kube-controller-manager"
-[control-plane] Creating static Pod manifest for "kube-scheduler"
-[etcd] Creating static Pod manifest for local etcd in "/etc/kubernetes/manifests"
-[wait-control-plane] Waiting for the kubelet to boot up the control plane as static Pods from directory "/etc/kubernetes/manifests". This can take up to 4m0s
-[apiclient] All control plane components are healthy after 6.504062 seconds
-[upload-config] Storing the configuration used in ConfigMap "kubeadm-config" in the "kube-system" Namespace
-[kubelet] Creating a ConfigMap "kubelet-config" in namespace kube-system with the configuration for the kubelets in the cluster
-[upload-certs] Skipping phase. Please see --upload-certs
-[mark-control-plane] Marking the node node as control-plane by adding the labels: [node-role.kubernetes.io/control-plane node.kubernetes.io/exclude-from-external-load-balancers]
-[mark-control-plane] Marking the node node as control-plane by adding the taints [node-role.kubernetes.io/control-plane:NoSchedule]
-[bootstrap-token] Using token: abcdef.0123456789abcdef
-[bootstrap-token] Configuring bootstrap tokens, cluster-info ConfigMap, RBAC Roles
-[bootstrap-token] Configured RBAC rules to allow Node Bootstrap tokens to get nodes
-[bootstrap-token] Configured RBAC rules to allow Node Bootstrap tokens to post CSRs in order for nodes to get long term certificate credentials
-[bootstrap-token] Configured RBAC rules to allow the csrapprover controller automatically approve CSRs from a Node Bootstrap Token
-[bootstrap-token] Configured RBAC rules to allow certificate rotation for all node client certificates in the cluster
-[bootstrap-token] Creating the "cluster-info" ConfigMap in the "kube-public" namespace
-[kubelet-finalize] Updating "/etc/kubernetes/kubelet.conf" to point to a rotatable kubelet client certificate and key
-[addons] Applied essential addon: CoreDNS
-[addons] Applied essential addon: kube-proxy
-
-Your Kubernetes control-plane has initialized successfully!
-
-To start using your cluster, you need to run the following as a regular user:
-
-  mkdir -p $HOME/.kube
-  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-  sudo chown $(id -u):$(id -g) $HOME/.kube/config
-
-Alternatively, if you are the root user, you can run:
-
-  export KUBECONFIG=/etc/kubernetes/admin.conf
-
-You should now deploy a pod network to the cluster.
-Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
-  https://kubernetes.io/docs/concepts/cluster-administration/addons/
-
-Then you can join any number of worker nodes by running the following on each as root:
-
-kubeadm join 10.0.4.17:6443 --token abcdef.0123456789abcdef \
-        --discovery-token-ca-cert-hash sha256:53732d5e7da9dc9b64050765e20475aa0e695b43279fe874da614c6bd1f39ea6
 ```
 
 设置kube config
@@ -226,4 +171,28 @@ $ kubectl describe nodes node|grep KubeletNotReady
   Ready            False   Wed, 19 Jul 2023 22:52:58 +0800   Wed, 19 Jul 2023 22:06:46 +0800   KubeletNotReady              container runtime network not ready: NetworkReady=false reason:NetworkPluginNotReady message:Network plugin returns error: cni plugin not initialized
 ```
 
-10.96.0.0/12
+下面安装Calico网络插件，前提是 `--pod-network-cidr=192.168.0.0/16`，并且containerd正确设置了代理，否则下载不了Calico
+
+```shell
+# 创建tigera operator
+kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.26.1/manifests/tigera-operator.yaml
+# 创建Calico网络插件
+kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.26.1/manifests/custom-resources.yaml
+watch kubectl get pods -n calico-system # 两秒刷新一次，直到所有Calico的pod变成running
+```
+
+### 让控制面节点也能调度pod 
+
+```shell
+kubectl taint nodes --all node-role.kubernetes.io/control-plane-
+kubectl taint nodes --all node-role.kubernetes.io/master-
+```
+
+### 在控制面节点上跑一个nginx的pod
+
+```shell
+kubectl apply -f https://k8s.io/examples/pods/simple-pod.yaml
+kubectl get pods -o wide # 显示nginx的pod正Running在192.168.254.8上
+curl 192.168.254.8
+kubectl delete pod nginx # 删除这个pod
+```
