@@ -30,6 +30,7 @@ gpgcheck=1
 gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
 EOF
 sudo yum install -y kubectl
+echo "exclude=kubectl" >> /etc/dnf/dnf.conf
 kubectl version --output=yaml # 打印版本信息，当前为v1.27.3
 ```
 
