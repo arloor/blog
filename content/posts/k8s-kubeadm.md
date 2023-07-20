@@ -100,9 +100,9 @@ systemctl enable --now containerd
 ### 安装crictl
 
 ```shell
-wget https://github.com/kubernetes-sigs/cri-tools/releases/download/v1.27.0/crictl-v1.27.0-linux-amd64.tar.gz
-tar -zxvf crictl-v1.27.0-linux-amd64.tar.gz
-install -m 755 crictl /usr/local/bin/crictl
+wget https://github.com/kubernetes-sigs/cri-tools/releases/download/v1.27.0/crictl-v1.27.0-linux-amd64.tar.gz -O /tmp/crictl-v1.27.0-linux-amd64.tar.gz
+tar -zxvf /tmp/crictl-v1.27.0-linux-amd64.tar.gz -C /tmp
+install -m 755 /tmp/crictl /usr/local/bin/crictl
 crictl --runtime-endpoint=unix:///run/containerd/containerd.sock  version
 ```
 
