@@ -255,6 +255,34 @@ kubectl get services -o wide
 kubectl get controller -o wide
 ```
 
+修改端口
+
+```shell
+$ kubectl edit deployment release-name-ingress-nginx-controller #  不知道values.yaml里的extraArgs有用吗
+/ -- 搜索，然后修改：
+   spec:
+      containers:
+      - args:
+        - /nginx-ingress-controller
+        - --publish-service=$(POD_NAMESPACE)/release-name-ingress-nginx-controller
+        - --election-id=release-name-ingress-nginx-leader
+        - --controller-class=k8s.io/ingress-nginx
+        - --ingress-class=nginx
+        - --configmap=$(POD_NAMESPACE)/release-name-ingress-nginx-controller
+        - --validating-webhook=:8443
+        - --validating-webhook-certificate=/usr/local/certificates/cert
+        - --validating-webhook-key=/usr/local/certificates/key
+        ## 增加以下端口设置
+        - --http-port=18080
+        - --https-port=1443
+$ kubectl delete pod release-name-ingress-nginx-controller-5c65485f4c-lnm2r #删除这个deployment的老pod，就会创建新的pod
+```
+
+```shell
+systemctl enable rust_http_proxy --now #开启原来的那些服务
+curl http://xxxx:18080 # 404即成功
+```
+
 ## 参考文档
 
 - [install-kubeadm](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/)
@@ -267,3 +295,5 @@ kubectl get controller -o wide
 - [工作负载deployment](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
 - [使用kubeadm部署Kubernetes 1.27](https://blog.frognew.com/2023/06/kubeadm-install-kubernetes-1.27.html)
 - [ingress-nginx deploy](https://kubernetes.github.io/ingress-nginx/deploy/)
+- [ingress-nginx 更改地址](https://blog.51cto.com/u_1472521/4909743)
+- [ingress-nginx custom-listen-ports](https://docs.nginx.com/nginx-ingress-controller/tutorials/custom-listen-ports/)
