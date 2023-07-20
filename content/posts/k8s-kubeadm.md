@@ -214,23 +214,6 @@ mv /tmp/linux-amd64/helm  /usr/local/bin/
 ingress-nginx
 
 ```shell
-wget -O deploy.yaml https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.1/deploy/static/provider/cloud/deploy.yaml
-## 预下载registry.k8s.io的镜像
-for i in $(grep "image: " deploy.yaml | awk '{print $2}'); do
-        echo $i
-        crictl --runtime-endpoint=unix:///run/containerd/containerd.sock pull ${i}
-done
-
-crictl --runtime-endpoint=unix:///run/containerd/containerd.sock images|grep registry.k8s.io
-kubectl apply -f deploy.yaml
-watch kubectl get pods -n ingress-nginx -o wide
-```
-
-```shell
-wget https://get.helm.sh/helm-v3.12.0-linux-amd64.tar.gz -O /tmp/helm-v3.12.0-linux-amd64.tar.gz
-tar -zxvf /tmp/helm-v3.12.0-linux-amd64.tar.gz -C /tmp
-mv /tmp/linux-amd64/helm  /usr/local/bin/
-
 wget https://github.com/kubernetes/ingress-nginx/releases/download/helm-chart-4.7.1/ingress-nginx-4.7.1.tgz
 helm show values ingress-nginx-4.7.1.tgz > values.yaml # 查看可以配置的value
 # hostNetwork: true
