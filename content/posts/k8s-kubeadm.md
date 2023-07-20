@@ -226,6 +226,7 @@ for i in $(grep "image: " ingress-nginx-deploy.yaml | awk -F '[ "]+' '{print $3}
         crictl --runtime-endpoint=unix:///run/containerd/containerd.sock pull ${i}
 done
 crictl --runtime-endpoint=unix:///run/containerd/containerd.sock images|grep registry.k8s.io
+systemctl stop rust_http_proxy
 kubectl apply -f ingress-nginx-deploy.yaml
 
 # helm install ingress-nginx ingress-nginx-4.7.1.tgz --create-namespace -n ingress-nginx -f values.yaml
