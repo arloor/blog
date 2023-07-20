@@ -16,6 +16,9 @@ keywords:
 - [containerd get started](https://github.com/containerd/containerd/blob/main/docs/getting-started.md)
 - [kubernetes新版本使用kubeadm init的超全问题解决和建议](https://blog.csdn.net/weixin_52156647/article/details/129765134)
 - [calico quick start](https://docs.tigera.io/calico/latest/getting-started/kubernetes/quickstart)
+- [containerd设置代理](https://blog.51cto.com/u_15343792/5142108)
+- [工作负载pods](https://kubernetes.io/docs/concepts/workloads/pods/)
+- [工作负载deployment](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
 
 ## kubeadm安装控制面
 
