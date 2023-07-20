@@ -283,6 +283,25 @@ systemctl enable rust_http_proxy --now #开启原来的那些服务
 curl http://xxxx:18080 # 404即成功
 ```
 
+### metric server
+
+```shell
+wget https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.6.3/components.yaml
+```
+
+修改 `components.yaml` 中容器的启动参数，加入 `--kubelet-insecure-tls` 。
+
+```shell
+for i in $(grep "image: " components.yaml | awk -F '[ "]+' '{print $3}'|uniq); do
+        echo 下载 $i
+        crictl --runtime-endpoint=unix:///run/containerd/containerd.sock pull ${i}
+done
+crictl --runtime-endpoint=unix:///run/containerd/containerd.sock images|grep registry.k8s.io
+```
+
+metrics-server的pod正常启动后，等一段时间就可以使用kubectl top查看集群和pod的metrics信息。
+
+
 ## 参考文档
 
 - [install-kubeadm](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/)
