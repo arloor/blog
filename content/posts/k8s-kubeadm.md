@@ -21,6 +21,7 @@ keywords:
 - [containerd设置代理](https://blog.51cto.com/u_15343792/5142108)
 - [工作负载pods](https://kubernetes.io/docs/concepts/workloads/pods/)
 - [工作负载deployment](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
+- [使用kubeadm部署Kubernetes 1.27](https://blog.frognew.com/2023/06/kubeadm-install-kubernetes-1.27.html)
 
 ## kubeadm安装控制面
 
