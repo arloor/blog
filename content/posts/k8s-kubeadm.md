@@ -226,6 +226,30 @@ kubectl apply -f deploy.yaml
 watch kubectl get pods -n ingress-nginx -o wide
 ```
 
+```shell
+wget https://get.helm.sh/helm-v3.12.0-linux-amd64.tar.gz -O /tmp/helm-v3.12.0-linux-amd64.tar.gz
+tar -zxvf /tmp/helm-v3.12.0-linux-amd64.tar.gz -C /tmp
+mv /tmp/linux-amd64/helm  /usr/local/bin/
+
+wget https://github.com/kubernetes/ingress-nginx/releases/download/helm-chart-4.7.1/ingress-nginx-4.7.1.tgz
+helm show values ingress-nginx-4.7.1.tgz > values.yaml # 查看可以配置的value
+# hostNetwork: true
+# hostPort 中的端口改下
+
+## 预下载registry.k8s.io的镜像
+helm template  ingress-nginx-4.7.1.tgz > ingress-nginx-deploy.yaml
+for i in $(grep "image: " ingress-nginx-deploy.yaml | awk '{print $2}'); do
+        echo $i
+        crictl --runtime-endpoint=unix:///run/containerd/containerd.sock pull ${i}
+done
+crictl --runtime-endpoint=unix:///run/containerd/containerd.sock images|grep registry.k8s.io
+
+
+helm install ingress-nginx ingress-nginx-4.7.1.tgz --create-namespace -n ingress-nginx -f values.yaml
+# kubectl apply -f deploy.yaml
+watch kubectl get pods -n ingress-nginx -o wide
+```
+
 ## 参考文档
 
 - [install-kubeadm](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/)
