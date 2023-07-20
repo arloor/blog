@@ -240,7 +240,7 @@ helm show values ingress-nginx-4.7.1.tgz > values.yaml # 查看可以配置的va
 
 ```shell
 ## 预下载registry.k8s.io的镜像
-helm template  ingress-nginx-4.7.1.tgz -f values.yaml -n ingress-nginx > ingress-nginx-deploy.yaml
+helm template  ingress-nginx-4.7.1.tgz -f values.yaml > ingress-nginx-deploy.yaml
 for i in $(grep "image: " ingress-nginx-deploy.yaml | awk -F '[ "]+' '{print $3}'|uniq); do
         echo 下载 $i
         crictl --runtime-endpoint=unix:///run/containerd/containerd.sock pull ${i}
