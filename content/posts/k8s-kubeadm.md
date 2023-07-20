@@ -117,10 +117,11 @@ kubectl version --short # Client Version: v1.27.3
 # echo 127.0.0.1 $(hostname) >> /etc/hosts
 
 
-kubeadm config print init-defaults --component-configs KubeletConfiguration> /etc/kubernetes/init-default.yaml
+kubeadm config print init-defaults --component-configs KubeletConfiguration > /etc/kubernetes/init-default.yaml
 sed -i 's/imageRepository: registry.k8s.io/imageRepository: registry.aliyuncs.com\/google_containers/' /etc/kubernetes/init-default.yaml
-# 将criSocket改成 unix:///run/containerd/containerd.sock containerd的
-# 将cgroupDriver改成systemd
+sed -i 's/criSocket: .*/criSocket: unix:\/\/\/run\/containerd\/containerd.sock/' /etc/kubernetes/init-default.yaml
+sed -i 's/cgroupDriver: .*/cgroupDriver: systemd/' /etc/kubernetes/init-default.yaml
+
 # 将advertiseAddress改成实际地址
 . unpass
 kubeadm config images pull --config /etc/kubernetes/init-default.yaml
@@ -224,3 +225,5 @@ node   NotReady   control-plane   49m   v1.27.3
 $ kubectl describe nodes node|grep KubeletNotReady
   Ready            False   Wed, 19 Jul 2023 22:52:58 +0800   Wed, 19 Jul 2023 22:06:46 +0800   KubeletNotReady              container runtime network not ready: NetworkReady=false reason:NetworkPluginNotReady message:Network plugin returns error: cni plugin not initialized
 ```
+
+10.96.0.0/12
