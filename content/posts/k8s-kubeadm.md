@@ -142,7 +142,7 @@ kubectl version --short # Client Version: v1.27.3
 echo $(ip addr|grep "inet " |awk -F "[ /]+" '{print $3}'|grep -v "127.0.0.1") $(hostname) >> /etc/hosts
 kubeadm config images pull --image-repository registry.aliyuncs.com/google_containers
 kubeadm init --pod-network-cidr=192.168.0.0/16 --image-repository registry.aliyuncs.com/google_containers --cri-socket unix:///run/containerd/containerd.sock
-crictl --runtime-endpoint=unix:///run/containerd/containerd.sock ps -a
+watch crictl --runtime-endpoint=unix:///run/containerd/containerd.sock ps -a
 # 如果执行有问题，就kubeadm reset重新进行kubeadm init
 ```
 
