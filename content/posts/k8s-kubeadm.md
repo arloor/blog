@@ -198,6 +198,7 @@ kubectl taint nodes --all node-role.kubernetes.io/master-
 kubectl run curl --image=radial/busyboxplus:curl -it
 nslookup kubernetes.default
 kubectl attach curl -c curl -i -t
+nslookup webhook-service.metallb-system.svc
 ```
 
 ### 在控制面节点上跑一个nginx的pod
@@ -346,6 +347,11 @@ done
 crictl --runtime-endpoint=unix:///run/containerd/containerd.sock images|grep registry.k8s.io
 kubectl apply -f components.yaml
 watch kubectl get pod -n kube-system
+kubectl get service -n ingress-nginx
+
+NAME                                 TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)                      AGE
+ingress-nginx-controller             LoadBalancer   10.97.175.254   <pending>     80:30873/TCP,443:31834/TCP   4m42s
+ingress-nginx-controller-admission   ClusterIP      10.99.75.35     <none>        443/TCP                      4m42s
 ```
 
 metrics-server的pod正常启动后，等一段时间就可以使用kubectl top查看集群和pod的metrics信息。
@@ -365,3 +371,37 @@ metrics-server的pod正常启动后，等一段时间就可以使用kubectl top�
 - [ingress-nginx deploy](https://kubernetes.github.io/ingress-nginx/deploy/)
 - [ingress-nginx 更改地址](https://blog.51cto.com/u_1472521/4909743)
 - [ingress-nginx custom-listen-ports](https://docs.nginx.com/nginx-ingress-controller/tutorials/custom-listen-ports/)
+
+
+
+wget https://raw.githubusercontent.com/metallb/metallb/v0.13.10/config/manifests/metallb-native.yaml
+for i in $(grep "image: " metallb-native.yaml | awk -F '[ "]+' '{print $3}'|uniq); do
+        echo 下载 $i
+        crictl --runtime-endpoint=unix:///run/containerd/containerd.sock pull ${i}
+done
+kubectl apply -f metallb-native.yaml
+kubectl get pods -A
+
+cat > test.yaml <<EOF
+---
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: default
+  namespace: metallb-system
+spec:
+  addresses:
+  - 10.0.4.20-10.0.4.32
+  autoAssign: true
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: default
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+  - default
+EOF
+kubectl apply -f test.yaml
+kubectl -n ingress-nginx get svc
