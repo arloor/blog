@@ -196,7 +196,7 @@ kubectl taint nodes --all node-role.kubernetes.io/master-
 
 ```shell
 kubectl apply -f https://k8s.io/examples/pods/simple-pod.yaml
-kubectl get pods -o wide # 显示nginx的pod正Running在192.168.254.8上
+watch kubectl get pods -o wide # 显示nginx的pod正Running在192.168.254.8上
 curl 192.168.254.8
 kubectl delete pod nginx # 删除这个pod
 ```
