@@ -344,6 +344,8 @@ for i in $(grep "image: " components.yaml | awk -F '[ "]+' '{print $3}'|uniq); d
         crictl --runtime-endpoint=unix:///run/containerd/containerd.sock pull ${i}
 done
 crictl --runtime-endpoint=unix:///run/containerd/containerd.sock images|grep registry.k8s.io
+kubectl apply -f components.yaml
+watch kubectl get pod -n kube-system
 ```
 
 metrics-server的pod正常启动后，等一段时间就可以使用kubectl top查看集群和pod的metrics信息。
