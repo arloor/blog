@@ -201,6 +201,14 @@ curl 192.168.254.8
 kubectl delete pod nginx # 删除这个pod
 ```
 
+## 常用组件安装
+
+```shell
+wget https://get.helm.sh/helm-v3.12.0-linux-amd64.tar.gz -O /tmp/helm-v3.12.0-linux-amd64.tar.gz
+tar -zxvf /tmp/helm-v3.12.0-linux-amd64.tar.gz -C /tmp
+mv /tmp/linux-amd64/helm  /usr/local/bin/
+```
+
 ## 参考文档
 
 - [install-kubeadm](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/)
