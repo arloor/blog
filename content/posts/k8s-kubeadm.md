@@ -71,13 +71,14 @@ wget https://raw.githubusercontent.com/containerd/containerd/main/containerd.ser
 修改containerd.service的代理配置，否则镜像都拉不下来，calico网络插件也装不了
 
 ```shell
+vim /lib/systemd/system/containerd.service
 # 在[Service]块中增加代理配置
 # NO_PROXY中
 #  10.96.0.0/16是kubeadm init --service-cidr的默认地址
 #  192.168.0.0/16是kubeadmin init --pod-network-cidr我们填入的地址，也是calico网络插件工作的地址
 Environment="HTTP_PROXY=http://127.0.0.1:3128/"
 Environment="HTTPS_PROXY=http://127.0.0.1:3128/"
-Environment="NO_PROXY=10.96.0.0/16,127.0.0.1,192.168.0.0/16,localhost"
+Environment="NO_PROXY=192.168.0.0/16,127.0.0.1,10.0.0.0/8,172.16.0.0/12,localhost"
 ```
 
 启动containerd服务
