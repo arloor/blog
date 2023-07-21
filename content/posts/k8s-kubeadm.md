@@ -228,48 +228,56 @@ kubectl delete pod nginx # 删除这个pod
 
 ```bash
 cat > proxy.yaml <<EOF
-apiVersion: v1
-kind: Pod
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: proxy
-  namespace: default
+  name: proxy-deployment
 spec:
-  containers:
-  - image: arloor/rust_http_proxy:1.0
-    imagePullPolicy: Always
-    name: proxy
-    env:
-    - name: port
-      value: "443"
-    - name: basic_auth
-      value: "Basic xxxxx=="
-    - name: ask_for_auth
-      value: "false"
-    - name: over_tls
-      value: "true"
-    - name: raw_key
-      value: "/pems/arloor.dev.key"
-    - name: cert
-      value: "/pems/fullchain.cer"
-    - name: web_content_path
-      value: "/web_content_path"
-    volumeMounts:
-    - mountPath: /pems
-      name: pems
-    - mountPath: /web_content_path
-      name: content
-  restartPolicy: Always
-  hostNetwork: true
-  dnsPolicy: ClusterFirstWithHostNet
-  volumes:
-  - name: pems
-    hostPath:
-      path: /root/.acme.sh/arloor.dev
-      type: Directory
-  - name: content
-    hostPath:
-      path: /usr/share/nginx/html/blog
-      type: Directory
+  replicas: 1 # tells deployment to run 2 pods matching the template
+  selector:
+    matchLabels:
+      kubernetes.io/os: linux
+  template:
+    metadata:
+      labels:
+        kubernetes.io/os: linux
+    spec:
+      containers:
+      - image: arloor/rust_http_proxy:1.0
+        imagePullPolicy: Always
+        name: proxy
+        env:
+        - name: port
+          value: "443"
+        - name: basic_auth
+          value: "Basic xxxxx=="
+        - name: ask_for_auth
+          value: "false"
+        - name: over_tls
+          value: "true"
+        - name: raw_key
+          value: "/pems/arloor.dev.key"
+        - name: cert
+          value: "/pems/fullchain.cer"
+        - name: web_content_path
+          value: "/web_content_path"
+        volumeMounts:
+        - mountPath: /pems
+          name: pems
+        - mountPath: /web_content_path
+          name: content
+      restartPolicy: Always
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      volumes:
+      - name: pems
+        hostPath:
+          path: /root/.acme.sh/arloor.dev
+          type: Directory
+      - name: content
+        hostPath:
+          path: /usr/share/nginx/html/blog
+          type: Directory
 EOF
 kubectl apply -f proxy.yaml
 watch kubectl get pod
