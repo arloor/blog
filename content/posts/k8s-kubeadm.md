@@ -440,3 +440,37 @@ $ curl https://ingress-nginx-controller-admission.ingress-nginx.svc.cluster.loca
 < Content-Length: 0
 < 
 ```
+
+类似的问题在 kubernetes.default 也一样
+
+```shell
+[ root@curl:/ ]$ nslookup kubernetes.default
+Server:    10.96.0.10
+Address 1: 10.96.0.10 kube-dns.kube-system.svc.cluster.local
+
+Name:      kubernetes.default
+Address 1: 10.96.0.1 kubernetes.default.svc.cluster.local
+[ root@curl:/ ]$ curl https://kubernetes.default -k
+{
+  "kind": "Status",
+  "apiVersion": "v1",
+  "metadata": {},
+  "status": "Failure",
+  "message": "forbidden: User \"system:anonymous\" cannot get path \"/\"",
+  "reason": "Forbidden",
+  "details": {},
+  "code": 403
+[ root@curl:/ ]$ curl https://kubernetes.default.svc -k
+curl: (6) Couldn't resolve host 'kubernetes.default.svc'
+[ root@curl:/ ]$ curl https://kubernetes.default.svc.cluster.local -k
+{
+  "kind": "Status",
+  "apiVersion": "v1",
+  "metadata": {},
+  "status": "Failure",
+  "message": "forbidden: User \"system:anonymous\" cannot get path \"/\"",
+  "reason": "Forbidden",
+  "details": {},
+  "code": 403
+}
+```
