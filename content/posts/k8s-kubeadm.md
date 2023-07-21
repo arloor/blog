@@ -240,13 +240,24 @@ spec:
     name: proxy
     env:
     - name: port
-      value: "444"
+      value: "443"
     - name: basic_auth
-      value: "xxxxxxxx"
+      value: "Basic xxxx"
     - name: ask_for_auth
       value: "false"
-    - name: "over_tls"
+    - name: over_tls
       value: "true"
+    - name: raw_key
+      value: "/pems/arloor.dev.key"
+    - name: cert
+      value: "/pems/fullchain.cer"
+    - name: web_content_path
+      value: "/web_content_path"
+    volumeMounts:
+    - mountPath: /pems
+      name: pems
+    - mountPath: /web_content_path
+      name: content
   restartPolicy: Always
   ports:
     - containerPort: 444
@@ -255,6 +266,15 @@ spec:
       protocol: TCP
   hostNetwork: true
   dnsPolicy: ClusterFirstWithHostNet
+  volumes:
+  - name: pems
+    hostPath:
+      path: /root/.acme.sh/arloor.dev
+      type: Directory
+  - name: content
+    hostPath:
+      path: /usr/share/nginx/html/blog
+      type: Directory
 EOF
 kubectl apply -f proxy.yaml
 watch kubectl get pod 
