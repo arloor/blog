@@ -423,7 +423,7 @@ wget https://github.com/kubernetes/ingress-nginx/releases/download/helm-chart-4.
 helm show values ingress-nginx-4.7.1.tgz > values.yaml # 查看可以配置的value
 ```
 
-修改values.yaml：改成使用hostNetwork，并且修改containerPort和HostPort为非常用端口（并保持一致）。我们的环境没有LoadBalencer，所以要用hostNetwork
+修改values.yaml：改成使用hostNetwork，并且修改containerPort为非常用端口。我们的环境没有LoadBalencer，所以要用hostNetwork
 
 ```yaml
   containerPort:
@@ -431,16 +431,6 @@ helm show values ingress-nginx-4.7.1.tgz > values.yaml # 查看可以配置的va
     https: 1443
 ....
   hostNetwork: true
-  ## Use host ports 80 and 443
-  ## Disabled by default
-  hostPort:
-    # -- Enable 'hostPort' or not
-    enabled: true
-    ports:
-      # -- 'hostPort' http port
-      http: 18080
-      # -- 'hostPort' https port
-      https: 1443
 ```
 
 ```bash
