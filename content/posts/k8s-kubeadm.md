@@ -268,78 +268,6 @@ tar -zxvf /tmp/helm-v3.12.0-linux-amd64.tar.gz -C /tmp
 mv /tmp/linux-amd64/helm  /usr/local/bin/
 ```
 
-### ingress-nginx并通过hostNetwork暴露18080和1443端口
-
-```bash
-wget https://github.com/kubernetes/ingress-nginx/releases/download/helm-chart-4.7.1/ingress-nginx-4.7.1.tgz
-helm show values ingress-nginx-4.7.1.tgz > values.yaml # 查看可以配置的value
-```
-
-修改values.yaml：改成使用hostNetwork，并且修改containerPort和HostPort为非常用端口（并保持一致）。我们的环境没有LoadBalencer，所以要用hostNetwork
-
-```yaml
-  containerPort:
-    http: 18080
-    https: 1443
-....
-  hostNetwork: true
-  ## Use host ports 80 and 443
-  ## Disabled by default
-  hostPort:
-    # -- Enable 'hostPort' or not
-    enabled: true
-    ports:
-      # -- 'hostPort' http port
-      http: 18080
-      # -- 'hostPort' https port
-      https: 1443
-```
-
-```bash
-## 预下载registry.k8s.io的镜像
-helm template  ingress-nginx-4.7.1.tgz -f values.yaml > ingress-nginx-deploy.yaml
-for i in $(grep "image: " ingress-nginx-deploy.yaml | awk -F '[ "]+' '{print $3}'|uniq); do
-        echo 下载 $i
-        crictl --runtime-endpoint=unix:///run/containerd/containerd.sock pull ${i}
-done
-crictl --runtime-endpoint=unix:///run/containerd/containerd.sock images|grep registry.k8s.io
-systemctl disable rust_http_proxy --now #关闭所有占用80、443端口的服务
-helm install ingress-nginx ingress-nginx-4.7.1.tgz --create-namespace -n ingress-nginx -f values.yaml
-
-# helm install ingress-nginx ingress-nginx-4.7.1.tgz --create-namespace -n ingress-nginx -f values.yaml
-watch kubectl get pods -o wide  -n ingress-nginx
-kubectl get services -o wide
-kubectl get controller -o wide
-```
-
-修改端口
-
-```bash
-$ kubectl edit deployment release-name-ingress-nginx-controller #  不知道values.yaml里的extraArgs有用吗
-/ -- 搜索，然后修改：
-   spec:
-      containers:
-      - args:
-        - /nginx-ingress-controller
-        - --publish-service=$(POD_NAMESPACE)/release-name-ingress-nginx-controller
-        - --election-id=release-name-ingress-nginx-leader
-        - --controller-class=k8s.io/ingress-nginx
-        - --ingress-class=nginx
-        - --configmap=$(POD_NAMESPACE)/release-name-ingress-nginx-controller
-        - --validating-webhook=:8443
-        - --validating-webhook-certificate=/usr/local/certificates/cert
-        - --validating-webhook-key=/usr/local/certificates/key
-        ## 增加以下端口设置
-        - --http-port=18080
-        - --https-port=1443
-$ kubectl delete pod release-name-ingress-nginx-controller-5c65485f4c-lnm2r #删除这个deployment的老pod，就会创建新的pod
-```
-
-```bash
-systemctl enable rust_http_proxy --now #开启原来的那些服务
-curl http://xxxx:18080 # 404即成功
-```
-
 ### metric server
 
 ```bash
@@ -486,6 +414,78 @@ spec:
   - default
 EOF
 kubectl apply -f l2.yaml
+```
+
+### ingress-nginx并通过hostNetwork暴露18080和1443端口
+
+```bash
+wget https://github.com/kubernetes/ingress-nginx/releases/download/helm-chart-4.7.1/ingress-nginx-4.7.1.tgz
+helm show values ingress-nginx-4.7.1.tgz > values.yaml # 查看可以配置的value
+```
+
+修改values.yaml：改成使用hostNetwork，并且修改containerPort和HostPort为非常用端口（并保持一致）。我们的环境没有LoadBalencer，所以要用hostNetwork
+
+```yaml
+  containerPort:
+    http: 18080
+    https: 1443
+....
+  hostNetwork: true
+  ## Use host ports 80 and 443
+  ## Disabled by default
+  hostPort:
+    # -- Enable 'hostPort' or not
+    enabled: true
+    ports:
+      # -- 'hostPort' http port
+      http: 18080
+      # -- 'hostPort' https port
+      https: 1443
+```
+
+```bash
+## 预下载registry.k8s.io的镜像
+helm template  ingress-nginx-4.7.1.tgz -f values.yaml > ingress-nginx-deploy.yaml
+for i in $(grep "image: " ingress-nginx-deploy.yaml | awk -F '[ "]+' '{print $3}'|uniq); do
+        echo 下载 $i
+        crictl --runtime-endpoint=unix:///run/containerd/containerd.sock pull ${i}
+done
+crictl --runtime-endpoint=unix:///run/containerd/containerd.sock images|grep registry.k8s.io
+systemctl disable rust_http_proxy --now #关闭所有占用80、443端口的服务
+helm install ingress-nginx ingress-nginx-4.7.1.tgz --create-namespace -n ingress-nginx -f values.yaml
+
+# helm install ingress-nginx ingress-nginx-4.7.1.tgz --create-namespace -n ingress-nginx -f values.yaml
+watch kubectl get pods -o wide  -n ingress-nginx
+kubectl get services -o wide
+kubectl get controller -o wide
+```
+
+修改端口
+
+```bash
+$ kubectl edit deployment release-name-ingress-nginx-controller #  不知道values.yaml里的extraArgs有用吗
+/ -- 搜索，然后修改：
+   spec:
+      containers:
+      - args:
+        - /nginx-ingress-controller
+        - --publish-service=$(POD_NAMESPACE)/release-name-ingress-nginx-controller
+        - --election-id=release-name-ingress-nginx-leader
+        - --controller-class=k8s.io/ingress-nginx
+        - --ingress-class=nginx
+        - --configmap=$(POD_NAMESPACE)/release-name-ingress-nginx-controller
+        - --validating-webhook=:8443
+        - --validating-webhook-certificate=/usr/local/certificates/cert
+        - --validating-webhook-key=/usr/local/certificates/key
+        ## 增加以下端口设置
+        - --http-port=18080
+        - --https-port=1443
+$ kubectl delete pod release-name-ingress-nginx-controller-5c65485f4c-lnm2r #删除这个deployment的老pod，就会创建新的pod
+```
+
+```bash
+systemctl enable rust_http_proxy --now #开启原来的那些服务
+curl http://xxxx:18080 # 404即成功
 ```
 
 ### NodePort方式安装Ingress Nginx
