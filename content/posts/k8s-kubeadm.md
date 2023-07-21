@@ -380,7 +380,7 @@ wget https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/re
  
 ```shell
 kubectl apply -f dashboard.yaml
-watch kubectl get pod -n kubernetes-dashboard
+watch kubectl get svc -n kubernetes-dashboard
 ```
 
 ```shell
