@@ -236,13 +236,13 @@ metadata:
 spec:
   containers:
   - image: arloor/rust_http_proxy:1.0
-    imagePullPolicy: IfNotPresent
+    imagePullPolicy: Always
     name: proxy
     env:
     - name: port
       value: "443"
     - name: basic_auth
-      value: "Basic xxxx"
+      value: "Basic xxxxx=="
     - name: ask_for_auth
       value: "false"
     - name: over_tls
@@ -277,7 +277,7 @@ spec:
       type: Directory
 EOF
 kubectl apply -f proxy.yaml
-watch kubectl get pod 
+watch kubectl get pod  --watch
 ```
 
 ### helm包管理器
