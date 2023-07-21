@@ -372,7 +372,7 @@ metrics-server的pod正常启动后，等一段时间就可以使用kubectl top�
 wget https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml -O dashboard.yaml
 ```
 
-修改成hostNetWork：
+修改dashboard.yaml成hostNetWork： 参考[K8S Dashboard安裝/操作](https://hackmd.io/@compalAA/SykoBsSbi#Step3-%E6%89%8B%E5%8B%95%E4%B8%8B%E8%BC%89image)
 
 1. Service/kubernetes-dashboard的spec中增加  type: NodePort
 2. Deployment/dashboard-metrics-scraper最后一行增加hostNetwork: true 和volumes：并排
@@ -389,6 +389,13 @@ kubernetes-dashboard        NodePort    10.97.248.169    <none>        443:31611
 ```
 
 `443:31611/TCP` 表示我们可以通过外网ip:31611来访问dashboard
+
+生成访问token，参考[creating-sample-user](https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/creating-sample-user.md)，来生成用户，并用下面的操作生成token
+
+
+```shell
+kubectl -n kubernetes-dashboard create token admin-user
+```
 
 ## 参考文档
 
