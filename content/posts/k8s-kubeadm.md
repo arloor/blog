@@ -272,7 +272,7 @@ spec:
       type: Directory
 EOF
 kubectl apply -f proxy.yaml
-watch kubectl get pod  --watch
+watch kubectl get pod
 ```
 
 ### helm包管理器
