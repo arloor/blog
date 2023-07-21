@@ -307,3 +307,4 @@ spec:
         - name: tmp-volume
           emptyDir: {}
       hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
