@@ -16,7 +16,7 @@ keywords:
 
 ## 关闭firewalld
 
-```shell
+```bash
 service firewalld stop
 systemctl disable firewalld
 ```
@@ -32,7 +32,7 @@ reboot
 
 ## 测速
 
-```shell
+```bash
 podman run  --rm --net host --name speedtest docker.io/arloor/speedtest
 #打开80端口
 ```
@@ -95,7 +95,7 @@ tar -zxvf a.tar.gz -C targetDir
 
 ## 安装squid并设置高匿及密码
 
-```shell
+```bash
 # squid4.4
 yum install -y squid
 
@@ -249,7 +249,7 @@ http_access deny !github
 
 ## 安装ss-libev
 
-```shell
+```bash
 # 安装依赖
 yum install gcc gettext autoconf libtool automake make pcre-devel asciidoc xmlto c-ares-devel libev-devel -y
 # 安装libsodium
@@ -318,7 +318,7 @@ systemctl start ss
 
 ## fedora31安装shadowsocks-libev
 
-```shell
+```bash
 yum install epel-release -y
 yum install gcc gettext autoconf libtool automake make pcre-devel asciidoc xmlto c-ares-devel libev-devel libsodium-devel mbedtls-devel -y
 export http_proxy=http://localhost:8081
@@ -513,7 +513,7 @@ ps -ef |grep iperf |grep -v grep|awk '{print $2}'|xargs -I {} kill -15 {}
 
 ## 安装旧版本golang，并设置不自动更新
 
-```shell
+```bash
 dnf search golang
 dnf list golang --showduplicates
 dnf install -y golang-1.16.12-1.module+el8.5.0+13637+960c7771

@@ -28,7 +28,7 @@ Linux 服务器运维人员，都有一定程度的“洁癖”，既然是没�
 
 1、卸载阿里云盾监控
 
-```shell
+```bash
 wget http://update.aegis.aliyun.com/download/uninstall.sh
 sh uninstall.sh
 wget http://update.aegis.aliyun.com/download/quartz_uninstall.sh
@@ -37,7 +37,7 @@ sh quartz_uninstall.sh
 
 2、删除残留
 
-```shell
+```bash
 pkill aliyun-service
 rm -rf /etc/init.d/agentwatch /usr/sbin/aliyun-service
 rm -rf /usr/local/aegis*
@@ -47,7 +47,7 @@ rm -rf /usr/local/aegis*
 
 云监控Java版本插件： https://help.aliyun.com/knowledge_detail/38859.html#h2-url-4
 
-```shell
+```bash
 sudo /usr/local/cloudmonitor/wrapper/bin/cloudmonitor.sh stop
 sudo /usr/local/cloudmonitor/wrapper/bin/cloudmonitor.sh remove
 sudo rm -rf /usr/local/cloudmonitor
@@ -55,7 +55,7 @@ sudo rm -rf /usr/local/cloudmonitor
 
 4、屏蔽云盾 IP​
 
-```shell
+```bash
 iptables -I INPUT -s 140.205.201.0/28 -j DROP
 iptables -I INPUT -s 140.205.201.16/29 -j DROP
 iptables -I INPUT -s 140.205.201.32/28 -j DROP

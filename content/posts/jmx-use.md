@@ -268,7 +268,7 @@ public class HeapMain {
 
 输出：
 
-```shell
+```bash
 jvm.name (JVM名称-版本号-供应商):Java HotSpot(TM) 64-Bit Server VM | version: 15.0.1+9-18 | vendor: Oracle Corporation  
 jvm.spec.name (JVM规范名称-版本号-供应商):Java Virtual Machine Specification | version: 15 | vendor: Oracle Corporation  
 jvm.java.version (JVM JAVA版本):15.0.1

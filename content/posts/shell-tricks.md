@@ -16,7 +16,7 @@ keywords:
 
 ## 统计客户端连接数
 
-```shell
+```bash
 cat > /usr/local/bin/nt <<\EOF
 netstat -ntp|grep -E "ESTABLISHED|CLOSE_WAIT"|tail -n +3|awk -F "[ :]+"  -v OFS="" '$5<10000 && $5!="22" && $7>1024 {printf("%15s   => %15s:%-5s %s\n",$6,$4,$5,$9)}'|sort|uniq -c|sort -rn
 EOF
@@ -30,7 +30,7 @@ nt
 
 **效果**
 
-```shell
+```bash
      22    209.9.xxx.xx   =>       10.0.4.10:443   144085/rust_xx
       2  222.70.xxx.xxx   =>       10.0.4.10:443   144085/rust_xx
       2   101.90.xx.xxx   =>       10.0.4.10:443   144085/rust_xx
@@ -45,7 +45,7 @@ nt
 
 ## 统计网卡流量
 
-```shell
+```bash
 cat > /usr/local/bin/netsum << \EOF
 echo ""
 echo Time: $(date '+%F %T')
@@ -66,7 +66,7 @@ fi
 
 **使用效果**
 
-```shell
+```bash
 Time: Sun May 8 17:30:34 CST 2022
 uptime：1天21时44分26秒
 --------------------------------------------------------------------------
@@ -86,7 +86,7 @@ uptime：1天21时44分26秒
 3. printf 格式化输出 `printf "%5s 分隔符 %5s\n" one two`
 4. 利用grep返回结果在if语句里判断文件中是否存在某语句
 
-```shell
+```bash
 if ! grep "/usr/local/bin/netsum" /etc/crontab > /dev/null; 
 then
 ....
@@ -98,7 +98,7 @@ fi
 
 ## sed替换文本内容
 
-```shell
+```bash
 sed -i "s/UseDNS.*/UseDNS no/g" /etc/ssh/sshd_config
 ```
 
@@ -106,13 +106,13 @@ sed -i "s/UseDNS.*/UseDNS no/g" /etc/ssh/sshd_config
 
 ## sed删除行
 
-```shell
+```bash
 sed -i '/^alias nt=.*/d' .bashrc
 ```
 
 ## 统计git仓库中用户代码行
 
-```shell
+```bash
 cat > /usr/local/bin/ncode <<\EOF
 [ "$1" = "" ]&&user=arloor||user=$1
 echo ${user}\'s work summary:
@@ -126,7 +126,7 @@ ncode arloor
 
 场景：使用 clickhouse client 连接数据库时，经常要带一些参数，例如ip、用户名等。每次都输入这些信息的话，会比较麻烦。一种解法是写alias，但是在一些场景下免不了`source ~/.zsh_rc`。另一种更通用的方式是写个shell脚本：
 
-```shell
+```bash
 /usr/bin/clickhouse client -h 10.0.218.10 --database xxxx --send_logs_level=trace --log-level=trace --server_logs_file='/tmp/query.log' "$@"
 ```
 

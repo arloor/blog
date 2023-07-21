@@ -18,7 +18,7 @@ nftables具有脚本编程能力，并且使用脚本更新规则具有事务性
 
 废话不多说，直接上nftables脚本。假设这个脚本在`/etc/nftables/diy.nft`
 
-```shell
+```bash
 #!/usr/sbin/nft -f
 
 define localIP = 172.17.37.225

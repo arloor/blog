@@ -16,7 +16,7 @@ bash tarloor
 
 ## nginx配置（ubuntu20.04下）
 
-```shell
+```bash
 cat > /etc/nginx/sites-enabled/default <<\EOF
 log_format  arloor  '$remote_addr # [$time_iso8601] # "$request_uri" # '
                     '$status # '
@@ -60,7 +60,7 @@ service nginx restart
 
 ## nginx配置(rhel8下)
 
-```shell
+```bash
 cat > /etc/nginx/conf.d/arloor.conf <<\EOF
 log_format  arloor  '$remote_addr # [$time_iso8601] # "$request_uri" # '
                     '$status # '
@@ -106,7 +106,7 @@ service nginx restart
 
 基于以上log_format，提供一个查看本博客访问日志的脚本：
 
-```shell
+```bash
 cat >/usr/local/bin/arloor <<\EOF
 tail -n 10000 `ls -ltc /var/log/nginx/arloor.access.log*|head -n 1|awk '{print $9}'`|awk -F" # " '$3~"(.*post.*|.*about.*|.*page.*|.*tags.*|^\"/\"$)" && $4==200 {printf("%s %15s %-30s %s\n",$2,$1,$3,$5)}'
 EOF
@@ -116,7 +116,7 @@ arloor
 
 效果如下：
 
-```shell
+```bash
 112.2.xxx.xxx   [2022-05-09T11:02:26+08:00] "/about/"
 223.70.xxx.x    [2022-05-09T11:02:46+08:00] "/posts/redis/redis-cluster/"
 14.25.xxx.xxx   [2022-05-09T11:03:45+08:00] "/posts/i-was-young/"
@@ -128,7 +128,7 @@ arloor
 
 为了在vscode的markdown预览中展示图片，本仓库设置了下面的软链接。
 
-```shell
+```bash
 lrwxr-xr-x  1 arloor  staff  10  5 19 19:31 img -> static/img
 ```
 

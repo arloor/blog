@@ -22,7 +22,7 @@ Redis使用TCP协议，网络通信需要包从客户端传递到服务器端，
 
 从这里就可以看到，RTT成为影响redis性能的重要因素（RTT同样影响其他网络程序）。Redis采用Pipelining的技术来减少RTT的影响。用一句话总结Pipelining就是“一次性讲很多句话”。如下所示：
 
-```shell
+```bash
 #原来的redis请求-响应
 Client: INCR X
 Server: 1
@@ -58,7 +58,7 @@ Redis is a fast and stable Publish/Subscribe messaging system!——很自信，
 
 一个Redis发布订阅的实例：
 
-```shell
+```bash
 redis-cli -h 99.47.149.27 -p 6428
 99.47.149.27:6428> subscribe one two
 Reading messages... (press Ctrl-C to quit)
@@ -107,7 +107,7 @@ redis文档提出了一个算法叫Redlock，他们认为比一般的实现更�
 
 使用以下命令获取锁：
 
-```shell
+```bash
 SET key exclusive_random_value NX PX 30000
 ```
 

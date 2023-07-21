@@ -51,7 +51,7 @@ lxd的容器完全可以当成富容器来用，除了不能ssh，也是有syste
 
 安装rsync：
 
-```shell
+```bash
 # ubuntu
 sudo apt install -y rsync
 # centos
@@ -62,7 +62,7 @@ sudo yum install -y rsync
 
 从其他地方备份到威联通上
 
-```shell
+```bash
 rsync -avtP  -e "ssh -p ${ssh_port}" \
 --exclude=${exclude1} \
 --exclude=${exclude2} \

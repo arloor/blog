@@ -131,7 +131,7 @@ PING
 
 执行`nc ip port`后，依次输入：
 
-```shell
+```bash
 PING
 REPLCONF listening-port 8888
 REPLCONF capa eof capa psync2

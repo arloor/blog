@@ -23,7 +23,7 @@ keywords:
 2. 在[发布页](https://github.com/starship/starship/releases/latest)下载 MSI 包来安装Starship最新版。
 3. powershell以管理员运行下列命令，以放开脚本执行
 
-```shell
+```bash
 Set-ExecutionPolicy -ExecutionPolicy Unrestricted  -Scope LocalMachine
 ```
 
@@ -37,7 +37,7 @@ Invoke-Expression (&starship init powershell)
 
 ## Linux Bash
 
-```shell
+```bash
 cd /usr/share/fonts
 mkdir nerd-fonts
 cd nerd-fonts

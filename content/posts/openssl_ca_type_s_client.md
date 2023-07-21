@@ -133,7 +133,7 @@ cat ~/ca/ca.pem >> cert.pem
 
 ### 生成证书和PKCS#1私钥
 
-```shell
+```bash
 # 生成PKCS#1私钥
 openssl genrsa -out privkey.pem 4096
 # 从私钥生成证书
@@ -142,13 +142,13 @@ openssl req -x509 -key privkey.pem -sha256 -nodes -out cert.pem -days 3650 -subj
 
 ### 生成证书和PKCS#8私钥
 
-```shell
+```bash
 openssl req -x509 -newkey rsa:4096 -sha256 -nodes -keyout privkey.pem -out cert.pem -days 3650 -subj "/C=/ST=/L=/O=/OU=/CN=example.com"
 ```
 
 ### 生成证书和PKCS#8私钥，并转换成PKCS#1私钥
 
-```shell
+```bash
 openssl req -x509 -newkey rsa:4096 -sha256 -nodes -keyout temp.pem -out cert.pem -days 3650 -subj "/C=/ST=/L=/O=/OU=/CN=example.com"
 ## 转换成PKCS#1私钥
 openssl rsa -inform PEM -in temp.pem -outform PEM -out privkey.pem
@@ -157,7 +157,7 @@ openssl rsa -inform PEM -in temp.pem -outform PEM -out privkey.pem
 
 ## 私钥转换格式的常用命令
 
-```shell
+```bash
 # 转换成PKCS#8
 openssl pkcs8 -topk8 -inform PEM -in privkey.pem -out pkcs8_private_key.pem -outform PEM -nocrypt
 # 转换成PKCS#8，也称RSA密钥。
@@ -174,13 +174,13 @@ openssl rsa -inform PEM -in privkey.pem -outform PEM -out rsa_aes_privkey.pem
 
 更多可以看 `man openssl`的 s_client 部分
 
-```shell
+```bash
 (echo -ne "GET /ip HTTP/1.1\r\nConnection: Close\r\n\r\n") |openssl s_client -quiet -ign_eof -alpn http/1.1 -ignore_critical  -connect www.arloor.com:443 2>/dev/null
 ```
 
 交互式终端：在最后增加 `-crlf` 将换行设置为http协议的 `\r\n`
 
-```shell
+```bash
 openssl s_client -showcerts -ign_eof -alpn http/1.1 -ignore_critical  -connect www.arloor.com:443 -crlf 2>/dev/null
 ```
 
@@ -191,12 +191,12 @@ openssl s_client -showcerts -ign_eof -alpn http/1.1 -ignore_critical  -connect w
 
 surge mac的MitM解析https数据可以导入pkcs12格式的ca证书，这里就转换下
 
-```shell
+```bash
 openssl pkcs12 -export -inkey cakey.pem -in ca.pem -password pass:"123456" -out ca.p12
 ```
 
 查看：
 
-```shell
+```bash
 openssl pkcs12 -in ca.p12 -password pass:"123456" -info
 ```

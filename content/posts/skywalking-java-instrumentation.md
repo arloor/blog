@@ -15,7 +15,7 @@ keywords:
 
 ## 如何编译
 
-```shell
+```bash
 git checkout ce1f8c0c2
 mvn -DskipTests clean package -Pall
 ```

@@ -160,7 +160,7 @@ Mat对象的type方法会返回图片的类型，最常见的图片类型是
 
 函数定义：`void LUT(InputArray src, InputArray lut, OutputArray dst)`
 
-```shell
+```bash
 Parameters: 都是Mat类型
 第一个参数：原始图像的地址； 
 第二个参数：查找表的地址，对于多通道图像的查找，它可以有一个通道，也可以与原始图像有相同的通道； 

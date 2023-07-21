@@ -15,7 +15,7 @@ keywords:
 
 ## 安装zsh和ohMyZsh
 
-```shell
+```bash
 yum install -y zsh
 sh -c "$(curl -fsSL --insecure https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ```
@@ -24,7 +24,7 @@ sh -c "$(curl -fsSL --insecure https://raw.github.com/ohmyzsh/ohmyzsh/master/too
 
 我这边常用的插件是git、 zsh-autosuggestions、 zsh-syntax-highlighting
 
-```shell
+```bash
 ## 设置默认shell为zsh
 sudo usermod -s /bin/zsh $USER
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting

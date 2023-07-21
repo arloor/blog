@@ -32,7 +32,7 @@ keywords:
 
 
 ### 上述环境的编译命令
-```shell
+```bash
 git clone https://github.com/tdlib/td.git
 cd td
 git checkout v1.6.0

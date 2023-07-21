@@ -130,7 +130,7 @@ func AppendHttpResponsePrefix(buf []byte) []byte {
 
 先看以下伪装好的请求的样子：
 
-```shell
+```bash
 POST /target?at={targetAddrBase64} HTTP/1.1
 Host: {fakehost}
 Accept: */*
@@ -171,7 +171,7 @@ func read(clientConn net.Conn, redundancy []byte) (payload, redundancyRetain []b
 
 上一节，我们提到 {fakehost}。我们故意将{fakehost}定义为一个复杂、很长的域名。我们伪装的请求，都会带有如下请求头
 
-```shell
+```bash
 Host: {fakehost}
 ```
 
@@ -181,7 +181,7 @@ Host: {fakehost}
 
 ## linux上服务端部署
 
-```shell
+```bash
 yum install -y wget
 wget https://github.com/arloor/sogo/releases/download/v1.0/sogo-server
 wget https://github.com/arloor/sogo/releases/download/v1.0/sogo-server.json
@@ -217,7 +217,7 @@ systemctl enable sogo-server
 
 ## linux上客户端安装（java版）
 
-```shell
+```bash
 wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u131-b11/d54c1d3a095b4ff2b6607d096fa80163/jdk-8u131-linux-x64.rpm
 #wget http://repo-1252282974.cossh.myqcloud.com/jdk-8u131-linux-x64.rpm #使用腾讯云对象存储
 rpm -ivh jdk-8u131-linux-x64.rpm
@@ -253,7 +253,7 @@ systemctl start sogo
 
 ## linux上客户端安装（过时）
 
-```shell
+```bash
 # 国内机器下面两个wget会很慢，考虑本地下载再上传到服务器吧
 wget https://github.com/arloor/sogo/releases/download/v1.0/sogo.json
 wget https://github.com/arloor/sogo/releases/download/v1.0/sogo
@@ -342,7 +342,7 @@ iowait是cpu等待io的时间占比，sogo应用是网络IO，一般不会有磁
 
 #### 查找哪个硬盘正在被写入
 
-```shell
+```bash
 [root@coolnull ~]# iostat -x 2 5
  avg-cpu: %user %nice %system %iowait %steal %idle
   3.66 0.00 47.64 48.69 0.00 0.00
@@ -363,7 +363,7 @@ iostat打印出的第1个报告，数值是基于最后一次系统启动的时�
 
 #### 查找引起高I/O的进程
 
-```shell
+```bash
 [root@coolnull ~]# iotop
  Total DISK READ: 8.00 M/s | Total DISK WRITE: 20.36 M/s
   TID PRIO USER DISK READ DISK WRITE SWAPIN IO> COMMAND
@@ -383,7 +383,7 @@ ps命令能打印出内存，cpu的情况但没办法打印出硬盘I/O的情况
 The ps state field provides the processes current state; below is a list of states from the man page.
 ps状态列提供了进程当前的状态，以下从man ps上获取的进程stat列表
 
-```shell
+```bash
 PROCESS STATE CODES
  D uninterruptible sleep (usually IO)
  R running or runnable (on run queue)
@@ -398,7 +398,7 @@ PROCESS STATE CODES
 
 示例：
 
-```shell
+```bash
 [root@coolnull ~]# for x in `seq 1 1 10`; do ps -eo state,pid,cmd | grep "^D"; echo "----"; sleep 5; done
  D 248 [jbd2/dm-0-8]
  D 16528 bonnie++ -n 0 -u 0 -r 239 -s 478 -f -b -d /tmp
@@ -422,7 +422,7 @@ PROCESS STATE CODES
 
 为了帮助肯定我们的怀疑，我们可以使用/proc文件系统。在这个进程目录里，每个进程都有一个io文件，里面的数值跟iotop命令获取的I/O数值一样。
 
-```shell
+```bash
 [root@coolnull ~]# cat /proc/16528/io
  rchar: 48752567
  wchar: 549961789
@@ -441,7 +441,7 @@ lsof命令会为你展示指定进程打开的所有文件或依赖提供选项�
 
 为了减少输出的内容，我们可以使用-p 选项来只打印指定进程id打开的文件
 
-```shell
+```bash
 [root@coolnull ~]# lsof -p 16528
  COMMAND PID USER FD TYPE DEVICE SIZE/OFF NODE NAME
  bonnie++ 16528 root cwd DIR 252,0 4096 130597 /tmp
@@ -457,7 +457,7 @@ lsof命令会为你展示指定进程打开的所有文件或依赖提供选项�
 
 错误日志如下：
 
-```shell
+```bash
 Socket accept error: accept tcp [::]:80: accept4: too many open files;
 ```
 
@@ -465,7 +465,7 @@ too many open files(打开的文件过多)是Linux系统中常见的错误，从
 
 引起的原因就是进程在某个时刻打开了超过shell会话限制的文件数量以及通讯链接数，通过命令`ulimit -a`可以查看当前shell会话设置的最大句柄数是多少
 
-```shell
+```bash
 # ulimit -a
 core file size          (blocks, -c) 0
 data seg size           (kbytes, -d) unlimited
@@ -489,7 +489,7 @@ open files那一行就代表当前shell会话目前允许单个进程打开的�
 
 使用命令lsof -p 进程id可以查看单个进程所有打开的文件详情，使用命令lsof -p 进程id | wc -l可以统计进程打开了多少文件：（PS：使用lsof -i:80|wc -l可以查看80端口有多少个连接）
 
-```shell
+```bash
 lsof -p $(ps -aux|grep -v "grep"|grep sogo|awk '$1!=""{print $2}')|wc -l
 #1610
 lsof -i:80|wc -l
@@ -507,14 +507,14 @@ ulimit -n 65536
 
 重启进程后，可以执行以下命令，查看新的limit是否对新进程生效
 
-```shell
+```bash
 cat /proc/$pid/limits|grep open
 # Max open files            65536                65536                files
 ```
 
 另一种，通过修改配置文件来修改limit，在重启后不会失效：
 
-```shell
+```bash
 vim /etc/security/limits.conf  
 #在最后加入  
 * soft nofile 65536  

@@ -19,7 +19,7 @@ keywords:
 
 **1** 下载安装包到`/opt`，并解压缩，创建文件夹的软链接
 
-```shell
+```bash
 cd /opt 
 wget -O mongodb-linux-x86_64-rhel80-4.2.3.tgz https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-rhel80-4.2.3.tgz
 tar -zxvf mongodb-linux-x86_64-rhel80-4.2.3.tgz  
@@ -28,7 +28,7 @@ ln -s mongodb-linux-x86_64-rhel80-4.2.3 mongodb
 
 **2** 创建相关的用户和文件夹
 
-```shell
+```bash
 useradd mongod
 mkdir -p /var/lib/mongo
 chown -R mongod:mongod /opt/mongodb*
@@ -39,7 +39,7 @@ chown -R mongod: /var/lib/mongo
 
 创建配置文件
 
-```shell
+```bash
 vim /etc/mongod.conf
 #内容如下
 storage:
@@ -54,7 +54,7 @@ net:
 
 创建systemd服务
 
-```shell
+```bash
 vim /etc/systemd/system/mongod.service
 #内容如下
 [Unit]
@@ -75,7 +75,7 @@ WantedBy=multi-user.target
 
 配置环境变量
 
-```shell
+```bash
 vim /etc/profile.d/mongodb.sh
 #内容如下
 ## mongodb
@@ -84,7 +84,7 @@ PATH=$PATH:/opt/mongodb/bin
 
 **4** 启动MongoDB服务
 
-```shell
+```bash
 systemctl daemon-reload
 systemctl start mongod
 systemctl status mongod
@@ -92,7 +92,7 @@ systemctl status mongod
 
 **5** 进入mongo交互终端
 
-```shell
+```bash
 # 使环境变量生效
 . /etc/profile.d/mongodb.sh
 mongo
@@ -138,7 +138,7 @@ switched to db test
 
 使用`mongo`进入交互终端
 
-```shell
+```bash
 use admin
 
 db.createUser(

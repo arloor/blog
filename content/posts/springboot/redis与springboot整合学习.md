@@ -46,7 +46,7 @@ CREATE TABLE `cart` (
 
 ## 下载、解压、安装gcc、编译
 
-```shell
+```bash
  wget http://download.redis.io/releases/redis-4.0.9.tar.gz
  tar xzf redis-4.0.9.tar.gz
  cd redis-4.0.9
@@ -55,7 +55,7 @@ CREATE TABLE `cart` (
 ```
 
 ## 配置PATH
-```shell
+```bash
 vim /etc/profile.d/custom.sh
 ## 在custome.sh中输入
 export  PATH=$PATH:/root/redis-4.0.9/src
@@ -63,7 +63,7 @@ export  PATH=$PATH:/root/redis-4.0.9/src
 
 PATH生效之后（注意要生效，小白别说我坑，可以搜一下这个），输入`redis-server`会有如下控制台输出：
 
-```shell
+```bash
 
                 _._                                                  
            _.-``__ ''-._                                             
@@ -90,13 +90,13 @@ PATH生效之后（注意要生效，小白别说我坑，可以搜一下这个�
 
 修改 redis目录下的redis.conf 如下部分。将`daemonize no`设置为`daemonize yes`
 
-```shell
+```bash
 # By default Redis does not run as a daemon. Use 'yes' if you need it.
 # Note that Redis will write a pid file in /var/run/redis.pid when daemonized.
 daemonize yes
 ```
 
-```shell
+```bash
 mkdir /etc/redis
 # 复制redis.conf 到 /etc/redis/6379.conf
 cp /root/redis-4.0.9/redis.conf /etc/redis/6379.conf
@@ -110,11 +110,11 @@ chkconfig redisd on
 
 在执行`chkconfig redisd on`时报错`service redisd does not support chkconfig`。解决这个：
 
-```shell
+```bash
 vim /etc/init.d/redisd
 ```
 在第一行中加入如下注释：
-```shell
+```bash
 #!/bin/sh
 # chkconfig:   2345 90 10
 # description:  Redis is a persistent key-value database
@@ -138,7 +138,7 @@ Starting Redis server...
 
 跟据报错信息，创建server、cli的软连接（redis-cli的软连接也是需要的）
 
-```shell
+```bash
 ln -s /root/redis-4.0.9/src/redis-server /usr/local/bin/redis-server
 ln -s /root/redis-4.0.9/src/redis-cli /usr/local/bin/redis-cli
 ```
@@ -202,7 +202,7 @@ redis的安装和配置，基本到这里就结束了。
 
 上面的依赖貌似自动导入了jedis和一个连接池，不是很清楚
 
-```shell
+```bash
 # redis
 # Redis数据库索引（默认为0）
 spring.redis.database=0

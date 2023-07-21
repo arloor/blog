@@ -108,7 +108,7 @@ $partitionId_$minBlock_$maxBlock_$level
 
 并且，一个partition是分为多个目录的，举个实际的例子如下：
 
-```shell
+```bash
 ls |grep 8f244a4f142a2f3c5ea8da2fbc25405b
 8f244a4f142a2f3c5ea8da2fbc25405b_0_106_20
 8f244a4f142a2f3c5ea8da2fbc25405b_107_112_1

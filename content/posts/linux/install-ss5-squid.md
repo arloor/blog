@@ -16,7 +16,7 @@ keywords:
 
 ## 编译ss5——socks5代理
 
-```shell
+```bash
 yum install -y gcc openldap-devel pam-devel openssl-devel
 wget http://jaist.dl.sourceforge.net/project/ss5/ss5/3.8.9-8/ss5-3.8.9-8.tar.gz
 tar -vzx -f ss5-3.8.9-8.tar.gz
@@ -42,7 +42,7 @@ service ss5 restart
 
 ## 安装squid——http代理
 
-```shell
+```bash
 yum install squid
 vim /etc/squid/squid.conf
 # 写入以下内容
@@ -61,7 +61,7 @@ systemctl start squid
 
 这个大多数人是不需要做的。
 
-```shell
+```bash
 iptables -I  INPUT 1 -p tcp  --dport 1080 -j DROP 
 iptables -I  INPUT 1 -p udp  --dport 1080 -j DROP
 iptables -I  INPUT 1 -p tcp  --dport 8888 -j DROP

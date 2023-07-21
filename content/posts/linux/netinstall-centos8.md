@@ -26,7 +26,7 @@ centos8在前几天发布了，但是云服务大厂们往往不会第一时间�
 
 执行以下命令，
 
-```shell
+```bash
 wget -qO install.sh http://www.arloor.com/install-centos8-from-centos7.sh && bash install.sh
 ```
 
@@ -36,7 +36,7 @@ wget -qO install.sh http://www.arloor.com/install-centos8-from-centos7.sh && bas
 1. 从阿里云镜像网站下载`vmlinuz`和`initrd.img`到`/boot/net8`文件夹
 2. 编写grub2启动项，示例所示，主要关注linux16那行的内核参数
 
-```shell
+```bash
 menuentry 'Install Centos8 [ ]' --class debian --class gnu-linux --class gnu --class os {
         load_video
         set gfxpayload=keep
@@ -109,7 +109,7 @@ How much RAM does your guest VM have assigned to it? If the VM is tiny, you migh
 
 该脚本目前仅自用，不保证可用。
 
-```shell
+```bash
 wget -O kickstart.sh http://www.arloor.com/centos8-kickstart-from-centos7.sh && bash kickstart.sh -a
 ```
 

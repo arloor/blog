@@ -73,7 +73,7 @@ acme.sh --issue --dns dns_ali -d example.com -d *.example.com -k 2048
 
 要停止续签某域名的话，手动执行
 
-```shell
+```bash
 acme.sh --remove -d example.com
 ```
 

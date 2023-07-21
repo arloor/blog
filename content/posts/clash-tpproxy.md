@@ -59,7 +59,7 @@ hosts:
 
 开启内核的ip_forward
 
-```shell
+```bash
 sed -i '/^net.ipv4.ip_forward=0/'d /etc/sysctl.conf
 sed -n '/^net.ipv4.ip_forward=1/'p /etc/sysctl.conf | grep -q "net.ipv4.ip_forward=1"
 if [ $? -ne 0 ]; then
@@ -69,7 +69,7 @@ fi
 
 nftables的redirect（以下只代理tcp，不代理udp）
 
-```shell
+```bash
 cat > /lib/systemd/system/con.service <<EOF
 [Unit]
 Description=clash
@@ -91,7 +91,7 @@ WantedBy=multi-user.target
 EOF
 ```
 
-```shell
+```bash
 mkdir /etc/nftables
 cat > /etc/nftables/nftables-redirect-clash.nft <<EOF
 table ip nat {
@@ -249,7 +249,7 @@ nft -f /etc/nftables/nftables-redirect-clash-local.nft
 
 > 除了利用REDIRECT模式，Istio还提供TPROXY模式，当然也是借助Linux内核提供的功能实现的，对于TPROXY模式，实现的原理要相对复杂不少，需要借助iptables和路由：通过iptables将数据包打上mark，然后使用一个特殊的路由，将数据包指向本地，由于使用了mangle表，所以数据包的原始和目的地址都是不会被修改的。下面是一个例子：
 
-```shell
+```bash
 iptables -t mangle -A PREROUTING -p tcp -j TPROXY --tproxy-mark 0x1/0x1 --on-port 8888
 ip rule add fwmark 0x1/0x1 pref 100 table 100
 ip route add local default dev lo table 100

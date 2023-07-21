@@ -33,7 +33,7 @@ $content-max-width: 70rem;
 
 以后升级hyde-hyde时，应该还要进行此修改，具体的静态资源文件有：
 
-```shell
+```bash
 themes/hyde-hyde/static/all.js
 themes/hyde-hyde/static/github.min.css
 themes/hyde-hyde/static/highlight.min.js
@@ -48,7 +48,7 @@ themes/hyde-hyde/static/img/head.jpeg
 
 修改文件：
 
-```shell
+```bash
 themes/hyde-hyde/layouts/partials/sidebar.html
 themes/hyde-hyde/assets/scss/hyde-hyde/_responsive.scss
 ```

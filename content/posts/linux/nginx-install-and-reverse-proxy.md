@@ -19,7 +19,7 @@ keywords:
 
 > centos8直接yum安装即可
 
-```shell
+```bash
 rpm -ivh http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm
 yum repolist
 yum install -y nginx
@@ -27,7 +27,7 @@ yum install -y nginx
 
 ## 生成ssl的证书以及私钥
 
-```shell
+```bash
 cd /etc/nginx/
 openssl req -x509 -nodes -days 36500 -newkey rsa:2048 -keyout nginx.key -out nginx.crt
 
@@ -42,7 +42,7 @@ req是openssl证书请求的子命令
 
 ## 编辑nginx.conf
 
-```shell
+```bash
 # vi /etc/nginx/nginx.conf
 # For more information on configuration, see:
 #   * Official English Documentation: http://nginx.org/en/docs/
@@ -227,6 +227,6 @@ http {
 
 ## 启动nginx
 
-```shell
+```bash
 service nginx start
 ```

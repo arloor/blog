@@ -60,7 +60,7 @@ weight: 10
 
 至于另一种html5的vedio标签，只需要宽度和高度都设为100%即可实现响应式，如下：
 
-```shell
+```bash
 <video controls="" width="100%" height="100%"><source src="http://cdn.moontell.cn/robot.mp4" type="video/mp4"></video>
 ```
 
@@ -75,7 +75,7 @@ weight: 10
 
 一般我们在markdown中插入图片就是：
 
-```shell
+```bash
 ![](/img/ssnodes.png)
 ```
 

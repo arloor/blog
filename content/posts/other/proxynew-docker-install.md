@@ -77,7 +77,7 @@ windows系统的朋友不需要做这一小节说的东西哈
 
 安装：
 
-```shell
+```bash
 sudo su
 mkdir /usr/local/proxy
 cd /usr/local/proxy

@@ -17,7 +17,7 @@ keywords:
 
 ## 关闭swap
 
-```shell
+```bash
 swapoff -a
 vim /etc/fstab
 ## 将swap的挂载点注释掉
@@ -25,7 +25,7 @@ vim /etc/fstab
 
 ## 确保br_netfilter内核模块被加载，并且让iptables看到网桥的流量
 
-```shell
+```bash
 cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
 br_netfilter
 EOF
@@ -37,7 +37,7 @@ EOF
 sudo sysctl --system
 ```
 
-```shell
+```bash
 lsmod | grep br_netfilter
 # 如果br_netfilter没有加载，手动执行以下
 modprobe br_netfilter
@@ -45,7 +45,7 @@ modprobe br_netfilter
 
 ## 安装docker作为容器运行时，并修改cgroup的driver为systemd
 
-```shell
+```bash
 curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
 ## 修改cgroup的driver为systemd
 vim /etc/docker/daemon.json
@@ -58,7 +58,7 @@ docker info 2>/dev/null|grep "Cgroup Driver"
 
 ## 安装kubeadm、kubectl、kubelet
 
-```shell
+```bash
 apt-get update
 apt-get install -y apt-transport-https ca-certificates curl
 # 需要科学上网

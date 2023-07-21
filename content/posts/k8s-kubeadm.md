@@ -45,7 +45,7 @@ sudo sysctl --system
 
 当前版本为1.7.2
 
-```shell
+```bash
 wget  https://github.com/containerd/containerd/releases/download/v1.7.2/containerd-1.7.2-linux-amd64.tar.gz -O /tmp/containerd.tar.gz
 tar -zxvf /tmp/containerd.tar.gz -C /usr/local
 containerd -v # 1.7.2
@@ -70,7 +70,7 @@ wget https://raw.githubusercontent.com/containerd/containerd/main/containerd.ser
 
 修改containerd.service的代理配置，否则镜像都拉不下来，calico网络插件也装不了
 
-```shell
+```bash
 vim /lib/systemd/system/containerd.service
 # 在[Service]块中增加代理配置
 # NO_PROXY中
@@ -83,14 +83,14 @@ Environment="NO_PROXY=192.168.0.0/16,127.0.0.1,10.0.0.0/8,172.16.0.0/12,localhos
 
 启动containerd服务
 
-```shell
+```bash
 systemctl daemon-reload
 systemctl enable --now containerd
 ```
 
 ### 安装crictl
 
-```shell
+```bash
 wget https://github.com/kubernetes-sigs/cri-tools/releases/download/v1.27.0/crictl-v1.27.0-linux-amd64.tar.gz -O /tmp/crictl-v1.27.0-linux-amd64.tar.gz
 tar -zxvf /tmp/crictl-v1.27.0-linux-amd64.tar.gz -C /tmp
 install -m 755 /tmp/crictl /usr/local/bin/crictl
@@ -99,7 +99,7 @@ crictl --runtime-endpoint=unix:///run/containerd/containerd.sock  version
 
 ### 安装kubtelet kubeadm kubectl
 
-```shell
+```bash
 cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
 [kubernetes]
 name=Kubernetes
@@ -126,7 +126,7 @@ kubectl version --short # Client Version: v1.27.3
 
 控制面节点是控制面组件运行的地方，包括etcd和api server。是kubectl打交道的地方.
 
-```shell
+```bash
 # echo $(ip addr|grep "inet " |awk -F "[ /]+" '{print $3}'|grep -v "127.0.0.1") $(hostname) >> /etc/hosts
 # echo 127.0.0.1 $(hostname) >> /etc/hosts
 
@@ -149,7 +149,7 @@ watch crictl --runtime-endpoint=unix:///run/containerd/containerd.sock ps -a
 
 设置kube config
 
-```shell
+```bash
   mkdir -p $HOME/.kube
   sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
   sudo chown $(id -u):$(id -g) $HOME/.kube/config
@@ -159,7 +159,7 @@ kubectl get cs # 使用kubectl与集群交互
 让其他节点加入集群：我这里只用控制面了，就不操作了
 
 
-```shell
+```bash
 Then you can join any number of worker nodes by running the following on each as root:
 
 kubeadm join 10.0.4.17:6443 --token oafxnp.o4w7gamzg4dz592m \
@@ -168,7 +168,7 @@ kubeadm join 10.0.4.17:6443 --token oafxnp.o4w7gamzg4dz592m \
 
 ### 安装网络插件，解决node not ready
 
-```shell
+```bash
 $ kubectl get nodes
 NAME   STATUS     ROLES           AGE   VERSION
 node   NotReady   control-plane   49m   v1.27.3
@@ -178,7 +178,7 @@ $ kubectl describe nodes node|grep KubeletNotReady
 
 下面安装Calico网络插件，前提是 `--pod-network-cidr=192.168.0.0/16`，并且containerd正确设置了代理，否则下载不了Calico
 
-```shell
+```bash
 # 创建tigera operator
 kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.26.1/manifests/tigera-operator.yaml
 # 创建Calico网络插件
@@ -188,7 +188,7 @@ watch kubectl get pods -n calico-system # 两秒刷新一次，直到所有Calic
 
 下面是安装flannel网络插件，和Calico网络插件选一个即可
 
-```shell
+```bash
 wget https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml -O kube-flannel.yml
 sed -i 's/10.244.0.0\/16/192.168.0.0\/16/' kube-flannel.yml
 for i in $(grep "image: " kube-flannel.yml | awk -F '[ "]+' '{print $3}'|uniq); do
@@ -201,21 +201,21 @@ watch kubectl get pod -n kube-flannel
 
 ### 让控制面节点也能调度pod 
 
-```shell
+```bash
 kubectl taint nodes --all node-role.kubernetes.io/control-plane-
 kubectl taint nodes --all node-role.kubernetes.io/master-
 ```
 
 ### 检验dns正确
 
-```shell
+```bash
 kubectl run curl --image=radial/busyboxplus:curl -it --rm
 nslookup kubernetes.default
 ```
 
 ### 在控制面节点上跑一个nginx的pod
 
-```shell
+```bash
 kubectl apply -f https://k8s.io/examples/pods/simple-pod.yaml
 watch kubectl get pods -o wide # 显示nginx的pod正Running在192.168.254.8上
 curl 192.168.254.8
@@ -226,7 +226,7 @@ kubectl delete pod nginx # 删除这个pod
 
 ### 装个我的代理
 
-```shell
+```bash
 cat > proxy.yaml <<EOF
 apiVersion: v1
 kind: Pod
@@ -262,7 +262,7 @@ watch kubectl get pod
 
 ### helm包管理器
 
-```shell
+```bash
 wget https://get.helm.sh/helm-v3.12.0-linux-amd64.tar.gz -O /tmp/helm-v3.12.0-linux-amd64.tar.gz
 tar -zxvf /tmp/helm-v3.12.0-linux-amd64.tar.gz -C /tmp
 mv /tmp/linux-amd64/helm  /usr/local/bin/
@@ -270,7 +270,7 @@ mv /tmp/linux-amd64/helm  /usr/local/bin/
 
 ### ingress-nginx并通过hostNetwork暴露18080和1443端口
 
-```shell
+```bash
 wget https://github.com/kubernetes/ingress-nginx/releases/download/helm-chart-4.7.1/ingress-nginx-4.7.1.tgz
 helm show values ingress-nginx-4.7.1.tgz > values.yaml # 查看可以配置的value
 ```
@@ -295,7 +295,7 @@ helm show values ingress-nginx-4.7.1.tgz > values.yaml # 查看可以配置的va
       https: 1443
 ```
 
-```shell
+```bash
 ## 预下载registry.k8s.io的镜像
 helm template  ingress-nginx-4.7.1.tgz -f values.yaml > ingress-nginx-deploy.yaml
 for i in $(grep "image: " ingress-nginx-deploy.yaml | awk -F '[ "]+' '{print $3}'|uniq); do
@@ -314,7 +314,7 @@ kubectl get controller -o wide
 
 修改端口
 
-```shell
+```bash
 $ kubectl edit deployment release-name-ingress-nginx-controller #  不知道values.yaml里的extraArgs有用吗
 / -- 搜索，然后修改：
    spec:
@@ -335,20 +335,20 @@ $ kubectl edit deployment release-name-ingress-nginx-controller #  不知道valu
 $ kubectl delete pod release-name-ingress-nginx-controller-5c65485f4c-lnm2r #删除这个deployment的老pod，就会创建新的pod
 ```
 
-```shell
+```bash
 systemctl enable rust_http_proxy --now #开启原来的那些服务
 curl http://xxxx:18080 # 404即成功
 ```
 
 ### metric server
 
-```shell
+```bash
 wget https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.6.3/components.yaml
 ```
 
 修改 `components.yaml` 中容器的启动参数，加入 `--kubelet-insecure-tls` 。
 
-```shell
+```bash
 for i in $(grep "image: " components.yaml | awk -F '[ "]+' '{print $3}'|uniq); do
         echo 下载 $i
         crictl --runtime-endpoint=unix:///run/containerd/containerd.sock pull ${i}
@@ -368,7 +368,7 @@ metrics-server的pod正常启动后，等一段时间就可以使用kubectl top�
 
 ### kubernetes dashboard
 
-```shell
+```bash
 wget https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml -O dashboard.yaml
 ```
 
@@ -378,12 +378,12 @@ wget https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/re
 2. Deployment/dashboard-metrics-scraper最后一行增加hostNetwork: true 和volumes：并排
 3. 在args中增加 - --token-ttl=43200 将token过期时间改为12小时
  
-```shell
+```bash
 kubectl apply -f dashboard.yaml
 watch kubectl get svc -n kubernetes-dashboard
 ```
 
-```shell
+```bash
 NAME                        TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)         AGE   SELECTOR
 dashboard-metrics-scraper   ClusterIP   10.106.143.149   <none>        8000/TCP        53s   k8s-app=dashboard-metrics-scraper
 kubernetes-dashboard        NodePort    10.97.248.169    <none>        443:31611/TCP   53s   k8s-app=kubernetes-dashboard
@@ -405,7 +405,7 @@ metadata:
 
 ClusterRoleBinding
 
-```shell
+```bash
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
@@ -421,7 +421,7 @@ subjects:
 ```
 
 
-```shell
+```bash
 cat > /usr/local/bin/token <<EOF
 kubectl -n kubernetes-dashboard create token admin-user
 EOF
@@ -454,7 +454,7 @@ chmod +x /usr/local/bin/token
 
 metallb-native.yaml
 
-```shell
+```bash
 wget https://raw.githubusercontent.com/metallb/metallb/v0.13.10/config/manifests/metallb-native.yaml -O metallb-native.yaml
 for i in $(grep "image: " metallb-native.yaml | awk -F '[ "]+' '{print $3}'|uniq); do
         echo 下载 $i
@@ -463,7 +463,7 @@ done
 kubectl apply -f metallb-native.yaml
 ```
 
-```shell
+```bash
 cat > l2.yaml <<EOF
 ---
 apiVersion: metallb.io/v1beta1
@@ -490,7 +490,7 @@ kubectl apply -f l2.yaml
 
 ### NodePort方式安装Ingress Nginx
 
-```shell
+```bash
 wget -O ingress-nginx.yaml https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.1/deploy/static/provider/baremetal/deploy.yaml
 for i in $(grep "image: " ingress-nginx.yaml | awk -F '[ "]+' '{print $3}'|uniq); do
         echo 下载 $i
@@ -502,7 +502,7 @@ watch kubectl get service -A
 
 问题： 在做[local-testing](https://kubernetes.github.io/ingress-nginx/deploy/#local-testing)创建ingress时，连接不到admission。
 
-```shell
+```bash
 $ kubectl create deployment demo --image=httpd --port=80
 $ kubectl expose deployment demo
 $ kubectl create ingress demo-localhost --class=nginx \
@@ -511,7 +511,7 @@ error: failed to create ingress: Internal error occurred: failed calling webhook
 ```
 
 测试了下dns
-```shell
+```bash
 $ kubectl run curl --image=radial/busyboxplus:curl -it
 $ nslookup ingress-nginx-controller-admission.ingress-nginx.svc # dns是通的
 Server:    10.96.0.10
@@ -545,7 +545,7 @@ $ curl https://ingress-nginx-controller-admission.ingress-nginx.svc.cluster.loca
 
 类似的问题在 kubernetes.default 也一样
 
-```shell
+```bash
 [ root@curl:/ ]$ nslookup kubernetes.default
 Server:    10.96.0.10
 Address 1: 10.96.0.10 kube-dns.kube-system.svc.cluster.local

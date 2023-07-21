@@ -33,14 +33,14 @@ keywords:
 
 1、安装jdk
 
-```shell
+```bash
 wget  -O  jdk-8u131-linux-x64.rpm --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u131-b11/d54c1d3a095b4ff2b6607d096fa80163/jdk-8u131-linux-x64.rpm
 rpm -ivh jdk-8u131-linux-x64.rpm
 ```
 
 2、 ss5-local部署与运行
 
-```shell
+```bash
 #! /bin/bash
 
 # 请自行安装jdk8
@@ -106,7 +106,7 @@ systemctl enable ss5-local
 
 3、 ss5-server部署与运行
 
-```shell
+```bash
 #! /bin/bash
 
 # 请自行安装jdk8

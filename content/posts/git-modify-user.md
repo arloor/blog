@@ -21,7 +21,7 @@ keywords:
     - 可以按 `Ctrl + V` 进入vim的列模式，然后上下左右移动光标选择多个pick，先按X，删除pick，再按 `shift + i` （大写i），插入`edit`，然后安 `Esc`，等两秒左右，就成功将这些 `pick` 改成 `edit` 了。（或者选中 `pick` ，按c进入删除插入模式输入 `edit`，再按 `Esc` 等两秒）
 3. 多次执行以下命令，直至rebase结束
 
-```shell
+```bash
 git commit --amend --author="arloor <admin@arloor.com>" --no-edit&&git rebase --continue
 ```
 

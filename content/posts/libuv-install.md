@@ -29,7 +29,7 @@ make install
 ```
 
 ## 一个没有handle的loop
-```shell
+```bash
 # 使用cat编辑a.c
 cat > a.c << EOF
 #include <stdio.h>
@@ -125,7 +125,7 @@ int main() {
 
 输出
 
-```shell
+```bash
 Idling...
 1 idle
 2 idle

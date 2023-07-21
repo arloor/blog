@@ -56,7 +56,7 @@ public class CustomExporter {
 ```
 
 
-```shell
+```bash
 http://someme.me:8888/metrics
 $ curl http://someme.me:8888/metrics
 # HELP testA_total 测试

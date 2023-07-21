@@ -81,7 +81,7 @@ decode方法会产生List<OUT>，并通过fireChannelRead传递到下一个handl
 
 解析以下response：
 
-```shell
+```bash
 HTTP/1.1 200 OK
 Content-Type: text/plain; charset=utf-8
 Content-Length: 85

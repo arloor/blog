@@ -49,7 +49,7 @@ keywords:
 
 然后挂载该镜像到一个目录，然后启动httpd服务（文档:[使用 HTTP 或 HTTPS 创建安装源](https://access.redhat.com/documentation/zh-cn/red_hat_enterprise_linux/8/html/performing_an_advanced_rhel_installation/creating-installation-sources-for-kickstart-installations_installing-rhel-as-an-experienced-user#creating-an-installation-source-on-http_creating-installation-sources-for-kickstart-installations)）
 
-```shell
+```bash
 # 下面这个链接自己在下载页面复制
 wget https://access.cdn.redhat.com/content/origin/files/sha256/30/30fd8dff2d29a384bd97886fa826fa5be872213c81e853eae3f9d9674f720ad0/rhel-8.3-x86_64-dvd.iso?_auth_=xxxxxxxxxxx -O redhat8.iso
 lsof -i:80
@@ -85,7 +85,7 @@ echo "done"
 
 先给下一个实际的menuentry例子：
 
-```shell
+```bash
 menuentry 'Install Centos8 [ ]' --class debian --class gnu-linux --class gnu --class os {
         load_video
         set gfxpayload=keep

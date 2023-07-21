@@ -522,7 +522,7 @@ GROUP BY table
 order by num_row desc
 ```
 
-```shell
+```bash
 Query id: d79e4c12-100a-487f-8f9d-4f32ea4f3791
 
 ┌─table────────────────────┬─────num_row─┬─uncompress─┬─compress─┬─compress_ratio─┐
@@ -536,7 +536,7 @@ Query id: d79e4c12-100a-487f-8f9d-4f32ea4f3791
 
 例如如下的shell命令
 
-```shell
+```bash
 query=$(cat <<EOF
 SELECT
     table,

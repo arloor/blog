@@ -83,7 +83,7 @@ redis2.8的部分同步机制，有效解决了网络环境不稳定、redis执�
 
 实例的replid信息，可通过info replication进行查看； 示例如下：
 
-```shell
+```bash
 127.0.0.1:6385> info replication
 # Replication
 role:slave

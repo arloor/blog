@@ -54,7 +54,7 @@ message SpanObject {
 
 networkAddressUsedAtPeer被以下两个类用到，他们都是在`agent-analyzer`模块下，接下来我们就可以进入到阅读代码的阶段，看看这两个类到底是如何做STAM的。
 
-```shell
+```bash
 MultiScopesAnalysisListener
 NetworkAddressAliasMappingListener
 ```
@@ -86,7 +86,7 @@ NetworkAddressAliasMappingListener
 </settings>
 ```
 
-```shell
+```bash
 git clone https://github.com/apache/skywalking.git
 cd skywalking/
 git submodule init

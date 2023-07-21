@@ -20,7 +20,7 @@ keywords:
 
 ## kubectl
 
-```shell
+```bash
 cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
 [kubernetes]
 name=Kubernetes
@@ -57,7 +57,7 @@ The connection to the server localhost:8080 was refused - did you specify the ri
 
 ### 安装kind
 
-```shell
+```bash
 # For AMD64 / x86_64
 [ $(uname -m) = x86_64 ] && curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.20.0/kind-linux-amd64
 # For ARM64
@@ -69,7 +69,7 @@ kind --version # 当前版本为0.20.0
 
 ### 创建cluster
 
-```shell
+```bash
 yum install -y podman # 安装podman
 kind create cluster --name demo --wait 5m 
 # 使用默认的node image创建cluster。https://hub.docker.com/r/kindest/node/。 
@@ -78,7 +78,7 @@ kind create cluster --name demo --wait 5m
 
 输出：
 
-```shell
+```bash
 enabling experimental podman provider
 Creating cluster "demo" ...
  ✓ Ensuring node image (kindest/node:v1.27.3) 🖼 
@@ -99,7 +99,7 @@ Have a question, bug, or feature request? Let us know! https://kind.sigs.k8s.io/
 
 此时，查看podman的容器列表，可以看到：
 
-```shell
+```bash
 # podman ps
 CONTAINER ID  IMAGE                                                                                           COMMAND     CREATED        STATUS        PORTS                      NAMES
 6313438e57a5  docker.io/kindest/node@sha256:3966ac761ae0136263ffdb6cfd4db23ef8a83cba8a463690e98317add2c9ba72              5 minutes ago  Up 5 minutes  127.0.0.1:39025->6443/tcp  demo-control-plane
@@ -107,7 +107,7 @@ CONTAINER ID  IMAGE                                                             
 
 使用kubectl查看cluster信息：
 
-```shell
+```bash
 # kubectl version --output=yaml
 clientVersion:
   buildDate: "2023-06-14T09:53:42Z"
@@ -165,7 +165,7 @@ users:
 
 我们再创建一个 `prod` 集群：
 
-```shell
+```bash
 kind create cluster --name prod --wait 5m
 ```
 
@@ -207,20 +207,20 @@ users:
 
 可以使用 `--context`指定集群和user
 
-```shell
+```bash
 kubectl cluster-info --context kind-prod
 ```
 
 ### 删除集群
 
-```shell
+```bash
 kind delete cluster --name prod
 kubectl config use-context kind-demo # 将current-context设置为之前的demo集群
 ```
 
 ### 将docker镜像加载到cluster中
 
-```shell
+```bash
 podman build -t rust_http_proxy .
 podman tag rust_http_proxy:latest rust_http_proxy:1.0 # k8s的Kubernetes imagePullPolicy 不允许使用latest的镜像。所以给个版本标记
 yum install -y docker # 安装podman的docker兼容层，用于下面的docker-image命令
@@ -248,14 +248,14 @@ registry.k8s.io/pause                      3.7                  221177c6082a8   
 
 ### 进入控制面看看
 
-```shell
+```bash
 echo "podman exec -it demo-control-plane /bin/bash" > /usr/local/bin/pssh
 chmod +x /usr/local/bin/pssh
 pssh
 ```
 
 设置下容器内的apt镜像 debian11
-```shell
+```bash
 ## 阿里云镜像
 cat > /etc/apt/sources.list <<EOF
 deb https://mirrors.aliyun.com/debian/ bullseye main non-free contrib
@@ -294,7 +294,7 @@ apt install -y vim
 
 [assign-pods-nodes](https://kubernetes.io/docs/tasks/configure-pod-container/assign-pods-nodes/)
 
-```shell
+```bash
 # 给控制面node增加label app=all
 kubectl label nodes demo-control-plane app=all
 

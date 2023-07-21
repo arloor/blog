@@ -41,7 +41,7 @@ keywords:
 
 单机每秒钟可以⽣成1638亿个id JDK中没有提供V1版本的UUID，需要参考开源的代码：
 
-```shell
+```bash
 com.github.f4b6a3.uuid.factory.AbstTimeBasedFactory
 ```
 

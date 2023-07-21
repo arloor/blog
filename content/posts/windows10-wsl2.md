@@ -31,7 +31,7 @@ wsl --install
 
 ## 开启systemd
 
-```shell
+```bash
 echo -e "[boot]\nsystemd=true" | sudo tee -a /etc/wsl.conf
 ```
 
@@ -41,7 +41,7 @@ echo -e "[boot]\nsystemd=true" | sudo tee -a /etc/wsl.conf
 
 在`C:\Users\<YourUserName>\.wslconfig`中增加：
 
-```shell
+```bash
 # Settings apply across all Linux distros running on WSL 2
 [wsl2]
 
@@ -80,7 +80,7 @@ memory=4GB
 
 我的环境是在windows中使用clash for windows，为了让WSL中能用上代理，专门写了两个脚本：
 
-```shell
+```bash
 # /usr/local/bin/pass
 
 ## nameserver就是windows的地址，主要要给clash for windows打开allow lan
@@ -91,7 +91,7 @@ git config --global http.proxy ${http_proxy}
 git config --global https.proxy ${http_proxy}
 ```
 
-```shell
+```bash
 # /usr/local/bin/unpass
 export http_proxy=
 export https_proxy=

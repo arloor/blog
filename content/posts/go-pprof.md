@@ -32,7 +32,7 @@ func main(){
 
 ## 进行30秒的cpu profile，并生成profile文件
 
-```shell
+```bash
 $ go tool pprof http://10.199.151.41:8080/debug/pprof/profile
 Fetching profile over HTTP from http://10.199.151.41:8080/debug/pprof/profile
 Saved profile in C:\Users\arloor\pprof\pprof.mtrace-collector.samples.cpu.001.pb.gz
@@ -49,7 +49,7 @@ Entering interactive mode (type "help" for commands, "o" for options)
 
 graphviz安装见[https://graphviz.org/download/](https://graphviz.org/download/)
 
-```shell
+```bash
 $ go install github.com/google/pprof@latest
 $ pprof -http=:6060 C:\Users\arloor\pprof\pprof.mtrace-collector.samples.cpu.001.pb.gz
 Serving web UI on http://localhost:6060

@@ -16,14 +16,14 @@ keywords:
 使用如下命令即可编写sogo服务的service文件，并设置开机自启动。
 <!--more-->
 
-```shell
+```bash
 vim /usr/lib/systemd/system/sogo.service
 systemctl enable sogo
 ```
 
 service文件内容如下。
 
-```shell
+```bash
 [Unit]
 Description=一个socks5代理
 After=network-online.target
@@ -42,7 +42,7 @@ WantedBy=multi-user.target
 
 以上就是一个简单的服务文件了。好处很简单，重启、关闭等只需要使用sevice控制了，还是挺舒服的。
 
-```shell
+```bash
 After=network-online.target    #等待网络—ip、dns等
 Wants=network-online.target    #等待网络—ip、dns等
 

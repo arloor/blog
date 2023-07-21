@@ -16,7 +16,7 @@ weight: 10
 
 # 上传ssh公钥开启免密登陆
 
-```shell
+```bash
 mkdir /root/.ssh
 #上传我的公钥（你们别用我的公钥。如果不小心用了，麻烦告诉我IP😝）
 echo ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDZQzKHfZLlFEdaRUjfSK4twhL0y7+v23Ko4EI1nl6E1/zYqloSZCH3WqQFLGA7gnFlqSAfEHgCdD/4Ubei5a49iG0KSPajS6uPkrB/eiirTaGbe8oRKv2ib4R7ndbwdlkcTBLYFxv8ScfFQv6zBVX3ywZtRCboTxDPSmmrNGb2nhPuFFwnbOX8McQO5N4IkeMVedUlC4w5//xxSU67i1i/7kZlpJxMTXywg8nLlTuysQrJHOSQvYHG9a6TbL/tOrh/zwVFbBS+kx7X1DIRoeC0jHlVJSSwSfw6ESrH9JW71cAvn6x6XjjpGdQZJZxpnR1NTiG4Q5Mog7lCNMJjPtwJ not@home > /root/.ssh/authorized_keys
@@ -77,7 +77,7 @@ uptime：40天6时9分42秒
 
 centos7默认只有python2.7，并且没有安装pip。我要装python3以及pip3。
 
-```shell
+```bash
 yum install -y zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gcc make libffi-devel
 wget https://www.python.org/ftp/python/3.7.0/Python-3.7.0.tgz
 tar -zxvf Python-3.7.0.tgz
@@ -93,7 +93,7 @@ py3 -V
 
 > PS:如果创建的软连接是到/usr/bin/python，则需要执行以下脚本，来修复yum
 
-```shell
+```bash
 vi /usr/bin/yum 
 把 #! /usr/bin/python 修改为 #! /usr/bin/python2 
 vi /usr/libexec/urlgrabber-ext-down 
@@ -127,7 +127,7 @@ chmod +x shadowsocks-libev.sh
 
 上面的脚本安装后ss由init.d管理，下面的脚本则将其转交给systemd管理(centos7 已测试通过)
 
-```shell
+```bash
  wget --no-check-certificate -O systemd.sh https://raw.githubusercontent.com/arloor/shadowsocks_install/master/systemd.sh
 chmod +x systemd.sh
 ./systemd.sh
@@ -168,7 +168,7 @@ echo "配置信息: 服务器地址：$ip  端口：$port 密码：$passwd 加�
 
 一键完成：
 
-```shell
+```bash
 rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
 rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-2.el7.elrepo.noarch.rpm
 yum --disablerepo="*" --enablerepo="elrepo-kernel" list available
@@ -193,7 +193,7 @@ lsmod |grep bbr
 
 **1.查看当前linux内核**
 
-```shell
+```bash
 uname -r
 # 3.10.0-514.el7.x86_64
 cat /etc/redhat-release 
@@ -202,14 +202,14 @@ cat /etc/redhat-release
 
 **2.启用ELRepo库**
 
-```shell
+```bash
 rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
 rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-2.el7.elrepo.noarch.rpm
 ```
 
 **3.列出相关内核包**
 
-```shell
+```bash
 yum --disablerepo="*" --enablerepo="elrepo-kernel" list available
 ```
 
@@ -217,13 +217,13 @@ yum --disablerepo="*" --enablerepo="elrepo-kernel" list available
 
 **4.安装新内核**
 
-```shell
+```bash
 yum --enablerepo=elrepo-kernel install kernel-ml  #以后升级也是执行这句
 ```
 
 **5.检查现在可以用于启动得内核列表**
 
-```shell
+```bash
 awk -F\' '$1=="menuentry " {print $2}' /etc/grub2.cfg
 # CentOS Linux (5.0.5-1.el7.elrepo.x86_64) 7 (Core)
 # CentOS Linux (3.10.0-957.10.1.el7.x86_64) 7 (Core)
@@ -236,7 +236,7 @@ awk -F\' '$1=="menuentry " {print $2}' /etc/grub2.cfg
 
 **6.设置默认启动内核为刚安装得内核**
 
-```shell
+```bash
 vim /etc/default/grub
 
 GRUB_TIMEOUT=5
@@ -252,7 +252,7 @@ GRUB_DISABLE_RECOVERY="true"
 
 **7.重新生成grub-config，并使用新内核重启**
 
-```shell
+```bash
 grub2-mkconfig -o /boot/grub2/grub.cfg
 reboot
 ```
@@ -261,7 +261,7 @@ reboot
 
 **8.开启bbr很简单：**
 
-```shell
+```bash
 uname -r  ##输出内核版本大于4.9
 echo net.core.default_qdisc=fq >> /etc/sysctl.conf
 echo net.ipv4.tcp_congestion_control=bbr >> /etc/sysctl.conf
@@ -275,7 +275,7 @@ lsmod |grep bbr
 
 安装iptables-services，这样就可以用service iptables xx来控制iptables了
 
-```shell
+```bash
 service firewalld stop
 systemctl disable firewalld
 yum -y install iptables-services
@@ -285,7 +285,7 @@ systemctl start iptables
 ```
 
 配置filter表，用于设置INPUT、FORWARD、OUTPUT链，总之就是，开放ssh服务、httpd服务等等需要开放的端口，关闭其他一切
-```shell
+```bash
 iptables -A INPUT -p tcp --dport 22 -j ACCEPT  #开启tcp 22端口的读
 iptables -A INPUT -p tcp --dport 80 -j ACCEPT  #开启tcp 80端口的读
 iptables -A INPUT -p tcp --dport 8099 -j ACCEPT #开启tcp 8099端口的读
@@ -305,7 +305,7 @@ iptables --policy INPUT DROP #除了以上允许的,设置默认阻止所有读�
 
 # 安装jdk8
 
-```shell
+```bash
 wget --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u131-b11/d54c1d3a095b4ff2b6607d096fa80163/jdk-8u131-linux-x64.rpm
 rpm -ivh jdk-8u131-linux-x64.rpm
 
@@ -315,7 +315,7 @@ rm -f jdk8.rpm
 ```
 # 设置时区
 
-```shell
+```bash
 # 查看事件设置信息
 timedatectl status
 #Local time: 四 2014-12-25 10:52:10 CST
@@ -328,7 +328,7 @@ timedatectl status
 #DST active: n/a
 ```
 
-```shell
+```bash
 timedatectl list-timezones # 列出所有时区
 timedatectl set-local-rtc 1 # 将硬件时钟调整为与本地时钟一致, 0 为设置为 UTC 时间
 timedatectl set-timezone Asia/Shanghai # 设置系统时区为上海
@@ -350,7 +350,7 @@ nat vps的特点是ip地址会改变，有个需求就是设置ddns，当nat的�
 
 其中提到的token和A记录会需要写进dns.conf中，下面是如何在nat vps上部署这个脚本：
 
-```shell
+```bash
 systemctl status crond
 systemctl enable crond
 systemctl restart crond
@@ -372,7 +372,7 @@ cd
 
 现在，每分钟会执行一次
 
-```shell
+```bash
 /usr/local/ddnspod/ddnspod.sh &>> /root/ddns.log
 ```
 
@@ -385,7 +385,7 @@ cd
 
 **1.利用chkconfig xx on**
 
-```shell
+```bash
 # 1. 将脚本移动到/etc/rc.d/init.d目录下
 # mv  /opt/script/StartTomcat.sh /etc/rc.d/init.d
 # 2. 增加脚本的可执行权限
@@ -410,7 +410,7 @@ chmod +x /etc/rc.d/rc.local
 
 # 测试vps回程路由
 
-```shell
+```bash
 yum install -y unzip wget
 
 cd /usr/local
@@ -442,7 +442,7 @@ wget -qO natcfg.sh https://raw.githubusercontent.com/arloor/iptablesUtils/master
 
 先安装docker
 
-```shell
+```bash
 yum install -y wget
 wget -qO- https://get.docker.com/|bash
 systemctl enable docker
@@ -454,7 +454,7 @@ docker run -d --restart always --name  speedtest -p 0.0.0.0:80:80 arloor/speedte
 
 拉取speedtest镜像并运行
 
-```shell
+```bash
 cd 
 git clone -b docker https://github.com/adolfintel/speedtest.git
 cd speedtest

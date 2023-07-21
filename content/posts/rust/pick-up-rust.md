@@ -39,13 +39,13 @@ rust的网站这样描述自己：我们喜欢写document。rust确实提供了�
 
 **Linux**
 
-```shell
+```bash
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --default-host x86_64-unknown-linux-gnu -y
 ```
 
 **MacOS**
 
-```shell
+```bash
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ## linux下推荐使用x86_64-unknown-linux-musl
 ```
@@ -58,7 +58,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 rustup安装和更新使用中科大镜像：
 
-```shell
+```bash
 export RUSTUP_DIST_SERVER=https://mirrors.ustc.edu.cn/rust-static
 export RUSTUP_UPDATE_ROOT=https://mirrors.ustc.edu.cn/rust-static/rustup
 
@@ -71,7 +71,7 @@ $ENV:RUSTUP_UPDATE_ROOT='https://mirrors.ustc.edu.cn/rust-static/rustup'
 
 Cargo是rust的包管理工具，类似java的maven，设置代理如下：
 
-```shell
+```bash
 cat >> ~/.cargo/config <<\EOF
 [http]
 proxy = "127.0.0.1:7890"
@@ -82,7 +82,7 @@ EOF
 
 或者使用中科大镜像
 
-```shell
+```bash
 cat >> ~/.cargo/config <<\EOF
 [source.crates-io]
 registry = "https://github.com/rust-lang/crates.io-index"
@@ -94,7 +94,7 @@ EOF
 
 ## 卸载
 
-```shell
+```bash
 rustup self uninstall
 ```
 
@@ -326,7 +326,7 @@ rust的编译器能自动地判断一些引用的生命周期，所以不是所�
 
 ### 安装musl
 
-```shell
+```bash
 cd /var/
 wget http://musl.libc.org/releases/musl-1.2.3.tar.gz -O musl-1.2.3.tar.gz
 tar -zxvf musl-1.2.3.tar.gz
@@ -339,13 +339,13 @@ ln -fs /usr/local/musl/bin/musl-gcc /usr/local/bin/musl-gcc
 
 ### 安装musl toolchain
 
-```shell
+```bash
 rustup target add x86_64-unknown-linux-musl
 ```
 
 ### 使用musl toolchain编译
 
-```shell
+```bash
 # debug, 可执行文件在target/x86_64-unknown-linux-musl/debug/
 cargo build --target x86_64-unknown-linux-musl
 # release，可执行文件在target/x86_64-unknown-linux-musl/release/

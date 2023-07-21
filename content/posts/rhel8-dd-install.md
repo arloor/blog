@@ -18,7 +18,7 @@ centos8没有了，虽然Red Hat推出了开发者计划，允许用户使用免
 
 ## dd安装脚本
 
-```shell
+```bash
 ## 如果是国内vps会遇到连接deb.debian.org失败的问题，需要自己设置http代理
 ## 镜像的root密码是arloor.com
 wget http://cdn.arloor.com/rhel/Core_Install_v3.1.sh -O install.sh&&bash install.sh -dd "http://cdn.arloor.com/rhel/rhel8.img.gz"
@@ -45,7 +45,7 @@ rm -rf /boot/grub2/grub.cfg.old
 
 镜像本身只使用了3.2G空间，需要扩容以使用全部磁盘空间
 
-```shell
+```bash
 fdisk -l      #查看磁盘
 #对新添加的磁盘进行分区，此处使用整块盘
 #并将格式化好的盘改成lvm（8e）格式
@@ -68,7 +68,7 @@ df -Th #这次再看的话，已经改过来了
 
 未注册的vps是无法yum update的，这里需要先行注册红帽开发者计划
 
-```shell
+```bash
 sudo subscription-manager remove --all
 sudo subscription-manager unregister
 sudo subscription-manager clean
@@ -86,7 +86,7 @@ sudo subscription-manager attach --auto
 之前的红帽服务器需要重新注册：
 
 
-```shell
+```bash
 sudo subscription-manager remove --all
 sudo subscription-manager unregister
 sudo subscription-manager clean
@@ -101,7 +101,7 @@ sudo subscription-manager attach --auto
 
 **方式1：直接删除内核和启动镜像(推荐)**
 
-```shell
+```bash
 ls /boot/vmlinuz-*|grep -v "rescue"|sort -r|tail -n +2|xargs -I {} rm -rf {}
 ls /boot/initramfs-*|grep -v "rescue"|sort -r|tail -n +2|xargs -I {} rm -rf {}
 sed -i "s/^GRUB_ENABLE_BLSCFG=.*/GRUB_ENABLE_BLSCFG=false/g" /etc/default/grub
@@ -114,7 +114,7 @@ rm -rf /boot/grub2/grub.cfg.old
 
 **方式2：通过dnf删除老内核**
 
-```shell
+```bash
 dnf remove --oldinstallonly --setopt installonly_limit=2 kernel
 ```
 
@@ -124,7 +124,7 @@ dnf remove --oldinstallonly --setopt installonly_limit=2 kernel
 
 上面两种方式是删除老内核给新内核腾空间，也可以选择更新时直接忽略kernel的更新。
 
-```shell
+```bash
 vim /etc/yum.conf
 ## 在[main]最后增加
 exclude=kernel*
@@ -135,7 +135,7 @@ exclude=kernel*
 
 国内vps访问redhat的官方源比较慢，需要设置dnf的代理
 
-```shell
+```bash
 vim /etc/dnf/dnf.conf
 在[main]的最后面加上
 proxy=<scheme>://<ip-or-hostname>[:port]
@@ -171,7 +171,7 @@ wget http://blog.arloor.com/install-rhel8-form-centos7.sh -O a.sh&& bash a.sh
 
 查看当前网卡
 
-```shell
+```bash
 dmesg | grep eth
 [    4.829146] vmxnet3 0000:03:00.0 eth0: NIC Link is Up 10000 Mbps
 [    5.671853] vmxnet3 0000:03:00.0 ens3: renamed from eth0
@@ -181,7 +181,7 @@ dmesg | grep eth
 
 查看当前连接信息
 
-```shell
+```bash
 # nmcli connection show
 NAME    UUID                                  TYPE      DEVICE
 ens3  46f3176f-23ac-4af8-b9fe-08d3c668ba81  ethernet  ens3
@@ -189,7 +189,7 @@ ens3  46f3176f-23ac-4af8-b9fe-08d3c668ba81  ethernet  ens3
 
 新增eth0连接
 
-```shell
+```bash
 # nmcli connection add type ethernet con-name eth0 ifname ens3
 # nmcli connection show
 NAME    UUID                                  TYPE      DEVICE
@@ -199,7 +199,7 @@ eth0    55e201dc-0f9e-44c7-b6ae-da09370e3718  ethernet  --
 
 删除ens3连接
 
-```shell
+```bash
 # nmcli connection delete ens3
 # nmcli connection show
 NAME  UUID                                  TYPE      DEVICE
@@ -208,7 +208,7 @@ eth0  55e201dc-0f9e-44c7-b6ae-da09370e3718  ethernet  ens3
 
 修改物理网卡名称
 
-```shell
+```bash
 # 查看配置文件
 # ls /etc/sysconfig/network-scripts/
 ifcfg-eth0
@@ -218,7 +218,7 @@ ifcfg-eth0
 
 修改grub启动配置
 
-```shell
+```bash
 vim /etc/default/grub
 #在GRUB_CMDLINE_LINUX_DEFAULT行后边添加
 net.ifnames=0 biosdevname=0
@@ -230,7 +230,7 @@ grub2-mkconfig -o /boot/grub2/grub.cfg
 
 ### 关闭防火墙和selinux
 
-```shell
+```bash
 ## 禁用firewalld
 service firewalld stop
 systemctl disable firewalld
@@ -256,11 +256,11 @@ sestatus
 
 然后在rc.local或者其他能自启动的地方加上
 
-```shell
+```bash
 mount /dev/vda1 /boot
 ```
 
-```shell
+```bash
 chmod +x /etc/rc.d/rc.local
 ```
 

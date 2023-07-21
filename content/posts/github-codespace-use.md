@@ -41,13 +41,13 @@ keywords:
 
 第三种方式我觉得使用最简单，体验也最好。只需要执行如下代码即可：
 
-```shell
+```bash
 chrome.exe --app=https://${user}-${repo}-${id}.github.dev/ --start-maximized
 ```
 
 windows下可以编写成vbs脚本，实现双击打开。vbs脚本内容如下
 
-```shell
+```bash
 set ws=WScript.CreateObject("WScript.Shell")
 ws.Run "chrome.exe --app=https://${user}-${repo}-${id}.github.dev/ --start-maximized",0
 ```
@@ -58,7 +58,7 @@ ws.Run "chrome.exe --app=https://${user}-${repo}-${id}.github.dev/ --start-maxim
 
 对于本地vs code，可以搜索proxy的设置，设置代理即可。对于浏览器打开，我整理了codespaces需要访问的域名如下，配置这些域名走代理即可
 
-```shell
+```bash
 *.vscode-cdn.net
 *.github.com
 *.github.dev

@@ -154,7 +154,7 @@ service ss start
 
 这样就可以使用service ss xxxxx来管理shadowsocks了。其中比较重要的项是：
 
-```shell
+```bash
 #在网络启动完毕后启动ss-local；
 After=network-online.target
 Wants=network-online.target
@@ -462,7 +462,7 @@ tlp可以设置充电阀值，详见[arch linux wiki](https://wiki.archlinux.org
 
 # 设置apt代理
 
-```shell
+```bash
 sudo vim /etc/apt/apt.conf.d/proxy.conf
 ```
 

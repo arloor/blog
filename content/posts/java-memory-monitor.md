@@ -52,7 +52,7 @@ public class MemoryMonitorTest {
 }
 ```
 
-```shell
+```bash
 buffer_pool_direct    8193
 buffer_pool_mapped    0
 buffer_pool_mapped___non_volatile_memory    0
@@ -69,7 +69,7 @@ netty在初始化这个变量前，会检查时候能反射拿到DirectByteBuffe
 
 在jdk9以上，拿构造方法被认为是`illegal reflective access`会看到这样的警告信息：
 
-```shell
+```bash
 WARNING: An illegal reflective access operation has occurred
 WARNING: Illegal reflective access by io.netty.util.internal.ReflectionUtil (file:/C:/Users/arloor/.m2/repository/io/netty/netty-all/4.1.53.Final/netty-all-4.1.53.Final.jar) to constructor java.nio.DirectByteBuffer(long,int)
 WARNING: Please consider reporting this to the maintainers of io.netty.util.internal.ReflectionUtil
@@ -95,7 +95,7 @@ private static boolean explicitTryReflectionSetAccessible0(){
 
 如果不设置，则统计netty直接内存使用量时，会在反射获取 `DirectByteBuffer` 的构造函数 `private java.nio.DirectByteBuffer(long,int)` 的时候抛出下面的异常，导致无法获取：
 
-```shell
+```bash
 java.lang.reflect.InaccessibleObjectException: 
 Unable to make private java.nio.DirectByteBuffer(long,int) accessible: 
 module java.base does not "opens java.nio" to unnamed module @5a4aa2f2
@@ -112,7 +112,7 @@ module java.base does not "opens java.nio" to unnamed module @5a4aa2f2
 
 1. 设置vm options：
 
-```shell
+```bash
 -Dio.netty.leakDetectionLevel=paranoid
 ```
 
@@ -120,7 +120,7 @@ module java.base does not "opens java.nio" to unnamed module @5a4aa2f2
 
 3. springboot的Netty AutoConfigure：
 
-```shell
+```bash
 spring:
   netty:
     leak-detection: paranoid

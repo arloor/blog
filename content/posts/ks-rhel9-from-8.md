@@ -19,7 +19,7 @@ keywords:
 
 然后挂载该镜像到一个目录，然后启动httpd服务（文档:[使用 HTTP 或 HTTPS 创建安装源](https://access.redhat.com/documentation/zh-cn/red_hat_enterprise_linux/9/html-single/performing_an_advanced_rhel_9_installation/index#creating-installation-sources-for-kickstart-installations_installing-rhel-as-an-experienced-user)）
 
-```shell
+```bash
 # 下面这个链接自己在下载页面复制
 wget https://access.cdn.redhat.com/content/origin/files/sha256/30/30fd8dff2d29a384bd97886fa826fa5be872213c81e853eae3f9d9674f720ad0/rhel-9.2-x86_64-dvd.iso?_auth_=xxxxxxxxxxx -O redhat9.iso
 lsof -i:80
@@ -40,7 +40,7 @@ systemctl start httpd.service
 | 分区 | 为了制作镜像，这里的分区是最小分区： `/boot` 1G， `/` 3G的ext4类型的LVM。后面会涉及到扩容操作。如果不需要制作镜像，可以把reqpart到logvol都改为 `autopart --nohome --noswap`这一行|
 | 其他 | 关闭了selinux、firewalld、kdump，并安装了httpd |
 
-```shell
+```bash
 #version=RHEL9
 ignoredisk --only-use="sda|hda|xda|vda|xvda|nvme0n1"
 clearpart --all --initlabel
@@ -100,7 +100,7 @@ kickstart配置文件可以参考rhel9的文档：- [kickstart_references](https
 
 下面一键完成：
 
-```shell
+```bash
 # 1. 启用blscfg模块
 sed -i 's/GRUB_ENABLE_BLSCFG.*/GRUB_ENABLE_BLSCFG=true/g' /etc/default/grub
 grub2-mkconfig -o /boot/grub2/grub.cfg
@@ -150,7 +150,7 @@ grubby的 `--args` 是指定内核参数，可以参考rhel9官方文档：- [Bo
 
 然后在rc.local或者其他能自启动的地方加上
 
-```shell
+```bash
 sed -i "/.*\/boot.*/d" /etc/fstab
 echo "mount /dev/vda1 /boot" >> /etc/rc.d/rc.local
 chmod +x /etc/rc.d/rc.local
@@ -158,7 +158,7 @@ chmod +x /etc/rc.d/rc.local
 
 ### 添加virtio驱动
 
-```shell
+```bash
 cat >> /etc/dracut.conf <<EOF
 add_drivers+=" virtio_console virtio_net virtio_scsi virtio_blk "
 EOF
@@ -169,7 +169,7 @@ lsinitrd /boot/initramfs-$(uname -r).img | grep virtio
 
 可以看到已经有virtio了：
 
-```shell
+```bash
 -rw-r--r--   1 root     root        12196 Feb 15 00:45 usr/lib/modules/5.14.0-284.11.1.el9_2.x86_64/kernel/drivers/block/virtio_blk.ko.xz
 -rw-r--r--   1 root     root        19152 Feb 15 00:45 usr/lib/modules/5.14.0-284.11.1.el9_2.x86_64/kernel/drivers/char/virtio_console.ko.xz
 -rw-r--r--   1 root     root        45932 Feb 15 00:45 usr/lib/modules/5.14.0-284.11.1.el9_2.x86_64/kernel/drivers/net/virtio_net.ko.xz
@@ -182,7 +182,7 @@ lsinitrd /boot/initramfs-$(uname -r).img | grep virtio
 
 在腾讯云新建云硬盘，并挂载后，执行：
 
-```shell
+```bash
 mkfs -t ext4 /dev/vdb
 mkdir /dd
 mount /dev/vdb /dd
@@ -190,7 +190,7 @@ df -TH
 ```
 如果要自动挂载，可以加到 `/etc/fstab` 下，内容为：
 
-```shell
+```bash
 /dev/vdb /dd   ext4 defaults     0   0
 ```
 参考腾讯云的[云盘初始化文档](https://cloud.tencent.com/document/product/1207/81981#Steps)
@@ -199,7 +199,7 @@ df -TH
 
 一键完成：
 
-```shell
+```bash
 fdisk -l -u /dev/vda
 last=$(fdisk -l -u /dev/vda|tail -n 1 |awk '{print $3}') # 获取分区的末尾
 echo $last
@@ -210,7 +210,7 @@ watch -n 5 pkill -USR1 ^dd$  # 每五秒输出一次进度
 
 手动步骤：
 
-```shell
+```bash
 fdisk -l -u /dev/vda
 Disk /dev/vda：120 GiB，128849018880 字节，251658240 个扇区
 单元：扇区 / 1 * 512 = 512 字节
@@ -230,7 +230,7 @@ watch -n 5 pkill -USR1 ^dd$  # 每五秒输出一次进度
 
 ### 用web服务下载镜像
 
-```shell
+```bash
 systemctl start httpd
 ln -fs /dd/9.img.gz /var/www/html/9.img.gz
 wget http://xxxx/9.img.gz -O 9.img.gz
@@ -242,7 +242,7 @@ wget http://xxxx/9.img.gz -O 9.img.gz
 
 centos8/9先关闭blscfg
 
-```shell
+```bash
 sed -i "s/^GRUB_ENABLE_BLSCFG=.*/GRUB_ENABLE_BLSCFG=false/g" /etc/default/grub
 grub2-mkconfig -o /boot/grub2/grub.cfg
 rm -rf /boot/grub2/grub.cfg.bak
@@ -251,20 +251,20 @@ rm -rf /boot/grub2/grub.cfg.old
 
 因为dd脚本需要使用debian的源，国内vps需要设置代理：
 
-```shell
+```bash
 export http_proxy=xxx
 export https_proxy=xxx
 ```
 
 最后安装：
 
-```shell
+```bash
 wget http://cdn.arloor.com/rhel/Core_Install_v3.1.sh -O install.sh&&bash install.sh -dd http://xxxx/9.img.gz
 ```
 
 ### dd后磁盘扩容 
 
-```shell
+```bash
 #对新添加的磁盘进行分区，此处使用整块盘
 fdisk /dev/vda  # 然后输入n，一路回车，最后输入w使分区生效
 vgdisplay   #查看系统中的逻辑组
@@ -284,7 +284,7 @@ lsblk #查看块设备
 
 ### 注册到红帽
 
-```shell
+```bash
 subscription-manager register
 subscription-manager attach --auto
 ```
@@ -298,7 +298,7 @@ subscription-manager attach --auto
 之前的红帽服务器需要重新注册：
 
 
-```shell
+```bash
 sudo subscription-manager remove --all
 sudo subscription-manager unregister
 sudo subscription-manager clean
@@ -311,7 +311,7 @@ sudo subscription-manager attach --auto
 
 密码登陆可能有风险，而且我又使用了公钥登陆，就关闭密码登陆了
 
-```shell
+```bash
 #关闭密码
 grep "PasswordAuthentication yes " /etc/ssh/sshd_config
 sed  -i  -e 's/\(#\)\?PasswordAuthentication yes/PasswordAuthentication no/g' /etc/ssh/sshd_config
@@ -336,7 +336,7 @@ systemctl restart sshd
 
 但是还是提供个删除旧内核的脚本：
 
-```shell
+```bash
 sudo rpm -q kernel # 查看内核数量
 sudo dnf remove --oldinstallonly --setopt installonly_limit=2 kernel -y
 sudo rpm -q kernel # 再次查看内核数量

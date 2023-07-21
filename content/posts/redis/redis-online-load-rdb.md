@@ -32,7 +32,7 @@ keywords:
 2. 执行 `make MALLOC=libc`，进行编译
 3. 执行`src/redis-server`以默认配置（rdb开启）启动redis
 4. 启动另一个bash，执行以下命令：
-```shell
+```bash
 src/redis-cli set a test       #设置a
 src/redis-cli BGSAVE           #进行rdb持久化
 src/redis-cli get a            #获取a，此时为test
