@@ -358,7 +358,7 @@ EOF
 kubectl apply -f roleBind.yaml
 ```
 
-生成登陆的token
+打印port，并生成token，随后通过token访问 `https://ip/31611` 即可使用dashboard。
 
 ```bash
 cat > /usr/local/bin/token <<\EOF
@@ -370,8 +370,6 @@ EOF
 chmod +x /usr/local/bin/token
 token
 ```
-
-通过token访问 `https://ip/31611` 即可访问dashboard。
 
 ![](/img/k8s-dashboard.png)
 
