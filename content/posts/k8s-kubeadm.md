@@ -323,7 +323,7 @@ kubernetes-dashboard        NodePort    10.97.248.169    <none>        443:31611
 kubectl get svc -n kubernetes-dashboard |grep NodePort|awk -F '[ :/]+' '{print $6}'
 ```
 
-生成访问token，参考[creating-sample-user](https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/creating-sample-user.md)，来生成用户，并用下面的操作生成token
+生成访问token: 参考[creating-sample-user](https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/creating-sample-user.md)
 
 ServiceAccount
 
@@ -358,13 +358,17 @@ EOF
 kubectl apply -f roleBind.yaml
 ```
 
+生成登陆的token
 
 ```bash
-cat > /usr/local/bin/token <<EOF
-kubectl get svc -n kubernetes-dashboard |grep NodePort|awk -F '[ :/]+' '{print $6}'
+cat > /usr/local/bin/token <<\EOF
+echo Port: `kubectl get svc -n kubernetes-dashboard |grep NodePort|awk -F '[ :/]+' '{print $6}'`
+echo
+echo Token: 
 kubectl -n kubernetes-dashboard create token admin-user
 EOF
 chmod +x /usr/local/bin/token
+token
 ```
 
 通过token访问 `https://ip/31611` 即可访问dashboard。
