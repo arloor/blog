@@ -248,12 +248,12 @@ spec:
     - name: "over_tls"
       value: "true"
   restartPolicy: Always
-  hostNetwork: true
   ports:
     - containerPort: 444
       hostPort: 444
       name: https
       protocol: TCP
+  hostNetwork: true
   dnsPolicy: ClusterFirstWithHostNet
 EOF
 kubectl apply -f proxy.yaml
