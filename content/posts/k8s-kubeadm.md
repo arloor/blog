@@ -318,7 +318,7 @@ wget https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/re
 修改dashboard.yaml成hostNetWork： 参考[K8S Dashboard安裝/操作](https://hackmd.io/@compalAA/SykoBsSbi#Step3-%E6%89%8B%E5%8B%95%E4%B8%8B%E8%BC%89image)
 
 1. Service/kubernetes-dashboard的spec中增加  type: NodePort
-2. Deployment/dashboard-metrics-scraper最后一行增加hostNetwork: true 和containers：并排
+2. Deployment/dashboard-metrics-scraper最后一行增加hostNetwork: true、dnsPolicy: ClusterFirstWithHostNet 和containers：并排
 3. 在args中增加 - --token-ttl=43200 将token过期时间改为12小时
  
 ```bash
