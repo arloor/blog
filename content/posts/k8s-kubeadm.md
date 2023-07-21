@@ -393,6 +393,33 @@ kubernetes-dashboard        NodePort    10.97.248.169    <none>        443:31611
 
 生成访问token，参考[creating-sample-user](https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/creating-sample-user.md)，来生成用户，并用下面的操作生成token
 
+ServiceAccount
+
+```yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: admin-user
+  namespace: kubernetes-dashboard
+```
+
+ClusterRoleBinding
+
+```shell
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: admin-user
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: admin-user
+  namespace: kubernetes-dashboard
+```
+
 
 ```shell
 cat > /usr/local/bin/token <<EOF
