@@ -403,7 +403,9 @@ watch kubectl get service -A
 问题： 在做[local-testing](https://kubernetes.github.io/ingress-nginx/deploy/#local-testing)创建ingress时，连接不到admission。
 
 ```shell
-mi ➜  ~ kubectl create ingress demo-localhost --class=nginx \
+$ kubectl create deployment demo --image=httpd --port=80
+$ kubectl expose deployment demo
+$ kubectl create ingress demo-localhost --class=nginx \
   --rule="demo.localdev.me/*=demo:80"
 error: failed to create ingress: Internal error occurred: failed calling webhook "validate.nginx.ingress.kubernetes.io": failed to call webhook: Post "https://ingress-nginx-controller-admission.ingress-nginx.svc:443/networking/v1/ingresses?timeout=10s": EOF
 ```
