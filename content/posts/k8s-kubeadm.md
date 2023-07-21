@@ -166,7 +166,7 @@ kubeadm join 10.0.4.17:6443 --token oafxnp.o4w7gamzg4dz592m \
 	--discovery-token-ca-cert-hash sha256:67637fbffe6368ed94990172c0685e3c5f3d2ae53d70577f4e779e430ea9cafd 
 ```
 
-### 解决network plugin未安装导致的node not ready
+### 安装网络插件，解决node not ready
 
 ```shell
 $ kubectl get nodes
