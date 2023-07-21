@@ -16,7 +16,7 @@ keywords:
 
 ### 机器配置
 
-```shell
+```bash
 # 关闭swap
 swapoff -a # 临时关闭
 sed -i '/.*swap.*/d' /etc/fstab # 永久关闭，下次开机生效
