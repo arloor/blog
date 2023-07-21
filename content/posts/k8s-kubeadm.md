@@ -186,6 +186,18 @@ kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.26.1
 watch kubectl get pods -n calico-system # 两秒刷新一次，直到所有Calico的pod变成running
 ```
 
+下面是安装Flan
+
+```shell
+wget https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml -O kube-flannel.yml
+sed -i 's/10.244.0.0\/16/192.168.0.0\/16/' kube-flannel.yml
+for i in $(grep "image: " kube-flannel.yml | awk -F '[ "]+' '{print $3}'|uniq); do
+        echo 下载 $i
+        crictl --runtime-endpoint=unix:///run/containerd/containerd.sock pull ${i}
+done
+kubectl apply -f kube-flannel.yml
+```
+
 ### 让控制面节点也能调度pod 
 
 ```shell
