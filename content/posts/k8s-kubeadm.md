@@ -401,6 +401,10 @@ EOF
 chmod +x /usr/local/bin/token
 ```
 
+通过token访问 `https://ip/31611` 即可访问dashboard。
+
+![](/img/k8s-dashboard.png)
+
 ## 参考文档
 
 - [install-kubeadm](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/)
