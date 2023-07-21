@@ -114,8 +114,8 @@ EOF
 setenforce 0
 sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config  
 sudo yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
-# 在/etc/dnf/dnf.conf的[main]块中增加 exclude=kubelet kubeadm kubectl
-echo "exclude=kubelet kubeadm kubectl" >> /etc/dnf/dnf.conf
+
+
 
 sudo systemctl enable --now kubelet # 启动kubelet服务，但是会一直重启，这是正常的
 kubelet --version # Kubernetes v1.27.3
