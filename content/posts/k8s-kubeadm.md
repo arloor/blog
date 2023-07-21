@@ -163,7 +163,7 @@ kubectl get cs # 使用kubectl与集群交互
 Then you can join any number of worker nodes by running the following on each as root:
 
 kubeadm join mi:6443 --token 9j2kbw.05vncqjs7bntu4wu \
-        --discovery-token-ca-cert-hash sha256:7c5d6e9360110ffb1784601a06043c9467e054283e851909d70161d36e9f08ef
+        --discovery-token-ca-cert-hash sha256:7c5d6e9360110ffb1784601a06043c9467e054283e851909d70161d36e9f08ef #--ignore-preflight-errors=all
 ```
 
 ### 安装网络插件，解决node not ready
