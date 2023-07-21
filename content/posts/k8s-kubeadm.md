@@ -390,7 +390,6 @@ kubectl apply -f l2.yaml
 ### NodePort方式安装Ingress Nginx
 
 ```shell
-
 wget -O ingress-nginx.yaml https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.1/deploy/static/provider/baremetal/deploy.yaml
 for i in $(grep "image: " ingress-nginx.yaml | awk -F '[ "]+' '{print $3}'|uniq); do
         echo 下载 $i
