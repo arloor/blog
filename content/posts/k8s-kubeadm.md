@@ -394,7 +394,10 @@ kubernetes-dashboard        NodePort    10.97.248.169    <none>        443:31611
 
 
 ```shell
+cat > /usr/local/bin/token <<EOF
 kubectl -n kubernetes-dashboard create token admin-user
+EOF
+chmod +x /usr/local/bin/token
 ```
 
 ## 参考文档
