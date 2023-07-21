@@ -392,6 +392,8 @@ token
 ```
 
 ![](/img/k8s-workloads.png)
+![](/img/k8s-nodes.png)
+
 
 ## 参考文档
 
