@@ -196,6 +196,7 @@ for i in $(grep "image: " kube-flannel.yml | awk -F '[ "]+' '{print $3}'|uniq); 
         crictl --runtime-endpoint=unix:///run/containerd/containerd.sock pull ${i}
 done
 kubectl apply -f kube-flannel.yml
+watch kubectl get pod -n kube-flannel
 ```
 
 ### 让控制面节点也能调度pod 
