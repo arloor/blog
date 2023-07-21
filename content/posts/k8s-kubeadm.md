@@ -317,7 +317,11 @@ dashboard-metrics-scraper   ClusterIP   10.106.143.149   <none>        8000/TCP 
 kubernetes-dashboard        NodePort    10.97.248.169    <none>        443:31611/TCP   53s   k8s-app=kubernetes-dashboard
 ```
 
-`443:31611/TCP` 表示我们可以通过外网ip:31611来访问dashboard
+`443:31611/TCP` 表示我们可以通过外网ip:31611来访问dashboard，快速得到这个端口可以用下面的命令
+
+```bash
+kubectl get svc -n kubernetes-dashboard |grep NodePort|awk -F '[ :/]+' '{print $6}'
+```
 
 生成访问token，参考[creating-sample-user](https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/creating-sample-user.md)，来生成用户，并用下面的操作生成token
 
@@ -357,6 +361,7 @@ kubectl apply -f roleBind.yaml
 
 ```bash
 cat > /usr/local/bin/token <<EOF
+kubectl get svc -n kubernetes-dashboard |grep NodePort|awk -F '[ :/]+' '{print $6}'
 kubectl -n kubernetes-dashboard create token admin-user
 EOF
 chmod +x /usr/local/bin/token
