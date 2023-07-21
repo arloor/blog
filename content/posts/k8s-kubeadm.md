@@ -259,11 +259,6 @@ spec:
     - mountPath: /web_content_path
       name: content
   restartPolicy: Always
-  ports:
-    - containerPort: 444
-      hostPort: 444
-      name: https
-      protocol: TCP
   hostNetwork: true
   dnsPolicy: ClusterFirstWithHostNet
   volumes:
