@@ -242,6 +242,9 @@ spec:
       labels:
         kubernetes.io/os: linux
     spec:
+      # 因为使用hostNetwork模式，最好限定好nodeName
+      # nodeSelector:
+      #   kubernetes.io/hostname: mi
       containers:
       - image: arloor/rust_http_proxy:1.0
         imagePullPolicy: Always
@@ -388,7 +391,7 @@ chmod +x /usr/local/bin/token
 token
 ```
 
-![](/img/k8s-dashboard.png)
+![](/img/k8s-workloads.png)
 
 ## 参考文档
 
