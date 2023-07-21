@@ -386,3 +386,57 @@ spec:
 EOF
 kubectl apply -f l2.yaml
 ```
+
+### NodePort方式安装Ingress Nginx
+
+```shell
+
+wget -O ingress-nginx.yaml https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.1/deploy/static/provider/baremetal/deploy.yaml
+for i in $(grep "image: " ingress-nginx.yaml | awk -F '[ "]+' '{print $3}'|uniq); do
+        echo 下载 $i
+        crictl --runtime-endpoint=unix:///run/containerd/containerd.sock pull ${i}
+done
+kubectl apply -f ingress-nginx.yaml
+watch kubectl get service -A
+```
+
+问题： 在做[local-testing](https://kubernetes.github.io/ingress-nginx/deploy/#local-testing)创建ingress时，连接不到admission。
+
+```shell
+mi ➜  ~ kubectl create ingress demo-localhost --class=nginx \
+  --rule="demo.localdev.me/*=demo:80"
+error: failed to create ingress: Internal error occurred: failed calling webhook "validate.nginx.ingress.kubernetes.io": failed to call webhook: Post "https://ingress-nginx-controller-admission.ingress-nginx.svc:443/networking/v1/ingresses?timeout=10s": EOF
+```
+
+测试了下dns
+```shell
+$ kubectl run curl --image=radial/busyboxplus:curl -it
+$ nslookup ingress-nginx-controller-admission.ingress-nginx.svc # dns是通的
+Server:    10.96.0.10
+Address 1: 10.96.0.10 kube-dns.kube-system.svc.cluster.local
+
+Name:      ingress-nginx-controller-admission.ingress-nginx.svc
+Address 1: 10.108.175.87 ingress-nginx-controller-admission.ingress-nginx.svc.cluster.local
+$ curl https://ingress-nginx-controller-admission.ingress-nginx.svc:443/networking/v1/ingresses?timeout=10s
+curl: (6) Couldn't resolve host 'ingress-nginx-controller-admission.ingress-nginx.svc'
+$ curl https://ingress-nginx-controller-admission.ingress-nginx.svc.cluster.local:443/networking/v1/ingresses?timeout=10s  -k -v
+* SSLv3, TLS handshake, Client hello (1):
+* SSLv3, TLS handshake, Server hello (2):
+* SSLv3, TLS handshake, CERT (11):
+* SSLv3, TLS handshake, Server key exchange (12):
+* SSLv3, TLS handshake, Server finished (14):
+* SSLv3, TLS handshake, Client key exchange (16):
+* SSLv3, TLS change cipher, Client hello (1):
+* SSLv3, TLS handshake, Finished (20):
+* SSLv3, TLS change cipher, Client hello (1):
+* SSLv3, TLS handshake, Finished (20):
+> GET /networking/v1/ingresses?timeout=10s HTTP/1.1
+> User-Agent: curl/7.35.0
+> Host: ingress-nginx-controller-admission.ingress-nginx.svc.cluster.local
+> Accept: */*
+> 
+< HTTP/1.1 400 Bad Request
+< Date: Fri, 21 Jul 2023 03:02:07 GMT
+< Content-Length: 0
+< 
+```
