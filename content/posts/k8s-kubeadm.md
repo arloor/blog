@@ -366,6 +366,30 @@ ingress-nginx-controller-admission   ClusterIP      10.99.75.35     <none>      
 metrics-server的pod正常启动后，等一段时间就可以使用kubectl top查看集群和pod的metrics信息。
 
 
+### kubernetes dashboard
+
+```shell
+wget https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml -O dashboard.yaml
+```
+
+修改成hostNetWork：
+
+1. Service/kubernetes-dashboard的spec中增加  type: NodePort
+2. Deployment/dashboard-metrics-scraper最后一行增加hostNetwork: true 和volumes：并排
+ 
+```shell
+kubectl apply -f dashboard.yaml
+watch kubectl get pod -n kubernetes-dashboard
+```
+
+```shell
+NAME                        TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)         AGE   SELECTOR
+dashboard-metrics-scraper   ClusterIP   10.106.143.149   <none>        8000/TCP        53s   k8s-app=dashboard-metrics-scraper
+kubernetes-dashboard        NodePort    10.97.248.169    <none>        443:31611/TCP   53s   k8s-app=kubernetes-dashboard
+```
+
+`443:31611/TCP` 表示我们可以通过外网ip:31611来访问dashboard
+
 ## 参考文档
 
 - [install-kubeadm](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/)
