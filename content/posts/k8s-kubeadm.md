@@ -340,8 +340,6 @@ kubectl get svc -n kubernetes-dashboard |grep NodePort|awk -F '[ :/]+' '{print $
 
 生成访问token: 参考[creating-sample-user](https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/creating-sample-user.md)
 
-ServiceAccount
-
 ```bash
 cat > sa.yaml <<EOF
 apiVersion: v1
@@ -351,11 +349,7 @@ metadata:
   namespace: kubernetes-dashboard
 EOF
 kubectl apply -f sa.yaml
-```
 
-ClusterRoleBinding
-
-```bash
 cat > roleBind.yaml <<EOF
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
