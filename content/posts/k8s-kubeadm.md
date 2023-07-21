@@ -208,10 +208,8 @@ kubectl taint nodes --all node-role.kubernetes.io/master-
 ### 检验dns正确
 
 ```shell
-kubectl run curl --image=radial/busyboxplus:curl -it
+kubectl run curl --image=radial/busyboxplus:curl -it --rm
 nslookup kubernetes.default
-kubectl attach curl -c curl -i -t
-nslookup webhook-service.metallb-system.svc
 ```
 
 ### 在控制面节点上跑一个nginx的pod
