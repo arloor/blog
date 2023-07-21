@@ -323,17 +323,21 @@ kubernetes-dashboard        NodePort    10.97.248.169    <none>        443:31611
 
 ServiceAccount
 
-```yaml
+```bash
+cat > sa.yaml <<EOF
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: admin-user
   namespace: kubernetes-dashboard
+EOF
+kubectl apply -f sa.yaml
 ```
 
 ClusterRoleBinding
 
 ```bash
+cat > roleBind.yaml <<EOF
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
@@ -346,6 +350,9 @@ subjects:
 - kind: ServiceAccount
   name: admin-user
   namespace: kubernetes-dashboard
+EOF
+EOF
+kubectl apply -f roleBind.yaml
 ```
 
 
