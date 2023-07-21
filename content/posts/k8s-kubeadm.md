@@ -376,6 +376,7 @@ wget https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/re
 
 1. Service/kubernetes-dashboard的spec中增加  type: NodePort
 2. Deployment/dashboard-metrics-scraper最后一行增加hostNetwork: true 和volumes：并排
+3. 在args中增加 - --token-ttl=43200 将token过期时间改为12小时
  
 ```shell
 kubectl apply -f dashboard.yaml
