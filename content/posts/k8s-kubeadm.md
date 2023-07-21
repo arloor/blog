@@ -351,7 +351,6 @@ subjects:
   name: admin-user
   namespace: kubernetes-dashboard
 EOF
-EOF
 kubectl apply -f roleBind.yaml
 ```
 
