@@ -224,6 +224,42 @@ kubectl delete pod nginx # 删除这个pod
 
 ## 常用组件安装
 
+### 装个我的代理
+
+```shell
+cat > proxy.yaml <<EOF
+apiVersion: v1
+kind: Pod
+metadata:
+  name: proxy
+  namespace: default
+spec:
+  containers:
+  - image: arloor/rust_http_proxy:1.0
+    imagePullPolicy: IfNotPresent
+    name: proxy
+    env:
+    - name: port
+      value: "444"
+    - name: basic_auth
+      value: "xxxxxxxx"
+    - name: ask_for_auth
+      value: "false"
+    - name: "over_tls"
+      value: "true"
+  restartPolicy: Always
+  hostNetwork: true
+  ports:
+    - containerPort: 444
+      hostPort: 444
+      name: https
+      protocol: TCP
+  dnsPolicy: ClusterFirstWithHostNet
+EOF
+kubectl apply -f proxy.yaml
+watch kubectl get pod 
+```
+
 ### helm包管理器
 
 ```shell
