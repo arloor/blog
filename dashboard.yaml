@@ -306,5 +306,5 @@ spec:
       volumes:
         - name: tmp-volume
           emptyDir: {}
-      hostNetwork: true
-      dnsPolicy: ClusterFirstWithHostNet
+      # hostNetwork: true
+      # dnsPolicy: ClusterFirstWithHostNet
