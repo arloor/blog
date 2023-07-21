@@ -113,7 +113,7 @@ EOF
 ## 关闭selinux
 setenforce 0
 sed -i 's/SELINUX=enforcing/SELINUX=disabled/' /etc/selinux/config  
-sudo yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
+sudo yum install -y kubectl-1.27.4 kubeadm-1.27.4 kubectl-1.27.4 --disableexcludes=kubernetes
 
 
 
