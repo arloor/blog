@@ -409,6 +409,8 @@ token
 - [ingress-nginx deploy](https://kubernetes.github.io/ingress-nginx/deploy/)
 - [ingress-nginx 更改地址](https://blog.51cto.com/u_1472521/4909743)
 - [ingress-nginx custom-listen-ports](https://docs.nginx.com/nginx-ingress-controller/tutorials/custom-listen-ports/)
+- [跨云厂商部署 k3s 集群](https://icloudnative.io/posts/deploy-k3s-cross-public-cloud/)
+- [使用 WireGuard 作为 Kubernetes 的 CNI 插件(打通云厂商)](https://icloudnative.io/posts/use-wireguard-as-kubernetes-cni/)
 
 
 ## 其他
