@@ -411,6 +411,8 @@ token
 - [ingress-nginx custom-listen-ports](https://docs.nginx.com/nginx-ingress-controller/tutorials/custom-listen-ports/)
 - [跨云厂商部署 k3s 集群](https://icloudnative.io/posts/deploy-k3s-cross-public-cloud/)
 - [使用 WireGuard 作为 Kubernetes 的 CNI 插件(打通云厂商)](https://icloudnative.io/posts/use-wireguard-as-kubernetes-cni/)
+- [Kubernetes 入门到实践：借助 WireGuard 跨云搭建 K3s 集群环境](https://zhuanlan.zhihu.com/p/584998631)
+- [K3S+Rancher2.x跨Region搭建方案](http://kingsd.top/2020/05/14/k3s-Region/)
 
 
 ## 其他
