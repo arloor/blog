@@ -413,7 +413,8 @@ token
 - [使用 WireGuard 作为 Kubernetes 的 CNI 插件(打通云厂商)](https://icloudnative.io/posts/use-wireguard-as-kubernetes-cni/)
 - [Kubernetes 入门到实践：借助 WireGuard 跨云搭建 K3s 集群环境](https://zhuanlan.zhihu.com/p/584998631)
 - [K3S+Rancher2.x跨Region搭建方案](http://kingsd.top/2020/05/14/k3s-Region/)
-
+- [K3s vs K8s：轻量级和全功能的对决](http://kingsd.top/2023/07/13/k3s-k8s/) 
+- [探索 K3s 简单高效的多云和混合云部署](http://kingsd.top/2023/07/07/k3s-distributed-hybrid-or-multicloud-cluster/)
 
 ## 其他
 
