@@ -285,6 +285,8 @@ lsblk #查看块设备
 ### 注册到红帽
 
 ```bash
+# 先设置一个独一无二的hostname
+hostnamectl set-hostname xxx
 subscription-manager register
 subscription-manager attach --auto
 ```
