@@ -1,5 +1,5 @@
 ---
-title: "K8s Kubeadm 1.27.3安装"
+title: "使用Kubeadm安装K8S 1.27.3"
 date: 2023-07-19T19:48:26+08:00
 draft: false
 categories: [ "undefined"]
