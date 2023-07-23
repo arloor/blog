@@ -48,7 +48,6 @@ spec:
       containers:
       - name: proxy
         image: docker.io/arloor/rust_http_proxy:1.0
-        imagePullPolicy: Always
         ports:
           - containerPort: 443 
             hostPort: 444 # 使用主机的444端口
