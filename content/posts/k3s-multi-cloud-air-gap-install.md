@@ -1,5 +1,5 @@
 ---
-title: "K3s多云环境下的离线部署"
+title: "K3S多云环境下的离线部署"
 date: 2023-07-23T11:01:10+08:00
 draft: false
 categories: [ "undefined"]
