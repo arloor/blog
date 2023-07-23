@@ -117,3 +117,14 @@ spec:
 ```bash
 kubectl patch deployment coredns -n kube-system --patch-file p.yaml
 ```
+
+## 替换镜像仓库为腾讯云的
+
+腾讯云的镜像仓库控制台 [https://console.cloud.tencent.com/tcr/?rid=1](https://console.cloud.tencent.com/tcr/?rid=1)。选择广州地区，有个人版可以开通。
+
+
+```shell
+kubectl set image ds/proxy proxy=ccr.ccs.tencentyun.com/arloor/rust_http_proxy:1.0
+```
+
+接下来DaemonSet会进行滚动更新
