@@ -49,11 +49,27 @@ cat > cm-clash-conf.yaml <<EOF
 # config.yaml
 apiVersion: v1
 data:
-  config.yaml: "port: 3128\nallow-lan: true\n\nproxies:\n- name: \"bwg\"\n  type:
-    http\n  server: xxxx\n  port: 444\n  username: xx\n  password:
-    xxxx\n  tls: true \n  skip-cert-verify: true\n\nrules:\n-
-    IP-CIDR,192.168.0.0/16,DIRECT\n- IP-CIDR,10.0.0.0/8,DIRECT\n- IP-CIDR,172.16.0.0/12,DIRECT\n-
-    GEOIP,CN,DIRECT\n- MATCH,bwg\n"
+  config.yaml: |
+    port: 3128 
+    # 绑定0.0.0.0
+    allow-lan: true 
+    
+    proxies:
+    - name: "bwg"
+      type: http
+      server: bwg.arloor.dev
+      port: 444
+      username: haloshit
+      password: asa^78ssdY&7AsA&88&(9&)**
+      tls: true 
+      skip-cert-verify: true
+    
+    rules:
+    - IP-CIDR,192.168.0.0/16,DIRECT
+    - IP-CIDR,10.0.0.0/8,DIRECT
+    - IP-CIDR,172.16.0.0/12,DIRECT
+    - GEOIP,CN,DIRECT
+    - MATCH,bwg
 kind: ConfigMap
 metadata:
   name: clash-conf
@@ -130,7 +146,7 @@ EOF
 kubectl apply -f cm-clash-conf.yaml
 ```
 
-其中ConfigMap对应的就是config.yaml的内容，我是使用如下命令从文件直接创建的：
+其中ConfigMap对应的就是config.yaml的内容，其中采用了yaml的多行文本表示形式。(可以在vim中按control + v 进入块模式，然后shift + i在头部批量增加空格)。也可以使用如下命令从文件直接创建的：
 
 ```bash
 kubectl create cm clash-conf --from-file=config.yaml 
