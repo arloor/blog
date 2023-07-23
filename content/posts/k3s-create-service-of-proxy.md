@@ -64,18 +64,18 @@ metadata:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: clash-proxy
+  name: clash
   namespace: default
   labels:
     k8s-app: clash
 spec:
   selector:
     matchLabels:
-      name: clash-proxy
+      k8s-app: clash
   template:
     metadata:
       labels:
-        name: clash-proxy
+        k8s-app: clash
     spec:
       tolerations:
       # 这些容忍度设置是为了让该守护进程集在控制平面节点上运行
@@ -87,7 +87,7 @@ spec:
         operator: Exists
         effect: NoSchedule
       containers:
-      - name: clash-proxy
+      - name: clash
         image: docker.io/arloor/clash:1.0
         command: [ "/clash-linux-amd64-2022.11.25","-d","/","-f","/etc/clash/config.yaml" ]
         ports:
@@ -115,7 +115,7 @@ apiVersion: v1
 metadata:
   labels:
     k8s-app: clash
-  name: clash-proxy
+  name: clash
   namespace: default
 spec:
   ports:
@@ -123,7 +123,7 @@ spec:
       targetPort: 3128
       protocol: TCP
   selector:
-    name: clash-proxy
+    k8s-app: clash
   type: ClusterIP
 
 EOF
@@ -139,8 +139,10 @@ kubectl get cm clash-conf  -o yaml
 
 另外在过程中遇到一点问题是Service写的不对，没有和deployment成功关联，主要是.spec.selector那里没写对，后面直接用expose来创建service了。而且刚好只需要ClusterIp类型的Service即可，expose刚刚好。
 
+> 后面又学习了下，Deployment的 spec.selector.matchLabels 下的labels要和Service的.spec.selector下的labels一致。这也有个最佳实践：Service和Deployment的Name**保持一致**，然后给Deployment增加一个label：固定为 **k8s-app: ${name}**
+
 ```bash
-kubectl expose deployment/clash-proxy
+kubectl expose deployment/clash
 ```
 
 ## 测试
@@ -149,6 +151,6 @@ kubectl expose deployment/clash-proxy
 
 ```bash
 kubectl run curl --image=radial/busyboxplus:curl --command --attach --rm -- \
-curl https://google.com --proxy http://clash-proxy.default.svc.cluster.local:3128
+curl https://google.com --proxy http://clash.default.svc.cluster.local:3128
 # 也可以 kubectl run curl --image=radial/busyboxplus:curl -it --rm来创建pod，然后在pod的bash中执行curl命令
 ```
