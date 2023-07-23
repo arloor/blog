@@ -14,7 +14,7 @@ keywords:
 ## 整体说明
 
 1. tls的证书没有使用Secret，感觉没啥必要
-2. 使用hostPort来暴露端口
+2. 使用hostNetwork来暴露端口，并且使用host的DNS
 3. 将coredns的deployment移动到外网的vps上
 4. 使用envFrom comfigMap加载环境变量，这要求configMap中所有字段都是String类型，443、true、false要用双引号包裹
 
@@ -36,6 +36,7 @@ spec:
       labels:
         name: proxy
     spec:
+      hostNetwork: true
       tolerations:
       # 这些容忍度设置是为了让该守护进程集在控制平面节点上运行
       # 如果你不希望自己的控制平面节点运行 Pod，可以删除它们
@@ -48,10 +49,6 @@ spec:
       containers:
       - name: proxy
         image: docker.io/arloor/rust_http_proxy:1.0
-        ports:
-          - containerPort: 443 
-            hostPort: 444 # 使用主机的444端口
-            protocol: TCP
         envFrom:
         - configMapRef:
             name: proxy-env
@@ -71,7 +68,7 @@ kind: ConfigMap
 metadata:
   name: proxy-env
 data:
-  port: "443"
+  port: "444"
   cert: /certs/cert
   raw_key: /certs/key
   basic_auth: "Basic xxxxxxxxxxxx=="
