@@ -1,0 +1,6 @@
+spec:
+  replicas: 2
+  template:
+    spec:
+      nodeSelector: 
+        location: out

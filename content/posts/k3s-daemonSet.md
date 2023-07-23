@@ -11,8 +11,13 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
+## 整体说明
+
 1. tls的证书没有使用Secret，感觉没啥必要
 2. 使用hostPort来暴露端口
+3. 将coreDns的deployment移动到外网的vps上
+
+## Proxy的manifest
 
 ```yaml
 apiVersion: apps/v1
@@ -89,4 +94,20 @@ data:
     -----BEGIN RSA PRIVATE KEY-----
     ........
 
+```
+
+## 因为国内dns被污染，所以用国外vps承载coreDns
+
+```yaml
+# p.yaml
+spec:
+  replicas: 2
+  template:
+    spec:
+      nodeSelector: 
+        location: out
+```
+
+```bash
+kubectl patch deployment coredns -n kube-system --patch-file p.yaml
 ```
