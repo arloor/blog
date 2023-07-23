@@ -116,7 +116,7 @@ INSTALL_K3S_MIRROR=cn  K3S_TOKEN=12345 ./install.sh \
 watch kubectl get pod -A
 ```
 
-虽然rancher中国的文档不咋样，但是这个加速镜像还是要点赞的， `INSTALL_K3S_MIRROR=cn` 环境变量就是来使用加速镜像的。此方式也不需要使用代理
+虽然rancher中国的文档不咋样，但是这个加速镜像还是要点赞的， `INSTALL_K3S_MIRROR=cn` 环境变量就是来使用加速镜像的。此方式也不需要使用代理。我是在[Rancher中国的安装选项介绍](https://docs.rancher.cn/docs/k3s/installation/install-options/_index/#%E4%BD%BF%E7%94%A8%E8%84%9A%E6%9C%AC%E5%AE%89%E8%A3%85%E7%9A%84%E9%80%89%E9%A1%B9)找到这个镜像的。
 
 
 
