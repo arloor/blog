@@ -43,12 +43,11 @@ Tips：
 3. 多云部署需要预先安装wireguard的内核模块，RHEL9的5.14内核已经内置，老的发行版需要参考[WireGuard Install Guide](https://www.wireguard.com/install/)(k3s agent节点也需要安装wireguard内核模块)
 4. 执行安装脚本时，会把当前的http_proxy环境变量传递给kubectl、kubelet、containerd。因为我当前的shell代理是127.0.0.1，集群内的kubelet和containerd根本不通，所以有个 `. unpass`来取消当前代理。后面会在集群内部用pod的方式起个clash代理。代理传递参考：[Configuring an HTTP proxy](https://docs.k3s.io/advanced#configuring-an-http-proxy)。
 5. 每一个wget后面都跟着注释标明原始的资源url是什么。
-6. 安装好server后，可以在server node上 `cat /var/lib/rancher/k3s/server/token` 查看agent加入集群的token。
-7. `--node-external-ip=<SERVER_EXTERNAL_IP> --flannel-backend=wireguard-native --flannel-external-ip` 来设置server的使用外网ip，以实现多云集群
-8. `--node-external-ip=<AGENT_EXTERNAL_IP>` 来实现Agent使用外网ip，以实现多云集群。
-9. 多云集群下，k3s的监管流量走外网的websocket，cluster流量走wireguard的VPN
-10. 禁用traefik ingress controller。我觉得它用起来太烦了，而且还占用了80、443端口，不如直接用LoadBalancer
-11. 集群节点越多，对控制面节点的CPU、内存压力越大，参见[requirements#cpu-and-memory](https://docs.k3s.io/installation/requirements#cpu-and-memory)
+6. `--node-external-ip=<SERVER_EXTERNAL_IP> --flannel-backend=wireguard-native --flannel-external-ip` 来设置server的使用外网ip，以实现多云集群
+7. `--node-external-ip=<AGENT_EXTERNAL_IP>` 来实现Agent使用外网ip，以实现多云集群。
+8. 多云集群下，k3s的监管流量走外网的websocket，cluster流量走wireguard的VPN
+9. 禁用traefik ingress controller。我觉得它用起来太烦了，而且还占用了80、443端口，不如直接用LoadBalancer
+10. 集群节点越多，对控制面节点的CPU、内存压力越大，参见[requirements#cpu-and-memory](https://docs.k3s.io/installation/requirements#cpu-and-memory)
 
 ### 创建控制面Server节点
 
@@ -72,6 +71,13 @@ K3S_TOKEN=12345 INSTALL_K3S_SKIP_DOWNLOAD=true   ./install.sh \
 watch kubectl get pod -A
 ```
 
+安装好server后，在server node上执行以下命令来得到agent加入集群的token：
+
+```bash
+cat /var/lib/rancher/k3s/server/token
+```
+
+
 ### Agent节点加入集群
 
 
@@ -88,7 +94,7 @@ wget "http://cdn.arloor.com/k3s/install.sh" -O install.sh #https://get.k3s.io/
 chmod +x install.sh
 
 # server上 cat /var/lib/rancher/k3s/server/token  的到token
-K3S_TOKEN=K10dc4730767f0ca319862ffc29159ecc96ac84cfdebb36edf6380b959d143fd97a::server:12345 \
+K3S_TOKEN=K10098693af78777497406169383c59586da0916a6fc63bd293d9881f48b4789e0f::server:12345 \
 INSTALL_K3S_SKIP_DOWNLOAD=true \
 K3S_URL=https://118.25.142.222:6443  \
 bash install.sh \
