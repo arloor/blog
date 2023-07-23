@@ -122,10 +122,14 @@ watch kubectl get pod -A
 
 ## kubernetes dashboard安装
 
-下载k8s dashboard的manifest。
+> 这里还是使用v2.7.0版本，因为v3.0.0版本需要ingress-nginx-controller，而我不想用ingress-controller。
+
+下载k8s dashboard的manifest，并预先下载镜像
 
 ```bash
 wget https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml -O recommended.yaml
+crictl pull docker.io/kubernetesui/dashboard:v2.7.0
+crictl pull docker.io/kubernetesui/metrics-scraper:v1.0.8
 ```
 
 修改Service/kubernetes-dashboard，将type设置成LoadBalancer，修改port为8443，修改后的样子：
