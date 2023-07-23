@@ -1,9 +1,9 @@
 ---
-title: "在K3S集群中创建clash代理服务"
+title: "在K8S集群中创建clash代理服务"
 date: 2023-07-23T15:50:30+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["undefined"]
+tags: ["k8s"]
 weight: 10
 subtitle: ""
 description : ""
