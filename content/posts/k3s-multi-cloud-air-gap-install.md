@@ -43,7 +43,7 @@ Tips：
 1. 关于离线安装，参考：[Manually Deploy Images Method](https://docs.k3s.io/installation/airgap#manually-deploy-images-method)。下面的脚本通过wget和mv命令展示了如何准备各项资源来做离线安装
 2. 关于多云部署，参考[Distributed hybrid or multicloud cluster](https://docs.k3s.io/installation/network-options#distributed-hybrid-or-multicloud-cluster)。
 3. 多云部署需要预先安装wireguard的内核模块，RHEL9的5.14内核已经内置，老的发行版需要参考[WireGuard Install Guide](https://www.wireguard.com/install/)(k3s agent节点也需要安装wireguard内核模块)
-4. 执行安装脚本时，默认会把当前的http_proxy环境变量传递给kubectl、kubelet、containerd。我通过 `CONTAINERD_`开头的环境变量配置了仅供containerd使用的而不影响kubectl、kubelet的本地clash代理。代理传递参考：[Configuring an HTTP proxy](https://docs.k3s.io/advanced#configuring-an-http-proxy)。
+4. 执行安装脚本时，默认会把当前的http_proxy环境变量传递给kubectl、kubelet、containerd。我通过 `CONTAINERD_`开头的环境变量配置了仅供containerd使用的而不影响kubectl、kubelet的本地clash代理，用于加速镜像拉取。不过这不是必须的，因为docker hub没有被墙。代理传递参考：[Configuring an HTTP proxy](https://docs.k3s.io/advanced#configuring-an-http-proxy)。
 5. 每一个wget后面都跟着注释标明原始的资源url是什么。
 6. `--node-external-ip=<SERVER_EXTERNAL_IP> --flannel-backend=wireguard-native --flannel-external-ip` 来设置server的使用外网ip，以实现多云集群
 7. `--node-external-ip=<AGENT_EXTERNAL_IP>` 来实现Agent使用外网ip，以实现多云集群。
