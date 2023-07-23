@@ -104,7 +104,7 @@ bash install.sh \
 
 ### 另一个选择：使用Rancher的中国加速镜像安装
 
-```shell
+```bash
 . unpass
 curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh -o install.sh
 chmod +x install.sh
@@ -127,7 +127,9 @@ watch kubectl get pod -A
 下载k8s dashboard的manifest，并预先下载镜像
 
 ```bash
+. pass
 wget https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml -O recommended.yaml
+. unpass
 crictl pull docker.io/kubernetesui/dashboard:v2.7.0
 crictl pull docker.io/kubernetesui/metrics-scraper:v1.0.8
 ```
@@ -153,7 +155,7 @@ spec:
 
 创建工作负载
 
-```shell
+```bash
 . unpass
 kubectl apply -f recommended.yaml
 watch kubectl get pod -n kubernetes-dashboard
@@ -161,7 +163,7 @@ watch kubectl get pod -n kubernetes-dashboard
 
 生成ServiceRole和ClusterRoleBinding，并生成token。之后执行 `token` 命令，即可得到dashboard的token
 
-```shell
+```bash
 cat > sa.yaml <<EOF
 apiVersion: v1
 kind: ServiceAccount
@@ -191,8 +193,13 @@ cat > /usr/local/bin/token <<\EOF
 kubectl -n kubernetes-dashboard create token admin-user
 EOF
 chmod +x /usr/local/bin/token
+```
+
+```bash
 token
 ```
+
+![](/img/k3s-two-nodes.png)
 
 ## 访问集群
 
