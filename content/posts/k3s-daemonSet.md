@@ -15,7 +15,7 @@ keywords:
 
 1. tls的证书没有使用Secret，感觉没啥必要
 2. 使用hostPort来暴露端口
-3. 将coreDns的deployment移动到外网的vps上
+3. 将co re的deployment移动到外网的vps上
 
 ## Proxy的manifest
 
@@ -96,7 +96,7 @@ data:
 
 ```
 
-## 因为国内dns被污染，所以用国外vps承载coreDns
+## 驱逐cored n s到外网的VPS
 
 ```bash
 kubectl label node sg161 location=out
