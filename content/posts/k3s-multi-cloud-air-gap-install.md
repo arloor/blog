@@ -41,7 +41,7 @@ Tips：
 1. 关于离线安装，参考：[Manually Deploy Images Method](https://docs.k3s.io/installation/airgap#manually-deploy-images-method)
 2. 关于多云部署，参考[Distributed hybrid or multicloud cluster](https://docs.k3s.io/installation/network-options#distributed-hybrid-or-multicloud-cluster)。
 3. 多云部署需要预先安装wireguard的内核模块，RHEL9的5.14内核已经内置，老的发行版需要参考[WireGuard Install Guide](https://www.wireguard.com/install/)(k3s agent节点也需要安装wireguard内核模块)
-4. 执行安装脚本时，会把当前的http_proxy环境变量传递给kubectl、kubelet、containerd。因为我当前的shell代理是127.0.0.1，集群内的kubelet和containerd根本不通，所以有个 `. unpass`来取消当前代理。后面会在集群内部用pod的方式起个clash代理。代理传递参考：[Configuring an HTTP proxy](https://docs.k3s.io/advanced#configuring-an-http-proxy)。
+4. 执行安装脚本时，默认会把当前的http_proxy环境变量传递给kubectl、kubelet、containerd。我通过 `CONTAINERD_`开头的环境变量配置了仅供containerd使用的而不影响kubectl、kubelet的本地clash代理。代理传递参考：[Configuring an HTTP proxy](https://docs.k3s.io/advanced#configuring-an-http-proxy)。
 5. 每一个wget后面都跟着注释标明原始的资源url是什么。
 6. `--node-external-ip=<SERVER_EXTERNAL_IP> --flannel-backend=wireguard-native --flannel-external-ip` 来设置server的使用外网ip，以实现多云集群
 7. `--node-external-ip=<AGENT_EXTERNAL_IP>` 来实现Agent使用外网ip，以实现多云集群。
@@ -52,7 +52,6 @@ Tips：
 ### 创建控制面Server节点
 
 ```bash
-. pass # 设置代理
 wget "http://cdn.arloor.com/k3s/k3s-airgap-images-amd64.tar" -O k3s-airgap-images-amd64.tar # https://github.com/k3s-io/k3s/releases/download/v1.27.3%2Bk3s1/k3s-airgap-images-amd64.tar
 sudo mkdir -p /var/lib/rancher/k3s/agent/images/
 sudo mv -f ./k3s-airgap-images-amd64.tar /var/lib/rancher/k3s/agent/images/
@@ -62,12 +61,17 @@ mv -f k3s /usr/local/bin/k3s
 chmod +x /usr/local/bin/k3s
 wget "http://cdn.arloor.com/k3s/install.sh" -O install.sh #https://get.k3s.io/
 chmod +x install.sh
-. unpass #取消设置代理
-K3S_TOKEN=12345 INSTALL_K3S_SKIP_DOWNLOAD=true   ./install.sh \
-	--node-external-ip="`curl https://bwg.arloor.dev:444/ip -k`" \
-    --flannel-backend=wireguard-native \
-    --flannel-external-ip \
-	--disable=traefik # 禁用traefik ingress controller
+. unpass
+CONTAINERD_HTTP_PROXY=http://127.0.0.1:3128 \
+CONTAINERD_HTTPS_PROXY=http://127.0.0.1:3128 \
+CONTAINERD_NO_PROXY=127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16 \
+K3S_TOKEN=12345 \
+INSTALL_K3S_SKIP_DOWNLOAD=true \
+./install.sh \
+--node-external-ip="`curl https://bwg.arloor.dev:444/ip -k`" \
+--flannel-backend=wireguard-native \
+--flannel-external-ip \
+--disable=traefik # 禁用traefik ingress controller
 watch kubectl get pod -A
 ```
 
@@ -82,7 +86,7 @@ cat /var/lib/rancher/k3s/server/token
 
 
 ```bash
-. pass # 设置代理
+. unpass
 wget "http://cdn.arloor.com/k3s/k3s-airgap-images-amd64.tar" -O k3s-airgap-images-amd64.tar # https://github.com/k3s-io/k3s/releases/download/v1.27.3%2Bk3s1/k3s-airgap-images-amd64.tar
 sudo mkdir -p /var/lib/rancher/k3s/agent/images/
 sudo mv -f ./k3s-airgap-images-amd64.tar /var/lib/rancher/k3s/agent/images/
