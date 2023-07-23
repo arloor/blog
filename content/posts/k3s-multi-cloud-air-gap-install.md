@@ -24,8 +24,10 @@ keywords:
 ## 环境说明
 
 - linux发型版： RHEL9.2
-- firewalld关闭
-- selinux关闭
+- 关闭firewalld
+- 关闭selinux
+- 安装v1.27.3+k3s1版本k3s
+- 安装v2.7.0版本kubernetes-dashboard
 
 ## 离线安装
 
@@ -38,7 +40,7 @@ keywords:
 
 Tips：
 
-1. 关于离线安装，参考：[Manually Deploy Images Method](https://docs.k3s.io/installation/airgap#manually-deploy-images-method)
+1. 关于离线安装，参考：[Manually Deploy Images Method](https://docs.k3s.io/installation/airgap#manually-deploy-images-method)。下面的脚本通过wget和mv命令展示了如何准备各项资源来做离线安装
 2. 关于多云部署，参考[Distributed hybrid or multicloud cluster](https://docs.k3s.io/installation/network-options#distributed-hybrid-or-multicloud-cluster)。
 3. 多云部署需要预先安装wireguard的内核模块，RHEL9的5.14内核已经内置，老的发行版需要参考[WireGuard Install Guide](https://www.wireguard.com/install/)(k3s agent节点也需要安装wireguard内核模块)
 4. 执行安装脚本时，默认会把当前的http_proxy环境变量传递给kubectl、kubelet、containerd。我通过 `CONTAINERD_`开头的环境变量配置了仅供containerd使用的而不影响kubectl、kubelet的本地clash代理。代理传递参考：[Configuring an HTTP proxy](https://docs.k3s.io/advanced#configuring-an-http-proxy)。

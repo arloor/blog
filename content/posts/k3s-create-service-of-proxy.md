@@ -11,6 +11,9 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
+学习下ConfigMap、Deployment、Service的用法。
+<!--more-->
+
 ## 准备文件
 
 首先准备创建docker镜像的文件，有如下这些。可以注意到，没有在docker镜像中放置config.yaml。这将通过config.map挂载到pod中。
