@@ -1,5 +1,5 @@
 ---
-title: "K3s Multi Cloud Air Gap Install"
+title: "K3s多云环境下的离线部署"
 date: 2023-07-23T11:01:10+08:00
 draft: false
 categories: [ "undefined"]
@@ -11,10 +11,13 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
-这几天把k8s折腾了个遍，个人觉得k3s更适合我，主要有两个优势
+这几天把k8s折腾了个遍，个人觉得k3s更适合我，主要有五个优势
 
 1. 类似springboot的“约定优于配置”，就是默认给你一个开箱即用的东西，如果需要，再进行修改。而不是k8s那样样样要你配置
 2. 内置[LoadBalancer实现](https://docs.k3s.io/networking#service-load-balancer)，而不是像k8s那样没有LoadBalancer实现，导致裸机安装情况下得用NodePort、HostPort、HostNetwork来暴露服务，或者安装Metallb。
+3. 可以轻松的支持多云环境，对我这种有多个vps的玩家很友好
+4. 资源消耗较少。虽然节点增加后，控制面的内存压力也不小
+5. 文档[docs.k3s.io](https://docs.k3s.io/)很清晰。PS：不要看中文版的文档，也不要看rancher中国的文档，垃圾
 
 <!--more-->
 
@@ -98,6 +101,24 @@ bash install.sh \
 /usr/local/bin/k3s-uninstall.sh
 /usr/local/bin/k3s-agent-uninstall.sh
 ```
+
+### 另一个选择：使用Rancher的中国加速镜像安装
+
+```shell
+. unpass
+curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh -o install.sh
+chmod +x install.sh
+INSTALL_K3S_MIRROR=cn  K3S_TOKEN=12345 ./install.sh \
+		--node-external-ip="`curl https://bwg.arloor.dev:444/ip -k`" \
+    --flannel-backend=wireguard-native \
+    --flannel-external-ip \
+		--disable=traefik
+watch kubectl get pod -A
+```
+
+虽然rancher中国的文档不咋样，但是这个加速镜像还是要点赞的， `INSTALL_K3S_MIRROR=cn` 环境变量就是来使用加速镜像的。此方式也不需要使用代理
+
+
 
 ## kubernetes dashboard安装
 
