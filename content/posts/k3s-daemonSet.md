@@ -98,6 +98,11 @@ data:
 
 ## 因为国内dns被污染，所以用国外vps承载coreDns
 
+```bash
+kubectl label node sg161 location=out
+kubectl label node hk101 location=out
+```
+
 ```yaml
 # p.yaml
 spec:
