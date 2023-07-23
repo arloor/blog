@@ -137,9 +137,35 @@ kubectl create cm clash-conf --from-file=config.yaml
 kubectl get cm clash-conf  -o yaml
 ```
 
+config.yaml内容：
+
+```yaml
+port: 3128 
+# 绑定0.0.0.0
+allow-lan: true 
+
+proxies:
+- name: "xxx"
+  type: http
+  server: xxx
+  port: xx
+  username: xx
+  password: xxx
+  tls: true 
+  skip-cert-verify: true
+
+rules:
+- IP-CIDR,192.168.0.0/16,DIRECT
+- IP-CIDR,10.0.0.0/8,DIRECT
+- IP-CIDR,172.16.0.0/12,DIRECT
+- GEOIP,CN,DIRECT
+- MATCH,xxx
+```
+
 另外在过程中遇到一点问题是Service写的不对，没有和deployment成功关联，主要是.spec.selector那里没写对，后面直接用expose来创建service了。而且刚好只需要ClusterIp类型的Service即可，expose刚刚好。
 
-> 后面又学习了下，Deployment的 spec.selector.matchLabels 下的labels要和Service的.spec.selector下的labels一致。这也有个最佳实践：Service和Deployment的Name**保持一致**，然后给Deployment增加一个label：固定为 **k8s-app: ${name}**
+> 后面又学习了下，Deployment的 spec.selector.matchLabels 下的labels要和Service的.spec.selector下的labels一致。
+> 这也可以形成个最佳实践：如无必要，勿增实体，Service和Deployment的Name**保持一致**，然后给Deployment增加一个label：固定为 **k8s-app: ${name}**，然后Service的selector就填这个**k8s-app: ${name}**
 
 ```bash
 kubectl expose deployment/clash
