@@ -151,6 +151,6 @@ kubectl expose deployment/clash
 
 ```bash
 kubectl run curl --image=radial/busyboxplus:curl --command --attach --rm -- \
-curl https://google.com --proxy http://clash.default.svc.cluster.local:3128
+curl https://google.com --proxy http://clash.default:3128
 # 也可以 kubectl run curl --image=radial/busyboxplus:curl -it --rm来创建pod，然后在pod的bash中执行curl命令
 ```
