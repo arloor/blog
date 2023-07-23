@@ -15,7 +15,8 @@ keywords:
 
 1. tls的证书没有使用Secret，感觉没啥必要
 2. 使用hostPort来暴露端口
-3. 将co re的deployment移动到外网的vps上
+3. 将coredns的deployment移动到外网的vps上
+4. 使用envFrom comfigMap加载环境变量，这要求configMap中所有字段都是String类型，443、true、false要用双引号包裹
 
 ## Proxy的manifest
 
