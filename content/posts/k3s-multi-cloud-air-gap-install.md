@@ -11,9 +11,7 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
-## k3s的优势
-
-轻量之类的就不说，个人觉得有两个优势
+这几天把k8s折腾了个遍，个人觉得k3s更适合我，主要有两个优势
 
 1. 类似springboot的“约定优于配置”，就是默认给你一个开箱即用的东西，如果需要你再进行修改。而不是k8s那样样样要你配置
 2. 内置[LoadBalancer实现](https://docs.k3s.io/networking#service-load-balancer)，而不是像k8s那样没有LoadBalancer实现，导致裸机安装情况下得用NodePort、HostPort、HostNetwork来暴露服务，或者安装Metallb。
