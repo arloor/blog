@@ -108,7 +108,7 @@ bash install.sh \
 . unpass
 curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh -o install.sh
 chmod +x install.sh
-INSTALL_K3S_MIRROR=cn  K3S_TOKEN=12345 ./install.sh \
+INSTALL_K3S_MIRROR=cn  INSTALL_K3S_VERSION=v1.27.3+k3s1 K3S_TOKEN=12345 ./install.sh \
 		--node-external-ip="`curl https://bwg.arloor.dev:444/ip -k`" \
     --flannel-backend=wireguard-native \
     --flannel-external-ip \
