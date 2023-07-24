@@ -152,3 +152,18 @@ EOF
 chmod +x /data/bin/lol
 lol
 ```
+
+```bash
+cat > /usr/share/nginx/html/blog/index.html <<EOF
+<body>
+    <center>
+        <h3>Are you a guest?</h3>
+        <h3>
+            <center>
+                <h3>Are you a host?</h3>
+            </center>
+        </h3>
+    </center>
+</body>
+EOF
+```
