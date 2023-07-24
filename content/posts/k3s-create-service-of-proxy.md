@@ -30,10 +30,6 @@ Dockerfile内容如下：
 
 ```bash
 FROM alpine:3.18.2
-# 设置时区为上海
-RUN apk add tzdata && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
-   && echo "Asia/Shanghai" > /etc/timezone \
-   && apk del tzdata
 COPY ./ /
 ```
 
@@ -60,10 +56,10 @@ data:
     proxies:
     - name: "bwg"
       type: http
-      server: bwg.arloor.dev
-      port: 444
-      username: haloshit
-      password: asa^78ssdY&7AsA&88&(9&)**
+      server: xxxx
+      port: 443
+      username: xxxx
+      password: xxxxxx
       tls: true 
       skip-cert-verify: true
     
