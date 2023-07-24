@@ -136,3 +136,9 @@ EOF
 chmod +x /data/bin/lo
 lo hostname
 ```
+
+更暴力，一次性查看所有pod的日志
+
+```bash
+kubectl logs -l name=proxy -f --max-log-requests 20
+```
