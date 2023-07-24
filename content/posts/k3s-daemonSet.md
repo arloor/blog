@@ -153,6 +153,8 @@ chmod +x /data/bin/lol
 lol
 ```
 
+## 给他们一个欢迎页
+
 ```bash
 cat > /usr/share/nginx/html/blog/index.html <<EOF
 <center>
