@@ -1,7 +1,7 @@
 ---
 title: "K8s"
 date: 2021-04-19T20:17:09+08:00
-draft: false
+draft: true
 categories: [ "undefined"]
 tags: ["k8s"]
 weight: 10
