@@ -13,24 +13,17 @@ keywords:
 
 <!--more-->
 
-## 安装zsh和ohMyZsh
+## 安装zsh、ohMyZsh和相关插件
 
 ```bash
 yum install -y zsh
-sh -c "$(curl -fsSL --insecure https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-```
-
-## 配置相关插件
-
-我这边常用的插件是git、 zsh-autosuggestions、 zsh-syntax-highlighting
-
-```bash
-## 设置默认shell为zsh
-sudo usermod -s /bin/zsh $USER
+sh -c "$(curl -fsSL --insecure https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+usermod -s /bin/zsh $USER
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 git clone https://github.com/zsh-users/zsh-autosuggestions.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 sed -i  -e "s/^plugin.*/plugins=(git zsh-autosuggestions zsh-syntax-highlighting)/g" ~/.zshrc
 ## 在命令提示符前增加hostname
 echo 'export PS1="%m "${PS1}' >> ~/.zshrc
+zsh
 ```
 
