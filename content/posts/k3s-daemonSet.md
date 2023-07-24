@@ -26,15 +26,15 @@ kind: DaemonSet
 metadata:
   name: proxy
   labels:
-    k8s-app: proxy
+    app: proxy
 spec:
   selector:
     matchLabels:
-      name: proxy
+      app: proxy
   template:
     metadata:
       labels:
-        name: proxy
+        app: proxy
     spec:
       hostNetwork: true
       tolerations:
@@ -140,5 +140,5 @@ lo hostname
 更暴力，一次性查看所有pod的日志
 
 ```bash
-kubectl logs -l name=proxy -f --max-log-requests 20
+kubectl logs -l app=proxy -f --max-log-requests 20
 ```
