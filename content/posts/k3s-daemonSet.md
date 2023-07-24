@@ -53,13 +53,19 @@ spec:
         - configMapRef:
             name: proxy-env
         volumeMounts:
+        - name: data
+          mountPath: /data
         - name: proxy-certs
           mountPath: /certs
       terminationGracePeriodSeconds: 30
       volumes:
+      - name: data
+        hostPath:
+          path: /usr/share/nginx/html/blog 
+          type: DirectoryOrCreate
       - configMap:
           name: proxy-certs          #指定使用ConfigMap的名称
-        name: proxy-certs 
+        name: proxy-certs
 
 ---
 
