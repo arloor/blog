@@ -13,10 +13,11 @@ keywords:
 
 ## 整体说明
 
-1. tls的证书没有使用Secret，感觉没啥必要
-2. ~~使用HostPort来暴露端口~~使用hostNetwork来暴露端口，并且使用host的DNS
-3. ~~将coredns的deployment移动到外网的vps上~~
-4. 使用envFrom comfigMap加载环境变量，这要求configMap中所有字段都是String类型，443、true、false要用双引号包裹
+1. tls的证书没有使用Secret，感觉没啥必要。
+2. ~~使用HostPort来暴露端口，并将coredns的deployment移动到外网的vps上，已避免ClusterFirst的dnsPolicy下的国内dns污染问题~~
+3. 使用hostNetwork使用主机网络栈，意义在于暴露端口+使用host的DNS（无污染问题）
+4. 使用envFrom comfigMap加载环境变量，这要求configMap中所有字段都是String类型，443、true、false要用双引号包裹。
+5. 使用hostPath挂载nginx的目录，展示web网页。
 
 ## Proxy的manifest
 
@@ -99,6 +100,10 @@ data:
 
 ```
 
+效果如下：
+
+![Alt text](/img/telegram-cloud-photo-size-5-6192798952399681427-y.jpg)
+
 ## ~~驱逐coredns到外网的VPS~~
 
 > !! 不再需要此操作，因为hostNetwork的dnsPolicy会fallBack到default，也就是使用Host的dns
@@ -151,24 +156,4 @@ kubectl logs -l app=proxy -f --max-log-requests 20 --tail=0
 EOF
 chmod +x /data/bin/lol
 lol
-```
-
-## 给他们一个欢迎页
-
-```bash
-cat > /usr/share/nginx/html/blog/index.html <<EOF
-<center>
-    <h3>Are you a host?</h3>
-    <h3>
-        <center>
-            <center>
-                <h3>Are you a guest?</h3>
-                <h3>
-                    <center></center>
-                </h3>
-            </center>
-        </center>
-    </h3>
-</center>
-EOF
 ```
