@@ -141,7 +141,7 @@ kubectl set image ds/proxy proxy=ccr.ccs.tencentyun.com/arloor/rust_http_proxy:1
 ## 查看pod日志
 
 ```bash
-cat > /data/bin/lo <<EOF
+cat > /data/bin/lo <<\EOF
 kubectl logs `kubectl get pod -A -o wide|grep $1|grep proxy|awk '{print $2}'` -f
 EOF
 chmod +x /data/bin/lo
