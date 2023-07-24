@@ -245,3 +245,4 @@ sed -i 's/127.0.0.1/mi/' ~/.kube/config
 kubectl get nodes
 ```
 
+[install-kubectl-binary-with-curl-on-macos](https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/#install-kubectl-binary-with-curl-on-macos)
