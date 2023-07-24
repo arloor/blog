@@ -134,5 +134,5 @@ cat > /data/bin/lo <<EOF
 kubectl logs `kubectl get pod -A -o wide|grep $1|grep proxy|awk '{print $2}'`
 EOF
 chmod +x /data/bin/lo
-lo
+lo hostname
 ```
