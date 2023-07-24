@@ -223,6 +223,8 @@ chmod +x /usr/local/bin/token
 token # 有效期100天
 ```
 
+鉴权相关的可以看[access-control/README.md#login-view](https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/README.md#login-view)。我是用的文档中的Authorization header配合modHeader插件和上面的100天的token，使用dashboard就很方便了
+
 ![](/img/k3s-two-nodes.png)
 
 ## 访问集群
