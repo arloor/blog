@@ -3,7 +3,7 @@ title: "使用K8S DaemonSet部署rust_http_proxy"
 date: 2023-07-23T21:07:02+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["undefined"]
+tags: ["k8s"]
 weight: 10
 subtitle: ""
 description : ""
