@@ -241,8 +241,10 @@ curl -LO "https://dl.k8s.io/release/v1.27.3/bin/darwin/arm64/kubectl"
 chmod +x kubectl
 mv kubectl /data/bin/
 sudo echo "118.25.142.222 mi" > /etc/hosts
-sed -i 's/127.0.0.1/mi/' ~/.kube/config
+sed -i "" 's/127.0.0.1/mi/' ~/.kube/config
 kubectl get nodes
 ```
 
 [install-kubectl-binary-with-curl-on-macos](https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/#install-kubectl-binary-with-curl-on-macos)
+
+> Mac 和 Linux 在 sed 命令的 -i 参数上存在一些不同。在 Linux 上，-i 参数后面可以直接跟着文件名，但在 macOS 上，-i 需要后跟一个扩展名。这个扩展名用于创建一个备份文件。如果你不想创建备份文件，你可以使用空字符串（""）作为扩展名。
