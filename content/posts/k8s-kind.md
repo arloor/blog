@@ -1,5 +1,5 @@
 ---
-title: "K8s Kind"
+title: "K8s Kind使用"
 date: 2023-07-18T20:15:30+08:00
 draft: false
 categories: [ "undefined"]
