@@ -14,8 +14,8 @@ keywords:
 ## 整体说明
 
 1. tls的证书没有使用Secret，感觉没啥必要
-2. 使用hostNetwork来暴露端口，并且使用host的DNS
-3. 将coredns的deployment移动到外网的vps上
+2. ~~使用HostPort来暴露端口~~使用hostNetwork来暴露端口，并且使用host的DNS
+3. ~~将coredns的deployment移动到外网的vps上~~
 4. 使用envFrom comfigMap加载环境变量，这要求configMap中所有字段都是String类型，443、true、false要用双引号包裹
 
 ## Proxy的manifest
@@ -93,7 +93,9 @@ data:
 
 ```
 
-## 驱逐cored n s到外网的VPS
+## ~~驱逐cored n s到外网的VPS~~
+
+> !! 不再需要此操作，因为hostNetwork的dnsPolicy会fallBack到default，也就是使用Host的dns
 
 ```bash
 kubectl label node sg161 location=out
