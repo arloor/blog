@@ -107,6 +107,18 @@ bash install.sh \
 --node-external-ip="`curl https://bwg.arloor.dev:444/ip -k`"
 ```
 
+如果Agent节点能自由访问Internet，也可以用下面的命令：
+
+```bash
+wget https://get.k3s.io/ -O install.sh \
+&& chmod +x install.sh
+INSTALL_K3S_VERSION=v1.27.3+k3s1 \
+K3S_TOKEN=K10098693af78777497406169383c59586da0916a6fc63bd293d9881f48b4789e0f::server:12345 \
+K3S_URL=https://118.25.142.222:6443  \
+./install.sh \
+--node-external-ip="`curl https://bwg.arloor.dev:444/ip -k`"
+```
+
 ### 卸载Server和Agent
 
 ```bash
