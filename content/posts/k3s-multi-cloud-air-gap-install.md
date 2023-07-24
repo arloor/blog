@@ -214,13 +214,13 @@ EOF
 kubectl apply -f roleBind.yaml
 
 cat > /usr/local/bin/token <<\EOF
-kubectl -n kubernetes-dashboard create token admin-user
+kubectl -n kubernetes-dashboard create token admin-user --duration 24000h
 EOF
 chmod +x /usr/local/bin/token
 ```
 
 ```bash
-token
+token # 有效期100天
 ```
 
 ![](/img/k3s-two-nodes.png)
