@@ -15,7 +15,7 @@ keywords:
 
 1. 类似springboot的“约定优于配置”，就是默认给你一个开箱即用的东西，如果需要，再进行修改。而不是k8s那样样样要你配置
 2. 内置[LoadBalancer实现](https://docs.k3s.io/networking#service-load-balancer)，而不是像k8s那样没有LoadBalancer实现，导致裸机安装情况下得用NodePort、HostPort、HostNetwork来暴露服务，或者安装Metallb。
-3. 可以轻松的支持多云环境，对我这种有多个vps的玩家很友好
+3. 可以轻松的支持多云环境，对我这种有多个云厂商vps的玩家很友好
 4. 资源消耗较少。虽然节点增加后，控制面的内存压力也不小
 5. 文档[docs.k3s.io](https://docs.k3s.io/)很清晰。PS：不要看中文版的文档，也不要看rancher中国的文档，垃圾
 
@@ -47,7 +47,7 @@ Tips：
 5. 每一个wget后面都跟着注释标明原始的资源url是什么。
 6. `--node-external-ip=<SERVER_EXTERNAL_IP> --flannel-backend=wireguard-native --flannel-external-ip` 来设置server的使用外网ip，以实现多云集群
 7. `--node-external-ip=<AGENT_EXTERNAL_IP>` 来实现Agent使用外网ip，以实现多云集群。
-8. 多云集群下，k3s的监管流量走外网的websocket，cluster流量走wireguard的VPN
+8. 多云集群下，k3s的监管流量走外网的websocket，cluster流量走wireguard的VPN。我的集群是国内和国外机器都有，wireguard流量特征明显，不知道gfw会不会干扰wireguard流量
 9. 禁用traefik ingress controller。我觉得它用起来太烦了，而且还占用了80、443端口，不如直接用LoadBalancer
 10. 集群节点越多，对控制面节点的CPU、内存压力越大，参见[requirements#cpu-and-memory](https://docs.k3s.io/installation/requirements#cpu-and-memory)
 
