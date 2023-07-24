@@ -215,7 +215,7 @@ token
 
 ## 访问集群
 
-The kubeconfig file stored at /etc/rancher/k3s/k3s.yaml is used to configure access to the Kubernetes cluster. If you have installed upstream Kubernetes command line tools such as kubectl or helm you will need to configure them with the correct kubeconfig path. This can be done by either exporting the KUBECONFIG environment variable or by invoking the --kubeconfig command line flag. Refer to the examples below for details.
+kubeconfig保存在 /etc/rancher/k3s/k3s.yaml。如果你安装了上游k8s的命令行工具，例如kubectl、helm，你需要给他们配置正确的kubeconfig位置。可以通过配置KUBECONFIG环境变量，或增加 --kubeconfig 参数来实现。细节请参考下面的例子：
 
 Leverage the KUBECONFIG environment variable:
 
@@ -230,5 +230,18 @@ Or specify the location of the kubeconfig file in the command:
 ```bash
 kubectl --kubeconfig /etc/rancher/k3s/k3s.yaml get pods --all-namespaces
 helm --kubeconfig /etc/rancher/k3s/k3s.yaml ls --all-namespaces
+```
+
+> Mac上管理该k3s集群：
+
+```bash
+mkdir ~/.kube
+scp root@mi.arloor.com:/etc/rancher/k3s/k3s.yaml ~/.kube/config
+curl -LO "https://dl.k8s.io/release/v1.27.3/bin/darwin/arm64/kubectl"
+chmod +x kubectl
+mv kubectl /data/bin/
+sudo echo "118.25.142.222 mi" > /etc/hosts
+sed -i 's/127.0.0.1/mi/' ~/.kube/config
+kubectl get nodes
 ```
 
