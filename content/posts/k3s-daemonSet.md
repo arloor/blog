@@ -93,7 +93,7 @@ data:
 
 ```
 
-## ~~驱逐cored n s到外网的VPS~~
+## ~~驱逐coredns到外网的VPS~~
 
 > !! 不再需要此操作，因为hostNetwork的dnsPolicy会fallBack到default，也就是使用Host的dns
 
