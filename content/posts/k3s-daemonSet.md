@@ -48,7 +48,7 @@ spec:
         effect: NoSchedule
       containers:
       - name: proxy
-        image: docker.io/arloor/rust_http_proxy:1.0
+        image: ccr.ccs.tencentyun.com/arloor/rust_http_proxy:1.1
         envFrom:
         - configMapRef:
             name: proxy-env
