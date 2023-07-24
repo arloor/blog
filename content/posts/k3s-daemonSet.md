@@ -141,7 +141,7 @@ lo hostname
 
 ```bash
 cat > /data/bin/lol <<EOF
-kubectl logs -l app=proxy -f --max-log-requests 20
+kubectl logs -l app=proxy -f --max-log-requests 20 --tail=5
 EOF
 chmod +x /data/bin/lol
 lol
