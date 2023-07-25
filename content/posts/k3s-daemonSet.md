@@ -21,7 +21,7 @@ keywords:
 
 ## Dockerfile
 
-用的RHEL家的ubi9-micro基础镜像，和alpine差不多大小。但是设置时区更加简单，而且我对RHEL家的东西很有好感，所以就用了。为什么不用alpine，可以看[为什么我不再使用Alpine Linux](https://www.51cto.com/article/751174.html)。ubi9-micro的介绍[Red Hat Universal Base Image 9](https://catalog.redhat.com/software/containers/ubi9/ubi/615bcf606feffc5384e8452e?container-tabs=packages)
+用的RHEL家的ubi9-micro基础镜像，和alpine差不多大小。但是设置时区更加简单，而且我对RHEL家的东西很有好感，所以就用了。为什么不用alpine，可以看[为什么我不再使用Alpine Linux](https://www.51cto.com/article/751174.html)。ubi9-micro的介绍[Red Hat Universal Base Image 9](https://catalog.redhat.com/software/containers/ubi9/ubi-micro/615bdf943f6014fa45ae1b58?container-tabs=gti)
 
 ```bash
 FROM registry.access.redhat.com/ubi9-micro:9.2
