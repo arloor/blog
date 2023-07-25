@@ -63,4 +63,22 @@ export PS1="[\u@\h \W]\$ "
 EOF
 
 yum install -y tuned # 性能优化
+
+cat > /usr/local/bin/netsum   <<\EOF                                                      
+echo ""
+echo Time: $(date '+%F %T')
+cat /proc/uptime| awk -F. '{run_days=$1 / 86400;run_hour=($1 % 86400)/3600;run_minute=($1 % 3600)/60;run_second=$1 % 60;printf("uptime：\033[32m%d天%d时%d分%d秒\033[0m\n",run_days,run_hour,run_minute,run_second)}'
+echo "--------------------------------------------------------------------------" 
+cat /proc/net/dev|tail -n +3|awk 'BEGIN{sumIn=0;sumOut=0;printf("流量累计使用情况：\n%6s %9s %9s\n","eth","out","in")} {eth=$1;sumIn+=$2;sumOut+=$10;xin=$2 / 1073741824;xout=$10 / 1073741824;printf("%6s \033[32m%7.2fGB\033[0m \033[32m%7.2fGB\033[0m\n",eth,xout,xin)} END{printf("%6s \033[32m%7.2fGB\033[0m \033[32m%7.2fGB\033[0m\n","sum:",sumOut / 1073741824,sumIn / 1073741824)}'
+echo "--------------------------------------------------------------------------"
+EOF
+chmod +x /usr/local/bin/netsum
+
+cat > /usr/local/bin/nt    <<\EOF
+netstat -ntp|grep -E "ESTABLISHED|CLOSE_WAIT"|tail -n +3|awk -F "[ :]+"  -v OFS="" '$5<10000 && $5!="22" && $7>1024 {printf("%15s   => %15s:%-5s %s\n",$6,$4,$5,$9)}'|sort|uniq -c|sort -rn
+EOF
+chmod +x /usr/local/bin/nt
+
+netsum
+nt
 ```
