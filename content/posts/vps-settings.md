@@ -61,4 +61,6 @@ echo 'export PS1="%m "${PS1}' >> ~/.zshrc
 cat >> ~/.bashrc <<\EOF
 export PS1="[\u@\h \W]\$ "
 EOF
+
+yum install -y tuned # 性能优化
 ```
