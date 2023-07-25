@@ -21,11 +21,11 @@ keywords:
 
 ```bash
 # 下面这个链接自己在下载页面复制
-wget https://access.cdn.redhat.com/content/origin/files/sha256/30/30fd8dff2d29a384bd97886fa826fa5be872213c81e853eae3f9d9674f720ad0/rhel-9.2-x86_64-dvd.iso?_auth_=xxxxxxxxxxx -O redhat9.iso
+wget https://access.cdn.redhat.com/content/origin/files/sha256/30/30fd8dff2d29a384bd97886fa826fa5be872213c81e853eae3f9d9674f720ad0/rhel-9.2-x86_64-dvd.iso?_auth_=xxxxxxxxxxx -O /var/redhat9.iso
 lsof -i:80
 yum install -y httpd
 mkdir /var/www/html/rhel9-install/
-mount -o loop,ro -t iso9660 ~/redhat9.iso /var/www/html/rhel9-install/
+mount -o loop,ro -t iso9660 /var/redhat9.iso /var/www/html/rhel9-install/
 systemctl start httpd.service
 ```
 
