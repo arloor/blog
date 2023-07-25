@@ -14,7 +14,7 @@ keywords:
 <!--more-->
 
 ```bash
-yum install -y cockpit cockpit-podman
+yum install -y cockpit cockpit-podman cockpit-storaged
 echo "" > /etc/cockpit/disallowed-users # 允许root登陆
 # vim /etc/cockpit/ws-certs.d/a.cert #可选，自定义证书，格式是先fullchain.cer，再privkey.pem。文件后缀一定要是.cert
 systemctl stop packagekit && systemctl mask packagekit&&yum remove -y PackageKit* # 屏蔽这个服务，是用于自动更新软件的，太消耗内存了，而且还会锁住yum的锁
