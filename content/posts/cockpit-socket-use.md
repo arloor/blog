@@ -22,3 +22,5 @@ systemctl enable cockpit.socket --now
 systemctl enable podman --now
 passwd # 修改root密码为强密码
 ```
+
+![Alt text](image.png)
