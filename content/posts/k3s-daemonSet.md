@@ -19,6 +19,18 @@ keywords:
 4. 使用envFrom comfigMap加载环境变量，这要求configMap中所有字段都是String类型，443、true、false要用双引号包裹。
 5. 使用hostPath挂载nginx的目录，展示web网页。
 
+## Dockerfile
+
+用的RHEL家的ubi9-micro基础镜像，和alpine差不多大小。但是设置时区更加简单，而且我对RHEL家的东西很有好感，所以就用了。为什么不用alpine，可以看[为什么我不再使用Alpine Linux](https://www.51cto.com/article/751174.html)。ubi9-micro的介绍[Red Hat Universal Base Image 9](https://catalog.redhat.com/software/containers/ubi9/ubi/615bcf606feffc5384e8452e?container-tabs=packages)
+
+```bash
+FROM ubi9-micro:9.2
+# 设置时区为上海，ubi9-micro内置了tzdata 
+RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo "Asia/Shanghai" > /etc/timezone
+COPY target/x86_64-unknown-linux-musl/release/rust_http_proxy /
+CMD ["/rust_http_proxy"]
+```
+
 ## Proxy的manifest
 
 ```yaml
