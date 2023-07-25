@@ -21,7 +21,11 @@ keywords:
 
 ## Dockerfile
 
-用的RHEL家的ubi9-micro基础镜像，和alpine差不多大小。但是设置时区更加简单，而且我对RHEL家的东西很有好感，所以就用了。为什么不用alpine，可以看[为什么我不再使用Alpine Linux](https://www.51cto.com/article/751174.html)。ubi9-micro的介绍[Red Hat Universal Base Image 9](https://catalog.redhat.com/software/containers/ubi9/ubi-micro/615bdf943f6014fa45ae1b58?container-tabs=overview)
+用的RHEL家的ubi9-micro基础镜像，和alpine差不多大小。但是设置时区更加简单，而且我对RHEL家的东西很有好感，所以就用了。一些相关的介绍：
+
+- [为什么我不再使用Alpine Linux](https://www.51cto.com/article/751174.html)
+- [ubi9-micro](https://catalog.redhat.com/software/containers/ubi9/ubi-micro/615bdf943f6014fa45ae1b58?container-tabs=overview)
+- [ubi9-init](https://catalog.redhat.com/software/containers/ubi9-init/6183297540a2d8e95c82e8bd) PID=1的进程为systemd，可以用systemd的方式运行多个进程。推荐用`-d`在后台运行，`-it`在前台的方式没有办法通过 `ctrl + c` 停止容器，因为systemd会忽略正常退出信号，因为这个systemd会。使用例子[ubi8-init加httpd](https://access.redhat.com/documentation/zh-cn/red_hat_enterprise_linux/8/html/building_running_and_managing_containers/assembly_adding-software-to-a-ubi-container_building-running-and-managing-containers#using-the-ubi-init-images_assembly_adding-software-to-a-ubi-container)
 
 ```bash
 FROM docker.io/redhat/ubi9-micro:9.2-9
