@@ -1,7 +1,6 @@
 #! /bin/bash
 
 hosts="ti.arloor.com mi.arloor.com"
-msg="commit @$(git config   user.name) $(date '+%F %T %z %A')" 
 
 # 上传到arloor.github.io
 function githubio() {
@@ -17,6 +16,7 @@ function githubio() {
   cd $dir
 }
 
+msg="commit @$(git config   user.name) $(date '+%F %T %z %A')" 
 git pull && git add . && git commit -m "$msg" && git push || {
   echo -e "\033[32m 推送失败 \033[0m"
 }
