@@ -149,7 +149,9 @@ kubectl patch deployment coredns -n kube-system --patch-file p.yaml
 
 
 ```shell
-kubectl set image ds/proxy proxy=ccr.ccs.tencentyun.com/arloor/rust_http_proxy:1.0
+# kubectl set image ds/proxy proxy=ccr.ccs.tencentyun.com/arloor/rust_http_proxy:17dbb5ef
+kubectl patch ds proxy --type='json' -p='[{"op": "replace", "path": "spec/template/spec/containers/0/image", "value":"ccr.ccs.tencentyun.com/arloor/rust_http_proxy:17dbb5ef"}]
+kubectl describe ds proxy|grep image
 ```
 
 接下来DaemonSet会进行滚动更新
