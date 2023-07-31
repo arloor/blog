@@ -222,7 +222,9 @@ chmod +x /usr/local/bin/token
 token # 有效期100天
 ```
 
-鉴权相关的可以看[access-control/README.md#login-view](https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/README.md#login-view)。我是用的文档中的Authorization header配合modHeader插件和上面的100天的token，使用dashboard就很方便了
+鉴权相关的可以看[access-control/README.md#login-view](https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/README.md#login-view)。我是用的文档中的Authorization header配合modHeader插件和上面的100天的token，使用dashboard就很方便了。
+
+k8s的RBAC鉴权机制可以参考[Kubernetes（k8s）权限管理RBAC详解](https://juejin.cn/post/7116104973644988446)。简单说就是Role Based Access Control ，Role和Subject（主体）通过RoleBinding绑定，绑定后Subject就有了Role定义的权限。ClusterRole有集群所有命名空间的权限，Role只有指定命名空间的权限。
 
 ![](/img/k3s-two-nodes.png)
 
