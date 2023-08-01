@@ -1,7 +1,7 @@
 ---
 title: "从K8S部署prometheus谈谈K8S RBAC、Promethues服务发现、Prometheus Relabel configs"
 date: 2023-07-30T23:02:21+08:00
-draft: true
+draft: false
 categories: [ "undefined"]
 tags: ["k8s"]
 weight: 10
