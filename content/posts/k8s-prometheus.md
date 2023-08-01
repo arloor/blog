@@ -58,12 +58,12 @@ RBAC是一个权限控制的常见方案，由三个部分组成：ClusterRole�
 
 
 ```bash
-# 创建具有cluster-admin角色的admin-user
+# 创建具有cluster-admin角色的test-admin-user
 kubectl apply -f - <<EOF
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: admin-user
+  name: test-admin-user
   namespace: default
 
 ---
@@ -71,26 +71,26 @@ metadata:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: admin-user
+  name: test-admin-user
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: cluster-admin
 subjects:
 - kind: ServiceAccount
-  name: admin-user
+  name: test-admin-user
   namespace: default
 EOF
-# 创建admin-user的token
-token=`kubectl -n default create token admin-user`
+# 创建test-admin-user的token
+token=`kubectl -n default create token test-admin-user`
 echo $token
 # 创建一个curl pod，并使用token访问apiserver的prometheus exporter
 kubectl run curl --image=radial/busyboxplus:curl --attach --rm -- \
 curl https://kubernetes.default:443/metrics -k \
 -H "Authorization: Bearer $token"
 # 清理
-kubectl delete ServiceAccount admin-user
-kubectl delete ClusterRoleBinding admin-user
+kubectl delete ServiceAccount test-admin-user
+kubectl delete ClusterRoleBinding test-admin-user
 ```
 
 上面只是一个实验，那我们的kubernetes-dashboard和prometheus又是如何访问ApiServer的呢？其实也分为三部分：
@@ -103,7 +103,12 @@ kubectl delete ClusterRoleBinding admin-user
 
 ## Service Discovery和Relabel configs
 
-todo
+```yaml
+authorization:
+  credentials_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+tls_config:
+  ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+```
 
 
 ## 附录
