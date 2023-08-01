@@ -99,6 +99,8 @@ kubectl delete ClusterRoleBinding admin-user
 2. 信任 `/var/run/secrets/kubernetes.io/serviceaccount/` 下的ca.cert，并发起http请求
 3. http请求中携带 `/var/run/secrets/kubernetes.io/serviceaccount/` 下的token，作为Authorization请求头。
 
+这也将在prometheus的抓取配置中看到。
+
 ## Service Discovery和Relabel configs
 
 todo
