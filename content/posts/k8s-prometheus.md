@@ -15,7 +15,7 @@ keywords:
 <!--more-->
 
 | 主题 | 详述 |
-| :-----------------------------: | :---------------- |
+| :----------------------------- | :---------------- |
 | K8S的RBAC                     | 全称是基于角色的访问控制，K8S权限机制的基础 |
 | 在Pod中访问ApiServer           | Prometheus是运行在k8s集群中的一个pod，访问k8s的apiserver时需要一些鉴权机制 |
 | Prometheus Service Discovery | Prometheus是pull模型，需要自动地发现k8s集群中有哪些endpoing、node、service等，并watch其变更 |
