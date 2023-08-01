@@ -1,6 +1,6 @@
 ---
 title: "K8S持久化卷、动态置备、StorageClass"
-date: 2023-08-01T10:56:47+08:00
+date: 2023-07-31T22:56:47+08:00
 draft: false
 categories: [ "undefined"]
 tags: ["k8s"]
@@ -180,7 +180,7 @@ Source:
 Events:            <none>
 ```
 
-local-path这个StorageClass对英语k3s内置的[local-path-provisioning](https://github.com/rancher/local-path-provisioner)插件，他的作用就是：Dynamic provisioning the volume using `hostPath` or `local` 。上面创建的PV的类型就是hostPath类型的。并且这个PV的 `Node Affinity`定义了只有`kubernetes.io/hostname=mi`这个node上的pod能使用这个PV。原因是HostPath或local类型的卷都是本地卷，而不是网络附加的卷，只能在本机上使用。
+local-path这个StorageClass对应k3s内置的[local-path-provisioning](https://github.com/rancher/local-path-provisioner)插件，他的作用就是：Dynamic provisioning the volume using `hostPath` or `local` 。上面创建的PV的类型就是hostPath类型的。并且这个PV的 `Node Affinity`定义了只有`kubernetes.io/hostname=mi`这个node上的pod能使用这个PV。原因是HostPath或local类型的卷都是本地卷，而不是网络附加的卷，只能在本机上使用。
 
 提到这个local-path-provisioning，还得再次感叹k3s的“约定优于配置”的思想。给我一个开箱即用的默认的动态置备的storageClass，让我部署grafana的时候没有撞墙。
 
