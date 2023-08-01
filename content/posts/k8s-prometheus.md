@@ -103,6 +103,14 @@ kubectl delete ClusterRoleBinding test-admin-user
 
 ## Service Discovery和Relabel configs
 
+
+```bash
+# The API server addresses. If left empty, Prometheus is assumed to run inside
+# of the cluster and will discover API servers automatically and use the pod's
+# CA certificate and bearer token file at /var/run/secrets/kubernetes.io/serviceaccount/.
+[ api_server: <host> ]
+```
+
 1. [kubernetes_sd_config](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#kubernetes_sd_config)
 2. [relabel_config](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#relabel_config)
 
