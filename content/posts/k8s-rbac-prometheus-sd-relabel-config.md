@@ -117,7 +117,7 @@ kubectl delete ClusterRoleBinding test-admin-user
 
 ## 附录
 
-### 参考文档发
+### 参考文档
 
 1. [Kubernetes（k8s）权限管理RBAC详解](https://juejin.cn/post/7116104973644988446)
 
