@@ -103,12 +103,8 @@ kubectl delete ClusterRoleBinding test-admin-user
 
 ## Service Discovery和Relabel configs
 
-```yaml
-authorization:
-  credentials_file: /var/run/secrets/kubernetes.io/serviceaccount/token
-tls_config:
-  ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-```
+1. [kubernetes_sd_config](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#kubernetes_sd_config)
+2. [relabel_config](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#relabel_config)
 
 
 ## 附录
