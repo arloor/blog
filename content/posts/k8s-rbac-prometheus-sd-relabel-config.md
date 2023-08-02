@@ -200,10 +200,15 @@ data:
         kubernetes_sd_configs: 
           - role: node
         relabel_configs:
-          - source_labels: [__meta_kubernetes_node_address_ExternalIP] #使用Node的ExternalIp
+          - source_labels: [__meta_kubernetes_node_address_InternalIP] #先使用Node的InternalIP
             action: replace
-            regex: (.*)
-            replacement: $1:9100 # node-exporter的端口，其已经使用hostNetwork了
+            regex: (.+)
+            replacement: $1:9100 
+            target_label: __address__
+          - source_labels: [__meta_kubernetes_node_address_ExternalIP] #再使用Node的ExternalIp，如果有的话。我的是有的
+            action: replace
+            regex: (.+)
+            replacement: $1:9100 
             target_label: __address__
       - job_name: 'kubernetes-apiservers'
         kubernetes_sd_configs:
