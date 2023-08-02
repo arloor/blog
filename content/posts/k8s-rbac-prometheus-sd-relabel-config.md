@@ -123,6 +123,49 @@ kubectl delete ClusterRoleBinding test-admin-user
 
 1. [Kubernetes（k8s）权限管理RBAC详解](https://juejin.cn/post/7116104973644988446)
 
+### 创建长期存在的token
+
+首先创建了cluster-admin角色的ServiceAccount "arloor"，并生成长期存在的token
+
+```bash
+kubectl apply -f - <<EOF
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: arloor
+  namespace: default
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: arloor
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: arloor
+  namespace: default
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: arloor-secret
+  namespace: default
+  annotations:
+    kubernetes.io/service-account.name: arloor
+type: kubernetes.io/service-account-token
+EOF
+
+kubectl get secret/arloor-secret -o yaml #查看token字段
+#kubectl describe secrets/arloor-secret 
+```
+
 ### manifest yaml
 
 **ClusterRole、 ClusterRoleBinding**
