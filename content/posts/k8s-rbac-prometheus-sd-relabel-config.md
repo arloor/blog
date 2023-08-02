@@ -54,7 +54,7 @@ RBAC是一个权限控制的常见方案，由三个部分组成：ClusterRole�
 2. 创建该ServiceAccount的临时token。
 3. 创建一个curl的pod，并在pod中执行curl访问ApiServer。注意我们携带了token，并且通过 `-k` 跳过了证书验证。
 
-> PS：如果需要长期存在的可以参考:[manually-create-a-long-lived-api-token-for-a-serviceaccount](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#manually-create-a-long-lived-api-token-for-a-serviceaccount)
+> PS：如果需要长期存在的可以参考:[manually-create-a-long-lived-api-token-for-a-serviceaccount](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#manually-create-a-long-lived-api-token-for-a-serviceaccount)。也可以按照文末附录的[#创建长期存在的token](#创建长期存在的token)流程实验一下。
 
 接下来我们会实施一下，我们直接使用了cluster-admin的角色，免得创建细粒度的ClusterRole，当然这在生产中是不推荐的。我们在最后也清理掉了这个ServiceAccount。shell脚本如下：
 
