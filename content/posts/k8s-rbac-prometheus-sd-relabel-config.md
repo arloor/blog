@@ -1,5 +1,5 @@
 ---
-title: "K8S RBAC、Promethues服务发现、Prometheus Relabel configs"
+title: "K8S部署node-exporter、Prometheus、Grafana监控集群节点"
 date: 2023-07-30T23:02:21+08:00
 draft: false
 categories: [ "undefined"]
