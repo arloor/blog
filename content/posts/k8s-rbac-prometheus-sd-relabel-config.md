@@ -29,7 +29,7 @@ prometheus部署的manifest主要有如下几个部分
 2. ConfigMap: Prometheus 配置文件部分,创建了alert manager告警规则和prometheus抓取规则，其中包括各种k8s服务发现和relabel configs。
 3. Prometheus的Deployment和Service
 
-具体的yaml文件在文末附录的[Github Repo](#Github+Repo)部分。接下来我们将主要关注第一二部分，第三部分已经很熟悉了。
+具体的yaml文件在文末附录的[Github Repo](#github-repo)部分。接下来我们将主要关注第一二部分，第三部分已经很熟悉了。
 
 ## K8S RBAC访问控制
 
