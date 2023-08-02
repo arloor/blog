@@ -11,7 +11,7 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
-在参考[setup-prometheus-monitoring-on-kubernetes](https://devopscube.com/setup-prometheus-monitoring-on-kubernetes/)部署node-exporter + prometheus + grafana的过程中，遇到了一些新主题，需要记录下。主要有这些：
+在参考[setup-prometheus-monitoring-on-kubernetes](https://github.com/techiescamp/kubernetes-prometheus)部署node-exporter + prometheus + grafana的过程中，遇到了一些新主题，需要记录下。主要有这些：
 <!--more-->
 
 | 主题 | 详述 |
@@ -51,8 +51,10 @@ RBAC是一个权限控制的常见方案，由三个部分组成：ClusterRole�
 官方文档[directly-accessing-the-rest-api](https://kubernetes.io/docs/tasks/administer-cluster/access-cluster-api/#without-kubectl-proxy)有介绍了具体方案。简单说可以分为
 
 1. 创建ClusterRoleBinding，赋予某ServiceAccount一定的访问权限
-2. 创建该ServiceAccount的临时token。PS：如果需要长期存在的可以参考:[manually-create-a-long-lived-api-token-for-a-serviceaccount](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#manually-create-a-long-lived-api-token-for-a-serviceaccount)
+2. 创建该ServiceAccount的临时token。
 3. 创建一个curl的pod，并在pod中执行curl访问ApiServer。注意我们携带了token，并且通过 `-k` 跳过了证书验证。
+
+> PS：如果需要长期存在的可以参考:[manually-create-a-long-lived-api-token-for-a-serviceaccount](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#manually-create-a-long-lived-api-token-for-a-serviceaccount)
 
 接下来我们会实施一下，我们直接使用了cluster-admin的角色，免得创建细粒度的ClusterRole，当然这在生产中是不推荐的。我们在最后也清理掉了这个ServiceAccount。shell脚本如下：
 
