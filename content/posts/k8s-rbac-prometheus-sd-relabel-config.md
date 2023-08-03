@@ -1,5 +1,5 @@
 ---
-title: "K8S部署node-exporter、Prometheus、Grafana监控集群节点"
+title: "使用node-exporter + prometheus + grafana 监控k8s集群"
 date: 2023-07-30T23:02:21+08:00
 draft: false
 categories: [ "undefined"]
