@@ -163,7 +163,7 @@ type: kubernetes.io/service-account-token
 EOF
 
 kubectl get secret/arloor-secret -o yaml #查看token字段，base64格式的
-kubectl describe secrets/arloor-secret # 查看token字段，原始的
+kubectl describe secret/arloor-secret # 查看token字段，原始的
 ```
 
 其中 `kubectl get` 得到的是Base64编码过的，需要base64解码才能使用：
