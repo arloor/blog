@@ -175,8 +175,6 @@ xxxxxxx token
 EOF
 ```
 
-kubectl
-
 ### Github Repo
 
 [kubernetes-prometheus-grafana](https://github.com/arloor/kubernetes-prometheus-grafana)
