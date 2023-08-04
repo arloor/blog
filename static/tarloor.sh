@@ -8,9 +8,9 @@ repo=https://github.com/arloor/${repoName}.git
 echo "仓库名：$repoName"
 echo "仓库地址：$repo"
 [ "$useProxy" = "1" ] && {
-  echo "----- 使用代理"
+  echo "--- 使用代理"
 }||{
-    echo "----- 不使用代理"
+    echo "--- 不使用代理"
 }
 
 hugoVersion="0.96.0"
@@ -18,9 +18,9 @@ hugoURL=https://github.com/gohugoio/hugo/releases/download/v${hugoVersion}/hugo_
 is_deb="1"
 if ! grep debian /etc/os-release &>/dev/null; then
   is_deb="0"
-  echo "使用redhat系命令"
+  echo "--- 使用redhat系命令"
 else
-  echo "使用debian系命令"
+  echo "--- 使用debian系命令"
 fi
 
 ## 检查依赖
