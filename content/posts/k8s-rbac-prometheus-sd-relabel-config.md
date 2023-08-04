@@ -96,7 +96,7 @@ EOF
 token=`kubectl -n default create token test-admin-user`
 echo $token
 # 创建一个curl pod，并使用token访问apiserver的prometheus exporter
-kubectl run curl --image=redhat/ubi9:9.2-722 --attach --rm -- \
+kubectl run curl --image=redhat/ubi9-minimal:9.2-717 --attach --rm -- \
 curl https://kubernetes.default:443/metrics -k \
 -H "Authorization: Bearer $token"
 # 清理
