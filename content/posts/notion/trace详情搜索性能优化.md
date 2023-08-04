@@ -174,7 +174,8 @@ public class IdGen {
     public static String newTraceId(long currentTimeMillis) {
         currentTimeMillis = currentTimeMillis != 0 ? currentTimeMillis : System.currentTimeMillis();
         long[] idPart = getIdPart(currentTimeMillis);
-        return String.format("%016x%016x", idPart[0], idPart[1]);
+//        return String.format("%016x%016x", idPart[0], idPart[1]); // String.format性能不佳，不使用
+        return traceIdFromLongs(idPart[0], idPart[1]);
     }
 
     public static String newTraceId() {
