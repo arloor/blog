@@ -352,16 +352,15 @@ kubectl get svc -n kubernetes-dashboard |grep NodePort|awk -F '[ :/]+' '{print $
 生成访问token: 参考[creating-sample-user](https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/creating-sample-user.md)
 
 ```bash
-cat > sa.yaml <<EOF
+kubectl apply -f - <<EOF
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: admin-user
   namespace: kubernetes-dashboard
-EOF
-kubectl apply -f sa.yaml
 
-cat > roleBind.yaml <<EOF
+---
+
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
@@ -375,7 +374,6 @@ subjects:
   name: admin-user
   namespace: kubernetes-dashboard
 EOF
-kubectl apply -f roleBind.yaml
 ```
 
 打印port，并生成token，随后通过token访问 `https://ip/31611` 即可使用dashboard。
