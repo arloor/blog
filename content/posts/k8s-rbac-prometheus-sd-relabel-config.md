@@ -41,10 +41,19 @@ RBAC是一个权限控制的常见方案，由三个部分组成：ClusterRole�
 
 1. 每一个namespace下都有一个default的ServiceAccount。
 2. 每一个pod都有一个ServiceAccount，没有特别指定的话，pod的ServiceAccount将会是其namespace的default ServiceAccount。
-3. 在pod中，`/var/run/secrets/kubernetes.io/serviceaccount/` 目录下有三个文件
-    1. token: 该pod的ServiceAccount的token。
-    2. ca.cert: k8s集群签发ssl证书的ca证书。信任此证书才能访问集群内的https服务，例如apiserver的6443端口。
-    3. namespace： 该pod的namespace。
+3. 在pod的文件系统中，有个神秘目录：
+
+```bash
+/var/run/secrets/kubernetes.io/serviceaccount/
+```
+
+这个神秘目录下有三个文件，其内容分别是：
+
+1. token: 该pod的ServiceAccount的token。
+2. ca.cert: k8s集群签发ssl证书的ca证书。信任此证书才能访问集群内的https服务，例如apiserver的6443端口。
+3. namespace： 该pod的namespace。
+
+后文还将提到这个神秘目录。
 
 ## pod访问ApiServer
 
@@ -98,8 +107,8 @@ kubectl delete ClusterRoleBinding test-admin-user
 上面只是一个实验，那我们的kubernetes-dashboard和prometheus又是如何访问ApiServer的呢？其实也分为三部分：
 
 1. 创建ServiceAccount、ClusterRole、ClusterRoleBinding。
-2. 信任 `/var/run/secrets/kubernetes.io/serviceaccount/` 下的ca.cert，并发起http请求
-3. http请求中携带 `/var/run/secrets/kubernetes.io/serviceaccount/` 下的token，作为Authorization请求头。
+2. 信任pod“神秘目录”下的ca.cert，并发起http请求
+3. http请求中携带pod“神秘目录”下的token，作为Authorization请求头。
 
 这也将在prometheus的抓取配置中看到。
 
