@@ -202,7 +202,7 @@ mv /tmp/linux-amd64/helm  /usr/local/bin/
 helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
 helm repo update
 helm search repo kubernetes-dashboard -l #找到 app version 2.7.0对应的version为6.0.8
-helm show values kubernetes-dashboard/kubernetes-dashboard --version 6.0.8 > values.yaml 
+helm show values kubernetes-dashboard/kubernetes-dashboard --version 6.0.8 > /tmp/values.yaml 
 # 修改values.yaml
 cat > /tmp/values.yaml <<EOF
 service:
