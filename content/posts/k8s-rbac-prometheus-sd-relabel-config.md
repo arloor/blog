@@ -12,7 +12,6 @@ keywords:
 ---
 
 在参考[setup-prometheus-monitoring-on-kubernetes](https://github.com/techiescamp/kubernetes-prometheus)部署node-exporter + prometheus + grafana的过程中，遇到了一些新主题，需要记录下。主要有这些：
-<!--more-->
 
 | 主题 | 详述 |
 | :----------------------------- | :---------------- |
@@ -20,6 +19,7 @@ keywords:
 | 在Pod中访问ApiServer           | Prometheus是运行在k8s集群中的一个pod，访问k8s的apiserver时需要一些鉴权机制 |
 | Prometheus Service Discovery | Prometheus是pull模型，需要自动地发现k8s集群中有哪些endpoing、node、service等，并watch其变更 |
 | Prometheus relabel_configs   | 在prometheus的抓取job中过滤、转换target的label |
+<!--more-->
 
 ## prometheus manifest简析
 
