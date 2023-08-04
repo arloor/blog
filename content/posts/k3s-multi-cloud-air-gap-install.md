@@ -222,13 +222,14 @@ metrics-server:
   - --kubelet-use-node-status-port
   - --metric-resolution=15s
 EOF
+kubectl create namespace kubernetes-dashboard
 helm install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard  --version 6.0.8  --kubeconfig /etc/rancher/k3s/k3s.yaml  \
 -n kubernetes-dashboard \
 -f /tmp/values.yaml
-watch kubectl get pod
+watch kubectl get pod -n kubernetes-dashboard
 
 # 卸载
-# helm delete kubernetes-dashboard --kubeconfig /etc/rancher/k3s/k3s.yaml
+# helm delete kubernetes-dashboard --namespace kubernetes-dashboard --kubeconfig /etc/rancher/k3s/k3s.yaml
 ```
 
 ### 生成访问token
