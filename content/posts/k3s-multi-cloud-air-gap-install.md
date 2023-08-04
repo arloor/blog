@@ -223,7 +223,7 @@ metrics-server:
   - --metric-resolution=15s
 EOF
 helm install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard  --version 6.0.8  --kubeconfig /etc/rancher/k3s/k3s.yaml  \
--n default \
+-n kubernetes-dashboard \
 -f /tmp/values.yaml
 watch kubectl get pod
 
