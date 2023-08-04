@@ -209,7 +209,7 @@ kubectl taint nodes --all node-role.kubernetes.io/master-
 ### 检验dns正确
 
 ```bash
-kubectl run curl --image=radial/busyboxplus:curl -it --rm
+kubectl run curl --image=redhat/ubi9:9.2-722 -it --rm
 nslookup kubernetes.default
 ```
 
@@ -540,7 +540,7 @@ error: failed to create ingress: Internal error occurred: failed calling webhook
 
 测试了下dns
 ```bash
-$ kubectl run curl --image=radial/busyboxplus:curl -it
+$ kubectl run curl --image=redhat/ubi9:9.2-722 -it
 $ nslookup ingress-nginx-controller-admission.ingress-nginx.svc # dns是通的
 Server:    10.96.0.10
 Address 1: 10.96.0.10 kube-dns.kube-system.svc.cluster.local
