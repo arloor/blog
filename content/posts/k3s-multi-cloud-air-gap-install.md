@@ -238,7 +238,7 @@ watch kubectl get pod -n kubernetes-dashboard
 
 ### 生成访问token
 
-生成ServiceRole和ClusterRoleBinding，并生成token。之后执行 `token` 命令，即可得到dashboard的token
+kubernetes-dashboard使用RBAC的权限控制，需要我们生成ServiceRole和ClusterRoleBinding，并生成token。可以参考[创建长期存在的token](/posts/k8s-rbac-prometheus-sd-relabel-config/#创建长期存在的token)，生成永不过期的token。也可以使用如下命令生成有过期时间（这里是100天）的token。
 
 ```bash
 kubectl apply -f - <<EOF
@@ -274,11 +274,10 @@ chmod +x /usr/local/bin/token
 token # 有效期100天
 ```
 
-鉴权相关的可以看[access-control/README.md#login-view](https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/README.md#login-view)。我是用的文档中的Authorization header配合modHeader插件和上面的100天的token，使用dashboard就很方便了。
+kubernetes-dashboard的鉴权机制可以看[access-control](https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/README.md#login-view)。我是用的文档中的Authorization header配合chrome的modHeader插件来使用上面的token进行鉴权，这样使用dashboard就很方便了。
 
 k8s的RBAC鉴权机制可以参考[Kubernetes（k8s）权限管理RBAC详解](https://juejin.cn/post/7116104973644988446)。简单说就是Role Based Access Control ，Role定义了访问一系列资源的权限。Subject有User、Group、ServiceAccount等几种。每个NameSpace都有一个默认ServiceAccount，名为"default"。Role和Subject（主体）通过RoleBinding绑定，绑定后Subject就有了Role定义的权限。ClusterRole有集群所有命名空间的权限，Role只有指定命名空间的权限。
 
-也可以参考[创建长期存在的token](/posts/k8s-rbac-prometheus-sd-relabel-config/#创建长期存在的token)，生成永不过期的token。
 
 ![](/img/k3s-two-nodes.png)
 
