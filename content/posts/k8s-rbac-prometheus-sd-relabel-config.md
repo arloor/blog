@@ -11,7 +11,7 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
-在参考[setup-prometheus-monitoring-on-kubernetes](https://github.com/techiescamp/kubernetes-prometheus)部署node-exporter + prometheus + grafana的过程中，遇到了一些新主题，需要记录下。主要有这些：
+最近在K8S集群中部署了node-exporter + prometheus + grafana，具体过程可以参考我的Github项目[kubernetes-prometheus-grafana](https://github.com/arloor/kubernetes-prometheus-grafana)。这个博客用来记录下过程中的一些知识点，主要有这些：
 
 | 主题 | 详述 |
 | :----------------------------- | :---------------- |
@@ -29,7 +29,7 @@ prometheus部署的manifest主要有如下几个部分
 2. ConfigMap: Prometheus 配置文件部分,创建了alert manager告警规则和prometheus抓取规则，其中包括各种k8s服务发现和relabel configs。
 3. Prometheus的Deployment和Service
 
-具体的yaml文件在文末附录的[Github Repo](#github-repo)部分。接下来我们将主要关注第一二部分，第三部分已经很熟悉了。
+具体的yaml文件参见我的Github项目[kubernetes-prometheus-grafana](https://github.com/arloor/kubernetes-prometheus-grafana)。第三部分我已经很熟悉了，新知识点主要在第一二部分。
 
 ## K8S RBAC访问控制
 
@@ -105,6 +105,13 @@ kubectl delete ClusterRoleBinding test-admin-user
 
 ## Service Discovery和Relabel configs
 
+给两个Prometheus的官方文档链接给大家指路：
+
+1. [kubernetes_sd_config](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#kubernetes_sd_config)
+2. [relabel_config](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#relabel_config)
+
+> PS: Prometheus部署在K8S集群外也可以监控K8S集群，此时需要指定apiserver地址，token和ca_cert（或设置不验证证书）。参考文档中的这段描述：
+
 
 ```bash
 # The API server addresses. If left empty, Prometheus is assumed to run inside
@@ -113,15 +120,13 @@ kubectl delete ClusterRoleBinding test-admin-user
 [ api_server: <host> ]
 ```
 
-1. [kubernetes_sd_config](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#kubernetes_sd_config)
-2. [relabel_config](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#relabel_config)
-
 
 ## 附录
 
 ### 参考文档
 
 1. [Kubernetes（k8s）权限管理RBAC详解](https://juejin.cn/post/7116104973644988446)
+2. [setup-prometheus-monitoring-on-kubernetes](https://github.com/techiescamp/kubernetes-prometheus)
 
 ### 创建长期存在的token
 
@@ -174,7 +179,3 @@ base64 -d - <<EOF
 xxxxxxx token
 EOF
 ```
-
-### Github Repo
-
-[kubernetes-prometheus-grafana](https://github.com/arloor/kubernetes-prometheus-grafana)
