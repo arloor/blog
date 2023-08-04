@@ -145,6 +145,8 @@ watch kubectl get pod -A
 
 ## kubernetes dashboard安装
 
+先介绍两种安装方式，首先是通过manifest yaml文件安装，另一种是通过helm chart安装。再介绍token生成，以及使用token登陆kubernetes-dashboard。
+
 ### 使用manifest安装
 
 > 这里还是使用v2.7.0版本，因为v3.0.0版本需要ingress-nginx-controller，而我不想用ingress-controller。
@@ -198,6 +200,8 @@ mv /tmp/linux-amd64/helm  /usr/local/bin/
 
 安装dashboard的helm chart
 
+> 需要先参考[访问集群](#访问集群)设置kubeconfig，从而让helm与集群交互
+
 ```bash
 helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
 helm repo update
@@ -223,13 +227,13 @@ metrics-server:
   - --metric-resolution=15s
 EOF
 kubectl create namespace kubernetes-dashboard
-helm install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard  --version 6.0.8  --kubeconfig /etc/rancher/k3s/k3s.yaml  \
+helm install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard  --version 6.0.8  \
 -n kubernetes-dashboard \
 -f /tmp/values.yaml
 watch kubectl get pod -n kubernetes-dashboard
 
 # 卸载
-# helm delete kubernetes-dashboard --namespace kubernetes-dashboard --kubeconfig /etc/rancher/k3s/k3s.yaml
+# helm delete kubernetes-dashboard --namespace kubernetes-dashboard 
 ```
 
 ### 生成访问token
@@ -274,6 +278,8 @@ token # 有效期100天
 
 k8s的RBAC鉴权机制可以参考[Kubernetes（k8s）权限管理RBAC详解](https://juejin.cn/post/7116104973644988446)。简单说就是Role Based Access Control ，Role定义了访问一系列资源的权限。Subject有User、Group、ServiceAccount等几种。每个NameSpace都有一个默认ServiceAccount，名为"default"。Role和Subject（主体）通过RoleBinding绑定，绑定后Subject就有了Role定义的权限。ClusterRole有集群所有命名空间的权限，Role只有指定命名空间的权限。
 
+也可以参考[创建长期存在的token](/posts/k8s-rbac-prometheus-sd-relabel-config/#创建长期存在的token)，生成永不过期的token。
+
 ![](/img/k3s-two-nodes.png)
 
 ## 访问集群
@@ -293,6 +299,11 @@ Or specify the location of the kubeconfig file in the command:
 ```bash
 kubectl --kubeconfig /etc/rancher/k3s/k3s.yaml get pods --all-namespaces
 helm --kubeconfig /etc/rancher/k3s/k3s.yaml ls --all-namespaces
+```
+或者
+
+```bash
+cp -f /etc/rancher/k3s/k3s.yaml ~/.kube/config
 ```
 
 ### Mac上管理该k3s集群：
