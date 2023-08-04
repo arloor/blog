@@ -145,6 +145,8 @@ watch kubectl get pod -A
 
 ## kubernetes dashboard安装
 
+### 使用manifest安装
+
 > 这里还是使用v2.7.0版本，因为v3.0.0版本需要ingress-nginx-controller，而我不想用ingress-controller。
 
 下载k8s dashboard的manifest，并预先下载镜像
@@ -184,19 +186,60 @@ kubectl apply -f recommended.yaml
 watch kubectl get pod -n kubernetes-dashboard
 ```
 
+### 使用helm安装
+
+安装helm：
+
+```bash
+wget https://get.helm.sh/helm-v3.12.0-linux-amd64.tar.gz -O /tmp/helm-v3.12.0-linux-amd64.tar.gz
+tar -zxvf /tmp/helm-v3.12.0-linux-amd64.tar.gz -C /tmp
+mv /tmp/linux-amd64/helm  /usr/local/bin/
+```
+
+安装dashboard的helm chart
+
+```bash
+helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
+helm repo update
+helm search repo kubernetes-dashboard -l #找到 app version 2.7.0对应的version为6.0.8
+helm show values kubernetes-dashboard/kubernetes-dashboard --version 6.0.8 > values.yaml 
+# 修改values.yaml
+cat > /tmp/values.yaml <<EOF
+service:
+  type: LoadBalancer
+  # Dashboard service port
+  externalPort: 8443
+metricsScraper:
+  ## Wether to enable dashboard-metrics-scraper
+  enabled: true
+metrics-server:
+  enabled: false # k3s自带了metrics-server所以这里为false
+  args:
+  - --kubelet-insecure-tls # 必要
+EOF
+helm install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard  --version 6.0.8  --kubeconfig /etc/rancher/k3s/k3s.yaml  \
+-n default \
+-f /tmp/values.yaml
+watch kubectl get pod
+
+# 卸载
+# helm delete kubernetes-dashboard --kubeconfig /etc/rancher/k3s/k3s.yaml
+```
+
+### 生成访问token
+
 生成ServiceRole和ClusterRoleBinding，并生成token。之后执行 `token` 命令，即可得到dashboard的token
 
 ```bash
-cat > sa.yaml <<EOF
+kubectl apply -f - <<EOF
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: admin-user
-  namespace: kubernetes-dashboard
-EOF
-kubectl apply -f sa.yaml
+  namespace: default
 
-cat > roleBind.yaml <<EOF
+---
+
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
@@ -208,9 +251,8 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: admin-user
-  namespace: kubernetes-dashboard
+  namespace: default
 EOF
-kubectl apply -f roleBind.yaml
 
 cat > /usr/local/bin/token <<\EOF
 kubectl -n kubernetes-dashboard create token admin-user --duration 24000h
