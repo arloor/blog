@@ -216,6 +216,11 @@ metrics-server:
   enabled: false # k3s自带了metrics-server所以这里为false
   args:
   - --kubelet-insecure-tls # 必要
+  - --cert-dir=/tmp
+  - --secure-port=4443
+  - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
+  - --kubelet-use-node-status-port
+  - --metric-resolution=15s
 EOF
 helm install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard  --version 6.0.8  --kubeconfig /etc/rancher/k3s/k3s.yaml  \
 -n default \
