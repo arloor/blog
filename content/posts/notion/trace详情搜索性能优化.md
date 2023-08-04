@@ -190,6 +190,13 @@ public class IdGen {
         long high = OtelEncodingUtils.longFromBase16String(traceId, 0);
         return recoverTimeFromHigh(high, currentMill);
     }
+
+    private static String traceIdFromLongs(long traceIdLongHighPart, long traceIdLongLowPart) {
+        char[] chars = TemporaryBuffers.chars(32);
+        OtelEncodingUtils.longToBase16String(traceIdLongHighPart, chars, 0);
+        OtelEncodingUtils.longToBase16String(traceIdLongLowPart, chars, 16);
+        return new String(chars, 0, 32);
+    }
 }
 ```
 
