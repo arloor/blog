@@ -119,7 +119,7 @@ Prometheus进行k8s服务发现时就遵循上面的流程。
 1. [kubernetes_sd_config](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#kubernetes_sd_config)
 2. [relabel_config](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#relabel_config)
 
-可以对照Github项目[kubernetes-prometheus-grafana](https://github.com/arloor/kubernetes-prometheus-grafana)中 `prometheus.yaml` 的 `ConfigMap` 来学习上面的链接。
+Github项目[kubernetes-prometheus-grafana](https://github.com/arloor/kubernetes-prometheus-grafana)中 `prometheus.yaml` 的 `ConfigMap` 是 kubernetes_sd_config 和 relabel_config 的实际例子，可以对照查看。
 
 > PS: Prometheus部署在K8S集群外也可以监控K8S集群，此时需要指定apiserver地址，token和ca_cert（或设置不验证证书）。参考文档中的这段描述：
 
