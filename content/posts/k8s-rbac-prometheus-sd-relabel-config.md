@@ -110,11 +110,11 @@ kubectl delete ClusterRoleBinding test-admin-user
 2. 信任pod“神秘目录”下的ca.cert，并发起http请求
 3. http请求中携带pod“神秘目录”下的token，作为Authorization请求头。
 
-这也将在prometheus的抓取配置中看到。
+Prometheus进行k8s服务发现时就遵循上面的流程。
 
 ## Service Discovery和Relabel configs
 
-给两个Prometheus的官方文档链接给大家指路：
+不做追述，给两个Prometheus的官方文档给大家指路：
 
 1. [kubernetes_sd_config](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#kubernetes_sd_config)
 2. [relabel_config](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#relabel_config)
