@@ -283,9 +283,9 @@ k8s的RBAC鉴权机制可以参考[Kubernetes（k8s）权限管理RBAC详解](ht
 
 ## 访问集群
 
-kubeconfig保存在 /etc/rancher/k3s/k3s.yaml。如果你安装了上游k8s的命令行工具，例如kubectl、helm，你需要给他们配置正确的kubeconfig位置。可以通过配置KUBECONFIG环境变量，或增加 --kubeconfig 参数来实现。细节请参考下面的例子：
+kubeconfig保存在 /etc/rancher/k3s/k3s.yaml。如果你安装了上游k8s的命令行工具，例如kubectl、helm，你需要给他们配置正确的kubeconfig位置。可以通过配置KUBECONFIG环境变量，或增加 `--kubeconfig` 参数来实现。
 
-Leverage the KUBECONFIG environment variable:
+1. 配置KUBECONFIG环境变量
 
 ```bash
 export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
@@ -293,13 +293,13 @@ kubectl get pods --all-namespaces
 helm ls --all-namespaces
 ```
 
-Or specify the location of the kubeconfig file in the command:
+2. 增加 `--kubeconfig` 参数
 
 ```bash
 kubectl --kubeconfig /etc/rancher/k3s/k3s.yaml get pods --all-namespaces
 helm --kubeconfig /etc/rancher/k3s/k3s.yaml ls --all-namespaces
 ```
-或者
+3. 复制到默认kubeconfig的位置
 
 ```bash
 cp -f /etc/rancher/k3s/k3s.yaml ~/.kube/config
