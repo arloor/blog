@@ -150,10 +150,10 @@ sh -c 'curl https://kubernetes.default:443 -k -v; echo $?'
 
 | 参数 | 说明 |
 | --- | --- |
-| --attach | 附加到pod中 |
-| --command | -- 后的表示命令，而不是参数 |
-| --rm | 运行完成后删除pod |
-| --restart=Never | 不设置的话，会是backoff的状态 |
+| `--attach` | 附加到pod中 |
+| `--command` | `--` 后的表示命令，而不是参数 |
+| `--rm` | 运行完成后删除pod |
+| `--restart=Never` | 不设置的话，会是backoff的状态 |
 
 
 ## kubernetes dashboard安装
