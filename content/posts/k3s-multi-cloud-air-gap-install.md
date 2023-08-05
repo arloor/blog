@@ -141,6 +141,19 @@ watch kubectl get pod -A
 
 虽然rancher中国的文档不咋样，但是这个加速镜像还是要点赞的， `INSTALL_K3S_MIRROR=cn` 环境变量就是来使用加速镜像的。此方式也不需要使用代理。我是在[Rancher中国的安装选项介绍](https://docs.rancher.cn/docs/k3s/installation/install-options/_index/#%E4%BD%BF%E7%94%A8%E8%84%9A%E6%9C%AC%E5%AE%89%E8%A3%85%E7%9A%84%E9%80%89%E9%A1%B9)找到这个镜像的。建议配合 `INSTALL_K3S_VERSION=v1.27.3+k3s1`环境变量指定k3s版本为v1.27.3+k3s1(我离线安装的版本)
 
+## 测试dns正常工作
+
+```bash
+kubectl run curl --image=redhat/ubi9-minimal --attach --command --rm --restart=Never -- \
+sh -c 'curl https://kubernetes.default:443 -k -v; echo $?'
+```
+
+| 参数 | 说明 |
+| --- | --- |
+| --attach | 附加到pod中 |
+| --command | -- 后的表示命令，而不是参数 |
+| --rm | 运行完成后删除pod |
+| --restart=Never | 不设置的话，会是backoff的状态 |
 
 
 ## kubernetes dashboard安装
