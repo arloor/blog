@@ -186,6 +186,12 @@ public class IdGen {
         return (high >>> 23) + (currentMil & 0b0111111111111111111111100000000000000000000000000000000000000000L);
     }
 
+    /**
+	 * 同样作用的sql：
+	 * with 'c4e22d5e5c90364863af7e06e3c9d9c5' as traceID,
+     *     toDateTime(fromUnixTimestamp64Milli(reinterpretAsInt64(reverse(bitShiftRight((unhex(substr(traceID,1,16))),23)))+bitAnd(toUnixTimestamp64Milli(now64()),0b0111111111111111111111100000000000000000000000000000000000000000))) as time
+     * select time
+	*/
     public static long recoverTimeFromTraceId(String traceId, long currentMill) {
         long high = OtelEncodingUtils.longFromBase16String(traceId, 0);
         return recoverTimeFromHigh(high, currentMill);
