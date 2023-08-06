@@ -119,7 +119,7 @@ rm -rf /boot/loader/entries/${machineId}-vmlinuz*
 grubby --add-kernel=/boot/vmlinuz  --make-default --initrd=/boot/initrd.img  --title="rhel9"  --args="ip=dhcp inst.repo=${base_url} inst.ks=${ks_url}" # --make-default 将设置成下次启动的内核
 cat /boot/loader/entries/${machineId}-vmlinuz.conf
 
-# [[ -f  /boot/grub2/grubenv ]] && sed -i 's/saved_entry.*/saved_entry='${machineId}'-vmlinuz/g' /boot/grub2/grubenv;
+grub2-editenv /boot/grub2/grubenv set saved_entry=${machineId}-vmlinuz
 grep saved_entry /boot/grub2/grubenv
 echo rebooting to install
 sleep 1
