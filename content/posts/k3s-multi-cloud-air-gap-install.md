@@ -326,8 +326,7 @@ scp root@mi.arloor.com:/etc/rancher/k3s/k3s.yaml ~/.kube/config
 curl -LO "https://dl.k8s.io/release/v1.27.3/bin/darwin/arm64/kubectl"
 chmod +x kubectl
 mv kubectl /data/bin/
-sudo echo "118.25.142.222 mi" > /etc/hosts
-sed -i "" 's/127.0.0.1/mi/' ~/.kube/config
+sed -i "" 's/127.0.0.1/118.25.142.222/' ~/.kube/config
 kubectl get nodes
 ```
 
