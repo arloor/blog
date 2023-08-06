@@ -251,14 +251,16 @@ watch kubectl get pod -n kubernetes-dashboard
 
 ### 生成访问token
 
-kubernetes-dashboard使用RBAC的权限控制，需要我们生成ServiceRole和ClusterRoleBinding，并生成token。可以参考[创建长期存在的token](/posts/k8s-rbac-prometheus-sd-relabel-config/#创建长期存在的token)，生成永不过期的token。也可以使用如下命令生成有过期时间（这里是100天）的token。
+kubernetes-dashboard使用RBAC的权限控制，需要我们生成ServiceRole和ClusterRoleBinding，并生成token。可以生成永不过期的token，也可以生成带过期时间的token
+
+#### 永不过期的token
 
 ```bash
 kubectl apply -f - <<EOF
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: admin-user
+  name: arloor
   namespace: default
 
 ---
@@ -266,19 +268,68 @@ metadata:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: admin-user
+  name: arloor
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: cluster-admin
 subjects:
 - kind: ServiceAccount
-  name: admin-user
+  name: arloor
+  namespace: default
+
+---
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: arloor-secret
+  namespace: default
+  annotations:
+    kubernetes.io/service-account.name: arloor
+type: kubernetes.io/service-account-token
+EOF
+
+kubectl get secret/arloor-secret -o yaml #查看token字段，base64格式的
+kubectl describe secret/arloor-secret # 查看token字段，原始的
+```
+
+其中 kubectl get 得到的是Base64编码过的，需要base64解码才能使用：
+
+```bash
+base64 -d - <<EOF
+xxxxxxx token
+EOF
+```
+
+#### 带过期时间的token
+
+```bash
+kubectl apply -f - <<EOF
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: arloor
+  namespace: default
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: arloor
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: arloor
   namespace: default
 EOF
 
 cat > /usr/local/bin/token <<\EOF
-kubectl -n kubernetes-dashboard create token admin-user --duration 24000h
+kubectl create token arloor --duration 24000h
 EOF
 chmod +x /usr/local/bin/token
 ```
@@ -287,16 +338,19 @@ chmod +x /usr/local/bin/token
 token # 有效期100天
 ```
 
+
+
+ 使用token登陆dashboard后可以看到类似下面的界面
+
+![](/img/k3s-two-nodes.png)
+
 kubernetes-dashboard的鉴权机制可以看[access-control](https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/README.md#login-view)。我是用的文档中的Authorization header配合chrome的modHeader插件来使用上面的token进行鉴权，这样使用dashboard就很方便了。
 
 k8s的RBAC鉴权机制可以参考[Kubernetes（k8s）权限管理RBAC详解](https://juejin.cn/post/7116104973644988446)。简单说就是Role Based Access Control ，Role定义了访问一系列资源的权限。Subject有User、Group、ServiceAccount等几种。每个NameSpace都有一个默认ServiceAccount，名为"default"。Role和Subject（主体）通过RoleBinding绑定，绑定后Subject就有了Role定义的权限。ClusterRole有集群所有命名空间的权限，Role只有指定命名空间的权限。
 
-
-![](/img/k3s-two-nodes.png)
-
 ## 访问集群
 
-kubeconfig保存在 /etc/rancher/k3s/k3s.yaml。如果你安装了上游k8s的命令行工具，例如kubectl、helm，你需要给他们配置正确的kubeconfig位置。可以通过配置KUBECONFIG环境变量，或增加 `--kubeconfig` 参数来实现。
+kubeconfig保存在 /etc/rancher/k3s/k3s.yaml。如果你安装了上游k8s的命令行工具，例如kubectl、helm，你需要给他们配置正确的kubeconfig位置。有三种方式，推荐方式三。
 
 1. 配置KUBECONFIG环境变量
 
