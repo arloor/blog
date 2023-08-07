@@ -1,5 +1,5 @@
 ---
-title: "Shell Tricks"
+title: "Shell编程笔记"
 date: 2022-05-08T17:19:30+08:00
 draft: false
 categories: [ "undefined"]
@@ -122,6 +122,17 @@ chmod +x /usr/local/bin/ncode
 ncode arloor
 ```
 
+## awk 设置变量
+
+`host=$1` 设置了host这个变量，并在后续的awk command中用到
+
+```bash
+➜  ~ cat /data/bin/pod                                           
+kubectl get pod -A -o wide -l app=proxy |awk -v host=$1 '$8==host {print $2}'
+➜  ~ pod hk
+proxy-pqhhc
+```
+
 ## Clickhouse简化命令
 
 场景：使用 clickhouse client 连接数据库时，经常要带一些参数，例如ip、用户名等。每次都输入这些信息的话，会比较麻烦。一种解法是写alias，但是在一些场景下免不了`source ~/.zsh_rc`。另一种更通用的方式是写个shell脚本：
@@ -142,3 +153,32 @@ ncode arloor
 在Clickhouse的情况下，它需要`--query`后面跟着的查询字符串作为单独的参数。如果你使用`$@`，查询字符串 `"select 1"` 会和 `--query` 合并为一个参数，而Clickhouse期望它们是分开的，这就是为什么会报错。
 
 所以在这种情况下，使用 `"$@"` 是正确的，因为它会把 `--query` 和 `"select 1"` 作为两个独立的参数传递给 Clickhouse 客户端。
+
+## Clickhouse导入不同环境数据
+
+用Fomart CSV进行导入
+
+```bash
+# 定义sql
+query=$(cat <<EOF
+with 'c4e22d5e5c90364863af7e06e3c9d9c5' as traceID,
+'20230805' as part
+SELECT
+    *
+FROM tracing_span_v3_distributed
+where trace_id=traceID
+and _partition_id=part
+order by seq,span_id
+EOF
+)
+# 将结果集赋值给result
+result=$(ck --query "$query Format CSV") 
+# 生成导入数据的脚本
+cat > a.sh <<EPF
+ck40 --query "insert into tracing_span_v3 Format CSV" <<\EOF
+$result
+EOF
+EPF
+```
+
+接下来通过scp或者ftp或者直接复制文本的方式将a.sh下载到目标环境，执行a.sh即可导入。
