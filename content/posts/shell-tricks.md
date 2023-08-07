@@ -3,7 +3,7 @@ title: "Shell编程笔记"
 date: 2022-05-08T17:19:30+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["undefined"]
+tags: ["tools"]
 weight: 10
 subtitle: ""
 description : ""
