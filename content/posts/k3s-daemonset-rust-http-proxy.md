@@ -185,7 +185,7 @@ cat > /data/bin/lo <<\EOF
 kubectl get pod -A -o wide -l app=proxy |awk -v host=$1 '$8==host {print $2}' | xargs -I {} kubectl logs {} -f
 EOF
 chmod +x /data/bin/lo
-lo hostname
+lo hk
 ```
 
 更暴力，一次性查看所有pod的日志
