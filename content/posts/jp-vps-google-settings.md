@@ -17,9 +17,11 @@ keywords:
 
 ## 设置搜索结果语言过滤器
 
-[搜索设置页面](https://www.google.com/preferences?lang=1)，设置成如下：
+[搜索设置页面](https://www.google.com/preferences?lang=1)，设置成如下。
 
 ![Alt text](/img/google-preference-setting.png)
+
+注意，**搜索结果区域**一定不要是**当前所在区域**，日本ip所在地也就是日本，推荐选美国这种英语语言国家。经过我的测试，可能这个才是主要影响日文内容是否出现的主要因素。
 
 设置完可以F12看NID这个cookie：
 
