@@ -31,15 +31,15 @@ keywords:
 
 ```toml
 [Header Rewrite]
-https://.*google.com.* header-replace-regex Cookie ^NID.* NID=511=khETQ4Rhj6ctYT3HVuxi89NWHRxmYQT-e77CCfvl26iUCwO-BxoOLGWC1cfz42xbZ2wcOtSycsFeMUGq6s9O_5QXsw5Fyo3dJRCGpDA786cnCa33qtSTverklJwC0EXJomv6D_EvD5Np0lntcEOIJxif_mi_E1Kc1D49fxs0SN2qb-YhK1CBYdpQAsGI1x1HS95CmgGwR_2TkRWWHZcuNgZdxt0tX-9DCMcc6TtiEtQYuEcMFbchGCCUDwjwMDd81umQkZgpWuYYGkIOCYZEsyK1hRIPFm5A5iidpH1oXGdXVMF30KGmi-JasipqL2MV-3c8h9MvwwrauUIScJz5ojSwzZXcOWRhYsIUx7n0UkQodVeES1gCRNGH7629ogctJSGgryA
-https://.*google.com.* header-add Cookie NID=511=khETQ4Rhj6ctYT3HVuxi89NWHRxmYQT-e77CCfvl26iUCwO-BxoOLGWC1cfz42xbZ2wcOtSycsFeMUGq6s9O_5QXsw5Fyo3dJRCGpDA786cnCa33qtSTverklJwC0EXJomv6D_EvD5Np0lntcEOIJxif_mi_E1Kc1D49fxs0SN2qb-YhK1CBYdpQAsGI1x1HS95CmgGwR_2TkRWWHZcuNgZdxt0tX-9DCMcc6TtiEtQYuEcMFbchGCCUDwjwMDd81umQkZgpWuYYGkIOCYZEsyK1hRIPFm5A5iidpH1oXGdXVMF30KGmi-JasipqL2MV-3c8h9MvwwrauUIScJz5ojSwzZXcOWRhYsIUx7n0UkQodVeES1gCRNGH7629ogctJSGgryA
+https://.*google.com.* header-replace-regex Cookie ^NID.* NID=换成你的
+https://.*google.com.* header-add Cookie NID=换成你的
 
 
 [MITM]
 skip-server-cert-verify = true
 tcp-connection = true
 h2 = true
-hostname = *.google.com
+hostname = *.google.com # Http解密google的请求
 ca-passphrase = xxx
 ca-p12 = xxxx
 ```
