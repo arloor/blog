@@ -27,7 +27,7 @@ keywords:
 
 ## 通过Surge Mac的http rewrite永久修改NID cookie
 
-参考文档1中介绍了google是使用NID这个cookie来存储搜索过滤器配置的，我们就用Surge Mac的http rewrite功能将这个cookie永久生效。
+参考文档1中介绍了google是使用NID这个cookie来存储搜索过滤器配置的，我们就用Surge Mac的http rewrite功能将这个cookie永久生效。我们先用正则替换来替换存在的nid，而后为放置nid cookie的缺失，再增加一个cookie的header
 
 ```toml
 [Header Rewrite]
@@ -43,6 +43,10 @@ hostname = *.google.com # Http解密google的请求
 ca-passphrase = xxx
 ca-p12 = xxxx
 ```
+
+随后可以在Surge请求查看器中看到google.com的请求被Https解密并修改了cookie的请求头：
+
+![Alt text](/img/surge-dashboard-nid-cookie-google.png)
 
 ## 参考文档
 
