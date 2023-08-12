@@ -23,7 +23,7 @@ keywords:
 
 设置完可以F12看NID这个cookie：
 
-![Alt text](/img/image.png)
+![Alt text](/img/google-nid-cookie.png)
 
 ## 通过Surge Mac的http rewrite永久修改NID cookie
 
