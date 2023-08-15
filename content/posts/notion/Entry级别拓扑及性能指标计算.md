@@ -374,7 +374,7 @@ select distinct entry
 
 我们的where过滤条件中肯定会有time和entry，所以排序键中一定会有这两个字段，需要决策的是把哪个字段放在前面？我进行了一些对比实验。
 
-在介绍实验结果前先说一些前置知识：Clickhouse会对分区键中datetime等时间类型的字段自动设置minmax索引，并且在查询时自动地使用该minmax索引。这大概是基于写进clickhouse的数据大部分是事件、行为、时序数据，本身就是按照时间排序的。
+在介绍实验结果前先说一些前置知识：**Clickhouse会对分区键中datetime等时间类型的字段自动设置Minmax索引，并且在查询时自动地使用该Minmax索引。**这大概是基于写进clickhouse的数据大部分是事件、行为、时序数据，本身就是按照时间排序的。Github上也有一个相关的Issue:[ReadFromMergeTree use MinMax index before Partition key to filter part](https://github.com/ClickHouse/ClickHouse/issues/48093)，ClickHouse作者也有相关解释。
 
 下面的实验中会看到，无论time在entry的前后，查询过程中，都会先根据time的minmax索引过滤data part，而后进行“通用排除搜索”或者“二分查找”。可参见：[force_index_by_date](https://clickhouse.com/docs/en/operations/settings/settings#settings-force_index_by_date)
 
