@@ -260,7 +260,8 @@ export https_proxy=xxx
 
 ```bash
 bash <(curl -sSLf http://cdn.arloor.com/rhel/Core_Install_v3.1.sh)  -dd http://154.17.9.38/9.img.gz
-# bash <(curl -sSLf https://ghproxy.com/https://raw.githubusercontent.com/bin456789/reinstall/main/reinstall.sh) dd --img=http://154.17.9.38/9.img.gz
+# 国内阿里云、腾讯云推荐用：
+# . unpass;bash <(curl -sSLf https://ghproxy.com/https://raw.githubusercontent.com/bin456789/reinstall/main/reinstall.sh) dd --img=http://154.17.9.38/9.img.gz
 ```
 
 ### dd后磁盘扩容 
