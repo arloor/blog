@@ -45,8 +45,8 @@ server {
     access_log /var/log/nginx/arloor.access.log arloor;
     server_name          www.arloor.com;
 
-    ssl_certificate      /root/.acme.sh/arloor.com/fullchain.cer;
-    ssl_certificate_key  /root/.acme.sh/arloor.com/arloor.com.key;
+    ssl_certificate      /root/.acme.sh/arloor.dev/fullchain.cer;
+    ssl_certificate_key  /root/.acme.sh/arloor.dev/arloor.dev.key;
     error_page 404 /404.html;
     location / {
                 # First attempt to serve request as file, then
@@ -77,7 +77,7 @@ server {
     listen               443 ssl http2;
     listen               [::]:443 ssl http2;
     server_name          arloor.com;
-    return               301 https://www.arloor.com$request_uri;
+    return               301 https://www.arloor.dev$request_uri;
 }
 
 server {
@@ -89,8 +89,8 @@ server {
     access_log /var/log/nginx/arloor.access.log arloor;
     server_name          www.arloor.com;
 
-    ssl_certificate      /root/.acme.sh/arloor.com/fullchain.cer;
-    ssl_certificate_key  /root/.acme.sh/arloor.com/arloor.com.key;
+    ssl_certificate      /root/.acme.sh/arloor.dev/fullchain.cer;
+    ssl_certificate_key  /root/.acme.sh/arloor.dev/arloor.dev.key;
     error_page 404 /404.html;
     location / {
                 # First attempt to serve request as file, then
