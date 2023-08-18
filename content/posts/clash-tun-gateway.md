@@ -139,7 +139,7 @@ RestartSec=10
 WantedBy=multi-user.target
 EOF
 systemctl daemon-reload
-systemctl enable --now clash
+systemctl enable --now clash #启动clash并设置开机自启动
 ```
 
 其中ExecStartPre部分定义了在服务启动前，开启内核的ip转发特性，这也是Clash作为旁路由比较关键的一步。
