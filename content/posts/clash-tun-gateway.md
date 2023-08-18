@@ -26,7 +26,7 @@ keywords:
 4. RedHat 9系统，内核版本5.14，其他linux系统也都行。
 5. Dmit.io美西三网cn2 GIA服务器，年费88美刀，使用体验优秀，购买链接:[仙人指路](https://www.dmit.io/aff.php?aff=7132&pid=100)
 
-注意，很多N100的机器只支持PCIE3.0的固态。另外有人反馈Redhat8/Centos8的内核版本4.18开启不了clash tun的auto-route功能
+注意，很多Intel N100 CPU的机器只支持PCIE3.0的固态。另外有人反馈Redhat8/Centos8的内核版本4.18开启不了clash tun的auto-route功能
 
 ## 下载Clash premium内核
 
@@ -169,3 +169,9 @@ Core 1:        +40.0°C  (high = +105.0°C, crit = +105.0°C)
 Core 2:        +40.0°C  (high = +105.0°C, crit = +105.0°C)
 Core 3:        +40.0°C  (high = +105.0°C, crit = +105.0°C)
 ```
+
+## 网速测试
+
+跑慢了我200M的电信宽带，N100处理器处理这点带宽真是轻轻松松。Dmit的网络也很稳定，我用的是[PVM.LAX.Pro.TINY套餐](https://www.dmit.io/aff.php?aff=7132&pid=100)，需要的可以自行购买。
+
+![Alt text](/img/dmit-lax-pro-speedtest.png)
