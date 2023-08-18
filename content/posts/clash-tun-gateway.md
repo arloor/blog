@@ -146,7 +146,7 @@ systemctl enable --now clash
 
 ## 主机温度监控
 
-用被动散热还是挺担心温度的，所以用lm_sensors测了下，室温30度是，cpu温度在40-50度，没毛病。铝合金的外壳温度也是暖暖的。
+用被动散热还是挺担心温度的，所以用lm_sensors测了下，室温30度是，cpu温度在40-45度，没毛病。被动散热下，铝合金的外壳温度是暖暖的，冬天肯定很吸猫。
 
 ```bash
 $ yum install -y lm_sensors
