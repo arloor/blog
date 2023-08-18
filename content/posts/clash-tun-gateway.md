@@ -152,7 +152,9 @@ systemctl enable --now clash #启动clash并设置开机自启动
 
 ## 手机等设备使用Clash软路由作为网关
 
-在手机等设备的网络设置页面设置网关为Clash软路由的ip地址即可。
+在手机等设备的网络设置页面设置网关为Clash软路由的ip地址即可。得益于Clash的dns劫持功能，手机设备的dns服务器并不需要设置，这让Clash软路由的搭建方便了很多。
+
+![Alt text](/img/macos-gateway-setting.png)
 
 ## 主机温度监控
 
