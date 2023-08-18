@@ -30,7 +30,7 @@ keywords:
 
 ## 下载Clash premium内核
 
-下载链接[https://github.com/Dreamacro/clash/releases/tag/premium](https://github.com/Dreamacro/clash/releases/tag/premium)，到页面下方选择clash-linux-amd64开头的文件下载。不推荐下载clash-linux-amd64-v3的版本，说是有性能提升，但是我也遇到过兼容性问题。
+下载链接[https://github.com/Dreamacro/clash/releases/tag/premium](https://github.com/Dreamacro/clash/releases/tag/premium)，到页面下方选择clash-linux-amd64开头的文件下载。不推荐下载clash-linux-amd64-v3的版本，说是有一丢丢的性能提升，但是有兼容性问题。
 
 写此文时clash premium版本是clash-linux-amd64-2023.07.22，我的下载命令如下：
 
