@@ -23,7 +23,7 @@ keywords:
 1. 畅网N100先锋版
 2. 英睿达4800频率的DDR5笔记本内存
 3. 致态TiPlus5000 PCIE3.0 固态（注意畅网N100先锋版是PCIE3.0）
-4. RedHat 9系统，内核版本5.14（注意，有人反馈Redhat8的内核版本4.18开启不了clash tun的auto-route功能）
+4. RedHat 9系统，内核版本5.14，其他linux系统也都行（注意，有人反馈Redhat8的内核版本4.18开启不了clash tun的auto-route功能）
 5. Dmit.io美西三网cn2 GIA服务器，年费88美刀，文末有测速结果，购买链接:[仙人指路](https://www.dmit.io/aff.php?aff=7132&pid=100)
 
 ## 下载Clash premium内核
