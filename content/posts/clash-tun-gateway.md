@@ -22,9 +22,11 @@ keywords:
 
 1. 畅网N100先锋版
 2. 英睿达4800频率的DDR5笔记本内存
-3. 致态TiPlus5000 PCIE3.0 固态（注意畅网N100先锋版是PCIE3.0）
-4. RedHat 9系统，内核版本5.14，其他linux系统也都行（注意，有人反馈Redhat8的内核版本4.18开启不了clash tun的auto-route功能）
-5. Dmit.io美西三网cn2 GIA服务器，年费88美刀，文末有测速结果，购买链接:[仙人指路](https://www.dmit.io/aff.php?aff=7132&pid=100)
+3. 致态TiPlus5000 PCIE3.0 固态
+4. RedHat 9系统，内核版本5.14，其他linux系统也都行。
+5. Dmit.io美西三网cn2 GIA服务器，年费88美刀，使用体验优秀，购买链接:[仙人指路](https://www.dmit.io/aff.php?aff=7132&pid=100)
+
+注意，N100的很多机器只支持PCIE3.0的固态。另外有人反馈Redhat8/Centos8的内核版本4.18开启不了clash tun的auto-route功能
 
 ## 下载Clash premium内核
 
@@ -146,7 +148,7 @@ systemctl enable --now clash #启动clash并设置开机自启动
 
 ## 主机温度监控
 
-用被动散热还是挺担心温度的，所以用lm_sensors测了下，室温30度是，cpu温度在40-45度，没毛病。被动散热下，铝合金的外壳温度是暖暖的，冬天肯定很吸猫。
+用被动散热还是挺担心温度的，所以用lm_sensors测了下，室温30度时，cpu温度在40-45度，没毛病。被动散热下，铝合金的外壳温度是暖暖的，冬天肯定很吸猫。
 
 ```bash
 $ yum install -y lm_sensors
