@@ -26,7 +26,7 @@ keywords:
 4. RedHat 9系统，内核版本5.14，其他linux系统也都行。
 5. Dmit.io美西三网cn2 GIA服务器，年费88美刀，使用体验优秀，购买链接:[仙人指路](https://www.dmit.io/aff.php?aff=7132&pid=100)
 
-注意，N100的很多机器只支持PCIE3.0的固态。另外有人反馈Redhat8/Centos8的内核版本4.18开启不了clash tun的auto-route功能
+注意，很多N100的机器只支持PCIE3.0的固态。另外有人反馈Redhat8/Centos8的内核版本4.18开启不了clash tun的auto-route功能
 
 ## 下载Clash premium内核
 
@@ -118,9 +118,13 @@ dns:
       - '+.youtube.com'
 ```
 
+## 预先下载Country
 
+Clash会使用Country.mmdb文件识别ip地址所属的国家，GEOIP的规则会用到这个文件。在clash启动时，如果运行目录下没有这个文件会自动下载，由于国内网络的问题，通常会耗时很久，所以我们自行到[maxmind-geoip releases](https://github.com/Dreamacro/maxmind-geoip/releases)下载，并ftp/scp到软路由的 `/data/clash` 目录下
 
 ## 以Systemd服务运行
+
+> 如果53端口被占用，请自行关闭相关进程
 
 ```bash
 cat > /lib/systemd/system/clash.service <<\EOF
