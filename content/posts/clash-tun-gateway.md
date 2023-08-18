@@ -118,9 +118,9 @@ dns:
       - '+.youtube.com'
 ```
 
-## 预先下载Country
+## 预先下载Country.mmdb
 
-Clash会使用Country.mmdb文件识别ip地址所属的国家，GEOIP的规则会用到这个文件。在clash启动时，如果运行目录下没有这个文件会自动下载，由于国内网络的问题，通常会耗时很久，所以我们自行到[maxmind-geoip releases](https://github.com/Dreamacro/maxmind-geoip/releases)下载，并ftp/scp到软路由的 `/data/clash` 目录下
+Clash会使用Country.mmdb文件识别ip地址所属的国家，GEOIP的规则会用到这个文件。在clash启动时，如果运行目录下没有这个文件会自动下载，由于国内网络的问题，通常会耗时很久，所以我们自行到[maxmind-geoip releases](https://github.com/Dreamacro/maxmind-geoip/releases)下载，并ftp/scp到软路由的 `/data/clash` 目录下。
 
 ## 以Systemd服务运行
 
