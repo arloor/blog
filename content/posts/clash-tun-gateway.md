@@ -178,6 +178,21 @@ Core 3:        +40.0°C  (high = +105.0°C, crit = +105.0°C)
 
 ## 网速测试
 
-跑慢了我200M的电信宽带，N100处理器处理这点带宽真是轻轻松松。Dmit的网速和延迟都很稳定，我用的是[PVM.LAX.Pro.TINY套餐](https://www.dmit.io/aff.php?aff=7132&pid=100)，需要的可以自行购买。
+跑满了我200M的电信宽带，N100处理器处理这点带宽真是轻轻松松。Dmit的网速和延迟都很稳定，我用的是[PVM.LAX.Pro.TINY套餐](https://www.dmit.io/aff.php?aff=7132&pid=100)，需要的可以自行购买。
 
 ![Alt text](/img/dmit-lax-pro-speedtest.png)
+
+## 一些拓展
+
+### 屏蔽quic流量
+
+chrome浏览器和youtube应用等默认开启了quic，国内udp qos的问题会导致quic网速较差，一般情况下都建议关闭quic。在chrome浏览器里，可以访问 `chrome://flags`，将 `Experimental QUIC protocol` 的特性关闭。但是在手机youtube应用里就没办法关闭了，所以研究了下clash屏蔽quic的方案，就是在配置文件里增加：
+
+```yaml
+script:
+  shortcuts:
+    quic: network == 'udp' and dst_port == 443
+
+rules:
+- SCRIPT,quic,REJECT,no-resolve
+```
