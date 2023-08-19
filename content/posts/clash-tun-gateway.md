@@ -186,7 +186,7 @@ Core 3:        +40.0°C  (high = +105.0°C, crit = +105.0°C)
 
 ### 屏蔽quic流量
 
-chrome浏览器和youtube应用等默认开启了quic，国内udp qos的问题会导致quic网速较差，一般情况下都建议关闭quic。在chrome浏览器里，可以访问[chrome://flags](chrome://flags)，将 `Experimental QUIC protocol` 的特性关闭。但是在手机youtube应用里就没办法关闭了，所以研究了下clash屏蔽quic的方案，就是在配置文件里增加：
+chrome浏览器和youtube应用等默认开启了quic，国内udp qos的问题会导致quic网速较差，一般情况下都建议关闭quic。在chrome浏览器里，可以访问 `chrome://flags`，将 `Experimental QUIC protocol` 的特性关闭。但是在手机youtube应用里就没办法关闭了，所以研究了下clash屏蔽quic的方案，就是在配置文件里增加：
 
 ```yaml
 script:
