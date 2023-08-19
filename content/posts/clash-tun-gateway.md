@@ -26,7 +26,11 @@ keywords:
 4. RedHat 9系统，内核版本5.14，其他linux系统也都行。
 5. Dmit.io美西三网cn2 GIA服务器，年费88美刀，使用体验优秀，购买链接:[仙人指路](https://www.dmit.io/aff.php?aff=7132&pid=100)
 
-注意，很多Intel N100 CPU的机器只支持PCIE3.0的固态。另外有人反馈Redhat8/Centos8的内核版本4.18开启不了clash tun的auto-route功能
+> 注意，很多Intel N100 CPU的机器只支持PCIE3.0的固态。
+
+> 另外有人反馈Redhat8/Centos8的内核版本4.18开启不了clash tun的auto-route功能
+
+> 还看到一些关于畅网N100的负面消息，这里贴一下[畅网N100 四网精英版 踩雷了【软路由吧】_百度贴吧](https://tieba.baidu.com/p/8518096633?share=9105&fr=sharewise&see_lz=0&share_from=post&sfc=copy&client_type=2&client_version=12.45.7.0&st=1692451415&is_video=false&unique=C11CFEB8D10A93F3B2A32491CD528A31)
 
 ## 下载Clash premium内核
 
