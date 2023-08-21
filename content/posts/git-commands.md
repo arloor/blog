@@ -19,10 +19,10 @@ keywords:
 
     - 如果你需要修改 A ，可以运行 `git rebase -i --root`
 
-2. 把 C 和 D 两个 commit 的那一行的 pick 改为 edit。下面用vim列模式来批量修改
+2. 把 C 和 D 两个 commit 的那一行的 pick 改为 edit。下面用vim列模式来批量修改( d删除、I在前方插入、A在后方插入、c修改)
     1. 按 `Ctrl + V` 进入vim的列模式
     2. 然后上下左右移动光标选择多个pick
-    3. 先输入大写X，删除pick，再输入大写I，插入`edit`，然后安 `Esc`，等两秒左右。
+    3. 先输入小写d，删除pick，再输入大写I，插入`edit`，然后安 `Esc`，等两秒左右。
     4. 或者选中 `pick` ，按c进入删除插入模式输入 `edit`，再按 `Esc` 等两秒
 3. 多次执行以下命令，直至rebase结束
 
