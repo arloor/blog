@@ -1,5 +1,4 @@
-port: 3128 # port of HTTP
-socks-port: 1080 # port of SOCKS5
+mixed-port: 7890
 allow-lan: false
 external-controller: 0.0.0.0:1234
 external-ui: /data/clash/ui
