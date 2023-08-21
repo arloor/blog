@@ -70,5 +70,15 @@ git filter-branch --tree-filter 'rm -rf path/folder' 347ae59..HEAD
 最后强制推送
 
 ```bash
-git push origin master --force
+git push origin master --force --all
+git push origin master --force --tags
+```
+
+
+立即删除本地无用的缓存，释放空间
+
+```bash
+git for-each-ref --format="delete %(refname)" refs/original | git update-ref --stdin
+git reflog expire --expire=now --all
+git gc --prune=now
 ```
