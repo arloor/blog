@@ -110,18 +110,6 @@ sed -i "s/UseDNS.*/UseDNS no/g" /etc/ssh/sshd_config
 sed -i '/^alias nt=.*/d' .bashrc
 ```
 
-## 统计git仓库中用户代码行
-
-```bash
-cat > /usr/local/bin/ncode <<\EOF
-[ "$1" = "" ]&&user=arloor||user=$1
-echo ${user}\'s work summary:
-git log --author="${user}" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf "added lines: %s, removed lines: %s, total lines: %s", add, subs, loc }'
-EOF
-chmod +x /usr/local/bin/ncode
-ncode arloor
-```
-
 ## awk 设置变量
 
 `host=$1` 设置了host这个变量，并在后续的awk command中用到
