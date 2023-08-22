@@ -34,16 +34,14 @@ keywords:
 
 ## 下载Clash premium内核
 
-下载链接[https://github.com/Dreamacro/clash/releases/tag/premium](https://github.com/Dreamacro/clash/releases/tag/premium)，到页面下方选择clash-linux-amd64开头的文件下载。不推荐下载clash-linux-amd64-v3的版本，说是有一丢丢的性能提升，但是有兼容性问题。
+下载链接[https://github.com/Dreamacro/clash/releases/tag/premium](https://github.com/Dreamacro/clash/releases/tag/premium)，到页面下方选择clash-linux-amd64开头的文件下载。也可以选择clash-linux-amd64-v3的版本，有一些性能提升，但是老机器上可能有兼容性问题。
 
 写此文时clash premium版本是clash-linux-amd64-2023.07.22，我的下载命令如下：
 
 ```bash
-cd /usr/local/bin
-curl -sSLfO https://github.com/Dreamacro/clash/releases/download/premium/clash-linux-amd64-2023.07.22.gz
-gzip --uncompress clash-linux-amd64-2023.07.22.gz
-mv clash-linux-amd64-2023.07.22 clash
-chmod +x clash
+version="2023.07.22"
+curl -Lf "https://github.com/Dreamacro/clash/releases/download/premium/clash-linux-amd64-${version}".gz | gzip -d > /tmp/clash
+install -m 777 /tmp/clash /usr/local/bin/clash
 ```
 
 ## 下载Clash dashboard的UI
