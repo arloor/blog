@@ -36,7 +36,7 @@ keywords:
 
 下载链接[https://github.com/Dreamacro/clash/releases/tag/premium](https://github.com/Dreamacro/clash/releases/tag/premium)，到页面下方选择clash-linux-amd64开头的文件下载。也可以选择clash-linux-amd64-v3的版本，有一些性能提升，但是老机器上可能有兼容性问题。
 
-写此文时clash premium版本是clash-linux-amd64-2023.07.22，我的下载命令如下：
+写此文时clash premium版本是clash-linux-amd64-2023.07.22，我的下载命令如下。大家可以自行修改version字段为最新版本。
 
 ```bash
 version="2023.07.22"
