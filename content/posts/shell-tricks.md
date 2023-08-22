@@ -184,3 +184,12 @@ EPF
 4. `-f`（或 `--fail`）：通常，当HTTP请求返回非成功的状态代码（如404或500）时，`curl` 仍会显示页面的响应体。使用 `-f` 选项会导致 `curl` 在遇到错误代码时立即失败并不显示响应体。这有助于在脚本中更容易地检测和处理失败的情况。
 
 总体来说，组合这些选项的效果是，`curl` 将在正常操作时保持静默，但在出现错误时显示错误消息，同时自动处理重定向并且在遇到服务器错误时失败。这使得 `curl` 更加方便地用于自动化脚本和错误处理，尤其是在你的观察性平台开发工作中可能会非常有用。
+
+## curl并gzip解压缩
+
+
+```bash
+version="2023.07.22"
+curl -Lf "https://github.com/Dreamacro/clash/releases/download/premium/clash-linux-amd64-${version}".gz | gzip -d > /tmp/clash
+install -m 777 /tmp/clash /usr/local/bin/clash
+```
