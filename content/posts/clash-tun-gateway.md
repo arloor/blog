@@ -48,9 +48,7 @@ install -m 777 /tmp/clash /usr/local/bin/clash
 
 ```bash
 mkdir -p /data/clash
-git clone https://github.com/haishanh/yacd.git /data/clash/ui
-cd /data/clash/ui
-git checkout gh-pages
+git clone -b gh-pages https://github.com/haishanh/yacd.git /data/clash/ui
 ```
 
 PS: 为了使用上面的UI，需要在clash的配置文件中加上：
