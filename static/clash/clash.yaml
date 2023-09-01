@@ -11,6 +11,7 @@ hosts:
 script:
   shortcuts:
     quic: network == 'udp' and dst_port == 443
+    udp: network == 'udp'
 
 rules:
 - SCRIPT,quic,REJECT,no-resolve
@@ -34,6 +35,7 @@ rules:
 - IP-CIDR,172.16.0.0/12,DIRECT,no-resolve
 - RULE-SET,cncidr,直连
 - GEOIP,CN,直连
+- SCRIPT,udp,REJECT,no-resolve
 - MATCH,通用
 
 proxy-groups:
