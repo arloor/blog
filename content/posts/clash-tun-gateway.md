@@ -135,7 +135,7 @@ Wants=network-online.target
 
 [Service]
 WorkingDirectory=/data/clash
-ExecStartPre=sysctl -w net.ipv4.ip_forward=1
+ExecStartPre=/bin/sh -c 'echo 1 > /proc/sys/net/ipv4/ip_forward'
 ExecStart=/usr/local/bin/clash -d /data/clash -f /data/clash/config.yaml
 LimitNOFILE=100000
 Restart=always
