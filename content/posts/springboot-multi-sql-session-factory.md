@@ -187,3 +187,156 @@ public class GroupArrayTypeHandler extends BaseTypeHandler<GroupArray> {
 }
 ```
 
+```java
+import com.arloor.type.StringArray;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.type.BaseTypeHandler;
+import org.apache.ibatis.type.JdbcType;
+import org.apache.ibatis.type.MappedJdbcTypes;
+import org.apache.ibatis.type.MappedTypes;
+
+import java.sql.CallableStatement;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+@MappedTypes({List.class})
+@MappedJdbcTypes({JdbcType.ARRAY})
+public class ClickArrayListTypeHandler extends BaseTypeHandler<List<String>> {
+
+    @Override
+    public void setNonNullParameter(PreparedStatement ps, int i, List<String> parameter, JdbcType jdbcType) throws SQLException {
+        if (jdbcType == null || StringUtils.isEmpty(jdbcType.name()) || jdbcType.name().equals("VARCHAR")) {
+            ps.setArray(i, new StringArray(parameter.toArray(new String[0])));
+        } else {
+            ps.setArray(i, ps.getConnection().createArrayOf(jdbcType.name(), parameter.toArray(new String[0])));
+        }
+    }
+
+    @Override
+    public List<String> getNullableResult(ResultSet rs, String columnName) throws SQLException {
+        Object array = rs.getArray(columnName).getArray();
+        if (array instanceof List){
+            return new ArrayList<>((List) rs.getArray(columnName).getArray());
+        } else {
+            return new ArrayList<>(Arrays.asList((String[]) rs.getArray(columnName).getArray()));
+        }
+    }
+
+    @Override
+    public List<String> getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
+        return new ArrayList<>(Arrays.asList((String[]) rs.getArray(columnIndex).getArray()));
+    }
+
+    @Override
+    public List<String> getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
+        return new ArrayList<>(Arrays.asList((String[]) cs.getArray(columnIndex).getArray()));
+    }
+}
+```
+
+其中StringArray类也挺有意思的，大家应该知道Mysql是没有Array类型的，但Clickhouse有该类型。原生的创建array的方式如下：
+
+```java
+statement.getConnection().createArrayOf("VARCHAR", item.getApps().toArray(new String[0]))
+```
+
+完整代码：
+
+```java
+            try (Connection connection = clickhouseDataSource.getConnection()) {
+                try (PreparedStatement statement = connection.prepareStatement(INSERT_STATEMENT)) {
+                    for (TraceIdIndexItem item : buffer.values()) {
+                        statement.setString(1, item.getTraceId());
+                        statement.setTimestamp(2, new Timestamp(item.getTraceIdTime().getTime()));
+                        statement.setArray(3, statement.getConnection().createArrayOf("VARCHAR", item.getApps().toArray(new String[0])));
+                        statement.setObject(4, item.getMinStartTimestampMicros());
+                        statement.setObject(5, item.getMaxStartTimestampMicros());
+                        statement.setInt(6, item.getError());
+                        statement.addBatch();
+                    }
+                    statement.executeBatch();
+                    exception = null;
+                } catch (Exception e) {
+                    exception = e;
+                }
+            }
+```
+
+这里存在的问题是，createArrayOf需要创建连接，性能非常差，在火焰图上可以看出来。因此，自定义了一个StringArray类，并实现了 `java.sql.Array` 的相关接口，代码如下：
+
+```java
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.SQLFeatureNotSupportedException;
+import java.sql.Types;
+import java.util.Map;
+
+public class StringArray implements java.sql.Array {
+
+    private String[] data;
+
+    public StringArray(String[] data) {
+        this.data = data;
+    }
+
+    @Override
+    public String getBaseTypeName() throws SQLException {
+        return "VARCHAR";
+    }
+
+    @Override
+    public int getBaseType() throws SQLException {
+        return Types.VARCHAR;
+    }
+
+    @Override
+    public Object getArray() throws SQLException {
+        return data;
+    }
+
+    @Override
+    public Object getArray(Map<String, Class<?>> map) throws SQLException {
+        return data;
+    }
+
+    @Override
+    public Object getArray(long index, int count) throws SQLException {
+        throw new SQLFeatureNotSupportedException("getArray");
+    }
+
+    @Override
+    public Object getArray(long index, int count, Map<String, Class<?>> map) throws SQLException {
+        return getArray(index, count);
+    }
+
+    @Override
+    public ResultSet getResultSet() throws SQLException {
+        throw new SQLFeatureNotSupportedException("getRuleSet");
+    }
+
+    @Override
+    public ResultSet getResultSet(Map<String, Class<?>> map) throws SQLException {
+        return getResultSet();
+    }
+
+    @Override
+    public ResultSet getResultSet(long index, int count) throws SQLException {
+        return getResultSet();
+    }
+
+    @Override
+    public ResultSet getResultSet(long index, int count, Map<String, Class<?>> map) throws SQLException {
+        return getResultSet();
+    }
+
+    @Override
+    public void free() throws SQLException {
+        this.data = null;
+    }
+}
+```
+
