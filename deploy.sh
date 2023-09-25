@@ -1,6 +1,6 @@
 #! /bin/bash
 
-hosts="di.arloor.com us.arloor.dev"
+hosts="ti.arloor.com di.arloor.com us.arloor.dev"
 
 # 上传到arloor.github.io
 function githubio() {
