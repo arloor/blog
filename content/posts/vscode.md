@@ -1,9 +1,9 @@
 ---
-title: "VS Code"
+title: "Visual Studio Code配置"
 date: 2023-07-11T19:07:00+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["undefined"]
+tags: ["tools"]
 weight: 10
 subtitle: ""
 description : ""
