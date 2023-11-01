@@ -196,3 +196,17 @@ script:
 rules:
 - SCRIPT,quic,REJECT,no-resolve
 ```
+
+### 避免暴露DNS服务
+
+```yaml
+dns:
+  enable: true
+  #listen: 0.0.0.0:53
+```
+
+这样，DNS服务就会监听 `198.18.0.1:53` 而不是 `0.0.0.0:53` ，也就不会暴露。不过为了让DNS劫持生效，设备的DNS不能设置为局域网地址，需要是公网地址或者`198.18.0.1`，详见官方的描述：
+
+> Since `tun.auto-route` does not intercept LAN traffic, if your system DNS is set to servers in private subnets, DNS hijack will not work. You can either:
+> - Use a non-private DNS server as your system DNS like `1.1.1.1`
+> - Or manually set up your system DNS to the Clash DNS (by default, `198.18.0.1`)
