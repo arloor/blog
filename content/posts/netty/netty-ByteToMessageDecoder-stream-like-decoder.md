@@ -68,7 +68,7 @@ decode方法会产生List<OUT>，并通过fireChannelRead传递到下一个handl
 1. 需要确保byteBuf中有完整的一帧，使用ByteBuf.readableBytes()来查看有多少可读字节。
 2. 如果没有足够的一帧，则不要修改byteBuf的readerIndex，直接return。byteBuf.readxx() 会修改readerIndex。而byteBuf.getxx(Int) 则不会修改该readerIndex。
 3. javaDoc提到的一个陷阱：ByteBuf.readBytes(int)返回一个新的Bytebuf，拥有自己的引用计数，因此需要以后自己release。ByteBuf.readSlice(int)则是原Bytebuf的一个slice，并且不会调用retain()来使引用计数++。所以这个slice往往要手动调用retain之后再加入out列表。
-    - > Some methods such as ByteBuf.readBytes(int) will cause a memory leak if the returned buffer is not released or added to the out List. Use derived buffers like ByteBuf.readSlice(int) to avoid leaking memory.
+    > Some methods such as ByteBuf.readBytes(int) will cause a memory leak if the returned buffer is not released or added to the out List. Use derived buffers like ByteBuf.readSlice(int) to avoid leaking memory.
 4. decode()方法的第二个参数ByteBuf不需要我们release，父类ByteToMessageHandler会自动处理。
 
 ## 自己实现一个简单的http解析器
