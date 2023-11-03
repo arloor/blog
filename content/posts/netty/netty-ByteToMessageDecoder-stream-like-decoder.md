@@ -66,16 +66,10 @@ decode方法会产生List<OUT>，并通过fireChannelRead传递到下一个handl
 实现自己的流式解析器，只要实现自己的decode方法即可。但是在这里面，又有一些细节：
 
 1. 需要确保byteBuf中有完整的一帧，使用ByteBuf.readableBytes()来查看有多少可读字节。
-2. 如果没有足够的一帧，则不要修改byteBuf的readerIndex，直接return。byteBuf.readXx() 会修改readerIndex。而byteBuf. getXxx(Int ) 则不会修改该readerIndex。
+2. 如果没有足够的一帧，则不要修改byteBuf的readerIndex，直接return。byteBuf.readxx() 会修改readerIndex。而byteBuf.getxx(Int) 则不会修改该readerIndex。
 3. javaDoc提到的一个陷阱：Some methods such as ByteBuf.readBytes(int) will cause a memory leak if the returned buffer is not released or added to the out List. Use derived buffers like ByteBuf.readSlice(int) to avoid leaking memory.
  - ByteBuf.readBytes(int)返回一个新的Bytebuf，拥有自己的引用计数，因此需要以后自己release。ByteBuf.readSlice(int)则是原Bytebuf的一个slice，并且不会调用retain()来使引用计数++。所以这个slice往往要手动调用retain之后再加入out列表。
-
- [一个ByteToMessageDecoder的实现](http://www.importnew.com/26577.html)，可以看他处理以上三个细节的代码
-
-
-## 在socket中拼接字符串
-
-使用StringBuilder（非线程安全）而不要用String，为什么应该不需要多说啦。
+4. decode()方法的第二个参数ByteBuf不需要我们release，父类ByteToMessageHandler会自动处理。
 
 ## 自己实现一个简单的http解析器
 
@@ -173,11 +167,3 @@ public class HttpResponseDecoder extends ByteToMessageDecoder {
 
 ```
 
-
-## 权力的游戏酱油大亨——夜王
-
-没看过第八季第三集的人千万不要点开下面的视频！
-
-<div class="iframe-container">
-    <iframe src="https://www.youtube.com/embed/30rz7dcBJBo" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</div>
