@@ -2,7 +2,7 @@
 title: "HttpProxy-基于netty的代理"
 date: 2018-12-31T23:55:22+08:00
 author: "刘港欢"
-categories: [ "java","网络编程","netty"]
+categories: [ "netty"]
 tags: ["Program"]
 weight: 10
 ---
