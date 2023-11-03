@@ -2,7 +2,7 @@
 title: "Netty实现自定义流式解析器"
 date: 2019-04-26
 author: "刘港欢"
-categories: [ "java","网络编程","netty"]
+categories: ["netty"]
 tags: ["Netty"]
 weight: 10
 ---
