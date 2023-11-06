@@ -282,7 +282,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-public class Main {
+public class OtelContextDemo {
 
     /**
      * @see io.opentelemetry.api.trace.SpanContextKey
@@ -297,7 +297,7 @@ public class Main {
 
     /**
      * implements ImplicitContextKeyed
-     * @see Baggage#storeInContext(Context)
+     * @see io.opentelemetry.api.baggage.Baggage#storeInContext(Context)
      */
     public static class XrayContext implements ImplicitContextKeyed {
         private String payload;
