@@ -252,3 +252,98 @@ OpenTelemetrySdk.builder()
 ```
 
 跨进程传播的原理很简单——上游将Context设置到http或者rpc的header中，下游从header中取出http。opentelemetry抽象出了carrier、inject和extract这些概念。carrier承载context，inject将context设置到carrier中，extract将context从carrier中取出。具体例子可以看[#context-propagation](https://opentelemetry.io/docs/instrumentation/java/manual/#context-propagation)
+
+
+## 用于理解Context、Scope、TaskWrapper的demo 
+
+1. 创建了一个自定义Context类型：`XrayContext`
+2. 测试项1:makeCurrent()将`XrayContext`设置到threadLocal，并生成scope。测试scope内外的Context值。
+3. 测试项2: `Context.taskWrapping` 增强线程池的跨线程传递能力。测试增强与非增强的跨线程传递能力。
+
+输出：
+
+```bash
+outside context is null
+inner context is some value
+pool wrapped context is some value
+pool unwrapped context is null
+```
+
+demo 代码：
+
+```java
+import io.opentelemetry.context.Context;
+import io.opentelemetry.context.ContextKey;
+import io.opentelemetry.context.ImplicitContextKeyed;
+import io.opentelemetry.context.Scope;
+
+import java.util.Optional;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
+public class Main {
+
+    /**
+     * @see io.opentelemetry.api.trace.SpanContextKey
+     * @see io.opentelemetry.api.baggage.BaggageContextKey
+     */
+    public static class XrayContextKey {
+        static final ContextKey<XrayContext> KEY = ContextKey.named("xray-context-key");
+
+        private XrayContextKey() {
+        }
+    }
+
+    public static class XrayContext implements ImplicitContextKeyed {
+        private String payload;
+
+        public String getPayload() {
+            return payload;
+        }
+
+        public void setPayload(String payload) {
+            this.payload = payload;
+        }
+
+        public XrayContext(String payload) {
+            this.payload = payload;
+        }
+
+        @Override
+        public Context storeInContext(Context context) {
+            return context.with(XrayContextKey.KEY, this);
+        }
+    }
+
+    private static final ExecutorService poolWrapped = Context.taskWrapping(Executors.newCachedThreadPool()); // OpenTelemetry增强的线程池
+    private static final ExecutorService poolUnwrapped = Executors.newCachedThreadPool();
+
+    public static void main(String[] args) {
+        Context root = Context.current().with(new XrayContext("some value")); // 设置Context
+        XrayContext contextOutSideOfScope = Context.current().get(XrayContextKey.KEY);
+        System.out.println("outside context is " + Optional.ofNullable(contextOutSideOfScope).map(XrayContext::getPayload).orElse(null));
+        try (Scope scope = root.makeCurrent()) { // 放置到threadlocal
+            XrayContext contextInScope = Context.current().get(XrayContextKey.KEY);
+            System.out.println("inner context is " + Optional.ofNullable(contextInScope).map(XrayContext::getPayload).orElse(null));
+            poolWrapped.execute(() -> {
+                XrayContext xrayContext = Context.current().get(XrayContextKey.KEY);
+                System.out.println("pool wrapped context is " + Optional.ofNullable(xrayContext).map(XrayContext::getPayload).orElse(null));
+            });
+            poolUnwrapped.execute(() -> {
+                XrayContext xrayContext = Context.current().get(XrayContextKey.KEY);
+                System.out.println("pool unwrapped context is " + Optional.ofNullable(xrayContext).map(XrayContext::getPayload).orElse(null));
+            });
+        }
+        try {
+            poolUnwrapped.shutdown();
+            poolWrapped.shutdown();
+            poolUnwrapped.awaitTermination(1, TimeUnit.SECONDS);
+            poolWrapped.awaitTermination(1, TimeUnit.SECONDS);
+        } catch (Throwable e) {
+            poolUnwrapped.shutdownNow();
+            poolWrapped.shutdownNow();
+        }
+    }
+}
+```
