@@ -272,6 +272,8 @@ pool unwrapped context is null
 demo 代码：
 
 ```java
+package com.arloor.forwardproxy.trace;
+
 import io.opentelemetry.context.Context;
 import io.opentelemetry.context.ContextKey;
 import io.opentelemetry.context.ImplicitContextKeyed;
