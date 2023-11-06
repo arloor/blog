@@ -295,6 +295,10 @@ public class Main {
         }
     }
 
+    /**
+     * implements ImplicitContextKeyed
+     * @see Baggage#storeInContext(Context)
+     */
     public static class XrayContext implements ImplicitContextKeyed {
         private String payload;
 
