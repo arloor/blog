@@ -118,6 +118,14 @@ proxy-groups:
 
 
 proxies:
+- name: "gg"
+  type: http
+  server: gg.arloor.dev
+  port: 444
+  username: haloshit
+  password: 
+  tls: true 
+  skip-cert-verify: true
 - name: "us"
   type: http
   server: us.arloor.dev
