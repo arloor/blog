@@ -51,6 +51,7 @@ proxy-groups:
     - baipiao
     - DIRECT
     - di
+    - gg
 
 - name: 电报
   type: select
@@ -64,6 +65,7 @@ proxy-groups:
     - DIRECT
     - di
     - us
+    - gg
 - name: 奈飞
   type: select
   proxies:
@@ -76,6 +78,7 @@ proxy-groups:
     - DIRECT
     - di
     - us
+    - gg
 
 - name: 推特
   type: select
@@ -89,6 +92,7 @@ proxy-groups:
     - DIRECT
     - di
     - us
+    - gg
 
 - name: openai
   type: select
@@ -102,6 +106,7 @@ proxy-groups:
     - DIRECT
     - di
     - us
+    - gg
 
 
 - name: 直连
@@ -115,6 +120,7 @@ proxy-groups:
     - dc9
     - dc6
     - baipiao
+    - gg
 
 
 proxies:
