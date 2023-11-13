@@ -47,9 +47,6 @@ curl: (6) Couldn't resolve host 'kubernetes.default.svc'
 ubi9-init的PID=1的进程为systemd，可以用systemd的方式运行多个进程。推荐用`-d`在后台运行，`-it`在前台的方式没有办法通过 `ctrl + c` 停止容器，因为systemd会忽略正常退出信号，因为这个systemd会。使用例子[ubi8-init加httpd](https://access.redhat.com/documentation/zh-cn/red_hat_enterprise_linux/8/html/building_running_and_managing_containers/assembly_adding-software-to-a-ubi-container_building-running-and-managing-containers#using-the-ubi-init-images_assembly_adding-software-to-a-ubi-container)
 
 
-
-
-
 ## Proxy的manifest
 
 ```yaml
@@ -142,29 +139,6 @@ data:
 
 ![Alt text](/img/telegram-cloud-photo-size-5-6192798952399681427-y.jpg)
 
-## ~~驱逐coredns到外网的VPS~~
-
-> !! 不再需要此操作，因为hostNetwork的dnsPolicy会fallBack到default，也就是使用Host的dns
-
-```bash
-kubectl label node sg161 location=out
-kubectl label node hk101 location=out
-```
-
-```yaml
-# p.yaml
-spec:
-  replicas: 2
-  template:
-    spec:
-      nodeSelector: 
-        location: out
-```
-
-```bash
-kubectl patch deployment coredns -n kube-system --patch-file p.yaml
-```
-
 ## 替换镜像仓库为腾讯云的
 
 腾讯云的镜像仓库控制台 [https://console.cloud.tencent.com/tcr/?rid=1](https://console.cloud.tencent.com/tcr/?rid=1)。选择广州地区，有个人版可以开通。
@@ -221,4 +195,27 @@ EOF
 ```bash
 $ vim /etc/crontab
 20  4  *  *  * root  /usr/local/bin/imcert
+```
+
+## ~~驱逐coredns到外网的VPS~~
+
+> !! 不再需要此操作，因为hostNetwork的dnsPolicy会fallBack到default，也就是使用Host的dns
+
+```bash
+kubectl label node sg161 location=out
+kubectl label node hk101 location=out
+```
+
+```yaml
+# p.yaml
+spec:
+  replicas: 2
+  template:
+    spec:
+      nodeSelector: 
+        location: out
+```
+
+```bash
+kubectl patch deployment coredns -n kube-system --patch-file p.yaml
 ```
