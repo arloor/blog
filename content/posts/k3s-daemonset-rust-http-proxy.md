@@ -197,3 +197,28 @@ EOF
 chmod +x /data/bin/lol
 lol
 ```
+
+## 定时更新rust_http_proxy的ssl证书
+
+```bash
+$ vim /usr/local/bin/imcert                                               
+cert=`sed  's/^/    /g' /root/.acme.sh/arloor.dev/fullchain.cer`
+key=`sed  's/^/    /g' /root/.acme.sh/arloor.dev/arloor.dev.key`
+
+/usr/local/bin/kubectl apply -f - <<EOF 
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: proxy-certs
+data:
+  cert: |
+${cert}
+  key: |
+${key}
+EOF
+```
+
+```bash
+$ vim /etc/crontab
+20  4  *  *  * root  /usr/local/bin/imcert
+```
