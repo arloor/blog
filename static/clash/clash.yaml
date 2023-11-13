@@ -45,7 +45,6 @@ proxy-groups:
     - us
     - hk
     - sg
-    - bwg
     - dc9
     - dc6
     - baipiao
@@ -58,7 +57,6 @@ proxy-groups:
   proxies:
     - sg
     - hk
-    - bwg
     - dc9
     - dc6
     - baipiao
@@ -72,7 +70,6 @@ proxy-groups:
     - sg
     - dc6
     - dc9
-    - bwg
     - hk
     - baipiao
     - DIRECT
@@ -83,7 +80,6 @@ proxy-groups:
 - name: 推特
   type: select
   proxies:
-    - bwg
     - dc6
     - dc9
     - sg
@@ -98,7 +94,6 @@ proxy-groups:
   type: select
   proxies:
     - dc6
-    - bwg
     - dc9
     - sg
     - hk
@@ -116,7 +111,6 @@ proxy-groups:
     - di
     - hk
     - sg
-    - bwg
     - dc9
     - dc6
     - baipiao
@@ -153,15 +147,6 @@ proxies:
 - name: "dc9"
   type: http
   server: dc9.arloor.dev
-  port: 444
-  username: haloshit
-  password: 
-  tls: true 
-  skip-cert-verify: true
-
-- name: "bwg"
-  type: http
-  server: bwg.arloor.dev
   port: 444
   username: haloshit
   password: 
