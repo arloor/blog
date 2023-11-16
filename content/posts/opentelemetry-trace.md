@@ -154,6 +154,8 @@ public enum Tracer {
 
 ### public interface Context
 
+> opentelemetry的context感觉很大程度借鉴了 `io.grpc.context` 。
+
 上下文，kv结构，用于保存span和baggage，存放在ThreadLocalContextStorage中，因此是Threadlocal的。
 
 静态方法 `current()` 获取当前threadlocal的span和baggage
