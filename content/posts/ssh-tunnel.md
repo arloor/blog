@@ -1,15 +1,17 @@
 ---
-title: "Ssh Tunnel"
+title: "ssh隧道"
 date: 2023-11-16T20:20:22+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["undefined"]
+tags: ["tools"]
 weight: 10
 subtitle: ""
 description : ""
 keywords:
 - 刘港欢 arloor moontell
 ---
+
+> 来自ChatGPT
 
 创建SSH隧道（SSH tunnel）是一种通过SSH协议安全地传输网络数据的方法。这通常用于安全地访问远程网络服务或为不安全的网络协议添加安全层。以下是创建SSH隧道的一般步骤：
 
