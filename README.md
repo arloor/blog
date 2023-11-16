@@ -25,7 +25,7 @@ log_format  arloor  '$remote_addr # [$time_iso8601] # "$request_uri" # '
 server {
     listen 80 default_server;
     listen [::]:80 default_server;
-    server_name          www.arloor.com;
+    server_name          www.arloor.com arloor.com;
     return               301 https://$host$request_uri;
 }
 
@@ -69,7 +69,7 @@ log_format  arloor  '$remote_addr # [$time_iso8601] # "$request_uri" # '
 server {
     listen 80;
     listen [::]:80;
-    server_name          www.arloor.com;
+    server_name          www.arloor.com arloor.com;
     return               301 https://$host$request_uri;
 }
 
@@ -77,7 +77,7 @@ server {
     listen               443 ssl http2;
     listen               [::]:443 ssl http2;
     server_name          arloor.com;
-    return               301 https://www.arloor.dev$request_uri;
+    return               301 https://www.arloor.com$request_uri;
 }
 
 server {
