@@ -11,7 +11,7 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
-记录下怎么在Grafana中配置表格。
+忘记了怎么在Grafana中配置表格，今天来记录下。
 
 ![Alt text](/img/grafana-table-pannel.png)
 <!--more-->
