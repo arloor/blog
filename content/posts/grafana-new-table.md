@@ -25,7 +25,7 @@ keywords:
 | Query变量 | 使用查询结果作为变量，例如label_names、label_values查询的结果 |
 | Pannel Query | **before查询：** 定义Promql和查询option例如：legend名称、Min step、Format和type（Range、Instant） |
 | Pannel Transform | **after查询：** 对Pannel query的查询结果进行一些修改 |
-| OverRides | **when渲染：** 渲染图表时的配置 |
+| Overrides | **when渲染：** 渲染图表时的配置 |
 
 ## Datasource变量
 
@@ -58,4 +58,4 @@ keywords:
 
 设置展示单位、展示精度、单元格样式、阈值、链接、不在表格中展示等。
 
-![Alt text](/img/grafana-overides.png)
+![Alt text](/img/grafana-overrides.png)
