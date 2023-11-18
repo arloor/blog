@@ -156,7 +156,7 @@ kubectl describe ds proxy|grep Image
 
 ```bash
 cat > /data/bin/lo <<\EOF
-kubectl get pod -A -o wide -l app=proxy |awk -v host=$1 '$8==host {print $2}' | xargs -I {} kubectl logs {} -f
+kubectl get pods  -A -o custom-columns=NAME:.metadata.name,NODE:.spec.nodeName -l app=proxy |awk -v host=$1 '$2==host {print $1}' | xargs -I {} kubectl logs {} -f --tail=50
 EOF
 chmod +x /data/bin/lo
 lo hk
