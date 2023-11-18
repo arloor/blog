@@ -27,6 +27,10 @@ keywords:
 | Pannel Transform | **after查询：** 对Pannel query的查询结果进行一些修改 |
 | Overrides | **when渲染：** 渲染图表时的配置 |
 
+回忆[Grafana查询抽象](https://www.arloor.com/posts/grafana-docs/#grafana%E6%9F%A5%E8%AF%A2%E6%8A%BD%E8%B1%A1)中的内容，实际上要点234就是在控制Grafana的各个流程：
+
+> After the data is sourced, queried, and transformed, it passes to a panel, which is the final gate in the journey to a Grafana visualization.
+
 ## Datasource变量
 
 ![Alt text](/img/grafana-datasource_param.png)
