@@ -51,6 +51,8 @@ keywords:
 
 ## Panel query
 
+> [prometheus query-editor](https://grafana.com/docs/grafana/latest/datasources/prometheus/query-editor/)
+
 ![Alt text](/img/grafana-query-option.png)
 
 ## Pannel Transform
@@ -59,6 +61,7 @@ keywords:
 
 
 ## Overrides
+> [visualizations table](https://grafana.com/docs/grafana/latest/panels-visualizations/visualizations/table/)
 
 设置展示单位、展示精度、单元格样式、阈值、链接、不在表格中展示等。
 
