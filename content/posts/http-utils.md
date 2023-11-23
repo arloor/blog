@@ -1,5 +1,5 @@
 ---
-title: "Http Utils的一段代码"
+title: "HttpUtil的一段代码"
 date: 2020-06-11T11:02:45+08:00
 draft: false
 categories: [ "undefined"]
