@@ -1,4 +1,5 @@
 #! /bin/bash
+bash preClash.sh
 
 hosts="us.arloor.dev gg.arloor.dev"
 
