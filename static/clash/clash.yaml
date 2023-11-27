@@ -42,21 +42,23 @@ proxy-groups:
 - name: 通用
   type: select
   proxies:
+    - di
     - us
+    - wee
+    - gg
     - hk
     - sg
     - dc9
     - dc6
     - baipiao
     - DIRECT
-    - di
-    - gg
 
 - name: 电报
   type: select
   proxies:
     - sg
     - hk
+    - wee
     - dc9
     - dc6
     - baipiao
@@ -76,6 +78,7 @@ proxy-groups:
     - di
     - us
     - gg
+    - wee
 
 - name: 推特
   type: select
@@ -89,6 +92,7 @@ proxy-groups:
     - di
     - us
     - gg
+    - wee
 
 - name: openai
   type: select
@@ -102,6 +106,7 @@ proxy-groups:
     - di
     - us
     - gg
+    - wee
 
 
 - name: 直连
@@ -115,12 +120,21 @@ proxy-groups:
     - dc6
     - baipiao
     - gg
+    - wee
 
 
 proxies:
 - name: "gg"
   type: http
   server: gg.arloor.dev
+  port: 444
+  username: haloshit
+  password: 
+  tls: true 
+  skip-cert-verify: true
+- name: "wee"
+  type: http
+  server: wee.arloor.dev
   port: 444
   username: haloshit
   password: 
