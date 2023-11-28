@@ -387,3 +387,25 @@ kubectl get nodes
 其中，Mac上安装kubectl参考[install-kubectl-binary-with-curl-on-macos](https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/#install-kubectl-binary-with-curl-on-macos)。注意kubectl和集群版本要保持一致，否则有些api可能不兼容。
 
 另外，使用sed命令是要注意： Mac 和 Linux 在 sed 命令的 -i 参数上存在一些不同。在 Linux 上，-i 参数后面可以直接跟着文件名，但在 macOS 上，-i 需要后跟一个扩展名。这个扩展名用于创建一个备份文件。如果你不想创建备份文件，你可以使用空字符串（""）作为扩展名。
+
+
+## Server或Agent IP改变时的操作
+
+下面以ServerIP变更为例：
+
+**Server**
+
+1. 修改 `/etc/systemd/system/k3s.service` 中的 `--node-external-ip` 参数
+2. 重启k3s服务
+
+```bash
+systemctl daemon-reload
+systemctl restart k3s
+```
+
+**Agent**
+
+```bash
+sed -i 's/K3S_URL.*/K3S_URL="https:\/\/154.xx.xx.xx:6443"/'  /etc/systemd/system/k3s-agent.service.env
+systemctl restart k3s-agent.service
+```
