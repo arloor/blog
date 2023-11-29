@@ -129,6 +129,7 @@ arloor
 为了在vscode的markdown预览中展示图片，本仓库设置了下面的软链接。
 
 ```bash
+ln -fs static/img img
 lrwxr-xr-x  1 arloor  staff  10  5 19 19:31 img -> static/img
 ```
 
