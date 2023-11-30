@@ -22,7 +22,7 @@ git pull && bash preClash.sh &&git add . && git commit -m "$msg" && git push || 
 
 for host in $hosts; do
   ssh root@${host} "
-            # wget "https://www.arloor.com/tarloor.sh" -O /usr/local/bin/tarloor
+            curl -sSLf "https://www.arloor.com/tarloor.sh" -o /usr/local/bin/tarloor
             bash tarloor 0 blog #使用代理: bash tarloor 1
             "
   echo -e "\033[32m 请访问： https://"${host}"\033[0m"
