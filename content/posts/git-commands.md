@@ -38,12 +38,16 @@ git commit --amend --author="arloor <admin@arloor.com>" --no-edit&&git rebase --
 ```bash
 cat > /usr/local/bin/ncode <<\EOF
 [ "$1" = "" ]&&user=arloor||user=$1
-echo ${user}\'s work summary:
-git log --author="${user}" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf "added lines: %s, removed lines: %s, total lines: %s", add, subs, loc }'
+
+echo ${user}\'s work summary: @$(date) | tee -a ~/data/ncode.log
+git log --author="${user}" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf "added lines: %s, removed lines: %s, total lines: %s", add, subs, loc }' | tee -a ~/data/ncode.log
+echo  "" | tee -a ~/data/ncode.log
 EOF
 chmod +x /usr/local/bin/ncode
 ncode arloor
 ```
+
+执行历史还会输出到 `~/data/ncode.log` 以便查看历史记录
 
 ## 永久保存git密码
 
