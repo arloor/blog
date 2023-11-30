@@ -23,7 +23,7 @@ git pull && bash preClash.sh &&git add . && git commit -m "$msg" && git push || 
 for host in $hosts; do
   ssh root@${host} "
             curl -sSLf "https://www.arloor.com/tarloor.sh" -o /usr/local/bin/tarloor
-            bash echo $http_proxy
+            echo $http_proxy
             echo ===============
             bash tarloor 0 blog #使用代理: bash tarloor 1
             "
