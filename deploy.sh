@@ -1,6 +1,4 @@
 #! /bin/bash
-bash preClash.sh
-
 hosts="us.arloor.dev gg.arloor.dev"
 
 # 上传到arloor.github.io
@@ -18,7 +16,7 @@ function githubio() {
 }
 
 msg="commit @$(git config   user.name) $(date '+%F %T %z %A')" 
-git pull && git add . && git commit -m "$msg" && git push || {
+git pull && bash preClash.sh &&git add . && git commit -m "$msg" && git push || {
   echo -e "\033[32m 推送失败 \033[0m"
 }
 
@@ -29,7 +27,7 @@ for host in $hosts; do
             "
   echo -e "\033[32m 请访问： https://"${host}"\033[0m"
 done
-
+……
 
 
 # githubio
