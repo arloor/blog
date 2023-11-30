@@ -1,5 +1,5 @@
 #! /bin/bash
-hosts="us.arloor.dev gg.arloor.dev"
+hosts="us.arloor.dev gg.arloor.dev li.arloor.com"
 
 # 上传到arloor.github.io
 function githubio() {
