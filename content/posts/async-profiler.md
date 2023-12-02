@@ -11,6 +11,11 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
+Async Profile是Java应用profiling的强大工具，可以方便地输出火焰图html或者jfr格式给Java Mission Control查看，这里记录下如何使用。
+<!--more-->
+
+![Alt text](/img/async-profiler-alloc-flamescope.png)
+
 ## linux使用
 
 ```bash
@@ -18,8 +23,10 @@ curl -LO http://cdn.arloor.com/async-profiler-2.9-linux-x64.tar.gz
 tar -zxvf async-profiler-2.9-linux-x64.tar.gz
 cd async-profiler-2.9-linux-x64
 export PATH=$PATH:$PWD
-profiler.sh  -e cpu -i 5ms -d 60 -f /a.html -o flamegraph  1
-profiler.sh  -e alloc --alloc 500k -d 60 -f /b.html -o flamegraph  1
+# CPU profiling
+profiler.sh -e cpu -i 5ms -d 60 -f /a.html -o flamegraph  1
+# ALLOCATION profiling
+profiler.sh -e alloc --alloc 500k -d 60 -f /b.html -o flamegraph  1
 ```
 
 ## macos使用
@@ -31,6 +38,8 @@ unzip async-profiler-2.9-macos.zip
 cd async-profiler-2.9-macos
 export PATH=$PATH:$PWD
 cd ~
-profiler.sh -i 5ms -d 60 -f a.html -o flamegraph ${pid}
-profiler.sh  -e alloc --alloc 500k -d 60 -f b.html -o flamegraph ${pid}
+# CPU profiling
+profiler.sh -e cpu-i 5ms -d 60 -f a.html -o flamegraph ${pid}
+# ALLOCATION profiling
+profiler.sh -e alloc --alloc 500k -d 60 -f b.html -o flamegraph ${pid}
 ```
