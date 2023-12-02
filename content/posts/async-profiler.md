@@ -48,7 +48,7 @@ profiler.sh -e cpu-i 5ms -d 60 -f a.html -o flamegraph ${pid}
 profiler.sh -e alloc --alloc 500k -d 60 -f b.html -o flamegraph ${pid}
 ```
 
-## wall-clock-profiling：观测Spring应用启动耗时
+## Wall-clock profiling：观测Spring应用启动耗时
 
 参考: [#wall-clock-profiling](https://github.com/async-profiler/async-profiler#wall-clock-profiling)
 
@@ -58,6 +58,8 @@ profiler.sh -e alloc --alloc 500k -d 60 -f b.html -o flamegraph ${pid}
 # 250 指的是持续观测 250秒，可以根据服务实际启动时长修改，1 指的是进程号⁢
 ./profiler.sh -e wall -t -I 'org/springframework/boot/loader/JarLauncher.main' -f a.html -d 250 1
 ```
+
+> 我们往往会使用 Async Profiler 工具 Attach 到 JVM 来诊断 CPU利用率问题，采样堆栈并生成火焰图，这类火焰图只会记录 on-CPU 状态的线程，即 R 和 D 状态的线程。但进程启动时可能有很多等待 IO 或锁的操作，此时线程已让出CPU，所以应该改用时钟模式（Wall-Clock）采样 on-CPU 和 off-CPU 的堆栈。此外 Spring 初始化时会创建一些中间件客户端并关联生成一些线程，为了避免无关堆栈的干扰，应该只保留 Spring Boot 启动的 main 线程
 
 ## 可视化
 
