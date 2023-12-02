@@ -48,6 +48,17 @@ profiler.sh -e cpu-i 5ms -d 60 -f a.html -o flamegraph ${pid}
 profiler.sh -e alloc --alloc 500k -d 60 -f b.html -o flamegraph ${pid}
 ```
 
+## wall-clock-profiling：观测Spring应用启动耗时
+
+参考: [#wall-clock-profiling](https://github.com/async-profiler/async-profiler#wall-clock-profiling)
+
+在线服务通常使用 Spring Boot 作为基本框架，Spring Boot 会打印一条 “JVM running for” 的日志，表示进程启动使用了多长时间，那么在这个时长中，到底耗时在哪里，可以用下面的命令查看，注意要在应用一启动就运行。
+
+```bash
+# 250 指的是持续观测 250秒，可以根据服务实际启动时长修改，1 指的是进程号⁢
+./profiler.sh -e wall -t -I 'org/springframework/boot/loader/JarLauncher.main' -f a.html -d 250 1
+```
+
 ## 可视化
 
 ### 浏览器打开火焰图的html
