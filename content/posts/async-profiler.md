@@ -18,8 +18,8 @@ curl -LO http://cdn.arloor.com/async-profiler-2.9-linux-x64.tar.gz
 tar -zxvf async-profiler-2.9-linux-x64.tar.gz
 cd async-profiler-2.9-linux-x64
 export PATH=$PATH:$PWD
-profiler.sh -i 5ms -d 60 -f /a.html -o flamegraph  1 # docker下pid
-# 下载/a.html，浏览器打开
+profiler.sh  -e cpu -i 5ms -d 60 -f /a.html -o flamegraph  1
+profiler.sh  -e alloc --alloc 500k -d 60 -f /b.html -o flamegraph  1
 ```
 
 ## macos使用
@@ -31,6 +31,6 @@ unzip async-profiler-2.9-macos.zip
 cd async-profiler-2.9-macos
 export PATH=$PATH:$PWD
 cd ~
-profiler.sh -i 5ms -d 60 -f result.html -o flamegraph 31680
-## 浏览器打开 ~/result.html查看火焰图
+profiler.sh -i 5ms -d 60 -f a.html -o flamegraph ${pid}
+profiler.sh  -e alloc --alloc 500k -d 60 -f b.html -o flamegraph ${pid}
 ```
