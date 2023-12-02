@@ -14,7 +14,7 @@ keywords:
 Async Profile是Java应用profiling的强大工具，可以方便地输出火焰图html或者jfr格式给Java Mission Control查看，这里记录下如何使用。
 <!--more-->
 
-[Async-Profiler Github](https://github.com/async-profiler/async-profiler)
+开源地址：[Async-Profiler Github](https://github.com/async-profiler/async-profiler)
 
 ## linux使用
 
@@ -50,7 +50,7 @@ profiler.sh -e alloc --alloc 500k -d 60 -f b.html -o flamegraph ${pid}
 
 ## 可视化
 
-### 火焰图
+### 浏览器打开火焰图的html
 
 ![Alt text](/img/async-profiler-alloc-flamescope.png)
 
