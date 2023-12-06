@@ -1,5 +1,5 @@
 ---
-title: "Visual Studio Code配置"
+title: "VS code配置"
 date: 2023-07-11T19:07:00+08:00
 draft: false
 categories: [ "undefined"]
