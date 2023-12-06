@@ -6,7 +6,7 @@
         {
             "label": "deploy",
             "type": "shell",
-            "command": "bash deploy.sh",
+            "command": "bash preClash.sh;bash deploy.sh",
             "group": "build"
         },
 
