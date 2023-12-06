@@ -55,7 +55,7 @@ TIPS：
 ![Alt text](/img/vscode-keybindings-setting.png)
 
 3. 修改文件内容如下：
-    1. `cmd+m`： 用于切换多个终端，特别是用于有build任务的终端时
+    1. `cmd+m`： 用于切换多个终端，特别是在 `cmd+shift+b` 触发构建任务之后
 
 ```json
 // 将键绑定放在此文件中以覆盖默认值auto[]
