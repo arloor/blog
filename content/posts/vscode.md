@@ -17,9 +17,12 @@ keywords:
 2. 解压缩
 3. Mac下将ttf文件夹下的文件全选，右击选择打开，安装所有字体
 4. Centos9下， 将ttf文件夹下的文件全部移动到 `/usr/share/fonts/${newdir}`下 , `yum install -y fontconfig` 并执行 `fc-cache` 。然后执行 `fc-list` 即可看到新的字体 
-5. 打开vscode的设置
+
+## 配置VS code
+
+1. 打开vscode的设置
     1. 搜索font family，改成 `'JetBrains Mono', Menlo, Monaco, 'Courier New', monospace` 。
-    2. 搜索font size，改成13。
+    2. 搜索font size，改成13。如果这个字体还不够大，可以 `command + +`来放大UI。
     3. 搜索line height，改成1.6。
     4. 对应的vscode settings.json如下：
 
@@ -43,6 +46,26 @@ TIPS：
 
 1. 建议打开vscode的配置同步功能。
 2. 本地的字体设置对远程开发同样生效。
+
+## 配置键盘快捷键
+
+1. 按 `cmd+k` ，再按 `cmd+s`，进入快捷键设置
+2. 点击右上角按钮进入原始文件 `keybindings.json`
+
+![Alt text](/img/vscode-keybindings-setting.png)
+
+3. 修改文件内容如下：
+    1. `cmd+m`： 用于切换多个终端，特别是用于有build任务的终端时
+
+```json
+// 将键绑定放在此文件中以覆盖默认值auto[]
+[
+    {
+        "key": "cmd+m",
+        "command": "workbench.action.terminal.focusNext"
+    }
+]
+```
 
 ## 远程开发
 
