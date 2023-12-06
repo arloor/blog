@@ -16,7 +16,7 @@ function githubio() {
 }
 
 msg="commit @$(git config   user.name) $(date '+%F %T %z %A')" 
-git pull && bash preClash.sh &&git add . && git commit -m "$msg" && git push || {
+git pull&&git add . && git commit -m "$msg" && git push || {
   echo -e "\033[32m 推送失败 \033[0m"
 }
 
