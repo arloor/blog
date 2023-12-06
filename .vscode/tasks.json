@@ -10,7 +10,7 @@
             "group": "build",
             "presentation": {
                 "echo": true,
-                "reveal": "always",
+                "reveal": "never",
                 "focus": false,
                 "panel": "new",
                 "showReuseMessage": true,
