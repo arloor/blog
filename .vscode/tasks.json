@@ -7,15 +7,7 @@
             "label": "deploy",
             "type": "shell",
             "command": "bash deploy.sh",
-            "group": "build",
-            "presentation": {
-                "echo": true,
-                "reveal": "silent",
-                "focus": false,
-                "panel": "shared",
-                "showReuseMessage": true,
-                "clear": false
-            }
+            "group": "build"
         },
 
     ]
