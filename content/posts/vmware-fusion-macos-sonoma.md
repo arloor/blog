@@ -1,7 +1,7 @@
 ---
 title: "Vmware Fusion Macos Sonoma"
 date: 2023-12-03T23:20:46+08:00
-draft: false
+draft: true
 categories: [ "undefined"]
 tags: ["undefined"]
 weight: 10
