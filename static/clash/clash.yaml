@@ -80,6 +80,8 @@ proxy-groups:
 - name: 推特
   type: select
   proxies:
+    - us
+    - gg
     - dc6
     - dc9
     - sg
@@ -87,21 +89,19 @@ proxy-groups:
     - baipiao
     - DIRECT
     - di
-    - us
-    - gg
 
 - name: openai
   type: select
   proxies:
+    - gg
+    - us
+    - di
     - dc6
     - dc9
     - sg
     - hk
     - baipiao
     - DIRECT
-    - di
-    - us
-    - gg
 
 
 - name: 直连
