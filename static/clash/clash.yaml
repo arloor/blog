@@ -47,8 +47,6 @@ proxy-groups:
     - gg
     - hk
     - sg
-    - dc9
-    - dc6
     - baipiao
     - DIRECT
 
@@ -56,24 +54,20 @@ proxy-groups:
   type: select
   proxies:
     - sg
+    - di
     - hk
-    - dc9
-    - dc6
     - baipiao
     - DIRECT
-    - di
     - us
     - gg
 - name: 奈飞
   type: select
   proxies:
     - sg
-    - dc6
-    - dc9
+    - di
     - hk
     - baipiao
     - DIRECT
-    - di
     - us
     - gg
 
@@ -82,8 +76,6 @@ proxy-groups:
   proxies:
     - us
     - gg
-    - dc6
-    - dc9
     - sg
     - hk
     - baipiao
@@ -96,8 +88,6 @@ proxy-groups:
     - gg
     - us
     - di
-    - dc6
-    - dc9
     - sg
     - hk
     - baipiao
@@ -111,8 +101,6 @@ proxy-groups:
     - di
     - hk
     - sg
-    - dc9
-    - dc6
     - baipiao
     - gg
 
@@ -138,24 +126,6 @@ proxies:
 - name: "di"
   type: http
   server: di.arloor.dev
-  port: 444
-  username: haloshit
-  password: 
-  tls: true 
-  skip-cert-verify: true
-
-- name: "dc9"
-  type: http
-  server: dc9.arloor.dev
-  port: 444
-  username: haloshit
-  password: 
-  tls: true 
-  skip-cert-verify: true
-
-- name: "dc6"
-  type: http
-  server: dc6.arloor.dev
   port: 444
   username: haloshit
   password: 
