@@ -6,4 +6,4 @@ payload:
    - DOMAIN-SUFFIX,xiaohongshu.com
    - DOMAIN-SUFFIX,xhscdn.com
    - IP-CIDR,154.12.191.81/32,no-resolve
-   - IP-CIDR,154.17.9.38/8,no-resolve
+   - IP-CIDR,154.17.9.38/32,no-resolve
