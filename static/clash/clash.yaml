@@ -15,12 +15,7 @@ script:
 
 rules:
 - SCRIPT,quic,REJECT,no-resolve
-- DOMAIN-SUFFIX,direct.quickconnect.to,DIRECT
-- DOMAIN-SUFFIX,arloor.dev,DIRECT
-- DOMAIN-SUFFIX,arloor.com,DIRECT
-- DOMAIN-SUFFIX,xiaohongshu.sh,DIRECT
-- DOMAIN-SUFFIX,xiaohongshu.com,DIRECT
-- DOMAIN-SUFFIX,xhscdn.com,DIRECT
+- RULE-SET,mine,直连
 - RULE-SET,apple,直连
 - RULE-SET,direct,直连
 - RULE-SET,openai,openai
@@ -160,6 +155,12 @@ proxies:
   skip-cert-verify: true
 
 rule-providers:
+  mine:
+    behavior: classical 
+    type: http
+    url: "https://repo-1252282974.cos.ap-shanghai.myqcloud.com/clash/mine.yaml"
+    path: ./ruleset/mine.yaml
+    interval: 86400
   twitter:
     behavior: classical 
     type: http
