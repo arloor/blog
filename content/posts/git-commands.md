@@ -74,7 +74,7 @@ git filter-branch --tree-filter 'rm -rf path/folder' 347ae59..HEAD
 最后强制推送
 
 ```bash
-git push origin master --force --all
+git push --force --all
 git push origin master --force --tags
 ```
 
