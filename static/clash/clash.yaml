@@ -14,7 +14,7 @@ script:
     udp: network == 'udp'
 
 rules:
-- IP-CIDR,15.28.195.80/32,REJECT,no-resolve
+- IP-CIDR,5.28.195.80/32,REJECT,no-resolve
 - SCRIPT,quic,REJECT,no-resolve
 - RULE-SET,mine,直连
 - RULE-SET,apple,直连
