@@ -36,16 +36,6 @@ rules:
 - MATCH,通用
 
 proxy-groups:
-- name: CODE
-  type: select
-  proxies:
-    - sg
-    - hk
-    - us
-    - di
-    - gg
-    - baipiao
-    - DIRECT
 - name: 通用
   type: select
   proxies:
@@ -99,7 +89,16 @@ proxy-groups:
     - hk
     - baipiao
     - DIRECT
-
+- name: CODE
+  type: select
+  proxies:
+    - sg
+    - hk
+    - us
+    - di
+    - gg
+    - baipiao
+    - DIRECT
 
 - name: 直连
   type: select
