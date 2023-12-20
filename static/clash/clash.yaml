@@ -17,6 +17,7 @@ rules:
 - IP-CIDR,5.28.195.80/32,REJECT,no-resolve
 - SCRIPT,quic,REJECT,no-resolve
 - RULE-SET,mine,直连
+- RULE-SET,codespaces,CODE
 - RULE-SET,apple,直连
 - RULE-SET,direct,直连
 - RULE-SET,openai,openai
@@ -35,6 +36,16 @@ rules:
 - MATCH,通用
 
 proxy-groups:
+- name: CODE
+  type: select
+  proxies:
+    - sg
+    - hk
+    - us
+    - di
+    - gg
+    - baipiao
+    - DIRECT
 - name: 通用
   type: select
   proxies:
@@ -156,6 +167,12 @@ proxies:
   skip-cert-verify: true
 
 rule-providers:
+  codespaces:
+    behavior: classical 
+    type: http
+    url: "https://repo-1252282974.cos.ap-shanghai.myqcloud.com/clash/codespaces.yaml"
+    path: ./ruleset/codespaces.yaml
+    interval: 86400
   mine:
     behavior: classical 
     type: http
