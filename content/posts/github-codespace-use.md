@@ -122,7 +122,18 @@ ws.Run "chrome.exe --app=https://${user}-${repo}-${id}.github.dev/ --start-maxim
 
 这个应该是关乎延迟、决定体验最重要的一个域名，建议一定要配置代理
 
-2. vscode涉及的资源或静态文件地址
+> vsls-prod-ins-asse-private-relay.servicebus.windows.net
+
+2. 用于端口转发的websocket地址
+
+```text
+*.rel.tunnels.api.visualstudio.com
+```
+
+> inc1.rel.tunnels.api.visualstudio.com
+> inc1-data.rel.tunnels.api.visualstudio.com
+
+3. vscode涉及的资源或静态文件地址
 
 ```bash
 *.vscode-cdn.net
