@@ -13,6 +13,8 @@ keywords:
 
 前几天Github告诉我说`You're now in the CodeSpaces beta`，今天体验了下，又发现了一个白嫖计算资源的机会啊。
 
+> 2023-12-11更新：目前Codespaces已经正式发布，我个人将Rust开发全部移到了codespaces上，下文有我的详细配置，欢迎阅读。收费策略上，目前个人免费账户每月有120小时的Core hours per month额度，这就意味着每月可以白嫖2C8G的机器60小时，或4C16G机器30小时。
+
 ## codespaces能做什么
 
 现在各行各业都在卷，ide这行也都卷到了远程开发这个领域，codespaces也是远程开发的一个解决方案。可以认为Github给你开了一个docker容器，里面运行着一个vscode，vscode打开着你的项目文件，你可以进行代码编辑，并依托vscode进行调试等等。
