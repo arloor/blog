@@ -14,6 +14,7 @@ keywords:
 前几天Github告诉我说`You're now in the CodeSpaces beta`，今天体验了下，又发现了一个白嫖计算资源的机会啊。
 
 > 2023-12-11更新：目前Codespaces已经正式发布，我个人将Rust开发全部移到了codespaces上，下文有我的详细配置，欢迎阅读。收费策略上，目前个人免费账户每月有120小时的Core hours per month额度，这就意味着每月可以白嫖2C8G的机器60小时，或4C16G机器30小时。
+<!--more-->
 
 ## codespaces能做什么
 
