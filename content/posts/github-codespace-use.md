@@ -80,6 +80,8 @@ ws.Run "chrome.exe --app=https://${user}-${repo}-${id}.github.dev/ --start-maxim
 
 ![Alt text](/img/codespaces-idle-timeout-setting.png)
 
+注意，空闲是指没有鼠标、键盘操作，已经没有标准输入输出变化
+
 注意，此项更改只对后续的codespaces生效。
 
 ### 代码仓库级别
