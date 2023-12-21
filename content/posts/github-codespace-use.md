@@ -143,7 +143,6 @@ ws.Run "chrome.exe --app=https://${user}-${repo}-${id}.github.dev/ --start-maxim
 *.gallerycdn.vsassets.io
 default.exp-tas.com
 github.vscode-unpkg.net
-*.visualstudio.com
 raw.githubusercontent.com
 vortex.data.microsoft.com
 *.azureedge.net
