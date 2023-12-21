@@ -56,7 +56,17 @@ ws.Run "chrome.exe --app=https://${user}-${repo}-${id}.github.dev/ --start-maxim
 
 由于大陆局域网的问题，上述三种方式都会面临访问速度慢的问题，但不是不可以解决的。
 
-对于本地vs code，可以搜索proxy的设置，设置代理即可。对于浏览器打开，我整理了codespaces需要访问的域名如下，配置这些域名走代理即可
+我整理了codespaces需要访问的域名如下：
+
+1. 用于实时交互数据传输的websocket地址：
+
+```plaintext
+*.servicebus.windows.net:443
+```
+
+这个应该是关乎延迟、决定体验最重要的一个域名，建议一定要配置代理
+
+2. vscode涉及的资源或静态文件地址
 
 ```bash
 *.vscode-cdn.net
@@ -70,5 +80,4 @@ github.vscode-unpkg.net
 raw.githubusercontent.com
 vortex.data.microsoft.com
 *.azureedge.net
-*.servicebus.windows.net
 ```
