@@ -1,0 +1,4 @@
+payload:
+   - DOMAIN-SUFFIX,copilot-proxy.githubusercontent.com
+   - DOMAIN-SUFFIX,copilot-telemetry.githubusercontent.com
+   - DOMAIN-SUFFIX,api.githubcopilot.com

@@ -18,6 +18,7 @@ rules:
 - SCRIPT,quic,REJECT,no-resolve
 - RULE-SET,mine,直连
 - RULE-SET,codespaces,CODE
+- RULE-SET,copilot,COPILOT
 - RULE-SET,apple,直连
 - RULE-SET,direct,直连
 - RULE-SET,openai,openai
@@ -99,6 +100,16 @@ proxy-groups:
     - gg
     - baipiao
     - DIRECT
+- name: COPILOT
+  type: select
+  proxies:
+    - di
+    - us
+    - sg
+    - hk
+    - gg
+    - baipiao
+    - DIRECT
 
 - name: 直连
   type: select
@@ -166,6 +177,12 @@ proxies:
   skip-cert-verify: true
 
 rule-providers:
+  copilot:
+    behavior: classical 
+    type: http
+    url: "https://repo-1252282974.cos.ap-shanghai.myqcloud.com/clash/copilot.yaml"
+    path: ./ruleset/copilot.yaml
+    interval: 86400
   codespaces:
     behavior: classical 
     type: http
