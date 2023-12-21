@@ -23,7 +23,8 @@ keywords:
 
 ## codespaces的计费规则
 
-目前只对组织和企业组织收费，**不对个人收费**，这就意味着可以白嫖了。具体收费政策见[about-billing-for-codespaces](https://docs.github.com/en/billing/managing-billing-for-github-codespaces/about-billing-for-codespaces)
+目前个人免费账户每月有120小时的Core hours per month额度，这就意味着每月可以白嫖2C8G的机器60小时，或4C16G机器30小时。具体收费政策见[about-billing-for-codespaces](https://docs.github.com/en/billing/managing-billing-for-github-codespaces/about-billing-for-codespaces)
+
 
 ## 新建codespaces
 
@@ -50,6 +51,56 @@ windows下可以编写成vbs脚本，实现双击打开。vbs脚本内容如下
 ```bash
 set ws=WScript.CreateObject("WScript.Shell")
 ws.Run "chrome.exe --app=https://${user}-${repo}-${id}.github.dev/ --start-maximized",0
+```
+
+## 配置codespaces
+
+> 更改配置后需要rebuild codespace或者删除重建codespaces才会生效
+
+### 个人账号级别
+
+**1. 环境变量配置**
+
+配置地址：[settings/codespaces](https://github.com/settings/codespaces)
+
+首先是codespace的环境变量设置，参考[此文档](https://docs.github.com/zh/enterprise-cloud@latest/codespaces/managing-your-codespaces/managing-your-account-specific-secrets-for-github-codespaces)，我设置了Github Token，以在codespaces中方便地使用Gihub Cli工具，如下图：
+
+![Alt text](/img/codespaces-env-setting.png)
+
+此后在codespaces中执行 `echo $GH_TOKEN` 就能看到设置的值了，github cli工具也能识别到该token
+
+[Github的文档](https://docs.github.com/zh/enterprise-cloud@latest/codespaces/reference/security-in-github-codespaces)提到这些环境变量是有安全保证，这个大家自行评判
+
+**2. idle timeout设置**
+
+默认情况下，30分钟空闲后，codespaces才会暂停以及停止计费，这里设置成5分钟：
+
+![Alt text](/img/codespaces-idle-timeout-setting.png)
+
+注意，此项更改只对后续的codespaces生效。
+
+### 代码仓库级别
+
+可以在 `.devcontainer`目录下配置 `devcontainer.json` 文件，配置codespaces初始化的设置，我的Rust调试环境的配置如下，可供参考
+
+```jsonc
+{
+    // https://mcr.microsoft.com/en-us/catalog?search=devcontainers
+    //"image": "mcr.microsoft.com/devcontainers/rust:bookworm", // 自定义镜像
+    "postCreateCommand": "make rust", // 容器创建后的初始化命令
+    "customizations": {
+        "vscode": {
+            "extensions": [ // 定义要装哪些插件
+                "vadimcn.vscode-lldb", // 调试插件
+                "rust-lang.rust-analyzer", // rust语言支持
+                "github.copilot", // github的AI代码提示
+                "github.vscode-github-actions", // github actions
+                "redhat.vscode-yaml", // yaml语言支持
+                "ms-python.python" // python语言支持
+            ]
+        }
+    }
+}
 ```
 
 ## 加速访问
