@@ -60,6 +60,8 @@ TIPS：
 
 ## 配置键盘快捷键
 
+> [keyboard-shortcuts-macos.pdf](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-macos.pdf)
+
 1. 按 `cmd+k` ，再按 `cmd+s`，进入快捷键设置
 2. 点击右上角按钮进入原始文件 `keybindings.json`
 
