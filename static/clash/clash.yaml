@@ -42,6 +42,7 @@ proxy-groups:
   proxies:
     - di
     - us
+    - bwg
     - gg
     - hk
     - sg
@@ -54,6 +55,7 @@ proxy-groups:
     - sg
     - di
     - hk
+    - bwg
     - baipiao
     - DIRECT
     - us
@@ -63,6 +65,7 @@ proxy-groups:
   proxies:
     - sg
     - di
+    - bwg
     - hk
     - baipiao
     - DIRECT
@@ -74,6 +77,7 @@ proxy-groups:
   proxies:
     - us
     - gg
+    - bwg
     - sg
     - hk
     - baipiao
@@ -85,6 +89,7 @@ proxy-groups:
   proxies:
     - gg
     - us
+    - bwg
     - di
     - sg
     - hk
@@ -95,6 +100,7 @@ proxy-groups:
   proxies:
     - sg
     - hk
+    - bwg
     - us
     - di
     - gg
@@ -120,9 +126,18 @@ proxy-groups:
     - sg
     - baipiao
     - gg
+    - bwg
 
 
 proxies:
+- name: "bwg"
+  type: http
+  server: bwg.arloor.dev
+  port: 444
+  username: haloshit
+  password: 
+  tls: true 
+  skip-cert-verify: true
 - name: "gg"
   type: http
   server: gg.arloor.dev
