@@ -28,17 +28,28 @@ keywords:
 
 ```json
 {
-    "workbench.colorTheme": "Default Dark+",
-    "files.autoSave": "onFocusChange",
-    "window.zoomLevel": 1,
+    "files.autoSave": "afterDelay",
     "editor.unicodeHighlight.nonBasicASCII": false,
-    "editor.fontSize": 13,
+    "editor.fontSize": 14,
     "editor.fontFamily": "'JetBrains Mono', Menlo, Monaco, 'Courier New', monospace",
     "editor.lineHeight": 1.6,
     "editor.fontLigatures": false,
     "editor.fontVariations": false,
     "terminal.integrated.defaultProfile.linux": "zsh",
-    "git.enableSmartCommit": true
+    "git.enableSmartCommit": true,
+    "git.confirmSync": false,
+    "update.showReleaseNotes": false,
+    "editor.minimap.enabled": false,
+    "terminal.integrated.enableMultiLinePasteWarning": false,
+    "git.autofetch": true,
+    "redhat.telemetry.enabled": true,
+    "terminal.integrated.fontSize": 13,
+    "debug.console.fontSize": 13,
+    "window.zoomLevel": 1,
+    "workbench.editor.empty.hint": "hidden",
+    "workbench.colorTheme": "Default Dark+",
+    "files.autoSaveDelay": 200,
+    "git.pullTags": false
 }
 ```
 
