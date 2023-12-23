@@ -11,7 +11,7 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
-用一下acme.sh，实现自动签发野卡证书的需求
+用一下acme.sh，实现自动签发野卡证书的需求。 acme.sh是一个开源的shell脚本，可以用来签发证书，支持很多dns服务商，支持自动续签。
 <!--more-->
 
 ## 下载安装acme.sh
