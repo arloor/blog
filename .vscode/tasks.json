@@ -9,7 +9,7 @@
             "command": "#bash preClash.sh;bash deploy.sh",
             "group": {
                 "kind": "build",
-                "isDefault": false
+                "isDefault": true
               }
         },
 
