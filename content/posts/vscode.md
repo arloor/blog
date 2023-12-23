@@ -69,6 +69,7 @@ TIPS：
 
 3. 修改文件内容如下：
     1. `cmd+m`： 用于切换多个终端，特别是在 `cmd+shift+b` 触发构建任务之后
+    2. `alt+o`: 用于打开remote explorer窗口，在多个远程开发环境中切换
 
 ```json
 // 将键绑定放在此文件中以覆盖默认值auto[]
@@ -76,6 +77,10 @@ TIPS：
     {
         "key": "cmd+m",
         "command": "workbench.action.terminal.focusNext"
+    },
+    {
+        "key": "alt+o",
+        "command": "workbench.view.remote"
     }
 ]
 ```
