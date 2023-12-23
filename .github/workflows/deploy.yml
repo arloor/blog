@@ -1,0 +1,26 @@
+name: Deploy
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  all:
+    runs-on: ubuntu-latest
+    steps:
+    - name: install ssh keys
+      run: |
+        install -m 600 -D /dev/null ~/.ssh/id_rsa
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
+    - name: connect and pull
+      run: |
+        ssh root@${{ secrets.SSH_HOST }} '
+        source /etc/profile
+        echo $http_proxy
+        bash tarloor 0 blog 
+        '
+    - name: cleanup
+      run: rm -rf ~/.ssh
