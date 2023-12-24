@@ -5,5 +5,8 @@
         "**/*.code-search": true,
         "content/posts": true,
         "static/img": true
-    }
+    },
+    "github-actions.workflows.pinned.workflows": [
+        ".github/workflows/deploy.yml"
+    ]
 }

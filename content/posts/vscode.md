@@ -24,34 +24,6 @@ keywords:
     1. 搜索font family，改成 `'JetBrains Mono', Menlo, Monaco, 'Courier New', monospace` 。
     2. 搜索font size，改成13。如果这个字体还不够大，可以 `command + +`来放大UI。
     3. 搜索line height，改成1.6。
-    4. 对应的vscode settings.json如下：
-
-```json
-{
-    "files.autoSave": "afterDelay",
-    "editor.unicodeHighlight.nonBasicASCII": false,
-    "editor.fontSize": 14,
-    "editor.fontFamily": "'JetBrains Mono', Menlo, Monaco, 'Courier New', monospace",
-    "editor.lineHeight": 1.6,
-    "editor.fontLigatures": false,
-    "editor.fontVariations": false,
-    "terminal.integrated.defaultProfile.linux": "zsh",
-    "git.enableSmartCommit": true,
-    "git.confirmSync": false,
-    "update.showReleaseNotes": false,
-    "editor.minimap.enabled": false,
-    "terminal.integrated.enableMultiLinePasteWarning": false,
-    "git.autofetch": true,
-    "redhat.telemetry.enabled": true,
-    "terminal.integrated.fontSize": 13,
-    "debug.console.fontSize": 13,
-    "window.zoomLevel": 1,
-    "workbench.editor.empty.hint": "hidden",
-    "workbench.colorTheme": "Default Dark+",
-    "files.autoSaveDelay": 200,
-    "git.pullTags": false
-}
-```
 
 TIPS：
 
@@ -180,4 +152,45 @@ pip3 install virtualenv
 virtualenv venv
 source venv/bin/activate
 pip3 install -r requirements.txt
+```
+
+## 我的vscode配置备份
+
+```json
+{
+    "files.autoSave": "afterDelay",
+    "editor.unicodeHighlight.nonBasicASCII": false,
+    "editor.fontSize": 14,
+    "editor.fontFamily": "'JetBrains Mono', Menlo, Monaco, 'Courier New', monospace",
+    "editor.lineHeight": 1.6,
+    "editor.fontLigatures": false,
+    "editor.fontVariations": false,
+    "terminal.integrated.defaultProfile.linux": "zsh",
+    "git.enableSmartCommit": true,
+    "git.confirmSync": false,
+    "update.showReleaseNotes": false,
+    "editor.minimap.enabled": false,
+    "terminal.integrated.enableMultiLinePasteWarning": false,
+    "git.autofetch": true,
+    "redhat.telemetry.enabled": true,
+    "terminal.integrated.fontSize": 13,
+    "debug.console.fontSize": 13,
+    "window.zoomLevel": 1,
+    "workbench.editor.empty.hint": "hidden",
+    "workbench.colorTheme": "Default Dark+",
+    "files.autoSaveDelay": 200,
+    "git.pullTags": false, // 不自动拉取tag，避免github action更新的tag被拉取，导致git pull失败
+    "github.copilot.enable": {
+        "*": true,
+        "plaintext": false,
+        "markdown": true,
+        "scminput": false
+    },
+    "python.analysis.inlayHints.callArgumentNames": "all",
+    "python.analysis.inlayHints.functionReturnTypes": true,
+    "python.analysis.inlayHints.variableTypes": true,
+    "python.analysis.autoFormatStrings": true,
+    "python.languageServer": "Pylance", // python languageServer插件
+    "github-actions.workflows.pinned.refresh.enabled": true // 每30秒刷新一次pin的action的状态，可能触发Github API的限制
+}
 ```
