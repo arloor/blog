@@ -51,12 +51,22 @@ ncode arloor
 
 ## 永久保存git密码
 
-（非程序员不要管这一节啦
+### Linux/Windows
 
 ```
 git config --global credential.helper store
 ```
 当github账号启用了二次验证时，输入的密码请填写自己在github上生成的api key。
+
+### MacOS
+
+```bash
+git config --global credential.helper osxkeychain
+```
+
+然后在“钥匙串访问”搜索`github.com`，双击，可以查看和修改密码。
+
+![Alt text](/img/git-credential-osxkeychain-view.png)
 
 ## 删除git中某一文件的历史
 

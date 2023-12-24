@@ -90,6 +90,11 @@ TIPS：
 ]
 ```
 
+
+## 设置word wrap
+
+发现在设置中修改不好使，倒是有个快捷键 `option + z` 或 `alt + z`
+
 ## 远程开发
 
 1. 安装 `Remote-ssh` 插件。
@@ -98,7 +103,11 @@ TIPS：
 
 ## Rust开发
 
-1. 安装两个插件：rust-analyzer、codelldb
+1. 安装四个插件：
+    - rust-analyzer
+    - codelldb
+    - tamasfe.even-better-toml（toml格式化）
+    - serayuzgur.crates（crate.io插件）
 2. 配置默认build任务：`.vscode/tasks.json`
 
 ```json
@@ -146,6 +155,29 @@ TIPS：
 
 4. 按F5开启调试，F5 resume调试。
 
-## 设置word wrap
+## Python开发
 
-发现在设置中修改不好使，倒是有个快捷键 `option + z` 或 `alt + z`
+### vscode plugin
+
+- ms-python.vscode-pylance
+- ms-python.python
+- ms-python.pylint 我并没有装这个，因为pylance已经有了lint功能
+
+### settings
+
+```bash
+ "python.analysis.inlayHints.callArgumentNames": "all",
+    "python.analysis.inlayHints.functionReturnTypes": true,
+    "python.analysis.inlayHints.variableTypes": true,
+    "python.analysis.autoFormatStrings": true,
+    "python.languageServer": "Pylance"
+```
+
+### venv
+    
+```bash
+pip3 install virtualenv
+virtualenv venv
+source venv/bin/activate
+pip3 install -r requirements.txt
+```
