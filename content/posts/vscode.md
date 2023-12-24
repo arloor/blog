@@ -191,6 +191,7 @@ pip3 install -r requirements.txt
     "python.analysis.inlayHints.variableTypes": true,
     "python.analysis.autoFormatStrings": true,
     "python.languageServer": "Pylance", // python languageServer插件
-    "github-actions.workflows.pinned.refresh.enabled": true // 每30秒刷新一次pin的action的状态，可能触发Github API的限制
+    "github-actions.workflows.pinned.refresh.enabled": true, // 自动刷新被pin住的github action的执行状态，可能触发Github API的限制
+    "github-actions.workflows.pinned.refresh.interval": 10 
 }
 ```
