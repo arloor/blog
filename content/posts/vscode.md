@@ -199,5 +199,9 @@ pip3 install -r requirements.txt
 
 ## 其他插件
 
+### Git插件
+
+Git History和Git Blame没有用[GitLens](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens)，而是用下面两个插件，因为GitLens功能太多了，还是商业化的。
+
 - [GitHistory](https://marketplace.visualstudio.com/items?itemName=donjayamanne.githistory)
 - [GitBlame](https://marketplace.visualstudio.com/items?itemName=waderyan.gitblame)
