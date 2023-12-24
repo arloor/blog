@@ -18,7 +18,7 @@ keywords:
 3. Mac下将ttf文件夹下的文件全选，右击选择打开，安装所有字体
 4. Centos9下， 将ttf文件夹下的文件全部移动到 `/usr/share/fonts/${newdir}`下 , `yum install -y fontconfig` 并执行 `fc-cache` 。然后执行 `fc-list` 即可看到新的字体 
 
-## 配置VS code
+### 配置VS code
 
 1. 打开vscode的设置
     1. 搜索font family，改成 `'JetBrains Mono', Menlo, Monaco, 'Courier New', monospace` 。
@@ -195,3 +195,9 @@ pip3 install -r requirements.txt
     "github-actions.workflows.pinned.refresh.interval": 10 
 }
 ```
+
+
+## 其他插件
+
+- [GitHistory](https://marketplace.visualstudio.com/items?itemName=donjayamanne.githistory)
+- [GitBlame](https://marketplace.visualstudio.com/items?itemName=waderyan.gitblame)
