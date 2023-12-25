@@ -11,11 +11,11 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
-来自[githubunwrapped](https://githubunwrapped.com/)的我的2023年Github报告。
+看到了来自[githubunwrapped](https://githubunwrapped.com/)的2023年Github报告，分享下。
 
 {{<bilibili BV1ww411G73x>}}
-<!--more-->
 
-毋庸置疑，Rust是我的2023年度语言。四年里，这是我第三次入门Rust，这次应该是真的入门了，当然仅限入门。
+四年里，我三次入门Rust，今年Rust终于成为了我的年度语言。那么这次应该是真的入门了吧。。。
 
 2586次的提交也刷新了记录。。。我也不知道我干了什么。
+<!--more-->
