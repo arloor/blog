@@ -34,6 +34,9 @@ keywords:
 
 ## 下载Clash premium内核
 
+> 2023-12-25更新：Clash core项目已经删除，有大佬fork了Release文件，保存在了MEGA网盘，地址：[https://mega.nz/folder/orkzRYbR#bHhSjy9r_9AJayIgqtZTag](https://mega.nz/folder/orkzRYbR#bHhSjy9r_9AJayIgqtZTag)，请自行下载，自行备份。
+
+
 下载链接[https://github.com/Dreamacro/clash/releases/tag/premium](https://github.com/Dreamacro/clash/releases/tag/premium)，到页面下方选择clash-linux-amd64开头的文件下载。也可以选择clash-linux-amd64-v3的版本，有一些性能提升，但是老机器上可能有兼容性问题。
 
 写此文时clash premium版本是clash-linux-amd64-2023.07.22，我的下载命令如下。大家可以自行修改version字段为最新版本。
