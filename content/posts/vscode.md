@@ -175,7 +175,6 @@ pip3 install -r requirements.txt
     "redhat.telemetry.enabled": true,
     "terminal.integrated.fontSize": 13,
     "debug.console.fontSize": 13,
-    "window.zoomLevel": 1,
     "workbench.editor.empty.hint": "hidden",
     "workbench.colorTheme": "Default Dark+",
     "files.autoSaveDelay": 200,
@@ -192,7 +191,13 @@ pip3 install -r requirements.txt
     "python.analysis.autoFormatStrings": true,
     "python.languageServer": "Pylance", // python languageServer插件
     "github-actions.workflows.pinned.refresh.enabled": true, // 自动刷新被pin住的github action的执行状态，可能触发Github API的限制
-    "github-actions.workflows.pinned.refresh.interval": 10 
+    "github-actions.workflows.pinned.refresh.interval": 10,
+    "remote.SSH.defaultExtensions": [
+        "waderyan.gitblame",
+        "donjayamanne.githistory",
+        "github.copilot", // SSH_PRIVATE
+        "github.vscode-github-actions", // github actions
+    ]
 }
 ```
 
