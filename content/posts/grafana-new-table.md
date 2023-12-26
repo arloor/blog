@@ -69,3 +69,13 @@ keywords:
 设置展示单位、展示精度、单元格样式、阈值、链接、不在表格中展示等。
 
 ![Alt text](/img/grafana-overrides.png)
+
+### 设置datalink
+
+![Alt text](/img/grafana-datalink-param.png)
+
+核心是pannel中的变量如何传递，详见参考文档[https://grafana.com/docs/grafana/latest/panels-visualizations/configure-data-links/](https://grafana.com/docs/grafana/latest/panels-visualizations/configure-data-links/)
+
+### 表格中的列禁止adhoc filterable
+
+![Alt text](/img/adhoc-filter-false.png)
