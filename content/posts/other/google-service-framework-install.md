@@ -66,7 +66,7 @@ google service framework是没有图标的，所以安装成功之后也是看�
 
 1. 访问[apkmirror](https://www.apkmirror.com/)。
 
-2. 搜索`google play service`，可以看到下面所列的不同版本的apk，选择图中标识的版本，点开
+2. 搜索`google play service`，或者点这个[直达链接](https://www.apkmirror.com/?post_type=app_release&searchtype=apk&s=google+play+service),可以看到下面所列的不同版本的apk，选择图中标识的版本，点开
 
 ![apkmirror-google-service.png](/img/apkmirror-google-service.png)
 
@@ -78,17 +78,11 @@ google service framework是没有图标的，所以安装成功之后也是看�
 
 注意google play service是没有图标的，所以安装成功之后也是看不到google play service的图标的，不要误以为是安装失败了。
 
-仙人指路，直达链接：[search google+play+service](https://www.apkmirror.com/?post_type=app_release&searchtype=apk&s=google+play+service)
-
 ## 安装google play store
 
-有了上面两个app，已经可以正常使用google的各项服务了，为了使用正统谷歌应用市场上的app，首先下个google play store吧。
-
-跟上面的操作一样，在apkmirror搜索google play store，下载对应的apk，然后在手机上安装。
+跟上面的操作一样，在apkmirror搜索google play store，或者点此[直达链接](https://www.apkmirror.com/?post_type=app_release&searchtype=apk&s=google+play+store)，下载对应的apk，然后在手机上安装。
 
 安装完成之后，就可以通过google play store安装其他应用了，也就不需要在apkmirror上下载apk来安装了。
-
-仙人指路，直达链接：[search google+play+store](https://www.apkmirror.com/?post_type=app_release&searchtype=apk&s=google+play+store)
 
 ### 通过google play store下载应用一直“等待中”
 
