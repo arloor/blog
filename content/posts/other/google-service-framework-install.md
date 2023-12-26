@@ -2,7 +2,7 @@
 title: "安卓手机安装google三件套"
 linktitle: 安卓手机安装google三件套
 author: "刘港欢"
-date: 2019-02-26
+date: 2023-02-26
 categories: [ "program"]
 tags: ["program"]
 weight: 10
@@ -13,7 +13,7 @@ weight: 10
 
 为了使用上面的谷歌三件套，首先手机需要能翻墙，如果不能翻墙，就没有必要继续看下去了。
 
-# 三个软件各自的作用
+## 三个软件各自的作用
 
 - **google service framework**：谷歌服务框架是使用谷歌服务、谷歌账号的基础。只有安装这个框架，谷歌的各项功能才能正常使用，比如google play service，google play store等等。
 - **google play service**：在google service framework的基础上运行，真正向用户提供功能的软件，提供谷歌用户认证的功能。
@@ -26,7 +26,7 @@ weight: 10
 
 **在国内环境下，有些手机厂商在手机出厂时会删除安卓内置的google service framework，而有些则不会删除**。因此，有些手机只需要安装google play service和google play store，而有些三个应用全部需要装。
 
-# 安装google service framework
+## 安装google service framework
 
 1. 访问[apkmirror](https://www.apkmirror.com/)（需要翻墙）
 2. 搜索'google service framework'，可以看到下面所列的不同版本的apk，根据安卓系统的版本，点开对应的链接
@@ -38,7 +38,7 @@ weight: 10
 
 注意google service framework是没有图标的，所以安装成功之后也是看不到google service framework的图标的。
 
-# 安装google play service
+## 安装google play service
 
 1. 访问[apkmirror](https://www.apkmirror.com/)。
 2. 搜索'google play service'，可以看到下面所列的不同版本的apk，选择图中标识的版本，点开
@@ -49,7 +49,7 @@ weight: 10
 
 注意google play service是没有图标的，所以安装成功之后也是看不到google play service的图标的。
 
-# 安装google play store
+## 安装google play store
 
 有了上面两个app，已经可以正常使用google的各项服务了，为了使用正统谷歌应用市场上的app，首先下个google play store吧。
 
@@ -57,13 +57,13 @@ weight: 10
 
 安装完成之后，就可以通过google play store安装其他应用了，也就不需要在apkmirror上下载apk来安装了。
 
-## google play store下载应用一直“等待中”
+### google play store下载应用一直“等待中”
 
 有些手机安装google play store之后，下载应用一直“等待中”。
 
 解决方案是参考[Google Play 商店能访问无限等待下载
 ](https://www.ohyee.cc/post/note_google_play_store)，给`services.googleapis.cn`单独走代理。
 
-# 其他
+## 其他
 
 为了更好地使用谷歌的各项服务，有个谷歌账号还是很必要的，如何注册在谷歌账号，不在这个博客中介绍了。
