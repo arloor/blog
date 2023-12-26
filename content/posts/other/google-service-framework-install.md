@@ -2,7 +2,7 @@
 title: "安卓手机安装google三件套"
 linktitle: 安卓手机安装google三件套
 author: "刘港欢"
-date: 2023-02-26
+date: 2023-10-26
 categories: [ "program"]
 tags: ["program"]
 weight: 10
@@ -15,16 +15,18 @@ weight: 10
 
 ## 三个软件各自的作用
 
-- **google service framework**：谷歌服务框架是使用谷歌服务、谷歌账号的基础。只有安装这个框架，谷歌的各项功能才能正常使用，比如google play service，google play store等等。
-- **google play service**：在google service framework的基础上运行，真正向用户提供功能的软件，提供谷歌用户认证的功能。
-- **google play store**：谷歌官方的应用市场，大量国外需要翻墙的应用软件需要在这个app上下载。
+| 软件 | 作用 |
+| :--- | :--- |
+| google service framework | 谷歌服务框架是使用谷歌服务、谷歌账号的基础。只有安装这个框架，谷歌的各项功能才能正常使用，比如google play service，google play store等等。 |
+| google play service | 在google service framework的基础上运行，真正向用户提供功能的软件，提供谷歌用户认证的功能。 |
+| google play store | 谷歌官方的应用市场，大量国外需要翻墙的应用软件需要在这个app上下载。 |
 
 可以这样说
 1. 国外有趣的软件需要通过google play store安装；
 2. google play store依赖google play service提供对google 账号的访问；
 3. google play service又运行在google service framework的基础上。
 
-**在国内环境下，有些手机厂商在手机出厂时会删除安卓内置的google service framework，而有些则不会删除**。因此，有些手机只需要安装google play service和google play store，而有些三个应用全部需要装。
+在国内环境下，有些手机厂商在手机出厂时会删除安卓内置的google service framework，而有些则不会删除。因此，有些手机不需要自行安装google service framework。
 
 ## 安装google service framework
 
@@ -61,8 +63,16 @@ weight: 10
 
 有些手机安装google play store之后，下载应用一直“等待中”。
 
-解决方案是参考[Google Play 商店能访问无限等待下载
-](https://www.ohyee.cc/post/note_google_play_store)，给`services.googleapis.cn`单独走代理。
+原因参见[Google Play 商店能访问无限等待下载
+](https://www.ohyee.cc/post/note_google_play_store)：
+
+> 尽管很多国行手机支持直接安装谷歌框架，但往往安装的是国行谷歌框架，其对应的地址是 services.googleapis.cn，在国内该地址会被解析到不支持 Play 商店的 IP 上（因为域名以 .cn 结尾，因此大部分规则都会让该地址走直连
+
+解决方案也比较简单，让`services.googleapis.cn`走代理即可，比如clash规则中添加：
+
+```yaml
+- DOMAIN-SUFFIX,services.googleapis.cn
+```
 
 ## 其他
 
