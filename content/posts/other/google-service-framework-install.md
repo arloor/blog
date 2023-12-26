@@ -40,7 +40,7 @@ weight: 10
 
 1. 访问[apkmirror](https://www.apkmirror.com/)（需要翻墙）
 
-2. 搜索'google service framework'，可以看到下面所列的不同版本的apk，根据安卓系统的版本，点开对应的链接
+2. 搜索`google service framework`，可以看到下面所列的不同版本的apk，根据安卓系统的版本，点开对应的链接
 
 ![](/img/gsf-version.png)
 
@@ -54,12 +54,19 @@ weight: 10
 
 google service framework是没有图标的，所以安装成功之后也是看不到google service framework的图标的，不要误以为是安装失败了。
 
+仙人指路，直达链接：
+
+- [安卓14版本google service framework](https://www.apkmirror.com/apk/google-inc/google-services-framework/google-services-framework-14-release/#downloads)
+- [安卓13版本google service framework](https://www.apkmirror.com/apk/google-inc/google-services-framework/google-services-framework-13-release/#downloads)
+- [安卓12版本google service framework](https://www.apkmirror.com/apk/google-inc/google-services-framework/google-services-framework-12-release/#downloads)
+- [安卓11版本google service framework](https://www.apkmirror.com/apk/google-inc/google-services-framework/google-services-framework-11-release/#downloads)
+
 
 ## 安装google play service
 
 1. 访问[apkmirror](https://www.apkmirror.com/)。
 
-2. 搜索'google play service'，可以看到下面所列的不同版本的apk，选择图中标识的版本，点开
+2. 搜索`google play service`，可以看到下面所列的不同版本的apk，选择图中标识的版本，点开
 
 ![apkmirror-google-service.png](/img/apkmirror-google-service.png)
 
@@ -69,7 +76,9 @@ google service framework是没有图标的，所以安装成功之后也是看�
 
 一般来说，选择cpu架构为arm64-v8a + armeabi-v7a，屏幕分辨率为nodpi，你的手机是安卓8.0，则使用Android 8.0+，是安卓8.1，则使用Android 8.1+。根据这个选择对应的variable下载，然后在手机上安装。
 
-注意google play service是没有图标的，所以安装成功之后也是看不到google play service的图标的。
+注意google play service是没有图标的，所以安装成功之后也是看不到google play service的图标的，不要误以为是安装失败了。
+
+仙人指路，直达链接：[search google+play+service](https://www.apkmirror.com/?post_type=app_release&searchtype=apk&s=google+play+service)
 
 ## 安装google play store
 
@@ -79,7 +88,9 @@ google service framework是没有图标的，所以安装成功之后也是看�
 
 安装完成之后，就可以通过google play store安装其他应用了，也就不需要在apkmirror上下载apk来安装了。
 
-### google play store下载应用一直“等待中”
+仙人指路，直达链接：[search google+play+store](https://www.apkmirror.com/?post_type=app_release&searchtype=apk&s=google+play+store)
+
+### 通过google play store下载应用一直“等待中”
 
 有些手机安装google play store之后，下载应用一直“等待中”。
 
