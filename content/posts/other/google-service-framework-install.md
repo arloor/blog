@@ -84,7 +84,7 @@ google service framework是没有图标的，所以安装成功之后也是看�
 
 安装完成之后，就可以通过google play store安装其他应用了，也就不需要在apkmirror上下载apk来安装了。
 
-### 通过google play store下载应用一直“等待中”
+## 通过google play store下载应用一直“等待中”
 
 有些手机安装google play store之后，下载应用一直“等待中”。
 
