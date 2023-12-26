@@ -80,9 +80,14 @@ google service framework是没有图标的，所以安装成功之后也是看�
 
 ## 安装google play store
 
-跟上面的操作一样，在apkmirror搜索google play store，或者点此[直达链接](https://www.apkmirror.com/?post_type=app_release&searchtype=apk&s=google+play+store)，下载对应的apk，然后在手机上安装。
+跟上面的操作一样，在apkmirror搜索google play store，或者点此[直达链接](https://www.apkmirror.com/?post_type=app_release&searchtype=apk&s=google+play+store)，然后下载apk安装即可，注意下载带`[0]`的apk，其他版本是给手表和电视用的。
 
-安装完成之后，就可以通过google play store安装其他应用了，也就不需要在apkmirror上下载apk来安装了。
+```shell
+App Notes:
+[0] - For all devices.
+[5] - For Android Wear devices
+[8] - For Android TV devices.
+```
 
 ## 通过google play store下载应用一直“等待中”
 
