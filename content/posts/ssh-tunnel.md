@@ -36,6 +36,18 @@ ssh -L [本地端口]:[目标服务器地址]:[目标端口] [SSH服务器用户
 
 这会将本地机器上的指定端口转发到远程服务器上的指定端口。
 
+也可以将本地端口转发写到 `~/.ssh/config` 文件中，这样就可以直接在 `ssh [SSH服务器别名]` 时建立端口转发。
+
+```shell
+Host xxxxx
+  HostName xxxxxx
+  User root
+  LocalForward 8090 127.0.0.1:8090
+  LocalForward 1234 127.0.0.1:1234
+```
+
+注意有端口转发的tcp连接存在时，`exit` 断开ssh时，ssh命令并不会直接退出，还需要等端口转发连接断开或直接 `ctrl+c` 退出。
+
 **远程端口转发**
 
 ```bash
