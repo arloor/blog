@@ -28,25 +28,45 @@ weight: 10
 
 在国内环境下，有些手机厂商在手机出厂时会删除安卓内置的google service framework，而有些则不会删除。因此，有些手机不需要自行安装google service framework。
 
+## 下载apk格式，而不是bundle格式
+
+> 2023.12.13更新
+
+现在apkmirror上有两种格式的安装包，一种是传统的apk，一种是新的bundle。我们认准apk格式安装包，不要下载bundle格式的安装包，因为bundle格式的安装包不能直接安装，需要通过APKMirror Installer (Official) 这个app来安装。
+
+![Alt text](/img/apk-yes-apkm-no.png)
+
 ## 安装google service framework
 
 1. 访问[apkmirror](https://www.apkmirror.com/)（需要翻墙）
+
 2. 搜索'google service framework'，可以看到下面所列的不同版本的apk，根据安卓系统的版本，点开对应的链接
+
 ![](/img/gsf-version.png)
+
 3. 下载页面中出现的apk。
+
 ![](/img/gsf-download.png)
+
 4. 安装页面如下：
+
 ![](/img/gsf-install.jpg)
 
-注意google service framework是没有图标的，所以安装成功之后也是看不到google service framework的图标的。
+google service framework是没有图标的，所以安装成功之后也是看不到google service framework的图标的，不要误以为是安装失败了。
+
 
 ## 安装google play service
 
 1. 访问[apkmirror](https://www.apkmirror.com/)。
+
 2. 搜索'google play service'，可以看到下面所列的不同版本的apk，选择图中标识的版本，点开
+
 ![apkmirror-google-service.png](/img/apkmirror-google-service.png)
+
 3. 现在可以看到这个版本的apk有好多的variables，对应不同cpu架构、系统版本、屏幕分辨率的手机，如下图。
+
 ![](/img/google-play-service-variables.png)
+
 一般来说，选择cpu架构为arm64-v8a + armeabi-v7a，屏幕分辨率为nodpi，你的手机是安卓8.0，则使用Android 8.0+，是安卓8.1，则使用Android 8.1+。根据这个选择对应的variable下载，然后在手机上安装。
 
 注意google play service是没有图标的，所以安装成功之后也是看不到google play service的图标的。
