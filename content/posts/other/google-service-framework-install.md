@@ -11,17 +11,20 @@ weight: 10
 之前在telegram群里有人问，怎么给安卓手机安装谷歌三件套。他说的谷歌三件套大概就是google service framework(谷歌服务框架)、google play service、google play store。这里介绍一下如何安装这三个软件。**对华为手机可能无效，请谨慎尝试**
 <!--more-->
 
-为了使用上面的谷歌四件套，首先手机需要能翻墙，如果不能翻墙，就没有必要继续看下去了。另外，这个博客仅适用于安卓手机。
+为了使用上面的谷歌三件套，首先手机需要能翻墙，如果不能翻墙，就没有必要继续看下去了。
 
 # 三个软件各自的作用
 
-- google service framework：谷歌服务框架是使用谷歌服务、谷歌账号的基础。只有安装这个框架，谷歌的各项功能才能正常使用，比如google play service，google play store等等。
-- google play service：在google service framework的基础上运行，真正向用户提供功能的软件，提供谷歌用户认证的功能。
-- google play store：谷歌官方的应用市场，大量国外需要翻墙的应用软件需要在这个app上下载。
+- **google service framework**：谷歌服务框架是使用谷歌服务、谷歌账号的基础。只有安装这个框架，谷歌的各项功能才能正常使用，比如google play service，google play store等等。
+- **google play service**：在google service framework的基础上运行，真正向用户提供功能的软件，提供谷歌用户认证的功能。
+- **google play store**：谷歌官方的应用市场，大量国外需要翻墙的应用软件需要在这个app上下载。
 
-可以这样说，国外有趣的软件需要通过google play store安装；google play store依赖google play service提供对google 账号的访问；google play service又运行在google service framework的基础上。
+可以这样说
+1. 国外有趣的软件需要通过google play store安装；
+2. google play store依赖google play service提供对google 账号的访问；
+3. google play service又运行在google service framework的基础上。
 
-在国内环境下，有些手机厂商在手机出厂时会删除安卓内置的google service framework，而有些则不会删除。因此，有些手机只需要安装google play service和google play store，而有些三个应用全部需要装。
+**在国内环境下，有些手机厂商在手机出厂时会删除安卓内置的google service framework，而有些则不会删除**。因此，有些手机只需要安装google play service和google play store，而有些三个应用全部需要装。
 
 # 安装google service framework
 
@@ -54,10 +57,13 @@ weight: 10
 
 安装完成之后，就可以通过google play store安装其他应用了，也就不需要在apkmirror上下载apk来安装了。
 
+## google play store下载应用一直“等待中”
+
+有些手机安装google play store之后，下载应用一直“等待中”。
+
+解决方案是参考[Google Play 商店能访问无限等待下载
+](https://www.ohyee.cc/post/note_google_play_store)，给`services.googleapis.cn`单独走代理。
+
 # 其他
 
 为了更好地使用谷歌的各项服务，有个谷歌账号还是很必要的，如何注册在谷歌账号，不在这个博客中介绍了。
-
-另外，使用谷歌各项服务和在apkmirror上下载apk，都需要翻墙。
-
-**[Telegram讨论组](https://t.me/popstary)**  欢迎进群讨论
