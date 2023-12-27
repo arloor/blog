@@ -73,6 +73,15 @@ TIPS：
 2. 使用ssh连接到远程服务器。推荐配置是2C2G以上。为了让远程服务器流畅连接网络，使用了clash做分流，并将clash作为系统代理。
 3. 历史记录保存在 `~/.ssh/config` 中。
 
+在远程服务器上卸载vscode server: 执行命令 `Remote-SSH: Uninstall VS Code Server from Host` ，或手动执行
+
+```bash
+# Kill server processes
+kill -9 $(ps aux | grep vscode-server | grep $USER | grep -v grep | awk '{print $2}')
+# Delete related files and folder
+rm -rf $HOME/.vscode-server # Or ~/.vscode-server-insiders
+```
+
 ## Rust开发
 
 1. 安装四个插件：
