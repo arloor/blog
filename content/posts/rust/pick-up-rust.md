@@ -322,6 +322,12 @@ fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
 
 rust的编译器能自动地判断一些引用的生命周期，所以不是所有情况都需要显式使用生命周期注解参数。不要畏惧生命周期注解参数，你只需要在编译器提醒你的时候加上他们。生命周期注解参数不会改变生命周期。
 
+## 'staitic作为trait bound
+
+> 意味着所有权被move到这个scope里。也就是说，不能传引用
+
+![Alt text](/img/static_trait_bound.png)
+
 ## 使用musl编译fat可执行文件
 
 ### 安装musl
