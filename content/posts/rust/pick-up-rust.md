@@ -23,6 +23,7 @@ keywords:
 rust的网站这样描述自己：我们喜欢写document。rust确实提供了很多不错的文档（go的文档也很好
 
 - [rust book](https://doc.rust-lang.org/stable/book/) 了解rust设计、语法
+- [rust-by-example](https://doc.rust-lang.org/rust-by-example/index.html) Rust设计和语法的更多例子
 - [rust book中文版](https://kaisery.github.io/trpl-zh-cn/title-page.html) 
 - [rust标准库文档](https://doc.rust-lang.org/std/)
     - std::* modules
@@ -324,7 +325,7 @@ rust的编译器能自动地判断一些引用的生命周期，所以不是所�
 
 ## 'staitic作为trait bound
 
-> 意味着所有权被move到这个scope里。也就是说，不能传引用
+> [rust-by-example](https://doc.rust-lang.org/rust-by-example/scope/lifetime/static_lifetime.html)中说这意味着所有权被move到这个scope里。也就是说，不能传引用
 
 ![Alt text](/img/static_trait_bound.png)
 
