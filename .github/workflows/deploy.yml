@@ -17,6 +17,7 @@ jobs:
     - name: prepare
       run: |
         hugoVersion="0.96.0"
+        hugoVersion="0.121.1"
         hugoURL=https://github.com/gohugoio/hugo/releases/download/v${hugoVersion}/hugo_extended_${hugoVersion}_Linux-64bit.tar.gz
         sudo apt install -y tar curl
         mkdir /tmp/hugo
@@ -43,7 +44,9 @@ jobs:
           else
             if [ -d /usr/share/nginx/html/blog/.git ];then
               cd /usr/share/nginx/html/blog;
+              git reset --hard;
               git checkout gh-pages;
+              git reset --hard;
               git pull --rebase;
             else
               echo "blog目录存在，但不是git仓库，重新clone";
