@@ -11,11 +11,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - name: Checkout rust_http_proxy
+    - name: Checkout gh-pages
       uses: actions/checkout@v4
       with:
-        repository: arloor/blog
-        path: deploy
+        ref: gh-pages
+        path: gh-pages
     - name: Set outputs
       id: vars
       run: echo "sha_short=$(git rev-parse --short=8 HEAD)" >> $GITHUB_OUTPUT
@@ -30,18 +30,16 @@ jobs:
         install /tmp/hugo/hugo /usr/local/bin/
     - name: deploy
       run: |
-        cd deploy&&git checkout origin/gh-pages
-        cd -
-        hugo -d deploy
-        cd deploy
+        hugo -d gh-pages
+        cd gh-pages
         git add .
         git commit -m "${{ steps.vars.outputs.sha_short }}"
-        git push origin gh-pages
-        - name: install ssh keys
-        run: |
-          install -m 600 -D /dev/null ~/.ssh/id_rsa
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
+        git push
+    - name: install ssh keys
+      run: |
+        install -m 600 -D /dev/null ~/.ssh/id_rsa
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
     - name: connect and pull
       run: |
         ssh root@${{ secrets.SSH_HOST }} '
