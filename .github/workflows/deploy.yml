@@ -40,6 +40,7 @@ jobs:
         git add .
         git commit -m "${{ steps.vars.outputs.sha_short }}"
         git push
+        echo
     - name: install ssh keys
       run: |
         install -m 600 -D /dev/null ~/.ssh/id_rsa
