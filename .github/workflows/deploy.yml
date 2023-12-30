@@ -11,11 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - name: Checkout gh-pages
-      uses: actions/checkout@v4
-      with:
-        ref: gh-pages
-        path: gh-pages
     - name: Set outputs
       id: vars
       run: echo "sha_short=$(git rev-parse --short=8 HEAD)" >> $GITHUB_OUTPUT
@@ -28,19 +23,12 @@ jobs:
         curl -Lf "$hugoURL" -o /tmp/hugo/hugo.tar.gz
         tar -zxf /tmp/hugo/hugo.tar.gz -C /tmp/hugo/
         install /tmp/hugo/hugo /usr/local/bin/
-    - name: deploy
-      run: |
-        hugo -d gh-pages
-        cd gh-pages
-        ls 
-        echo ============
-        ls ../
-        git config --global user.email "admin@arloor.com"
-        git config --global user.name "arloor"
-        git add .
-        git commit -m "${{ steps.vars.outputs.sha_short }}"
-        git push
-        echo
+        hugo -d public
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./public
     - name: install ssh keys
       run: |
         install -m 600 -D /dev/null ~/.ssh/id_rsa
