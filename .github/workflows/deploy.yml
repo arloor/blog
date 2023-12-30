@@ -40,9 +40,11 @@ jobs:
         ssh root@${{ secrets.SSH_HOST }} '
           mkdir -p /usr/share/nginx/html;
           if [ ! -d /usr/share/nginx/html/blog ];then 
+            echo "blog目录不存在，clone";
             git clone https://github.com/arloor/blog.git -b gh-pages /usr/share/nginx/html/blog;
           else
             if [ -d /usr/share/nginx/html/blog/.git ];then
+              echo "blog目录存在，是git仓库，pull";
               cd /usr/share/nginx/html/blog;
               git reset --hard;
               git checkout gh-pages;
