@@ -18,9 +18,9 @@ paginate = 10
 ## Site Settings
 [params]
     
-    UtterancesRepo = "arloor/blog" # https://utteranc.es/
-    UtterancesIssueTerm = "title" # pathname, url, title, og:title
-    UtterancesTheme = "github-light" # github-light or github-dark
+    #UtterancesRepo = "arloor/blog" # https://utteranc.es/
+    #UtterancesIssueTerm = "title" # pathname, url, title, og:title
+    #UtterancesTheme = "github-light" # github-light or github-dark
 
     layoutReverse = false
     author = "刘港欢"
