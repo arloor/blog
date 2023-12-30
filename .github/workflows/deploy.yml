@@ -32,6 +32,9 @@ jobs:
       run: |
         hugo -d gh-pages
         cd gh-pages
+        ls 
+        echo ============
+        ls ../
         git config --global user.email "admin@arloor.com"
         git config --global user.name "arloor"
         git add .
