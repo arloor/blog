@@ -11,7 +11,7 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
-看到了来自[githubunwrapped](https://githubunwrapped.com/)的2023年Github报告，分享下。
+看到了来自[githubunwrapped](https://githubunwrapped.com/)的2023年Github报告，分享下哈哈。
 
 {{<bilibili BV1ww411G73x>}}
 
