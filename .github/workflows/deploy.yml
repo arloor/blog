@@ -25,7 +25,7 @@ jobs:
         hugoURL=https://github.com/gohugoio/hugo/releases/download/v${hugoVersion}/hugo_extended_${hugoVersion}_Linux-64bit.tar.gz
         sudo apt install -y tar curl
         mkdir /tmp/hugo
-        curl "$hugoURL" -o /tmp/hugo/hugo.tar.gz
+        curl -Lf "$hugoURL" -o /tmp/hugo/hugo.tar.gz
         tar -zxf /tmp/hugo/hugo.tar.gz -C /tmp/hugo/
         install /tmp/hugo/hugo /usr/local/bin/
     - name: deploy
