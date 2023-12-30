@@ -32,6 +32,8 @@ jobs:
       run: |
         hugo -d gh-pages
         cd gh-pages
+        git config --global user.email "admin@arloor.com"
+        git config --global user.name "arloor"
         git add .
         git commit -m "${{ steps.vars.outputs.sha_short }}"
         git push
