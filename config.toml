@@ -1,5 +1,5 @@
 ## Basic Configuration
-baseurl = "https://ti.arloor.com/"
+baseurl = "https://www.arloor.com/"
 languageCode = "zh-CN"
 hasCJKLanguage = true
 

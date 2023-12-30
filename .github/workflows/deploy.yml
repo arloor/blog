@@ -33,29 +33,35 @@ jobs:
     - name: install ssh keys
       run: |
         install -m 600 -D /dev/null ~/.ssh/id_rsa
-        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-        ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" >> ~/.ssh/id_rsa
+        for i in ${{ secrets.SSH_HOST }};do
+          echo "add ${i} to known_hosts"
+          ssh-keyscan -H ${i} >> ~/.ssh/known_hosts
+        done
     - name: connect and pull
       run: |
-        ssh root@${{ secrets.SSH_HOST }} '
-          mkdir -p /usr/share/nginx/html;
-          if [ ! -d /usr/share/nginx/html/blog ];then 
-            echo "blog目录不存在，clone";
-            git clone https://github.com/arloor/blog.git -b gh-pages /usr/share/nginx/html/blog;
-          else
-            if [ -d /usr/share/nginx/html/blog/.git ];then
-              echo "blog目录存在，是git仓库，pull";
-              cd /usr/share/nginx/html/blog;
-              git reset --hard;
-              git checkout gh-pages;
-              git reset --hard;
-              git pull --rebase;
-            else
-              echo "blog目录存在，但不是git仓库，重新clone";
-              rm -rf /usr/share/nginx/html/blog;
-              git clone https://github.com/arloor/blog.git -b gh-pages /usr/share/nginx/html/blog;
-            fi
-          fi 
-          '
+        for i in ${{ secrets.SSH_HOST }};do
+          echo "connect to ${i}";
+          ssh root@${i} '
+              mkdir -p /usr/share/nginx/html;
+              if [ ! -d /usr/share/nginx/html/blog ];then 
+                echo "blog目录不存在，clone";
+                git clone https://github.com/arloor/blog.git -b gh-pages /usr/share/nginx/html/blog;
+              else
+                if [ -d /usr/share/nginx/html/blog/.git ];then
+                  echo "blog目录存在，是git仓库，pull";
+                  cd /usr/share/nginx/html/blog;
+                  git reset --hard;
+                  git checkout gh-pages;
+                  git reset --hard;
+                  git pull --rebase;
+                else
+                  echo "blog目录存在，但不是git仓库，重新clone";
+                  rm -rf /usr/share/nginx/html/blog;
+                  git clone https://github.com/arloor/blog.git -b gh-pages /usr/share/nginx/html/blog;
+                fi
+              fi 
+            '
+        done
     - name: cleanup
       run: rm -rf ~/.ssh
