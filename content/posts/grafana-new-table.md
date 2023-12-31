@@ -79,3 +79,11 @@ keywords:
 ### 表格中的列禁止adhoc filterable
 
 ![Alt text](/img/adhoc-filter-false.png)
+
+### 给Pannel单独设置时间范围为Today
+
+![Alt text](/img/grafana-pannel-relative-time-today.png)
+
+虽然`now/d`和`0d/d`有点抽象，但是这样设置可以保证每次打开dashboard时，这个pannel都是显示今天00:00~23:59的数据。
+
+注意，如果`Time shift`不设置，那么显示的是今天到现在的数据，也就是Today so far。
