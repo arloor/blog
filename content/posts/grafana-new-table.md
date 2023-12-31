@@ -88,4 +88,4 @@ keywords:
 
 注意，如果`Time shift`不设置，那么显示的是今天到现在的数据，也就是Today so far。
 
-> 参考[set-dashboard-time-range](https://grafana.com/docs/grafana/latest/dashboards/use-dashboards/#set-dashboard-time-range)
+> 参考[set-dashboard-time-range](https://grafana.com/docs/grafana/latest/dashboards/use-dashboards/#set-dashboard-time-range) 
