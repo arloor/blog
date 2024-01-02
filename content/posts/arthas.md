@@ -34,6 +34,33 @@ java -jar arthas-boot.jar #--repo-mirror aliyun --use-http
 
 [ognl.html](https://arthas.aliyun.com/doc/ognl.html#%E4%BD%BF%E7%94%A8%E5%8F%82%E8%80%83)
 
+```shell
+# 调用静态方法
+$ ognl '@java.lang.System@out.println("hello")'
+null
+# 查看静态字段
+$ ognl '@demo.MathGame@random'
+@Random[
+    serialVersionUID=@Long[3905348978240129619],
+    seed=@AtomicLong[125451474443703],
+    multiplier=@Long[25214903917],
+    addend=@Long[11],
+    mask=@Long[281474976710655],
+    DOUBLE_UNIT=@Double[1.1102230246251565E-16],
+    BadBound=@String[bound must be positive],
+    BadRange=@String[bound must be greater than origin],
+    BadSize=@String[size must be non-negative],
+    seedUniquifier=@AtomicLong[-3282039941672302964],
+    nextNextGaussian=@Double[0.0],
+    haveNextNextGaussian=@Boolean[false],
+    serialPersistentFields=@ObjectStreamField[][isEmpty=false;size=3],
+    unsafe=@Unsafe[sun.misc.Unsafe@28ea5898],
+    seedOffset=@Long[24],
+]
+```
+
+`@demo.MathGame@random` 也可以用在watch中
+
 ## Java直接内存溢出的诊断
 
 netty相关的直接内存溢出诊断很方便，没有用netty的直接内存溢出诊断可以用下面的方法：
