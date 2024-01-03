@@ -18,6 +18,7 @@ jobs:
       env:
         GH_TOKEN: ${{ github.token }}
       run: |
+        git config --global credential.helper cache
         git config --global user.name "arloor"
         git config --global user.email "admin@arloor.com"
         if ! git clone --depth=1 --single-branch -b gh-pages https://github.com/arloor/blog.git public; 
