@@ -56,12 +56,8 @@ jobs:
           ssh root@${i} '
               mkdir -p /usr/share/nginx/html;
               if [ ! -d /usr/share/nginx/html/blog -o ! -d /usr/share/nginx/html/blog/.git ];then 
-                if [ ! -d /usr/share/nginx/html/blog/.git ];then
-                  echo "blog目录存在，但不是git仓库，删除，重新clone";
-                  rm -rf /usr/share/nginx/html/blog;
-                else
-                  echo "blog目录不存在，clone";
-                fi
+                echo "blog目录不存在/不是git仓库，clone";
+                rm -rf /usr/share/nginx/html/blog;
                 git clone https://github.com/arloor/blog.git -b gh-pages /usr/share/nginx/html/blog;
               else
                 echo "blog目录存在，是git仓库，pull";
