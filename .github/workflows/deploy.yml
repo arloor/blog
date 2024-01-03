@@ -34,7 +34,7 @@ jobs:
         cd public
         git config --global user.name "arloor"
         git config --global user.email "admin@arloor.com"
-        git -P diff
+        git -P diff --color=always
         if  git add . && git commit -m "update" && git push -f 
         then 
           echo successfully pushed
@@ -66,6 +66,7 @@ jobs:
                   git checkout gh-pages;
                   git reset --hard;
                   git pull --rebase;
+                  git -P log -1 -p --color=always;
                 else
                   echo "blog目录存在，但不是git仓库，重新clone";
                   rm -rf /usr/share/nginx/html/blog;
