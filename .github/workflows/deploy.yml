@@ -15,7 +15,11 @@ jobs:
       id: vars
       run: echo "sha_short=$(git rev-parse --short=8 HEAD)" >> $GITHUB_OUTPUT
     - name: prepare
+      env:
+        GH_TOKEN: ${{ github.token }}
       run: |
+        git config --global user.name "arloor"
+        git config --global user.email "admin@arloor.com"
         if ! git clone https://github.com/arloor/blog.git  --depth=1 --single-branch -b gh-pages public; 
         then
           echo first time, create gh-pages branch
@@ -37,10 +41,8 @@ jobs:
     - name: Deploy
       run: |
         cd public
-        git config --global user.name "arloor"
-        git config --global user.email "admin@arloor.com"
         git -P diff --color=always
-        if  git add . && git commit --allow-empty -m "update" && git push origin gh-pages -f 
+        if  git add . && git commit --allow-empty -m "${{ steps.vars.outputs.sha_short }}" && git push origin gh-pages -f 
         then 
           echo successfully pushed
         else
