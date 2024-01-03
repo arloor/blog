@@ -356,5 +356,5 @@ rustup target add x86_64-unknown-linux-musl
 # debug, 可执行文件在target/x86_64-unknown-linux-musl/debug/
 cargo build --target x86_64-unknown-linux-musl
 # release，可执行文件在target/x86_64-unknown-linux-musl/release/
-cargo install --path . --target x86_64-unknown-linux-musl
+cargo build --release --target x86_64-unknown-linux-musl
 ```
