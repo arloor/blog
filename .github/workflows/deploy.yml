@@ -20,7 +20,7 @@ jobs:
       run: |
         git config --global user.name "arloor"
         git config --global user.email "admin@arloor.com"
-        if ! git clone https://github.com/arloor/blog.git  --depth=1 --single-branch -b gh-pages public; 
+        if ! git clone --depth=1 --single-branch -b gh-pages https://github.com/arloor/blog.git public; 
         then
           echo first time, create gh-pages branch
           mkdir public
