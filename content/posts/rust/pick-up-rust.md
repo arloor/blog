@@ -105,7 +105,7 @@ rustup self uninstall
 
 其他开发环境有[https://www.rust-lang.org/zh-CN/tools](https://www.rust-lang.org/zh-CN/tools)
 
-除了官方的插件，rust-analyzer使用更加广泛，支持vscode等ide。 
+除了Jetbrains官方的插件，rust-analyzer使用更加广泛，支持vscode等ide。
 
 ## rust基础——理解怎么做到内存安全的
 

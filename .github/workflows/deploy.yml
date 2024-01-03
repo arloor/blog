@@ -34,6 +34,7 @@ jobs:
         cd public
         git config --global user.name "arloor"
         git config --global user.email "admin@arloor.com"
+        git -P diff
         if  git add . && git commit -m "update" && git push -f 
         then 
           echo successfully pushed
