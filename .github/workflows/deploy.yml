@@ -15,22 +15,7 @@ jobs:
       id: vars
       run: echo "sha_short=$(git rev-parse --short=8 HEAD)" >> $GITHUB_OUTPUT
     - name: prepare
-      env:
-        GH_TOKEN: ${{ github.token }}
       run: |
-        git config --global credential.helper cache
-        git config --global user.name "arloor"
-        git config --global user.email "admin@arloor.com"
-        if ! git clone --depth=1 --single-branch -b gh-pages https://github.com/arloor/blog.git public; 
-        then
-          echo first time, create gh-pages branch
-          mkdir public
-          cd public
-          git init
-          git checkout --orphan gh-pages
-          git remote add origin https://github.com/arloor/blog.git
-          cd ..
-        fi
         hugoVersion="0.96.0"
         hugoVersion="0.121.1"
         hugoURL=https://github.com/gohugoio/hugo/releases/download/v${hugoVersion}/hugo_extended_${hugoVersion}_Linux-64bit.tar.gz
@@ -41,15 +26,10 @@ jobs:
         install /tmp/hugo/hugo /usr/local/bin/
         hugo -d public
     - name: Deploy
-      run: |
-        cd public
-        git -P diff --color=always
-        if  git add . && git commit --allow-empty -m "${{ steps.vars.outputs.sha_short }}" && git push origin gh-pages -f 
-        then 
-          echo successfully pushed
-        else
-          echo nothing to commit or failed to push
-        fi 
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./public
     - name: install ssh keys
       run: |
         install -m 600 -D /dev/null ~/.ssh/id_rsa
@@ -58,31 +38,30 @@ jobs:
           echo "add ${i} to known_hosts"
           ssh-keyscan -H ${i} >> ~/.ssh/known_hosts
         done
-    # - name: connect and pull
-    #   run: |
-    #     for i in ${{ secrets.SSH_HOST }};do
-    #       echo "connect to ${i}";
-    #       ssh root@${i} '
-    #           mkdir -p /usr/share/nginx/html;
-    #           if [ ! -d /usr/share/nginx/html/blog -o ! -d /usr/share/nginx/html/blog/.git ];then 
-    #             echo "blog目录不存在/不是git仓库，clone";
-    #             rm -rf /usr/share/nginx/html/blog;
-    #             git clone https://github.com/arloor/blog.git -b gh-pages /usr/share/nginx/html/blog;
-    #           else
-    #             echo "blog目录存在，是git仓库，pull";
-    #             cd /usr/share/nginx/html/blog;
-    #             git reset --hard  > /dev/null;
-    #             git checkout gh-pages  > /dev/null;
-    #             git reset --hard  > /dev/null;
-    #             git pull --rebase || {
-    #               echo "git pull 失败，重新clone"
-    #               cd ..
-    #               rm -rf blog;
-    #               git clone https://github.com/arloor/blog.git -b gh-pages /usr/share/nginx/html/blog;
-    #             }
-    #             git -P log -1 -p --color=always --pretty=oneline;
-    #           fi 
-    #         '
-    #     done
+    - name: connect and pull
+      run: |
+        for i in ${{ secrets.SSH_HOST }};do
+          echo "connect to ${i}";
+          ssh root@${i} '
+              mkdir -p /usr/share/nginx/html;
+              if [ ! -d /usr/share/nginx/html/blog ];then 
+                echo "blog目录不存在，clone";
+                git clone https://github.com/arloor/blog.git --depth=1 -b gh-pages /usr/share/nginx/html/blog;
+              else
+                if [ -d /usr/share/nginx/html/blog/.git ];then
+                  echo "blog目录存在，是git仓库，pull";
+                  cd /usr/share/nginx/html/blog;
+                  git reset --hard;
+                  git checkout gh-pages;
+                  git reset --hard;
+                  git pull --rebase;
+                else
+                  echo "blog目录存在，但不是git仓库，重新clone";
+                  rm -rf /usr/share/nginx/html/blog;
+                  git clone https://github.com/arloor/blog.git --depth=1 -b gh-pages /usr/share/nginx/html/blog;
+                fi
+              fi 
+            '
+        done
     - name: cleanup
       run: rm -rf ~/.ssh
