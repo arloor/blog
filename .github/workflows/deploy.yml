@@ -11,6 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
+    - uses: actions/checkout@v4
+      with:
+        ref: gh-pages
+        path: public
     - name: Set outputs
       id: vars
       run: echo "sha_short=$(git rev-parse --short=8 HEAD)" >> $GITHUB_OUTPUT
@@ -26,10 +30,16 @@ jobs:
         install /tmp/hugo/hugo /usr/local/bin/
         hugo -d public
     - name: Deploy
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./public
+      run: |
+        cd public
+        git config --global user.name "arloor"
+        git config --global user.email "admin@arloor.com"
+        if  git add . && git commit -m "update" && git push -f 
+        then 
+          echo successfully pushed
+        else
+          echo nothing to commit or failed to push
+        fi 
     - name: install ssh keys
       run: |
         install -m 600 -D /dev/null ~/.ssh/id_rsa
