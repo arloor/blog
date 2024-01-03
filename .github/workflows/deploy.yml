@@ -62,9 +62,9 @@ jobs:
                 if [ -d /usr/share/nginx/html/blog/.git ];then
                   echo "blog目录存在，是git仓库，pull";
                   cd /usr/share/nginx/html/blog;
-                  git reset --hard;
-                  git checkout gh-pages;
-                  git reset --hard;
+                  git reset --hard  > /dev/null;
+                  git checkout gh-pages  > /dev/null;
+                  git reset --hard  > /dev/null;
                   git pull --rebase;
                   git -P log -1 -p --color=always;
                 else

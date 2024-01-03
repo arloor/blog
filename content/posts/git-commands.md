@@ -96,3 +96,9 @@ git for-each-ref --format="delete %(refname)" refs/original | git update-ref --s
 git reflog expire --expire=now --all
 git gc --prune=now
 ```
+
+## 打印最后一个提交
+
+```bash
+git -P log -1 -p --color
+```
