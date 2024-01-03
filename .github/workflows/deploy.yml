@@ -60,7 +60,7 @@ jobs:
                 rm -rf blog;
                 git clone https://github.com/arloor/blog.git --depth=1 -b gh-pages /usr/share/nginx/html/blog;
               }
-              git -P log -1 -p --color=always --pretty=oneline;
+              git -P log -1 -p --color=always --pretty=oneline|head -n 100;
             fi 
           '
         done
