@@ -50,10 +50,8 @@ jobs:
         git config user.name "arloor"
         git config user.email "admin@arloor.com"
         git add .&&git commit --allow-empty -m "${{ steps.vars.outputs.sha_short }}"
-        # git branch --set-upstream-to=origin/gh-pages gh-pages
-        # gh repo sync -b gh-pages --force
-        git config --global credential.helper store
-        echo "https://arloor:${{ github.token }}@github.com" > ~/.git-credentials
+        # git config --global credential.helper store
+        # echo "https://arloor:${{ github.token }}@github.com" > ~/.git-credentials
         git push -u origin gh-pages -f 
         rm -rf ~/.git-credentials
     # - name: Deploy
