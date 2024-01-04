@@ -43,6 +43,8 @@ jobs:
         install /tmp/hugo/hugo /usr/local/bin/
         hugo -d public
     - name: commit
+      env:
+        GH_TOKEN: ${{ github.token }}
       run: |
         cd  public
         git config user.name "arloor"
