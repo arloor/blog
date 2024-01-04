@@ -49,6 +49,7 @@ jobs:
         cd  public
         git config user.name "arloor"
         git config user.email "admin@arloor.com"
+        git branch --set-upstream-to=origin/gh-pages gh-pages
         gh repo sync -b gh-pages --force
     # - name: Deploy
     #   uses: peaceiris/actions-gh-pages@v3
