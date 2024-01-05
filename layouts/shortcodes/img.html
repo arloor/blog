@@ -1,0 +1,4 @@
+{{ $img := index .Params 0 }}
+{{ $width := index .Params 1 | default 400}}
+
+<img src="/img/{{ $img }}" alt="" width="{{ $width }}px" style="max-width: 100%;">
