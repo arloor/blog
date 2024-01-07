@@ -36,8 +36,7 @@ hijack-dns = *:53
 电报 = select, 美国, 日本
 openai = select, 美国, 日本
 codespaces = select, 美国, 日本
-copilot = url-test, 美国, 日本, evaluate-before-use=1, tolerance=50, url=https://copilot-proxy.githubusercontent.com/_ping
-推特 = select, 日本
+推特 = select, 美国, 日本
 
 
 [Rule]
