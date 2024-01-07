@@ -28,14 +28,15 @@ hijack-dns = *:53
 
 [Proxy]
 日本 = https, xxxxxxxx, 444, username=xxx, password=xxxx, skip-cert-verify=true, always-use-connect=true
+美国 = https, xxxxxxxx, 444, username=xxx, password=xxxx, skip-cert-verify=true, always-use-connect=true
 
 [Proxy Group]
-通用 = select, 日本
-奈飞 = select, 日本
-电报 = select, 日本
-openai = select, 日本
-codespaces = select, 日本
-copilot = select, 日本
+通用 = select, 美国, 日本
+奈飞 = select, 美国, 日本
+电报 = select, 美国, 日本
+openai = select, 美国, 日本
+codespaces = select, 美国, 日本
+copilot = url-test, 美国, 日本, evaluate-before-use=1, tolerance=50, url=https://copilot-proxy.githubusercontent.com/_ping
 推特 = select, 日本
 
 
