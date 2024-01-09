@@ -75,6 +75,7 @@ jobs:
               echo "blog目录不存在/不是git仓库，clone";
               rm -rf /usr/share/nginx/html/blog;
               git clone https://github.com/arloor/blog.git --depth=1 -b gh-pages /usr/share/nginx/html/blog;
+              exit $?; # 退出ssh，并将返回值传递给github actions
             else
               echo "blog目录存在，是git仓库，pull";
               cd /usr/share/nginx/html/blog;
@@ -89,6 +90,7 @@ jobs:
                 cd blog;
               }
               git -P log -1 -p --color=always --pretty=oneline|head -n 100;
+              exit $?; # 退出ssh，并将返回值传递给github actions
             fi 
           '
         done
