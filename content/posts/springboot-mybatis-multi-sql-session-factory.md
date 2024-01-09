@@ -340,3 +340,31 @@ public class StringArray implements java.sql.Array {
 }
 ```
 
+
+## Debug：找不到Mapperstatement
+
+```
+Caused by: org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): com.xxx.xxx.xxx.xx.dal.mapper.ZoneEnumMapper.selectAll
+	at org.apache.ibatis.binding.MapperMethod$SqlCommand.<init>(MapperMethod.java:235)
+	at org.apache.ibatis.binding.MapperMethod.<init>(MapperMethod.java:53)
+	at org.apache.ibatis.binding.MapperProxy.lambda$cachedInvoker$0(MapperProxy.java:108)
+	at java.util.concurrent.ConcurrentHashMap.computeIfAbsent(ConcurrentHashMap.java:1660)
+	at org.apache.ibatis.util.MapUtil.computeIfAbsent(MapUtil.java:35)
+	at org.apache.ibatis.binding.MapperProxy.cachedInvoker(MapperProxy.java:95)
+	at org.apache.ibatis.binding.MapperProxy.invoke(MapperProxy.java:86)
+	at com.sun.proxy.$Proxy115.selectAll(Unknown Source)
+    ..............
+```
+
+关键方法：
+
+```java
+org.mybatis.spring.SqlSessionFactoryBean#buildSqlSessionFactory // 创建SqlSessionFactory
+org.apache.ibatis.builder.xml.XMLMapperBuilder#parse // 解析xml
+org.apache.ibatis.builder.xml.XMLMapperBuilder#configurationElement //解析BaseReusltMap 和 sql等
+```
+
+![Alt text](/img/mybaits-sqlsessionfactory-loading.png)
+
+![Alt text](/img/mybaits-parse-mapper-xml.png)
+
