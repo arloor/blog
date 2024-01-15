@@ -168,6 +168,12 @@ Hbase会为每一个region server创建一个IPC client线程来做读写操作�
     }
 ```
 
+## 解决方案
+
+1. 升级JDK到1.8.0_301及以上版本
+2. 设置JVM参数`-XX:MaxDirectMemorySize=1g`，限制直接内存的大小，到达限制时触发FullGC，释放直接内存
+3. 设置`jdk.nio.maxCachedBufferSize`为0，禁用BufferCache
+
 ## 参考文档
 
 - [https://stackoverflow.com/questions/36077641/java-when-does-direct-buffer-released](https://stackoverflow.com/questions/36077641/java-when-does-direct-buffer-released)
