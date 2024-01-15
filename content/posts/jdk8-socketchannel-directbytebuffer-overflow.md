@@ -20,7 +20,7 @@ Hbase会为每一个region server创建一个IPC client线程来做读写操作�
 
 1. NIO的socketChannel的read/write会从threadlocal的BufferCache中获取DirectByteBuffer。
 2. 老版本线程退出时，不会调用directByteBuffer的Cleaner方法释放直接内存。
-3. 加上应用一直没有FullGC，导致直接内存一直不会被回收，导致OOM
+3. 加上应用一直没有OldGC/FullGC，导致直接内存一直不会被回收，导致OOM
 
 > sun.nio.ch.SocketChannelImpl#write(java.nio.ByteBuffer)
 
