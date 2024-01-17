@@ -1,5 +1,5 @@
 ---
-title: "Java Memory Monitor"
+title: "Java内存监控"
 date: 2023-07-18T17:17:03+08:00
 draft: false
 categories: [ "undefined"]
@@ -63,6 +63,8 @@ buffer_pool_mapped___non_volatile_memory    0
 
 ## jdk9以上设置 `-Dio.netty.tryReflectionSetAccessible=true` 的说明
 
+> JDK的directByteBuffer使用Cleaner机制和幻引用来释放内存，依赖GC的发生才会释放。Netty为了更及时地释放直接内存，自己池化管理了直接内存（PoolArena），也负责直接内存的释放，即显示调用Delocate方法，这个被称为allocateDirectNocleaner。这需要反射获取DirectByteBuffer的构造方法。在JDK9版本以上，JDK反射的限制被加强了，所以Netty在JDK9以上版本，需要设置-Dio.netty.tryReflectionSetAccessible=true来打开反射获取DirectByteBuffer的构造方法的权限。
+
 要统计netty直接内存使用量，实际使用的是netty中PlatformDependent类的`DIRECT_MEMORY_COUNTER`变量。
 
 netty在初始化这个变量前，会检查时候能反射拿到DirectByteBuffer的构造方法。
@@ -90,6 +92,8 @@ private static boolean explicitTryReflectionSetAccessible0(){
 ```
 
 我们为了统计直接内存使用量，所以需要把这个打开
+
+> 对于GRPC的用户，需要设置-Dio.grpc.netty.shaded.io.netty.tryReflectionSetAccessible=true，因为GRPC对netty做了shaded，所以需要用shaded的包名。
 
 ## jdk16以上设置 `--add-opens java.base/java.nio=ALL-UNNAMED` 的说明
 
