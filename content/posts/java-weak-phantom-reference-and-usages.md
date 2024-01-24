@@ -83,6 +83,16 @@ Java中的幻引用（Phantom Reference）和`DirectByteBuffer`释放之间有�
 
 综上所述，幻引用在`DirectByteBuffer`的内存管理中扮演着重要角色，它允许开发者或JVM在直接内存不再被使用时及时采取措施进行清理，从而避免内存泄漏。
 
+`DirectByteBuffer` 并不使用 Java 旧的终结器（finalizer）。相反，它使用内部的 `sun.misc.Cleaner` API。它创建一个新线程，并为每个创建的 `DirectByteBuffer`（除了那些指向主缓冲区的副本和切片）存储一个幻影引用（PhantomReference）。当 `DirectByteBuffer` 变成幻影可达状态（即，对字节缓冲区不再存在任何强、软或弱引用）并且垃圾收集器发现这一点时，它会将这个缓冲区添加到由 Cleaner 线程处理的 ReferenceQueue 中。因此，需要发生三个事件：
+
+1. `DirectByteBuffer` 变成幻影可达状态。
+2. 进行垃圾收集（在单独的线程中），收集 `DirectByteBuffer` Java 对象，并在 `ReferenceQueue` 中添加一个条目。
+3. Cleaner 线程处理到这个条目并运行注册的清理动作（在这个案例中，它是 `java.nio.DirectByteBuffer.Deallocator` 对象），这个动作最终释放了本地内存。
+
+所以通常你不能保证它何时被释放。如果 Java 堆中有足够的内存，垃圾收集器可能长时间不会被激活。即使它成为幻影可达状态，Cleaner 线程也可能需要一些时间来处理这个条目。它可能正忙于处理之前也使用 Cleaner API 的其他对象。然而，请注意，在 JDK 中实现了部分解决方案：如果你创建了新的 `DirectByteBuffer` 并在此之前分配了过多的直接内存，垃圾收集器可能会被显式调用以强制释放之前遗弃的缓冲区。有关详细信息，请参阅 `Bits.reserveMemory()`（从 `DirectByteBuffer` 构造函数中调用）。
+
+值得注意的是，在 Java 9 中，内部 Cleaner API 已经被整理并发布供一般使用：现在是 `java.lang.ref.Cleaner`。阅读 JavaDoc 可以了解更多有关其工作方式的细节。
+
 ## 问：Java threadlocal和WeakReference的关系
 
 Java中的`ThreadLocal`和`WeakReference`（弱引用）之间存在着一个有趣且重要的关系。这种关系主要体现在`ThreadLocal`如何管理其存储的线程局部变量，以及它如何利用弱引用来避免内存泄漏。
