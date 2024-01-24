@@ -141,6 +141,8 @@ rm -rf $HOME/.vscode-server # Or ~/.vscode-server-insiders
 1. 安装插件 `golang.go`
 2. 安装相关的依赖 参考 [codespaces devcontainers go feature install.sh](https://github.com/devcontainers/features/blob/main/src/go/install.sh#L177)
 
+> The extension depends on go, gopls, dlv and other optional tools. If any of the dependencies are missing, the ⚠️ Analysis Tools Missing warning is displayed. Click on the warning to download dependencies.See the [tools documentation](https://github.com/golang/vscode-go/wiki/tools) for a complete list of tools the extension depends on.
+
 ```bash
 # Install Go tools that are isImportant && !replacedByGopls based on
 # https://github.com/golang/vscode-go/blob/v0.38.0/src/goToolsInformation.ts
