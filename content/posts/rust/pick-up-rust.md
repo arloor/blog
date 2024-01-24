@@ -358,3 +358,13 @@ cargo build --target x86_64-unknown-linux-musl
 # release，可执行文件在target/x86_64-unknown-linux-musl/release/
 cargo build --release --target x86_64-unknown-linux-musl
 ```
+
+## 一些备忘
+
+- [rust-by-example|static_lifetime of trait-bound](https://doc.rust-lang.org/rust-by-example/scope/lifetime/static_lifetime.html#trait-bound)
+- [rust-by-example|Generic Types, Traits, and Lifetimes](https://doc.rust-lang.org/book/ch10-00-generics.html)
+- [newType类型驱动编程](https://doc.rust-lang.org/rust-by-example/generics/new_types.html)
+- [极客时间｜38｜异步处理：Future是什么？它和async/await是什么关系？](https://time.geekbang.org/column/article/455413)
+- [极客时间｜39｜异步处理：async/await内部是怎么实现的？](https://time.geekbang.org/column/article/455412)
+- [极客时间｜19｜闭包：FnOnce、FnMut和Fn，为什么有这么多类型？](https://time.geekbang.org/column/article/424009)
+- [极客时间｜13｜类型系统：如何使用trait来定义接口？](https://time.geekbang.org/column/article/420028)
