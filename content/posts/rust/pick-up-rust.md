@@ -362,7 +362,7 @@ cargo build --release --target x86_64-unknown-linux-musl
 ## 一些备忘
 
 - [rust-by-example｜static_lifetime of trait-bound](https://doc.rust-lang.org/rust-by-example/scope/lifetime/static_lifetime.html#trait-bound)
-- [rust-by-example｜Generic Types, Traits, and Lifetimes](https://doc.rust-lang.org/book/ch10-00-generics.html)
+- [the book｜Generic Types, Traits, and Lifetimes](https://doc.rust-lang.org/book/ch10-00-generics.html)
 - [rust-by-example｜newType类型驱动编程](https://doc.rust-lang.org/rust-by-example/generics/new_types.html)
 - [极客时间｜38｜异步处理：Future是什么？它和async/await是什么关系？](https://time.geekbang.org/column/article/455413)
 - [极客时间｜39｜异步处理：async/await内部是怎么实现的？](https://time.geekbang.org/column/article/455412)
