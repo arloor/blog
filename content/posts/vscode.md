@@ -17,10 +17,7 @@ keywords:
 2. 解压缩
 3. Mac下将ttf文件夹下的文件全选，右击选择打开，安装所有字体
 4. Centos9下， 将ttf文件夹下的文件全部移动到 `/usr/share/fonts/${newdir}`下 , `yum install -y fontconfig` 并执行 `fc-cache` 。然后执行 `fc-list` 即可看到新的字体 
-
-### 配置VS code
-
-1. 打开vscode的设置
+5. 打开vscode的设置
     1. 搜索font family，改成 `'JetBrains Mono', Menlo, Monaco, 'Courier New', monospace` 。
     2. 搜索font size，改成13。如果这个字体还不够大，可以 `command + +`来放大UI。
     3. 搜索line height，改成1.6。
@@ -32,7 +29,7 @@ TIPS：
 
 ## 配置键盘快捷键
 
-> [keyboard-shortcuts-macos.pdf](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-macos.pdf)
+> 内置快捷键cheatsheet[keyboard-shortcuts-macos.pdf](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-macos.pdf)
 
 1. 按 `cmd+k` ，再按 `cmd+s`，进入快捷键设置
 2. 点击右上角按钮进入原始文件 `keybindings.json`
@@ -41,8 +38,8 @@ TIPS：
 
 3. 修改文件内容如下：
     1. `cmd+m`： 用于切换多个终端，特别是在 `cmd+shift+b` 触发构建任务之后
-    2. `alt+o`: 用于打开remote explorer窗口，在多个远程开发环境中切换
-    3. `alt+t`: 用于打开outline窗口，用于查看大纲或者函数列表
+    2. `option+o`: 用于打开remote explorer窗口，在多个远程开发环境中切换
+    3. `option+t`: 用于打开outline窗口，用于查看大纲或者函数列表
 
 ```json
 // 将键绑定放在此文件中以覆盖默认值auto[]
@@ -73,7 +70,10 @@ TIPS：
 2. 使用ssh连接到远程服务器。推荐配置是2C2G以上。为了让远程服务器流畅连接网络，使用了clash做分流，并将clash作为系统代理。
 3. 历史记录保存在 `~/.ssh/config` 中。
 
-在远程服务器上卸载vscode server: 执行命令 `Remote-SSH: Uninstall VS Code Server from Host` ，或手动执行
+### 在远程服务器上卸载vscode server: 
+
+1. 执行命令 `Remote-SSH: Uninstall VS Code Server from Host` ;
+2. 或手动执行
 
 ```bash
 # Kill server processes
@@ -215,6 +215,8 @@ source venv/bin/activate
 pip3 install -r requirements.txt
 ```
 
+按`cmd + shift + p`，然后输入`select interpreter`，最后选择venv中的python解释器地址即可。
+
 ## 我的vscode配置备份
 
 ```json
@@ -256,9 +258,10 @@ pip3 install -r requirements.txt
     "remote.SSH.defaultExtensions": [
         "waderyan.gitblame",
         "donjayamanne.githistory",
-        "github.copilot", // SSH_PRIVATE
+        "github.copilot",
         "github.vscode-github-actions", // github actions
-    ]
+    ],
+    "rust-analyzer.check.command": "clippy"
 }
 ```
 
