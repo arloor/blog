@@ -136,6 +136,57 @@ rm -rf $HOME/.vscode-server # Or ~/.vscode-server-insiders
 
 4. 按F5开启调试，F5 resume调试。
 
+## Golang开发
+
+1. 安装插件 `golang.go`
+2. 安装相关的依赖 参考 [codespaces devcontainers go feature install.sh](https://github.com/devcontainers/features/blob/main/src/go/install.sh#L177)
+
+```bash
+# Install Go tools that are isImportant && !replacedByGopls based on
+# https://github.com/golang/vscode-go/blob/v0.38.0/src/goToolsInformation.ts
+GO_TOOLS="\
+    golang.org/x/tools/gopls@latest \
+    honnef.co/go/tools/cmd/staticcheck@latest \
+    golang.org/x/lint/golint@latest \
+    github.com/mgechev/revive@latest \
+    github.com/go-delve/delve/cmd/dlv@latest \
+    github.com/fatih/gomodifytags@latest \
+    github.com/haya14busa/goplay/cmd/goplay@latest \
+    github.com/cweill/gotests/gotests@latest \ 
+    github.com/josharian/impl@latest"
+(echo "${GO_TOOLS}" | xargs -n 1 go install -v )2>&1 | tee  ./init_go.log
+
+echo "Installing golangci-lint latest..."
+curl -fsSL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | \
+    sh -s -- -b "$HOME/go/bin" | tee  -a ./init_go.log
+```
+
+3. launch.json
+
+```json
+{
+    // 使用 IntelliSense 了解相关属性。 
+    // 悬停以查看现有属性的描述。
+    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch Package",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "cwd": "${workspaceFolder}",
+            "program": "${workspaceFolder}/cmd/${workspaceFolderBasename}",
+            "args": [
+                "--addr=localhost:7788",
+                "--refer=arloor"
+                ,"--tls=true"
+            ]
+        }
+    ]
+}
+```
+
 ## Python开发
 
 ### vscode plugin
@@ -157,8 +208,7 @@ rm -rf $HOME/.vscode-server # Or ~/.vscode-server-insiders
 ### venv
     
 ```bash
-# python3 -m venv virEnv
-pip3 install virtualenv&&virtualenv venv
+pip3 install virtualenv&&virtualenv venv #或 python3 -m venv virEnv
 source venv/bin/activate
 pip3 install -r requirements.txt
 ```
