@@ -83,6 +83,7 @@ Java中的幻引用（Phantom Reference）和`DirectByteBuffer`释放之间有�
 
 综上所述，幻引用在`DirectByteBuffer`的内存管理中扮演着重要角色，它允许开发者或JVM在直接内存不再被使用时及时采取措施进行清理，从而避免内存泄漏。
 
+## 问：Java的DirectByteBuffer释放时机
 
 > [Java - When does direct buffer released?](https://stackoverflow.com/questions/36077641/java-when-does-direct-buffer-released)
 
@@ -124,3 +125,17 @@ Java中的`ThreadLocal`和`WeakReference`（弱引用）之间存在着一个有
    - 同时，为了防止潜在的内存泄漏，通常需要在不再需要线程局部变量时，显式地调用`ThreadLocal.remove()`来清理。
 
 总结来说，`ThreadLocal`通过使用弱引用作为其键来避免潜在的内存泄漏问题。这种设计确保了当`ThreadLocal`对象本身不再被使用时，它存储的数据可以被垃圾回收器适时清理，从而有效管理内存。
+
+## 问： Java的ThreadLocalMap中Entry的key为什么要是WeakReference
+
+Java中的`ThreadLocalMap`使用`WeakReference`作为其Entry的key有几个重要的原因，它们与垃圾回收（GC）、内存泄露和ThreadLocal的生命周期管理密切相关：
+
+1. **避免内存泄露**：`ThreadLocal`的一个常见用途是在线程生命周期内存储线程特有的数据。如果`ThreadLocal`对象的引用被垃圾回收器回收，但是由于ThreadLocalMap中的强引用，其对应的Entry不会被回收，这可能导致内存泄露。使用`WeakReference`作为key，可以确保一旦外部对`ThreadLocal`对象的强引用不存在时，`ThreadLocal`对象可以被垃圾回收器回收。
+
+2. **自动清理Entry**：当`ThreadLocal`对象被回收后，其对应的Entry在`ThreadLocalMap`中成为一个无用的条目（因为它的key为null）。为了避免内存泄露，`ThreadLocalMap`会在后续操作中清理这些无用的条目，例如在调用`set`或`get`方法时。
+
+3. **线程生命周期管理**：由于`ThreadLocalMap`是与线程生命周期绑定的，使用`WeakReference`作为key有助于在不需要时自动清理资源，而不是依赖于显式的清理。这样可以减少内存泄露的风险，尤其是在长时间运行的应用中。
+
+4. **减轻GC压力**：使用`WeakReference`可以减轻垃圾回收器的压力。当ThreadLocal不再被使用时，它可以在下一次GC时被自动回收，而不需要显式的删除操作。
+
+总之，使用`WeakReference`作为`ThreadLocalMap`中Entry的key是一种内存优化策略，旨在减少内存泄露的风险，并简化线程局部变量的生命周期管理。这种设计使得垃圾回收器能够更有效地回收不再需要的ThreadLocal对象，同时保持`ThreadLocalMap`的高效性和一致性。
