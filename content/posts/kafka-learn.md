@@ -60,7 +60,7 @@ kafka很依赖文件系统来存储和缓存消息。很多人有一个概念：
 
 这样就减少了bytes copying。
 
-参考文档：[深入剖析Linux IO原理和几种零拷贝机制的实现——含java实现](https://juejin.im/post/6844903949359644680)
+参考文档：[深入剖析Linux IO原理和几种零拷贝机制的实现——含java实现](https://juejin.cn/post/6844903949359644680)
 
 ### 压缩
 
