@@ -157,8 +157,8 @@ rm -rf $HOME/.vscode-server # Or ~/.vscode-server-insiders
 ### venv
     
 ```bash
-pip3 install virtualenv
-virtualenv venv
+# python3 -m venv virEnv
+pip3 install virtualenv&&virtualenv venv
 source venv/bin/activate
 pip3 install -r requirements.txt
 ```
