@@ -369,3 +369,5 @@ cargo build --release --target x86_64-unknown-linux-musl
 - [极客时间｜39｜异步处理：async/await内部是怎么实现的？](https://time.geekbang.org/column/article/455412)
 - [极客时间｜19｜闭包：FnOnce、FnMut和Fn，为什么有这么多类型？](https://time.geekbang.org/column/article/424009)
 - [极客时间｜13｜类型系统：如何使用trait来定义接口？](https://time.geekbang.org/column/article/420028)
+- [极客时间｜14｜类型系统：有哪些必须掌握的trait？](https://time.geekbang.org/column/article/421324)
+- [极客时间｜15｜数据结构：这些浓眉大眼的结构竟然都是智能指针？](https://time.geekbang.org/column/article/422182)
