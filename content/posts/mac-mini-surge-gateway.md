@@ -78,13 +78,10 @@ FINAL,通用
 
 参考[Surge网关模式的建议](https://community.nssurge.com/d/1847-surge)：
 
-> 1.请勿在开启 Surge Mac 网关模式接管的情况下，再在客户端上开启 Surge iOS 或 Surge Mac，可能导致冲突问题。这种场景下使用网关模式接管和设备上单独运行 Surge 的性能几乎不会有差异，可根据需求自行选择其一。
-
-> 2. 请勿使用 Surge Mac 网关模式接管 P2P/BT 下载软件，由于 Surge 工作在 Layer 4，所以在处理巨量请求数时消耗的资源会比较高，可能导致 Surge 被 macOS 终止。
-
-> 3. 如果该网络支持 IPv6，请配置 RA 使其不广播 DNS 服务器，以避免 Surge 的 DNS 接管失效，如果路由不支持配置，请关闭整个 IPv6 支持。
-
-> 4. Surge Mac 网关模式支持 Jumbo MTU，但是依然很可能遇到各种兼容性问题，Jumbo MTU 带来的性能提升有限，不建议开启。
+1. 请勿在开启 Surge Mac 网关模式接管的情况下，再在客户端上开启 Surge iOS 或 Surge Mac，可能导致冲突问题。这种场景下使用网关模式接管和设备上单独运行 Surge 的性能几乎不会有差异，可根据需求自行选择其一。
+2. 请勿使用 Surge Mac 网关模式接管 P2P/BT 下载软件，由于 Surge 工作在 Layer 4，所以在处理巨量请求数时消耗的资源会比较高，可能导致 Surge 被 macOS 终止。
+3. 如果该网络支持 IPv6，请配置 RA 使其不广播 DNS 服务器，以避免 Surge 的 DNS 接管失效，如果路由不支持配置，请关闭整个 IPv6 支持。
+4. Surge Mac 网关模式支持 Jumbo MTU，但是依然很可能遇到各种兼容性问题，Jumbo MTU 带来的性能提升有限，不建议开启。
 
 ![Alt text](/img/router-ipv6-ra-close.png)
 
