@@ -68,7 +68,7 @@ FINAL,通用
 
 ## Mac配置
 
-需要禁止Mac的睡眠，否则Mac mini就如睡眠Surge就代理不了其他设备了。
+需要禁止Mac的睡眠，否则Mac mini进入睡眠Surge就代理不了其他设备了。
 
 ![Alt text](/img/mac-mini-surge-no-sleep.png)
 
