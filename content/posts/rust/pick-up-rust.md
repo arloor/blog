@@ -362,7 +362,7 @@ cargo build --release --target x86_64-unknown-linux-musl
 ## 一些备忘
 
 - [rust-by-example｜static_lifetime of trait-bound](https://doc.rust-lang.org/rust-by-example/scope/lifetime/static_lifetime.html#trait-bound)
-- [the book | Smart Pointers](https://doc.rust-lang.org/stable/book/ch15-00-smart-pointers.html)
+- [the book | Smart Pointers](https://doc.rust-lang.org/stable/book/ch15-00-smart-pointers.html) 在 Rust 中，凡是需要做资源回收的数据结构，且实现了 Deref/DerefMut/Drop，都是智能指针
 - [the book｜Generic Types, Traits, and Lifetimes](https://doc.rust-lang.org/book/ch10-00-generics.html)
 - [the book｜“?”简化错误传播](https://doc.rust-lang.org/book/ch09-02-recoverable-errors-with-result.html#a-shortcut-for-propagating-errors-the--operator)
 - [rust-by-example｜newType类型驱动编程](https://doc.rust-lang.org/rust-by-example/generics/new_types.html)
