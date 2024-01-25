@@ -34,7 +34,7 @@ keywords:
 
 从以上描述，一种合理的notify：
 
-```
+```java
 public void send(){
   synchronsized(this){
     // send something;
@@ -55,8 +55,8 @@ wait方法会将当前线程放到对象的等待集合（在对象头中？）�
 
 所以，wait的典型调用如下：
 
-```
-synchronized (obj) {
+```java
+      synchronized (obj) {
          while (<condition does not hold>){
              obj.wait(timeout);
         }
@@ -76,7 +76,8 @@ synchronized (obj) {
 可疑唤醒依然会出现，所以await需要在while（test）中
 
 典型调用
-```
+
+```java
  class BoundedBuffer {
    final Lock lock = new ReentrantLock();
    final Condition notFull  = lock.newCondition(); 
