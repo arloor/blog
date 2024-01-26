@@ -170,5 +170,14 @@ git config --global core.symlinks true
 
 ## 占位符
 
-1. 图片占位符：`{{< imgx src="/img/xxx.png" alt="" width="700px" style="max-width: 100%;">}}`
-2. bilibili占位符：`{{< bilibili BV1YK4y1s7ZU >}}`
+1. 图片占位符：
+
+```json
+{{< imgx src="/img/xxx.png" alt="" width="700px" style="max-width: 100%;">}}
+```
+
+2. bilibili占位符：
+
+```json
+{{< bilibili BV1YK4y1s7ZU >}}
+```
