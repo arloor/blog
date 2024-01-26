@@ -78,6 +78,8 @@ keywords:
 
 ### 表格中的列禁止adhoc filterable
 
+这个adhoc filterable对应的是这种[ad hoc filters](https://grafana.com/docs/grafana/latest/dashboards/variables/add-template-variables/#add-ad-hoc-filters)这种变量
+
 ![Alt text](/img/adhoc-filter-false.png)
 
 ### 给Pannel单独设置时间范围为Today
