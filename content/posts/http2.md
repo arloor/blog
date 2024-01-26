@@ -67,6 +67,6 @@ end loop
 
 ## 参考文档
 
-[高性能浏览器网络·Http2简介](https://hpbn.co/http2/)   
-[谷歌开发者·HTTP/2 简介](https://developers.google.com/web/fundamentals/performance/http2?hl=zh-cn)    
-[http2的二进制帧定义](https://halfrost.com/http2-http-frames-definitions/)    
+- [高性能浏览器网络·Http2简介](https://hpbn.co/http2/)   
+- [谷歌开发者·HTTP/2 简介](https://developers.google.com/web/fundamentals/performance/http2?hl=zh-cn)    
+- [http2的二进制帧定义](https://halfrost.com/http2-http-frames-definitions/)    
