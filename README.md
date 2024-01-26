@@ -167,3 +167,8 @@ git config --global core.symlinks true
 ```
 
 但是在大多数情况下，你在Mac上不需要这么做。
+
+## 占位符
+
+1. 图片占位符：`{{< imgx src="/img/xxx.png" alt="" width="700px" style="max-width: 100%;">}}`
+2. bilibili占位符：`{{< bilibili BV1YK4y1s7ZU >}}`

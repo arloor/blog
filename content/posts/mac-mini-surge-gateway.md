@@ -70,7 +70,7 @@ FINAL,通用
 
 需要禁止Mac的睡眠，否则Mac mini进入睡眠Surge就代理不了其他设备了。
 
-![Alt text](/img/mac-mini-surge-no-sleep.png)
+{{< imgx src="/img/mac-mini-surge-no-sleep.png" alt="" width="700px" style="max-width: 100%;">}}
 
 ## 路由器关闭RA（Ipv6路由器通告的DNS下发或全部关闭）
 
@@ -83,7 +83,7 @@ FINAL,通用
 3. 如果该网络支持 IPv6，请配置 RA 使其不广播 DNS 服务器，以避免 Surge 的 DNS 接管失效，如果路由不支持配置，请关闭整个 IPv6 支持。
 4. Surge Mac 网关模式支持 Jumbo MTU，但是依然很可能遇到各种兼容性问题，Jumbo MTU 带来的性能提升有限，不建议开启。
 
-![Alt text](/img/router-ipv6-ra-close.png)
+{{< imgx src="/img/router-ipv6-ra-close.png" alt="" width="700px" style="max-width: 100%;">}}
 
 ## 其他设备的设置
 
