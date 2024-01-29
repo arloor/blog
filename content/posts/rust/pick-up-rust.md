@@ -361,14 +361,14 @@ cargo build --release --target x86_64-unknown-linux-musl
 
 ## 一些备忘
 
-- [rust-by-example | astatic_lifetime of trait-bound](https://doc.rust-lang.org/rust-by-example/scope/lifetime/static_lifetime.html#trait-bound)
+- [rust-by-example | static_lifetime of trait-bound](https://doc.rust-lang.org/rust-by-example/scope/lifetime/static_lifetime.html#trait-bound)
 - [the book | Smart Pointers](https://doc.rust-lang.org/stable/book/ch15-00-smart-pointers.html) 在 Rust 中，凡是需要做资源回收的数据结构，且实现了 Deref/DerefMut/Drop，都是智能指针
-- [the book | aGeneric Types, Traits, and Lifetimes](https://doc.rust-lang.org/book/ch10-00-generics.html)
-- [the book | a“?”简化错误传播](https://doc.rust-lang.org/book/ch09-02-recoverable-errors-with-result.html#a-shortcut-for-propagating-errors-the--operator)
-- [rust-by-example | anewType类型驱动编程](https://doc.rust-lang.org/rust-by-example/generics/new_types.html)
-- [极客时间 | a38 | a异步处理：Future是什么？它和async/await是什么关系？](https://time.geekbang.org/column/article/455413)
-- [极客时间 | a39 | a异步处理：async/await内部是怎么实现的？](https://time.geekbang.org/column/article/455412)
-- [极客时间 | a19 | a闭包：FnOnce、FnMut和Fn，为什么有这么多类型？](https://time.geekbang.org/column/article/424009)
-- [极客时间 | a13 | a类型系统：如何使用trait来定义接口？](https://time.geekbang.org/column/article/420028)
-- [极客时间 | a14 | a类型系统：有哪些必须掌握的trait？](https://time.geekbang.org/column/article/421324)
-- [极客时间 | a15 | a数据结构：这些浓眉大眼的结构竟然都是智能指针？](https://time.geekbang.org/column/article/422182)
+- [the book | Generic Types, Traits, and Lifetimes](https://doc.rust-lang.org/book/ch10-00-generics.html)
+- [the book | “?”简化错误传播](https://doc.rust-lang.org/book/ch09-02-recoverable-errors-with-result.html#a-shortcut-for-propagating-errors-the--operator)
+- [rust-by-example | newType类型驱动编程](https://doc.rust-lang.org/rust-by-example/generics/new_types.html)
+- [极客时间 | 38 | 异步处理：Future是什么？它和async/await是什么关系？](https://time.geekbang.org/column/article/455413)
+- [极客时间 | 39 | 异步处理：async/await内部是怎么实现的？](https://time.geekbang.org/column/article/455412)
+- [极客时间 | 19 | 闭包：FnOnce、FnMut和Fn，为什么有这么多类型？](https://time.geekbang.org/column/article/424009)
+- [极客时间 | 13 | 类型系统：如何使用trait来定义接口？](https://time.geekbang.org/column/article/420028)
+- [极客时间 | 14 | 类型系统：有哪些必须掌握的trait？](https://time.geekbang.org/column/article/421324)
+- [极客时间 | 15 | 数据结构：这些浓眉大眼的结构竟然都是智能指针？](https://time.geekbang.org/column/article/422182)
