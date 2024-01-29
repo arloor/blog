@@ -366,6 +366,7 @@ cargo build --release --target x86_64-unknown-linux-musl
 - [the book | Generic Types, Traits, and Lifetimes](https://doc.rust-lang.org/book/ch10-00-generics.html)
 - [the book | “?”简化错误传播](https://doc.rust-lang.org/book/ch09-02-recoverable-errors-with-result.html#a-shortcut-for-propagating-errors-the--operator)
 - [rust-by-example | newType类型驱动编程](https://doc.rust-lang.org/rust-by-example/generics/new_types.html)
+- [reference | 临时结果的生命周期](https://doc.rust-lang.org/beta/reference/destructors.html#drop-scopes)
 - [极客时间 | 38 | 异步处理：Future是什么？它和async/await是什么关系？](https://time.geekbang.org/column/article/455413)
 - [极客时间 | 39 | 异步处理：async/await内部是怎么实现的？](https://time.geekbang.org/column/article/455412)
 - [极客时间 | 19 | 闭包：FnOnce、FnMut和Fn，为什么有这么多类型？](https://time.geekbang.org/column/article/424009)
