@@ -63,7 +63,7 @@ sudo yum install -y rsync
 从其他地方备份到威联通上
 
 ```bash
-rsync -avtP  -e "ssh -p ${ssh_port}" \
+rsync -avzhtP  -e "ssh -p ${ssh_port}" \
 --exclude=${exclude1} \
 --exclude=${exclude2} \
 ${src} \
