@@ -3,7 +3,7 @@ title: "Opentelemetry是怎么做链路追踪的"
 date: 2021-12-12T11:11:38+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["可观测性"]
+tags: ["observability"]
 weight: 10
 subtitle: ""
 description : ""

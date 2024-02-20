@@ -3,7 +3,7 @@ title: "Clickhouse存储Trace调研"
 date: 2022-06-28T15:35:44+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["可观测性"]
+tags: ["observability"]
 weight: 10
 subtitle: ""
 description : ""

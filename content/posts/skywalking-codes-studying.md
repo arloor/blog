@@ -3,7 +3,7 @@ title: "Skywalking v8.9.1 源码阅读"
 date: 2022-04-20T14:18:04+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["可观测性"]
+tags: ["observability"]
 weight: 10
 subtitle: ""
 description : ""
