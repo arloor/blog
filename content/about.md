@@ -7,7 +7,7 @@ date: 2019-08-21T22:03:30+08:00
 
 ### 经历
 
-- 2023-至今，小红书，可观测性研发组
+- 2023-至今，小红书，可观测技术组
 - 2020-2023，美团基础技术部，监控系统组
 - 2019-2020，招商银行信用卡中心，平台架构组
 - 2015-2019，南京大学软件学院，工学学士学位
@@ -25,7 +25,7 @@ date: 2019-08-21T22:03:30+08:00
 
 ### 博客
 
-- [可观测性](https://www.arloor.com/tags/%E5%8F%AF%E8%A7%82%E6%B5%8B%E6%80%A7/)
+- [Observability](https://www.arloor.com/tags/Observability/)
 - [Redis](https://www.arloor.com/tags/redis/)
 
 ### 语言
