@@ -3,7 +3,7 @@ title: "W3c Trace Context"
 date: 2023-03-23T14:42:06+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["observerability"]
+tags: ["observability"]
 weight: 10
 subtitle: ""
 description : ""
