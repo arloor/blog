@@ -3,7 +3,7 @@ title: "Java8 Direct Bytebuffer Overflow"
 date: 2023-12-01T16:44:35+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["undefined"]
+tags: ["java"]
 weight: 10
 subtitle: ""
 description : ""

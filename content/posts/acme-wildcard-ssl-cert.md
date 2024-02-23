@@ -3,7 +3,7 @@ title: "acme.sh签发dnspod(腾讯云)和阿里云ssl野卡证书并自动续签
 date: 2020-04-19T13:20:07+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["undefined"]
+tags: ["software"]
 weight: 10
 subtitle: ""
 description : ""

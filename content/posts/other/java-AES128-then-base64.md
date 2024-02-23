@@ -4,7 +4,7 @@ date: 2019-01-04
 linktitle: java-AES加密后再Base64混淆
 title: java-AES加密后再Base64混淆
 categories: [ "java","加密"]
-tags: ["program"]
+tags: ["java"]
 draft: false
 weight: 10
 ---

@@ -3,7 +3,7 @@ title: "Go GC初探"
 date: 2022-06-16T10:51:12+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["undefined"]
+tags: ["go"]
 weight: 10
 subtitle: ""
 description : ""

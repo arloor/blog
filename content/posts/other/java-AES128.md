@@ -4,7 +4,7 @@ date: 2019-01-03
 linktitle: java-AES128加密-代码与一些约定
 title: java-AES128加密-代码与一些约定 
 categories: [ "java","加密"]
-tags: ["program"]
+tags: ["java"]
 weight: 10
 ---
 

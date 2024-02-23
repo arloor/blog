@@ -3,7 +3,7 @@ title: "Java wait/notify和condition"
 date: 2020-06-11T10:59:36+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["undefined"]
+tags: ["java"]
 weight: 10
 subtitle: ""
 description : ""

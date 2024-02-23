@@ -3,7 +3,7 @@ title: "Openssl使用：自定义CA签发证书、私钥格式、s_client使用"
 date: 2023-05-11T11:35:02+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["notion"]
+tags: ["software"]
 weight: 10
 subtitle: ""
 description : ""

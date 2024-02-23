@@ -3,7 +3,7 @@ title: "trace详情搜索性能优化"
 date: 2023-05-10T14:28:41+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["notion"]
+tags: ["observability"]
 weight: 10
 subtitle: ""
 description : ""

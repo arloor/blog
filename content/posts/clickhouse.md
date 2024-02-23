@@ -3,7 +3,7 @@ title: "Clickhouse学习"
 date: 2022-06-30T14:37:51+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["undefined"]
+tags: ["observability"]
 weight: 10
 subtitle: ""
 description : ""

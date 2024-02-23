@@ -3,7 +3,7 @@ title: "还IDEA一个整洁的滚动条高亮提示"
 date: 2024-01-05T11:36:23+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["undefined"]
+tags: ["software"]
 weight: 10
 subtitle: ""
 description : ""

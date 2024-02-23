@@ -3,7 +3,7 @@ title: "Arthas"
 date: 2021-09-02T22:21:36+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["undefined"]
+tags: ["software"]
 weight: 10
 subtitle: ""
 description : ""

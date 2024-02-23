@@ -3,7 +3,7 @@ title: "RabbitMQ的使用"
 date: 2019-03-14T21:19:06+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["undefined"]
+tags: ["middleware"]
 weight: 10
 ---
 

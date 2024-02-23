@@ -3,7 +3,7 @@ title: "Java管理扩展：通过MBean获取jvm运行情况"
 date: 2021-01-30T23:11:48+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["undefined"]
+tags: ["java"]
 weight: 10
 subtitle: ""
 description : ""

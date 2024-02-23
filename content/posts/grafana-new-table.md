@@ -3,7 +3,7 @@ title: "Grafana表格Pannel配置"
 date: 2023-11-18T15:24:33+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["undefined"]
+tags: ["software"]
 weight: 10
 subtitle: ""
 description : ""

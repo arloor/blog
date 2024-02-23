@@ -3,7 +3,7 @@ title: "Netty直接内存溢出问题解决"
 date: 2018-12-10T20:24:51+08:00
 author: "刘港欢"
 categories: [ "netty"]
-tags: ["Program"]
+tags: ["netty"]
 weight: 10
 ---
 

@@ -3,7 +3,7 @@ title: "Java异步任务中Future的实现"
 date: 2020-02-09T21:34:41+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["undefined"]
+tags: ["java"]
 weight: 10
 subtitle: ""
 description : ""

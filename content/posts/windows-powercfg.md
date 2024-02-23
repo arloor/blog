@@ -3,7 +3,7 @@ title: "Windows10电源管理-睡眠问题解决"
 date: 2019-07-07T11:40:52+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["undefined"]
+tags: ["software"]
 weight: 10
 subtitle: ""
 description : ""

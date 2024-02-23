@@ -3,7 +3,7 @@ title: "Centos7安装ss5、squid"
 date: 2019-06-15T23:07:52+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["undefined"]
+tags: ["software"]
 weight: 10
 subtitle: ""
 description : ""

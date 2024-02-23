@@ -3,7 +3,7 @@ title: "Starship Shell"
 date: 2022-12-16T21:22:57+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["undefined"]
+tags: ["software"]
 weight: 10
 subtitle: ""
 description : ""

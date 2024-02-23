@@ -3,7 +3,7 @@ title: "Cockpit控制台使用"
 date: 2023-07-08T21:27:05+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["tools"]
+tags: ["linux"]
 weight: 10
 subtitle: ""
 description : ""

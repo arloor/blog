@@ -3,7 +3,7 @@ title: "Java内存监控"
 date: 2023-07-18T17:17:03+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["undefined"]
+tags: ["java"]
 weight: 10
 subtitle: ""
 description : ""

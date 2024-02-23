@@ -14,6 +14,7 @@ date: 2019-08-21T22:03:30+08:00
 
 ### 项目
 
+- 小红书：分布式链路追踪系统负责人
 - 美团：分布式链路追踪系统负责人
 - 美团：可视化大盘（对标Grafana）开发负责人
 - 美团：主机监控团队主要成员
@@ -25,8 +26,11 @@ date: 2019-08-21T22:03:30+08:00
 
 ### 博客
 
-- [Observability](https://www.arloor.com/tags/Observability/)
-- [Redis](https://www.arloor.com/tags/redis/)
+- [Observability](/tags/observability/)
+- [Redis](/tags/redis/)
+- [K8S](/tags/k8s/)
+- [Netty](/tags/netty/)
+- [Elasticsearch](/tags/elasticsearch/)
 
 ### 语言
 

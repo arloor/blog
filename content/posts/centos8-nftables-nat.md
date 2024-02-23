@@ -3,7 +3,7 @@ title: "nftables设置nat转发(基于centos8)"
 date: 2020-02-02T22:33:10+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["undefined"]
+tags: ["software"]
 weight: 10
 subtitle: ""
 description : ""

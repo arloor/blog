@@ -3,7 +3,7 @@ title: "在springboot之外使用thymeleaf渲染text"
 date: 2020-08-06T16:33:52+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["undefined"]
+tags: ["java"]
 weight: 10
 subtitle: ""
 description : ""

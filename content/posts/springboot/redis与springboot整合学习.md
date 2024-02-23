@@ -4,7 +4,7 @@ date: 2018-06-15
 linktitle: redis与springboot整合学习
 title: redis与springboot整合学习
 categories: [ "java","redis","springboot"]
-tags: ["program"]
+tags: ["java"]
 weight: 10
 ---
 

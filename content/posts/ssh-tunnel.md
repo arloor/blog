@@ -3,7 +3,7 @@ title: "ssh隧道"
 date: 2023-11-16T20:20:22+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["tools"]
+tags: ["software"]
 weight: 10
 subtitle: ""
 description : ""

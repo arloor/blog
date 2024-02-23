@@ -3,7 +3,7 @@ title: "go使用sync.pool实现复用[]byte——降低IO密集应用的GC频率
 date: 2019-04-14T14:22:51+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["undefined"]
+tags: ["go"]
 weight: 10
 subtitle: ""
 description : ""

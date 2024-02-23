@@ -3,7 +3,7 @@ title: "Centos7备份/恢复与网卡配置"
 date: 2019-05-10T15:51:28+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["undefined"]
+tags: ["linux"]
 weight: 10
 subtitle: ""
 description : ""

@@ -3,7 +3,7 @@ title: "Homebrew安装指定版本"
 date: 2022-11-28T15:02:39+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["undefined"]
+tags: ["software"]
 weight: 10
 subtitle: ""
 description : ""

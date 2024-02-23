@@ -3,7 +3,7 @@ title: "Skywalking Java 自动埋点实现"
 date: 2022-10-11T11:47:02+08:00
 draft: true
 categories: [ "undefined"]
-tags: ["observability"]
+tags: ["undefined"]
 weight: 10
 subtitle: ""
 description : ""

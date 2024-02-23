@@ -3,7 +3,7 @@ title: "使用Surge Mac版作为旁路由网关"
 date: 2023-01-07T20:55:01+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["undefined"]
+tags: ["software"]
 weight: 10
 subtitle: ""
 description : ""

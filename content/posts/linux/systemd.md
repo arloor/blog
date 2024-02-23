@@ -3,7 +3,7 @@ title: "Systemd服务文件编写-centos7下"
 date: 2019-06-07T19:25:03+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["undefined"]
+tags: ["linux"]
 weight: 10
 subtitle: ""
 description : ""

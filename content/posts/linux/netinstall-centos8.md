@@ -3,7 +3,7 @@ title: "从Centos7网络安装Centos8"
 date: 2019-09-26T19:13:18+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["undefined"]
+tags: ["linux"]
 weight: 10
 subtitle: ""
 description : ""

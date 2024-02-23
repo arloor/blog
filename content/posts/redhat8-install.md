@@ -3,7 +3,7 @@ title: "pxeboot自动安装rhel8"
 date: 2021-01-21T11:36:10+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["undefined"]
+tags: ["linux"]
 weight: 10
 subtitle: ""
 description : ""

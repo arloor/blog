@@ -3,7 +3,7 @@ title: "Git常用命令"
 date: 2023-06-07T14:31:05+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["tools"]
+tags: ["software"]
 weight: 10
 subtitle: ""
 description : ""
