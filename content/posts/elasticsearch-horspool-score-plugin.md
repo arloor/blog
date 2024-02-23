@@ -3,7 +3,7 @@ title: "开发Elasticsearch自定义评分插件-horspool评分"
 date: 2020-04-27T14:09:21+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["Elasticsearch"]
+tags: ["elasticsearch"]
 weight: 10
 subtitle: ""
 description : ""
