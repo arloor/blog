@@ -86,7 +86,9 @@ httpd
 %end
 ```
 
-kickstart配置文件可以参考rhel9的文档：- [kickstart_references](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/9/html-single/performing_an_advanced_rhel_9_installation/index#kickstart_references)
+kickstart配置文件可以参考rhel9的文档：
+- [kickstart_references](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/9/html-single/performing_an_advanced_rhel_9_installation/index#kickstart_references)
+- [kickstart-commands-and-options-reference](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/9/html-single/performing_an_advanced_rhel_9_installation/index#kickstart-commands-and-options-reference_installing-rhel-as-an-experienced-user)
 
 ## 从centos8/9自动安装RHEL9.2
 
