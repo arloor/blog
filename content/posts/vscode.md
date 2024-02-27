@@ -70,7 +70,7 @@ TIPS：
 2. 使用ssh连接到远程服务器。推荐配置是2C2G以上。为了让远程服务器流畅连接网络，使用了clash做分流，并将clash作为系统代理。
 3. 历史记录保存在 `~/.ssh/config` 中。
 
-### 在远程服务器上卸载vscode server: 
+### 卸载远程服务器vscode server
 
 1. 执行命令 `Remote-SSH: Uninstall VS Code Server from Host` ;
 2. 或手动执行
@@ -84,12 +84,12 @@ rm -rf $HOME/.vscode-server # Or ~/.vscode-server-insiders
 
 ## Rust开发
 
-1. 安装四个插件：
+### 1. 安装四个插件：
     - rust-analyzer
     - codelldb
     - tamasfe.even-better-toml（toml格式化）
     - serayuzgur.crates（crate.io插件）
-2. 配置默认build任务：`.vscode/tasks.json`
+### 2. 配置默认build任务：`.vscode/tasks.json`
 
 ```json
 {
@@ -111,7 +111,7 @@ rm -rf $HOME/.vscode-server # Or ~/.vscode-server-insiders
 }
 ```
 
-3. 配置调试任务 `.vscode/launch.json`
+### 3. 配置调试任务 `.vscode/launch.json`
 
 ```json
 {
@@ -134,12 +134,14 @@ rm -rf $HOME/.vscode-server # Or ~/.vscode-server-insiders
 }
 ```
 
-4. 按F5开启调试，F5 resume调试。
+### 4. 按F5开启调试，F5 resume调试。
 
 ## Golang开发
 
 1. 安装插件 `golang.go`
-2. 安装相关的依赖 参考 [codespaces devcontainers go feature install.sh](https://github.com/devcontainers/features/blob/main/src/go/install.sh#L177)
+2. 安装相关的依赖
+
+参考 [codespaces devcontainers go feature install.sh](https://github.com/devcontainers/features/blob/main/src/go/install.sh#L177)
 
 > The extension depends on go, gopls, dlv and other optional tools. If any of the dependencies are missing, the ⚠️ Analysis Tools Missing warning is displayed. Click on the warning to download dependencies.See the [tools documentation](https://github.com/golang/vscode-go/wiki/tools) for a complete list of tools the extension depends on.
 
@@ -200,7 +202,7 @@ curl -fsSL https://raw.githubusercontent.com/golangci/golangci-lint/master/insta
 ### settings
 
 ```bash
- "python.analysis.inlayHints.callArgumentNames": "all",
+    "python.analysis.inlayHints.callArgumentNames": "all",
     "python.analysis.inlayHints.functionReturnTypes": true,
     "python.analysis.inlayHints.variableTypes": true,
     "python.analysis.autoFormatStrings": true,
