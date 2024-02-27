@@ -74,9 +74,9 @@ Cargo是rust的包管理工具，类似java的maven，设置代理如下：
 ```bash
 cat >> ~/.cargo/config <<\EOF
 [http]
-proxy = "127.0.0.1:7890"
+proxy = "127.0.0.1:3128"
 [https]
-proxy = "127.0.0.1:7890"
+proxy = "127.0.0.1:3128"
 EOF
 ```
 
