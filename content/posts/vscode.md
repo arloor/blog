@@ -239,7 +239,6 @@ pip3 install -r requirements.txt
     "terminal.integrated.fontSize": 13,
     "debug.console.fontSize": 13,
     "workbench.editor.empty.hint": "hidden",
-    "workbench.colorTheme": "Default Dark+",
     "files.autoSaveDelay": 200,
     "git.pullTags": false, // 不自动拉取tag，避免github action更新的tag被拉取，导致git pull失败
     "github.copilot.enable": {
@@ -258,10 +257,13 @@ pip3 install -r requirements.txt
     "remote.SSH.defaultExtensions": [
         "waderyan.gitblame",
         "donjayamanne.githistory",
-        "github.copilot",
+        "github.copilot", // SSH_PRIVATE
         "github.vscode-github-actions", // github actions
     ],
-    "rust-analyzer.check.command": "clippy"
+    "workbench.colorTheme": "Default Dark+",
+    "rust-analyzer.check.command": "clippy",
+    "window.commandCenter": false,
+    "workbench.layoutControl.enabled": false,
 }
 ```
 
