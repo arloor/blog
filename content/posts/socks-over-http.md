@@ -300,7 +300,7 @@ sogo.json内容如下：
 
 sogo代码不多，对go语言、网络编程感兴趣的人可以看看。这篇博客梳理了一下sogo的实现原理，总之，sogo是一个优雅的代理。
 
-<!-- 机缘巧合之下，sogo刚好满足了一家公司业务的需要，于是刚刚写好就投入了使用。
+机缘巧合之下，sogo刚好满足了一家公司业务的需要，于是刚刚写好就投入了使用。
 
 
 {{< imgx src="/img/earn-money-start.jpg" alt="电报聊天记录：很凑巧的发现了别人的需求" width="500px" style="max-width: 100%;">}}
@@ -318,13 +318,11 @@ sogo代码不多，对go语言、网络编程感兴趣的人可以看看。这�
 
 24小时的带宽占用如下，夜深人静的时候最低，可以说很真实了
 
-![](/img/bandwagon-daikuan.jpg) -->
+![](/img/bandwagon-daikuan.jpg)
 
 废话说得够啦，最后来听听歌吧。 Something just like this 😍
 
-<div class="iframe-container">
-    <iframe src="https://www.youtube.com/embed/-SgyhUdJ_TY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</div>
+{{<youtube -SgyhUdJ_TY>}}
 
 ## 维护日志
 

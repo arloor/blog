@@ -16,9 +16,7 @@ weight: 10
 
 要翻墙才能看到下面的视频哦。是一个物理学家弹吉他吟唱《将进酒》,超级得劲 :）
 
-<div class="iframe-container">
-    <iframe src="https://www.youtube.com/embed/DBC5x8Mv5OE?list=PLoZEEVUrMkMSIkfSbEXNQFubB4yOjMz2a" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</div>
+{{<youtube DBC5x8Mv5OE>}}
 
 ## 插入的html如下
 
@@ -95,7 +93,7 @@ weight: 10
 > 有小朋友要问了，能不能直接 img的属性里写 width= "min( 850px, 100%)"。我查了，css3不行，不知道以后css4会不会加进这个min()
 
 
-{{< img ssnodes.png >}}
+{{<img ssnodes.png>}}
 
 具体可以查看 `layouts/img.html` 指定的hugo shortcode
 

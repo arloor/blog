@@ -209,6 +209,4 @@ b=append(a,c...)。这样我们有三个slice，执行完毕会有两个或者�
 3. 定时GC：如果两分钟没有进行GC，则进行一次
 
 
-<div class="iframe-container">
-    <iframe src="https://www.youtube.com/embed/wji4g0JOMBE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</div>
+{{<youtube wji4g0JOMBE>}}
