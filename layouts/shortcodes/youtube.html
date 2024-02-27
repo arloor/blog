@@ -1,0 +1,5 @@
+{{ $videoID := index .Params 0 }}
+
+<div class="iframe-container">
+    <iframe src="https://www.youtube.com/embed/{{ $videoID }}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
