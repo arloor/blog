@@ -3,7 +3,7 @@ title: "Opentelemetry Java自动埋点实现"
 date: 2022-06-22T11:11:07+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["observability","java"]
+tags: ["observability","obs","java"]
 weight: 10
 subtitle: ""
 description : ""
