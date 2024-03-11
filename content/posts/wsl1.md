@@ -1,6 +1,6 @@
 ---
 title: "WSL1安装"
-date: 2024-03-07T21:42:22+08:00
+date: 2023-03-07T21:42:22+08:00
 draft: false
 categories: [ "undefined"]
 tags: ["software"]
