@@ -23,16 +23,16 @@ java -jar arthas-boot.jar #--repo-mirror aliyun --use-http
 
 ## 安装idea插件
 
-[arthas idea](https://plugins.jetbrains.com/plugin/13581-arthas-idea)
+- [arthas idea](https://plugins.jetbrains.com/plugin/13581-arthas-idea)
 
 ## 官方文档
 
-[quick-start.html](https://arthas.aliyun.com/doc/quick-start.html)
-[命令列表](https://arthas.aliyun.com/doc/commands.html)
+- [quick-start.html](https://arthas.aliyun.com/doc/quick-start.html)
+- [命令列表](https://arthas.aliyun.com/doc/commands.html)
 
 ## 查看类的静态字段/静态方法
 
-[ognl.html](https://arthas.aliyun.com/doc/ognl.html#%E4%BD%BF%E7%94%A8%E5%8F%82%E8%80%83)
+- [ognl.html](https://arthas.aliyun.com/doc/ognl.html#%E4%BD%BF%E7%94%A8%E5%8F%82%E8%80%83)
 
 ```shell
 # 调用静态方法

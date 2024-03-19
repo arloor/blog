@@ -1,5 +1,5 @@
 ---
-title: "Go PProf"
+title: "GO PProf使用"
 date: 2022-06-02T00:33:53+08:00
 draft: false
 categories: [ "undefined"]
