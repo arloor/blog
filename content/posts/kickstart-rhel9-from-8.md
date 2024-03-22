@@ -1,5 +1,5 @@
 ---
-title: "从Centos8/9自动安装RHEL9.2，并制作dd镜像"
+title: "使用Kickstart从Centos8/9自动安装RHEL9.2，并制作dd镜像"
 date: 2023-07-12T09:58:57+08:00
 draft: false
 categories: [ "undefined"]
