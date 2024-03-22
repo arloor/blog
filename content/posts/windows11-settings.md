@@ -1,5 +1,5 @@
 ---
-title: "KVM Windows Server 2022"
+title: "windows11 设置"
 date: 2023-12-04T22:18:31+08:00
 draft: false
 categories: [ "undefined"]
@@ -25,3 +25,8 @@ reg ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\PasswordLess\Device" 
 ![Alt text](/img/cancel-password-login-for-windows11.png)
 
 4. 再次重启就不需要密码登录了
+
+
+## 减少“以管理员启动”的提示
+
+开始菜单搜索UAC（更改用户账户控制设置），拉到最下面
