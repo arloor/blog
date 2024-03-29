@@ -195,10 +195,12 @@ curl -fsSL https://raw.githubusercontent.com/golangci/golangci-lint/master/insta
 
 ### vscode plugin
 
-- ms-python.vscode-pylance
-- ms-python.python
-- ms-python.debugpy
-- ms-python.pylint 我并没有装这个，因为pylance已经有了lint功能
+| 插件名 | 说明 |
+| --- | --- |
+| ms-python.python | python插件 |
+| ms-python.vscode-pylance | python语言服务 |
+| ms-python.debugpy | python调试插件 |
+| ms-python.pylint | python lint插件 **我没装这个插件，因为pylance已经有lint了**|
 
 ### settings
 
