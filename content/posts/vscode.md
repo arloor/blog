@@ -85,10 +85,14 @@ rm -rf $HOME/.vscode-server # Or ~/.vscode-server-insiders
 ## Rust开发
 
 ### 1. 安装四个插件：
-    - rust-analyzer
-    - codelldb
-    - tamasfe.even-better-toml（toml格式化）
-    - serayuzgur.crates（crate.io插件）
+
+| 插件名 | 说明 |
+| --- | --- |
+| rust-analyzer | rust插件 |
+| codelldb | 调试插件 |
+| tamasfe.even-better-toml | toml格式化 |
+| serayuzgur.crates | crate.io插件 **自动检查依赖有没有更新**|
+
 ### 2. 配置默认build任务：`.vscode/tasks.json`
 
 ```json
