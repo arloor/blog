@@ -234,6 +234,17 @@ pip3 install -r requirements.txt
 
 ![alt text](/img/vscode-add-python-debug-3.png)
 
+## 其他插件
+
+### Git插件
+
+我没有用[GitLens](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens)，而是用下面两个插件，因为GitLens功能太多了，还是商业化的。
+
+| 插件名 | 说明 |
+| --- | --- |
+| [GitHistory](https://marketplace.visualstudio.com/items?itemName=donjayamanne.githistory) | `cmd + shift + p`输入`git log`可以看完整提交历史 |
+| [GitBlame](https://marketplace.visualstudio.com/items?itemName=waderyan.gitblame) | 显示每行是谁在什么时候修改的 |
+
 ## 我的vscode配置备份
 
 ```json
@@ -250,7 +261,7 @@ pip3 install -r requirements.txt
     "git.confirmSync": false,
     "update.showReleaseNotes": false,
     "editor.minimap.enabled": false,
-    "terminal.integrated.enableMultiLinePasteWarning": false,
+    "terminal.integrated.enableMultiLinePasteWarning": "auto",
     "git.autofetch": true,
     "redhat.telemetry.enabled": true,
     "terminal.integrated.fontSize": 13,
@@ -274,25 +285,25 @@ pip3 install -r requirements.txt
     "remote.SSH.defaultExtensions": [
         "waderyan.gitblame",
         "donjayamanne.githistory",
-        "github.copilot", // SSH_PRIVATE
+        "github.copilot",
         "github.vscode-github-actions", // github actions
+        "rust-analyzer", // rust-analyzer
+        "codelldb",
+        "tamasfe.even-better-toml",
+        "serayuzgur.crates",
+        "golang.go",
+        "ms-python.vscode-pylance",
+        "ms-python.python"
     ],
     "workbench.colorTheme": "Default Dark+",
     "rust-analyzer.check.command": "clippy",
     "window.commandCenter": false,
     "workbench.layoutControl.enabled": false,
+    "go.lintTool": "golangci-lint",
+    "remote.SSH.remotePlatform": {
+        "bi.arloor.com": "linux",
+        "pl.arloor.com": "linux"
+    },
+    "go.toolsManagement.autoUpdate": true,
 }
 ```
-
-
-## 其他插件
-
-### Git插件
-
-我没有用[GitLens](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens)，而是用下面两个插件，因为GitLens功能太多了，还是商业化的。
-
-| 插件名 | 说明 |
-| --- | --- |
-| [GitHistory](https://marketplace.visualstudio.com/items?itemName=donjayamanne.githistory) | `cmd + shift + p`输入`git log`可以看完整提交历史 |
-| [GitBlame](https://marketplace.visualstudio.com/items?itemName=waderyan.gitblame) | 显示每行是谁在什么时候修改的 |
-
