@@ -197,6 +197,7 @@ curl -fsSL https://raw.githubusercontent.com/golangci/golangci-lint/master/insta
 
 - ms-python.vscode-pylance
 - ms-python.python
+- ms-python.debugpy
 - ms-python.pylint 我并没有装这个，因为pylance已经有了lint功能
 
 ### settings
@@ -218,6 +219,14 @@ pip3 install -r requirements.txt
 ```
 
 按`cmd + shift + p`，然后输入`select interpreter`，最后选择venv中的python解释器地址即可。
+
+### 配置python调试任务
+
+{{<imgx src="/img/vscode-add-python-debug-1.png" alt="" width="400px" style="max-width: 100%;">}}
+
+{{<imgx src="/img/vscode-add-python-debug-2.png" alt="" width="400px" style="max-width: 100%;">}}
+
+![alt text](/img/vscode-add-python-debug-3.png)
 
 ## 我的vscode配置备份
 
