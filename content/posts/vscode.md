@@ -11,25 +11,24 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
-## 安装并配置Jetbrains Mono字体
+## 字体配置——使用JetBrains Mono
 
 1. 下载Jetbrians Mono字体：[how-to-install](https://www.jetbrains.com/lp/mono/#how-to-install)
 2. 解压缩
 3. Mac下将ttf文件夹下的文件全选，右击选择打开，安装所有字体
 4. Centos9下， 将ttf文件夹下的文件全部移动到 `/usr/share/fonts/${newdir}`下 , `yum install -y fontconfig` 并执行 `fc-cache` 。然后执行 `fc-list` 即可看到新的字体 
-5. 打开vscode的设置
-    1. 搜索font family，改成 `'JetBrains Mono', Menlo, Monaco, 'Courier New', monospace` 。
-    2. 搜索font size，改成13。如果这个字体还不够大，可以 `command + +`来放大UI。
-    3. 搜索line height，改成1.6。
+5. 搜索font family，改成 `'JetBrains Mono', Menlo, Monaco, 'Courier New', monospace` 。
+6. 搜索font size，改成13。如果这个字体还不够大，可以 `command + +`来放大UI。
+7. 搜索line height，改成1.6。
 
 TIPS：
 
 1. 建议打开vscode的配置同步功能。
 2. 本地的字体设置对远程开发同样生效。
 
-## 配置键盘快捷键
+## 快捷键配置
 
-> 内置快捷键cheatsheet[keyboard-shortcuts-macos.pdf](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-macos.pdf)
+> 内置快捷键cheatsheet [keyboard-shortcuts-macos.pdf](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-macos.pdf)
 
 1. 按 `cmd+k` ，再按 `cmd+s`，进入快捷键设置
 2. 点击右上角按钮进入原始文件 `keybindings.json`
@@ -84,7 +83,7 @@ rm -rf $HOME/.vscode-server # Or ~/.vscode-server-insiders
 
 ## Rust开发
 
-### 1. 安装四个插件：
+### 安装四个插件：
 
 | 插件名 | 说明 |
 | --- | --- |
@@ -93,7 +92,7 @@ rm -rf $HOME/.vscode-server # Or ~/.vscode-server-insiders
 | tamasfe.even-better-toml | toml格式化 |
 | serayuzgur.crates | crate.io插件 **自动检查依赖有没有更新**|
 
-### 2. 配置默认build任务：`.vscode/tasks.json`
+### 配置默认build任务：`.vscode/tasks.json`
 
 ```json
 {
@@ -115,7 +114,7 @@ rm -rf $HOME/.vscode-server # Or ~/.vscode-server-insiders
 }
 ```
 
-### 3. 配置调试任务 `.vscode/launch.json`
+### 配置调试任务 `.vscode/launch.json`
 
 ```json
 {
@@ -138,7 +137,7 @@ rm -rf $HOME/.vscode-server # Or ~/.vscode-server-insiders
 }
 ```
 
-### 4. 按F5开启调试，F5 resume调试。
+### 按F5开启调试，F5 resume调试。
 
 ## Golang开发
 
@@ -197,7 +196,7 @@ curl -fsSL https://raw.githubusercontent.com/golangci/golangci-lint/master/insta
 
 ## Python开发
 
-### vscode plugin
+### python插件
 
 | 插件名 | 说明 |
 | --- | --- |
@@ -289,7 +288,10 @@ pip3 install -r requirements.txt
 
 ### Git插件
 
-Git History和Git Blame没有用[GitLens](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens)，而是用下面两个插件，因为GitLens功能太多了，还是商业化的。
+我没有用[GitLens](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens)，而是用下面两个插件，因为GitLens功能太多了，还是商业化的。
 
-- [GitHistory](https://marketplace.visualstudio.com/items?itemName=donjayamanne.githistory)：`cmd + shift + p`输入`git log`可以看完整提交历史
-- [GitBlame](https://marketplace.visualstudio.com/items?itemName=waderyan.gitblame)
+| 插件名 | 说明 |
+| --- | --- |
+| [GitHistory](https://marketplace.visualstudio.com/items?itemName=donjayamanne.githistory) | `cmd + shift + p`输入`git log`可以看完整提交历史 |
+| [GitBlame](https://marketplace.visualstudio.com/items?itemName=waderyan.gitblame) | 显示每行是谁在什么时候修改的 |
+
