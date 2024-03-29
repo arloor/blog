@@ -336,11 +336,11 @@ rust的编译器能自动地判断一些引用的生命周期，所以不是所�
 cd /var/
 version=1.2.5
 curl -SsLf  http://musl.libc.org/releases/musl-${version}.tar.gz -o musl-${version}.tar.gz
-tar -zxvf musl-${version}.tar.gz
+tar -zxf musl-${version}.tar.gz
 cd musl-${version}
-./configure
-make -j 2
-make install
+./configure > /dev/null
+make -j 2 > /dev/null
+make install > /dev/null
 ln -fs /usr/local/musl/bin/musl-gcc /usr/bin/musl-gcc
 ```
 
