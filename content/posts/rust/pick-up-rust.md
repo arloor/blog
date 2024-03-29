@@ -335,7 +335,7 @@ rust的编译器能自动地判断一些引用的生命周期，所以不是所�
 ```bash
 cd /var/
 version=1.2.5
-wget http://musl.libc.org/releases/musl-${version}.tar.gz -O musl-${version}.tar.gz
+curl -SsLf  http://musl.libc.org/releases/musl-${version}.tar.gz -o musl-${version}.tar.gz
 tar -zxvf musl-${version}.tar.gz
 cd musl-${version}
 ./configure
