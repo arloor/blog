@@ -334,13 +334,14 @@ rust的编译器能自动地判断一些引用的生命周期，所以不是所�
 
 ```bash
 cd /var/
-wget http://musl.libc.org/releases/musl-1.2.3.tar.gz -O musl-1.2.3.tar.gz
-tar -zxvf musl-1.2.3.tar.gz
-cd musl-1.2.3
+version=1.2.5
+wget http://musl.libc.org/releases/musl-${version}.tar.gz -O musl-${version}.tar.gz
+tar -zxvf musl-${version}.tar.gz
+cd musl-${version}
 ./configure
 make -j 2
 make install
-ln -fs /usr/local/musl/bin/musl-gcc /usr/local/bin/musl-gcc
+ln -fs /usr/local/musl/bin/musl-gcc /usr/bin/musl-gcc
 ```
 
 ### 安装musl toolchain
