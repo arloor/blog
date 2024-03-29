@@ -130,6 +130,7 @@ rm -rf $HOME/.vscode-server # Or ~/.vscode-server-insiders
             "program": "${workspaceFolder}/target/debug/${workspaceFolderBasename}",
             "args": [],
             "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
             "preLaunchTask": "${defaultBuildTask}",
             "env": {"port":"80"}
         }
