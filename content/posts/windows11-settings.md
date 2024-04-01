@@ -30,3 +30,15 @@ reg ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\PasswordLess\Device" 
 ## 减少“以管理员启动”的提示
 
 开始菜单搜索UAC（更改用户账户控制设置），拉到最下面
+
+## 性能优化
+
+### 在设置中关闭内存完整性判断
+
+![alt text](/img/window11-mem-wanzhengxing-protection.png)
+
+### 关闭hyper-v
+
+![alt text](/img/window11-software-and-gongneng.png)
+
+关闭 hyper-v、windows虚拟机监控程序平台、虚拟机平台、适用于linux的windows子系统
