@@ -3,7 +3,7 @@ title: "Nginx安装使用：webserver及反向代理"
 date: 2019-08-15T20:38:59+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["software"]
+tags: ["software","linux"]
 weight: 10
 subtitle: ""
 description : ""
