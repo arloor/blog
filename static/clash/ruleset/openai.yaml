@@ -3,5 +3,6 @@ payload:
    # - DOMAIN-SUFFIX,cloudflare.com
    - DOMAIN-SUFFIX,cdn.oaistatic.com
    - DOMAIN-SUFFIX,files.oaiusercontent.com
+   - DOMAIN-SUFFIX,chatgpt.com
    - DOMAIN-SUFFIX,grazie.aws.intellij.net
    - DOMAIN-SUFFIX,grazie.ai
