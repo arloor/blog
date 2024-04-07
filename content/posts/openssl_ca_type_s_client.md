@@ -160,7 +160,7 @@ openssl rsa -inform PEM -in temp.pem -outform PEM -out privkey.pem
 ```bash
 # 转换成PKCS#8
 openssl pkcs8 -topk8 -inform PEM -in privkey.pem -out pkcs8_private_key.pem -outform PEM -nocrypt
-# 转换成PKCS#8，也称RSA密钥。
+# 转换成PKCS#1，也称RSA密钥。
 openssl rsa -inform PEM -in privkey.pem -outform PEM -out rsa_aes_privkey.pem
 ```
 
