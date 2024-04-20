@@ -1,5 +1,5 @@
 ---
-title: "libbpf Overview中文翻译"
+title: "libbpf overview中文翻译"
 date: 2024-04-20T11:37:52+08:00
 draft: false
 categories: [ "undefined"]
@@ -11,7 +11,7 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
-> **本文是机器翻译加手动修改，[原文链接](https://docs.kernel.org/bpf/libbpf/libbpf_overview.html)，仅供自己学习理解，如有错漏，请勿批评**
+**本文是机器翻译加手动修改，[原文链接](https://docs.kernel.org/bpf/libbpf/libbpf_overview.html)。仅供自己学习理解，如有错漏，请勿批评**
 
 <!--more-->
 
