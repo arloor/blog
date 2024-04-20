@@ -13,6 +13,8 @@ keywords:
 
 本文主要是是对[Building BPF applications with libbpf-bootstrap (nakryiko.com)](https://nakryiko.com/posts/libbpf-bootstrap/#the-user-space-side)的个人理解的总结，这篇文章可以当成是`libbpf-bootstrap`这个项目的`README` ，介绍了它的目标、依赖和用法等。
 
+<!--more-->
+
 [BPF相关(1) 工具链libbpf入门指南 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/615573175) 是机器翻译版本，需要的同学可以中英对照自己看下。
 
 文中涉及的`ebpf`代码在[libbpf-bootstrap](https://github.com/libbpf/libbpf-bootstrap)仓库的example中，建议clone下来对照查看。

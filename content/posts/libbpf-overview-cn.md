@@ -13,6 +13,8 @@ keywords:
 
 > **本文是机器翻译加手动修改，[原文链接](https://docs.kernel.org/bpf/libbpf/libbpf_overview.html)，仅供自己学习理解，如有错漏，请勿批评**
 
+<!--more-->
+
 libbpf 是一个基于 C 的库，包含一个 BPF 加载器，该加载器采用编译后的 BPF 目标文件并准备并将它们加载到 Linux 内核中。 libbpf 采取 加载、验证 BPF 程序并将其附加到各种 内核钩子，让BPF应用程序开发人员只关注BPF程序 正确性和性能。
 
 以下是 libbpf 支持的高级功能：
