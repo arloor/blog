@@ -71,7 +71,7 @@ bpftool btf dump file /sys/kernel/btf/vmlinux format c > vmlinux.h
 
 **program.bpf.c：**
 
-```bash
+```c
 #include "vmlinux.h"
 #include <bpf/bpf_helpers.h>
 #include <bpf/bpf_core_read.h>
