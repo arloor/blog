@@ -11,7 +11,7 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
-# Java虚拟线程
+内容来自[JEP 444](https://openjdk.org/jeps/444)
 
 1. thread-per-thread style。BIO
 2. thread-sharing style. Reactive模式，write on complete 一个lambda表达式，异步编程十分痛苦。signal their completion to a callback，并且listener在不同的线程中，观测，trycatch等很困难。典型的就是Netty
