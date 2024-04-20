@@ -339,4 +339,4 @@ cargo run --example example1
 ## 后续
 
 1. 研究musl编译
-2. 研究docker下运行ebpf程序。参考[running-ebpf-programs-on-docker-containers](https://andreybleme.com/2022-05-22/running-ebpf-programs-on-docker-containers/)
+2. 研究docker下运行ebpf程序。需要增加 `--privileged`, 参考[running-ebpf-programs-on-docker-containers](https://andreybleme.com/2022-05-22/running-ebpf-programs-on-docker-containers/)
