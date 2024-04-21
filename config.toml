@@ -84,6 +84,11 @@ paginate = 10
     weight = 4
     url = "/about/"
 [[menu.main]]
+    name = "网速监控"
+    identifier = "网速监控"
+    weight = 5
+    url = "/speed"    
+[[menu.main]]
     name = "苏ICP备17024437号"
     weight = 6
     identifier = "苏ICP备17024437号"
