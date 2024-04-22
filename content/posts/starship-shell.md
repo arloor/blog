@@ -35,20 +35,95 @@ Set-ExecutionPolicy -ExecutionPolicy Unrestricted  -Scope LocalMachine
 Invoke-Expression (&starship init powershell)
 ```
 
-## Linux Bash
+## Linux zsh
 
 ```bash
+# 卸载omz
+bash ~/.oh-my-zsh/tools/uninstall.sh
+if ! grep debian /etc/os-release &>/dev/null; then
+  yum install -y zsh git unzip
+else
+  apt-get install -y zsh git unzip
+fi
+# 安装nerd-fonts字体
 cd /usr/share/fonts
-mkdir nerd-fonts
+mkdir -p nerd-fonts
 cd nerd-fonts
-wget https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.2/3270.zip -O 3270.zip
-unzip 3270.zip
+curl -L https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.2/3270.zip -o 3270.zip&&unzip -o 3270.zip
+cd
 
-cat >> ~/.bashrc <<\EOF
-eval "$(starship init bash)"
+# 安装startship
+usermod -s /bin/zsh $USER
+curl -sS https://starship.rs/install.sh | sh -s -- -y
+
+# 配置zsh的setopt
+if ! grep "HISTFILE=" ~/.zshrc &>/dev/null; then
+  cat >> ~/.zshrc <<\EOF
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=1000
+setopt INC_APPEND_HISTORY
+setopt HIST_IGNORE_DUPS
+setopt INTERACTIVE_COMMENTS
 EOF
-usermod -s /bin/bash $USER
-curl -sS https://starship.rs/install.sh | sh
+fi
+
+# 使starship生效
+if ! grep "starship init zsh" ~/.zshrc &>/dev/null; then
+  cat >> ~/.zshrc <<\EOF
+eval "$(starship init zsh)"
+EOF
+fi
+
+# 增加zsh的插件
+if [ -d ~/.zsh/zsh-syntax-highlighting ];then
+  rm -rf ~/.zsh/zsh-syntax-highlighting
+fi
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh/zsh-syntax-highlighting
+if ! grep -E "^source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ${ZDOTDIR:-$HOME}/.zshrc &>/dev/null; then
+  echo "source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
+fi
+
+if [ -d ~/.zsh/zsh-autosuggestions ];then
+  rm -rf ~/.zsh/zsh-autosuggestions
+fi
+git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
+if ! grep -E "^source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" ${ZDOTDIR:-$HOME}/.zshrc &>/dev/null; then
+  echo "source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
+fi
 ```
 
+注意，默认的zsh跟bash在一些行为上有一些差距，所以我手动调用了setopt来设置一些行为，主要控制history和交互式命令行中注释的处理。可以参考zsh中的setopt设置：带localoptions的是仅在当前shell生效，可以不关注。
 
+```bash
+$ grep setopt ~/.oh-my-zsh/lib/*
+.oh-my-zsh/lib/async_prompt.zsh:  setopt localoptions noksharrays
+.oh-my-zsh/lib/cli.zsh:  setopt localoptions nopromptsubst
+.oh-my-zsh/lib/completion.zsh:unsetopt menu_complete   # do not autoselect the first completion entry
+.oh-my-zsh/lib/completion.zsh:unsetopt flowcontrol
+.oh-my-zsh/lib/completion.zsh:setopt auto_menu         # show completion menu on successive tab press
+.oh-my-zsh/lib/completion.zsh:setopt complete_in_word
+.oh-my-zsh/lib/completion.zsh:setopt always_to_end
+.oh-my-zsh/lib/correction.zsh:  setopt correct_all
+.oh-my-zsh/lib/diagnostics.zsh:  builtin echo setopt: $(builtin setopt)
+.oh-my-zsh/lib/diagnostics.zsh:    pushd pushln pwd r read rehash return sched set setopt shift
+.oh-my-zsh/lib/diagnostics.zsh:    unfunction unhash unlimit unset unsetopt vared wait whence where which zcompile
+.oh-my-zsh/lib/directories.zsh:setopt auto_cd
+.oh-my-zsh/lib/directories.zsh:setopt auto_pushd
+.oh-my-zsh/lib/directories.zsh:setopt pushd_ignore_dups
+.oh-my-zsh/lib/directories.zsh:setopt pushdminus
+.oh-my-zsh/lib/history.zsh:setopt extended_history       # record timestamp of command in HISTFILE
+.oh-my-zsh/lib/history.zsh:setopt hist_expire_dups_first # delete duplicates first when HISTFILE size exceeds HISTSIZE
+.oh-my-zsh/lib/history.zsh:setopt hist_ignore_dups       # ignore duplicated commands history list
+.oh-my-zsh/lib/history.zsh:setopt hist_ignore_space      # ignore commands that start with space
+.oh-my-zsh/lib/history.zsh:setopt hist_verify            # show command with history expansion to user before running it
+.oh-my-zsh/lib/history.zsh:setopt share_history          # share command history data
+.oh-my-zsh/lib/misc.zsh:setopt multios              # enable redirect to multiple streams: echo >file1 >file2
+.oh-my-zsh/lib/misc.zsh:setopt long_list_jobs       # show long list format job notifications
+.oh-my-zsh/lib/misc.zsh:setopt interactivecomments  # recognize comments
+.oh-my-zsh/lib/spectrum.zsh:  setopt localoptions nopromptsubst
+.oh-my-zsh/lib/spectrum.zsh:  setopt localoptions nopromptsubst
+.oh-my-zsh/lib/termsupport.zsh:  setopt localoptions nopromptsubst
+.oh-my-zsh/lib/termsupport.zsh:  setopt extended_glob
+.oh-my-zsh/lib/theme-and-appearance.zsh:setopt prompt_subst
+```
