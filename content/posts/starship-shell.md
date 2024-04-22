@@ -57,9 +57,9 @@ usermod -s /bin/zsh $USER
 curl -sS https://starship.rs/install.sh | sh -s -- -y
 
 # 配置zsh的setopt
-if ! grep "HISTFILE=" ~/.zshrc &>/dev/null; then
-  cat >> ~/.zshrc <<\EOF
-HISTFILE=~/.zsh_history
+if ! grep "HISTFILE=" /etc/zshrc &>/dev/null; then
+  cat >> /etc/zshrc <<\EOF
+HISTFILE=/root/.zsh_history
 HISTSIZE=10000
 SAVEHIST=1000
 setopt INC_APPEND_HISTORY
@@ -69,8 +69,8 @@ EOF
 fi
 
 # 使starship生效
-if ! grep "starship init zsh" ~/.zshrc &>/dev/null; then
-  cat >> ~/.zshrc <<\EOF
+if ! grep "starship init zsh" /etc/zshrc &>/dev/null; then
+  cat >> /etc/zshrc <<\EOF
 eval "$(starship init zsh)"
 EOF
 fi
