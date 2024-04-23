@@ -38,28 +38,26 @@ Invoke-Expression (&starship init powershell)
 ## Linux zsh
 
 ```bash
-# 卸载omz
 bash ~/.oh-my-zsh/tools/uninstall.sh
+
 if ! grep debian /etc/os-release &>/dev/null; then
   yum install -y zsh git unzip
 else
   apt-get install -y zsh git unzip
 fi
-# 安装nerd-fonts字体
 cd /usr/share/fonts
 mkdir -p nerd-fonts
 cd nerd-fonts
 curl -L https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.2/3270.zip -o 3270.zip&&unzip -o 3270.zip
 cd
 
-# 安装startship
+
 usermod -s /bin/zsh $USER
 curl -sS https://starship.rs/install.sh | sh -s -- -y
 
-# 配置zsh的setopt
-if ! grep "HISTFILE=" /etc/zshrc &>/dev/null; then
-  cat >> /etc/zshrc <<\EOF
-HISTFILE=/root/.zsh_history
+if ! grep "HISTFILE=" ~/.zshrc &>/dev/null; then
+  cat >> ~/.zshrc <<\EOF
+HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=1000
 setopt INC_APPEND_HISTORY
@@ -68,29 +66,39 @@ setopt INTERACTIVE_COMMENTS
 EOF
 fi
 
-# 使starship生效
-if ! grep "starship init zsh" /etc/zshrc &>/dev/null; then
+if ! grep "export ZDOTDIR=" /etc/zshrc &>/dev/null; then
   cat >> /etc/zshrc <<\EOF
+export ZDOTDIR=$HOME
+EOF
+fi
+
+if ! grep "starship init zsh" ~/.zshrc &>/dev/null; then
+  cat >> ~/.zshrc <<\EOF
 eval "$(starship init zsh)"
 EOF
 fi
 
-# 增加zsh的插件
-if [ -d ~/.zsh/zsh-syntax-highlighting ];then
-  rm -rf ~/.zsh/zsh-syntax-highlighting
-fi
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.zsh/zsh-syntax-highlighting
-if ! grep -E "^source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ${ZDOTDIR:-$HOME}/.zshrc &>/dev/null; then
-  echo "source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
-fi
+base_dir=~/.zsh
+add_plugin(){
+    local plugin=$1
+    if [ -z "${plugin}" ];then
+        echo "Usage: add_plugin <plugin>"
+        return 1
+    fi
+    if [ -d "${base_dir}/${plugin}" ];then
+        rm -rf ${base_dir}/${plugin}
+    fi
+    if git clone https://github.com/zsh-users/${plugin}.git ${base_dir}/${plugin}; then
+        if ! grep -E "^source ${base_dir}/${plugin}/${plugin}.zsh" ~/.zshrc &>/dev/null; then
+            echo "source ${base_dir}/${plugin}/${plugin}.zsh" >> ~/.zshrc
+        fi
+    else
+        echo "Failed to add plugin ${plugin}"
+    fi
+}
 
-if [ -d ~/.zsh/zsh-autosuggestions ];then
-  rm -rf ~/.zsh/zsh-autosuggestions
-fi
-git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
-if ! grep -E "^source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" ${ZDOTDIR:-$HOME}/.zshrc &>/dev/null; then
-  echo "source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" >> ${ZDOTDIR:-$HOME}/.zshrc
-fi
+add_plugin zsh-syntax-highlighting
+add_plugin zsh-autosuggestions
 ```
 
 注意，默认的zsh跟bash在一些行为上有一些差距，所以我手动调用了setopt来设置一些行为，主要控制history和交互式命令行中注释的处理。可以参考zsh中的setopt设置：带localoptions的是仅在当前shell生效，可以不关注。
