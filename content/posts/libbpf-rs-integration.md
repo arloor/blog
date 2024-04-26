@@ -15,6 +15,10 @@ keywords:
 
 <!--more-->
 
+## 项目地址
+
+[bpf_rs_hub](https://github.com/arloor/bpf_rs_hub)
+
 ## 安装依赖
 
 1. Clang编译器。至少需要Clang10，CO-RE需要Clang11或Clang12
