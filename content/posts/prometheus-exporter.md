@@ -3,7 +3,7 @@ title: "Prometheus Exporter"
 date: 2021-01-27T23:42:59+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["observability","obs"]
+tags: ["obs"]
 weight: 10
 subtitle: ""
 description : ""
