@@ -137,3 +137,4 @@ If you are building BPF applications in Rust, it is recommended to use the [Libb
 | [https://docs.kernel.org/bpf/index.html](https://docs.kernel.org/bpf/index.html) | linux内核官方的bpf文档 |
 | [https://docs.cilium.io/en/latest/bpf/](https://docs.cilium.io/en/latest/bpf/) | cilium的bpf文档，包含**xdp**和**tc**的bpf program详解 |
 | [bpf-helpers man page](https://man7.org/linux/man-pages/man7/bpf-helpers.7.html) |  |
+| [Chapter 44. Understanding the eBPF networking features in RHEL 8](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/configuring_and_managing_networking/assembly_understanding-the-ebpf-features-in-rhel-8_configuring-and-managing-networking) | |
