@@ -180,7 +180,7 @@ Core 3:        +40.0°C  (high = +105.0°C, crit = +105.0°C)
 
 ## 网速测试
 
-跑满了我200M的电信宽带，N100处理器处理这点带宽真是轻轻松松。Dmit的网速和延迟都很稳定，我用的是[PVM.LAX.Pro.TINY套餐](https://www.dmit.io/aff.php?aff=7132&pid=100)，需要的可以自行购买。
+跑满了我200M的电信宽带，N100处理器处理这点带宽真是轻轻松松。
 
 ![Alt text](/img/dmit-lax-pro-speedtest.png)
 
