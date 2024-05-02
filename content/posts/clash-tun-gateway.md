@@ -24,7 +24,6 @@ keywords:
 2. 英睿达4800频率的DDR5笔记本内存
 3. 致态TiPlus5000 PCIE3.0 固态
 4. RedHat 9系统，内核版本5.14，其他linux系统也都行。
-5. Dmit.io美西三网cn2 GIA服务器，年费88美刀，使用体验优秀，购买链接:[仙人指路](https://www.dmit.io/aff.php?aff=7132&pid=100)
 
 > 注意，很多Intel N100 CPU的机器只支持PCIE3.0的固态。
 
