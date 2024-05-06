@@ -68,6 +68,14 @@ git config --global credential.helper osxkeychain
 
 ![Alt text](/img/git-credential-osxkeychain-view.png)
 
+### 使用git config
+
+```bash
+git config --global url.https://arloor:${{ github.token }}@github.com/.insteadOf https://github.com/
+```
+
+这种设置的坏处是token保存在了git config文件中，安全程度可能稍差。
+
 ## 删除git中某一文件的历史
 
 ```bash

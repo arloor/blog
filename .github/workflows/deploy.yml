@@ -94,4 +94,6 @@ jobs:
           '
         done
     - name: cleanup
-      run: rm -rf ~/.ssh
+      run: |
+        rm -rf ~/.ssh
+        rm -rf ~/.gitconfig
