@@ -340,7 +340,75 @@ fn main() {
 cargo run --example example1
 ```
 
-## 后续
+## 进阶
 
-1. 研究musl编译
-2. 研究docker下运行ebpf程序。需要增加 `--privileged`, 参考[running-ebpf-programs-on-docker-containers](https://andreybleme.com/2022-05-22/running-ebpf-programs-on-docker-containers/)
+### docker运行
+
+需要增加 `--privileged`, 参考[running-ebpf-programs-on-docker-containers](https://andreybleme.com/2022-05-22/running-ebpf-programs-on-docker-containers/)
+
+### 静态链接
+
+**1. 静态链接libbpf、zlib、libelf**
+
+`libbpf-rs` 提供了 `vendored` 特性，自动在运行时编译libbpf、zlib、libelf的静态库，从而可以静态链接到生成的可执行文件中。在Cargo.toml中激活：
+
+```toml
+[dependencies.libbpf-rs]
+version = "0.23.0"
+features = ["vendored"]
+default-features = false
+```
+
+`vendored` 特性编译时需要下面的这些包，请根据发行版自行安装
+
+```bash
+# centos
+yum install -y autoconf gettext-devel flex bison gawk make pkg-config automake
+# ubuntu
+apt-get install -y autoconf autopoint flex bison gawk make pkg-config automake
+```
+
+**2. 生成静态链接的 gnu 二进制文件**
+
+参考[VENDORIZE: add feature vendored](https://github.com/libbpf/libbpf-rs/pull/498)和[Rust Linkage](https://doc.rust-lang.org/reference/linkage.html)，执行以下命令即可：
+
+```bash
+RUSTFLAGS="-C target-feature=+crt-static" cargo build --release --target x86_64-unknown-linux-gnu
+```
+
+注意：
+
+1. 仅支持gnu，**不支持musl**
+2. `--target x86_64-unknown-linux-gnu` 不能省略
+3. 可执行文件在 `/target/x86_64-unknown-linux-gnu/release/`
+
+如果报错：
+
+```bash
+/usr/bin/ld: cannot find -lm
+/usr/bin/ld: cannot find -lc
+```
+
+说明系统上缺少了一些静态库，安装即可。
+
+以我的redhat9开发机为例，缺失的是 `glibc-static`
+
+```bash
+# search from https://pkgs.org/search/?q=libc.a
+# centos 9
+dnf --enablerepo=crb install glibc-static
+# redhat9
+subscription-manager repos --enable codeready-builder-for-rhel-9-x86_64-rpms # https://access.redhat.com/articles/4348511
+yum install -y glibc-static # yum whatprovides "*/libc.a"
+```
+
+以ubuntu为例，缺失的是 `libc6-dev`
+
+```bash
+apt install -y libc6-dev
+
+$ apt update && apt-get install -y apt-file && apt-file update && apt-file search libc.a | grep "libc6-dev:"
+libc6-dev: /usr/lib/x86_64-linux-gnu/libc.a
+$ apt-file search libm.a | grep "libc6-dev:"
+libc6-dev: /usr/lib/x86_64-linux-gnu/libm.a
+```
