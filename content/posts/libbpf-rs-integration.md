@@ -362,9 +362,9 @@ default-features = false
 `vendored` 特性编译时需要下面的这些包，请根据发行版自行安装
 
 ```bash
-# centos
+# centos # 使用 yum whatprovides xxx查询到具体的package
 yum install -y autoconf gettext-devel flex bison gawk make pkg-config automake
-# ubuntu
+# ubuntu # 使用 apt-file search xxx查询到具体的package
 apt-get install -y autoconf autopoint flex bison gawk make pkg-config automake
 ```
 
