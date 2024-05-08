@@ -333,7 +333,7 @@ rust的编译器能自动地判断一些引用的生命周期，所以不是所�
 链接Linkage更多的是编译器的概念而不是语言的概念，Rust直接使用了gcc或msvc等现成编译器的链接器。因此我们先拿gcc的命令来解释下静态链接：
 
 ```bash
-gcc -static -o main main.c -L/path/to/library -lexample
+gcc -static -o main main.c -I/path/to/include -L/path/to/library -lexample
 ```
 
 这里的命令选项解释如下：
@@ -341,6 +341,7 @@ gcc -static -o main main.c -L/path/to/library -lexample
 - `-static` 是一个 GCC 链接选项，用于指示链接器尽可能使用静态库来构建程序。当使用这个选项时，链接器会尝试将所有程序使用的库以静态库的形式链接进可执行文件，包括 C 标准库（libc）、数学库（libm）等通用库。
 - `-o main` 指定输出的可执行文件名为 `main`。
 - `main.c` 是包含 `main` 函数的源文件。
+- `-I/path/to/include` 指定额外的头文件目录。
 - `-L/path/to/library` 添加静态库的搜索路径。如果静态库位于标准库路径，这个选项可以省略。
 - `-lexample` 指定链接库 `libexample.a`。GCC 会自动在给定的路径中搜索以 `lib` 开头且以 `.a` 结尾的文件，所以只需写出 `example`。
 
