@@ -423,7 +423,7 @@ cargo build --target x86_64-unknown-linux-musl
 cargo build --release --target x86_64-unknown-linux-musl
 ```
 
-## 使用build.rs指定静态链接某些库
+## 使用build.rs指定静态链接部分库
 
 当然，除了全局静态链接，也可以在 `build.rs` 中指定仅仅静态链接某些库，可以参考 deeplflow agent 的 [build.rs](https://github.com/deepflowio/deepflow/blob/main/agent/build.rs)，例如：
 
@@ -449,6 +449,28 @@ println!("cargo:rustc-link-search=native=/usr/lib64");
 ```
 
 其他关于build.rs可以参考[The build script](https://doc.rust-lang.org/cargo/reference/build-scripts.html)
+
+静态链接部分库也可以成为局部静态链接，举个例子介绍gcc怎么做局部静态链接，rustc可以举一反三:
+
+```bash
+gcc -o myprogram myprogram.c -Wl,-Bstatic -lfoo -lbar -Wl,-Bdynamic -lbaz
+```
+
+这个命令做了以下几点：
+
+- `-Wl,` 前缀是用来告诉 GCC 将后面的选项传递给链接器。
+- `-Wl,-Bstatic` 使链接器进入静态链接模式。
+- `-lfoo -lbar` 指定静态链接 `libfoo` 和 `libbar`。
+- `-Wl,-Bdynamic` 切换回动态链接模式。
+- `-lbaz` 使用动态链接方式链接 `libbaz`。
+
+注意事项
+
+- 确保在命令中正确地放置 `-Wl,-Bstatic` 和 `-Wl,-Bdynamic`。错误的顺序可能导致不期望的链接行为。
+- 确保系统中有对应库的静态版本（通常是 `.a` 文件）和动态版本（如 `.so` 文件）。
+- 在某些系统中，静态链接特定的系统库可能与系统策略或安全设置冲突，可能需要额外的配置或权限。
+
+通过这种方式，你可以在保持应用部分依赖动态链接的灵活性和系统兼容性的同时，对关键或特定的依赖库使用静态链接，以提高应用的自包含性和部署的便利性。
 
 ## 一些备忘
 
