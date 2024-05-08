@@ -348,7 +348,7 @@ gcc -static -o main main.c -L/path/to/library -lexample
 
 ### x86_64-unknown-linux-gnu
 
-```shell
+```bash
 RUSTFLAGS="-C target-feature=+crt-static" cargo build --release --target x86_64-unknown-linux-gnu
 ```
 
@@ -359,7 +359,7 @@ RUSTFLAGS="-C target-feature=+crt-static" cargo build --release --target x86_64-
 
 如果报错：
 
-```shell
+```bash
 /usr/bin/ld: cannot find -lm
 /usr/bin/ld: cannot find -lc
 ```
