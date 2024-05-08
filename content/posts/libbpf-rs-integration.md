@@ -3,7 +3,7 @@ title: "在Rust项目中集成libbpf-rs"
 date: 2024-04-20T11:47:53+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["ebpf"]
+tags: ["ebpf","rust"]
 weight: 10
 subtitle: ""
 description : ""
