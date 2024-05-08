@@ -472,7 +472,7 @@ gcc -o myprogram myprogram.c -Wl,-Bstatic -lfoo -lbar -Wl,-Bdynamic -lbaz
 
 通过这种方式，你可以在保持应用部分依赖动态链接的灵活性和系统兼容性的同时，对关键或特定的依赖库使用静态链接，以提高应用的自包含性和部署的便利性。
 
-上面谈到的都是针对C Runtime的静态链接，涉及到一些非通用的c库，例如 `libbpf-rs` 依赖 `libelf` 和 `zlib`，这种还是要单独处理的，这种crate一般会有 `xxxx-sys` 这种crate，用于编译c库，也会提供 `vendored` 特性来开启静态链接，例如 `libbpf-sys` 的 [build.rs](https://github.com/libbpf/libbpf-sys/blob/master/build.rs)。
+上面谈到的都是针对C Runtime的静态链接。如果涉及到一些非通用的c库，例如 `libbpf-rs` 依赖 `libelf` 和 `zlib`，这种还是要单独处理的，这种crate一般会有 `xxxx-sys` 子crate，用于编译c库，也会提供 `vendored` 特性来开启静态链接，例如 `libbpf-sys` 的 [build.rs](https://github.com/libbpf/libbpf-sys/blob/master/build.rs)。
 
 ## 一些备忘
 
