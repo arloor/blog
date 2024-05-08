@@ -344,7 +344,7 @@ gcc -static -o main main.c -L/path/to/library -lexample
 - `-L/path/to/library` 添加静态库的搜索路径。如果静态库位于标准库路径，这个选项可以省略。
 - `-lexample` 指定链接库 `libexample.a`。GCC 会自动在给定的路径中搜索以 `lib` 开头且以 `.a` 结尾的文件，所以只需写出 `example`。
 
-参考[Rust Linkage: Static and dynamic C runtimes](https://doc.rust-lang.org/reference/linkage.html#static-and-dynamic-c-runtimes)，Rust的toolchain支持动态和静态两种链接方式，可以指定`crt-static` target feature 来手动配置。大部份toolchain默认是动态链接的，musl的toolchain则默认是静态链接。下面就以 `x86_64-unknown-linux-gnu` 和 `x86_64-unknown-linux-musl` 两种linux上常见的toolchain为例介绍如何进行静态链接。
+参考[Rust Linkage: Static and dynamic C runtimes](https://doc.rust-lang.org/reference/linkage.html#static-and-dynamic-c-runtimes)，Rust的toolchain支持动态和静态两种链接方式，可以指定`crt-static` target feature 来手动配置。大部份toolchain默认是动态链接的，musl的toolchain则默认是静态链接。下面就以 `x86_64-unknown-linux-gnu` 和 `x86_64-unknown-linux-musl` 两种linux上常见的toolchain为例介绍如何进行静态链接，并介绍使用 `build.rs` 让部分库使用静态链接
 
 ### x86_64-unknown-linux-gnu
 
