@@ -388,13 +388,13 @@ $ apt-file search libm.a | grep "libc6-dev:"
 libc6-dev: /usr/lib/x86_64-linux-gnu/libm.a
 ```
 
-## x86_64-unknown-linux-musl
+### x86_64-unknown-linux-musl
 
 因为musl默认使用静态链接，所以只需要编译安装musl和增加musl toolchain即可，不需要增加 `RUSTFLAGS`。建议是编译安装musl而不是使用发行版提供的musl-dev，因为发行版提供的musl-dev版本可能比较老，还是用32位的类型，可能导致编译不通过。参考[musl: Change time_t definition on 32-bit targets according to "time64"](https://github.com/rust-lang/libc/issues/1848)
 
 > musl 1.2 is now available and changes time_t for 32-bit archs to a 64-bit type。 PS: 具体而言，好像是从1.2.4开始支持64位的time_t
 
-### 安装musl
+#### 安装musl
 
 ```bash
 cd /var/
@@ -408,13 +408,13 @@ make install > /dev/null
 ln -fs /usr/local/musl/bin/musl-gcc /usr/bin/musl-gcc
 ```
 
-### 安装musl toolchain
+#### 安装musl toolchain
 
 ```bash
 rustup target add x86_64-unknown-linux-musl
 ```
 
-### 使用musl toolchain编译
+#### 使用musl toolchain编译
 
 ```bash
 # debug, 可执行文件在target/x86_64-unknown-linux-musl/debug/
@@ -423,7 +423,7 @@ cargo build --target x86_64-unknown-linux-musl
 cargo build --release --target x86_64-unknown-linux-musl
 ```
 
-## 使用build.rs指定静态链接部分库
+### 使用build.rs指定静态链接部分库
 
 当然，除了全局静态链接，也可以在 `build.rs` 中指定仅仅静态链接某些库，可以参考 deeplflow agent 的 [build.rs](https://github.com/deepflowio/deepflow/blob/main/agent/build.rs)，例如：
 
