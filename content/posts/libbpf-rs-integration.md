@@ -359,7 +359,7 @@ features = ["vendored"]
 default-features = false
 ```
 
-`vendored` 特性编译时需要下面的这些包，请根据发行版自行安装
+`vendored` 特性编译时需要执行[libbpf-sys的build.rs](https://github.com/libbpf/libbpf-sys/blob/master/build.rs)，需要下面的这些包，请根据发行版自行安装
 
 ```bash
 # centos # 使用 yum whatprovides xxx查询到具体的package
