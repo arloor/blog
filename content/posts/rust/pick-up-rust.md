@@ -423,6 +423,33 @@ cargo build --target x86_64-unknown-linux-musl
 cargo build --release --target x86_64-unknown-linux-musl
 ```
 
+## 使用build.rs指定静态链接某些库
+
+当然，除了全局静态链接，也可以在 `build.rs` 中指定仅仅静态链接某些库，可以参考 deeplflow agent 的 [build.rs](https://github.com/deepflowio/deepflow/blob/main/agent/build.rs)，例如：
+
+```rust
+println!("cargo:rustc-link-lib=static=c");
+println!("cargo:rustc-link-lib=static=elf");
+println!("cargo:rustc-link-lib=static=m");
+println!("cargo:rustc-link-lib=static=z");
+```
+
+也可以在build.rs中设置库的搜索路径，例如：
+
+```rust
+if target_env.as_str() == "musl" {
+    #[cfg(target_arch = "x86_64")]
+    println!("cargo:rustc-link-search=native=/usr/x86_64-linux-musl/lib64");
+
+    #[cfg(target_arch = "aarch64")]
+    println!("cargo:rustc-link-search=native=/usr/aarch64-linux-musl/lib64");
+}
+println!("cargo:rustc-link-search=native=/usr/lib");
+println!("cargo:rustc-link-search=native=/usr/lib64");
+```
+
+其他关于build.rs可以参考[The build script](https://doc.rust-lang.org/cargo/reference/build-scripts.html)
+
 ## 一些备忘
 
 - [rust-by-example | static_lifetime of trait-bound](https://doc.rust-lang.org/rust-by-example/scope/lifetime/static_lifetime.html#trait-bound)
