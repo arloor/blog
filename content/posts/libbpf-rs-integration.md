@@ -370,7 +370,7 @@ apt-get install -y autoconf autopoint flex bison gawk make pkg-config automake
 
 **2. 生成静态链接的 gnu 二进制文件**
 
-参考[VENDORIZE: add feature vendored](https://github.com/libbpf/libbpf-rs/pull/498)和[Rust Linkage](https://doc.rust-lang.org/reference/linkage.html)，执行以下命令即可：
+参考[Rust Linkage](https://doc.rust-lang.org/reference/linkage.html)和[VENDORIZE: add feature vendored](https://github.com/libbpf/libbpf-rs/pull/498)，执行以下命令即可：
 
 ```bash
 RUSTFLAGS="-C target-feature=+crt-static" cargo build --release --target x86_64-unknown-linux-gnu
@@ -378,7 +378,7 @@ RUSTFLAGS="-C target-feature=+crt-static" cargo build --release --target x86_64-
 
 注意：
 
-1. 仅支持gnu，**不支持musl**
+1. libbpf-rs静态链接仅支持gnu，**不支持musl**
 2. `--target x86_64-unknown-linux-gnu` 不能省略
 3. 可执行文件在 `/target/x86_64-unknown-linux-gnu/release/`
 

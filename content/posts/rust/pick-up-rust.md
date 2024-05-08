@@ -328,7 +328,71 @@ rust的编译器能自动地判断一些引用的生命周期，所以不是所�
 
 ![Alt text](/img/static_trait_bound.png)
 
-## 使用musl编译fat可执行文件
+## 静态链接可执行文件
+
+链接Linkage更多的是编译器的概念而不是语言的概念，Rust直接使用了gcc或msvc等现成编译器的链接器。因此我们先拿gcc的命令来解释下静态链接：
+
+```bash
+gcc -static -o main main.c -L/path/to/library -lexample
+```
+
+这里的命令选项解释如下：
+
+- `-static` 是一个 GCC 链接选项，用于指示链接器尽可能使用静态库来构建程序。当使用这个选项时，链接器会尝试将所有程序使用的库以静态库的形式链接进可执行文件，包括 C 标准库（libc）、数学库（libm）等通用库。
+- `-o main` 指定输出的可执行文件名为 `main`。
+- `main.c` 是包含 `main` 函数的源文件。
+- `-L/path/to/library` 添加静态库的搜索路径。如果静态库位于标准库路径，这个选项可以省略。
+- `-lexample` 指定链接库 `libexample.a`。GCC 会自动在给定的路径中搜索以 `lib` 开头且以 `.a` 结尾的文件，所以只需写出 `example`。
+
+参考[Rust Linkage: Static and dynamic C runtimes](https://doc.rust-lang.org/reference/linkage.html#static-and-dynamic-c-runtimes)，Rust的toolchain支持动态和静态两种链接方式，可以指定`crt-static` target feature 来手动配置。大部份toolchain默认是动态链接的，musl的toolchain则默认是静态链接。下面就以 `x86_64-unknown-linux-gnu` 和 `x86_64-unknown-linux-musl` 两种linux上常见的toolchain为例介绍如何进行动态链接。
+
+### x86_64-unknown-linux-gnu
+
+```shell
+RUSTFLAGS="-C target-feature=+crt-static" cargo build --release --target x86_64-unknown-linux-gnu
+```
+
+注意：
+
+1. `--target x86_64-unknown-linux-gnu` 不能省略
+2. 可执行文件在 `/target/x86_64-unknown-linux-gnu/release/`
+
+如果报错：
+
+```shell
+/usr/bin/ld: cannot find -lm
+/usr/bin/ld: cannot find -lc
+```
+
+说明系统上缺少了 `C` 标准库（libc）、数学库（libm）等通用库，安装即可。
+
+以我的redhat9开发机为例，缺失的是 `glibc-static`
+
+```bash
+# search from https://pkgs.org/search/?q=libc.a
+# centos 9
+dnf --enablerepo=crb install glibc-static
+# redhat9
+subscription-manager repos --enable codeready-builder-for-rhel-9-x86_64-rpms # https://access.redhat.com/articles/4348511
+yum install -y glibc-static # yum whatprovides "*/libc.a"
+```
+
+以ubuntu为例，缺失的是 `libc6-dev`
+
+```bash
+apt install -y libc6-dev
+
+$ apt update && apt-get install -y apt-file && apt-file update && apt-file search libc.a | grep "libc6-dev:"
+libc6-dev: /usr/lib/x86_64-linux-gnu/libc.a
+$ apt-file search libm.a | grep "libc6-dev:"
+libc6-dev: /usr/lib/x86_64-linux-gnu/libm.a
+```
+
+## x86_64-unknown-linux-musl
+
+因为musl默认使用静态链接，所以只需要编译安装musl和增加musl toolchain即可，不需要增加 `RUSTFLAGS`。建议是编译安装musl而不是使用发行版提供的musl-dev，因为发行版提供的musl-dev版本可能比较老，还是用32位的类型，可能导致编译不通过。参考[musl: Change time_t definition on 32-bit targets according to "time64"](https://github.com/rust-lang/libc/issues/1848)
+
+> musl 1.2 is now available and changes time_t for 32-bit archs to a 64-bit type。 PS: 具体而言，好像是从1.2.4开始支持64位的time_t
 
 ### 安装musl
 
