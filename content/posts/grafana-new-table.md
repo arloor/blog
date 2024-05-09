@@ -90,7 +90,7 @@ keywords:
 
 覆盖dashboard右上角的relative time（对绝对时间不生效）。主要有两种格式：
 
-- now-5m或者5m：都表示last 5min
+- now-5d或者5d：都表示 last 5 day
 - now/d: 表示today so far。 `/d`可以理解为整除day，进而可以理解为对齐到day的开始，也就是当天0点了。
 - now-5d/d: 表示从5天前的00:00到现在。`/d`对齐到了00:00
 
@@ -99,7 +99,7 @@ keywords:
 time shift是将relative time的开始时间和结束时间都往前偏移一段时间，也只在时间选择框是相对时间时生效。例如：
 
 - 1d/d或者1d：开始时间和结束时间都偏移一天
-- 0d/d: 将开始时间和结束时间都对齐到00:00。**这样也就是实现了today。**包括1m/d=0d/d，因为1m整除d就是0d整除d
+- 0d/d: 将开始时间和结束时间都对齐到00:00。**这样也就是实现了today**。包括1m/d=0d/d，因为1m整除d就是0d整除d
 
 总的来讲，关键要理解，`/d`、`/w`、`/y`都是整除，整除就可以理解为对齐到整day、整week、整year。可以自己到[Playground: Time range override.](https://play.grafana.org/d/000000041/)修改试试看。
 
