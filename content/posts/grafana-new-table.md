@@ -91,7 +91,7 @@ keywords:
 覆盖dashboard右上角的relative time（对绝对时间不生效）。主要有两种格式：
 
 - now-5d或者5d：都表示 last 5 day
-- now/d: 表示today so far。 `/d`可以理解为整除day，进而可以理解为对齐到day的开始，也就是当天0点了。
+- now/d: 表示today so far。 `/d`可以理解为整除day，进而可以理解为对齐到day的开始，也就是对齐到00:00
 - now-5d/d: 表示从5天前的00:00到现在。`/d`对齐到了00:00
 
 **Time shift：**
