@@ -86,10 +86,25 @@ keywords:
 
 ![Alt text](/img/grafana-pannel-relative-time-today.png)
 
-虽然`now/d`和`0d/d`有点抽象，但是这样设置可以保证每次打开dashboard时，这个pannel都是显示今天00:00~23:59的数据。
+**Relative time：**
 
-1. 注意，如果`Time shift`不设置，那么显示的是今天到现在的数据，也就是Today so far。
-2. 注意，`Relative time` 也可以填 `0d` 或者 `0d/d`
-3. 参考[set-dashboard-time-range](https://grafana.com/docs/grafana/latest/dashboards/use-dashboards/#set-dashboard-time-range) 
-4. 参考[use-relative-time-with-this-year](https://community.grafana.com/t/use-relative-time-with-this-year/59910/5)
-5. 参考[#query-options](https://grafana.com/docs/grafana/latest/panels-visualizations/query-transform-data/#query-options)
+覆盖dashboard右上角的relative time（对绝对时间不生效）。主要有两种格式：
+
+- now-5m或者5m：都表示last 5min
+- now/d: 表示today so far。 `/d`可以理解为整除day，进而可以理解为对齐到day的开始，也就是当天0点了。
+- now-5d/d: 表示从5天前的00:00到现在。`/d`对齐到了00:00
+
+**Time shift：**
+
+time shift是将relative time的开始时间和结束时间都往前偏移一段时间，也只在时间选择框是相对时间时生效。例如：
+
+- 1d/d或者1d：开始时间和结束时间都偏移一天
+- 0d/d: 将开始时间和结束时间都对齐到00:00。**这样也就是实现了today。**包括1m/d=0d/d，因为1m整除d就是0d整除d
+
+总的来讲，关键要理解，`/d`、`/w`、`/y`都是整除，整除就可以理解为对齐到整day、整week、整year。可以自己到[Playground: Time range override.](https://play.grafana.org/d/000000041/)修改试试看。
+
+参考：
+
+1. [set-dashboard-time-range](https://grafana.com/docs/grafana/latest/dashboards/use-dashboards/#set-dashboard-time-range) 
+2. [use-relative-time-with-this-year](https://community.grafana.com/t/use-relative-time-with-this-year/59910/5)
+3. [#query-options](https://grafana.com/docs/grafana/latest/panels-visualizations/query-transform-data/#query-options)
