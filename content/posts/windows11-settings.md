@@ -60,27 +60,41 @@ reg ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\PasswordLess\Device" 
 
 **关闭自动更新**
 
-组合键 Win + R 输入 gpedit.msc 回车 打开组策略编辑器：计算机配置 > 管理模板 > Windows组件 > Windows 更新 > 管理最终用户体验，双击进入。
+> 理论上，做了这一步之后就不需要后面的组策略配置了，因为已经完全关闭了
 
-进入后选择 配置自动更新，右键编辑属性，在弹出的配置窗口中选择 已禁用。
+组合键 `Win + R` 输入 `gpedit.msc` 回车 打开组策略编辑器。导航到**计算机配置 > 管理模板 > Windows组件 > Windows 更新 > 管理最终用户体验**，双击进入。然后修改两个选项：
 
+| 选项名称 | 配置 | 说明 |
+| --- | --- | --- |
+| 配置自动更新 | 已禁用 | 如果将此策略的状态设置为“已禁用”，则必须手动下载并安装 Windows 更新中可用的任何更新。若要执行此操作，请使用“开始”搜索 Windows 更新。 |
+| 删除使用所有Windows更新功能的访问权限 | 已启用 | 此设置允许你删除扫描 Windows 更新所需的访问权限。如果启用此设置，将删除用户扫描、下载和安装 Windows 更新所需的访问权限。 |
+
+重启电脑后就生效了。
+
+![alt text](/img/windows11-gpedit-close-update.png)
 
 **配置target version**
 
-> 比如不想升级到windows 11, 24H2
+> 比如想停留在23H2，不想升级24H2
 
-1. 按Win+R输入gpedit.msc并按Enter键打开本地组策略编辑器。
-2. 转到此路径：本地计算机策略>计算机配置>管理模板>Windows组件>Windows更新>适用于企业的Windows更新。
-转到适用于企业的Windows更新文件夹
-3. 双击此文件夹下的“选择目标功能更新版本”设置。
-4. 在弹出窗口中将其配置为“已启用”，在左下方长条框中填入“23H2”（或者其他您想停留的Windows11版本），然后单击“应用”>“确定”即可。
-5. 关闭本地组策略编辑器，重启计算机即可彻底停止Win11更新。
+组合键 `Win + R` 输入 `gpedit.msc` 回车 打开组策略编辑器。导航到**计算机配置 > 管理模板 > Windows组件 > Windows 更新 > 管理从Windows更新提供的更新**，双击进入。点击“选择目标功能更新版本”，将其配置为“已启用”，然后在下方填入你想停留的版本，比如“23H2”，然后点击应用。重启电脑后就生效了。
+
+![alt text](/img/windows11-gpedit-target-version.png)
+
+
+**关闭自动更新驱动程序**
+
+> 有人反馈自动更新amd显卡驱动导致蓝屏，整体来说专业的事还是找驱动大师这种软件搞把。
+
+组合键 `Win + R` 输入 `gpedit.msc` 回车 打开组策略编辑器。导航到**计算机配置 > 管理模板 > Windows组件 > Windows 更新 > Windows更新不包含驱动程序**，双击进入，设置为已启用。重启电脑后就生效了。
+
+![alt text](/img/windows11-gpedit-disable-driver-update.png)
 
 ## 注册表
 
-> 实际上，上面的组策略最终也是通过修改注册表实现的
+首先要说，上面设置的组策略最终也是通过修改注册表来生效的。组策略修改生在有图形界面，因此我不推荐使用注册表修改，而且也不推荐混用组策略和注册表修改，因为可能出现不一致的情况。
 
-Windows注册表实质上是一个庞大的数据库，存储着各种各样的计算机数据与配置，我们可以通过编辑注册表来解决一些很难搞定的计算机问题，比如彻底关闭Win11更新。
+**关闭自动更新**
 
 1. 按Win+R输入regedit并按Enter键打开注册表编辑器。
 2. 导航到此路径：HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows。
@@ -89,3 +103,22 @@ Windows注册表实质上是一个庞大的数据库，存储着各种各样的�
 5. 在新建的AU文件夹右侧空白页面中右键单击并选择“新建”>“DWORD（32位）值”，然后将其命名为“NoAutoUpdate”。
 6. 双击新建的NoAutoUpdate，在弹出窗口中将其数值数据从0更改为1，然后单击“确定”。
 7. 关闭注册表编辑器，重启计算机即可彻底关闭Windows更新。
+
+**禁止手动检查更新**
+
+1. 按Win+R输入regedit并按Enter键打开注册表编辑器。
+2. 导航到此路径：HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows。
+3. 右键单击Windows文件夹，选择“新建”>“项”，然后将其命名为“WindowsUpdate”。
+4. 右键单击新建的WindowsUpdate文件夹，选择“新建”>“DWORD（32位）值”，然后将其命名为“SetDisableUXWUAccess”。
+6. 双击新建的SetDisableUXWUAccess，在弹出窗口中将其数值数据从0更改为1，然后单击“确定”。
+7. 关闭注册表编辑器，重启计算机，windows设置中就无法手动检查更新了。
+
+**禁止自动更新驱动**
+
+1. 按Win+R输入regedit并按Enter键打开注册表编辑器。
+2. 导航到此路径：HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows。
+3. 右键单击Windows文件夹，选择“新建”>“项”，然后将其命名为“WindowsUpdate”。
+4. 右键单击新建的WindowsUpdate文件夹，选择“新建”>“DWORD（32位）值”，然后将其命名为“ExcludeWUDriversInQualityUpdate”。
+6. 双击新建的ExcludeWUDriversInQualityUpdate，在弹出窗口中将其数值数据从0更改为1，然后单击“确定”。
+7. 关闭注册表编辑器，重启计算机即可关闭驱动自动更新。
+
