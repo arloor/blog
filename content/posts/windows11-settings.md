@@ -136,7 +136,7 @@ reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /
 REM -- 禁止自动更新驱动
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v ExcludeWUDriversInQualityUpdate /t REG_DWORD /d 1 /f
 
-echo Windows更新设置已修改。需要重启计算机才能生效。
+echo Windows Update settings had been modified. Please reboot to take effect
 pause
 ```
 
