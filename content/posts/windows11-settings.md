@@ -125,7 +125,7 @@ reg ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\PasswordLess\Device" 
 
 问了chatgpt老师，可以用 `.bat` 脚本一键完成:
 
-```bat
+```bash
 @echo off
 REM -- 关闭自动更新
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v NoAutoUpdate /t REG_DWORD /d 1 /f
