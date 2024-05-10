@@ -122,3 +122,34 @@ reg ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\PasswordLess\Device" 
 6. 双击新建的ExcludeWUDriversInQualityUpdate，在弹出窗口中将其数值数据从0更改为1，然后单击“确定”。
 7. 关闭注册表编辑器，重启计算机即可关闭驱动自动更新。
 
+
+问了chatgpt老师，可以用 `.bat` 脚本一键完成:
+
+```batch
+@echo off
+REM -- 关闭自动更新
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v NoAutoUpdate /t REG_DWORD /d 1 /f
+
+REM -- 禁止手动检查更新
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v SetDisableUXWUAccess /t REG_DWORD /d 1 /f
+
+REM -- 禁止自动更新驱动
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v ExcludeWUDriversInQualityUpdate /t REG_DWORD /d 1 /f
+
+echo Windows更新设置已修改。需要重启计算机才能生效。
+pause
+```
+
+**脚本说明**
+
+1. 这个脚本使用了 `reg add` 命令来添加或修改注册表项。
+2. 参数 `/v` 指定值的名称，`/t` 指定数据类型，`/d` 指定数据内容，`/f` 表示强制覆盖而不提示。
+3. `@echo off` 用于关闭命令回显，使输出更清晰。
+4. `pause` 命令在脚本执行完成后暂停，让用户有机会看到任何错误消息或确认信息。
+
+**使用方法**
+
+1. 将上面的代码复制到记事本中。
+2. 将文件保存为 `.bat` 扩展名，例如 `disable_windows_updates.bat`。
+3. 右键单击文件并选择“以管理员身份运行”以应用更改。
+4. 重启计算机以使更改生效。
