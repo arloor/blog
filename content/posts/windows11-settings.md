@@ -90,7 +90,7 @@ reg ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\PasswordLess\Device" 
 
 ![alt text](/img/windows11-gpedit-disable-driver-update.png)
 
-## 注册表
+### 注册表
 
 首先要说，上面设置的组策略最终也是通过修改注册表来生效的。组策略修改生在有图形界面，因此我不推荐使用注册表修改，而且也不推荐混用组策略和注册表修改，因为可能出现不一致的情况。
 
@@ -125,7 +125,7 @@ reg ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\PasswordLess\Device" 
 
 问了chatgpt老师，可以用 `.bat` 脚本一键完成:
 
-```batch
+```bat
 @echo off
 REM -- 关闭自动更新
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v NoAutoUpdate /t REG_DWORD /d 1 /f
