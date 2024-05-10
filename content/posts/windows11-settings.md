@@ -52,7 +52,7 @@ reg ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\PasswordLess\Device" 
 
 ## 关闭windows自动更新
 
-推荐使用组策略或注册表来做。
+推荐使用组策略或注册表来做，参考[https://www.disktool.cn/content-center/stop-windows-11-update-666.html](https://www.disktool.cn/content-center/stop-windows-11-update-666.html)
 
 ### 组策略
 
