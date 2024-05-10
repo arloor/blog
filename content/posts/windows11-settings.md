@@ -153,3 +153,5 @@ pause
 2. 将文件保存为 `.bat` 扩展名，例如 `disable_windows_updates.bat`。
 3. 右键单击文件并选择“以管理员身份运行”以应用更改。
 4. 重启计算机以使更改生效。
+
+可以从[此处](/bat/disable_windows_updates.bat)下载本脚本。
