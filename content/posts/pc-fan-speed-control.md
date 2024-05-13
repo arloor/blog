@@ -74,4 +74,4 @@ auto开启后，并且在电源管理模式为“正常”的情况下，在低�
 
 我的思路和Macbook Pro的风扇调教很像，在腾讯lemon cleaner中看到在50度以下mac的风扇都是不转的：
 
-{{< imgx src="/img/mac-lemon-cleaner-fan-stop-under-50.png" alt="" width="700px" style="max-width: 100%;">}}
+{{< imgx src="/img/mac-lemon-cleaner-fan-stop-under-50.png" alt="" width="400px" style="max-width: 100%;">}}
