@@ -87,3 +87,7 @@ auto开启后，并且在电源管理模式为“正常”的情况下，在低�
 **备用2**
 
 ![alt text](/img/bios-third-cpu-fan-control.bmp)
+
+**备用3**
+
+![alt text](/img/bios-fourth-cpu-fan-control.bmp)
