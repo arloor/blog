@@ -1,5 +1,5 @@
 ---
-title: "台式机风扇调教"
+title: "Nvidia显卡风扇转速设置"
 date: 2024-05-12T19:18:49+08:00
 draft: false
 categories: [ "undefined"]
