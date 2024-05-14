@@ -75,6 +75,8 @@ bpftool btf dump file /sys/kernel/btf/vmlinux format c > vmlinux.h
 
 **program.bpf.c：**
 
+> 如果想在c语言文件中进行符号跳转，可以安装微软的 C/C++ 插件 `ms-vscode.cpptools`，整体体验还是不错的，bpf的helper函数也能跳转。
+
 ```c
 #include "vmlinux.h"
 #include <bpf/bpf_helpers.h>
