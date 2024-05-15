@@ -29,7 +29,7 @@ virtual thread让我们在编写IO处理程序（典型的是http服务器），
 
 能够增加存在大量等待（BIO/sleep/BlockingQueue.take(））的程序的并发性
 
-```sql
+```java
 void handle(Request request, Response response) {
     var url1 = ...
     var url2 = ...
@@ -61,7 +61,7 @@ String fetchURL(URL url) throws IOException {
 
 [Multithreaded Client Server Example](https://docs.oracle.com/en/java/javase/21/core/virtual-threads.html#GUID-2DDA5807-5BD5-4ABC-B62A-A1230F0566E0)
 
-```sql
+```java
 public class EchoServer {
     
     public static void main(String[] args) throws IOException {
@@ -107,7 +107,7 @@ public class EchoServer {
 }
 ```
 
-```bash
+```java
 public class EchoClient {
     public static void main(String[] args) throws IOException {
         if (args.length != 2) {
