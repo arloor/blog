@@ -29,6 +29,8 @@ keywords:
 
 ### msi afterburner中设置转速为auto
 
+afterburner俗称小飞机，是微星免费的显卡超频、游戏帧率监控软件，可用于所有品牌的nvidia显卡，官方下载地址[https://www.msi.com/Landing/afterburner/graphics-cards](https://www.msi.com/Landing/afterburner/graphics-cards)
+
 ![alt text](/img/afterburner-auto-speed.png)
 
 注意，auto不开的话，风扇转速会被锁定在固定的速率。并且在下面一节的**手动设置不同温度的转速也是需要开启auto的**。
@@ -49,7 +51,7 @@ auto开启后，并且在电源管理模式为“正常”的情况下，在低�
 
 ## 冷排风扇调教
 
-我使用的是14cm的风扇，均为PWM调速，使用Fan Control这个软件获得了几个关键转速：
+我使用的是14cm的风扇，均为PWM调速，使用Fan Control这个软件([下载地址](https://getfancontrol.com/))获得了几个关键转速：
 
 | PWM百分比 | RPM | 说明 |
 | --- | --- | --- |
@@ -65,11 +67,12 @@ auto开启后，并且在电源管理模式为“正常”的情况下，在低�
 
 ![alt text](/img/fancontrol-auto-detect-speed.png)
 
-下图是我BIOS中的风扇转速设置，核心思路有几个点
+至于转速设置我并没有使用Fan control，而是在BIOS设置的。下图是我BIOS中的风扇转速设置，核心思路有几个点
 
-1. 最低为20%，以避免停转。55度以内都是20%，保证无负载时的安静（对于我的13700kf，大部分内容可以认为是无负载的）
-2. 70度以内不超过1000转，保证日常轻负载的安静
-3. 80度开始，以2000转运行，转速再高的收益就不明显了，声音反而太大
+1. 55度以内都是20%，保证无负载时的安静（对于我的13700kf，大部分内容可以认为是无负载的）
+2. 60度以内不超过1000转，保证日常轻负载的安静
+3. 70度以内，不超过2000转。
+3. 80度开始，全速运行。在我的散热条件下，基本不会达到80度，所以这个设置基本不会生效。
 
 ![alt text](/img/bios-cpu-fan-control.bmp)
 
@@ -78,7 +81,3 @@ auto开启后，并且在电源管理模式为“正常”的情况下，在低�
 我的思路和Macbook Pro的风扇调教很像，在腾讯lemon cleaner中看到在50度以下mac的风扇都是不转的：
 
 {{< imgx src="/img/mac-lemon-cleaner-fan-stop-under-50.png" alt="" width="400px" style="max-width: 100%;">}}
-
-## 备选水泵和冷排风扇转速设置
-
-![alt text](/img/bios-fourth-cpu-fan-control.bmp)
