@@ -23,9 +23,13 @@ keywords:
 
 ### nvidia控制面板电源管理模式选正常
 
+> 如果没改过nvidia控制面板的配置，那么不需要做这一步
+
 在nvidia控制面板中，设置电源管理模式选正常，**不要选“最高性能优先”，不然GPU风扇最低为30%**，还是有点吵的。如果一定要在某些程序运行时设置最高性能有限，建议在“程序设置”中单独给程序设置。
 
 ![alt text](/img/nvidia-control-pannel-power-normal.png)
+
+注意nvidia控制面板在windows11中需要在microsoft store中下载，直达链接[https://apps.microsoft.com/detail/9nf8h0h7wmlt?tp=RHJpdmVyR2FtaW5nIE5C&rtc=1&hl=zh-cn&gl=US](https://apps.microsoft.com/detail/9nf8h0h7wmlt?tp=RHJpdmVyR2FtaW5nIE5C&rtc=1&hl=zh-cn&gl=US)
 
 ### msi afterburner中设置转速为auto
 
