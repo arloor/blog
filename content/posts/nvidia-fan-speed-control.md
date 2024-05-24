@@ -23,11 +23,11 @@ keywords:
 
 ### nvidia控制面板电源管理模式选正常
 
-B站有UP主建议电源管理模式选“最高性能优先”，以获得最好的显示效果和响应速度。但是这会导致显卡风扇在低负载时也**会以30%转速运行**，这样会有一定的噪音。因此，我在nvidia控制面板中，设置电源管理模式选正常，**不选“最高性能优先”**，还是有点吵的。如果一定要在某些程序运行时设置最高性能有限，建议在“程序设置”中单独给程序设置。
+B站有UP主建议电源管理模式选“最高性能优先”，以获得最好的显示效果和响应速度。但是这会导致显卡风扇在低负载时也**会以30%转速运行**，这样会有一定的噪音。因此，我在nvidia控制面板中，设置电源管理模式选正常，**不选“最高性能优先”**，还是有点吵的。当然如果你没有改过这个配置，默认就是“正常”，不需要额外修改。
 
 ![alt text](/img/nvidia-control-pannel-power-normal.png)
 
-注意nvidia控制面板在windows11中需要在microsoft store中下载，直达链接[https://apps.microsoft.com/detail/9nf8h0h7wmlt?tp=RHJpdmVyR2FtaW5nIE5C&rtc=1&hl=zh-cn&gl=US](https://apps.microsoft.com/detail/9nf8h0h7wmlt?tp=RHJpdmVyR2FtaW5nIE5C&rtc=1&hl=zh-cn&gl=US)
+注意：nvidia控制面板在windows11中需要在microsoft store中下载，直达链接[https://apps.microsoft.com/detail/9nf8h0h7wmlt?tp=RHJpdmVyR2FtaW5nIE5C&rtc=1&hl=zh-cn&gl=US](https://apps.microsoft.com/detail/9nf8h0h7wmlt?tp=RHJpdmVyR2FtaW5nIE5C&rtc=1&hl=zh-cn&gl=US)
 
 ### msi afterburner中设置转速为auto
 
