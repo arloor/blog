@@ -86,6 +86,6 @@ auto开启后，并且在电源管理模式为“正常”的情况下，在低�
 
 ## BIOS降压
 
-从12代Intel CPUk开始，都有加入了CEP功能，导致CPU电压过高，温度过高，功耗过高。这里参考[【调调BIOS CPU就能暴降30度？！微星B板Z板新微码降压教程 + TRYX全球首款曲面屏水冷测试 【翼王工作室】】 【精准空降到 15:02】](https://www.bilibili.com/video/BV1sZ421Y7H1/?share_source=copy_web&vd_source=38a28c20d917b5ddaf8230ed27e499ff&t=902)做到性能无损的情况下降低功耗，降低CPU温度。
+从12代Intel CPUk开始，都有加入了CEP功能，导致CPU电压过高，温度过高，功耗过高。这里参考[【调调BIOS CPU就能暴降30度？！微星B板Z板新微码降压教程 + TRYX全球首款曲面屏水冷测试 【翼王工作室】】 【精准空降到 15:02】](https://www.bilibili.com/video/BV1sZ421Y7H1/?share_source=copy_web&vd_source=38a28c20d917b5ddaf8230ed27e499ff&t=902)给我的13700kf+b760迫击炮2代的组合做到性能无损的情况下降低功耗，降低CPU温度，效果非常显著，下面是我的bios配置：
 
 ![alt text](/img/bios-no-uvp.bmp)
