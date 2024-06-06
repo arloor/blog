@@ -20,22 +20,16 @@ docker很火，所以我想入门。这篇文章是记录学习的，所以可�
 
 在使用systemd的linux发行版中（比如ubuntu 18.04），可以这样配置：参见[#httphttps-proxy](https://docs.docker.com/config/daemon/systemd/#httphttps-proxy)
 
-```
-#覆盖 the default docker.service file
+```bash
 sudo mkdir -p /etc/systemd/system/docker.service.d
-sudo vim /etc/systemd/system/docker.service.d/http-proxy.conf
+sudo touch /etc/systemd/system/docker.service.d/http-proxy.conf
 
-# 写入下列内容，配置proxy
+if ! grep HTTP_PROXY /etc/systemd/system/docker.service.d/http-proxy.conf;
+then
+cat >> /etc/systemd/system/docker.service.d/http-proxy.conf <<EOF
 [Service]
-Environment="HTTP_PROXY=http://127.0.0.1:8081/" "NO_PROXY=localhost,127.0.0.1,docker-registry.somecorporation.com"
-
-# Flush changes:
-sudo systemctl daemon-reload
-#Restart Docker:
-sudo systemctl restart docker
-#Verify that the configuration has been loaded:
-sudo systemctl show --property=Environment docker
-# 像这样：Environment=HTTP_PROXY=http://127.0.0.1:8081/ NO_PROXY=localhost,127.0.0.1,docker-registry.so
+Environment="HTTP_PROXY=http://127.0.0.1:3128/" "HTTPS_PROXY=http://127.0.0.1:3128/" "NO_PROXY=localhost,127.0.0.1,docker-registry.somecorporation.com"
+EOF
 ```
 
 ## 设置国内镜像
