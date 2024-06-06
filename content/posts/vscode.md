@@ -234,6 +234,23 @@ pip3 install -r requirements.txt
 
 ![alt text](/img/vscode-add-python-debug-3.png)
 
+## integrated terminal
+
+我在远程开发时经常遇到重新连接远程机器时，集成terminal没有正常初始化，表现为shell标记旁边出现黄色感叹号。参考[Terminal Shell Integration](https://code.visualstudio.com/docs/terminal/shell-integration)，发现需要关闭“自动脚本注入”，选择手动开启。具体操作是：
+
+1. 按 `cmd + ,` 打开设置，不勾选下面的选项。对应 settings.json 中的配置是`"terminal.integrated.shellIntegration.enabled": false`
+
+![alt text](/img/disable-vscode-integeted-terminal.png)
+
+2. 在 zshrc 中手动开启集成terminal
+
+```bash
+if ! grep TERM_PROGRAM ~/.zshrc;then
+echo '[[ "$TERM_PROGRAM" == "vscode" ]] && . "$(code --locate-shell-integration-path zsh)"' >> ~/.zshrc
+fi
+```
+
+
 ## 其他插件
 
 ### Git插件
@@ -261,7 +278,7 @@ pip3 install -r requirements.txt
     "git.confirmSync": false,
     "update.showReleaseNotes": false,
     "editor.minimap.enabled": false,
-    "terminal.integrated.enableMultiLinePasteWarning": "auto",
+    "terminal.integrated.enableMultiLinePasteWarning": false,
     "git.autofetch": true,
     "redhat.telemetry.enabled": true,
     "terminal.integrated.fontSize": 13,
@@ -305,5 +322,12 @@ pip3 install -r requirements.txt
         "pl.arloor.com": "linux"
     },
     "go.toolsManagement.autoUpdate": true,
+    "diffEditor.ignoreTrimWhitespace": false,
+    "debug.onTaskErrors": "showErrors",
+    "qx-drafts.folderPath": "/repo/settings",
+    "diffEditor.renderSideBySide": true,
+    "github.copilot.editor.enableAutoCompletions": true,
+    "terminal.integrated.shellIntegration.enabled": false, // 不自动开启集成terminal
+
 }
 ```
