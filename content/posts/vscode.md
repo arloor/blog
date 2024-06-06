@@ -142,8 +142,18 @@ rm -rf $HOME/.vscode-server # Or ~/.vscode-server-insiders
 
 ## Golang开发
 
-1. 安装插件 `golang.go`
-2. 安装相关的依赖
+1. 安装golang
+
+```bash
+curl https://go.dev/dl/go1.21.11.linux-amd64.tar.gz -Lf -o /tmp/golang.tar.gz
+rm -rf /usr/local/go && tar -C /usr/local -xzf /tmp/golang.tar.gz
+if ! grep "go/bin" ~/.zshrc;then
+  export PATH=$PATH:/usr/local/go/bin
+fi
+```
+
+2. 安装插件 `golang.go`
+3. 安装相关的依赖
 
 参考 [codespaces devcontainers go feature install.sh](https://github.com/devcontainers/features/blob/main/src/go/install.sh#L177)
 
@@ -246,7 +256,7 @@ pip3 install -r requirements.txt
 
 ```bash
 if ! grep TERM_PROGRAM ~/.zshrc;then
-echo '[[ "$TERM_PROGRAM" == "vscode" ]] && . "$(code --locate-shell-integration-path zsh)"' >> ~/.zshrc
+  echo '[[ "$TERM_PROGRAM" == "vscode" ]] && . "$(code --locate-shell-integration-path zsh)"' >> ~/.zshrc
 fi
 ```
 
