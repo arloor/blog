@@ -133,3 +133,12 @@ reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /
 ```
 
 这个脚本使用了 `reg add` 命令来添加或修改注册表项。参数 `/v` 指定值的名称，`/t` 指定数据类型，`/d` 指定数据内容，`/f` 表示强制覆盖而不提示。可以从[此处](/bat/disable_windows_updates.bat)下载本脚本。
+
+
+## 应用已卸载但是设置->应用中还有
+
+在注册表中删除即可
+
+```go
+计算机\HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall
+```
