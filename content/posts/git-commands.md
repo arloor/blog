@@ -129,5 +129,5 @@ git rm -r --cached data/*.csv
 更暴力的也可以：
 
 ```bash
-git rm -r --cached
+git rm -r --cached .
 ```
