@@ -110,7 +110,19 @@ git gc --prune=now
 git -P log -1 -p --color
 ```
 
-## 将已被追踪的文件加入 .gitignore
+## 不再跟踪某个文件
+
+如果想要保持之前的内容，不再提交之后的变更，可以使用下面的命令：
+
+```bash
+git update-index --assume-unchanged path/to/your/file # 假设某文件未变更，从而不加入暂存区
+git ls-files -v | grep '^[a-z]' # 查看当前被假设未变更的文件，即以 h 开头的文件
+
+# git update-index --no-assume-unchanged path/to/your/file # 恢复
+```
+
+
+## 将已被追踪的文件删除并加入 `.gitignore`
 
 比如要在 `.gitignore` 中增加：
 
@@ -131,3 +143,5 @@ git rm -r --cached data/*.csv
 ```bash
 git rm -r --cached .
 ```
+
+之后可以 `add` 和 `commit`
