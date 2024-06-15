@@ -269,9 +269,6 @@ fi
 {
     "editor.formatOnSave": true,
     "files.autoSave": "onFocusChange",
-    "editor.formatOnType": true,
-    "editor.formatOnPaste": true,
-    "editor.formatOnSaveTimeout": 5000,
 }
 ```
 
