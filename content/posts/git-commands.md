@@ -96,7 +96,6 @@ git push --force --all
 git push origin master --force --tags
 ```
 
-
 立即删除本地无用的缓存，释放空间
 
 ```bash
@@ -109,4 +108,20 @@ git gc --prune=now
 
 ```bash
 git -P log -1 -p --color
+```
+
+## 将已被追踪的文件加入 .gitignore
+
+比如要在 `.gitignore` 中增加：
+
+```bash
+logs/
+data/*.csv
+```
+
+需要执行下面命令删除相关缓存
+
+```bash
+git rm -r --cached logs/
+git rm -r --cached data/*.csv
 ```
