@@ -287,7 +287,6 @@ fi
 
 ```json
 {
-    "files.autoSave": "afterDelay",
     "editor.unicodeHighlight.nonBasicASCII": false,
     "editor.fontSize": 14,
     "editor.fontFamily": "'JetBrains Mono', Menlo, Monaco, 'Courier New', monospace",
@@ -299,9 +298,7 @@ fi
     "git.confirmSync": false,
     "update.showReleaseNotes": false,
     "editor.minimap.enabled": false,
-    "terminal.integrated.enableMultiLinePasteWarning": false,
     "git.autofetch": true,
-    "redhat.telemetry.enabled": true,
     "terminal.integrated.fontSize": 13,
     "debug.console.fontSize": 13,
     "workbench.editor.empty.hint": "hidden",
@@ -343,12 +340,13 @@ fi
         "pl.arloor.com": "linux"
     },
     "go.toolsManagement.autoUpdate": true,
-    "diffEditor.ignoreTrimWhitespace": false,
+    "diffEditor.ignoreTrimWhitespace": true,
     "debug.onTaskErrors": "showErrors",
-    "qx-drafts.folderPath": "/repo/settings",
     "diffEditor.renderSideBySide": true,
     "github.copilot.editor.enableAutoCompletions": true,
-    "terminal.integrated.shellIntegration.enabled": false, // 不自动开启集成terminal
-
+    "terminal.integrated.shellIntegration.enabled": false,
+    "go.formatTool": "gofmt",
+    "editor.formatOnSave": true,
+    "files.autoSave": "afterDelay",
 }
 ```
