@@ -261,6 +261,20 @@ fi
 ```
 
 
+## 文件自动保存+自动格式化
+
+> files.autoSave设置成延迟时，自动format无效
+
+```json
+{
+    "editor.formatOnSave": true,
+    "files.autoSave": "onFocusChange",
+    "editor.formatOnType": true,
+    "editor.formatOnPaste": true,
+    "editor.formatOnSaveTimeout": 5000,
+}
+```
+
 ## 其他插件
 
 ### Git插件
