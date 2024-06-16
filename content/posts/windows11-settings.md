@@ -132,8 +132,13 @@ reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v ExcludeWUDriversInQualityUpdate /t REG_DWORD /d 1 /f
 ```
 
-这个脚本使用了 `reg add` 命令来添加或修改注册表项。参数 `/v` 指定值的名称，`/t` 指定数据类型，`/d` 指定数据内容，`/f` 表示强制覆盖而不提示。可以从[此处](/bat/disable_windows_updates.bat)下载本脚本。
+这个脚本使用了 `reg add` 命令来添加或修改注册表项。参数 `/v` 指定值的名称，`/t` 指定数据类型，`/d` 指定数据内容，`/f` 表示强制覆盖而不提示。
 
+如果需要暂时开启更新，可以执行下面的命令，然后到设置中手动检查更新。
+
+```bash
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v SetDisableUXWUAccess /t REG_DWORD /d 0 /f
+```
 
 ## 应用已卸载但是设置->应用中还有
 
