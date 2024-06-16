@@ -147,3 +147,12 @@ reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /
 ```go
 计算机\HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall
 ```
+
+## 窗口最小化
+
+1. `ALT+Esc` 可以使当前窗口最小化。
+2. `Win+D` 最小化所有窗口，再按一下就可以还原窗口。
+3. `Windows+M` 最小化所有窗口 。
+4. `Windows+Shift+M` 还原最小化的窗口。
+5. `Alt+空格+N` 最小化当前窗口(和浏览器的最小化一样)
+6. `ALT+TAB` 这个是切换窗口的按钮，切换到另外一个窗口，这个窗口自然也可以最小化。
