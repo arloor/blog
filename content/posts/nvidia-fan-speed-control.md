@@ -97,3 +97,5 @@ auto开启后，并且在电源管理模式为“正常”的情况下，在低�
 - CPU Lite Load Control: [Normal]->[高级]
 - CPU AC Loadline: [Auto]->[65]
 - CPU重载线校准控制：[自动]->[Mode 6]
+
+2024-06-17更新：我把CPU换成了14600kf来使用B760m主板的关闭CEP功能，参考的操作在[【调调BIOS CPU就能暴降30度？！微星B板Z板新微码降压教程 + TRYX全球首款曲面屏水冷测试 【翼王工作室】】 【精准空降到 10:47】]( https://www.bilibili.com/video/BV1sZ421Y7H1/?share_source=copy_web&vd_source=38a28c20d917b5ddaf8230ed27e499ff&t=647)
