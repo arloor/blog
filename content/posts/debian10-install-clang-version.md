@@ -1,5 +1,5 @@
 ---
-title: "Debian10 Install Clang Specific Version"
+title: "Debian10 Install Clang 16"
 date: 2024-06-21T14:12:12+08:00
 draft: false
 categories: [ "undefined"]
@@ -20,5 +20,5 @@ apt-key add llvm-snapshot.gpg.key
 apt install -y software-properties-common
 add-apt-repository "deb http://apt.llvm.org/buster/ llvm-toolchain-$(lsb_release -sc)-16 main"
 apt update
-apt install clang-format-16
+apt install clang-format-16 clang-16
 ```
