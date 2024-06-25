@@ -254,12 +254,22 @@ pip3 install -r requirements.txt
 
 2. 在 zshrc 中手动开启集成terminal
 
+Linux上
+
 ```bash
 if ! grep TERM_PROGRAM ~/.zshrc;then
   echo '[[ "$TERM_PROGRAM" == "vscode" ]] && . "$(code --locate-shell-integration-path zsh)"' >> ~/.zshrc
 fi
 ```
 
+
+MacOS上：
+
+```bash
+if ! grep TERM_PROGRAM ~/.zshrc;then
+  echo '[[ "$TERM_PROGRAM" == "vscode" ]] && . "$(/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --locate-shell-integration-path zsh)"' >> ~/.zshrc
+fi
+```
 
 ## 文件自动保存+自动格式化
 
