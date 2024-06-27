@@ -156,3 +156,13 @@ reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /
 4. `Windows+Shift+M` 还原最小化的窗口。
 5. `Alt+空格+N` 最小化当前窗口(和浏览器的最小化一样)
 6. `ALT+TAB` 这个是切换窗口的按钮，切换到另外一个窗口，这个窗口自然也可以最小化。
+
+## 恢复老的右键菜单
+
+以管理员运行：
+
+```bash
+reg add "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32" /f
+taskkill /F /IM explorer.exe
+explorer.exe
+```
