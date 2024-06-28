@@ -184,5 +184,5 @@ if %ERRORLEVEL%==0 (
 )
 
 endlocal
-pause
+timeout /t 5 /nobreak
 ```
