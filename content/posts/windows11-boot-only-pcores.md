@@ -29,11 +29,11 @@ keywords:
 
 ## 上脚本
 
-看官可以自己保存下面的脚本为bat，以方便的进行设置。下面的脚本做了几件事
+我自己使用了下面的脚本，要玩埃尔登法环的时候就运行 `仅以大核启动.bat`，退出游戏后就用 `全核心启动.bat`。具体来说，下面的脚本做了几件事
 
 1. 自动获取管理员权限
 2. 调用 `bcdedit` 修改启动核心数的配置
-3. 显示当前配置
+3. 显示启动核心数的配置用于核对
 4. 询问是否重启电脑
 
 注意，要把12改成你的CPU对应的数值。
@@ -73,13 +73,11 @@ setlocal
 bcdedit /enum | findstr /i "numproc" >nul
 
 :: 检查 findstr 命令的错误级别（ERRORLEVEL）
-color 0A
 if %ERRORLEVEL%==0 (
     echo enable 12 cores
 ) else (
     echo enable all cores
 )
-color 07
 
 endlocal
 
@@ -127,13 +125,11 @@ setlocal
 bcdedit /enum | findstr /i "numproc" >nul
 
 :: 检查 findstr 命令的错误级别（ERRORLEVEL）
-color 0A
 if %ERRORLEVEL%==0 (
     echo enable 12 cores
 ) else (
     echo enable all cores
 )
-color 07
 
 endlocal
 
@@ -144,4 +140,49 @@ if /i "%confirm%"=="Y" (
 ) else (
     echo Restart canceled.
 )
+```
+
+
+## 显示当前核心数配置
+
+```bash
+@echo off
+:: BatchGotAdmin
+:-------------------------------------
+REM  --> Check for permissions
+    >nul 2>&1 "%SYSTEMROOT%\system32\cacls.exe" "%SYSTEMROOT%\system32\config\system"
+
+REM --> If error flag set, we do not have admin.
+if '%errorlevel%' NEQ '0' (
+    echo Requesting administrative privileges...
+    goto UACPrompt
+) else ( goto gotAdmin )
+
+:UACPrompt
+    echo Set UAC = CreateObject^("Shell.Application"^) > "%temp%\getadmin.vbs"
+    echo UAC.ShellExecute "cmd.exe", "/c ""%~s0""", "", "runas", 1 >> "%temp%\getadmin.vbs"
+    "%temp%\getadmin.vbs"
+    del "%temp%\getadmin.vbs"
+    exit /B
+
+:gotAdmin
+    pushd "%CD%"
+    CD /D "%~dp0"
+:--------------------------------------
+echo Running with elevated privileges...
+
+setlocal
+
+:: 执行 bcdedit /enum 并查找 numproc
+bcdedit /enum | findstr /i "numproc" >nul
+
+:: 检查 findstr 命令的错误级别（ERRORLEVEL）
+if %ERRORLEVEL%==0 (
+    echo enable 12 cores
+) else (
+    echo enable all cores
+)
+
+endlocal
+pause
 ```
