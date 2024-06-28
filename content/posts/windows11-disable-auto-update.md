@@ -38,8 +38,8 @@ reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /
 
 ## 本站准备好的bat文件
 
-- [关闭windows更新](/bat/disable_windows_updates.bat)
-- [允许手动检查更新](/bat/enable_windows_updates.bat)
+- [关闭windows更新.bat](/bat/disable_windows_updates.bat)
+- [允许手动检查更新.bat](/bat/enable_windows_updates.bat)
 
 这两个bat文件都能自动获取管理员权限，因此不需要手动以管理员身份运行。
 
