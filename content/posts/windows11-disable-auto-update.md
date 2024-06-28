@@ -12,7 +12,7 @@ keywords:
 ---
 
 
-参考[https://www.disktool.cn/content-center/stop-windows-11-update-666.html](https://www.disktool.cn/content-center/stop-windows-11-update-666.html)，推荐使用组策略或注册表来做。在文章最开始，我们给出windows11 pro版的一键脚本分别**彻底关闭更新**和**允许手动检查更新**，注意这两个脚本都需要在管理员权限的cmd中运行。
+参考[https://www.disktool.cn/content-center/stop-windows-11-update-666.html](https://www.disktool.cn/content-center/stop-windows-11-update-666.html)，推荐使用组策略或注册表来做。在文章最开始，我们给出windows11 pro版的一键脚本分别**彻底关闭更新**和**允许手动检查更新**，注意这两个脚本都需要在管理员权限的cmd中运行。当然我的建议是，平时关闭windows更新，时长到[Windows 11, version 23H2 update history](https://support.microsoft.com/en-us/topic/windows-11-version-23h2-update-history-59875222-b990-4bd9-932f-91a5954de434)和[Windows 11版本 23H2 更新历史记录](https://support.microsoft.com/zh-cn/topic/windows-11%E7%89%88%E6%9C%AC-23h2-%E6%9B%B4%E6%96%B0%E5%8E%86%E5%8F%B2%E8%AE%B0%E5%BD%95-59875222-b990-4bd9-932f-91a5954de434)看看有没有有用的更新。看到又更新后，别急着更新，过个十天半个月用搜索引擎搜搜看看该更新有没有问题再说。比如最近的[kb5039302](https://support.microsoft.com/en-us/topic/june-25-2024-kb5039302-os-builds-22621-3810-and-22631-3810-preview-0ab34e3f-bca9-4a52-a1a4-404bf8162f58)就存在虚拟机无限重启的问题，但是windows官方是不在页面上直接写的，都是外面媒体爆出来的。
 
 ## 彻底关闭更新
 
