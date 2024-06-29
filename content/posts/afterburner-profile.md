@@ -11,6 +11,6 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
-下载[MSIAfterburner.cfg](/backup/MSIAfterburner.cfg)到 `%programfiles(x86)%\MSI Afterburner\Profiles`。当前版本是4.6.6(beta3)，[下载地址](https://www.msi.com/Landing/afterburner/graphics-cards)。核心效果是展示各个cpu核心的使用率，如下：
+下载[MSIAfterburner.cfg](/backup/MSIAfterburner.cfg)到 `%programfiles(x86)%\MSI Afterburner\Profiles`。当前版本是4.6.6(beta3)，下载地址：[msi官方](https://www.msi.com/Landing/afterburner/graphics-cards)或[guru3d下载](https://www.guru3d.com/download/msi-afterburner-beta-download/)。核心效果是展示各个cpu核心的使用率，如下：
 
 ![alt text](/img/afterburner-snapshot.png)
