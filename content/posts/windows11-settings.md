@@ -1,5 +1,5 @@
 ---
-title: "windows11设置、性能优化与禁用自动更新"
+title: "windows11设置、性能优化"
 date: 2023-12-04T22:18:31+08:00
 draft: false
 categories: [ "undefined"]
@@ -56,6 +56,14 @@ reg ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\PasswordLess\Device" 
 
 ```go
 计算机\HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall
+```
+
+## 应用已卸载，但是残留了服务
+
+在注册表中删除即可
+
+```bash
+计算机\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services
 ```
 
 ## 窗口最小化
