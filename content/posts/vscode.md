@@ -58,6 +58,13 @@ TIPS：
 ]
 ```
 
+## 其他快捷键
+
+| 快捷键 | 作用 |
+| --- | --- |
+| ⌃⇧⌘ → / ← | Expand / shrink selection |
+| ⌃G | Go to Line... |
+
 
 ## 设置word wrap
 
