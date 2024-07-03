@@ -84,3 +84,11 @@ reg add "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\Inpr
 taskkill /F /IM explorer.exe
 explorer.exe
 ```
+
+## 关闭edge浏览器的自动更新
+
+[edge浏览器怎么禁止自动更新](https://answers.microsoft.com/zh-hans/microsoftedge/forum/all/edge%E6%B5%8F%E8%A7%88%E5%99%A8%E6%80%8E%E4%B9%88/5644695a-bf34-461e-b3ac-34b663dad965)
+
+`win + r` 运行 `services.msc`，找到下面两个服务，改成禁用
+
+![alt text](/img/services-disable-edge-update.png)
