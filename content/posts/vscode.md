@@ -82,6 +82,8 @@ TIPS：
 
 ## 卸载远程服务器vscode server
 
+> **这个比想象的更加常用，因为在大型的项目中，符号跳转经常导致CPU占用很高并且无响应**
+
 1. 执行命令 `Remote-SSH: Uninstall VS Code Server from Host` **不推荐，实测没有卸载干净**
 2. 或手动执行
 
