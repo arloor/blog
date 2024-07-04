@@ -37,9 +37,12 @@ TIPS：
 ![Alt text](/img/vscode-keybindings-setting.png)
 
 3. 修改文件内容如下：
-    1. `cmd+m`： 用于切换多个终端，特别是在 `cmd+shift+b` 触发构建任务之后
-    2. `option+o`: 用于打开remote explorer窗口，在多个远程开发环境中切换
-    3. `option+t`: 用于打开outline窗口，用于查看大纲或者函数列表
+
+| 快捷键 | 作用 |
+| --- | --- |
+| `cmd+m` | 用于切换多个终端，特别是在 `cmd+shift+b` 触发构建任务之后 |
+| `option+o` | 用于打开remote explorer窗口，在多个远程开发环境中切换 |
+| `option+t` | 用于打开outline窗口，用于查看大纲或者函数列表 |
 
 ```json
 // 将键绑定放在此文件中以覆盖默认值auto[]
