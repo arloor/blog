@@ -15,11 +15,12 @@ keywords:
 
 1. 下载Jetbrians Mono字体：[how-to-install](https://www.jetbrains.com/lp/mono/#how-to-install)
 2. 解压缩
-3. Mac下将ttf文件夹下的文件全选，右击选择打开，安装所有字体
-4. Centos9下， 将ttf文件夹下的文件全部移动到 `/usr/share/fonts/${newdir}`下 , `yum install -y fontconfig` 并执行 `fc-cache` 。然后执行 `fc-list` 即可看到新的字体 
-5. 搜索font family，改成 `'JetBrains Mono', Menlo, Monaco, 'Courier New', monospace` 。
-6. 搜索font size，改成13。如果这个字体还不够大，可以 `command + +`来放大UI。
-7. 搜索line height，改成1.6。
+3. 安装
+    1. Mac下将ttf文件夹下的文件全选，右击选择打开，安装所有字体
+    2. Centos9下， 将ttf文件夹下的文件全部移动到 `/usr/share/fonts/${newdir}`下 , `yum install -y fontconfig` 并执行 `fc-cache` 。然后执行 `fc-list` 即可看到新的字体 
+4. 搜索font family，改成 `'JetBrains Mono', Menlo, Monaco, 'Courier New', monospace` 。
+5. 搜索font size，改成13。如果这个字体还不够大，可以 `command + +`来放大UI。
+6. 搜索line height，改成1.6。
 
 TIPS：
 
