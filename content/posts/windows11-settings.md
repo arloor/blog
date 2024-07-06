@@ -92,3 +92,27 @@ explorer.exe
 `win + r` 运行 `services.msc`，找到下面两个服务，改成禁用
 
 ![alt text](/img/services-disable-edge-update.png)
+
+## 关闭Microsoft Store中的应用自动更新
+
+[如何禁用微软商店自动更新应用](https://answers.microsoft.com/zh-hans/windows/forum/all/%E5%A6%82%E4%BD%95%E7%A6%81%E7%94%A8%E5%BE%AE/1fc27709-3665-47f0-bfca-5b0212e22372)
+
+您好，请尝试用如下方法设定
+
+使用组策略启用/禁用应用程序的自动更新：
+
+1. 通过windows+R 打开运行窗口，在运行中键入gpedit.msc打开组策略编辑器。
+
+2. 从左窗格导航到以下内容：本地计算机策略>>计算机配置>>管理模板>>Windows组件>>应用商店。
+
+![alt text](/img/services-disable-microsoft-store-update.png)
+
+3. 在右侧，双击“关闭自动下载和安装更新”。
+
+4. 选中已启用单选按钮，然后单击应用和确定。
+
+5. 现在以管理权限启动命令提示符并粘贴以下命令以使更改生效：`gpupdate/force`
+
+你现在已成功禁用Microsoft Store应用程序的自动更新。
+
+要为应用程序启用自动更新，只需返回组策略编辑器并选择未配置或已禁用单选按钮。
