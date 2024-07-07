@@ -62,13 +62,13 @@ TIPS：
 
 ## 其他快捷键
 
-| MacOS快捷键 | Windows快捷键 | 作用 |
+| 作用 | MacOS快捷键 | Windows快捷键 |
 | --- | --- | --- |
-| ⌃⇧⌘ → / ← | Shift+Alt+→ / ← | Expand / shrink selection |
-| ⌃G | Ctrl+G | Go to Line... |
-| ⌘K M  | Ctrl+K M | Change language mode |
-| ⌃- / ⌃⇧-  | Alt+ ← / →  | Go back / forward |
-| ⌥Z | alt + z | Toggle word wrap |
+| Expand / shrink selection | ⌃⇧⌘ → / ← | Shift+Alt+→ / ← |
+| Go to Line... | ⌃G | Ctrl+G |
+| Change language mode | ⌘K M | Ctrl+K M |
+| Go back / forward | ⌃- / ⌃⇧- | Alt+ ← / → |
+| Toggle word wrap | ⌥Z | alt + z |
 
 > 内置快捷键cheatsheet 
 > 1. [MacOS快捷键](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-macos.pdf)
