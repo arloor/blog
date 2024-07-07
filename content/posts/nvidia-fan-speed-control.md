@@ -76,7 +76,7 @@ auto开启后，并且在电源管理模式为“正常”的情况下，在低�
 3. 70度以内，不超过2000转。
 3. 80度开始，全速运行。在我的散热条件下，基本不会达到80度，所以这个设置基本不会生效。
 
-![alt text](/img/bios-cpu-fan-control.bmp)
+![alt text](/img/bios-cpu-fan-control.jpg)
 
 另外fan step up可以设置一定延迟，比如0.3s，防止突发高负载导致风扇突增fan step down可以灵敏点。
 
