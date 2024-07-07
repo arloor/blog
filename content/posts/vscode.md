@@ -29,8 +29,6 @@ TIPS：
 
 ## 快捷键配置
 
-> 内置快捷键cheatsheet [keyboard-shortcuts-macos.pdf](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-macos.pdf)
-
 1. 按 `cmd+k` ，再按 `cmd+s`，进入快捷键设置
 2. 点击右上角按钮进入原始文件 `keybindings.json`
 
@@ -64,15 +62,17 @@ TIPS：
 
 ## 其他快捷键
 
-| 快捷键 | 作用 |
-| --- | --- |
-| ⌃⇧⌘ → / ← | Expand / shrink selection |
-| ⌃G | Go to Line... |
+| MacOS快捷键 | Windows快捷键 | 作用 |
+| --- | --- | --- |
+| ⌃⇧⌘ → / ← | Shift+Alt+→ / ← | Expand / shrink selection |
+| ⌃G | Ctrl+G | Go to Line... |
+| ⌘K M  | Ctrl+K M | Change language mode |
+| ⌃- / ⌃⇧-  | Alt+ ← / →  | Go back / forward |
+| ⌥Z | alt + z | Toggle word wrap |
 
-
-## 设置word wrap
-
-发现在设置中修改不好使，倒是有个快捷键 `option + z` 或 `alt + z`
+> 内置快捷键cheatsheet 
+> 1. [MacOS快捷键](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-macos.pdf)
+> 2. [Windows快捷键](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf)
 
 ## 远程开发
 
