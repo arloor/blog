@@ -29,7 +29,7 @@ B站有UP主建议电源管理模式选“最高性能优先”，以获得最�
 
 ## 转速设置为auto，让显卡自己决定转速
 
-{{< imgx src="/img/afterburner-auto-speed.png" alt="" width="600px" style="max-width: 100%;">}}
+{{< imgx src="/img/afterburner-auto-speed.png" alt="" width="700px" style="max-width: 100%;">}}
 
 注意，auto不开的话，风扇转速会被锁定在固定的速率。而且下面一节的**手动设置转速也是需要开启auto的**。
 
