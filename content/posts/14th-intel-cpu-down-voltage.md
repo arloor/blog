@@ -39,7 +39,7 @@ keywords:
 | 80% | 2000 | 重负载下，有明显声音 |
 | 100% | 2500 | 不设置，声音很大，收益很小 |
 
-{{< imgx src="/img/fancontrol-auto-detect-speed.png" alt="" width="600px" style="max-width: 100%;">}}
+{{< imgx src="/img/fancontrol-auto-detect-speed.png" alt="" width="700px" style="max-width: 100%;">}}
 
 至于转速设置我并没有使用Fan control，而是在BIOS设置的。下图是我BIOS中的风扇转速设置，核心思路有几个点
 
