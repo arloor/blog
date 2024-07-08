@@ -23,7 +23,7 @@ afterburner是一款显卡超频、风扇调教、游戏帧率监控软件，可
 
 B站有UP主建议电源管理模式选“最高性能优先”，以获得最好的显示效果和响应速度。但是实测这并不会影响显示效果，倒是会让风扇的**智能启停**功能失效，导致在低负载时也**会以30%转速运行**，这样会有一定的噪音。因此，如果想要静音，我推荐在Nvidia控制面板中，将电源管理模式设置成正常。
 
-{{< imgx src="/img/nvidia-control-pannel-power-normal.png" alt="" width="600px" style="max-width: 100%;">}}
+{{< imgx src="/img/nvidia-control-pannel-power-normal.png" alt="" width="700px" style="max-width: 100%;">}}
 
 注意：nvidia控制面板在windows11中需要在microsoft store中下载，直达链接[https://apps.microsoft.com/detail/9nf8h0h7wmlt?tp=RHJpdmVyR2FtaW5nIE5C&rtc=1&hl=zh-cn&gl=US](https://apps.microsoft.com/detail/9nf8h0h7wmlt?tp=RHJpdmVyR2FtaW5nIE5C&rtc=1&hl=zh-cn&gl=US)
 
