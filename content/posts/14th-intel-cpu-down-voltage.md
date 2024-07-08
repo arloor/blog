@@ -39,7 +39,7 @@ keywords:
 | 80% | 2000 | 重负载下，有明显声音 |
 | 100% | 2500 | 不设置，声音很大，收益很小 |
 
-![alt text](/img/fancontrol-auto-detect-speed.png)
+{{< imgx src="/img/fancontrol-auto-detect-speed.png" alt="" width="600px" style="max-width: 100%;">}}
 
 至于转速设置我并没有使用Fan control，而是在BIOS设置的。下图是我BIOS中的风扇转速设置，核心思路有几个点
 
@@ -48,7 +48,7 @@ keywords:
 3. 70度以内，不超过2000转。
 3. 80度开始，全速运行。在我的散热条件下，基本不会达到80度，所以这个设置基本不会生效。
 
-![alt text](/img/bios-cpu-fan-control.jpg)
+{{< imgx src="/img/bios-cpu-fan-control.jpg" alt="" width="600px" style="max-width: 100%;">}}
 
 另外fan step up可以设置一定延迟，比如0.3s，防止突发高负载导致风扇突增fan step down可以灵敏点。
 
