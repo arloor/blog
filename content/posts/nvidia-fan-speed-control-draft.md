@@ -17,11 +17,11 @@ afterburner是一款显卡超频、风扇调教、游戏帧率监控软件，可
 
 本文主要介绍的是afterburner的风扇调教能力，超频和游戏帧率监控功能不在本文讨论范围内，后面可能会新开博客介绍。
 
-## 前置条件：Nvidia控制面板电源管理模式选正常！正常！正常！
+## 推荐：Nvidia控制面板电源管理模式选正常！正常！正常！
 
 **如果没动过这个选项，或者压根没听过Nvidia控制面板，则不需要执行下列操作**
 
-B站有UP主建议电源管理模式选“最高性能优先”，以获得最好的显示效果和响应速度。但是这会导致显卡风扇在低负载时也**会以30%转速运行**，这样会有一定的噪音。因此，我在nvidia控制面板中，设置电源管理模式选正常，**不选“最高性能优先”**，还是有点吵的。当然如果你没有改过这个配置，默认就是“正常”，不需要额外修改。
+B站有UP主建议电源管理模式选“最高性能优先”，以获得最好的显示效果和响应速度。但是实测这并不会影响显示效果，倒是会让风扇的**智能启停**功能失效，导致在低负载时也**会以30%转速运行**，这样会有一定的噪音。因此，如果想要静音，我推荐在Nvidia控制面板中，将电源管理模式设置成正常。
 
 ![alt text](/img/nvidia-control-pannel-power-normal.png)
 
@@ -29,7 +29,7 @@ B站有UP主建议电源管理模式选“最高性能优先”，以获得最�
 
 ### msi afterburner中设置转速为auto
 
-afterburner俗称小飞机，是微星免费的显卡超频、游戏帧率监控软件，可用于所有品牌的nvidia显卡，官方下载地址[https://www.msi.com/Landing/afterburner/graphics-cards](https://www.msi.com/Landing/afterburner/graphics-cards)
+
 
 ![alt text](/img/afterburner-auto-speed.png)
 
