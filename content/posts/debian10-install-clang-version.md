@@ -12,7 +12,7 @@ keywords:
 ---
 
 参考[https://apt.llvm.org/](http://apt.llvm.org/buster/)
-
+<!--more-->
 
 ```bash
 wget https://apt.llvm.org/llvm-snapshot.gpg.key
