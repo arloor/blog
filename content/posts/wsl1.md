@@ -11,6 +11,9 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
+记录下WSL1安装
+<!--more-->
+
 ```bash
  wsl --install --no-distribution
 ```

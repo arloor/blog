@@ -11,6 +11,7 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
+简单使用下kind
 <!--more-->
 
 环境：rhel9.2

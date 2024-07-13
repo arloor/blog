@@ -11,6 +11,7 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
+尝试使用kubeadm安装k8s
 <!--more-->
 
 ## kubeadm安装控制面
