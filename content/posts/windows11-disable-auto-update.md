@@ -89,7 +89,12 @@ reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /
 **关闭自动更新**
 
 1. 按Win+R输入regedit并按Enter键打开注册表编辑器。
-2. 导航到此路径：HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows。
+2. 导航到此路径：
+
+```bash
+HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows
+```
+
 3. 右键单击Windows文件夹，选择“新建”>“项”，然后将其命名为“WindowsUpdate”。
 4. 右键单击新建的WindowsUpdate文件夹，选择“新建”>“项”，然后将其命名为“AU”。
 5. 在新建的AU文件夹右侧空白页面中右键单击并选择“新建”>“DWORD（32位）值”，然后将其命名为“NoAutoUpdate”。
@@ -99,7 +104,12 @@ reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /
 **禁止手动检查更新**
 
 1. 按Win+R输入regedit并按Enter键打开注册表编辑器。
-2. 导航到此路径：HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows。
+2. 导航到此路径：
+
+```bash
+HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows
+```
+
 3. 右键单击Windows文件夹，选择“新建”>“项”，然后将其命名为“WindowsUpdate”。
 4. 右键单击新建的WindowsUpdate文件夹，选择“新建”>“DWORD（32位）值”，然后将其命名为“SetDisableUXWUAccess”。
 6. 双击新建的SetDisableUXWUAccess，在弹出窗口中将其数值数据从0更改为1，然后单击“确定”。
@@ -108,7 +118,12 @@ reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /
 **禁止自动更新驱动**
 
 1. 按Win+R输入regedit并按Enter键打开注册表编辑器。
-2. 导航到此路径：HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows。
+2. 导航到此路径：
+
+```bash
+HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows
+```
+
 3. 右键单击Windows文件夹，选择“新建”>“项”，然后将其命名为“WindowsUpdate”。
 4. 右键单击新建的WindowsUpdate文件夹，选择“新建”>“DWORD（32位）值”，然后将其命名为“ExcludeWUDriversInQualityUpdate”。
 6. 双击新建的ExcludeWUDriversInQualityUpdate，在弹出窗口中将其数值数据从0更改为1，然后单击“确定”。
