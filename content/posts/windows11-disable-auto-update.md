@@ -125,6 +125,6 @@ HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows
 ```
 
 3. 右键单击Windows文件夹，选择“新建”>“项”，然后将其命名为“WindowsUpdate”。
-4. 右键单击新建的WindowsUpdate文件夹，选择“新建”>“DWORD（32位）值”，然后将其命名为“ExcludeWUDriversInQualityUpdate”。
+4. 右键单击新建的WindowsUpdate文件夹，选择“新建”>“DWORD（32位）值”，然后将其命名为“ExcludeWUDriversInQualityUpdate”
 6. 双击新建的ExcludeWUDriversInQualityUpdate，在弹出窗口中将其数值数据从0更改为1，然后单击“确定”。
 7. 关闭注册表编辑器，重启计算机即可关闭驱动自动更新。
