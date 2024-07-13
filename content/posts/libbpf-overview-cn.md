@@ -53,7 +53,7 @@ You can generate the skeleton header file (.skel.h) for a specific object file b
 ## 使用骨架文件的其他优点
 
 - BPF骨架提供了一个接口，来让用户空间程序可以使用BPF全局变量。骨架代码将全局变量映射为用户空间的一个结构体。这个结构体允许用户空间程序在BPF load phase之前初始化BPF程序，并在之后从用户空间获取和更新数据。
-- `skel.h` 列出来所有的maps、programs等等来反映 object file的结构。BPF 骨架将BPF map和 BPF program作为结构体字段，从而让用户态程序直接使用。 这消除了需要 基于字符串的查找 `bpf_object_find_map_by_name()` 和 `bpf_object_find_program_by_name()` 的使用，减少因 `BPF source code` 和 `user-space code` 不同步导致的错误。
+- `skel.h` 列出来所有的maps、programs等等来反映 object file的结构。BPF 骨架将BPF map和 BPF program作为结构体字段，从而让用户态程序直接使用。 这消除了需要 基于字符串的查找 `bpf_object_find_map_by_name` 函数和 `bpf_object_find_program_by_name` 函数的使用，减少因 `BPF source code` 和 `user-space code` 不同步导致的错误。
 - The embedded bytecode representation of the object file ensures that the skeleton and the BPF object file are always in sync.
 
 ## BPF Helpers
