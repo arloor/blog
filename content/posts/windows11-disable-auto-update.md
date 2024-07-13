@@ -1,5 +1,5 @@
 ---
-title: "Windows11 Disable Auto Update"
+title: "Windows11彻底禁止自动更新"
 date: 2024-06-28T21:05:32+08:00
 draft: false
 categories: [ "undefined"]
