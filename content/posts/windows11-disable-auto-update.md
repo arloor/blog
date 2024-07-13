@@ -27,7 +27,7 @@ REM -- windows更新中不包含驱动程序更新（防止windows带了错误�
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v ExcludeWUDriversInQualityUpdate /t REG_DWORD /d 1 /f
 ```
 
-这个脚本使用了 `reg add` 命令来添加或修改注册表项。参数 `/v` 指定值的名称，`/t` 指定数据类型，`/d` 指定数据内容，`/f` 表示强制覆盖而不提示。
+这个脚本使用了 `reg add` 命令来添加或修改注册表项。参数 `/v` 指定值的名称，`/t` 指定数据类型，`/d` 指定数据内容，`/f` 表示强制覆盖而不提示。执行后并重启后，windows自动更新就已经禁用了，并且会发现windows设置中的更新选项变灰，无法点击。
 
 ## 允许手动检查更新
 
@@ -37,12 +37,14 @@ REM -- 允许手动检查更新
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v SetDisableUXWUAccess /t REG_DWORD /d 0 /f
 ```
 
+执行后打开windows设置中的更新，会发现可以手动检查更新并安装了。
+
 ## 本站准备好的bat文件
 
 - [关闭windows更新.bat](/bat/disable_windows_updates.bat)
 - [允许手动检查更新.bat](/bat/enable_windows_updates.bat)
 
-这两个bat文件都能自动获取管理员权限，因此不需要手动以管理员身份运行。
+这两个bat文件可以直接下载使用，双击运行即可。它们都能自动获取管理员权限，因此不需要手动以管理员身份运行。
 
 ## 组策略
 
