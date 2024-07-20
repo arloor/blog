@@ -22,106 +22,104 @@ Hbase会为每一个region server创建一个IPC client线程来做读写操作�
 2. 老版本JDK在IO线程退出时，不会调用directByteBuffer的Cleaner方法**释放threadlocal中BufferCache的直接内存**。
 3. 加上应用**一直没有OldGC/FullGC**，导致直接内存一直不会被回收，导致OOM
 
-> sun.nio.ch.SocketChannelImpl#write(java.nio.ByteBuffer)
-
 ```java
-    public int write(ByteBuffer buf) throws IOException {
-        if (buf == null)
-            throw new NullPointerException();
-        synchronized (writeLock) {
-            ensureWriteOpen();
-            int n = 0;
-            try {
-                begin();
-                synchronized (stateLock) {
-                    if (!isOpen())
-                        return 0;
-                    writerThread = NativeThread.current();
-                }
-                for (;;) {
-                    n = IOUtil.write(fd, buf, -1, nd);
-                    if ((n == IOStatus.INTERRUPTED) && isOpen())
-                        continue;
-                    return IOStatus.normalize(n);
-                }
-            } finally {
-                writerCleanup();
-                end(n > 0 || (n == IOStatus.UNAVAILABLE));
-                synchronized (stateLock) {
-                    if ((n <= 0) && (!isOutputOpen))
-                        throw new AsynchronousCloseException();
-                }
-                assert IOStatus.check(n);
-            }
-        }
-    }
-```
-
-> sun.nio.ch.IOUtil#write(java.io.FileDescriptor, java.nio.ByteBuffer, long, sun.nio.ch.NativeDispatcher)
-
-```java
-    static int write(FileDescriptor fd, ByteBuffer src, long position,
-                     NativeDispatcher nd)
-        throws IOException
-    {
-        if (src instanceof DirectBuffer)
-            return writeFromNativeBuffer(fd, src, position, nd);
-
-        // Substitute a native buffer
-        int pos = src.position();
-        int lim = src.limit();
-        assert (pos <= lim);
-        int rem = (pos <= lim ? lim - pos : 0);
-        ByteBuffer bb = Util.getTemporaryDirectBuffer(rem);
+// sun.nio.ch.SocketChannelImpl#write(java.nio.ByteBuffer)
+public int write(ByteBuffer buf) throws IOException {
+    if (buf == null)
+        throw new NullPointerException();
+    synchronized (writeLock) {
+        ensureWriteOpen();
+        int n = 0;
         try {
-            bb.put(src);
-            bb.flip();
-            // Do not update src until we see how many bytes were written
-            src.position(pos);
-
-            int n = writeFromNativeBuffer(fd, bb, position, nd);
-            if (n > 0) {
-                // now update src
-                src.position(pos + n);
+            begin();
+            synchronized (stateLock) {
+                if (!isOpen())
+                    return 0;
+                writerThread = NativeThread.current();
             }
-            return n;
+            for (;;) {
+                n = IOUtil.write(fd, buf, -1, nd);
+                if ((n == IOStatus.INTERRUPTED) && isOpen())
+                    continue;
+                return IOStatus.normalize(n);
+            }
         } finally {
-            Util.offerFirstTemporaryDirectBuffer(bb);
+            writerCleanup();
+            end(n > 0 || (n == IOStatus.UNAVAILABLE));
+            synchronized (stateLock) {
+                if ((n <= 0) && (!isOutputOpen))
+                    throw new AsynchronousCloseException();
+            }
+            assert IOStatus.check(n);
         }
     }
+}
 ```
 
-> sun.nio.ch.Util#getTemporaryDirectBuffer
+```java
+// sun.nio.ch.IOUtil#write(java.io.FileDescriptor, java.nio.ByteBuffer, long, sun.nio.ch.NativeDispatcher)
+static int write(FileDescriptor fd, ByteBuffer src, long position,
+                    NativeDispatcher nd)
+    throws IOException
+{
+    if (src instanceof DirectBuffer)
+        return writeFromNativeBuffer(fd, src, position, nd);
+
+    // Substitute a native buffer
+    int pos = src.position();
+    int lim = src.limit();
+    assert (pos <= lim);
+    int rem = (pos <= lim ? lim - pos : 0);
+    ByteBuffer bb = Util.getTemporaryDirectBuffer(rem);
+    try {
+        bb.put(src);
+        bb.flip();
+        // Do not update src until we see how many bytes were written
+        src.position(pos);
+
+        int n = writeFromNativeBuffer(fd, bb, position, nd);
+        if (n > 0) {
+            // now update src
+            src.position(pos + n);
+        }
+        return n;
+    } finally {
+        Util.offerFirstTemporaryDirectBuffer(bb);
+    }
+}
+```
+
 
 ```java
-    /**
-     * Returns a temporary buffer of at least the given size
-     */
-    public static ByteBuffer getTemporaryDirectBuffer(int size) {
-        // If a buffer of this size is too large for the cache, there
-        // should not be a buffer in the cache that is at least as
-        // large. So we'll just create a new one. Also, we don't have
-        // to remove the buffer from the cache (as this method does
-        // below) given that we won't put the new buffer in the cache.
-        if (isBufferTooLarge(size)) {
-            return ByteBuffer.allocateDirect(size);
-        }
-
-        BufferCache cache = bufferCache.get();
-        ByteBuffer buf = cache.get(size);
-        if (buf != null) {
-            return buf;
-        } else {
-            // No suitable buffer in the cache so we need to allocate a new
-            // one. To avoid the cache growing then we remove the first
-            // buffer from the cache and free it.
-            if (!cache.isEmpty()) {
-                buf = cache.removeFirst();
-                free(buf);
-            }
-            return ByteBuffer.allocateDirect(size);
-        }
+// sun.nio.ch.Util#getTemporaryDirectBuffer
+/**
+ * Returns a temporary buffer of at least the given size
+ */
+public static ByteBuffer getTemporaryDirectBuffer(int size) {
+    // If a buffer of this size is too large for the cache, there
+    // should not be a buffer in the cache that is at least as
+    // large. So we'll just create a new one. Also, we don't have
+    // to remove the buffer from the cache (as this method does
+    // below) given that we won't put the new buffer in the cache.
+    if (isBufferTooLarge(size)) {
+        return ByteBuffer.allocateDirect(size);
     }
+
+    BufferCache cache = bufferCache.get();
+    ByteBuffer buf = cache.get(size);
+    if (buf != null) {
+        return buf;
+    } else {
+        // No suitable buffer in the cache so we need to allocate a new
+        // one. To avoid the cache growing then we remove the first
+        // buffer from the cache and free it.
+        if (!cache.isEmpty()) {
+            buf = cache.removeFirst();
+            free(buf);
+        }
+        return ByteBuffer.allocateDirect(size);
+    }
+}
 ```
 
 > sun.nio.ch.Util#bufferCache
@@ -180,7 +178,7 @@ Java中直接内存有三种分配方式
 | java.nio.ByteBuffer#allocateDirect | 通过JVM直接内存分配 |
 | native code via JNI | 部分JVM实现支持 |
 
-通过Arthas的stack方法追踪这些方法的调用栈就能看出来是哪里分配了直接内存，在这个case里就能看到是 `sun.nio.ch.Util#getTemporaryDirectBuffer` 申请的内存。
+通过Arthas的stack方法追踪这些方法的调用栈就能看出来是哪里分配了直接内存，在这个case里就能看到是 `sun.nio.ch.Util# getTemporaryDirectBuffer` 申请的内存。
 
 ```bash
 options unsafe true
