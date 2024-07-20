@@ -283,7 +283,7 @@ impl<B: Body + 'static> PoolClient<B> {
 }
 ```
 
-当我们走进 `http1` 的 `tx.try_send_request(req)`，发现这个 `PoolClient.tx` 就是之前无连接池版本中的 `sender`，就是下面这个 `handshake` 的返回值：
+当我们走进 `http1` 的 `tx.try_send_request(req)`，发现这个 `PoolClient.tx` 就是之前无连接池版本中的 `sender`，就是下面这个 `handshake` 的返回的tuple的左值（右值是Connection，会被 `tokio::spawn` 驱动执行）
 
 ```Rust
 hyper::client::conn::http1::Builder::new()
@@ -487,7 +487,83 @@ fn poll_loop(&mut self, cx: &mut Context<'_>) -> Poll<crate::Result<()>> {
 }
 ```
 
-接着走进 `poll_write`的逻辑，就能看到具体的http请求的发送逻辑了。这里只截图我关注的HTTP2转HTTP1.1时是否能自动增加 `Transfer-Encoding: chunked`，简要总结下，如果没有设置 `Content-Length`，则会自动增加 `Transfer-Encoding: chunked`。截图左侧的调用栈也可以关注下。
+接着走进 `poll_write`的逻辑，就能看到具体的http请求的发送逻辑了。贴一小段代码，解密下消息从哪来
+
+```Rust
+fn poll_write(&mut self, cx: &mut Context<'_>) -> Poll<crate::Result<()>> {
+    loop {
+        if self.is_closing {
+            return Poll::Ready(Ok(()));
+        } else if self.body_rx.is_none()
+            && self.conn.can_write_head()
+            && self.dispatch.should_poll()
+        {
+            if let Some(msg) = ready!(Pin::new(&mut self.dispatch).poll_msg(cx)) { // ！！！ 从channel中接收消息
+                let (head, body) = msg.map_err(crate::Error::new_user_service)?;
+
+                let body_type = if body.is_end_stream() {
+                    self.body_rx.set(None);
+                    None // 长度为空
+                } else {
+                    let btype = body
+                        .size_hint()
+                        .exact()
+                        .map(BodyLength::Known)
+                        .or(Some(BodyLength::Unknown)); // 从body中知道是固定长度的还是chunked的
+                    self.body_rx.set(Some(body));
+                    btype
+                };
+                self.conn.write_head(head, body_type); // 写header部分，也是我们关注的chunked部分
+            } else if !self.conn.can_buffer_body() {
+                ...
+            } else {
+                // 接收body
+                ...
+            }
+        }
+    }
+}
+```
+
+核心在于 `self.dispatch` 的 `poll_msg` 方法，这个方法是 `Dispatcher` 的方法，我们看下这个方法的定义：
+
+```Rust
+impl<B> Dispatch for Client<B>
+where
+    B: Body,
+{
+    type PollItem = RequestHead;
+    type PollBody = B;
+    type PollError = Infallible;
+    type RecvItem = crate::proto::ResponseHead;
+
+    fn poll_msg(
+        mut self: Pin<&mut Self>,
+        cx: &mut Context<'_>,
+    ) -> Poll<Option<Result<(Self::PollItem, Self::PollBody), Infallible>>> {
+        let mut this = self.as_mut();
+        debug_assert!(!this.rx_closed);
+        match this.rx.poll_recv(cx) {   // ！！！ 从channel中接收消息
+            Poll::Ready(Some((req, mut cb))) => {
+                ...
+            }
+            Poll::Ready(None) => {
+                ...
+            }
+            Poll::Pending => Poll::Pending,
+        }
+    }
+    ...
+}
+```
+
+核心是 `this.rx.poll_recv(cx)`，这个rx就是 `handshake` 过程中创建的 `dispatch::channel()` 的接受部分，底层是 `mpsc::UnboundedReceiver`。其实看到这里，应该就明白hyper怎么实现client的了：
+
+1. handshake生成`sender: http1::SendRequest` 和 `Connection`。
+2. 他们是生产者消费者模型，sender有mpsc的发送端，connection有mpsc的接收端。
+3. connection被tokio::spawn，poll方法中不断从mpsc接收端接收消息，然后发送http请求。
+
+真正写header的部分，这里只截图我关注的HTTP2转HTTP1.1时是否能自动增加 `Transfer-Encoding: chunked`，简要总结下，如果没有设置 `Content-Length`，则会自动增加 `Transfer-Encoding: chunked`。截图左侧的调用栈也可以关注下。
 
 ![alt text](/img/hyper_http1_poll_write_debug.png)
 
