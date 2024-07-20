@@ -15,8 +15,8 @@ keywords:
 最近在自己的[rust_http_proxy](https://github.com/arloor/rust_http_proxy)中实现了简单的反向代理，第一版用的是手搓的无连接池版本，大致流程如下：
 
 1. 首先 `TcpStream::connect` 建立连接
-2. 通过 `hyper::client::conn::http1::Builder` 拿到 `sender`
-3. 发送请求 `sender.send_request(new_req).await` 
+2. 通过 `conn::http1::Builder` 拿到 `sender`
+3. 发送请求 `sender.send_request(new_req)` 
 
 工作的很正常，但是没有连接池。想到 `hyper` 官方提供的 `reqwest` 是有内置连接池的，于是研究了下做了改造，记录下过程中读到的代码。
 <!--more-->
@@ -238,11 +238,14 @@ Send a constructed Request using this Client.
 
 `legacy client` 的核心实现都在 `impl<C, B> Client<C, B>` 中，核心方法有：
 
-| 方法 | 说明 | 备注 |
-| --- | --- | --- |
-| `pub fn request(&self, req: Request<B>) -> ResponseFuture` | 发送请求 | |
-| `async fn try_send_request(&self, mut req: Request<B>, pool_key: PoolKey) -> Result<Response<hyper::body::Incoming>, TrySendError<B>>` | 从pool中找一条connection，发起请求 | pool_key用来找connection |
-| `async fn connection_for(&self, pool_key: PoolKey) -> Result<pool::Pooled<PoolClient<B>, PoolKey>, Error>` | 从pool中找一条connection | |
+```Rust
+// 发送请求
+pub fn request(&self, req: Request<B>) -> ResponseFuture
+// 从pool中找一条connection，发起请求
+async fn try_send_request(&self, mut req: Request<B>, pool_key: PoolKey) -> Result<Response<hyper::body::Incoming>, TrySendError<B>>
+// 从pool中找一条connection
+async fn connection_for(&self, pool_key: PoolKey) -> Result<pool::Pooled<PoolClient<B>, PoolKey>, Error>
+```
 
 大致流程时将scheme、host、port作为pool_key找到一个连接（PoolClient），然后使用PoolClient的 `try_send_request` 方法。 `try_send_request` 定义如下：
 
