@@ -3,7 +3,7 @@ title: "Rust reqwest代码阅读"
 date: 2024-07-20T11:26:42+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["undefined"]
+tags: ["rust"]
 weight: 10
 subtitle: ""
 description : ""
