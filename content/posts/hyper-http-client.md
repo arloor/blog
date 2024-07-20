@@ -12,7 +12,7 @@ keywords:
 ---
 
 
-最近在自己的rust_http_proxy中实现了简单的反向代理，第一版用的是手搓的无连接池版本，大致流程如下：
+最近在自己的[rust_http_proxy](https://github.com/arloor/rust_http_proxy)中实现了简单的反向代理，第一版用的是手搓的无连接池版本，大致流程如下：
 
 1. 首先 `TcpStream::connect` 建立连接
 2. 通过 `hyper::client::conn::http1::Builder` 拿到 `sender`
