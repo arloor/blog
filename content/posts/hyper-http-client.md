@@ -87,7 +87,7 @@ async fn reverse_proxy(
     }
 ```
 
-## 发现reqwest对 `legacy::client::Client` 的使用
+## reqwest对 legacy client 的使用
 
 下面是 `reqwest` 发起执行请求的代码，关注用 `!!!` 标注的注释
 
@@ -234,7 +234,7 @@ Send a constructed Request using this Client.
 
 > The higher-level pooling Client was removed from `hyper 1.0`. A similar type was added to `hyper-util`, called `client::legacy::Client`. It’s mostly a drop-in replacement.
 
-## 跟一下legacy client中池化的实现
+## legacy client中池化的实现
 
 `legacy client` 的核心实现都在 `impl<C, B> Client<C, B>` 中，核心方法有：
 
@@ -339,7 +339,7 @@ return PoolTx::Http1(tx)
 }                            
 ```
 
-## 跟一下真正发送http请求的代码（hyper）
+## hyper如何发送http1请求
 
 让我们从hyper-util走到hyper，看看hyper这个底层库是如何发送http请求的。看这个的意义在于确定我们将http2请求的body转换成http1.1的body是否有损，具体来说是，将http2分帧的body的转换成http1.1的`Transfer-Encoding: chunked`的body是否有损。答案是无损的。
 
@@ -569,6 +569,8 @@ where
 
 ## 最终构建legacy client的代码，支持HTTPS
 
+增加的依赖：
+
 ```toml
 [dependencies]
 hyper-rustls = { version = "0", default-features = false, features = [
@@ -585,7 +587,7 @@ webpki-roots = "0"
 http = "1"
 ```
 
-hyper-rustls中的ring或者aws-lc-rs是受自己crate的可选feature控制的，这里没有展示出来
+hyper-rustls中的ring或者aws-lc-rs是受自己crate的可选feature控制的，这里没有展示出来。下面是构建`legacy client`的代码，支持HTTPS：
 
 
 ```Rust
@@ -634,9 +636,8 @@ fn build_http_client() -> Client<hyper_rustls::HttpsConnector<HttpConnector>, In
 }
 ```
 
-
 ## 总结
 
-很久没有这样深入地开源库的代码，这次跟的是Rust中比较重要的基础库的代码，也要一定Rust的功力才能看得懂这些代码
+很久没有这样深入地开源库的代码，这次跟的是Rust中比较重要的基础库的代码，也要一定Rust的功力才能看得懂这些代码，再次确信我入门Rust了。
 
 
