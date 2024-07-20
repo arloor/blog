@@ -491,7 +491,7 @@ fn poll_loop(&mut self, cx: &mut Context<'_>) -> Poll<crate::Result<()>> {
 
 ![alt text](/img/hyper_http1_poll_write_debug.png)
 
-## 最终使用legacy client的代码
+## 最终构建legacy client的代码，支持HTTPS
 
 ```toml
 [dependencies]
