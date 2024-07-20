@@ -91,7 +91,7 @@ Java中的幻引用（Phantom Reference）和`DirectByteBuffer`释放之间有�
 
 1. `DirectByteBuffer` 变成幻影可达状态。
 2. 进行垃圾收集（在单独的线程中），收集 `DirectByteBuffer` Java 对象，并在 `ReferenceQueue` 中添加一个条目。
-3. Cleaner 线程处理到这个条目并运行注册的清理动作（在这个案例中，它是 `java.nio.DirectByteBuffer.Deallocator` 对象），这个动作最终释放了本地内存。
+3. Cleaner 线程处理到这个条目并运行注册的清理动作（在这个案例中，它是 `DirectByteBuffer.Deallocator` 对象），这个动作最终释放了本地内存。
 
 所以通常你不能保证它何时被释放。如果 Java 堆中有足够的内存，垃圾收集器可能长时间不会被激活。即使它成为幻影可达状态，Cleaner 线程也可能需要一些时间来处理这个条目。它可能正忙于处理之前也使用 Cleaner API 的其他对象。然而，请注意，在 JDK 中实现了部分解决方案：如果你创建了新的 `DirectByteBuffer` 并在此之前分配了过多的直接内存，垃圾收集器可能会被显式调用以强制释放之前遗弃的缓冲区。有关详细信息，请参阅 `Bits.reserveMemory()`（从 `DirectByteBuffer` 构造函数中调用）。
 
