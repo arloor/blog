@@ -116,3 +116,11 @@ explorer.exe
 你现在已成功禁用Microsoft Store应用程序的自动更新。
 
 要为应用程序启用自动更新，只需返回组策略编辑器并选择未配置或已禁用单选按钮。
+
+## 删除文件资源管理器侧边栏显示的linux文件夹
+
+在注册表中删除即可
+
+```bash
+HKEY_CURRENT_USER\Software\Classes\CLSID\{B2B4A4D1-2754-4140-A2EB-9A76D9D7CDC6}
+```
