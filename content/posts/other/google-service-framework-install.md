@@ -8,7 +8,7 @@ tags: ["program"]
 weight: 10
 ---
 
-之前在telegram群里有人问，怎么给安卓手机安装谷歌三件套。他说的谷歌三件套大概就是google service framework(谷歌服务框架)、google play service、google play store。这里介绍一下如何安装这三个软件。**对华为手机可能无效，请谨慎尝试**
+之前在telegram群里有人问，怎么给安卓手机安装谷歌三件套。他说的谷歌三件套大概就是google service framework(谷歌服务框架)、google play service、google play store。这里介绍一下如何安装这三个软件。**对华为手机本文无效，请看文末贴的youtube链接的方案**
 <!--more-->
 
 为了使用上面的谷歌三件套，首先手机需要能翻墙，如果不能翻墙，就没有必要继续看下去了。
@@ -104,6 +104,8 @@ App Notes:
 - DOMAIN-SUFFIX,services.googleapis.cn
 ```
 
-## 其他
+## 鸿蒙4.20版本安装google三件套
 
-为了更好地使用谷歌的各项服务，有个谷歌账号还是很必要的，如何注册在谷歌账号，不在这个博客中介绍了。
+我的P50 Pro使用该方案完美安装，所以推荐大家看下：
+
+{{< youtube eK78luv5A3Y >}}
