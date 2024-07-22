@@ -86,7 +86,7 @@ ws.Run "chrome.exe --app=https://${user}-${repo}-${id}.github.dev/ --start-maxim
 
 ### 代码仓库级别
 
-可以在 `.devcontainer`目录下配置 `devcontainer.json` 文件，配置Codespaces初始化的设置，我的Rust调试环境的配置如下，可供参考
+可以在 `.devcontainer`目录下配置 `devcontainer.json` 文件（[参考文档](https://containers.dev/implementors/json_reference/#_devcontainerjson-properties)），配置Codespaces初始化的设置，我的Rust调试环境的配置如下，可供参考
 
 ```json
 {
