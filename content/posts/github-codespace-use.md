@@ -86,23 +86,43 @@ ws.Run "chrome.exe --app=https://${user}-${repo}-${id}.github.dev/ --start-maxim
 
 ### 代码仓库级别
 
-可以在 `.devcontainer`目录下配置 `devcontainer.json` 文件（[参考文档](https://containers.dev/implementors/json_reference/#_devcontainerjson-properties)），配置Codespaces初始化的设置，我的Rust调试环境的配置如下，可供参考
+可以在 `.devcontainer`目录下配置 `devcontainer.json` 文件（[参考文档](https://containers.dev/implementors/json_reference/#_devcontainerjson-properties)），配置Codespaces初始化的设置。
+
+推荐的用法是，使用微软的[devcontainer基础镜像](https://mcr.microsoft.com/en-us/catalog?search=devcontainers)，再增加一些[features](https://containers.dev/features)，最后按需在 `postCreateCommand` 执行一些个性化命令。当然也支持使用dockerfile修改基础镜像，参考[https://code.visualstudio.com/docs/devcontainers/create-dev-container#_dockerfile](https://code.visualstudio.com/docs/devcontainers/create-dev-container#_dockerfile)
+
+我的Rust调试环境的配置如下，可供参考
 
 ```json
 {
     // https://mcr.microsoft.com/en-us/catalog?search=devcontainers
-    //"image": "mcr.microsoft.com/devcontainers/rust:bookworm", // 自定义镜像
-    "postCreateCommand": "make rust", // 容器创建后的初始化命令
+    "image": "mcr.microsoft.com/devcontainers/universal", //
+    "privileged": true, // 特权以支持ebpf
+    "features": {
+        "ghcr.io/devcontainers/features/rust:1": {}
+    },
+    "postCreateCommand": "apt update;apt-get install -y libz-dev libelf-dev pkg-config clang", // 容器创建后的初始化命令
     "customizations": {
+        "codespaces": {
+            "openFiles": [
+                "rust_http_proxy/rust_http_proxy/src/main.rs"
+            ]
+        }, // 打开的文件
         "vscode": {
             "extensions": [ // 定义要装哪些插件
                 "vadimcn.vscode-lldb", // 调试插件
                 "rust-lang.rust-analyzer", // rust语言支持
-                "github.copilot", // github的AI代码提示
+                "github.copilot",
                 "github.vscode-github-actions", // github actions
-                "redhat.vscode-yaml", // yaml语言支持
-                "ms-python.python" // python语言支持
-            ]
+                "tamasfe.even-better-toml", // toml格式化
+                "serayuzgur.crates", // crates.io插件
+                "waderyan.gitblame",
+                "donjayamanne.githistory"
+            ],
+            "settings": {
+                "files.watcherExclude": {
+                    "**/target/**": true
+                }
+            }
         }
     }
 }
