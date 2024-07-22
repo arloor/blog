@@ -130,6 +130,8 @@ ws.Run "chrome.exe --app=https://${user}-${repo}-${id}.github.dev/ --start-maxim
 }
 ```
 
+另外可以 `cmd + shift + p` 搜索 `creation log`，查看容器创建的日志，搜索 `rebuild` 重建容器
+
 ## 加速访问
 
 由于大陆局域网的问题，上述三种方式都会面临访问速度慢的问题，但不是不可以解决的。
