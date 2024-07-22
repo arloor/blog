@@ -30,7 +30,7 @@ keywords:
 **ubuntu 22.04 安装：**
 
 ```bash
-apt-get install -y libbpf-dev libz-dev libelf-dev pkg-config clang bpftool
+apt-get install -y libbpf-dev zlib1g-dev libelf-dev pkg-config clang bpftool
 ```
 
 **centos stream 9 安装：**
