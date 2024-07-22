@@ -97,6 +97,8 @@ ws.Run "chrome.exe --app=https://${user}-${repo}-${id}.github.dev/ --start-maxim
     // https://mcr.microsoft.com/en-us/catalog?search=devcontainers
     "image": "mcr.microsoft.com/devcontainers/universal", //
     "privileged": true, // 特权以支持ebpf
+    "containerUser": "root", // postCreateCommand中命令需要root权限
+    "remoteUser": "root",
     "features": {
         "ghcr.io/devcontainers/features/rust:1": {}
     },
