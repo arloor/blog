@@ -171,3 +171,7 @@ raw.githubusercontent.com
 vortex.data.microsoft.com
 *.azureedge.net
 ```
+
+## devcontainer
+
+除了使用codespaces，也有着类似功能的devcontainer，依托docker实现的。具体参考[https://code.visualstudio.com/docs/devcontainers/containers](https://code.visualstudio.com/docs/devcontainers/containers)
