@@ -53,9 +53,12 @@ ncode arloor
 
 ### Linux/Windows
 
-```
+```bash
 git config --global credential.helper store
+touch ~/.git-credentials
+echo "https://arloor:${{ github.token }}@github.com" >> ~/.git-credentials
 ```
+
 当github账号启用了二次验证时，输入的密码请填写自己在github上生成的api key。
 
 ### MacOS
