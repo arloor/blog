@@ -39,9 +39,20 @@ cat > ~/bin/work <\EOF
 set username "user@EXAMPLE.COM"
 set password "passwd"
 
-spawn kinit $username
-expect "password:"
-send "$password\r"
+spawn kinit --keychain -l 100d  $username
+expect {
+    "password:" {
+        send "$password\r"
+    }
+    timeout {
+        puts "Error: Timeout waiting for password prompt."
+        exit 1
+    }
+    eof {
+        puts "kinit command end."
+        exit 0
+    }
+}
 interact
 EOF
 chmod +x ~/bin/work
