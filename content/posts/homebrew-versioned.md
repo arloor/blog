@@ -211,6 +211,7 @@ brew tap homebrew/core --force
 # 寻找tap homebrew/core的路径
 brew tap-info homebrew/core     
 # /opt/homebrew/Library/Taps/homebrew/homebrew-core (7,446 files, 838.5MB)
+cd /opt/homebrew/Library/Taps/homebrew/homebrew-core
 # 查看clang-format的信息，确定路径
 brew search clang-format
 brew info clang-format
