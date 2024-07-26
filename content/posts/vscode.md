@@ -215,6 +215,7 @@ curl -fsSL https://raw.githubusercontent.com/golangci/golangci-lint/master/insta
             "mode": "auto",
             "cwd": "${workspaceFolder}",
             "program": "${workspaceFolder}/cmd/${workspaceFolderBasename}",
+            "output": "__debug_bin_main",
             "args": [
                 "--addr=localhost:7788",
                 "--refer=arloor"
@@ -229,6 +230,7 @@ curl -fsSL https://raw.githubusercontent.com/golangci/golangci-lint/master/insta
             "buildFlags": [],
             // "program": "${relativeFileDirname}", // 当前打开的目录
             "program": "./internal/app",
+            "output": "__debug_bin_test",
             "args": [
                 // "-test.run",
                 // "^TestGetLlamAccessPoint$"
