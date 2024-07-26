@@ -178,8 +178,8 @@ end
 1. 先找到`homebrew/core`的路径
 2. 通过git log查看历史版本中的url，从url中确定版本
 
-
 ```bash
+brew tap homebrew/core --force
 brew tap-info homebrew/core                                                                                          
 homebrew/core: 2 commands, 5873 formulae
 /usr/local/Homebrew/Library/Taps/homebrew/homebrew-core (6,238 files, 633.8MB)
@@ -202,3 +202,30 @@ commit ae9d72973b6601558f8d76b14e35e7eb3625078c
 -  url "https://www.apache.org/dyn/closer.lua?path=thrift/0.14.1/thrift-0.14.1.tar.gz"
 ```
 
+
+## 例子：安装clang-format-16
+
+```bash
+# 安装tap homebrew/core（最新版本默认不安装tap homebrew/core，所以需要手动安装
+brew tap homebrew/core --force
+# 寻找tap homebrew/core的路径
+brew tap-info homebrew/core     
+# /opt/homebrew/Library/Taps/homebrew/homebrew-core (7,446 files, 838.5MB)
+# 查看clang-format的信息，确定路径
+brew search clang-format
+brew info clang-format
+# From: https://github.com/Homebrew/homebrew-core/blob/HEAD/Formula/c/clang-format.rb
+# 查看的Formula/c/clang-format.rb变更，确定版本
+git log -p -- Formula/c/clang-format.rb | grep -e ^commit -e 'url "http'
+# commit 32caf9d2d18b258e964354a1d555c05b3c8b0e5d
+# commit 442f9cc511ce6dfe75b96b2c83749d90dde914d2
+# +    url "https://github.com/llvm/llvm-project/releases/download/llvmorg-16.0.6/llvm-16.0.6.src.tar.xz"
+# +      url "https://github.com/llvm/llvm-project/releases/download/llvmorg-16.0.6/clang-16.0.6.src.tar.xz"
+# +      url "https://github.com/llvm/llvm-project/releases/download/llvmorg-16.0.6/cmake-16.0.6.src.tar.xz"
+# +      url "https://github.com/llvm/llvm-project/releases/download/llvmorg-16.0.6/third-party-16.0.6.src.tar.xz"
+
+# 安装16.0.6
+brew tap-new $USER/local-tap1
+brew extract --version='16.0.6' clang-format $USER/local-tap1
+brew install clang-format@16.0.6
+```
