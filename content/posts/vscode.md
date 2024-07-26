@@ -229,7 +229,7 @@ curl -fsSL https://raw.githubusercontent.com/golangci/golangci-lint/master/insta
             "buildFlags": [],
             "program": "${relativeFileDirname}", // 当前打开的目录
             "args": [
-                // "-test.run=",
+                // "-test.run",
                 // "^TestGetLlamAccessPoint$"
             ],
         },
