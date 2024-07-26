@@ -223,6 +223,29 @@ curl -fsSL https://raw.githubusercontent.com/golangci/golangci-lint/master/insta
 }
 ```
 
+4. settings.json中golang相关配置
+
+```json
+{
+    "go.lintTool": "golangci-lint",
+    "go.toolsManagement.autoUpdate": true,
+    "go.formatTool": "gofmt",
+    "[go]": {
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "always"
+        }
+    },
+    "go.testFlags": [
+        "-v",
+        "-gcflags=all=-l"
+    ],
+    "go.formatFlags": [
+        "-w"
+    ],
+}
+```
+
 ## Python开发
 
 ### python插件
@@ -376,5 +399,18 @@ fi
     "go.formatTool": "gofmt",
     "editor.formatOnSave": true,
     "files.autoSave": "afterDelay",
+    "[go]": {
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "always"
+        }
+    },
+    "go.testFlags": [
+        "-v",
+        "-gcflags=all=-l"
+    ],
+    "go.formatFlags": [
+        "-w"
+    ],
 }
 ```
