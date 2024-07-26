@@ -399,6 +399,7 @@ fi
     "go.formatTool": "gofmt",
     "editor.formatOnSave": true,
     "files.autoSave": "afterDelay",
+    "terminal.integrated.defaultProfile.osx": "zsh",
     "[go]": {
         "editor.formatOnSave": true,
         "editor.codeActionsOnSave": {
@@ -412,5 +413,6 @@ fi
     "go.formatFlags": [
         "-w"
     ],
+    "security.workspace.trust.untrustedFiles": "open"
 }
 ```
