@@ -221,7 +221,7 @@ curl -fsSL https://raw.githubusercontent.com/golangci/golangci-lint/master/insta
                 ,"--tls=true"
             ]
         },        
-        {
+        {// 参考 https://blog.csdn.net/passenger12234/article/details/122930124
             "name": "Test Debug", // debug 单测
             "type": "go",
             "mode": "test",
