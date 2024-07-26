@@ -170,7 +170,7 @@ if ! grep "go/bin" ~/.zshrc;then
 fi
 ```
 
-2. 安装插件 `golang.go`
+2. 安装插件 `golang.go`。
 3. 安装相关的依赖
 
 参考 [codespaces devcontainers go feature install.sh](https://github.com/devcontainers/features/blob/main/src/go/install.sh#L177)
@@ -199,6 +199,8 @@ curl -fsSL https://raw.githubusercontent.com/golangci/golangci-lint/master/insta
 
 3. launch.json
 
+**注意：**vscode好像不能正确处理软链接，所以最好不好把项目放在软链接的项目中，或者配置 `substitutePath`，这是我从有些高级功能可以见 [debugging](https://github.com/golang/vscode-go/wiki/debugging)看到的，有些高级功能也可以在这里面找到
+
 ```json
 {
     // 使用 IntelliSense 了解相关属性。 
@@ -218,7 +220,19 @@ curl -fsSL https://raw.githubusercontent.com/golangci/golangci-lint/master/insta
                 "--refer=arloor"
                 ,"--tls=true"
             ]
-        }
+        },        
+        {
+            "name": "Test Debug", // debug 单测
+            "type": "go",
+            "mode": "test",
+            "request": "launch",
+            "buildFlags": [],
+            "program": "${relativeFileDirname}", // 当前打开的目录
+            "args": [
+                // "-test.run=",
+                // "^TestGetLlamAccessPoint$"
+            ],
+        },
     ]
 }
 ```
