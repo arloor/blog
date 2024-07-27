@@ -13,6 +13,8 @@ keywords:
 
 ## 设置github.com的用户名
 
+参考[git文档](https://git-scm.com/docs/git-config#Documentation/git-config.txt-codehasconfigremoteurlcode)
+
 ```bash
 git config --global "includeIf.hasconfig:remote.*.url:*://*github.com*/**.path" .gitconfig_github
 git config --global "includeIf.hasconfig:remote.*.url:git@github.com:*/**.path" .gitconfig_github
