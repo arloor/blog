@@ -15,6 +15,7 @@ keywords:
 
 ```bash
 git config --global "includeIf.hasconfig:remote.*.url:*://*github.com*/**.path" .gitconfig_github
+git config --global "includeIf.hasconfig:remote.*.url:git@github.com:*/**.path" .gitconfig_github
 
 cat > ~/.gitconfig_github <<EOF
 [user]
