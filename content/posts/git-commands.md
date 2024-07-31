@@ -41,12 +41,13 @@ echo "https://arloor:${{ github.token }}@github.com" >> ~/.git-credentials
 ### MacOS
 
 ```bash
+# 默认就是，其实不需要显式设置
 git config --global credential.helper osxkeychain
 ```
 
 然后在“钥匙串访问”搜索`github.com`，双击，可以查看和修改密码。
 
-![Alt text](/img/git-credential-osxkeychain-view.png)
+{{< imgx src="/img/git-credential-osxkeychain-view.png" alt="" width="700px" style="max-width: 100%;">}}
 
 ### 使用git config
 
