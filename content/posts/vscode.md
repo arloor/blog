@@ -234,6 +234,9 @@ curl -fsSL https://raw.githubusercontent.com/golangci/golangci-lint/master/insta
             "args": [
                 // "-test.run",
                 // "^TestGetLlamAccessPoint$"
+                // "-test.bench",
+                // "BenchmarkTranslateWithFallback",
+                // "-test.benchmem"
             ],
         },
     ]
