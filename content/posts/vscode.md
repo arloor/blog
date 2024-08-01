@@ -258,8 +258,7 @@ curl -fsSL https://raw.githubusercontent.com/golangci/golangci-lint/master/insta
         }
     },
     "go.testFlags": [
-        "-v",
-        "-gcflags=all=-l"
+        "-v", // 使t.Log()输出到console
     ],
     "go.formatFlags": [
         "-w"
