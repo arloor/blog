@@ -13,7 +13,7 @@ keywords:
 
 ## 设置github.com的用户名
 
-参考[git文档](https://git-scm.com/docs/git-config#Documentation/git-config.txt-codehasconfigremoteurlcode)，允许使用标准文件通配符（standard globbing wildcards）和`/**`、`**/`来定义url的pattern
+参考[git文档](https://git-scm.com/docs/git-config#Documentation/git-config.txt-codehasconfigremoteurlcode)，允许使用标准文件路径匹配（standard globbing wildcards）和`/**`、`**/`来定义url的pattern
 
 ```bash
 git config --global "includeIf.hasconfig:remote.*.url:*://*github.com*/**.path" .gitconfig_github
