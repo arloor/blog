@@ -265,7 +265,7 @@ go test -c github.com/arloor/xxxx/internal/app -o __debug_bin_test -gcflags='all
             "source.organizeImports": "always"
         }
     },
-    "go.testFlags": [
+    "go.testFlags": [ // 只对TestXXXX方法上的run按钮生效
         "-v", // 使t.Log()输出到console
     ],
     "go.formatFlags": [
