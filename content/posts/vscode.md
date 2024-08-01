@@ -232,6 +232,7 @@ curl -fsSL https://raw.githubusercontent.com/golangci/golangci-lint/master/insta
             "program": "./internal/app",
             "output": "__debug_bin_test",
             "args": [
+                "-test.v", // 使t.Log()输出到console
                 // "-test.run",
                 // "^TestGetLlamAccessPoint$"
                 // "-test.bench",
