@@ -199,7 +199,7 @@ curl -fsSL https://raw.githubusercontent.com/golangci/golangci-lint/master/insta
 
 3. launch.json
 
-**注意**：vscode好像不能正确处理软链接，所以最好不好把项目放在软链接的项目中，或者配置 `substitutePath`，这是我从有些高级功能可以见 [debugging](https://github.com/golang/vscode-go/wiki/debugging)看到的，有些高级功能也可以在这里面找到
+**注意**：vscode好像不能正确处理软链接，所以最好不好把项目放在软链接的项目中，或者配置 `substitutePath`。其他高级功能可以见 [vscode-go debugging](https://github.com/golang/vscode-go/wiki/debugging)
 
 ```json
 {
@@ -242,6 +242,14 @@ curl -fsSL https://raw.githubusercontent.com/golangci/golangci-lint/master/insta
         },
     ]
 }
+```
+
+其中 `Test debug` 相当于：
+
+```bash
+go test -c github.com/arloor/xxxx/internal/app -o __debug_bin_test -gcflags='all=-N -l' # -gcflags是vscode自动加入的，用于关闭优化，使得可以断点调试
+./__debug_bin_test -test.v -test.run="^TestGetRTMPAccessPoint$" -test.bench="BenchmarkTranslateWithFallback" -test.benchmem
+# 可以参考 go help test, go help testflag
 ```
 
 4. settings.json中golang相关配置
