@@ -227,7 +227,7 @@ curl -fsSL https://raw.githubusercontent.com/golangci/golangci-lint/master/insta
             "type": "go",
             "mode": "test",
             "request": "launch",
-            "buildFlags": [],
+            "buildFlags": ["-a"],
             // "program": "${relativeFileDirname}", // 当前打开的目录
             "program": "./internal/app",
             "output": "__debug_bin_test",
