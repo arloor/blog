@@ -108,7 +108,7 @@ killcode
 | rust-analyzer | rust插件 |
 | codelldb | 调试插件 |
 | tamasfe.even-better-toml | toml格式化 |
-| serayuzgur.crates | crate.io插件 **自动检查依赖有没有更新**|
+| fill-labs.dependi | crate.io插件 **自动检查依赖有没有更新**|
 
 ### 配置默认build任务：`.vscode/tasks.json`
 
@@ -404,7 +404,7 @@ fi
         "rust-analyzer", // rust-analyzer
         "codelldb",
         "tamasfe.even-better-toml",
-        "serayuzgur.crates",
+        "fill-labs.dependi",
         "golang.go",
         "ms-python.vscode-pylance",
         "ms-python.python"
