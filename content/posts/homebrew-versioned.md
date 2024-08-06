@@ -1,5 +1,5 @@
 ---
-title: "Homebrew安装指定版本"
+title: "Homebrew安装指定版本的软件"
 date: 2024-07-26T15:02:39+08:00
 draft: false
 categories: [ "undefined"]
@@ -11,7 +11,7 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
-需要安装指定版本的thrift，记录下homebrew安装指定版本软件的方法。
+需要在mac上安装 clang-format-16，记录下homebrew安装指定版本软件的方法。
 <!--more-->
 
 ## 安装homebrew
