@@ -361,8 +361,18 @@ fi
 
 | 插件名 | 说明 |
 | --- | --- |
-| [GitHistory](https://marketplace.visualstudio.com/items?itemName=donjayamanne.githistory) | `cmd + shift + p`输入`git log`可以看完整提交历史 |
+| [Git Graph](https://marketplace.visualstudio.com/items?itemName=mhutchie.git-graph) | `cmd + shift + p`输入`git log`可以看完整提交历史 |
 | [GitBlame](https://marketplace.visualstudio.com/items?itemName=waderyan.gitblame) | 显示每行是谁在什么时候修改的 |
+| [GitHistory](https://marketplace.visualstudio.com/items?itemName=donjayamanne.githistory) | 可以在资源管理器看到git时间线，也可以 `option + H` 来看文件历史|
+
+并且为 GitBlame增加了这个配置以开启行内的git blame信息
+
+```json
+{
+    "gitblame.inlineMessageEnabled": true,
+    "gitblame.inlineMessageFormat": "${author.name}, (${time.ago}) · ${commit.summary}"
+}
+```
 
 ## 我的vscode配置备份
 
@@ -443,6 +453,8 @@ fi
     "go.formatFlags": [
         "-w"
     ],
-    "security.workspace.trust.untrustedFiles": "open"
+    "security.workspace.trust.untrustedFiles": "open",
+    "gitblame.inlineMessageEnabled": true,
+    "gitblame.inlineMessageFormat": "${author.name}, (${time.ago}) · ${commit.summary}"
 }
 ```
