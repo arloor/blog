@@ -70,6 +70,7 @@ TIPS：
 | Go back / forward | ⌃- / ⌃⇧- | Alt+ ← / → |
 | Toggle word wrap | ⌥Z | alt + z |
 | Delete line | ⇧⌘K | Ctrl+Shift+K |
+| 显示调用层次结构 | ⌥⇧H | shift+alt+h |
 
 > 内置快捷键cheatsheet 
 > 1. [MacOS快捷键](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-macos.pdf)
