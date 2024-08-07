@@ -83,6 +83,7 @@ brew install clang-format@16.0.6
 ```bash
 brew deps --installed --tree # 查看已安装软件的依赖树
 brew search mysql # 搜索软件
+brew search "/(^|.+tap.+)go(@|$)/" # 使用正则表达式搜索，以搜索golang为例
 brew info mysql # 查看软件信息
 brew install mysql # 安装软件
 brew list # 查看已安装软件
