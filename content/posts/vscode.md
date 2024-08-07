@@ -41,6 +41,7 @@ TIPS：
 | `cmd+m` | 用于切换多个终端，特别是在 `cmd+shift+b` 触发构建任务之后 |
 | `option+o` | 用于打开remote explorer窗口，在多个远程开发环境中切换 |
 | `option+t` | 用于打开outline窗口，用于查看大纲或者函数列表 |
+| `option+t` | 用于打开outline窗口，用于查看大纲或者函数列表 |
 
 ```json
 // 将键绑定放在此文件中以覆盖默认值auto[]
@@ -56,6 +57,10 @@ TIPS：
     {
         "key": "alt+t",
         "command": "outline.focus"
+    },
+    {
+        "key": "cmd+k cmd+g",
+        "command": "git-graph.view" // 需要git-graph插件
     }
 ]
 ```
@@ -71,6 +76,7 @@ TIPS：
 | Toggle word wrap | ⌥Z | alt + z |
 | Delete line | ⇧⌘K | Ctrl+Shift+K |
 | 显示调用层次结构 | ⌥⇧H | shift+alt+h |
+| 向下复制一行 | ⌥⇧⬇️ | shift+alt+⬇️ |
 
 > 内置快捷键cheatsheet 
 > 1. [MacOS快捷键](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-macos.pdf)
