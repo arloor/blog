@@ -357,7 +357,7 @@ fi
 
 ### Git插件
 
-我没有用[GitLens](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens)，而是用下面两个插件，因为GitLens功能太多了，还是商业化的。
+我没有用[GitLens](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens)，而是参考[VSCode 或许不需要 GitLens](https://juejin.cn/post/7316097536547700775)用了下面的插件
 
 | 插件名 | 说明 |
 | --- | --- |
