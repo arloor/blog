@@ -52,6 +52,8 @@ At the moment I've gone for option (2) since it's the laziest option, but it wou
 
 Could we add a `poll_lock` method to `Mutex` which allows me to use the `Mutex` in the buggy way I attempted above?
 
+相同的问题：[Async mutexes and poll_fn - Other lock future never wakes up](https://users.rust-lang.org/t/async-mutexes-and-poll-fn-other-lock-future-never-wakes-up/38673)，问题原因：Basically the issue is that you're recreating the future that waits for the lock to become available on every poll, and if it doesn't succeed, you throw it away. Since you threw the future away, you should not expect to be woken up by that future.
+
 ## 解决
 
 [futures-rs/pull/2571](https://github.com/rust-lang/futures-rs/pull/2571)
