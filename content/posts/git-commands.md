@@ -80,11 +80,19 @@ git commit --amend --author="arloor <admin@arloor.com>" --no-edit&&git rebase --
 
 ```bash
 cat > /usr/local/bin/ncode <<\EOF
-[ "$1" = "" ]&&user=arloor||user=$1
+[ "$1" = "" ]&&user="arloor\|刘港欢\|liuganghuan"||user=$1
 
-echo ${user}\'s work summary: @$(date) | tee -a ~/data/ncode.log
-git log --author="${user}" --pretty=tformat: --numstat | awk '{ add += $1; subs += $2; loc += $1 - $2 } END { printf "added lines: %s, removed lines: %s, total lines: %s", add, subs, loc }' | tee -a ~/data/ncode.log
-echo  "" | tee -a ~/data/ncode.log
+echo ${user}\'s work summary: @$(date)
+git log --author="刘港欢\|liuganghuan\|arloor" --pretty=tformat: --numstat | awk '{
+    if ($1 != "-" && $2 != "-") {
+        add += $1;
+        subs += $2;
+        loc += $1 - $2;
+    }
+} 
+END { 
+    printf "added lines: %s, removed lines: %s, total lines: %s\n", add, subs, loc 
+}'
 EOF
 chmod +x /usr/local/bin/ncode
 ncode arloor
