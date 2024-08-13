@@ -98,8 +98,6 @@ chmod +x /usr/local/bin/ncode
 ncode arloor
 ```
 
-执行历史还会输出到 `~/data/ncode.log` 以便查看历史记录
-
 ## 删除git中某一文件的历史
 
 ```bash
