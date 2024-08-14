@@ -46,6 +46,10 @@ curl https://arloor.com/sh/ca.sh | bash
 certmgr /add ca.pem /s /r localMachine root
 ```
 
+或者开始菜单搜索'管理用户证书'，然后如下图操作
+
+![alt text](/img/windows-install-ca.png )
+
 ## 参考文档
 
 [CA & OpenSSL自签名证书](https://juejin.cn/post/7092789498823573518#heading-20)
