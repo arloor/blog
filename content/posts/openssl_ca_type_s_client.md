@@ -38,6 +38,14 @@ curl https://arloor.com/sh/ca.sh | bash
 
 ![8d7b336fd9e376eb116acb1e7d93d69a.png](/img/8d7b336fd9e376eb116acb1e7d93d69a.png)
 
+## Windows安装CA
+
+[https://learn.microsoft.com/zh-cn/windows-hardware/drivers/install/installing-test-certificates](https://learn.microsoft.com/zh-cn/windows-hardware/drivers/install/installing-test-certificates)
+
+```bash
+certmgr /add ca.pem /s /r localMachine root
+```
+
 ## 参考文档
 
 [CA & OpenSSL自签名证书](https://juejin.cn/post/7092789498823573518#heading-20)
