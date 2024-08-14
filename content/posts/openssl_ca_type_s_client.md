@@ -52,7 +52,7 @@ certmgr /add ca.pem /s /r localMachine root
 
 ## 参考文档
 
-[CA & OpenSSL自签名证书](https://juejin.cn/post/7092789498823573518#heading-20)
+- [CA & OpenSSL自签名证书](https://juejin.cn/post/7092789498823573518#heading-20)：涉及到完整的CA+中间证书+站点证书。
 
 ## 私钥的各种格式
 
