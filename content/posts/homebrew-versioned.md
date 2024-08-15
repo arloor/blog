@@ -58,6 +58,8 @@ brew extract --version='16.0.6' clang-format $USER/local-tap
 brew install clang-format@16.0.6
 ```
 
+对应的变更历史可以到[https://github.com/Homebrew/homebrew-core/commits/master/Formula/c/clang-format.rb](https://github.com/Homebrew/homebrew-core/commits/master/Formula/c/clang-format.rb)
+
 ## 附录：相关术语：
 
 详见[manpage](https://docs.brew.sh/Manpage)
