@@ -124,3 +124,9 @@ explorer.exe
 ```bash
 HKEY_CURRENT_USER\Software\Classes\CLSID\{B2B4A4D1-2754-4140-A2EB-9A76D9D7CDC6}
 ```
+
+## 关闭简体中文输入法的简体繁体切换
+
+不然会占用 `ctrl  + shift  + F`
+
+![alt text](/img/windows-disable-jianfan-qiehuan.png)
