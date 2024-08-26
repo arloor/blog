@@ -78,16 +78,16 @@ TIPS：
 
 ## 其他快捷键
 
-| 作用 | MacOS快捷键 | Windows快捷键 |
-| --- | --- | --- |
-| Expand / shrink selection | ⌃⇧⌘ → / ← | Shift+Alt+→ / ← |
-| Go to Line... | ⌃G | Ctrl+G |
-| Change language mode | ⌘K M | Ctrl+K M |
-| Go back / forward | ⌃- / ⌃⇧- | Alt+ ← / → |
-| Toggle word wrap | ⌥Z | alt + z |
-| 新建copilot chat | ⌃l | ctrl + l |
-| Delete line | ⇧⌘K | Ctrl+Shift+K |
-| 向下复制一行 | ⌥⇧⬇️ | shift+alt+⬇️ |
+| 作用 | MacOS快捷键 | Windows快捷键 | 备注 |
+| --- | --- | --- | --- |
+| Expand / shrink selection | ⌃⇧⌘ → / ← | Shift+Alt+→ / ← |  |
+| Go to Line... | ⌃G | Ctrl+G |  |
+| Change language mode | ⌘K M | Ctrl+K M |  |
+| Go back / forward | ⌃- / ⌃⇧- | Alt+ ← / → |  |
+| Toggle word wrap | ⌥Z | alt + z |  |
+| 新建copilot chat | ⌃l | ctrl + l | 需要copilot chat插件 |
+| Delete line | ⇧⌘K | Ctrl+Shift+K |  |
+| 向下复制一行 | ⌥⇧⬇️ | shift+alt+⬇️ |  |
 
 > 内置快捷键cheatsheet 
 > 1. [MacOS快捷键](https://code.visualstudio.com/shortcuts/keyboard-shortcuts-macos.pdf)
