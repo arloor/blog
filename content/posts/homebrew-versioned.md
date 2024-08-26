@@ -53,8 +53,8 @@ git log -p -- Formula/c/clang-format.rb | grep -e ^commit -e 'url "http'
 # +      url "https://github.com/llvm/llvm-project/releases/download/llvmorg-16.0.6/third-party-16.0.6.src.tar.xz"
 
 # 安装16.0.6
-brew tap-new $USER/local-tap
-brew extract --version='16.0.6' clang-format $USER/local-tap
+brew tap-new $USER/tap
+brew extract --version='16.0.6' clang-format $USER/tap
 brew install clang-format@16.0.6
 ```
 
