@@ -85,6 +85,7 @@ TIPS：
 | Change language mode | ⌘K M | Ctrl+K M |
 | Go back / forward | ⌃- / ⌃⇧- | Alt+ ← / → |
 | Toggle word wrap | ⌥Z | alt + z |
+| 新建copilot chat | ⌃l | ctrl + l |
 | Delete line | ⇧⌘K | Ctrl+Shift+K |
 | 向下复制一行 | ⌥⇧⬇️ | shift+alt+⬇️ |
 
