@@ -81,7 +81,7 @@ Macos提供三种开机自启动的方式，详情可以看这里[三种方式�
 </plist>
 ```
 
-更多详情可以见[launchd.info](https://www.launchd.info/)或者 `man launchd.plist`
+如果需要其他字段来自定义能力，可以参考 `man launchd.plist`，或者看[launchd.info](https://www.launchd.info/) 
 
 ### 启动和停止
 
