@@ -70,8 +70,10 @@ Macos提供三种开机自启动的方式，详情可以看这里[三种方式�
 ```
 #! /bin/sh
 launchctl unload -w ~/Library/LaunchAgents/com.connect.plist
-sleep 1
-launchctl load -w ~/Library/LaunchAgents/com.connect.plist
+if [ "$1" != "stop" ]; then
+    sleep 1
+    launchctl load -w ~/Library/LaunchAgents/com.connect.plist
+fi
 ```
 
 unload和load是老旧的launchctl命令，`man launchctl`能看到，官方推荐我们使用 bootstrap | bootout | enable | disable
@@ -84,8 +86,10 @@ unload和load是老旧的launchctl命令，`man launchctl`能看到，官方推�
 ```bash
 launchctl bootout gui/$(id -u) ~/Library/LaunchAgents/com.connect.plist
 launchctl disable gui/$(id -u)/com.connect
-launchctl enable gui/$(id -u)/com.connect
-launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.connect.plist
+if [ "$1" != "stop" ]; then
+    launchctl enable gui/$(id -u)/com.connect
+    launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.connect.plist
+fi
 ```
 
 service是否被disable的db文件地址如下。MacOS不会自动删除db文件中无效的service，这导致执行`launchctl print-disabled gui/$(id -u)`时会看到一些无效的service。手动删除这些无效的service，需要先在恢复模式关闭安全模式，然后才能通过vim修改。
@@ -98,7 +102,7 @@ service是否被disable的db文件地址如下。MacOS不会自动删除db文件
 
 unix系统都限制了可打开文件数，如何修改呢？
 
-1. 新建Library/LaunchDaemons/limit.maxfiles.plist文件，写入
+1. 新建/Library/LaunchDaemons/limit.maxfiles.plist文件，写入
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>  
