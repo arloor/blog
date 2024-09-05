@@ -20,7 +20,9 @@ Macos提供三种开机自启动的方式，详情可以看这里[三种方式�
 
 这里挑选一种和linux上的systemd很像的方式，使用launchd来进行开机自启动。和systemd一样，launchd也是MacOS上的第一个进程，并且提供和systemctl很类似的launchctl工具。
 
-使用Launchd设置开机自启动，仅仅需要编写一个`plist`文件并将其放到`~/Library/LaunchAgents/`。以下是一个java应用开机自启的plist文件。
+## plist文件
+
+使用Launchd设置开机自启动，仅仅需要编写一个`plist`文件并将其放到`~/Library/LaunchAgents/`。以下是一个应用开机自启的plist文件。
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -28,53 +30,73 @@ Macos提供三种开机自启动的方式，详情可以看这里[三种方式�
 <plist version="1.0">
         <dict>
                 <key>Label</key>
-                <string>com.connect</string>
+                <string>com.arloor.sslocal</string>
                 <!-- <key>Disabled</key>          
                 <false/> -->
+                <!-- 退出后是否重启 -->
                 <key>KeepAlive</key>
-                <false/>
+                <false />
+                <!-- 加载后立即启动，即开机自启 -->
                 <key>RunAtLoad</key>
-                <true/>
+                <true />
                 <key>WorkingDirectory</key>
                 <string>/tmp</string>
                 <key>EnvironmentVariables</key>
                 <dict>
-	                <key>aPATH</key>
-	                <string>/bin:/usr/bin:/usr/local/bin</string>
+                        <key>aPATH</key>
+                        <string>/bin:/usr/bin:/usr/local/bin</string>
                 </dict>
                 <key>ProgramArguments</key>
                 <array>
-                        <string>/usr/bin/java</string>
-                        <string>-jar</string>
-                        <string>-Xmx100m</string>
-                        <string>/path/to/your.jar</string>
+                        <string>/Users/bytedance/.cargo/bin/sslocal</string>
+                        <string>--local-addr</string>
+                        <string>localhost:2080</string>
+                        <string>-k</string>
+                        <string>xxxxxxxx</string>
+                        <string>-m</string>
+                        <string>aes-256-gcm</string>
+                        <string>-s</string>
+                        <string>host:port</string>
+                        <string>-v</string>
                 </array>
+                <!-- 软资源限制 -->
                 <key>SoftResourceLimits</key>
                 <dict>
-	                <key>NumberOfFiles</key>
-	                <integer>65536</integer>
+                        <key>NumberOfFiles</key>
+                        <integer>65536</integer>
                 </dict>
+                <!-- 硬资源限制 -->
                 <key>HardResourceLimits</key>
                 <dict>
-	                <key>NumberOfFiles</key>
-	                <integer>65536</integer>
+                        <key>NumberOfFiles</key>
+                        <integer>65536</integer>
                 </dict>
+                <!-- 标准输出路径 -->
+                <key>StandardOutPath</key>
+                <string>/tmp/sslocal.log</string>
+                <!-- 标准错误路径 -->
+                <key>StandardErrorPath</key>
+                <string>/tmp/sslocal.log</string>
         </dict>
 </plist>
 ```
 
-更多详情可以见[launchd.info](https://www.launchd.info/)
+更多详情可以见[launchd.info](https://www.launchd.info/)或者 `man launchd.plist`
+
+### 启动和停止
 
 如果想实现类似`systemctl restart xx`的能力，可以使用下面的脚本：
 
 ```
 #! /bin/sh
-launchctl unload -w ~/Library/LaunchAgents/com.connect.plist
+launchctl unload -w ~/Library/LaunchAgents/com.arloor.sslocal.plist
 if [ "$1" != "stop" ]; then
     sleep 1
-    launchctl load -w ~/Library/LaunchAgents/com.connect.plist
+    launchctl load -w ~/Library/LaunchAgents/com.arloor.sslocal.plist
 fi
 ```
+
+#### 新命令
 
 unload和load是老旧的launchctl命令，`man launchctl`能看到，官方推荐我们使用 bootstrap | bootout | enable | disable
 > - unload -w 等同于bootout + disable，停止进程并禁用开机自启动。
@@ -84,11 +106,11 @@ unload和load是老旧的launchctl命令，`man launchctl`能看到，官方推�
 使用新命令来达成上面的效果就是：
 
 ```bash
-launchctl bootout gui/$(id -u) ~/Library/LaunchAgents/com.connect.plist
-launchctl disable gui/$(id -u)/com.connect
+launchctl bootout gui/$(id -u) ~/Library/LaunchAgents/com.arloor.sslocal.plist
+launchctl disable gui/$(id -u)/com.arloor.sslocal
 if [ "$1" != "stop" ]; then
-    launchctl enable gui/$(id -u)/com.connect
-    launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.connect.plist
+    launchctl enable gui/$(id -u)/com.arloor.sslocal
+    launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.arloor.sslocal.plist
 fi
 ```
 
@@ -98,9 +120,9 @@ service是否被disable的db文件地址如下。MacOS不会自动删除db文件
 /private/var/db/com.apple.xpc.launchd/disabled.$(id -u).plist 
 ```
 
-### 资源限制
+### 全局资源限制
 
-unix系统都限制了可打开文件数，如何修改呢？
+unix系统都限制了可打开文件数，上面的plist修改了单个进程的文件描述符数量限制。如何修改全局资源限制呢？
 
 1. 新建/Library/LaunchDaemons/limit.maxfiles.plist文件，写入
 
