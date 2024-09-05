@@ -96,6 +96,13 @@ if [ "$1" != "stop" ]; then
 fi
 ```
 
+如果执行过程中报下面的错，是因为 `launchctl unload`（卸载服务） 时该服务还没运行，所以 `launchctl unload` 失败。可以忽略这个错误。
+
+```bash
+Unload failed: 5: Input/output error
+Try running `launchctl bootout` as root for richer errors.
+```
+
 #### 新命令（可以但没必要）
 
 unload和load是老旧的launchctl命令，`man launchctl`能看到，官方推荐我们使用 bootstrap | bootout | enable | disable
