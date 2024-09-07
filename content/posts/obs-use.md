@@ -15,7 +15,9 @@ keywords:
 {{< imgx src="/img/Snipaste_2024-09-07_23-30-29.png" alt="" width="400px" style="max-width: 100%;">}}
 {{< imgx src="/img/obs-settings-zhibo.png" alt="" width="700px" style="max-width: 100%;">}}
 {{< imgx src="/img/obs-settings-video.png" alt="" width="700px" style="max-width: 100%;">}}
+{{< imgx src="/img/obs-settings-yinpin.png" alt="" width="700px" style="max-width: 100%;">}}
 {{< imgx src="/img/obs-settings-advanced.png" alt="" width="700px" style="max-width: 100%;">}}
 {{< imgx src="/img/obs-settings-high-performance.png" alt="" width="700px" style="max-width: 100%;">}}
 {{< imgx src="/img/剪影-导出4K.png" alt="" width="700px" style="max-width: 100%;">}}
 {{< imgx src="/img/Snipaste_2024-09-08_00-31-00.png" alt="" width="700px" style="max-width: 100%;">}}
+{{< imgx src="/img/bilibili-4k.png" alt="" width="700px" style="max-width: 100%;">}}
