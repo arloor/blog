@@ -18,3 +18,4 @@ keywords:
 {{< imgx src="/img/obs-settings-advanced.png" alt="" width="700px" style="max-width: 100%;">}}
 {{< imgx src="/img/obs-settings-high-performance.png" alt="" width="700px" style="max-width: 100%;">}}
 {{< imgx src="/img/剪影-导出4K.png" alt="" width="700px" style="max-width: 100%;">}}
+{{< imgx src="/img/Snipaste_2024-09-08_00-31-00.png" alt="" width="700px" style="max-width: 100%;">}}
