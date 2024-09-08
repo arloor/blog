@@ -69,3 +69,5 @@ keywords:
 
 {{< imgx src="/img/obs-notifier.png" alt="" width="400px" style="max-width: 100%;">}}
 
+其中，上下左右偏移量可以调整通知位置，在屏幕有缩放的情况下应该需要手动设置，否则不会显示在屏幕上。，参考[Can you move the offset? Maybe a window outside the screen..](https://github.com/DmitriySalnikov/OBSNotifier/issues/16)
+
