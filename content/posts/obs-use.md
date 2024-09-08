@@ -71,3 +71,5 @@ keywords:
 
 其中，上下左右偏移量可以调整通知位置，在屏幕有缩放的情况下应该需要手动设置，否则不会显示在屏幕上。，参考[Can you move the offset? Maybe a window outside the screen..](https://github.com/DmitriySalnikov/OBSNotifier/issues/16)
 
+另外这个软件在全屏游戏下不能正常显示通知，会被挡住。窗口或者无边框窗口的情况下可以正常显示。
+
