@@ -44,6 +44,8 @@ TIPS：
 | `cmd+k cmd+g` | 用于查看git log graph，需要git graph插件 |
 | `cmd+k cmd+h` | 查看方法的引用路径 |
 
+**macOS**:
+
 ```json
 // 将键绑定放在此文件中以覆盖默认值auto[]
 [
@@ -73,6 +75,40 @@ TIPS：
         "command": "-references-view.showCallHierarchy",
         "when": "editorHasCallHierarchyProvider"
     }
+]
+```
+
+**windows**:
+
+```json
+// 将键绑定放在此文件中以覆盖默认值
+[
+    {
+        "key": "ctrl+m",
+        "command": "workbench.action.terminal.focusNext"
+    },
+    {
+        "key": "alt+o",
+        "command": "workbench.view.remote"
+    },
+    {
+        "key": "alt+t",
+        "command": "outline.focus"
+    },
+    {
+        "key": "ctrl+k ctrl+g",
+        "command": "git-graph.view" // 需要git-graph插件
+    },
+    {
+        "key": "ctrl+k ctrl+h",
+        "command": "references-view.showCallHierarchy",
+        "when": "editorHasCallHierarchyProvider"
+    },
+    {
+        "key": "shift+alt+h",
+        "command": "-references-view.showCallHierarchy",
+        "when": "editorHasCallHierarchyProvider"
+    },
 ]
 ```
 
