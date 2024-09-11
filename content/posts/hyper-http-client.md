@@ -21,7 +21,7 @@ keywords:
 工作的很正常，但是没有连接池。想到 `hyper` 官方提供的 `reqwest` 是有内置连接池的，于是研究了下做了改造，记录下过程中读到的代码。
 <!--more-->
 
-## 无连接池的reverse_proxy
+## Original：无连接池的reverse_proxy
 
 ```Rust
 async fn reverse_proxy(
@@ -87,7 +87,9 @@ async fn reverse_proxy(
     }
 ```
 
-## reqwest对 legacy client 的使用
+## 源码阅读：从reqwest到hyper-util再到hyper
+
+### reqwest对 legacy::client 的使用
 
 具体package是:
 
@@ -240,7 +242,7 @@ Send a constructed Request using this Client.
 
 > The higher-level pooling Client was removed from `hyper 1.0`. A similar type was added to `hyper-util`, called `client::legacy::Client`. It’s mostly a drop-in replacement.
 
-## legacy client中池化的实现
+### legacy client中池化的实现
 
 `legacy client` 的核心实现都在 `impl<C, B> Client<C, B>` 中，核心方法有：
 
@@ -345,7 +347,7 @@ return PoolTx::Http1(tx)
 }                            
 ```
 
-## hyper如何发送http1请求
+### hyper如何发送http1请求
 
 让我们从hyper-util走到hyper，看看hyper这个底层库是如何发送http请求的。看这个的意义在于确定我们将http2请求的body转换成http1.1的body是否有损，具体来说是，将http2分帧的body的转换成http1.1的`Transfer-Encoding: chunked`的body是否有损。答案是无损的。
 
@@ -566,14 +568,14 @@ where
 核心是 `this.rx.poll_recv(cx)`，这个rx就是 `handshake` 过程中创建的 `dispatch::channel()` 的接受部分，底层是 `mpsc::UnboundedReceiver`。其实看到这里，应该就明白hyper怎么实现client的了：
 
 1. handshake生成`sender: http1::SendRequest` 和 `Connection`。
-2. 他们是生产者消费者模型，sender有mpsc的发送端，connection有mpsc的接收端。
+2. 他们是**生产者消费者模型**，sender有mpsc的发送端，connection有mpsc的接收端。**我们自己实现Rust的生产者消费者模型时，可以重点参考`dispatch::channel()`**
 3. connection被tokio::spawn，poll方法中不断从mpsc接收端接收消息，然后发送http请求。
 
 真正写header的部分，这里只截图我关注的HTTP2转HTTP1.1时是否能自动增加 `Transfer-Encoding: chunked`，简要总结下，如果没有设置 `Content-Length`，则会自动增加 `Transfer-Encoding: chunked`。截图左侧的调用栈也可以关注下。
 
 ![alt text](/img/hyper_http1_poll_write_debug.png)
 
-## 最终构建legacy client的代码，支持HTTPS
+## Result1: 使用legacy::client构建reverse_proxy
 
 增加的依赖：
 
@@ -642,9 +644,9 @@ fn build_http_client() -> Client<hyper_rustls::HttpsConnector<HttpConnector>, In
 }
 ```
 
-## 使用LRU cache实现自己的连接池
+## Result2: 使用LRU cache实现自己的连接池
 
-最后，我又借鉴了 `shadowsocks-rust` 的 `http_client.rs`，使用 `lru_time_cache` 实现了自己的连接池，以增强TcpStream。
+最后，我又借鉴了 `shadowsocks-rust` 的 `http_client.rs`，使用 `lru_time_cache` 实现了自己的连接池。
 
 ```Rust
 //! HTTP Client
