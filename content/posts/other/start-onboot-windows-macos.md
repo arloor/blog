@@ -115,19 +115,21 @@ unload和load是老旧的launchctl命令，`man launchctl`能看到，官方推�
 ```bash
 #! /bin/bash
 
+service_name="com.arloor.sslocal"
+
 get_cur_pid() {
-    launchctl list | grep com.arloor.sslocal | awk '{print $1}'
+    launchctl list | grep ${service_name} | awk '{print $1}'
 }
 
 old_pid=$(get_cur_pid)
 if [ "$old_pid" != "" ]; then
     echo 关闭老进程 $old_pid
-    launchctl bootout gui/$(id -u)/com.arloor.sslocal
-    launchctl disable gui/$(id -u)/com.arloor.sslocal
+    launchctl bootout gui/$(id -u)/${service_name}
+    launchctl disable gui/$(id -u)/${service_name}
 fi
 if [ "$1" != "stop" ]; then
-    launchctl enable gui/$(id -u)/com.arloor.sslocal
-    launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.arloor.sslocal.plist
+    launchctl enable gui/$(id -u)/${service_name}
+    launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/${service_name}.plist
     pid=$(get_cur_pid)
     if [ "$pid" != "" ]; then
         echo 新进程 $pid
@@ -135,6 +137,7 @@ if [ "$1" != "stop" ]; then
         echo 启动失败
     fi
 fi
+
 ```
 
 service是否被disable的db文件地址如下。MacOS不会自动删除db文件中无效的service，这导致执行`launchctl print-disabled gui/$(id -u)`时会看到一些无效的service。如果想手动删除这些无效的service，需要先在恢复模式关闭安全模式，然后才能通过vim修改。
