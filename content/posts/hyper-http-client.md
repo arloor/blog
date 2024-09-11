@@ -349,7 +349,7 @@ return PoolTx::Http1(tx)
 
 ### hyper如何发送http1请求
 
-让我们从hyper-util走到hyper，看看hyper这个底层库是如何发送http请求的。看这个的意义在于确定我们将http2请求的body转换成http1.1的body是否有损，具体来说是，将http2分帧的body的转换成http1.1的`Transfer-Encoding: chunked`的body是否有损。答案是无损的。
+接下来从hyper-util走到hyper，看看hyper这个底层库是如何发送http请求的。目标是确定我们将http2请求的body转换成http1.1的body是否有损，具体来说是，将http2分帧的body的转换成http1.1的`Transfer-Encoding: chunked`的body是否有损。答案是无损的。
 
 我们先从上节的继续看起
 
@@ -570,6 +570,25 @@ where
 1. handshake生成`sender: http1::SendRequest` 和 `Connection`。
 2. 他们是**生产者消费者模型**，sender有mpsc的发送端，connection有mpsc的接收端。**我们自己实现Rust的生产者消费者模型时，可以重点参考`dispatch::channel()`**
 3. connection被tokio::spawn，poll方法中不断从mpsc接收端接收消息，然后发送http请求。
+
+深究下 `dispatch::channel()` 的实现：
+
+```Rust
+pub(crate) fn channel<T, U>() -> (Sender<T, U>, Receiver<T, U>) {
+    let (tx, rx) = mpsc::unbounded_channel();
+    let (giver, taker) = want::new();
+    let tx = Sender {
+        #[cfg(feature = "http1")]
+        buffered_once: false,
+        giver,
+        inner: tx,
+    };
+    let rx = Receiver { inner: rx, taker };
+    (tx, rx)
+}
+```
+
+用到了[hyper作者的want crate](https://docs.rs/want/0.3.1/want/)。文档中写的很清楚，简单总结下，大致作用是给channel的生产者和消费者增加http协议的ping-pong反馈机制，上一个request处理完毕，再允许发送者发送下一个request（ping pong ping pong）。所以这个库的典型使用场景就是和 `unbounded_channel` 一起使用。
 
 真正写header的部分，这里只截图我关注的HTTP2转HTTP1.1时是否能自动增加 `Transfer-Encoding: chunked`，简要总结下，如果没有设置 `Content-Length`，则会自动增加 `Transfer-Encoding: chunked`。截图左侧的调用栈也可以关注下。
 
