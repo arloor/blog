@@ -551,7 +551,7 @@ where
     ) -> Poll<Option<Result<(Self::PollItem, Self::PollBody), Infallible>>> {
         let mut this = self.as_mut();
         debug_assert!(!this.rx_closed);
-        match this.rx.poll_recv(cx) {   // ！！！ 从channel中接收消息
+        match this.rx.poll_recv(cx) {   // ！！！ 从channel中接收消息，看下面的impl<T, U> Receiver<T, U> 
             Poll::Ready(Some((req, mut cb))) => {
                 ...
             }
@@ -562,6 +562,51 @@ where
         }
     }
     ...
+}
+
+
+
+pub(crate) struct Receiver<T, U> {
+    inner: mpsc::UnboundedReceiver<Envelope<T, U>>,
+    taker: want::Taker,
+}
+
+impl<T, U> Receiver<T, U> {
+    pub(crate) fn poll_recv(&mut self, cx: &mut Context<'_>) -> Poll<Option<(T, Callback<T, U>)>> {
+        match self.inner.poll_recv(cx) {
+            Poll::Ready(item) => {
+                Poll::Ready(item.map(|mut env| env.0.take().expect("envelope not dropped")))
+            }
+            Poll::Pending => {
+                self.taker.want(); // 如果没拿到，则通知生产者，详见下面的want crate解释
+                Poll::Pending
+            }
+        }
+    }
+
+    #[cfg(feature = "http1")]
+    pub(crate) fn close(&mut self) {
+        self.taker.cancel();
+        self.inner.close();
+    }
+
+    #[cfg(feature = "http1")]
+    pub(crate) fn try_recv(&mut self) -> Option<(T, Callback<T, U>)> {
+        use futures_util::FutureExt;
+        match self.inner.recv().now_or_never() {
+            Some(Some(mut env)) => env.0.take(),
+            _ => None,
+        }
+    }
+}
+
+// 在connection drop时，通知SendRequest is_closed
+impl<T, U> Drop for Receiver<T, U> {
+    fn drop(&mut self) {
+        // Notify the giver about the closure first, before dropping
+        // the mpsc::Receiver.
+        self.taker.cancel();
+    }
 }
 ```
 
