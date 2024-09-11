@@ -654,12 +654,11 @@ use std::{
     error::Error,
     fmt::Debug,
     io::{self, ErrorKind},
-    net::{IpAddr, Ipv4Addr, Ipv6Addr, SocketAddr},
     sync::Arc,
     time::{Duration, Instant},
 };
 
-use http::{header, uri::Authority, HeaderMap, HeaderValue, Uri, Version};
+use http::{header, HeaderMap, HeaderValue, Version};
 use hyper::{
     body::{self, Body},
     client::conn::http1,
@@ -673,7 +672,7 @@ use lru_time_cache::LruCache;
 use prom_label::LabelImpl;
 use tokio::{net::TcpStream, sync::Mutex};
 
-use crate::{address::Address, proxy::AccessLabel};
+use crate::proxy::AccessLabel;
 
 const CONNECTION_EXPIRE_DURATION: Duration =
     Duration::from_secs(if !cfg!(debug_assertions) { 30 } else { 10 });
@@ -682,74 +681,6 @@ const CONNECTION_EXPIRE_DURATION: Duration =
 pub struct HttpClient<B> {
     #[allow(clippy::type_complexity)]
     cache_conn: Arc<Mutex<LruCache<AccessLabel, VecDeque<(HttpConnection<B>, Instant)>>>>,
-}
-
-impl<B> Clone for HttpClient<B> {
-    fn clone(&self) -> Self {
-        HttpClient {
-            cache_conn: self.cache_conn.clone(),
-        }
-    }
-}
-
-impl<B> Default for HttpClient<B>
-where
-    B: Body + Send + Unpin + Debug + 'static,
-    B::Data: Send,
-    B::Error: Into<Box<dyn ::std::error::Error + Send + Sync>>,
-{
-    fn default() -> Self {
-        HttpClient::new()
-    }
-}
-
-pub fn host_addr(uri: &Uri) -> Option<Address> {
-    match uri.authority() {
-        None => None,
-        Some(authority) => authority_addr(uri.scheme_str(), authority),
-    }
-}
-
-pub fn authority_addr(scheme_str: Option<&str>, authority: &Authority) -> Option<Address> {
-    // RFC7230 indicates that we should ignore userinfo
-    // https://tools.ietf.org/html/rfc7230#section-5.3.3
-
-    // Check if URI has port
-    let port = match authority.port_u16() {
-        Some(port) => port,
-        None => {
-            match scheme_str {
-                None => 80, // Assume it is http
-                Some("http") => 80,
-                Some("https") => 443,
-                _ => return None, // Not supported
-            }
-        }
-    };
-
-    let host_str = authority.host();
-
-    // RFC3986 indicates that IPv6 address should be wrapped in [ and ]
-    // https://tools.ietf.org/html/rfc3986#section-3.2.2
-    //
-    // Example: [::1] without port
-    if host_str.starts_with('[') && host_str.ends_with(']') {
-        // Must be a IPv6 address
-        let addr = &host_str[1..host_str.len() - 1];
-        match addr.parse::<Ipv6Addr>() {
-            Ok(a) => Some(Address::from(SocketAddr::new(IpAddr::V6(a), port))),
-            // Ignore invalid IPv6 address
-            Err(..) => None,
-        }
-    } else {
-        // It must be a IPv4 address
-        match host_str.parse::<Ipv4Addr>() {
-            Ok(a) => Some(Address::from(SocketAddr::new(IpAddr::V4(a), port))),
-            // Should be a domain name, or a invalid IP address.
-            // Let DNS deal with it.
-            Err(..) => Some(Address::DomainNameAddress(host_str.to_owned(), port)),
-        }
-    }
 }
 
 impl<B> HttpClient<B>
@@ -772,15 +703,15 @@ where
     pub async fn send_request(
         &self,
         req: Request<B>,
-        addr: Address,
-        access_label: AccessLabel,
-        stream_map_func: impl FnOnce(TcpStream) -> CounterIO<TcpStream, LabelImpl<AccessLabel>>,
+        access_label: &AccessLabel,
+        stream_map_func: impl FnOnce(
+            TcpStream,
+            AccessLabel,
+        ) -> CounterIO<TcpStream, LabelImpl<AccessLabel>>,
     ) -> Result<Response<body::Incoming>, std::io::Error> {
         // 1. Check if there is an available client
-        //
-        // FIXME: If the cached connection is closed unexpectly, this request will fail immediately.
-        if let Some(c) = self.get_cached_connection(&access_label).await {
-            debug!("HTTP client for host: {} taken from cache", addr);
+        if let Some(c) = self.get_cached_connection(access_label).await {
+            debug!("HTTP client for host: {} taken from cache", &access_label);
             match self.send_request_conn(access_label, c, req).await {
                 Ok(o) => return Ok(o),
                 Err(err) => return Err(io::Error::new(io::ErrorKind::InvalidData, err)),
@@ -793,10 +724,13 @@ where
             None => &Scheme::HTTP,
         };
 
-        let c = match HttpConnection::connect(scheme, addr.clone(), stream_map_func).await {
+        let c = match HttpConnection::connect(scheme, access_label, stream_map_func).await {
             Ok(c) => c,
             Err(err) => {
-                error!("failed to connect to host: {}, error: {}", addr, err);
+                error!(
+                    "failed to connect to host: {}, error: {}",
+                    &access_label.target, err
+                );
                 return Err(io::Error::new(io::ErrorKind::InvalidData, err));
             }
         };
@@ -820,6 +754,7 @@ where
                     continue;
                 }
                 if c.is_closed() {
+                    // true at once after connection.await return
                     debug!("HTTP connection for host: {} is closed", access_label,);
                     continue;
                 }
@@ -833,7 +768,7 @@ where
 
     async fn send_request_conn(
         &self,
-        access_label: AccessLabel,
+        access_label: &AccessLabel,
         mut c: HttpConnection<B>,
         req: Request<B>,
     ) -> hyper::Result<Response<body::Incoming>> {
@@ -859,7 +794,7 @@ where
             self.cache_conn
                 .lock()
                 .await
-                .entry(access_label)
+                .entry(access_label.clone())
                 .or_insert_with(VecDeque::new)
                 .push_back((c, Instant::now()));
         }
@@ -929,32 +864,31 @@ where
 {
     async fn connect(
         scheme: &Scheme,
-        host: Address,
-        stream_map_func: impl FnOnce(TcpStream) -> CounterIO<TcpStream, LabelImpl<AccessLabel>>,
+        access_label: &AccessLabel,
+        stream_map_func: impl FnOnce(
+            TcpStream,
+            AccessLabel,
+        ) -> CounterIO<TcpStream, LabelImpl<AccessLabel>>,
     ) -> io::Result<HttpConnection<B>> {
         if *scheme != Scheme::HTTP && *scheme != Scheme::HTTPS {
             return Err(io::Error::new(ErrorKind::InvalidInput, "invalid scheme"));
         }
 
-        let stream = match host {
-            Address::SocketAddress(ref addr) => TcpStream::connect(*addr).await?,
-            Address::DomainNameAddress(ref domain, port) => {
-                TcpStream::connect((domain.as_str(), port)).await?
-            }
-        };
-        let stream: CounterIO<TcpStream, LabelImpl<AccessLabel>> = stream_map_func(stream);
+        let stream = TcpStream::connect(&access_label.target).await?;
+        let stream: CounterIO<TcpStream, LabelImpl<AccessLabel>> =
+            stream_map_func(stream, access_label.clone());
 
-        HttpConnection::connect_http_http1(scheme, host, stream).await
+        HttpConnection::connect_http_http1(scheme, access_label, stream).await
     }
 
     async fn connect_http_http1(
         scheme: &Scheme,
-        host: Address,
+        access_label: &AccessLabel,
         stream: CounterIO<TcpStream, LabelImpl<AccessLabel>>,
     ) -> io::Result<HttpConnection<B>> {
         trace!(
             "HTTP making new HTTP/1.1 connection to host: {}, scheme: {}",
-            host,
+            access_label,
             scheme
         );
         let stream = TimeoutIO::new(stream, CONNECTION_EXPIRE_DURATION);
@@ -970,9 +904,10 @@ where
             Err(err) => return Err(io::Error::new(ErrorKind::Other, err)),
         };
 
+        let access_label = access_label.clone();
         tokio::spawn(async move {
             if let Err(err) = connection.await {
-                handle_http1_connection_error(err, host);
+                handle_http1_connection_error(err, access_label);
             }
         });
         Ok(HttpConnection::Http1(send_request))
@@ -995,7 +930,7 @@ where
     }
 }
 
-fn handle_http1_connection_error(err: hyper::Error, host: Address) {
+fn handle_http1_connection_error(err: hyper::Error, access_label: AccessLabel) {
     if let Some(source) = err.source() {
         if let Some(io_err) = source.downcast_ref::<io::Error>() {
             if io_err.kind() == ErrorKind::TimedOut {
@@ -1004,23 +939,24 @@ fn handle_http1_connection_error(err: hyper::Error, host: Address) {
                     "[legacy proxy io closed]: [{}] {} to {}",
                     io_err.kind(),
                     io_err,
-                    host
+                    access_label
                 );
             } else {
                 warn!(
                     "[legacy proxy io error]: [{}] {} to {}",
                     io_err.kind(),
                     io_err,
-                    host
+                    access_label
                 );
             }
         } else {
-            warn!("[legacy proxy io error]: [{}] to {}", source, host);
+            warn!("[legacy proxy io error]: [{}] to {}", source, access_label);
         }
     } else {
-        warn!("[legacy proxy io error] [{}] to {}", err, host);
+        warn!("[legacy proxy io error] [{}] to {}", err, access_label);
     }
 }
+
 ```
 
 
