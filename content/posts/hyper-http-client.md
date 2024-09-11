@@ -633,7 +633,7 @@ pub(crate) fn channel<T, U>() -> (Sender<T, U>, Receiver<T, U>) {
 }
 ```
 
-用到了[hyper作者的want crate](https://docs.rs/want/0.3.1/want/)。文档中写的很清楚，简单总结下，大致作用是给channel的生产者和消费者增加http协议的ping-pong反馈机制，上一个request处理完毕，再允许发送者发送下一个request（ping pong ping pong）。所以这个库的典型使用场景就是和 `unbounded_channel` 一起使用。
+用到了[hyper作者的want crate](https://docs.rs/want/0.3.1/want/)。文档中写的很清楚，简单总结下，大致作用是给channel的生产者和消费者增加http1协议的ping-pong反馈机制，上一个request处理完毕，再允许发送者发送下一个request（ping pong ping pong）(http2的stream比这个复杂)。所以这个库的典型使用场景就是和 `unbounded_channel` 一起使用。
 
 真正写header的部分，这里只截图我关注的HTTP2转HTTP1.1时是否能自动增加 `Transfer-Encoding: chunked`，简要总结下，如果没有设置 `Content-Length`，则会自动增加 `Transfer-Encoding: chunked`。截图左侧的调用栈也可以关注下。
 
