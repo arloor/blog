@@ -111,7 +111,7 @@ unload和load是老旧的launchctl命令，`man launchctl`能看到，官方推�
 使用新命令来达成上面的效果就是：
 
 ```bash
-launchctl bootout gui/$(id -u) ~/Library/LaunchAgents/com.arloor.sslocal.plist
+launchctl bootout gui/$(id -u)/com.arloor.sslocal
 launchctl disable gui/$(id -u)/com.arloor.sslocal
 if [ "$1" != "stop" ]; then
     launchctl enable gui/$(id -u)/com.arloor.sslocal
