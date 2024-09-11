@@ -1,5 +1,5 @@
 ---
-title: "obs使用"
+title: "OBS直播、录屏"
 date: 2024-09-07T19:18:49+08:00
 draft: false
 categories: [ "undefined"]
