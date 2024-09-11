@@ -31,8 +31,6 @@ Macos提供三种开机自启动的方式，详情可以看这里[三种方式�
         <dict>
                 <key>Label</key>
                 <string>com.arloor.sslocal</string>
-                <!-- <key>Disabled</key>          
-                <false/> -->
                 <!-- 退出后是否重启 -->
                 <key>KeepAlive</key>
                 <false />
