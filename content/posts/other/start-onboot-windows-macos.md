@@ -115,20 +115,25 @@ unload和load是老旧的launchctl命令，`man launchctl`能看到，官方推�
 ```bash
 #! /bin/bash
 
-launchctl kickstart -p gui/$(id -u)/com.arloor.sslocal >/dev/null 2>&1
-if [ "$?" == "0" ]; then
-    echo 关闭老进程
+get_cur_pid() {
+    launchctl list | grep com.arloor.sslocal | awk '{print $1}'
+}
+
+old_pid=$(get_cur_pid)
+if [ "$old_pid" != "" ]; then
+    echo 关闭老进程 $old_pid
     launchctl bootout gui/$(id -u)/com.arloor.sslocal
     launchctl disable gui/$(id -u)/com.arloor.sslocal
-else
-    echo 进程未运行
 fi
 if [ "$1" != "stop" ]; then
     launchctl enable gui/$(id -u)/com.arloor.sslocal
     launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.arloor.sslocal.plist
-    # 打印pid
-    echo -n "新进程启动完毕: "
-    launchctl kickstart -p gui/$(id -u)/com.arloor.sslocal
+    pid=$(get_cur_pid)
+    if [ "$pid" != "" ]; then
+        echo 新进程 $pid
+    else
+        echo 启动失败
+    fi
 fi
 ```
 
