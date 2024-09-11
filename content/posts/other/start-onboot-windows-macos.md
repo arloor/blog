@@ -104,18 +104,31 @@ Try running `launchctl bootout` as root for richer errors.
 #### 新命令（可以但没必要）
 
 unload和load是老旧的launchctl命令，`man launchctl`能看到，官方推荐我们使用 bootstrap | bootout | enable | disable
-> - unload -w 等同于bootout + disable，停止进程并禁用开机自启动。
-> - load -w 等同于enable + bootstrap，启动进程并设置开机自启动。 
-> - bootstrap和bootout只有在service是enable的状态下才有效。所以下面的脚本中，bootout在disable之前，bootstrap后enable之后。
+> - `unload -w` 等同于 `bootout + disable`，停止进程并禁用开机自启动。
+> - `load -w` 等同于 `enable + bootstrap`，启动进程并设置开机自启动。 
+> - `bootstrap` 和 `bootout` 只有在service是enable的状态下才有效。所以下面的脚本中，bootout在disable之前，bootstrap后enable之后。
+> - `bootstrap` 需要使用plist的路径，而不是service-name
+> - `launchctl kickstart -p` 用于打印当前进程的pid
 
 使用新命令来达成上面的效果就是：
 
 ```bash
-launchctl bootout gui/$(id -u)/com.arloor.sslocal
-launchctl disable gui/$(id -u)/com.arloor.sslocal
+#! /bin/bash
+
+launchctl kickstart -p gui/$(id -u)/com.arloor.sslocal >/dev/null 2>&1
+if [ "$?" == "0" ]; then
+    echo 关闭老进程
+    launchctl bootout gui/$(id -u)/com.arloor.sslocal
+    launchctl disable gui/$(id -u)/com.arloor.sslocal
+else
+    echo 进程未运行
+fi
 if [ "$1" != "stop" ]; then
     launchctl enable gui/$(id -u)/com.arloor.sslocal
     launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.arloor.sslocal.plist
+    # 打印pid
+    echo -n "新进程启动完毕: "
+    launchctl kickstart -p gui/$(id -u)/com.arloor.sslocal
 fi
 ```
 
