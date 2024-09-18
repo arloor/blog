@@ -414,13 +414,13 @@ fi
 
 设置 -> 键盘 -> 键盘快捷键
 
-{{<imgx src="/img/macOS-diable-F11.png" alt="" width="400px" style="max-width: 100%;">}}
+{{<imgx src="/img/macOS-diable-F11.png" alt="" width="550px" style="max-width: 100%;">}}
 
 ### Windows 关闭简体中文输入法的简体繁体切换
 
 不然会占用 `ctrl  + shift  + F`
 
-{{<imgx src="/img/windows-disable-jianfan-qiehuan.png" alt="" width="400px" style="max-width: 100%;">}}
+{{<imgx src="/img/windows-disable-jianfan-qiehuan.png" alt="" width="550px" style="max-width: 100%;">}}
 
 ## 其他插件
 
