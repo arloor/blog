@@ -180,7 +180,10 @@ killcode
 				"kind": "build",
 				"isDefault": true
 			},
-			"label": "rust: cargo build"
+		    "label": "rust: cargo build",
+			"presentation": {
+				"reveal": "silent",
+			}
 		}
 	]
 }
