@@ -73,3 +73,7 @@ keywords:
 
 另外这个软件在全屏游戏下不能正常显示通知，会被挡住。窗口或者无边框窗口的情况下可以正常显示。
 
+## 参考文档
+
+1. [NVIDIA NVENC OBS 指南](https://www.nvidia.cn/geforce/guides/broadcasting-guide/)
+
