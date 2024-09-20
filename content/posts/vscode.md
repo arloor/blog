@@ -134,6 +134,7 @@ TIPS：
 
 1. 安装 `Remote-ssh` 插件。
 2. 使用ssh连接到远程服务器。推荐配置是2C2G以上。为了让远程服务器流畅连接网络，使用了clash做分流，并将clash作为系统代理。
+    - 也可以在ssh config中增加 `RemoteForward 7890 localhost:7890` 使用本地的clash作为代理。
 3. 历史记录保存在 `~/.ssh/config` 中。
 
 ## 卸载远程服务器vscode server
