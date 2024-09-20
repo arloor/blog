@@ -93,6 +93,18 @@ explorer.exe
 
 ![alt text](/img/services-disable-edge-update.png)
 
+以管理员权限运行powershell，输入：
+
+```powershell
+# 禁用 edgeupdate 服务
+Set-Service -Name 'edgeupdate' -StartupType Disabled -Status Stopped
+
+# 禁用 edgeupdatem 服务
+Set-Service -Name 'edgeupdatem' -StartupType Disabled -Status Stopped
+
+Write-Host "edgeupdate 和 edgeupdatem 服务已被禁用。"
+```
+
 ## 关闭Microsoft Store中的应用自动更新
 
 [如何禁用微软商店自动更新应用](https://answers.microsoft.com/zh-hans/windows/forum/all/%E5%A6%82%E4%BD%95%E7%A6%81%E7%94%A8%E5%BE%AE/1fc27709-3665-47f0-bfca-5b0212e22372)
