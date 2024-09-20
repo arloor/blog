@@ -95,7 +95,7 @@ explorer.exe
 
 以管理员权限运行powershell，输入：
 
-```ps1
+```bash
 # 禁用 edgeupdate 服务
 Set-Service -Name 'edgeupdate' -StartupType Disabled -Status Stopped
 
