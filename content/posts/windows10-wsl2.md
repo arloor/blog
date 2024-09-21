@@ -77,13 +77,13 @@ sc.exe config wslservice start= demand
 wsl --set-default-version 2
 wsl -v
 wsl --list --online
-wsl --install -d Ubuntu-22.04
+wsl --install -d Debian
 ```
 
 ## 设置默认root用户
 
 ```bash
-ubuntu2204.exe config --default-user root
+debian config --default-user root
 ```
 
 ## 第一次启动
@@ -95,7 +95,7 @@ ubuntu2204.exe config --default-user root
 启用systemd：
 
 ```bash
-if !grep -q "systemd=true" /etc/wsl.conf; then
+if ! grep -q "systemd=true" /etc/wsl.conf; then
     echo -e "[boot]\nsystemd=true\n" | sudo tee -a /etc/wsl.conf
 fi
 ```
@@ -106,7 +106,7 @@ fi
 
 ### apt设置代理
 
-默认安装的ubuntu的默认源是官方源，国内比较慢，直接配置apt代理，支持我的ProxyOverTls哦。
+默认安装的Debian的默认源是官方源，国内比较慢，直接配置apt代理，支持我的ProxyOverTls哦。
 
 ```
 cat <<EOF | sudo tee /etc/apt/apt.conf.d/99proxy
@@ -174,7 +174,7 @@ git文档推荐，linux和macos使用input，windows使用true。这样保证ind
 
 **但是**我的设置成了windows上也是input。
 
-直接原因是我有很多shell脚本，原本git.exe的bash是可以执行crlf的shell文件的。安装wsl后，bash被替换为了Ubuntu的bash，不能处理crlf的shell文件。——我需要shell脚本是lf的。根本原因，换行符的问题是一个历史遗留问题，是操作系统之间的壁垒。现代的ide或者文本编辑器都是跨平台使用的，他们能处理换行符的问题，那么用vscode，idea就行了，不要用windows的老版文本编辑器了。我已经比较习惯在linux处理文本了，vim、grep、awk、sed等等很爽，wsl的最大好处就是在windows上能用上原生的bash，那就文本全部linux化好了。
+直接原因是我有很多shell脚本，原本git.exe的bash是可以执行crlf的shell文件的。安装wsl后，bash被替换为了Debian的bash，不能处理crlf的shell文件。——我需要shell脚本是lf的。根本原因，换行符的问题是一个历史遗留问题，是操作系统之间的壁垒。现代的ide或者文本编辑器都是跨平台使用的，他们能处理换行符的问题，那么用vscode，idea就行了，不要用windows的老版文本编辑器了。我已经比较习惯在linux处理文本了，vim、grep、awk、sed等等很爽，wsl的最大好处就是在windows上能用上原生的bash，那就文本全部linux化好了。
 
 ## 其他参考
 
@@ -227,6 +227,6 @@ net start winnat
 ## 卸载发行版
 
 ```bash
-wsl --uninstall Ubuntu-22.04
-wsl --unregister Ubuntu-22.04
+wsl --uninstall Debian
+wsl --unregister Debian
 ```
