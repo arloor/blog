@@ -1,5 +1,5 @@
 ---
-title: "Windows WSL2使用"
+title: "Windows11 WSL2使用"
 date: 2022-04-06T13:45:23+08:00
 draft: false
 categories: [ "undefined"]
@@ -67,6 +67,8 @@ autoMemoryReclaim = dropcache # 可以在gradual 、dropcache 、disabled之间�
 ```
 
 ## 安装WSL2
+
+这里使用了Debian12，因为我不喜欢Ubuntu的Snap，而且Debian12的wsl发行版支持ebpf。
 
 ```bash
 @REM 启用VMP 虚拟机平台
