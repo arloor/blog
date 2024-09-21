@@ -3,7 +3,7 @@ title: "windows11设置、性能优化"
 date: 2023-12-04T22:18:31+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["undefined"]
+tags: ["windows"]
 weight: 10
 subtitle: ""
 description : ""
@@ -93,16 +93,52 @@ explorer.exe
 
 ![alt text](/img/services-disable-edge-update.png)
 
-以管理员权限运行powershell，输入：
+关闭edge浏览器的自动更新的bat脚本：(保存成.bat文件，然后双击运行)
 
 ```bash
-# 禁用 edgeupdate 服务
-Set-Service -Name 'edgeupdate' -StartupType Disabled -Status Stopped
+@echo off
+:: 检查是否以管理员身份运行
+net session >nul 2>&1
+if %errorLevel% neq 0 (
+    echo restart with admin    
+    powershell -Command "Start-Process cmd -ArgumentList '/c %~s0' -Verb RunAs"
+    timeout /t 1 /nobreak
+    exit
+)
 
-# 禁用 edgeupdatem 服务
-Set-Service -Name 'edgeupdatem' -StartupType Disabled -Status Stopped
+:: 禁用 edgeupdate 服务
+sc stop edgeupdate >nul 2>&1
+sc config edgeupdate start= disabled
 
-Write-Host "edgeupdate 和 edgeupdatem 服务已被禁用。"
+:: 禁用 edgeupdatem 服务
+sc stop edgeupdatem >nul 2>&1
+sc config edgeupdatem start= disabled
+
+echo edgeupdate and edgeupdatem has been disabled.
+timeout /t 3 /nobreak
+```
+
+恢复edge浏览器的自动更新的bat脚本：(保存成.bat文件，然后双击运行)
+
+```bash
+@echo off
+:: 检查是否以管理员身份运行
+net session >nul 2>&1
+if %errorLevel% neq 0 (
+    echo restart with admin    
+    powershell -Command "Start-Process cmd -ArgumentList '/c %~s0' -Verb RunAs"
+    timeout /t 1 /nobreak
+    exit
+)
+
+:: 启用 edgeupdate 服务
+sc config edgeupdate start= delayed-auto
+
+:: 启用 edgeupdatem 服务
+sc config edgeupdatem start= demand
+
+echo edgeupdate and edgeupdatem has been enabled.
+timeout /t 3 /nobreak
 ```
 
 ## 关闭Microsoft Store中的应用自动更新

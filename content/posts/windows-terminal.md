@@ -3,7 +3,7 @@ title: "Windows Terminal"
 date: 2020-04-24T14:31:16+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["software"]
+tags: ["windows"]
 weight: 10
 subtitle: ""
 description : ""
