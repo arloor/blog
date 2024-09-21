@@ -224,6 +224,7 @@ curl https://go.dev/dl/go1.21.11.linux-amd64.tar.gz -Lf -o /tmp/golang.tar.gz
 rm -rf /usr/local/go && tar -C /usr/local -xzf /tmp/golang.tar.gz
 if ! grep "go/bin" ~/.zshrc;then
   export PATH=$PATH:/usr/local/go/bin
+  echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.zshrc
 fi
 ```
 
