@@ -39,11 +39,13 @@ reg ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\PasswordLess\Device" 
 
 ![alt text](/img/window11-mem-wanzhengxing-protection.png)
 
-### 关闭hyper-v
+### 关闭虚拟机平台(VMP)
 
 ![alt text](/img/window11-software-and-gongneng.png)
 
-关闭 hyper-v、windows虚拟机监控程序平台、虚拟机平台、适用于linux的windows子系统
+windows的文章说只需要关闭VMP，我这里关闭了更多：hyper-v、windows虚拟机监控程序平台、虚拟机平台(VMP)、适用于linux的windows子系统
+
+{{<imgx src="/img/windows-feature-disable-virt.png" width="400px">}}
 
 ### 使用intel大小核的CPU时，控制面板“选择电源计划”选择平衡或者高性能（更推荐平衡），千万不要选卓越性能
 
