@@ -187,7 +187,23 @@ git文档推荐，linux和macos使用input，windows使用true。这样保证ind
 
 {{<imgx src="/img/windows-feature-disable-virt.png" width="400px">}}
 
-> 虚拟机平台会一定程度上影响游戏性能，为了游戏性能，可以关闭虚拟机平台、Hyper-V。Windows虚拟机监控程序平台、适用于Linux的Windows子系统我理解是不影响游戏性能的。参考[用于在 Windows 11 中优化游戏性能的选项](https://prod.support.services.microsoft.com/zh-cn/windows/%E7%94%A8%E4%BA%8E%E5%9C%A8-windows-11-%E4%B8%AD%E4%BC%98%E5%8C%96%E6%B8%B8%E6%88%8F%E6%80%A7%E8%83%BD%E7%9A%84%E9%80%89%E9%A1%B9-a255f612-2949-4373-a566-ff6f3f474613)。
+> 1. 虚拟机平台会一定程度上影响游戏性能，为了游戏性能，可以关闭虚拟机平台、Hyper-V。Windows虚拟机监控程序平台、适用于Linux的Windows子系统我理解是不影响游戏性能的。参考[用于在 Windows 11 中优化游戏性能的选项](https://prod.support.services.microsoft.com/zh-cn/windows/%E7%94%A8%E4%BA%8E%E5%9C%A8-windows-11-%E4%B8%AD%E4%BC%98%E5%8C%96%E6%B8%B8%E6%88%8F%E6%80%A7%E8%83%BD%E7%9A%84%E9%80%89%E9%A1%B9-a255f612-2949-4373-a566-ff6f3f474613)。
+> 2. Hyper-V和vmware等软件是冲突的，详见[虚拟化应用程序无法与 Hyper-V、Device Guard 和 Credential Guard 协同工作](https://learn.microsoft.com/zh-cn/troubleshoot/windows-client/application-management/virtualization-apps-not-work-with-hyper-v)
+
+关闭虚拟机平台和Hyper-V虚拟机监控程序：
+
+```bash
+dism.exe /online /disable-feature /featurename:VirtualMachinePlatform /norestart
+DISM /Online /Disable-Feature /FeatureName:Microsoft-Hyper-V-All /NoRestart
+@REM 其实只要关闭 Microsoft-Hyper-V-Hypervisor 就行了
+```
+
+开启虚拟机平台和Hyper-V虚拟机监控程序：
+
+```bash
+dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+DISM /Online /Enable-Feature /All /FeatureName:Microsoft-Hyper-V-All /NoRestart
+```
 
 ## 安装WSL2
 

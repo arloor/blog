@@ -47,6 +47,20 @@ windows的文章说只需要关闭VMP，我这里关闭了更多：hyper-v、win
 
 {{<imgx src="/img/windows-feature-disable-virt.png" width="400px">}}
 
+关闭虚拟机平台和Hyper-V虚拟机监控程序：
+
+```bash
+dism.exe /online /disable-feature /featurename:VirtualMachinePlatform /norestart
+DISM /Online /Disable-Feature /FeatureName:Microsoft-Hyper-V-All /NoRestart
+@REM 其实只要关闭 Microsoft-Hyper-V-Hypervisor 就行了
+```
+
+开启虚拟机平台和Hyper-V虚拟机监控程序：
+
+```bash
+dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+DISM /Online /Enable-Feature /All /FeatureName:Microsoft-Hyper-V-All /NoRestart
+```
 ### 使用intel大小核的CPU时，控制面板“选择电源计划”选择平衡或者高性能（更推荐平衡），千万不要选卓越性能
 
 这涉及到大小核的调度策略，更多请搜索异构调度策略。参考：
