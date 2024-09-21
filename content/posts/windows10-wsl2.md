@@ -39,7 +39,7 @@ echo -e "[boot]\nsystemd=true" | sudo tee -a /etc/wsl.conf
 
 因为linux的buffer/cache机制，wsl会占用大量内存，体现在windows任务管理器中vmmemwsl内存占用很高。可以手动进行下限制：
 
-在`C:\Users\<YourUserName>\.wslconfig`中增加：
+在`C:\Users\<YourUserName>\.wslconfig`(`%userprofile%\.wslconfig`)中增加：
 
 ```bash
 # Settings apply across all Linux distros running on WSL 2
@@ -224,6 +224,17 @@ wsl -v
 wsl --list --online
 wsl --install -d Ubuntu-22.04
 ```
+
+## 第一次启动
+
+需要设置用户名和密码
+
+![](/img/Snipaste_2024-09-21_16-56-02.png)
+
+## 其他参考
+
+- [WSL2设置镜像网络模式](https://www.ryanshang.com/2024/01/06/WSL2%E8%AE%BE%E7%BD%AE%E9%95%9C%E5%83%8F%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%BC%8F/)
+- [WSL 中的高级设置配置](https://learn.microsoft.com/zh-cn/windows/wsl/wsl-config)
 
 ## 报错
 
