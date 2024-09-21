@@ -223,3 +223,10 @@ netsh int ipv6 set dynamic tcp start=50000 num=15536
 net stop winnat
 net start winnat
 ```
+
+## 卸载发行版
+
+```bash
+wsl --uninstall Ubuntu-22.04
+wsl --unregister Ubuntu-22.04
+```
