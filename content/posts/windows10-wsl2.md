@@ -211,6 +211,12 @@ DISM /Online /Enable-Feature /All /FeatureName:Microsoft-Hyper-V-All /NoRestart
 dism.exe /online /Get-Features
 ```
 
+## 设置默认root用户
+
+```bash
+ubuntu2204.exe config --default-user root
+```
+
 ## 安装WSL2
 
 ```bash
@@ -230,6 +236,30 @@ wsl --install -d Ubuntu-22.04
 需要设置用户名和密码
 
 ![](/img/Snipaste_2024-09-21_16-56-02.png)
+
+## .wslconfig
+
+```toml
+[wsl2]
+# networkingMode=bridged
+# vmSwitch=Home # 此处的名称和指定的虚拟网络交换机一致
+# dhcp=false # 禁用DHCP，在WSL2系统中通过设置Linux的静态IP实现获取IP
+networkingMode = mirrored # 端口自动转发，Windows和WSL共享端口，都使用127.0.0.1
+dnsTunneling = true # WSL的DNS请求通过Windows转发
+firewall = true # WSL同步Windows防火墙规则
+autoProxy = true # Windows设置代理时自动同步给WSL，用于使用代理访问外网
+
+[experimental]
+sparseVhd = true # 自动清理磁盘空间
+autoMemoryReclaim = dropcache # 可以在gradual 、dropcache 、disabled之间选择，开启会造成WSL中Docker启动异常
+```
+
+## /etc/wsl.conf
+
+```toml
+[boot]
+systemd=true
+```
 
 ## 其他参考
 
