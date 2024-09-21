@@ -109,11 +109,13 @@ fi
 默认安装的Debian的默认源是官方源，国内比较慢，直接配置apt代理，支持我的ProxyOverTls哦。
 
 ```
-cat <<EOF | sudo tee /etc/apt/apt.conf.d/proxy.conf
+if ! grep -q Acquire::http::Proxy /etc/apt/apt.conf.d/proxy.conf;then
+    cat <<EOF | sudo tee /etc/apt/apt.conf.d/proxy.conf
 Acquire::http::Proxy "https://user:passwd@server:port/";
 Acquire::https::Proxy "https://user:passwd@server:port/";
 Acquire::https::Verify-Peer "false";
 EOF
+fi
 ```
 
 ### apt不更新某软件
