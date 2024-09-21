@@ -27,16 +27,16 @@ keywords:
 4. zlib (libz-dev or zlib-devel ) 和 libelf (libelf-dev or elfutils-libelf-devel )
 5. pkg-config: libbpf-rs使用pkg-config来查找libbpf库
 
-**ubuntu 22.04 安装：**
+**Ubuntu 22.04/Debain 12安装：**
 
 ```bash
-apt-get install -y libbpf-dev zlib1g-dev libelf-dev pkg-config clang bpftool
+apt-get install -y libbpf-dev zlib1g-dev libelf-dev pkg-config clang bpftool make
 ```
 
 **centos stream 9 安装：**
 
 ```bash
-yum install -y libbpf zlib-devel elfutils-libelf-devel pkgconf-pkg-config clang bpftool 
+yum install -y libbpf zlib-devel elfutils-libelf-devel pkgconf-pkg-config clang bpftool make
 ```
 
 ## 生成vmlinux.h
