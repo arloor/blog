@@ -33,6 +33,8 @@ reg ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\PasswordLess\Device" 
 
 ## 性能优化
 
+首先是参考[用于在 Windows 11 中优化游戏性能的选项](https://prod.support.services.microsoft.com/zh-cn/windows/%E7%94%A8%E4%BA%8E%E5%9C%A8-windows-11-%E4%B8%AD%E4%BC%98%E5%8C%96%E6%B8%B8%E6%88%8F%E6%80%A7%E8%83%BD%E7%9A%84%E9%80%89%E9%A1%B9-a255f612-2949-4373-a566-ff6f3f474613)关闭内存完整性和虚拟机平台(VMP)。
+
 ### 在设置中关闭内存完整性判断
 
 ![alt text](/img/window11-mem-wanzhengxing-protection.png)

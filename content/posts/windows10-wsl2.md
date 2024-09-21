@@ -174,3 +174,14 @@ git文档推荐，linux和macos使用input，windows使用true。这样保证ind
 根本原因，换行符的问题是一个历史遗留问题，是操作系统之间的壁垒。现代的ide或者文本编辑器都是跨平台使用的，他们能处理换行符的问题，那么用vscode，idea就行了，不要用windows的老版文本编辑器了。
 
 我已经比较习惯在linux处理文本了，vim、grep、awk、sed等等很爽，wsl的最大好处就是在windows上能用上原生的bash，那就文本全部linux化好了。
+
+## 报错
+
+```bash
+无法启动服务，原因可能是已被禁用或与其相关联的设备没有启动。
+Error code: Wsl/0x80070422
+```
+
+```bash
+sc.exe config wslservice start= demand
+```
