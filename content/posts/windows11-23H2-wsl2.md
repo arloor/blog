@@ -106,7 +106,14 @@ debian config --default-user root
 
 ```bash
 if ! grep -q "systemd=true" /etc/wsl.conf; then
-    echo -e "[boot]\nsystemd=true\n" | sudo tee -a /etc/wsl.conf
+    cat <<EOF | sudo tee /etc/wsl.conf
+[boot]
+systemd = true
+
+[user]
+default = root
+
+EOF
 fi
 ```
 
