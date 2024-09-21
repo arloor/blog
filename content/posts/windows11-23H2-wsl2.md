@@ -130,6 +130,7 @@ if ! grep -q Acquire::http::Proxy /etc/apt/apt.conf.d/proxy.conf;then
     cat <<EOF | sudo tee /etc/apt/apt.conf.d/proxy.conf
 Acquire::http::Proxy "https://user:passwd@server:port/";
 Acquire::https::Proxy "https://user:passwd@server:port/";
+# 否则报错没有ca-certificates
 Acquire::https::Verify-Peer "false";
 EOF
 fi
