@@ -66,6 +66,14 @@ sparseVhd = true # 自动清理磁盘空间
 autoMemoryReclaim = dropcache # 可以在gradual 、dropcache 、disabled之间选择，选择dropcache让WSL中Docker正常运行
 ```
 
+上面的配置启用了自动内存回收，不过仍然可以手动释放page cache：
+
+```bash
+echo "sync; echo 3 > /proc/sys/vm/drop_caches; touch /root/drop_caches_last_run" |tee /tmp/drop_caches
+install /tmp/drop_caches /usr/local/bin/loss
+loss
+```
+
 ## 安装WSL2
 
 这里使用了Debian12，因为我不喜欢Ubuntu的Snap，而且Debian12的wsl发行版支持ebpf。
