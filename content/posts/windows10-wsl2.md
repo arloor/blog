@@ -175,13 +175,57 @@ git文档推荐，linux和macos使用input，windows使用true。这样保证ind
 
 我已经比较习惯在linux处理文本了，vim、grep、awk、sed等等很爽，wsl的最大好处就是在windows上能用上原生的bash，那就文本全部linux化好了。
 
+## windows虚拟化的基础知识
+
+| windows功能 | 作用 | 其他 |
+| --- | --- | --- |
+| Hyper-V | 微软自己的虚拟化工具 | 包含了“管理工具”和“平台”，其中“平台”包含“服务”和“虚拟机监控程序” |
+| Windows Subsystem for Linux | WSL1，不是我们讨论的WSL2所需要的 | |
+| Virtual Machine Platform | 虚拟机平台（WSL2的底层依赖） | 看到说Hyper-V也依赖这个，但是启用Hyper-V并不需要启用虚拟机平台。可能Hyper-V依赖的是“Hyper-V虚拟机监控程序”吧 |
+| Windows Sandbox | 一个隔离的桌面环境 | |
+| Windows 虚拟机监控程序平台 | 用于支持vmware等第三方虚拟机软件 | |
+
+{{<imgx src="/img/windows-feature-disable-virt.png" width="400px">}}
+
+> 虚拟机平台会一定程度上影响游戏性能，为了游戏性能，可以关闭虚拟机平台、Hyper-V。Windows虚拟机监控程序平台、适用于Linux的Windows子系统我理解是不影响游戏性能的。参考[用于在 Windows 11 中优化游戏性能的选项](https://prod.support.services.microsoft.com/zh-cn/windows/%E7%94%A8%E4%BA%8E%E5%9C%A8-windows-11-%E4%B8%AD%E4%BC%98%E5%8C%96%E6%B8%B8%E6%88%8F%E6%80%A7%E8%83%BD%E7%9A%84%E9%80%89%E9%A1%B9-a255f612-2949-4373-a566-ff6f3f474613)。
+
+## 安装WSL2
+
+```bash
+@REM 启用VMP 虚拟机平台
+dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+echo you may need reboot to take effect
+@REM 启用wslservice
+sc.exe config wslservice start= demand
+wsl --set-default-version 2
+wsl -v
+wsl --list --online
+wsl --install -d Ubuntu-22.04
+```
+
 ## 报错
+
+### 0x80070422 wslservice服务未启动
 
 ```bash
 无法启动服务，原因可能是已被禁用或与其相关联的设备没有启动。
 Error code: Wsl/0x80070422
 ```
 
+解决方案：
+
 ```bash
 sc.exe config wslservice start= demand
+```
+
+### 0x8004032d 虚拟机平台功能未启用
+
+```bash
+WslRegisterDistribution failed with error: 0x8004032d
+Error: 0x8004032d (null)
+```
+解决方案：在启用和关闭windows功能中打开“虚拟机平台”或使用下面的cmd命令并重启
+
+```bash
+dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
 ```
