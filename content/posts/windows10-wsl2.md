@@ -182,7 +182,7 @@ git文档推荐，linux和macos使用input，windows使用true。这样保证ind
 | Hyper-V | 微软自己的虚拟化工具 | 包含了“管理工具”和“平台”，其中“平台”包含“服务”和“虚拟机监控程序” |
 | Windows Subsystem for Linux | WSL1，不是我们讨论的WSL2所需要的 | |
 | Virtual Machine Platform | 虚拟机平台（WSL2的底层依赖） | 看到说Hyper-V也依赖这个，但启用Hyper-V并不需要启用虚拟机平台，因此我觉得Hyper-V依赖的是“Hyper-V虚拟机监控程序”吧 |
-| Windows Sandbox | 一个隔离的桌面环境 | |
+| Windows Sandbox | 一个隔离的桌面环境 | 我反正没用过，不了解 |
 | Windows 虚拟机监控程序平台 | 用于支持vmware等第三方虚拟机软件 | |
 
 {{<imgx src="/img/windows-feature-disable-virt.png" width="400px">}}
