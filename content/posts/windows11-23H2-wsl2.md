@@ -196,10 +196,19 @@ git文档推荐，linux和macos使用input，windows使用true。这样保证ind
 
 直接原因是我有很多shell脚本，原本git.exe的bash是可以执行crlf的shell文件的。安装wsl后，bash被替换为了Debian的bash，不能处理crlf的shell文件。——我需要shell脚本是lf的。根本原因，换行符的问题是一个历史遗留问题，是操作系统之间的壁垒。现代的ide或者文本编辑器都是跨平台使用的，他们能处理换行符的问题，那么用vscode，idea就行了，不要用windows的老版文本编辑器了。我已经比较习惯在linux处理文本了，vim、grep、awk、sed等等很爽，wsl的最大好处就是在windows上能用上原生的bash，那就文本全部linux化好了。
 
-## 其他参考
+## 参考文档
 
 - [WSL2设置镜像网络模式](https://www.ryanshang.com/2024/01/06/WSL2%E8%AE%BE%E7%BD%AE%E9%95%9C%E5%83%8F%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%BC%8F/)
 - [WSL 中的高级设置配置](https://learn.microsoft.com/zh-cn/windows/wsl/wsl-config)
+
+## 最不满的一点
+
+即使有了`autoMemoryReclaim`，任务管理器里看到的 `VmmemWSL` 还是远大于 wsl 里top看到的res + buffer/cache，`wsl -t Debian` 也不会释放内存。建议放个bat文件在桌面，不用wsl的时候就shutdown掉吧。
+
+```bash
+@echo off
+wsl --shutdown
+```
 
 ## 常见报错解决
 
