@@ -211,6 +211,8 @@ git文档推荐，linux和macos使用input，windows使用true。这样保证ind
 wsl --shutdown
 ```
 
+相关issue: [WSL 2 consumes massive amounts of RAM and doesn't return it](https://github.com/microsoft/WSL/issues/4166)
+
 ## 常见报错解决
 
 ### 0x80070422 wslservice服务未启动
