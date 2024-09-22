@@ -224,13 +224,7 @@ wsl --shutdown
 
 [https://www.cnblogs.com/wswind/p/17201979.html](https://www.cnblogs.com/wswind/p/17201979.html)
 
-写个VBS脚本：
-
-```bash
-set ws=wscript.CreateObject("wscript.shell")
-ws.run "wsl -d Debian", 0
-' ws.run "wsl -d Debian watch -n 30 'uptime | tee -a /tmp/uptime'", 0
-```
+keepalive命令
 
 ```bash
 cat > /usr/local/bin/keepalive <<\EOF
@@ -246,6 +240,8 @@ EOF
 chmod +x /usr/local/bin/keepalive
 keepalive
 ```
+
+写个VBS脚本：
 
 ```bash
 set ws=wscript.CreateObject("wscript.shell")
