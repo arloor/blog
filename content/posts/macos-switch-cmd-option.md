@@ -18,15 +18,15 @@ keywords:
 设置 -> 键盘 -> 键盘快捷键 -> 修饰键
 
 <!-- ![](/img/Snipaste_2024-09-22_18-16-08.png) -->
-{{<img src="/img/Snipaste_2024-09-22_18-16-08.png" width="550px" >}}
+{{<img Snipaste_2024-09-22_18-16-08.png 700 >}}
 
 ## 关闭鼠标加速
 
 <!-- ![alt text](/img/shubiao-settings-macos.png) -->
-{{<img src="/img/shubiao-settings-macos.png" width="550px" >}}
+{{<img shubiao-settings-macos.png 700 >}}
 
 ### macOS 解除F11的快捷键的占用（vscode debug StepIn）
 
 设置 -> 键盘 -> 键盘快捷键
 
-{{<imgx src="/img/macOS-diable-F11.png" alt="" width="550px" style="max-width: 100%;">}}
+{{<img macOS-diable-F11.png 700 >}}
