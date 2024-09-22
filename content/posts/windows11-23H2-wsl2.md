@@ -202,7 +202,7 @@ git文档推荐，linux和macos使用input，windows使用true。这样保证ind
 - [WSL2设置镜像网络模式](https://www.ryanshang.com/2024/01/06/WSL2%E8%AE%BE%E7%BD%AE%E9%95%9C%E5%83%8F%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%BC%8F/)
 - [WSL 中的高级设置配置](https://learn.microsoft.com/zh-cn/windows/wsl/wsl-config)
 
-## 最不满意的一点
+## 内存释放太慢，最不满意的一点
 
 即使有了`autoMemoryReclaim`，任务管理器里看到的 `VmmemWSL` 还是远大于 wsl 里top看到的res + buffer/cache。即使`wsl -t Debian` 也不会释放内存，只有`wsl --shutdown`才可以释放内存。观察到断开所有wsl的terminal和所有由用户启动的进程（不包含systemd启动的）都结束后，wsl会在一段时间后自动shutdown，此时VmmemWSL也会降为0。但仍然建议放个bat文件在桌面，不用wsl的时候就shutdown掉吧。
 
@@ -224,12 +224,16 @@ wsl --shutdown
 
 [https://www.cnblogs.com/wswind/p/17201979.html](https://www.cnblogs.com/wswind/p/17201979.html)
 
+### 简单方案
+
 写个VBS脚本：
 
 ```bash
 set ws=wscript.CreateObject("wscript.shell")
 ws.run "wsl -d Debian", 0
 ```
+
+## 复杂一点的方案（最多只有一个进程）
 
 keepalive命令：
 
