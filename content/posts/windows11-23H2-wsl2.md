@@ -224,7 +224,7 @@ wsl --shutdown
 
 [https://www.cnblogs.com/wswind/p/17201979.html](https://www.cnblogs.com/wswind/p/17201979.html)
 
-**简单方案：**写个VBS脚本，启动wsl的terminal在后台一直等待输入：
+**简单方案：** 写个VBS脚本，启动wsl的terminal在后台一直等待输入：
 
 ```bash
 set ws=wscript.CreateObject("wscript.shell")
