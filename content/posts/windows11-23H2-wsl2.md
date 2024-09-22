@@ -232,6 +232,26 @@ ws.run "wsl -d Debian", 0
 ' ws.run "wsl -d Debian watch -n 30 'uptime | tee -a /tmp/uptime'", 0
 ```
 
+```bash
+cat > /usr/local/bin/keepalive <<\EOF
+command="watch -n 30 uptime | tee -a /tmp/uptime"
+ps -ef|grep ${command}|grep -q -v grep
+if [ $? -ne 0 ]
+then
+    zsh -c "${command}"
+else
+    echo "The command is already running"
+fi
+EOF
+chmod +x /usr/local/bin/keepalive
+```
+
+```bash
+set ws=wscript.CreateObject("wscript.shell")
+ws.run "wsl -d Debian /usr/local/bin/keepalive", 0
+```
+
+
 ## 常见报错解决
 
 ### 0x80070422 wslservice服务未启动
