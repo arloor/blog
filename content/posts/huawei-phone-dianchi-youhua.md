@@ -11,6 +11,13 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
+设置里搜索：
+
+1. 应用启动管理
+2. 电池优化
+
 <!--more-->
+
+搬运uu加速器的教程：
 
 {{<img Screenshot_20240922_205858.jpg 400>}}
