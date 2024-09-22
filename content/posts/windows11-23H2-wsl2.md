@@ -238,7 +238,6 @@ else
 fi
 EOF
 chmod +x /usr/local/bin/keepalive
-keepalive
 ```
 
 写个VBS脚本：
