@@ -13,4 +13,4 @@ keywords:
 
 <!--more-->
 
-{{img Screenshot_20240922_205858.jpg 400}}
+{{<img Screenshot_20240922_205858.jpg 400>}}
