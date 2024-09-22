@@ -224,7 +224,14 @@ wsl --shutdown
 
 [https://www.cnblogs.com/wswind/p/17201979.html](https://www.cnblogs.com/wswind/p/17201979.html)
 
-keepalive命令
+写个VBS脚本：
+
+```bash
+set ws=wscript.CreateObject("wscript.shell")
+ws.run "wsl -d Debian", 0
+```
+
+keepalive命令：
 
 ```bash
 cat > /usr/local/bin/keepalive <<\EOF
@@ -246,7 +253,6 @@ chmod +x /usr/local/bin/keepalive
 set ws=wscript.CreateObject("wscript.shell")
 ws.run "wsl -d Debian /usr/local/bin/keepalive", 0
 ```
-
 
 ## 常见报错解决
 
