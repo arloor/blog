@@ -25,7 +25,7 @@ keywords:
 <!-- ![alt text](/img/shubiao-settings-macos.png) -->
 {{<img shubiao-settings-macos.png 700 >}}
 
-### macOS 解除F11的快捷键的占用（vscode debug StepIn）
+## macOS 解除F11的快捷键的占用（vscode debug StepIn）
 
 设置 -> 键盘 -> 键盘快捷键
 
