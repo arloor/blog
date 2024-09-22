@@ -220,6 +220,18 @@ wsl --shutdown
 | [Memory Reclaim in the Windows Subsystem for Linux 2](https://devblogs.microsoft.com/commandline/memory-reclaim-in-the-windows-subsystem-for-linux-2/) | October 30th, 2019 | 基于某kernel patch的pageReporting，将虚拟机闲置的连续的内存返还给宿主机。WSL会在cpu Idle的时候进行内存的compaction，然后进行返还。也可以手动执行`echo 1 > /proc/sys/vm/compact_memory`触发 |
 | [Automatic memory reclaim](https://devblogs.microsoft.com/commandline/windows-subsystem-for-linux-september-2023-update/#automatic-memory-reclaim) | September 18th, 2023 | “逐渐释放”：基于CgroupV2的memory.reclaim特性逐渐释放page cache，与docker使用的CgroupV1冲突。“idle时立即释放”：不依赖CgroupV2的特性，可与docker共存 |
 
+## 让wsl一直在后台运行
+
+[https://www.cnblogs.com/wswind/p/17201979.html](https://www.cnblogs.com/wswind/p/17201979.html)
+
+写个VBS脚本：
+
+```bash
+set ws=wscript.CreateObject("wscript.shell")
+ws.run "wsl -d Debian", 0
+' ws.run "wsl -d Debian watch -n 30 'uptime | tee -a /tmp/uptime'", 0
+```
+
 ## 常见报错解决
 
 ### 0x80070422 wslservice服务未启动
