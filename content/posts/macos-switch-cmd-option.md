@@ -1,5 +1,5 @@
 ---
-title: "Macos机械键盘和鼠标设置"
+title: "macOS机械键盘和鼠标设置"
 date: 2024-09-22T18:17:18+08:00
 draft: false
 categories: [ "undefined"]
