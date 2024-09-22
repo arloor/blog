@@ -241,7 +241,7 @@ command="watch -n 30 uptime | tee /tmp/uptime"
 ps -ef|grep "${command}"|grep -v grep
 if [ $? -ne 0 ]
 then
-    zsh -c "${command}"
+    sh -c "${command}"
 else
     echo "The command is already running"
 fi
