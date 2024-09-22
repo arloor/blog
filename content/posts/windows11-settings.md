@@ -185,8 +185,10 @@ timeout /t 3 /nobreak
 
 ## 删除文件资源管理器侧边栏显示的linux文件夹
 
-在注册表中删除即可
+修改注册表：
 
 ```bash
 HKEY_CURRENT_USER\Software\Classes\CLSID\{B2B4A4D1-2754-4140-A2EB-9A76D9D7CDC6}
 ```
+
+将 `System.IsPinnedToNameSpaceTree` 从1改成0
