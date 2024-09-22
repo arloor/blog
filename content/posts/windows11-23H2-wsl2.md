@@ -235,7 +235,7 @@ ws.run "wsl -d Debian", 0
 ```bash
 cat > /usr/local/bin/keepalive <<\EOF
 command="watch -n 30 uptime | tee -a /tmp/uptime"
-ps -ef|grep ${command}|grep -v grep
+ps -ef|grep "${command}"|grep -v grep
 if [ $? -ne 0 ]
 then
     zsh -c "${command}"
@@ -244,6 +244,7 @@ else
 fi
 EOF
 chmod +x /usr/local/bin/keepalive
+keepalive
 ```
 
 ```bash
