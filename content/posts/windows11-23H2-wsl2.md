@@ -224,16 +224,14 @@ wsl --shutdown
 
 [https://www.cnblogs.com/wswind/p/17201979.html](https://www.cnblogs.com/wswind/p/17201979.html)
 
-### 简单方案
-
-写个VBS脚本：
+**简单方案：**写个VBS脚本，启动wsl的terminal在后台一直等待输入：
 
 ```bash
 set ws=wscript.CreateObject("wscript.shell")
 ws.run "wsl -d Debian", 0
 ```
 
-## 复杂一点的方案（最多只有一个进程）
+**复杂一点的方案：** 启动wsl的terminal在后台一直执行命令，但只允许有一个进程：
 
 keepalive命令：
 
