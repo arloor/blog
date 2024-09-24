@@ -11,7 +11,7 @@ theme = "hyde-arloor"
 #googleAnalytics = "UA-133187648-1"
 enableRobotsTXT = true
 
-summarylength = 160
+summarylength = 50
 
 # paginate = 10
 [pagination]
