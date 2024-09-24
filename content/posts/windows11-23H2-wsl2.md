@@ -171,7 +171,7 @@ sudo apt-mark unhold docker*
 
 由于wsl支持windows和linux的命令互操作，你实际上会有两个git，一个wsl的git，一个windows的git.exe。
 
-下面说说wsl的git怎么使用
+**WSL git配置**
 
 ```
 git config --global core.editor vim
@@ -184,7 +184,7 @@ git config --global core.filemode false
 git config --global core.autocrlf input
 ```
 
-windows的git.exe也执行下：
+**windows git配置**
 
 ```
 # wsl的git 提交时自动将crlf转换为lf，checkout时不转成crlf
