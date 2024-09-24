@@ -11,6 +11,8 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
+<!--more-->
+
 ## 工具介绍——微星afterburner(俗称小飞机)
 
 afterburner是一款显卡超频、风扇调教、游戏帧率监控软件，可用于所有品牌的nvidia显卡，下载地址:[微星网站下载](https://www.msi.com/Landing/afterburner/graphics-cards)或者[guru3d下载](https://www.guru3d.com/download/msi-afterburner-beta-download/)，这两个都是官方下载链接，不推荐在别的地方下载。我下载的版本是4.6.6(Beta)，虽然是Beta版本，但已经非常稳定，对40系显卡支持也比较好。**2024-07-08更新：发现微星的下载链接无效了，推荐走guru3d下载。**
