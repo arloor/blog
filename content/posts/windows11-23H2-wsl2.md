@@ -2,14 +2,19 @@
 title: "Windows11 WSL2使用"
 date: 2024-09-22T13:45:23+08:00
 draft: false
-categories: [ "undefined"]
-tags: ["windows"]
+categories: 
+- undefined
+tags: 
+- windows
 weight: 10
-subtitle: ""
-description : ""
+subtitle:
+description:
 keywords:
-- 刘港欢 arloor moontell
-highlightjslanguages: []
+- 刘港欢
+- arloor
+- moontell
+highlightjslanguages:
+- powershell
 ---
 
 wsl全称是windows的linux子系统，可以理解为在你的windows电脑上提供一个linux的工作环境，举个简单的例子是：windows没有bash，执行不了shell脚本，但是有了wsl之后，就有了bash。注意，wsl不是虚拟机，wsl不是和windows隔离的，所以是能操作windows的文件的。从另一个角度看，windows就一个linux发行版。
@@ -271,25 +276,25 @@ Error code: Wsl/0x80070422
 
 解决方案：
 
-```bash
+```powershell
 sc.exe config wslservice start= demand
 ```
 
 ### 0x8004032d 虚拟机平台功能未启用
 
-```bash
+```powershell
 WslRegisterDistribution failed with error: 0x8004032d
 Error: 0x8004032d (null)
 ```
 解决方案：在启用和关闭windows功能中打开“虚拟机平台”或使用下面的cmd命令并重启
 
-```bash
+```powershell
 dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
 ```
 
 ### 端口被占用问题解决
 
-```bash
+```powershell
 # 查看当前动态端口范围
 netsh int ipv4 show dynamicport tcp
 # 查看被使用的端口
@@ -305,7 +310,7 @@ net start winnat
 
 ## 卸载发行版
 
-```bash
+```powershell
 wsl --uninstall Debian
 wsl --unregister Debian
 ```
