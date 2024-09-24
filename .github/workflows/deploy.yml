@@ -33,15 +33,20 @@ jobs:
           git remote add origin https://github.com/arloor/blog.git
           cd ..
         fi
-    - name: setup hugo
-      run: |
-        hugoVersion="0.134.3"
-        hugoURL=https://github.com/gohugoio/hugo/releases/download/v${hugoVersion}/hugo_extended_${hugoVersion}_Linux-64bit.tar.gz
-        sudo apt-get install -y tar curl
-        mkdir /tmp/hugo
-        curl -Lf "$hugoURL" -o /tmp/hugo/hugo.tar.gz
-        tar -zxf /tmp/hugo/hugo.tar.gz -C /tmp/hugo/
-        install /tmp/hugo/hugo /usr/local/bin/
+    - name: Setup Hugo
+      uses: peaceiris/actions-hugo@v3
+      with:
+          hugo-version: 'latest'
+          extended: true
+    # - name: setup hugo
+    #   run: |
+    #     hugoVersion="0.134.3"
+    #     hugoURL=https://github.com/gohugoio/hugo/releases/download/v${hugoVersion}/hugo_extended_${hugoVersion}_Linux-64bit.tar.gz
+    #     sudo apt-get install -y tar curl
+    #     mkdir /tmp/hugo
+    #     curl -Lf "$hugoURL" -o /tmp/hugo/hugo.tar.gz
+    #     tar -zxf /tmp/hugo/hugo.tar.gz -C /tmp/hugo/
+    #     install /tmp/hugo/hugo /usr/local/bin/
     - name: hugo build
       run: |
         hugo -d public
