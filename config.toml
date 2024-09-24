@@ -13,7 +13,9 @@ enableRobotsTXT = true
 
 summarylength = 160
 
-paginate = 10
+# paginate = 10
+[pagination]
+pagerSize = 10
 
 ## Site Settings
 [params]
