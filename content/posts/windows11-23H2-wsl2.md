@@ -204,7 +204,7 @@ git文档推荐，linux和macos使用input，windows使用true。这样保证ind
 
 ## 内存释放太慢，最不满意的一点
 
-即使有了`autoMemoryReclaim`，任务管理器里看到的 `VmmemWSL` 还是远大于 wsl 里top看到的res + buffer/cache。即使`wsl -t Debian` 也不会释放内存，只有`wsl --shutdown`才可以释放内存。观察到断开所有wsl的terminal和所有由用户启动的进程（不包含systemd启动的）都结束后，wsl会在一段时间后自动shutdown，此时VmmemWSL也会降为0。但仍然建议放个bat文件在桌面，不用wsl的时候就shutdown掉吧。
+即使有了`autoMemoryReclaim`，任务管理器里看到的 `VmmemWSL` 还是远大于 wsl 里top看到的res + buffer/cache。即使`wsl -t Debian` 也不会释放内存，只有`wsl --shutdown`才可以释放内存。观察到断开所有wsl的terminal和所有由用户启动的后台进程（不包含systemd启动的）都结束后，wsl会在一段时间后自动shutdown，此时VmmemWSL也会降为0。但如果有后台进程常驻的话，就不会自动关闭了，这就建议放个bat文件在桌面，不用wsl的时候就shutdown掉吧。
 
 ```bash
 @echo off
