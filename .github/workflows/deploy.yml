@@ -90,8 +90,15 @@ jobs:
               git reset --hard  > /dev/null;
               git checkout gh-pages  > /dev/null;
               git reset --hard  > /dev/null;
+              head=$(git rev-parse HEAD);
               git pull --ff-only && {
-                git -P log -1 -p --color=always --pretty=oneline|head -n 100;
+                newHead=$(git rev-parse HEAD);
+                if [ "$head" == "$newHead" ];then
+                  echo "git pull 没有发现变更";
+                else
+                  echo "最新变更如下：";
+                  git -P log -1 -p --color=always --pretty=oneline|head -n 100;
+                fi
               } || {
                 echo "git pull 失败，重新clone"
                 cd ..
