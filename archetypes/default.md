@@ -1,13 +1,13 @@
 ---
 title: "{{ replace .Name "-" " " | title }}"
+subtitle:
+tags: 
+- undefined
 date: {{ .Date }}
 draft: false
 categories: 
 - undefined
-tags: 
-- undefined
 weight: 10
-subtitle:
 description:
 highlightjslanguages:
 ---
