@@ -9,9 +9,8 @@
 ## 部署
 
 ```
-## 支持centos8和ubuntu20.04
-wget -O /usr/local/bin/tarloor http://www.arloor.com/tarloor.sh
-bash tarloor
+git clone https://github.com/arloor/blog
+git submodule update --init --recursive
 ```
 
 ## nginx配置（ubuntu20.04下）

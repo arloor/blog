@@ -1,3 +1,7 @@
 [submodule "themes/hyde-arloor"]
 	path = themes/hyde-arloor
 	url = https://github.com/arloor/hyde-arloor
+[submodule "public"]
+	path = public
+	url = https://github.com/arloor/blog
+	branch = gh-pages
