@@ -11,6 +11,8 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
+<!--more-->
+
 ## 设置obs以管理员权限运行，以开启Nvenc硬件编码
 
 {{< imgx src="/img/Snipaste_2024-09-07_23-30-29.png" alt="" width="400px" style="max-width: 100%;">}}
