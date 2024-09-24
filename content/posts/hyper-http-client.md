@@ -19,7 +19,6 @@ keywords:
 3. 发送请求 `sender.send_request(new_req)` 
 
 工作的很正常，但是没有连接池。想到 `hyper` 官方提供的 `reqwest` 是有内置连接池的，于是研究了下做了改造，记录下过程中读到的代码。
-<!--more-->
 
 ## Original：无连接池的reverse_proxy
 
