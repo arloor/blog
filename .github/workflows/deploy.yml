@@ -93,7 +93,7 @@ jobs:
               head=$(git rev-parse HEAD);
               git pull --ff-only && {
                 newHead=$(git rev-parse HEAD);
-                if [ "$head" == "$newHead" ];then
+                if [ "$head" = "$newHead" ];then
                   echo "git pull 没有发现变更";
                 else
                   echo "最新变更如下：";
