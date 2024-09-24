@@ -163,9 +163,12 @@ sudo apt-mark unhold docker*
 
 ### git设置
 
-由于wsl支持windows和linux的命令互操作，你实际上会有两个git，一个wsl的git，一个windows的git.exe。下面说说wsl的git怎么使用
+由于wsl支持windows和linux的命令互操作，你实际上会有两个git，一个wsl的git，一个windows的git.exe。
+
+下面说说wsl的git怎么使用
 
 ```
+git config --global core.editor vim
 git config --global user.name "user"
 git config --global user.email "xx@xx.com"
 git config --global credential.helper store
