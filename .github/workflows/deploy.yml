@@ -97,7 +97,7 @@ jobs:
                   echo "git pull 没有发现变更";
                 else
                   echo "最新变更如下：";
-                  git -P log -1 -p --color=always --pretty=oneline|head -n 100;
+                  git -P log -1 -p --color=always --pretty=oneline -- posts|head -n 100;
                 fi
               } || {
                 echo "git pull 失败，重新clone"
