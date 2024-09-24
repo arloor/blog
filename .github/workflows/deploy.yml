@@ -33,7 +33,7 @@ jobs:
           git remote add origin https://github.com/arloor/blog.git
           cd ..
         fi
-    - name: hugo build
+    - name: setup hugo
       run: |
         hugoVersion="0.134.3"
         hugoURL=https://github.com/gohugoio/hugo/releases/download/v${hugoVersion}/hugo_extended_${hugoVersion}_Linux-64bit.tar.gz
@@ -42,13 +42,15 @@ jobs:
         curl -Lf "$hugoURL" -o /tmp/hugo/hugo.tar.gz
         tar -zxf /tmp/hugo/hugo.tar.gz -C /tmp/hugo/
         install /tmp/hugo/hugo /usr/local/bin/
+    - name: hugo build
+      run: |
+        hugo -d public
     - name: git auth
       run: git config --global url.https://arloor:${{ github.token }}@github.com/.insteadOf https://github.com/
     - name: commit and push
       env:
         GH_TOKEN: ${{ github.token }}
       run: |
-        hugo -d public
         cd  public
         git config user.name "arloor"
         git config user.email "admin@arloor.com"
