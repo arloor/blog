@@ -9,6 +9,7 @@ subtitle: ""
 description : ""
 keywords:
 - 刘港欢 arloor moontell
+highlightjslanguages: ["bash","toml","powershell"]
 ---
 
 wsl全称是windows的linux子系统，可以理解为在你的windows电脑上提供一个linux的工作环境，举个简单的例子是：windows没有bash，执行不了shell脚本，但是有了wsl之后，就有了bash。注意，wsl不是虚拟机，wsl不是和windows隔离的，所以是能操作windows的文件的。从另一个角度看，windows就一个linux发行版。
