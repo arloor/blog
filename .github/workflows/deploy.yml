@@ -33,7 +33,7 @@ jobs:
         fi
     - name: hugo build
       run: |
-        hugoVersion="0.124.1"
+        hugoVersion="0.134.3"
         hugoURL=https://github.com/gohugoio/hugo/releases/download/v${hugoVersion}/hugo_extended_${hugoVersion}_Linux-64bit.tar.gz
         sudo apt-get install -y tar curl
         mkdir /tmp/hugo
