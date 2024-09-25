@@ -65,11 +65,12 @@ autoProxy = true # Windows设置代理时自动同步给WSL，用于使用代理
 
 [experimental]
 sparseVhd = true # 自动清理磁盘空间
-autoMemoryReclaim = gradual # 可以在gradual 、dropcache 、disabled之间选择，开启会造成WSL中Docker启动异常
+autoMemoryReclaim = gradual # 可以在gradual 、dropcache 、disabled之间选择。 如果设置成gradual，需要设置kernelCommandLine以开启cgroupV2，否则docker会有问题
 
 [wsl2]
 swap = 0 # 禁用swap，使用内存交换文件，不使用磁盘交换文件
-kernelCommandLine = cgroup_no_v1=all systemd.unified_cgroup_hierarchy=1 # 开启cgroup v2，用于docker和autoMemoryReclaim = gradual共存
+# 开启cgroup v2，用于docker和autoMemoryReclaim = gradual共存
+kernelCommandLine = cgroup_no_v1=all systemd.unified_cgroup_hierarchy=1 
 ```
 
 上面的配置启用了自动内存回收，不过仍然可以手动释放page cache：
