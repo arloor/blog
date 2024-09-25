@@ -61,11 +61,15 @@ dism.exe /online /Get-Features
 networkingMode = mirrored # 端口自动转发，Windows和WSL共享端口，都使用127.0.0.1
 dnsTunneling = true # WSL的DNS请求通过Windows转发
 firewall = true # WSL同步Windows防火墙规则
-autoProxy = true # Windows设置代理时自动同步给WSL，就是使用clash代理
+autoProxy = true # Windows设置代理时自动同步给WSL，用于使用代理访问外网
 
 [experimental]
 sparseVhd = true # 自动清理磁盘空间
-autoMemoryReclaim = dropcache # 可以在gradual 、dropcache 、disabled之间选择，选择dropcache让WSL中Docker正常运行
+autoMemoryReclaim = gradual # 可以在gradual 、dropcache 、disabled之间选择，开启会造成WSL中Docker启动异常
+
+[wsl2]
+swap = 0 # 禁用swap，使用内存交换文件，不使用磁盘交换文件
+kernelCommandLine = cgroup_no_v1=all systemd.unified_cgroup_hierarchy=1 # 开启cgroup v2，用于docker和autoMemoryReclaim = gradual共存
 ```
 
 上面的配置启用了自动内存回收，不过仍然可以手动释放page cache：
