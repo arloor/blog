@@ -9,10 +9,6 @@ tags:
 weight: 10
 subtitle:
 description:
-keywords:
-- 刘港欢
-- arloor
-- moontell
 highlightjslanguages:
 - powershell
 ---
@@ -240,7 +236,7 @@ set ws=wscript.CreateObject("wscript.shell")
 ws.run "wsl -d Debian", 0
 ```
 
-**复杂一点的方案：** 启动wsl的terminal在后台一直执行命令，但只允许有一个进程：
+**进阶方案：** 只启动一个后台进程，即使多次运行该VBS脚本：
 
 keepalive命令：
 
