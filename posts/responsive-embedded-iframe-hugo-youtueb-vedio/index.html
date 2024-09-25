@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    
+    <link rel="canonical" href="https://www.arloor.com/posts/responsive-embedded-iframe-hugo-youtueb-vedio/">
+    
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.134.3">
+
+    
+    
+    
+
+<title>响应式iframe 16:9—hugo博客嵌入youtube视频 • ARLOOR</title>
+<meta name="description" content="今天，你学习了吗">
+<meta name="keywords" content="刘港欢, arloor, moontell">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="响应式iframe 16:9—hugo博客嵌入youtube视频">
+  <meta name="twitter:description" content="其实只是博客中想嵌入16：9的youtube视频，但youtube官方的嵌入代码是固定宽度1280，高度720，在手机上表现十分不好。因此有了这个偏前端的主题。">
+      <meta name="twitter:site" content="@njulgh">
+
+<meta property="og:url" content="https://www.arloor.com/posts/responsive-embedded-iframe-hugo-youtueb-vedio/">
+  <meta property="og:site_name" content="ARLOOR">
+  <meta property="og:title" content="响应式iframe 16:9—hugo博客嵌入youtube视频">
+  <meta property="og:description" content="其实只是博客中想嵌入16：9的youtube视频，但youtube官方的嵌入代码是固定宽度1280，高度720，在手机上表现十分不好。因此有了这个偏前端的主题。">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2019-04-10T01:10:48+08:00">
+    <meta property="article:modified_time" content="2019-04-10T01:10:48+08:00">
+    <meta property="article:tag" content="Undefined">
+
+
+    
+
+
+
+
+
+<link rel="stylesheet" href="/styles/atom-one-dark.min.css">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.e0a163f994ccd5fb78b6074545c7e4cff283ba9948b7915f691d5c0f5459ba9c.css" integrity="sha256-4KFj&#43;ZTM1ft4tgdFRcfkz/KDuplIt5FfaR1cD1RZupw=">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+
+<link rel="stylesheet" href="/scss/hugo-toc.0873834b0f2e9fdc9e1d0301e8ebce21fc10383882a41e9373f29b90e85a9987.css" integrity="sha256-CHODSw8un9yeHQMB6OvOIfwQODiCpB6Tc/KbkOhamYc=">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="/favicon.png">
+    
+    
+
+</head>
+
+
+    <body class=" ">
+    
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="https://www.arloor.com/">
+          
+          ARLOOR
+          
+        </a>
+      </span>
+      <a href="https://www.arloor.com/">
+        
+        
+        
+        
+        <div class="author-image">
+          <img src="https://www.arloor.com/img/head.jpeg" alt="Author Image" class="img--circle img--headshot element--center">
+        </div>
+        
+        
+      </a>
+      
+      <p class="site__description">
+         都是瞎写的 
+      </p>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">ARLOOR</label>
+      <div class="menu-content">
+        <div class="show-in-small">
+          <a href="https://www.arloor.com/">
+            
+            
+            
+            
+            <div class="author-image">
+              <img src="https://www.arloor.com/img/head.jpeg" alt="Author Image" class="img--circle img--headshot element--center">
+            </div>
+            
+            
+          </a>
+        </div>
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/posts/">
+						<span>文章</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/tags/">
+						<span>分类</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/about/">
+						<span>关于我</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/speed">
+						<span>网速监控</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="http://beian.miit.gov.cn/">
+						<span>苏ICP备17024437号</span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://twitter.com/njulgh" rel="me"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	<a href="https://github.com/arloor" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://t.me/popstary" rel="me"><i class="fab fa-telegram fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	<a href="mailto:admin@arloor.com" rel="me"><i class="fas fa-at fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+</section>
+
+      </div>
+    </div>
+    
+<div class="copyright">
+  &copy; 2024 arloor
+  
+    <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>
+  
+</div>
+
+
+<div class="builtwith">
+Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.com/htr3n/hyde-hyde">hyde-hyde</a>.
+</div>
+
+
+  </div>
+</div>
+        <div class="content container">
+            
+    
+<article>
+  <header>
+    <h1>响应式iframe 16:9—hugo博客嵌入youtube视频</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> Apr 10, 2019
+    
+    
+    
+      
+      
+          in
+          
+          
+              <a class="badge badge-category" href="/categories/undefined">UNDEFINED</a>
+              
+          
+      
+    
+    
+    
+      
+      
+          <br/>
+           <i class="fas fa-tags"></i>
+          
+          <a class="badge badge-tag" href="/tags/undefined">undefined</a>
+          
+      
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 2 min read
+</div>
+
+
+  </header>
+  
+  
+  
+    <div class="toc-wrapper">
+      <input type="checkbox" id="tocToggle">
+      <label for="tocToggle">Table of Content</label>
+      
+          <nav id="TableOfContents">
+  <ul>
+    <li><a href="#先上效果">先上效果</a></li>
+    <li><a href="#插入的html如下">插入的html如下</a></li>
+    <li><a href="#实现原理">实现原理</a></li>
+    <li><a href="#番外其他本博客使用的前端小技巧">番外：其他本博客使用的前端小技巧</a>
+      <ul>
+        <li><a href="#对博客中出现的图片宽度进行定制">对博客中出现的图片宽度进行定制</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+      
+    </div>
+  
+  
+  <div class="post">
+    <p>其实只是博客中想嵌入16：9的youtube视频，但youtube官方的嵌入代码是固定宽度1280，高度720，在手机上表现十分不好。因此有了这个偏前端的主题。</p>
+<h2 id="先上效果">先上效果</h2>
+<p>随意放大，缩小网页，下面的iframe都会保持100%宽度，高度保持9/16*宽度。</p>
+<p>要翻墙才能看到下面的视频哦。是一个物理学家弹吉他吟唱《将进酒》,超级得劲 :）</p>
+
+
+<div class="iframe-container">
+    <iframe src="https://www.youtube.com/embed/DBC5x8Mv5OE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+<h2 id="插入的html如下">插入的html如下</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;iframe-container&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">iframe</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://www.youtube.com/embed/DBC5x8Mv5OE?list=PLoZEEVUrMkMSIkfSbEXNQFubB4yOjMz2a&#34;</span> <span style="color:#a6e22e">frameborder</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;0&#34;</span> <span style="color:#a6e22e">allow</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture&#34;</span> <span style="color:#a6e22e">allowfullscreen</span>&gt;&lt;/<span style="color:#f92672">iframe</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">div</span>&gt;
+</span></span></code></pre></div><h2 id="实现原理">实现原理</h2>
+<p>放上<a href="https://benmarshall.me/responsive-iframes/">原博客</a>。</p>
+<p>这个博客说到，使用js来实现响应式iframe是不对的，应该使用css。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-css" data-lang="css"><span style="display:flex;"><span>.<span style="color:#a6e22e">iframe-container</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">overflow</span>: <span style="color:#66d9ef">hidden</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">padding-top</span>: <span style="color:#ae81ff">56.25</span><span style="color:#66d9ef">%</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">width</span>: <span style="color:#ae81ff">100</span><span style="color:#66d9ef">%</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">position</span>: <span style="color:#66d9ef">relative</span>;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>   
+</span></span><span style="display:flex;"><span>.<span style="color:#a6e22e">iframe-container</span> <span style="color:#f92672">iframe</span> {
+</span></span><span style="display:flex;"><span>	 <span style="color:#66d9ef">border</span>: <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>	 <span style="color:#66d9ef">height</span>: <span style="color:#ae81ff">100</span><span style="color:#66d9ef">%</span>;
+</span></span><span style="display:flex;"><span>	 <span style="color:#66d9ef">left</span>: <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>	 <span style="color:#66d9ef">position</span>: <span style="color:#66d9ef">absolute</span>;
+</span></span><span style="display:flex;"><span>	 <span style="color:#66d9ef">top</span>: <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>	 <span style="color:#66d9ef">width</span>: <span style="color:#ae81ff">100</span><span style="color:#66d9ef">%</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>.iframe-container 的 padding-top: 56.25%属性，就决定着 高度是宽度的9/16。</p>
+<p>那么hugo怎么使用这个css？</p>
+<p>我在主题下的scss文件夹中的_base.scss中加入了上面的css，发现就能生效，还是较为简单方便的。</p>
+<p>至于另一种html5的vedio标签，只需要宽度和高度都设为100%即可实现响应式，如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>&lt;video controls<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span> width<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;100%&#34;</span> height<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;100%&#34;</span>&gt;&lt;source src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;http://cdn.moontell.cn/robot.mp4&#34;</span> type<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;video/mp4&#34;</span>&gt;&lt;/video&gt;
+</span></span></code></pre></div><h2 id="番外其他本博客使用的前端小技巧">番外：其他本博客使用的前端小技巧</h2>
+<p>这是一个偏前端的博客，估计很久不会有其他前端文章，所以把这个小东西也放在这。</p>
+<h3 id="对博客中出现的图片宽度进行定制">对博客中出现的图片宽度进行定制</h3>
+<p>一般我们在markdown中插入图片就是：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>!<span style="color:#f92672">[](</span>/img/ssnodes.png<span style="color:#f92672">)</span>
+</span></span></code></pre></div><p><img src="/img/ssnodes.png" alt=""></p>
+<p>这个在大多数情况表现良好，图片宽度会取min(100%父容器宽度, 图片像素px)。但是有一种情况让人很头疼：手机截图。现在手机的像素都很高，{图片像素px}至少会是1080，而且屏幕截图很长。上面的这个图片不长，想象一下一个好几屏的长截图🤢，这种情况下截图占满屏幕，并且需要拉很久，看到就会很难受吧。归根结底，还是因为手机截图的像素宽度太大，导致min(100%父容器宽度, 图片像素px)的值还是很大。</p>
+<p>为了避免这个问题。使用下面的方式：</p>
+<pre tabindex="0"><code>
+
+
+<img src="/img/ssnodes.png" alt="" width="850px" style="max-width: 100%;">
+
+或
+
+
+
+<img src="/img/ssnodes.png" alt="" width="400px" style="max-width: 100%;">
+
+</code></pre><p>这样，图片的宽度，取得就是 min(850px,100%)了。850px这个值可以自行调整，找到在电脑显示器上合适的宽度</p>
+<blockquote>
+<p>有小朋友要问了，能不能直接 img的属性里写 width= &ldquo;min( 850px, 100%)&quot;。我查了，css3不行，不知道以后css4会不会加进这个min()</p>
+</blockquote>
+
+
+
+<img src="/img/ssnodes.png" alt="" width="400px" style="max-width: 100%;">
+
+<p>具体可以查看 <code>layouts/img.html</code> 指定的hugo shortcode</p>
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/posts/linux/aliyun-turnoff-aliyundun/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">阿里云vps关闭阿里云盾</span>
+    </a>
+    
+    
+    <a href="/posts/socks-over-http/" class="navigation-next">
+      <span class="navigation-tittle">Sogo—使用http协议进行混淆/伪装的socks5代理</span>
+      <i aria-hidden="true" class="fa fa-chevron-right"></i>
+    </a>
+    
+</div>
+
+
+  
+
+  
+
+
+</article>
+
+
+        </div>
+        
+    
+
+
+
+<script defer src="/js/all.js" integrity="sha384-ZbbbT1gw3joYkKRqh0kWyRp32UAvdqkpbLedQJSlnI8iLQcFVxaGyrOgOJiDQTTR" crossorigin="anonymous"></script>
+
+
+    
+    
+    
+    <script src="/js/highlight.min.js"></script>
+        
+    <script type="text/javascript">
+        
+        hljs.initHighlightingOnLoad();
+    </script>
+    
+
+
+
+
+    
+
+
+
+    </body>
+</html>

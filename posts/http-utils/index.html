@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    
+    <link rel="canonical" href="https://www.arloor.com/posts/http-utils/">
+    
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.134.3">
+
+    
+    
+    
+
+<title>HttpUtil的一段代码 • ARLOOR</title>
+<meta name="description" content="今天，你学习了吗">
+<meta name="keywords" content="刘港欢, arloor, moontell">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="HttpUtil的一段代码">
+  <meta name="twitter:description" content="简单的备忘，httpclient的代码">
+      <meta name="twitter:site" content="@njulgh">
+
+<meta property="og:url" content="https://www.arloor.com/posts/http-utils/">
+  <meta property="og:site_name" content="ARLOOR">
+  <meta property="og:title" content="HttpUtil的一段代码">
+  <meta property="og:description" content="简单的备忘，httpclient的代码">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2020-06-11T11:02:45+08:00">
+    <meta property="article:modified_time" content="2020-06-11T11:02:45+08:00">
+    <meta property="article:tag" content="Undefined">
+
+
+    
+
+
+
+
+
+<link rel="stylesheet" href="/styles/atom-one-dark.min.css">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.e0a163f994ccd5fb78b6074545c7e4cff283ba9948b7915f691d5c0f5459ba9c.css" integrity="sha256-4KFj&#43;ZTM1ft4tgdFRcfkz/KDuplIt5FfaR1cD1RZupw=">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+
+<link rel="stylesheet" href="/scss/hugo-toc.0873834b0f2e9fdc9e1d0301e8ebce21fc10383882a41e9373f29b90e85a9987.css" integrity="sha256-CHODSw8un9yeHQMB6OvOIfwQODiCpB6Tc/KbkOhamYc=">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="/favicon.png">
+    
+    
+
+</head>
+
+
+    <body class=" ">
+    
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="https://www.arloor.com/">
+          
+          ARLOOR
+          
+        </a>
+      </span>
+      <a href="https://www.arloor.com/">
+        
+        
+        
+        
+        <div class="author-image">
+          <img src="https://www.arloor.com/img/head.jpeg" alt="Author Image" class="img--circle img--headshot element--center">
+        </div>
+        
+        
+      </a>
+      
+      <p class="site__description">
+         都是瞎写的 
+      </p>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">ARLOOR</label>
+      <div class="menu-content">
+        <div class="show-in-small">
+          <a href="https://www.arloor.com/">
+            
+            
+            
+            
+            <div class="author-image">
+              <img src="https://www.arloor.com/img/head.jpeg" alt="Author Image" class="img--circle img--headshot element--center">
+            </div>
+            
+            
+          </a>
+        </div>
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/posts/">
+						<span>文章</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/tags/">
+						<span>分类</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/about/">
+						<span>关于我</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/speed">
+						<span>网速监控</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="http://beian.miit.gov.cn/">
+						<span>苏ICP备17024437号</span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://twitter.com/njulgh" rel="me"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	<a href="https://github.com/arloor" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://t.me/popstary" rel="me"><i class="fab fa-telegram fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	<a href="mailto:admin@arloor.com" rel="me"><i class="fas fa-at fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+</section>
+
+      </div>
+    </div>
+    
+<div class="copyright">
+  &copy; 2024 arloor
+  
+    <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>
+  
+</div>
+
+
+<div class="builtwith">
+Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.com/htr3n/hyde-hyde">hyde-hyde</a>.
+</div>
+
+
+  </div>
+</div>
+        <div class="content container">
+            
+    
+<article>
+  <header>
+    <h1>HttpUtil的一段代码</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> Jun 11, 2020
+    
+    
+    
+      
+      
+          in
+          
+          
+              <a class="badge badge-category" href="/categories/undefined">UNDEFINED</a>
+              
+          
+      
+    
+    
+    
+      
+      
+          <br/>
+           <i class="fas fa-tags"></i>
+          
+          <a class="badge badge-tag" href="/tags/undefined">undefined</a>
+          
+      
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 3 min read
+</div>
+
+
+  </header>
+  
+  
+  
+    <div class="toc-wrapper">
+      <input type="checkbox" id="tocToggle">
+      <label for="tocToggle">Table of Content</label>
+      
+          <nav id="TableOfContents"></nav>
+      
+    </div>
+  
+  
+  <div class="post">
+    <p>简单的备忘，httpclient的代码</p>
+<pre tabindex="0"><code>        &lt;dependency&gt;
+            &lt;groupId&gt;org.apache.httpcomponents&lt;/groupId&gt;
+            &lt;artifactId&gt;httpclient&lt;/artifactId&gt;
+            &lt;version&gt;4.5.2&lt;/version&gt;
+        &lt;/dependency&gt;
+</code></pre><pre tabindex="0"><code>package com.sankuai.pcm.module.util;
+
+import com.dianping.cat.Cat;
+import com.google.common.collect.Lists;
+import lombok.extern.apachecommons.CommonsLog;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpEntityEnclosingRequest;
+import org.apache.http.HttpRequest;
+import org.apache.http.NoHttpResponseException;
+import org.apache.http.client.HttpRequestRetryHandler;
+import org.apache.http.client.config.CookieSpecs;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.conn.ConnectTimeoutException;
+import org.apache.http.conn.socket.LayeredConnectionSocketFactory;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+//import org.apache.http.impl.client.HttpClients;
+import com.meituan.mtrace.http.HttpClients;  // 仅替换该包名
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
+
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLException;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InterruptedIOException;
+import java.net.UnknownHostException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.X509Certificate;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Consumer;
+
+@CommonsLog
+public class HttpUtil {
+    private static CloseableHttpClient client;
+    private static final int READ_TIMEOUT = 100;
+
+    /**
+     * 静态构造
+     * 可以使用ssl
+     */
+    static {
+        // Create a trust manager that does not validate certificate chains
+        TrustManager[] trustAllCerts = new TrustManager[]{
+                new X509TrustManager() {
+                    public X509Certificate[] getAcceptedIssuers() {
+                        return null;
+                    }
+
+                    public void checkClientTrusted(X509Certificate[] certs, String authType) {
+                        // don&#39;t check
+                    }
+
+                    public void checkServerTrusted(X509Certificate[] certs, String authType) {
+                        // don&#39;t check
+                    }
+                }
+        };
+        SSLContext ctx = null;
+        try {
+            ctx = SSLContext.getInstance(&#34;TLS&#34;);
+            ctx.init(null, trustAllCerts, null);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        } catch (KeyManagementException e) {
+            e.printStackTrace();
+        }
+        LayeredConnectionSocketFactory sslSocketFactory = new SSLConnectionSocketFactory(ctx);
+
+        //连接管理器，设置总连接数和到单一host的最大连接数
+        PoolingHttpClientConnectionManager cm = new PoolingHttpClientConnectionManager();
+        cm.setMaxTotal(50);
+        cm.setDefaultMaxPerRoute(50);
+
+        //默认请求配置，这里设置cookie策略
+        RequestConfig requestConfig = RequestConfig
+                .custom()
+                .setCookieSpec(CookieSpecs.STANDARD)
+                .setConnectionRequestTimeout(100)
+                .setConnectTimeout(200) // 连接超时
+                .setSocketTimeout(300) // 读超时
+                .build();
+
+        //创建httpclient
+        client = HttpClients.custom()
+                .setConnectionManager(cm)
+                .setRetryHandler(buildRetryHandler(3))
+                .setDefaultRequestConfig(requestConfig)
+                .setSSLSocketFactory(sslSocketFactory)
+                .build();
+    }
+
+    private static HttpRequestRetryHandler buildRetryHandler(final int retryTime) {
+        return (exception, executionCount, context) -&gt; {
+            if (executionCount &gt;= retryTime) {
+                return false;
+            }
+            if (exception instanceof NoHttpResponseException) {
+                return true;
+            }
+            if (exception instanceof InterruptedIOException) {
+                return true;
+            }
+            if (exception instanceof UnknownHostException) {
+                return false;
+            }
+            if (exception instanceof ConnectTimeoutException) {
+                return false;
+            }
+            if (exception instanceof SSLException) {
+                return false;
+            }
+            HttpClientContext clientContext = HttpClientContext.adapt(context);
+            HttpRequest request = clientContext.getRequest();
+            return !(request instanceof HttpEntityEnclosingRequest);
+        };
+    }
+
+    /**
+     * 发送post请求，请求体json,默认超时时间
+     *
+     * @param apiUrl
+     * @param param
+     * @return
+     */
+    public static String doPostJson(String apiUrl, Object param) throws IOException {
+        return doPostJson(apiUrl, apiUrl, READ_TIMEOUT);
+    }
+
+    /**
+     * 发送post请求，请求体json,超时时间
+     *
+     * @param apiUrl
+     * @param param
+     * @return
+     */
+    public static String doPostJson(String apiUrl, Object param, int readTimeout) throws IOException {
+        String json = JsonUtil.toJson(param);
+        String httpStr = null;
+        HttpPost httpPost = new HttpPost(apiUrl);
+        CloseableHttpResponse response = null;
+        //设置超时时间
+        RequestConfig config = RequestConfig.custom()
+                .setConnectionRequestTimeout(100)
+                .setConnectTimeout(100)
+                .setSocketTimeout(readTimeout)
+                .build();
+        httpPost.setConfig(config);
+
+        try {
+            StringEntity stringEntity = new StringEntity(json, &#34;UTF-8&#34;);//解决中文乱码问题
+            stringEntity.setContentType(&#34;application/json;charset=utf-8&#34;);
+            httpPost.setEntity(stringEntity);
+            response = client.execute(httpPost);
+            HttpEntity entity = response.getEntity();
+            httpStr = EntityUtils.toString(entity, &#34;UTF-8&#34;);
+        } catch (IOException e) {
+            log.error(&#34;HttpUtils post Failed!&#34;, e);
+            throw e;
+        } finally {
+            if (response != null) {
+                try {
+                    // 确保entity里的inputStream close
+                    EntityUtils.consume(response.getEntity());
+                    //关闭response的底层connection【必要】
+                    response.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            //疑似没有必要，但框架HttpClientManager有这行
+            httpPost.releaseConnection();
+        }
+        return Optional.ofNullable(httpStr).orElseGet(String::new);
+    }
+
+    public static String doPostForm(String apiUrl, Map&lt;String, String&gt; params, int readTimeout) throws IOException {
+        String httpStr = null;
+        HttpPost httpPost = new HttpPost(apiUrl);
+        CloseableHttpResponse response = null;
+        //设置超时时间
+        RequestConfig config = RequestConfig.custom()
+                .setConnectionRequestTimeout(100)
+                .setConnectTimeout(100)
+                .setSocketTimeout(readTimeout)
+                .build();
+        httpPost.setConfig(config);
+
+        try {
+
+            List&lt;BasicNameValuePair&gt; data = Lists.newArrayList();
+            params.forEach((key, value) -&gt; {
+                data.add(new BasicNameValuePair(key, value));
+            });
+            httpPost.setEntity(new UrlEncodedFormEntity(data, HTTP.UTF_8));
+            response = client.execute(httpPost);
+            HttpEntity entity = response.getEntity();
+            httpStr = EntityUtils.toString(entity, &#34;UTF-8&#34;);
+        } catch (IOException e) {
+            log.error(&#34;HttpUtils post Failed!&#34;, e);
+            throw e;
+        } finally {
+            if (response != null) {
+                try {
+                    // 确保entity里的inputStream close
+                    EntityUtils.consume(response.getEntity());
+                    //关闭response的底层connection【必要】
+                    response.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            //疑似没有必要，但框架HttpClientManager有这行
+            httpPost.releaseConnection();
+        }
+        return Optional.ofNullable(httpStr).orElseGet(String::new);
+    }
+
+
+    public static String get(String apiUrl, int readTimeout) throws IOException {
+        String httpStr = null;
+        HttpGet get = new HttpGet(apiUrl);
+        CloseableHttpResponse response = null;
+        //设置超时时间
+        RequestConfig config = RequestConfig.custom()
+                .setConnectionRequestTimeout(100)
+                .setConnectTimeout(100)
+                .setSocketTimeout(readTimeout)
+                .build();
+        get.setConfig(config);
+
+        try {
+            response = client.execute(get);
+            HttpEntity entity = response.getEntity();
+            httpStr = EntityUtils.toString(entity, &#34;UTF-8&#34;);
+        } catch (IOException e) {
+            log.error(&#34;HttpUtils post Failed!&#34;, e);
+            throw e;
+        } finally {
+            if (response != null) {
+                try {
+                    // 确保entity里的inputStream close
+                    EntityUtils.consume(response.getEntity());
+                    //关闭response的底层connection【必要】
+                    response.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            //疑似没有必要，但框架HttpClientManager有这行
+            get.releaseConnection();
+        }
+        return Optional.ofNullable(httpStr).orElseGet(String::new);
+    }
+
+
+    public static void get(String apiUrl, int readTimeout, Consumer&lt;InputStream&gt; consumer) throws IOException {
+        HttpGet get = new HttpGet(apiUrl);
+        CloseableHttpResponse response = null;
+        //设置超时时间
+        RequestConfig config = RequestConfig.custom()
+                .setConnectionRequestTimeout(100)
+                .setConnectTimeout(100)
+                .setSocketTimeout(readTimeout)
+                .build();
+        get.setConfig(config);
+
+        try {
+            response = client.execute(get);
+            HttpEntity entity = response.getEntity();
+            try (InputStream inputStream = entity.getContent();) {
+                consumer.accept(inputStream);
+            }catch (Throwable e){
+                log.error(&#34;cosume inputStream失败&#34;,e);
+            }
+        } catch (IOException e) {
+            log.error(&#34;HttpUtils post Failed!&#34;, e);
+            throw e;
+        } finally {
+            if (response != null) {
+                try {
+                    // 确保entity里的inputStream close
+                    EntityUtils.consume(response.getEntity());
+                    //关闭response的底层connection【必要】
+                    response.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            //疑似没有必要，但框架HttpClientManager有这行
+            get.releaseConnection();
+        }
+    }
+}
+</code></pre>
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/posts/wait-notify-and-condition/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">Java wait/notify和condition</span>
+    </a>
+    
+    
+    <a href="/posts/learn/jaeger/" class="navigation-next">
+      <span class="navigation-tittle">Jaeger学习</span>
+      <i aria-hidden="true" class="fa fa-chevron-right"></i>
+    </a>
+    
+</div>
+
+
+  
+
+  
+
+
+</article>
+
+
+        </div>
+        
+    
+
+
+
+<script defer src="/js/all.js" integrity="sha384-ZbbbT1gw3joYkKRqh0kWyRp32UAvdqkpbLedQJSlnI8iLQcFVxaGyrOgOJiDQTTR" crossorigin="anonymous"></script>
+
+
+    
+    
+    
+    <script src="/js/highlight.min.js"></script>
+        
+    <script type="text/javascript">
+        
+        hljs.initHighlightingOnLoad();
+    </script>
+    
+
+
+
+
+    
+
+
+
+    </body>
+</html>

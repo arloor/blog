@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Linux on ARLOOR</title>
+    <link>https://www.arloor.com/categories/linux/</link>
+    <description>Recent content in Linux on ARLOOR</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Mon, 04 Mar 2019 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://www.arloor.com/categories/linux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>玩转VPS与centos 7</title>
+      <link>https://www.arloor.com/posts/linux/centos7-some-tweaks/</link>
+      <pubDate>Mon, 04 Mar 2019 00:00:00 +0000</pubDate>
+      <guid>https://www.arloor.com/posts/linux/centos7-some-tweaks/</guid>
+      <description>&lt;p&gt;多年以后，我又开始整vps了，学了三年，也知道怎么整linux了。个人使用的是搬瓦工 DC6 CN2 GIA 机房的vps。&lt;a href=&#34;https://bwh88.net/aff.php?aff=11132&amp;amp;pid=87&#34;&gt;购买链接&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

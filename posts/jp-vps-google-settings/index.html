@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    
+    <link rel="canonical" href="https://www.arloor.com/posts/jp-vps-google-settings/">
+    
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.134.3">
+
+    
+    
+    
+
+<title>谷歌日本搜索结果显示日文的解决方案 • ARLOOR</title>
+<meta name="description" content="今天，你学习了吗">
+<meta name="keywords" content="刘港欢, arloor, moontell">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="谷歌日本搜索结果显示日文的解决方案">
+  <meta name="twitter:description" content="说到日本的服务器，最早用过一段时间的沪日iplc，现在在用DMIT的PVM.TYO.Pro.Shinagawa，他们在延迟速率方面的表现都很好。有一点比较难受的是日本的google搜索结果总是有日文内容，这里说下解决方案。
+谷歌提供了“搜索设置”的功能，允许用户调整“搜索结果语言过滤器”，这个设置将会设置到cookie中，具体来说是NID这个cookie，过期时间是6个月。如果在6个月中有登出再登陆，这个cookie也会丢失，需要重新设置。">
+      <meta name="twitter:site" content="@njulgh">
+
+<meta property="og:url" content="https://www.arloor.com/posts/jp-vps-google-settings/">
+  <meta property="og:site_name" content="ARLOOR">
+  <meta property="og:title" content="谷歌日本搜索结果显示日文的解决方案">
+  <meta property="og:description" content="说到日本的服务器，最早用过一段时间的沪日iplc，现在在用DMIT的PVM.TYO.Pro.Shinagawa，他们在延迟速率方面的表现都很好。有一点比较难受的是日本的google搜索结果总是有日文内容，这里说下解决方案。
+谷歌提供了“搜索设置”的功能，允许用户调整“搜索结果语言过滤器”，这个设置将会设置到cookie中，具体来说是NID这个cookie，过期时间是6个月。如果在6个月中有登出再登陆，这个cookie也会丢失，需要重新设置。">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2023-08-12T21:19:01+08:00">
+    <meta property="article:modified_time" content="2023-08-12T21:19:01+08:00">
+    <meta property="article:tag" content="Undefined">
+
+
+    
+
+
+
+
+
+<link rel="stylesheet" href="/styles/atom-one-dark.min.css">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.e0a163f994ccd5fb78b6074545c7e4cff283ba9948b7915f691d5c0f5459ba9c.css" integrity="sha256-4KFj&#43;ZTM1ft4tgdFRcfkz/KDuplIt5FfaR1cD1RZupw=">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+
+<link rel="stylesheet" href="/scss/hugo-toc.0873834b0f2e9fdc9e1d0301e8ebce21fc10383882a41e9373f29b90e85a9987.css" integrity="sha256-CHODSw8un9yeHQMB6OvOIfwQODiCpB6Tc/KbkOhamYc=">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="/favicon.png">
+    
+    
+
+</head>
+
+
+    <body class=" ">
+    
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="https://www.arloor.com/">
+          
+          ARLOOR
+          
+        </a>
+      </span>
+      <a href="https://www.arloor.com/">
+        
+        
+        
+        
+        <div class="author-image">
+          <img src="https://www.arloor.com/img/head.jpeg" alt="Author Image" class="img--circle img--headshot element--center">
+        </div>
+        
+        
+      </a>
+      
+      <p class="site__description">
+         都是瞎写的 
+      </p>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">ARLOOR</label>
+      <div class="menu-content">
+        <div class="show-in-small">
+          <a href="https://www.arloor.com/">
+            
+            
+            
+            
+            <div class="author-image">
+              <img src="https://www.arloor.com/img/head.jpeg" alt="Author Image" class="img--circle img--headshot element--center">
+            </div>
+            
+            
+          </a>
+        </div>
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/posts/">
+						<span>文章</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/tags/">
+						<span>分类</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/about/">
+						<span>关于我</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/speed">
+						<span>网速监控</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="http://beian.miit.gov.cn/">
+						<span>苏ICP备17024437号</span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://twitter.com/njulgh" rel="me"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	<a href="https://github.com/arloor" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://t.me/popstary" rel="me"><i class="fab fa-telegram fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	<a href="mailto:admin@arloor.com" rel="me"><i class="fas fa-at fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+</section>
+
+      </div>
+    </div>
+    
+<div class="copyright">
+  &copy; 2024 arloor
+  
+    <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>
+  
+</div>
+
+
+<div class="builtwith">
+Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.com/htr3n/hyde-hyde">hyde-hyde</a>.
+</div>
+
+
+  </div>
+</div>
+        <div class="content container">
+            
+    
+<article>
+  <header>
+    <h1>谷歌日本搜索结果显示日文的解决方案</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> Aug 12, 2023
+    
+    
+    
+      
+      
+          in
+          
+          
+              <a class="badge badge-category" href="/categories/undefined">UNDEFINED</a>
+              
+          
+      
+    
+    
+    
+      
+      
+          <br/>
+           <i class="fas fa-tags"></i>
+          
+          <a class="badge badge-tag" href="/tags/undefined">undefined</a>
+          
+      
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 2 min read
+</div>
+
+
+  </header>
+  
+  
+  
+    <div class="toc-wrapper">
+      <input type="checkbox" id="tocToggle">
+      <label for="tocToggle">Table of Content</label>
+      
+          <nav id="TableOfContents">
+  <ul>
+    <li><a href="#设置搜索结果语言过滤器">设置搜索结果语言过滤器</a></li>
+    <li><a href="#通过surge-mac的http-rewrite永久修改nid-cookie">通过Surge Mac的http rewrite永久修改NID cookie</a></li>
+    <li><a href="#参考文档">参考文档</a></li>
+  </ul>
+</nav>
+      
+    </div>
+  
+  
+  <div class="post">
+    <p>说到日本的服务器，最早用过一段时间的沪日iplc，现在在用<a href="https://www.dmit.io/aff.php?aff=7132">DMIT的PVM.TYO.Pro.Shinagawa</a>，他们在延迟速率方面的表现都很好。有一点比较难受的是日本的google搜索结果总是有日文内容，这里说下解决方案。</p>
+<p>谷歌提供了“搜索设置”的功能，允许用户调整“搜索结果语言过滤器”，这个设置将会设置到cookie中，具体来说是NID这个cookie，过期时间是6个月。如果在6个月中有登出再登陆，这个cookie也会丢失，需要重新设置。</p>
+<h2 id="设置搜索结果语言过滤器">设置搜索结果语言过滤器</h2>
+<p><a href="https://www.google.com/preferences?lang=1">搜索设置页面</a>，设置成如下:</p>
+<blockquote>
+<p>注意，<strong>搜索结果区域</strong>一定不要是<strong>当前所在区域</strong>，日本ip所在地也就是日本，推荐选美国这种英语语言国家。经过我的测试，可能这个才是主要影响日文内容是否出现的主要因素。</p>
+</blockquote>
+<p><img src="/img/google-preference-setting.png" alt="Alt text"></p>
+<p>设置完可以F12看NID这个cookie：</p>
+<p><img src="/img/google-nid-cookie.png" alt="Alt text"></p>
+<h2 id="通过surge-mac的http-rewrite永久修改nid-cookie">通过Surge Mac的http rewrite永久修改NID cookie</h2>
+<p>参考文档1中介绍了google是使用NID这个cookie来存储搜索过滤器配置的，我们就用Surge Mac的http rewrite功能将这个cookie永久生效。我们先用正则替换来替换存在的nid，而后为放置nid cookie的缺失，再增加一个cookie的header</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[<span style="color:#a6e22e">Header</span> <span style="color:#a6e22e">Rewrite</span>]
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">https</span><span style="color:#960050;background-color:#1e0010">://</span>.<span style="color:#960050;background-color:#1e0010">*</span><span style="color:#a6e22e">google</span>.<span style="color:#a6e22e">com</span>.<span style="color:#960050;background-color:#1e0010">*</span> <span style="color:#a6e22e">header-replace-regex</span> <span style="color:#a6e22e">Cookie</span> <span style="color:#960050;background-color:#1e0010">^</span><span style="color:#a6e22e">NID</span>.<span style="color:#960050;background-color:#1e0010">*</span> <span style="color:#a6e22e">NID</span>=<span style="color:#960050;background-color:#1e0010">换成你的</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">https</span><span style="color:#960050;background-color:#1e0010">://</span>.<span style="color:#960050;background-color:#1e0010">*</span><span style="color:#a6e22e">google</span>.<span style="color:#a6e22e">com</span>.<span style="color:#960050;background-color:#1e0010">*</span> <span style="color:#a6e22e">header-add</span> <span style="color:#a6e22e">Cookie</span> <span style="color:#a6e22e">NID</span>=<span style="color:#960050;background-color:#1e0010">换成你的</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>[<span style="color:#a6e22e">MITM</span>]
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">skip-server-cert-verify</span> = <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">tcp-connection</span> = <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">h2</span> = <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">hostname</span> = <span style="color:#960050;background-color:#1e0010">*</span>.<span style="color:#a6e22e">google</span>.<span style="color:#a6e22e">com</span> <span style="color:#75715e"># Http解密google的请求</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">ca-passphrase</span> = <span style="color:#a6e22e">xxx</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">ca-p12</span> = <span style="color:#a6e22e">xxxx</span>
+</span></span></code></pre></div><p>随后可以在Surge请求查看器中看到google.com的请求被Https解密并修改了cookie的请求头：</p>
+<p><img src="/img/surge-dashboard-nid-cookie-google.png" alt="Alt text"></p>
+<h2 id="参考文档">参考文档</h2>
+<ol>
+<li><a href="https://policies.google.com/technologies/cookies?hl=en-US#types-of-cookies">google types-of-cookies</a></li>
+<li><a href="https://www.v2ex.com/t/964653#reply7">有啥方法可以设置谷歌搜索结果始终按照某语言习惯输出？</a></li>
+</ol>
+
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/posts/k8s-pv-pvc-dynamic-provisioning-storage-class/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">K8S持久化卷、动态置备、StorageClass</span>
+    </a>
+    
+    
+    <a href="/posts/macos-sleep-wake-history/" class="navigation-next">
+      <span class="navigation-tittle">MacOS睡眠和唤醒历史</span>
+      <i aria-hidden="true" class="fa fa-chevron-right"></i>
+    </a>
+    
+</div>
+
+
+  
+
+  
+
+
+</article>
+
+
+        </div>
+        
+    
+
+
+
+<script defer src="/js/all.js" integrity="sha384-ZbbbT1gw3joYkKRqh0kWyRp32UAvdqkpbLedQJSlnI8iLQcFVxaGyrOgOJiDQTTR" crossorigin="anonymous"></script>
+
+
+    
+    
+    
+    <script src="/js/highlight.min.js"></script>
+        
+    <script type="text/javascript">
+        
+        hljs.initHighlightingOnLoad();
+    </script>
+    
+
+
+
+
+    
+
+
+
+    </body>
+</html>

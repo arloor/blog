@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    
+    <link rel="canonical" href="https://www.arloor.com/posts/notion/%E9%93%BE%E8%B7%AF%E8%BF%BD%E8%B8%AA%E4%B8%9A%E7%95%8C%E5%AF%B9%E6%A0%87/">
+    
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.134.3">
+
+    
+    
+    
+
+<title>链路追踪业界对标 • ARLOOR</title>
+<meta name="description" content="今天，你学习了吗">
+<meta name="keywords" content="刘港欢, arloor, moontell">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="链路追踪业界对标">
+  <meta name="twitter:description" content="链路追踪业界对标 阿里 腾讯 美团 SkyWalking 小红书 产品名称 SLS trace APM应用性能监控 Mtrace SkyWalking Xray-trace 成本 低 较高 较低 高 较低 SLA 副本 三副本 三副本 三副本 可配置 单副本 语言支持 多语言(10种语言&#43;) Java、Go、Python、C&#43;&#43; 、PHP java、go、C&#43;&#43; 多语言 协议支持 支持OpenTelemetry、Jaeger、Zipkin协议接入 支持OpenTelemetry、Jaeger、SkyWalking协议接入 自研协议，主要借鉴pinpoint 自研协议&#43;OpenTelemetry 自研协议 数据规范 OpenTelemetry Trace 1.0 OpenTracing协议 自研规范 自研规范 自研规范 弹性能力 强 强 较弱 较弱 较弱 底层存储 自研LogStore、MetricStore ES ClickHouse、HBase ES ClickHouse 异地多活 是 是 否 - 依赖部署架构 否 点查性能 高 高 高 高 较低 拓扑染色 不支持 不支持 支持 不支持 建设中 性能指标生成 支持 支持 不支持 支持 建设中 完整日志查看 支持 支持 支持 不完备 不支持 告警能力 支持 支持 不支持 不支持 不支持 慢事务智能分析 支持 不支持 不支持 不支持 不支持 Span粒度区分 无法区分 无法区分 可区分RPC级别/内部方法级别 无法区分 可区分RPC级别/内部方法级别 ">
+      <meta name="twitter:site" content="@njulgh">
+
+<meta property="og:url" content="https://www.arloor.com/posts/notion/%E9%93%BE%E8%B7%AF%E8%BF%BD%E8%B8%AA%E4%B8%9A%E7%95%8C%E5%AF%B9%E6%A0%87/">
+  <meta property="og:site_name" content="ARLOOR">
+  <meta property="og:title" content="链路追踪业界对标">
+  <meta property="og:description" content="链路追踪业界对标 阿里 腾讯 美团 SkyWalking 小红书 产品名称 SLS trace APM应用性能监控 Mtrace SkyWalking Xray-trace 成本 低 较高 较低 高 较低 SLA 副本 三副本 三副本 三副本 可配置 单副本 语言支持 多语言(10种语言&#43;) Java、Go、Python、C&#43;&#43; 、PHP java、go、C&#43;&#43; 多语言 协议支持 支持OpenTelemetry、Jaeger、Zipkin协议接入 支持OpenTelemetry、Jaeger、SkyWalking协议接入 自研协议，主要借鉴pinpoint 自研协议&#43;OpenTelemetry 自研协议 数据规范 OpenTelemetry Trace 1.0 OpenTracing协议 自研规范 自研规范 自研规范 弹性能力 强 强 较弱 较弱 较弱 底层存储 自研LogStore、MetricStore ES ClickHouse、HBase ES ClickHouse 异地多活 是 是 否 - 依赖部署架构 否 点查性能 高 高 高 高 较低 拓扑染色 不支持 不支持 支持 不支持 建设中 性能指标生成 支持 支持 不支持 支持 建设中 完整日志查看 支持 支持 支持 不完备 不支持 告警能力 支持 支持 不支持 不支持 不支持 慢事务智能分析 支持 不支持 不支持 不支持 不支持 Span粒度区分 无法区分 无法区分 可区分RPC级别/内部方法级别 无法区分 可区分RPC级别/内部方法级别 ">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2023-05-18T17:51:10+08:00">
+    <meta property="article:modified_time" content="2023-05-18T17:51:10+08:00">
+    <meta property="article:tag" content="Notion">
+
+
+    
+
+
+
+
+
+<link rel="stylesheet" href="/styles/atom-one-dark.min.css">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.e0a163f994ccd5fb78b6074545c7e4cff283ba9948b7915f691d5c0f5459ba9c.css" integrity="sha256-4KFj&#43;ZTM1ft4tgdFRcfkz/KDuplIt5FfaR1cD1RZupw=">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+
+<link rel="stylesheet" href="/scss/hugo-toc.0873834b0f2e9fdc9e1d0301e8ebce21fc10383882a41e9373f29b90e85a9987.css" integrity="sha256-CHODSw8un9yeHQMB6OvOIfwQODiCpB6Tc/KbkOhamYc=">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="/favicon.png">
+    
+    
+
+</head>
+
+
+    <body class=" ">
+    
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="https://www.arloor.com/">
+          
+          ARLOOR
+          
+        </a>
+      </span>
+      <a href="https://www.arloor.com/">
+        
+        
+        
+        
+        <div class="author-image">
+          <img src="https://www.arloor.com/img/head.jpeg" alt="Author Image" class="img--circle img--headshot element--center">
+        </div>
+        
+        
+      </a>
+      
+      <p class="site__description">
+         都是瞎写的 
+      </p>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">ARLOOR</label>
+      <div class="menu-content">
+        <div class="show-in-small">
+          <a href="https://www.arloor.com/">
+            
+            
+            
+            
+            <div class="author-image">
+              <img src="https://www.arloor.com/img/head.jpeg" alt="Author Image" class="img--circle img--headshot element--center">
+            </div>
+            
+            
+          </a>
+        </div>
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/posts/">
+						<span>文章</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/tags/">
+						<span>分类</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/about/">
+						<span>关于我</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/speed">
+						<span>网速监控</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="http://beian.miit.gov.cn/">
+						<span>苏ICP备17024437号</span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://twitter.com/njulgh" rel="me"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	<a href="https://github.com/arloor" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://t.me/popstary" rel="me"><i class="fab fa-telegram fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	<a href="mailto:admin@arloor.com" rel="me"><i class="fas fa-at fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+</section>
+
+      </div>
+    </div>
+    
+<div class="copyright">
+  &copy; 2024 arloor
+  
+    <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>
+  
+</div>
+
+
+<div class="builtwith">
+Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.com/htr3n/hyde-hyde">hyde-hyde</a>.
+</div>
+
+
+  </div>
+</div>
+        <div class="content container">
+            
+    
+<article>
+  <header>
+    <h1>链路追踪业界对标</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> May 18, 2023
+    
+    
+    
+      
+      
+          in
+          
+          
+              <a class="badge badge-category" href="/categories/undefined">UNDEFINED</a>
+              
+          
+      
+    
+    
+    
+      
+      
+          <br/>
+           <i class="fas fa-tags"></i>
+          
+          <a class="badge badge-tag" href="/tags/notion">notion</a>
+          
+      
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 1 min read
+</div>
+
+
+  </header>
+  
+  
+  
+    <div class="toc-wrapper">
+      <input type="checkbox" id="tocToggle">
+      <label for="tocToggle">Table of Content</label>
+      
+          <nav id="TableOfContents"></nav>
+      
+    </div>
+  
+  
+  <div class="post">
+    <h1 id="链路追踪业界对标">链路追踪业界对标</h1>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left"></th>
+          <th style="text-align: left">阿里</th>
+          <th style="text-align: left">腾讯</th>
+          <th style="text-align: left">美团</th>
+          <th style="text-align: left">SkyWalking</th>
+          <th style="text-align: left">小红书</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">产品名称</td>
+          <td style="text-align: left"><a href="https://sls4service.console.aliyun.com/lognext/trace/qs-demos/sls-mall?resource=/trace/sls-mall/explorer&amp;isShare=true&amp;readOnly=true&amp;hideTopbar=true&amp;hiddenAppBread=true&amp;hiddenPSql=true&amp;hiddenEtl=true">SLS trace</a></td>
+          <td style="text-align: left"><a href="https://console.cloud.tencent.com/monitor/apm/system?from=now-15m&amp;to=now&amp;team=apm-ylTJfTSbn&amp;rid=1&amp;role=server">APM应用性能监控</a></td>
+          <td style="text-align: left">Mtrace</td>
+          <td style="text-align: left"><a href="http://demo.skywalking.apache.org/">SkyWalking</a></td>
+          <td style="text-align: left">Xray-trace</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">成本</td>
+          <td style="text-align: left">低</td>
+          <td style="text-align: left">较高</td>
+          <td style="text-align: left">较低</td>
+          <td style="text-align: left">高</td>
+          <td style="text-align: left">较低</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">SLA</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">副本</td>
+          <td style="text-align: left">三副本</td>
+          <td style="text-align: left">三副本</td>
+          <td style="text-align: left">三副本</td>
+          <td style="text-align: left">可配置</td>
+          <td style="text-align: left">单副本</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">语言支持</td>
+          <td style="text-align: left">多语言(10种语言+)</td>
+          <td style="text-align: left">Java、Go、Python、C++ 、PHP</td>
+          <td style="text-align: left">java、go、C++</td>
+          <td style="text-align: left">多语言</td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">协议支持</td>
+          <td style="text-align: left">支持OpenTelemetry、Jaeger、Zipkin协议接入</td>
+          <td style="text-align: left">支持OpenTelemetry、Jaeger、SkyWalking协议接入</td>
+          <td style="text-align: left">自研协议，主要借鉴pinpoint</td>
+          <td style="text-align: left">自研协议+OpenTelemetry</td>
+          <td style="text-align: left">自研协议</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">数据规范</td>
+          <td style="text-align: left">OpenTelemetry Trace 1.0</td>
+          <td style="text-align: left">OpenTracing协议</td>
+          <td style="text-align: left">自研规范</td>
+          <td style="text-align: left">自研规范</td>
+          <td style="text-align: left">自研规范</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">弹性能力</td>
+          <td style="text-align: left">强</td>
+          <td style="text-align: left">强</td>
+          <td style="text-align: left">较弱</td>
+          <td style="text-align: left">较弱</td>
+          <td style="text-align: left">较弱</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">底层存储</td>
+          <td style="text-align: left">自研LogStore、MetricStore</td>
+          <td style="text-align: left">ES</td>
+          <td style="text-align: left">ClickHouse、HBase</td>
+          <td style="text-align: left">ES</td>
+          <td style="text-align: left">ClickHouse</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">异地多活</td>
+          <td style="text-align: left">是</td>
+          <td style="text-align: left">是</td>
+          <td style="text-align: left">否</td>
+          <td style="text-align: left">- 依赖部署架构</td>
+          <td style="text-align: left">否</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">点查性能</td>
+          <td style="text-align: left">高</td>
+          <td style="text-align: left">高</td>
+          <td style="text-align: left">高</td>
+          <td style="text-align: left">高</td>
+          <td style="text-align: left">较低</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">拓扑染色</td>
+          <td style="text-align: left">不支持</td>
+          <td style="text-align: left">不支持</td>
+          <td style="text-align: left">支持</td>
+          <td style="text-align: left">不支持</td>
+          <td style="text-align: left">建设中</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">性能指标生成</td>
+          <td style="text-align: left">支持</td>
+          <td style="text-align: left">支持</td>
+          <td style="text-align: left">不支持</td>
+          <td style="text-align: left">支持</td>
+          <td style="text-align: left">建设中</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">完整日志查看</td>
+          <td style="text-align: left">支持</td>
+          <td style="text-align: left">支持</td>
+          <td style="text-align: left">支持</td>
+          <td style="text-align: left">不完备</td>
+          <td style="text-align: left">不支持</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">告警能力</td>
+          <td style="text-align: left">支持</td>
+          <td style="text-align: left">支持</td>
+          <td style="text-align: left">不支持</td>
+          <td style="text-align: left">不支持</td>
+          <td style="text-align: left">不支持</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">慢事务智能分析</td>
+          <td style="text-align: left">支持</td>
+          <td style="text-align: left">不支持</td>
+          <td style="text-align: left">不支持</td>
+          <td style="text-align: left">不支持</td>
+          <td style="text-align: left">不支持</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Span粒度区分</td>
+          <td style="text-align: left">无法区分</td>
+          <td style="text-align: left">无法区分</td>
+          <td style="text-align: left">可区分RPC级别/内部方法级别</td>
+          <td style="text-align: left">无法区分</td>
+          <td style="text-align: left">可区分RPC级别/内部方法级别</td>
+      </tr>
+  </tbody>
+</table>
+
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/posts/tcpdump/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">tcpdump</span>
+    </a>
+    
+    
+    <a href="/posts/git-commands/" class="navigation-next">
+      <span class="navigation-tittle">Git常用命令</span>
+      <i aria-hidden="true" class="fa fa-chevron-right"></i>
+    </a>
+    
+</div>
+
+
+  
+
+  
+
+
+</article>
+
+
+        </div>
+        
+    
+
+
+
+<script defer src="/js/all.js" integrity="sha384-ZbbbT1gw3joYkKRqh0kWyRp32UAvdqkpbLedQJSlnI8iLQcFVxaGyrOgOJiDQTTR" crossorigin="anonymous"></script>
+
+
+    
+    
+    
+    <script src="/js/highlight.min.js"></script>
+        
+    <script type="text/javascript">
+        
+        hljs.initHighlightingOnLoad();
+    </script>
+    
+
+
+
+
+    
+
+
+
+    </body>
+</html>

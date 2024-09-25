@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    
+    <link rel="canonical" href="https://www.arloor.com/posts/notion/rpc%E6%8B%93%E6%89%91-%E6%B5%81%E9%87%8F%E8%A7%86%E8%A7%92%E4%BA%8C%E6%9C%9F/">
+    
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.134.3">
+
+    
+    
+    
+
+<title>RPC拓扑-流量视角（二期） • ARLOOR</title>
+<meta name="description" content="今天，你学习了吗">
+<meta name="keywords" content="刘港欢, arloor, moontell">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="RPC拓扑-流量视角（二期）">
+  <meta name="twitter:description" content="RPC拓扑-流量视角（二期） 优化点 “流量入口“增加模糊搜索能力 增加“不区分调用方”的选项 增加提示：“指标数据由采样率还原得到，和实际情况可能有微小差距。采样率越高或qps越高，估算得越准。” 显示级别默认为“服务级别”，且变更为下拉框选择，因为“不区分调用方”也是checkbox，三个checkbox连一起操作起来不方便 “调用方”、“被调用方”拆分为“调用方”、“调用方接口”、“被调用方”、“被调用方接口”，http响应中新增了对应的四个字段。“服务级别”时，不显示“调用方接口”、“被调用方接口”这两列。 “样本Trace”列显示的值从“详情”变更为examplar的值（就是traceId） “最大耗时”列增加提示：“采样率不为百分之百时，该值更像TP值。例如1%采样率下，该值更接近TP99或TP999。因为这是1%数据中的最大耗时。采样率越大，越接近真实最大值，或者说9的位数越多。” 增加“显示详情”的操作，展示类似“服务高级视角”中的抽屉，抽屉展示的信息如下： ">
+      <meta name="twitter:site" content="@njulgh">
+
+<meta property="og:url" content="https://www.arloor.com/posts/notion/rpc%E6%8B%93%E6%89%91-%E6%B5%81%E9%87%8F%E8%A7%86%E8%A7%92%E4%BA%8C%E6%9C%9F/">
+  <meta property="og:site_name" content="ARLOOR">
+  <meta property="og:title" content="RPC拓扑-流量视角（二期）">
+  <meta property="og:description" content="RPC拓扑-流量视角（二期） 优化点 “流量入口“增加模糊搜索能力 增加“不区分调用方”的选项 增加提示：“指标数据由采样率还原得到，和实际情况可能有微小差距。采样率越高或qps越高，估算得越准。” 显示级别默认为“服务级别”，且变更为下拉框选择，因为“不区分调用方”也是checkbox，三个checkbox连一起操作起来不方便 “调用方”、“被调用方”拆分为“调用方”、“调用方接口”、“被调用方”、“被调用方接口”，http响应中新增了对应的四个字段。“服务级别”时，不显示“调用方接口”、“被调用方接口”这两列。 “样本Trace”列显示的值从“详情”变更为examplar的值（就是traceId） “最大耗时”列增加提示：“采样率不为百分之百时，该值更像TP值。例如1%采样率下，该值更接近TP99或TP999。因为这是1%数据中的最大耗时。采样率越大，越接近真实最大值，或者说9的位数越多。” 增加“显示详情”的操作，展示类似“服务高级视角”中的抽屉，抽屉展示的信息如下： ">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2023-05-10T21:26:41+08:00">
+    <meta property="article:modified_time" content="2023-05-10T21:26:41+08:00">
+    <meta property="article:tag" content="Notion">
+
+
+    
+
+
+
+
+
+<link rel="stylesheet" href="/styles/atom-one-dark.min.css">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.e0a163f994ccd5fb78b6074545c7e4cff283ba9948b7915f691d5c0f5459ba9c.css" integrity="sha256-4KFj&#43;ZTM1ft4tgdFRcfkz/KDuplIt5FfaR1cD1RZupw=">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+
+<link rel="stylesheet" href="/scss/hugo-toc.0873834b0f2e9fdc9e1d0301e8ebce21fc10383882a41e9373f29b90e85a9987.css" integrity="sha256-CHODSw8un9yeHQMB6OvOIfwQODiCpB6Tc/KbkOhamYc=">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="/favicon.png">
+    
+    
+
+</head>
+
+
+    <body class=" ">
+    
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="https://www.arloor.com/">
+          
+          ARLOOR
+          
+        </a>
+      </span>
+      <a href="https://www.arloor.com/">
+        
+        
+        
+        
+        <div class="author-image">
+          <img src="https://www.arloor.com/img/head.jpeg" alt="Author Image" class="img--circle img--headshot element--center">
+        </div>
+        
+        
+      </a>
+      
+      <p class="site__description">
+         都是瞎写的 
+      </p>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">ARLOOR</label>
+      <div class="menu-content">
+        <div class="show-in-small">
+          <a href="https://www.arloor.com/">
+            
+            
+            
+            
+            <div class="author-image">
+              <img src="https://www.arloor.com/img/head.jpeg" alt="Author Image" class="img--circle img--headshot element--center">
+            </div>
+            
+            
+          </a>
+        </div>
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/posts/">
+						<span>文章</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/tags/">
+						<span>分类</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/about/">
+						<span>关于我</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/speed">
+						<span>网速监控</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="http://beian.miit.gov.cn/">
+						<span>苏ICP备17024437号</span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://twitter.com/njulgh" rel="me"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	<a href="https://github.com/arloor" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://t.me/popstary" rel="me"><i class="fab fa-telegram fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	<a href="mailto:admin@arloor.com" rel="me"><i class="fas fa-at fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+</section>
+
+      </div>
+    </div>
+    
+<div class="copyright">
+  &copy; 2024 arloor
+  
+    <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>
+  
+</div>
+
+
+<div class="builtwith">
+Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.com/htr3n/hyde-hyde">hyde-hyde</a>.
+</div>
+
+
+  </div>
+</div>
+        <div class="content container">
+            
+    
+<article>
+  <header>
+    <h1>RPC拓扑-流量视角（二期）</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> May 10, 2023
+    
+    
+    
+      
+      
+          in
+          
+          
+              <a class="badge badge-category" href="/categories/undefined">UNDEFINED</a>
+              
+          
+      
+    
+    
+    
+      
+      
+          <br/>
+           <i class="fas fa-tags"></i>
+          
+          <a class="badge badge-tag" href="/tags/notion">notion</a>
+          
+      
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 1 min read
+</div>
+
+
+  </header>
+  
+  
+  
+    <div class="toc-wrapper">
+      <input type="checkbox" id="tocToggle">
+      <label for="tocToggle">Table of Content</label>
+      
+          <nav id="TableOfContents">
+  <ul>
+    <li><a href="#优化点">优化点</a></li>
+  </ul>
+</nav>
+      
+    </div>
+  
+  
+  <div class="post">
+    <h1 id="rpc拓扑-流量视角二期">RPC拓扑-流量视角（二期）</h1>
+<p><img src="/img/99f9bd7148129f4d7d399620207e8727.png" alt="99f9bd7148129f4d7d399620207e8727.png"></p>
+<h2 id="优化点">优化点</h2>
+<ol>
+<li>“流量入口“增加模糊搜索能力</li>
+<li>增加“不区分调用方”的选项</li>
+<li>增加提示：“指标数据由采样率还原得到，和实际情况可能有微小差距。采样率越高或qps越高，估算得越准。”</li>
+<li>显示级别默认为“服务级别”，且变更为下拉框选择，因为“不区分调用方”也是checkbox，三个checkbox连一起操作起来不方便</li>
+<li>“调用方”、“被调用方”拆分为“调用方”、“调用方接口”、“被调用方”、“被调用方接口”，http响应中新增了对应的四个字段。“服务级别”时，不显示“调用方接口”、“被调用方接口”这两列。</li>
+<li>“样本Trace”列显示的值从“详情”变更为examplar的值（就是traceId）</li>
+<li>“最大耗时”列增加提示：“采样率不为百分之百时，该值更像TP值。例如1%采样率下，该值更接近TP99或TP999。因为这是1%数据中的最大耗时。采样率越大，越接近真实最大值，或者说9的位数越多。”</li>
+<li>增加“显示详情”的操作，展示类似“服务高级视角”中的抽屉，抽屉展示的信息如下：</li>
+</ol>
+<p><img src="/img/a24af5bf56daa1c1182916d489d296a2.png" alt="a24af5bf56daa1c1182916d489d296a2.png"></p>
+
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/posts/notion/rpc%E6%8B%93%E6%89%91-%E6%9C%8D%E5%8A%A1%E9%AB%98%E7%BA%A7%E8%A7%86%E8%A7%92/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">RPC拓扑-服务高级视角</span>
+    </a>
+    
+    
+    <a href="/posts/openssl_ca_type_s_client/" class="navigation-next">
+      <span class="navigation-tittle">Openssl使用：自定义CA签发证书、私钥格式、s_client使用</span>
+      <i aria-hidden="true" class="fa fa-chevron-right"></i>
+    </a>
+    
+</div>
+
+
+  
+
+  
+
+
+</article>
+
+
+        </div>
+        
+    
+
+
+
+<script defer src="/js/all.js" integrity="sha384-ZbbbT1gw3joYkKRqh0kWyRp32UAvdqkpbLedQJSlnI8iLQcFVxaGyrOgOJiDQTTR" crossorigin="anonymous"></script>
+
+
+    
+    
+    
+    <script src="/js/highlight.min.js"></script>
+        
+    <script type="text/javascript">
+        
+        hljs.initHighlightingOnLoad();
+    </script>
+    
+
+
+
+
+    
+
+
+
+    </body>
+</html>

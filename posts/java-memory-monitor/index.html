@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    
+    <link rel="canonical" href="https://www.arloor.com/posts/java-memory-monitor/">
+    
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.134.3">
+
+    
+    
+    
+
+<title>Java内存监控 • ARLOOR</title>
+<meta name="description" content="今天，你学习了吗">
+<meta name="keywords" content="刘港欢, arloor, moontell">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Java内存监控">
+  <meta name="twitter:description" content="给一个Java内存监控的代码，具体监控：
+Netty直接内存使用 堆内存使用量 非堆内存使用量 bufferPool内存使用量，主要有nio direct buffer和Mapped buffer ">
+      <meta name="twitter:site" content="@njulgh">
+
+<meta property="og:url" content="https://www.arloor.com/posts/java-memory-monitor/">
+  <meta property="og:site_name" content="ARLOOR">
+  <meta property="og:title" content="Java内存监控">
+  <meta property="og:description" content="给一个Java内存监控的代码，具体监控：
+Netty直接内存使用 堆内存使用量 非堆内存使用量 bufferPool内存使用量，主要有nio direct buffer和Mapped buffer ">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2023-07-18T17:17:03+08:00">
+    <meta property="article:modified_time" content="2023-07-18T17:17:03+08:00">
+    <meta property="article:tag" content="Java">
+
+
+    
+
+
+
+
+
+<link rel="stylesheet" href="/styles/atom-one-dark.min.css">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.e0a163f994ccd5fb78b6074545c7e4cff283ba9948b7915f691d5c0f5459ba9c.css" integrity="sha256-4KFj&#43;ZTM1ft4tgdFRcfkz/KDuplIt5FfaR1cD1RZupw=">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+
+<link rel="stylesheet" href="/scss/hugo-toc.0873834b0f2e9fdc9e1d0301e8ebce21fc10383882a41e9373f29b90e85a9987.css" integrity="sha256-CHODSw8un9yeHQMB6OvOIfwQODiCpB6Tc/KbkOhamYc=">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="/favicon.png">
+    
+    
+
+</head>
+
+
+    <body class=" ">
+    
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="https://www.arloor.com/">
+          
+          ARLOOR
+          
+        </a>
+      </span>
+      <a href="https://www.arloor.com/">
+        
+        
+        
+        
+        <div class="author-image">
+          <img src="https://www.arloor.com/img/head.jpeg" alt="Author Image" class="img--circle img--headshot element--center">
+        </div>
+        
+        
+      </a>
+      
+      <p class="site__description">
+         都是瞎写的 
+      </p>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">ARLOOR</label>
+      <div class="menu-content">
+        <div class="show-in-small">
+          <a href="https://www.arloor.com/">
+            
+            
+            
+            
+            <div class="author-image">
+              <img src="https://www.arloor.com/img/head.jpeg" alt="Author Image" class="img--circle img--headshot element--center">
+            </div>
+            
+            
+          </a>
+        </div>
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/posts/">
+						<span>文章</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/tags/">
+						<span>分类</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/about/">
+						<span>关于我</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/speed">
+						<span>网速监控</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="http://beian.miit.gov.cn/">
+						<span>苏ICP备17024437号</span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://twitter.com/njulgh" rel="me"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	<a href="https://github.com/arloor" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://t.me/popstary" rel="me"><i class="fab fa-telegram fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	<a href="mailto:admin@arloor.com" rel="me"><i class="fas fa-at fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+</section>
+
+      </div>
+    </div>
+    
+<div class="copyright">
+  &copy; 2024 arloor
+  
+    <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>
+  
+</div>
+
+
+<div class="builtwith">
+Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.com/htr3n/hyde-hyde">hyde-hyde</a>.
+</div>
+
+
+  </div>
+</div>
+        <div class="content container">
+            
+    
+<article>
+  <header>
+    <h1>Java内存监控</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> Jul 18, 2023
+    
+    
+    
+      
+      
+          in
+          
+          
+              <a class="badge badge-category" href="/categories/undefined">UNDEFINED</a>
+              
+          
+      
+    
+    
+    
+      
+      
+          <br/>
+           <i class="fas fa-tags"></i>
+          
+          <a class="badge badge-tag" href="/tags/java">java</a>
+          
+      
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 3 min read
+</div>
+
+
+  </header>
+  
+  
+  
+    <div class="toc-wrapper">
+      <input type="checkbox" id="tocToggle">
+      <label for="tocToggle">Table of Content</label>
+      
+          <nav id="TableOfContents">
+  <ul>
+    <li><a href="#jdk9以上设置--dionettytryreflectionsetaccessibletrue-的说明">jdk9以上设置 <code>-Dio.netty.tryReflectionSetAccessible=true</code> 的说明</a></li>
+    <li><a href="#jdk16以上设置---add-opens-javabasejavanioall-unnamed-的说明">jdk16以上设置 <code>--add-opens java.base/java.nio=ALL-UNNAMED</code> 的说明</a></li>
+    <li><a href="#netty直接内存泄漏排查">Netty直接内存泄漏排查</a></li>
+  </ul>
+</nav>
+      
+    </div>
+  
+  
+  <div class="post">
+    <p>给一个Java内存监控的代码，具体监控：</p>
+<ul>
+<li>Netty直接内存使用</li>
+<li>堆内存使用量</li>
+<li>非堆内存使用量</li>
+<li>bufferPool内存使用量，主要有nio direct buffer和Mapped buffer</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> io.netty.util.internal.PlatformDependent;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.lang.management.BufferPoolMXBean;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.lang.management.ManagementFactory;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.lang.management.MemoryMXBean;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.List;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.Map;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.TreeMap;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MemoryMonitorTest</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span>(String<span style="color:#f92672">[]</span> args) {
+</span></span><span style="display:flex;"><span>        Map<span style="color:#f92672">&lt;</span>String, Long<span style="color:#f92672">&gt;</span> map <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TreeMap<span style="color:#f92672">&lt;&gt;</span>();
+</span></span><span style="display:flex;"><span>        map.<span style="color:#a6e22e">put</span>(<span style="color:#e6db74">&#34;direct_netty&#34;</span>, PlatformDependent.<span style="color:#a6e22e">usedDirectMemory</span>());
+</span></span><span style="display:flex;"><span>        map.<span style="color:#a6e22e">put</span>(<span style="color:#e6db74">&#34;heap&#34;</span>, memoryMXBean.<span style="color:#a6e22e">getHeapMemoryUsage</span>().<span style="color:#a6e22e">getUsed</span>());
+</span></span><span style="display:flex;"><span>        map.<span style="color:#a6e22e">put</span>(<span style="color:#e6db74">&#34;non_heap&#34;</span>, memoryMXBean.<span style="color:#a6e22e">getNonHeapMemoryUsage</span>().<span style="color:#a6e22e">getUsed</span>());
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (BufferPoolMXBean bufferPool : bufferPoolMXBeans) {
+</span></span><span style="display:flex;"><span>            map.<span style="color:#a6e22e">put</span>(<span style="color:#e6db74">&#34;buffer_pool_&#34;</span> <span style="color:#f92672">+</span> fixName(bufferPool.<span style="color:#a6e22e">getName</span>()), bufferPool.<span style="color:#a6e22e">getMemoryUsed</span>());
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (Map.<span style="color:#a6e22e">Entry</span><span style="color:#f92672">&lt;</span>String, Long<span style="color:#f92672">&gt;</span> entry : map.<span style="color:#a6e22e">entrySet</span>()) {
+</span></span><span style="display:flex;"><span>            System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(String.<span style="color:#a6e22e">format</span>(<span style="color:#e6db74">&#34;%18s    %s&#34;</span>,entry.<span style="color:#a6e22e">getKey</span>(),entry.<span style="color:#a6e22e">getValue</span>()));
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> String <span style="color:#a6e22e">fixName</span>(String name) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> name.<span style="color:#a6e22e">replaceAll</span>(<span style="color:#e6db74">&#34; &#34;</span>, <span style="color:#e6db74">&#34;_&#34;</span>).<span style="color:#a6e22e">replaceAll</span>(<span style="color:#e6db74">&#34;&#39;&#34;</span>, <span style="color:#e6db74">&#34;&#34;</span>).<span style="color:#a6e22e">replaceAll</span>(<span style="color:#e6db74">&#34;-&#34;</span>, <span style="color:#e6db74">&#34;_&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> MemoryMXBean memoryMXBean <span style="color:#f92672">=</span> ManagementFactory.<span style="color:#a6e22e">getMemoryMXBean</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> List<span style="color:#f92672">&lt;</span>BufferPoolMXBean<span style="color:#f92672">&gt;</span> bufferPoolMXBeans <span style="color:#f92672">=</span> ManagementFactory.<span style="color:#a6e22e">getPlatformMXBeans</span>(BufferPoolMXBean.<span style="color:#a6e22e">class</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>buffer_pool_direct    <span style="color:#ae81ff">8193</span>
+</span></span><span style="display:flex;"><span>buffer_pool_mapped    <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>buffer_pool_mapped___non_volatile_memory    <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>      direct_netty    -1
+</span></span><span style="display:flex;"><span>              heap    <span style="color:#ae81ff">18083112</span>
+</span></span><span style="display:flex;"><span>          non_heap    <span style="color:#ae81ff">16355616</span>
+</span></span></code></pre></div><h2 id="jdk9以上设置--dionettytryreflectionsetaccessibletrue-的说明">jdk9以上设置 <code>-Dio.netty.tryReflectionSetAccessible=true</code> 的说明</h2>
+<blockquote>
+<p>JDK的directByteBuffer使用Cleaner机制和幻引用来释放内存，依赖GC的发生才会释放。Netty为了更及时地释放直接内存，自己池化管理了直接内存（PoolArena），也负责直接内存的释放，即显示调用Delocate方法，这个被称为allocateDirectNocleaner。这需要反射获取DirectByteBuffer的构造方法。在JDK9版本以上，JDK反射的限制被加强了，所以Netty在JDK9以上版本，需要设置-Dio.netty.tryReflectionSetAccessible=true来打开反射获取DirectByteBuffer的构造方法的权限。</p>
+</blockquote>
+<p>要统计netty直接内存使用量，实际使用的是netty中PlatformDependent类的<code>DIRECT_MEMORY_COUNTER</code>变量。</p>
+<p>netty在初始化这个变量前，会检查时候能反射拿到DirectByteBuffer的构造方法。</p>
+<p>在jdk9以上，拿构造方法被认为是<code>illegal reflective access</code>会看到这样的警告信息：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>WARNING: An illegal reflective access operation has occurred
+</span></span><span style="display:flex;"><span>WARNING: Illegal reflective access by io.netty.util.internal.ReflectionUtil <span style="color:#f92672">(</span>file:/C:/Users/arloor/.m2/repository/io/netty/netty-all/4.1.53.Final/netty-all-4.1.53.Final.jar<span style="color:#f92672">)</span> to constructor java.nio.DirectByteBuffer<span style="color:#f92672">(</span>long,int<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>WARNING: Please consider reporting this to the maintainers of io.netty.util.internal.ReflectionUtil
+</span></span><span style="display:flex;"><span>WARNING: Use --illegal-access<span style="color:#f92672">=</span>warn to enable warnings of further illegal reflective access operations
+</span></span><span style="display:flex;"><span>WARNING: All illegal access operations will be denied in a future release
+</span></span></code></pre></div><p>所以有人就在github上提issue了：<a href="https://github.com/netty/netty/pull/7650">https://github.com/netty/netty/pull/7650</a></p>
+<p>netty的解决方案是：默认关闭这个反射拿构造方法的操作，相关代码：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>    <span style="color:#75715e">// PlatformDependent0.java</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">explicitTryReflectionSetAccessible0</span>(){
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// we disable reflective access</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> SystemPropertyUtil.<span style="color:#a6e22e">getBoolean</span>(<span style="color:#e6db74">&#34;io.netty.tryReflectionSetAccessible&#34;</span>,javaVersion()<span style="color:#f92672">&lt;</span> 9);
+</span></span><span style="display:flex;"><span>        }
+</span></span></code></pre></div><p>我们为了统计直接内存使用量，所以需要把这个打开</p>
+<blockquote>
+<p>对于GRPC的用户，需要设置-Dio.grpc.netty.shaded.io.netty.tryReflectionSetAccessible=true，因为GRPC对netty做了shaded，所以需要用shaded的包名。</p>
+</blockquote>
+<h2 id="jdk16以上设置---add-opens-javabasejavanioall-unnamed-的说明">jdk16以上设置 <code>--add-opens java.base/java.nio=ALL-UNNAMED</code> 的说明</h2>
+<p>如果不设置，则统计netty直接内存使用量时，会在反射获取 <code>DirectByteBuffer</code> 的构造函数 <code>private java.nio.DirectByteBuffer(long,int)</code> 的时候抛出下面的异常，导致无法获取：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>java.lang.reflect.InaccessibleObjectException: 
+</span></span><span style="display:flex;"><span>Unable to make private java.nio.DirectByteBuffer<span style="color:#f92672">(</span>long,int<span style="color:#f92672">)</span> accessible: 
+</span></span><span style="display:flex;"><span>module java.base does not <span style="color:#e6db74">&#34;opens java.nio&#34;</span> to unnamed module @5a4aa2f2
+</span></span></code></pre></div><p><img src="/directByteBufferConstructor.png" alt=""></p>
+<p>相关的一些issue：<a href="https://github.com/renaissance-benchmarks/renaissance/issues/241">renaissance-benchmarks的issue</a></p>
+<h2 id="netty直接内存泄漏排查">Netty直接内存泄漏排查</h2>
+<p>有三种方式：可参见<a href="https://netty.io/wiki/reference-counted-objects.html">reference-counted-objects.html</a></p>
+<ol>
+<li>设置vm options：</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>-Dio.netty.leakDetectionLevel<span style="color:#f92672">=</span>paranoid
+</span></span></code></pre></div><ol start="2">
+<li>
+<p>调用 <code>ResourceLeakDetector.setLevel()</code></p>
+</li>
+<li>
+<p>springboot的Netty AutoConfigure：</p>
+</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>spring:
+</span></span><span style="display:flex;"><span>  netty:
+</span></span><span style="display:flex;"><span>    leak-detection: paranoid
+</span></span></code></pre></div><p>这个auto configure会通过方法2来设置探测登记。注意，如果用了springboot，一定要通过方法3来配置，因为这个autoconfigure是默认开启的，并且默认设置为simple登记。</p>
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/posts/kickstart-rhel9-from-8/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">使用Kickstart从Centos8/9自动安装RHEL9.2，并制作dd镜像</span>
+    </a>
+    
+    
+    <a href="/posts/k8s-kind/" class="navigation-next">
+      <span class="navigation-tittle">K8s Kind使用</span>
+      <i aria-hidden="true" class="fa fa-chevron-right"></i>
+    </a>
+    
+</div>
+
+
+  
+
+  
+
+
+</article>
+
+
+        </div>
+        
+    
+
+
+
+<script defer src="/js/all.js" integrity="sha384-ZbbbT1gw3joYkKRqh0kWyRp32UAvdqkpbLedQJSlnI8iLQcFVxaGyrOgOJiDQTTR" crossorigin="anonymous"></script>
+
+
+    
+    
+    
+    <script src="/js/highlight.min.js"></script>
+        
+    <script type="text/javascript">
+        
+        hljs.initHighlightingOnLoad();
+    </script>
+    
+
+
+
+
+    
+
+
+
+    </body>
+</html>

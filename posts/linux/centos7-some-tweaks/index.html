@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    
+    <link rel="canonical" href="https://www.arloor.com/posts/linux/centos7-some-tweaks/">
+    
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.134.3">
+
+    
+    
+    
+
+<title>玩转VPS与centos 7 • ARLOOR</title>
+<meta name="description" content="今天，你学习了吗">
+<meta name="keywords" content="刘港欢, arloor, moontell">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="玩转VPS与centos 7">
+  <meta name="twitter:description" content="多年以后，我又开始整vps了，学了三年，也知道怎么整linux了。个人使用的是搬瓦工 DC6 CN2 GIA 机房的vps。购买链接">
+      <meta name="twitter:site" content="@njulgh">
+
+<meta property="og:url" content="https://www.arloor.com/posts/linux/centos7-some-tweaks/">
+  <meta property="og:site_name" content="ARLOOR">
+  <meta property="og:title" content="玩转VPS与centos 7">
+  <meta property="og:description" content="多年以后，我又开始整vps了，学了三年，也知道怎么整linux了。个人使用的是搬瓦工 DC6 CN2 GIA 机房的vps。购买链接">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2019-03-04T00:00:00+00:00">
+    <meta property="article:modified_time" content="2019-03-04T00:00:00+00:00">
+    <meta property="article:tag" content="Linux">
+
+
+    
+
+
+
+
+
+<link rel="stylesheet" href="/styles/atom-one-dark.min.css">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.e0a163f994ccd5fb78b6074545c7e4cff283ba9948b7915f691d5c0f5459ba9c.css" integrity="sha256-4KFj&#43;ZTM1ft4tgdFRcfkz/KDuplIt5FfaR1cD1RZupw=">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+
+<link rel="stylesheet" href="/scss/hugo-toc.0873834b0f2e9fdc9e1d0301e8ebce21fc10383882a41e9373f29b90e85a9987.css" integrity="sha256-CHODSw8un9yeHQMB6OvOIfwQODiCpB6Tc/KbkOhamYc=">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="/favicon.png">
+    
+    
+
+</head>
+
+
+    <body class=" ">
+    
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="https://www.arloor.com/">
+          
+          ARLOOR
+          
+        </a>
+      </span>
+      <a href="https://www.arloor.com/">
+        
+        
+        
+        
+        <div class="author-image">
+          <img src="https://www.arloor.com/img/head.jpeg" alt="Author Image" class="img--circle img--headshot element--center">
+        </div>
+        
+        
+      </a>
+      
+      <p class="site__description">
+         都是瞎写的 
+      </p>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">ARLOOR</label>
+      <div class="menu-content">
+        <div class="show-in-small">
+          <a href="https://www.arloor.com/">
+            
+            
+            
+            
+            <div class="author-image">
+              <img src="https://www.arloor.com/img/head.jpeg" alt="Author Image" class="img--circle img--headshot element--center">
+            </div>
+            
+            
+          </a>
+        </div>
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/posts/">
+						<span>文章</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/tags/">
+						<span>分类</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/about/">
+						<span>关于我</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/speed">
+						<span>网速监控</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="http://beian.miit.gov.cn/">
+						<span>苏ICP备17024437号</span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://twitter.com/njulgh" rel="me"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	<a href="https://github.com/arloor" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://t.me/popstary" rel="me"><i class="fab fa-telegram fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	<a href="mailto:admin@arloor.com" rel="me"><i class="fas fa-at fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+</section>
+
+      </div>
+    </div>
+    
+<div class="copyright">
+  &copy; 2024 arloor
+  
+    <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>
+  
+</div>
+
+
+<div class="builtwith">
+Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.com/htr3n/hyde-hyde">hyde-hyde</a>.
+</div>
+
+
+  </div>
+</div>
+        <div class="content container">
+            
+    
+<article>
+  <header>
+    <h1>玩转VPS与centos 7</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> Mar 4, 2019
+    
+    
+    
+      
+      
+          in
+          
+          
+              <a class="badge badge-category" href="/categories/linux">LINUX</a>
+              
+          
+      
+    
+    
+    
+      
+      
+          <br/>
+           <i class="fas fa-tags"></i>
+          
+          <a class="badge badge-tag" href="/tags/linux">linux</a>
+          
+      
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 8 min read
+</div>
+
+
+  </header>
+  
+  
+  
+    <div class="toc-wrapper">
+      <input type="checkbox" id="tocToggle">
+      <label for="tocToggle">Table of Content</label>
+      
+          <nav id="TableOfContents"></nav>
+      
+    </div>
+  
+  
+  <div class="post">
+    <p>多年以后，我又开始整vps了，学了三年，也知道怎么整linux了。个人使用的是搬瓦工 DC6 CN2 GIA 机房的vps。<a href="https://bwh88.net/aff.php?aff=11132&amp;pid=87">购买链接</a></p>
+<blockquote>
+<p>搬瓦工 DC6 CN2 GIA 机房，编号为 USCA_6，使用中国电信优先级最高的 CN2 GIA 线路，中国电信、中国联通、中国移动三网去程回程全部走 CN2 GIA，线路质量非常好，可以说是等级最高的国际出口。经过测试，去程和回程都使用中国电信提供的cn2 GIA线路，个人使用十分满意</p>
+</blockquote>
+<h1 id="上传ssh公钥开启免密登陆">上传ssh公钥开启免密登陆</h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir /root/.ssh
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#上传我的公钥（你们别用我的公钥。如果不小心用了，麻烦告诉我IP😝）</span>
+</span></span><span style="display:flex;"><span>echo ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDZQzKHfZLlFEdaRUjfSK4twhL0y7+v23Ko4EI1nl6E1/zYqloSZCH3WqQFLGA7gnFlqSAfEHgCdD/4Ubei5a49iG0KSPajS6uPkrB/eiirTaGbe8oRKv2ib4R7ndbwdlkcTBLYFxv8ScfFQv6zBVX3ywZtRCboTxDPSmmrNGb2nhPuFFwnbOX8McQO5N4IkeMVedUlC4w5//xxSU67i1i/7kZlpJxMTXywg8nLlTuysQrJHOSQvYHG9a6TbL/tOrh/zwVFbBS+kx7X1DIRoeC0jHlVJSSwSfw6ESrH9JW71cAvn6x6XjjpGdQZJZxpnR1NTiG4Q5Mog7lCNMJjPtwJ not@home &gt; /root/.ssh/authorized_keys
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#关闭密码登陆</span>
+</span></span><span style="display:flex;"><span>sed -i <span style="color:#e6db74">&#34;s/PasswordAuthentication yes/PasswordAuthentication no/g&#34;</span> /etc/ssh/sshd_config
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#关闭GSSAPI认证登陆</span>
+</span></span><span style="display:flex;"><span>sed -i <span style="color:#e6db74">&#34;s/GSSAPIAuthentication yes/GSSAPIAuthentication no/g&#34;</span> /etc/ssh/sshd_config
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#关闭UseDNS(解决ssh缓慢)</span>
+</span></span><span style="display:flex;"><span>temp<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>cat /etc/ssh/sshd_config|grep <span style="color:#e6db74">&#34;UseDNS&#34;</span>|grep -v <span style="color:#e6db74">&#34;#&#34;</span><span style="color:#66d9ef">)</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span>$temp<span style="color:#e6db74">&#34;</span> !<span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span> <span style="color:#f92672">]</span>;<span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span> sed -i <span style="color:#e6db74">&#34;s/UseDNS.*/UseDNS no/g&#34;</span> /etc/ssh/sshd_config
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span> echo &gt;&gt; /etc/ssh/sshd_config
+</span></span><span style="display:flex;"><span> echo UseDNS no &gt;&gt; /etc/ssh/sshd_config
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 检查UseDNS确实被关闭</span>
+</span></span><span style="display:flex;"><span>cat /etc/ssh/sshd_config|grep UseDNS
+</span></span><span style="display:flex;"><span>service sshd restart
+</span></span></code></pre></div><h1 id="监控网卡累计流量">监控网卡累计流量</h1>
+<pre tabindex="0"><code>cat &gt; /usr/local/bin/netsum &lt;&lt; \EOF
+echo &#34;&#34;
+echo Time: $(date)
+cat /proc/uptime| awk -F. &#39;{run_days=$1 / 86400;run_hour=($1 % 86400)/3600;run_minute=($1 % 3600)/60;run_second=$1 % 60;printf(&#34;uptime：\033[32m%d天%d时%d分%d秒\033[0m\n&#34;,run_days,run_hour,run_minute,run_second)}&#39;
+echo &#34;--------------------------------------------------------------------------&#34; 
+cat /proc/net/dev|tail -n +3|awk &#39;BEGIN{sumIn=0;sumOut=0;printf(&#34;流量累计使用情况：\n%6s %9s %9s\n&#34;,&#34;eth&#34;,&#34;out&#34;,&#34;in&#34;)} {eth=$1;sumIn+=$2;sumOut+=$10;xin=$2 / 1073741824;xout=$10 / 1073741824;printf(&#34;%6s \033[32m%7.2fGB\033[0m \033[32m%7.2fGB\033[0m\n&#34;,eth,xout,xin)} END{printf(&#34;%6s \033[32m%7.2fGB\033[0m \033[32m%7.2fGB\033[0m\n&#34;,&#34;sum:&#34;,sumOut / 1073741824,sumIn / 1073741824)}&#39;
+echo &#34;--------------------------------------------------------------------------&#34;
+EOF
+chmod +x /usr/local/bin/netsum
+if ! grep &#34;/usr/local/bin/netsum&#34; /etc/crontab &gt; /dev/null; 
+then 
+  echo &#34;* * * * * root /usr/local/bin/netsum &gt; /etc/motd&#34; &gt;&gt; /etc/crontab; 
+else 
+  echo 已设置定时任务; 
+fi
+</code></pre><p>效果如下</p>
+<pre tabindex="0"><code>
+Time: Wed Apr 13 01:52:27 CST 2022
+uptime：40天6时9分42秒
+--------------------------------------------------------------------------
+流量累计使用情况：
+   eth       out        in
+   lo:    0.11GB    0.11GB
+ eth0:  152.35GB  150.13GB
+ eth1:    0.06GB    0.00GB
+  sum:  152.52GB  150.25GB
+--------------------------------------------------------------------------
+</code></pre><h1 id="安装python37">安装python3.7</h1>
+<p>centos7默认只有python2.7，并且没有安装pip。我要装python3以及pip3。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>yum install -y zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel gcc make libffi-devel
+</span></span><span style="display:flex;"><span>wget https://www.python.org/ftp/python/3.7.0/Python-3.7.0.tgz
+</span></span><span style="display:flex;"><span>tar -zxvf Python-3.7.0.tgz
+</span></span><span style="display:flex;"><span>cd Python-3.7.0
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#进入解压后的目录，依次执行下面命令进行手动编译</span>
+</span></span><span style="display:flex;"><span>./configure prefix<span style="color:#f92672">=</span>/usr/local/python3 
+</span></span><span style="display:flex;"><span>make <span style="color:#f92672">&amp;&amp;</span> make install
+</span></span><span style="display:flex;"><span>ln -s /usr/local/python3/bin/python3.7 /usr/bin/py3
+</span></span><span style="display:flex;"><span>ln -s /usr/local/python3/bin/pip3.7 /usr/bin/pip3
+</span></span><span style="display:flex;"><span>py3 -V
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Python 3.7.0</span>
+</span></span></code></pre></div><blockquote>
+<p>PS:如果创建的软连接是到/usr/bin/python，则需要执行以下脚本，来修复yum</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>vi /usr/bin/yum 
+</span></span><span style="display:flex;"><span>把 <span style="color:#75715e">#! /usr/bin/python 修改为 #! /usr/bin/python2 </span>
+</span></span><span style="display:flex;"><span>vi /usr/libexec/urlgrabber-ext-down 
+</span></span><span style="display:flex;"><span>把 <span style="color:#75715e">#! /usr/bin/python 修改为 #! /usr/bin/python2</span>
+</span></span></code></pre></div><h1 id="一键安装shadowsocks-libev">一键安装shadowsocks-libev</h1>
+<p>在研究了安卓VPN的实现之后，发现我的<a href="http://github.com/arloor/HttpProxy">HttpProxy</a>跟安卓VPN根本不是一回事，基本不可能有安卓客户端了。而shadowsocks安卓所采用的tun2socks+shadowsocks-libev这种模式很现代。所以给自己的centos也装上shadowsocks了。</p>
+<p>shadowsocks有很多版本，我选择shadowsocks-libev，全功能且内存占用真的少，C语言省内存啊。</p>
+<pre tabindex="0"><code>wget --no-check-certificate -O shadowsocks-libev.sh https://raw.githubusercontent.com/arloor/shadowsocks_install/master/shadowsocks-libev.sh
+chmod +x shadowsocks-libev.sh
+./shadowsocks-libev.sh 2&gt;&amp;1 | tee shadowsocks-libev.log
+</code></pre><p>安装完成后，可以使用<code>service shadowsocks status</code>查看状态，ss的配置文件在<code>/etc/shadowsocks-libev/config.json</code></p>
+<p>卸载如下：</p>
+<pre tabindex="0"><code>./shadowsocks-libev.sh uninstall
+</code></pre><p><strong>使用systemd管理shadowsocks服务</strong></p>
+<p>上面的脚本安装后ss由init.d管理，下面的脚本则将其转交给systemd管理(centos7 已测试通过)</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span> wget --no-check-certificate -O systemd.sh https://raw.githubusercontent.com/arloor/shadowsocks_install/master/systemd.sh
+</span></span><span style="display:flex;"><span>chmod +x systemd.sh
+</span></span><span style="display:flex;"><span>./systemd.sh
+</span></span></code></pre></div><p>以后即可使用service ss xxx管理shadowsocks了。</p>
+<h1 id="docker-安装ss-libev">docker 安装ss-libev</h1>
+<p>先安装docker</p>
+<pre tabindex="0"><code># 安装相关依赖
+yum install -y yum-utils \
+  device-mapper-persistent-data \
+  lvm2
+# 设置docker源
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+# 安装docker 
+yum -y install docker-ce
+# 开机自启动docker服务
+systemctl enable docker
+service docker start
+# 拉取镜像并运行
+passwd=xxxx ; port=8388   #改成你的密码和端口
+# 加密协议默认为支持AEAD的aes-256-gcm
+
+docker run -e PASSWORD=$passwd -p $port:8388 -p $port:8388/udp -d --name ss --restart always shadowsocks/shadowsocks-libev
+ip=`wget -qO- http://whatismyip.akamai.com`
+echo &#34;配置信息: 服务器地址：$ip  端口：$port 密码：$passwd 加密协议：aes-256-gcm&#34;
+</code></pre><p>这样就以aes-256-gcm运行了ss-libev。详细参数见：<a href="https://github.com/shadowsocks/shadowsocks-libev/blob/master/docker/alpine/README.md">docker镜像README</a></p>
+<h1 id="centos-7升级内核开启bbr">centos 7升级内核，开启bbr</h1>
+<p>一键完成：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
+</span></span><span style="display:flex;"><span>rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-2.el7.elrepo.noarch.rpm
+</span></span><span style="display:flex;"><span>yum --disablerepo<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;*&#34;</span> --enablerepo<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;elrepo-kernel&#34;</span> list available
+</span></span><span style="display:flex;"><span>yum --enablerepo<span style="color:#f92672">=</span>elrepo-kernel install -y kernel-ml  <span style="color:#75715e">#以后升级也是执行这句</span>
+</span></span><span style="display:flex;"><span>awk -F<span style="color:#ae81ff">\&#39;</span> <span style="color:#e6db74">&#39;$1==&#34;menuentry &#34; {print $2}&#39;</span> /etc/grub2.cfg
+</span></span><span style="display:flex;"><span>sed -i <span style="color:#e6db74">&#34;s/GRUB_DEFAULT.*/GRUB_DEFAULT=0/g&#34;</span> /etc/default/grub
+</span></span><span style="display:flex;"><span>cat /etc/default/grub|grep GRUB_DEFAULT
+</span></span><span style="display:flex;"><span>grub2-mkconfig -o /boot/grub2/grub.cfg
+</span></span><span style="display:flex;"><span>reboot
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#重启后</span>
+</span></span><span style="display:flex;"><span>uname -r  <span style="color:#75715e">##输出内核版本大于4.9</span>
+</span></span><span style="display:flex;"><span>echo net.core.default_qdisc<span style="color:#f92672">=</span>fq &gt;&gt; /etc/sysctl.conf
+</span></span><span style="display:flex;"><span>echo net.ipv4.tcp_congestion_control<span style="color:#f92672">=</span>bbr &gt;&gt; /etc/sysctl.conf
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># sed -i &#34;s/pfifo_fast/fq/g&#34; /proc/sys/net/core/default_qdisc</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># sed -i &#34;s/cubic/bbr/g&#34; /proc/sys/net/ipv4/tcp_congestion_control</span>
+</span></span><span style="display:flex;"><span>sysctl -p
+</span></span><span style="display:flex;"><span>lsmod |grep bbr
+</span></span></code></pre></div><p>分部解析：</p>
+<p><strong>1.查看当前linux内核</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>uname -r
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 3.10.0-514.el7.x86_64</span>
+</span></span><span style="display:flex;"><span>cat /etc/redhat-release 
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># CentOS Linux release 7.3.1611 (Core)</span>
+</span></span></code></pre></div><p><strong>2.启用ELRepo库</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
+</span></span><span style="display:flex;"><span>rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-2.el7.elrepo.noarch.rpm
+</span></span></code></pre></div><p><strong>3.列出相关内核包</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>yum --disablerepo<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;*&#34;</span> --enablerepo<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;elrepo-kernel&#34;</span> list available
+</span></span></code></pre></div><p><img src="/img/kernels.png" alt=""></p>
+<p><strong>4.安装新内核</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>yum --enablerepo<span style="color:#f92672">=</span>elrepo-kernel install kernel-ml  <span style="color:#75715e">#以后升级也是执行这句</span>
+</span></span></code></pre></div><p><strong>5.检查现在可以用于启动得内核列表</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>awk -F<span style="color:#ae81ff">\&#39;</span> <span style="color:#e6db74">&#39;$1==&#34;menuentry &#34; {print $2}&#39;</span> /etc/grub2.cfg
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># CentOS Linux (5.0.5-1.el7.elrepo.x86_64) 7 (Core)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># CentOS Linux (3.10.0-957.10.1.el7.x86_64) 7 (Core)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># CentOS Linux (3.10.0-957.5.1.el7.x86_64) 7 (Core)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># CentOS Linux (3.10.0-957.el7.x86_64) 7 (Core)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># CentOS Linux (0-rescue-20190215172108590907433256076310) 7 (Core)</span>
+</span></span></code></pre></div><p>由上面可以看出新内核(5.0.5)目前位置在0，原来的内核(3.10.0)目前位置在1，所以如果想生效最新的内核，还需要我们修改内核的启动顺序为0</p>
+<p><strong>6.设置默认启动内核为刚安装得内核</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>vim /etc/default/grub
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>GRUB_TIMEOUT<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>
+</span></span><span style="display:flex;"><span>GRUB_DISTRIBUTOR<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>sed <span style="color:#e6db74">&#39;s, release .*$,,g&#39;</span> /etc/system-release<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>GRUB_DEFAULT<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>GRUB_DISABLE_SUBMENU<span style="color:#f92672">=</span>true
+</span></span><span style="display:flex;"><span>GRUB_TERMINAL_OUTPUT<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;console&#34;</span>
+</span></span><span style="display:flex;"><span>GRUB_CMDLINE_LINUX<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;crashkernel=auto rhgb quiet&#34;</span>
+</span></span><span style="display:flex;"><span>GRUB_DISABLE_RECOVERY<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;true&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 设置 GRUB_DEFAULT=0, 意思是 GRUB 初始化页面的第一个内核将作为默认内核</span>
+</span></span></code></pre></div><p><strong>7.重新生成grub-config，并使用新内核重启</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>grub2-mkconfig -o /boot/grub2/grub.cfg
+</span></span><span style="display:flex;"><span>reboot
+</span></span></code></pre></div><p>现在就可以使用uname命令查看内核了</p>
+<p><strong>8.开启bbr很简单：</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>uname -r  <span style="color:#75715e">##输出内核版本大于4.9</span>
+</span></span><span style="display:flex;"><span>echo net.core.default_qdisc<span style="color:#f92672">=</span>fq &gt;&gt; /etc/sysctl.conf
+</span></span><span style="display:flex;"><span>echo net.ipv4.tcp_congestion_control<span style="color:#f92672">=</span>bbr &gt;&gt; /etc/sysctl.conf
+</span></span><span style="display:flex;"><span>sysctl -p
+</span></span><span style="display:flex;"><span>lsmod |grep bbr
+</span></span></code></pre></div><h1 id="配置防火墙">配置防火墙</h1>
+<p>据说centos7默认使firewalld作为防火墙，但是我装了两个centos7都是使用的iptables。现在也比较喜欢iptables，当初配iptables死活都不通。。</p>
+<p>安装iptables-services，这样就可以用service iptables xx来控制iptables了</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>service firewalld stop
+</span></span><span style="display:flex;"><span>systemctl disable firewalld
+</span></span><span style="display:flex;"><span>yum -y install iptables-services
+</span></span><span style="display:flex;"><span>systemctl enable iptables
+</span></span><span style="display:flex;"><span>service iptables save <span style="color:#75715e">#先保存当前（空）的iptables规则</span>
+</span></span><span style="display:flex;"><span>systemctl start iptables
+</span></span></code></pre></div><p>配置filter表，用于设置INPUT、FORWARD、OUTPUT链，总之就是，开放ssh服务、httpd服务等等需要开放的端口，关闭其他一切</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>iptables -A INPUT -p tcp --dport <span style="color:#ae81ff">22</span> -j ACCEPT  <span style="color:#75715e">#开启tcp 22端口的读</span>
+</span></span><span style="display:flex;"><span>iptables -A INPUT -p tcp --dport <span style="color:#ae81ff">80</span> -j ACCEPT  <span style="color:#75715e">#开启tcp 80端口的读</span>
+</span></span><span style="display:flex;"><span>iptables -A INPUT -p tcp --dport <span style="color:#ae81ff">8099</span> -j ACCEPT <span style="color:#75715e">#开启tcp 8099端口的读</span>
+</span></span><span style="display:flex;"><span>iptables -A INPUT -p udp --dport <span style="color:#ae81ff">8099</span> -j ACCEPT <span style="color:#75715e">#开启udp 8099端口的读</span>
+</span></span><span style="display:flex;"><span>iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT <span style="color:#75715e"># 允许所以已建立连接（这个有点关键）</span>
+</span></span><span style="display:flex;"><span>iptables -A INPUT -i lo -j ACCEPT  <span style="color:#75715e"># 允许所有本地</span>
+</span></span><span style="display:flex;"><span>iptables -A INPUT -p icmp -j ACCEPT <span style="color:#75715e">#允许ping</span>
+</span></span><span style="display:flex;"><span>iptables --policy INPUT DROP <span style="color:#75715e">#除了以上允许的,设置默认阻止所有读，这个最后再做哦</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#或者最后增加这个</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># iptables -A INPUT -j REJECT --reject-with icmp-host-prohibited #最后做啊</span>
+</span></span></code></pre></div><p>最后service iptables restart，就生效了。可以执行<code>service iptables save</code></p>
+<p>顺便提一下，docker映射到宿主机的端口不需要在iptables中开放，因为docker服务自己对iptables做了修改，将相关的请求转发到了docker虚拟出来的网卡中。也因为docker的自动修改，如果重启iptables，将丢失这部分修改，导致docker容器运行异常，此时只能重启docker服务了。所以如果运行了docker，就不要贸然地stop iptables服务啦。</p>
+<h1 id="安装jdk8">安装jdk8</h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget --no-check-certificate --no-cookies --header <span style="color:#e6db74">&#34;Cookie: oraclelicense=accept-securebackup-cookie&#34;</span> http://download.oracle.com/otn-pub/java/jdk/8u131-b11/d54c1d3a095b4ff2b6607d096fa80163/jdk-8u131-linux-x64.rpm
+</span></span><span style="display:flex;"><span>rpm -ivh jdk-8u131-linux-x64.rpm
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>wget http://cdn.arloor.com/jdk/jdk8.rpm -O jdk8.rpm
+</span></span><span style="display:flex;"><span>rpm -ivh jdk8.rpm
+</span></span><span style="display:flex;"><span>rm -f jdk8.rpm
+</span></span></code></pre></div><h1 id="设置时区">设置时区</h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 查看事件设置信息</span>
+</span></span><span style="display:flex;"><span>timedatectl status
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#Local time: 四 2014-12-25 10:52:10 CST</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#Universal time: 四 2014-12-25 02:52:10 UTC</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#RTC time: 四 2014-12-25 02:52:10</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#Timezone: Asia/Shanghai (CST, +0800)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#NTP enabled: yes</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#NTP synchronized: yes</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#RTC in local TZ: no</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#DST active: n/a</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>timedatectl list-timezones <span style="color:#75715e"># 列出所有时区</span>
+</span></span><span style="display:flex;"><span>timedatectl set-local-rtc <span style="color:#ae81ff">1</span> <span style="color:#75715e"># 将硬件时钟调整为与本地时钟一致, 0 为设置为 UTC 时间</span>
+</span></span><span style="display:flex;"><span>timedatectl set-timezone Asia/Shanghai <span style="color:#75715e"># 设置系统时区为上海</span>
+</span></span></code></pre></div><h1 id="设置ddns">设置ddns</h1>
+<p>nat vps的特点是ip地址会改变，有个需求就是设置ddns，当nat的公网ip改变时，就更新域名解析。</p>
+<p>从一个网址fork了一个脚本，修改了一下。</p>
+<p>原理说明，定时调用DNSPOD（腾讯云）的api，更新DNSPOD（腾讯云）中的域名解析记录。</p>
+<p>因此，要满足如下3个前提条件：</p>
+<ul>
+<li>有一个域名在DNSPOD（腾讯云）腾讯云中解析</li>
+<li>登陆DNSPOD后台，增加一个token</li>
+<li>新建一个A记录，例如xxx.arloor.com 指向 127.0.0.1，之后这个A记录就会定时地被脚本修改（如果不做这个，会失败）</li>
+</ul>
+<p>其中提到的token和A记录会需要写进dns.conf中，下面是如何在nat vps上部署这个脚本：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl status crond
+</span></span><span style="display:flex;"><span>systemctl enable crond
+</span></span><span style="display:flex;"><span>systemctl restart crond
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sudo su
+</span></span><span style="display:flex;"><span>cd /usr/local
+</span></span><span style="display:flex;"><span>git clone https://github.com/arloor/ddnspod.git
+</span></span><span style="display:flex;"><span>cd ddnspod
+</span></span><span style="display:flex;"><span>cp dns.conf.example dns.conf
+</span></span><span style="display:flex;"><span>vi dns.conf  <span style="color:#75715e">#编辑dns.conf</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ---- arToken=&#34;8xx74,69a5fxxxxxxxxxxxxx75b0ecd1e&#34;  #修改为自己的</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ---- arDdnsCheck &#34;arloor.com&#34; &#34;xxx&#34;               #修改为自己的</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># --------------------------------------------------------------</span>
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;* * * * * root /usr/local/ddnspod/ddnspod.sh &amp;&gt;&gt; /root/ddns.log&#34;</span> &gt;&gt; /etc/crontab
+</span></span><span style="display:flex;"><span>cd 
+</span></span></code></pre></div><p>现在，每分钟会执行一次</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/usr/local/ddnspod/ddnspod.sh &amp;&gt;&gt; /root/ddns.log
+</span></span></code></pre></div><p>从而检查公网ip，自动修改A记录指向该nat机器的公网ip。可以通过<code>tailf /var/log/cron</code>命令查看crontab定时任务的运行情况。</p>
+<h1 id="三种开机自启动方式">三种开机自启动方式</h1>
+<p><strong>1.利用chkconfig xx on</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 1. 将脚本移动到/etc/rc.d/init.d目录下</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># mv  /opt/script/StartTomcat.sh /etc/rc.d/init.d</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 2. 增加脚本的可执行权限</span>
+</span></span><span style="display:flex;"><span>chmod +x  /etc/rc.d/init.d/StartTomcat.sh
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 3. 添加脚本到开机自动启动项目中</span>
+</span></span><span style="display:flex;"><span>cd /etc/rc.d/init.d
+</span></span><span style="display:flex;"><span>chkconfig --add StartTomcat.sh
+</span></span><span style="display:flex;"><span>chkconfig StartTomcat.sh on
+</span></span></code></pre></div><p><strong>2.编辑/etc/rc.d/rc.loacl</strong></p>
+<pre tabindex="0"><code>echo &#34;command&#34; &gt;&gt; /etc/rc.d/rc.local
+chmod +x /etc/rc.d/rc.local
+</code></pre><p><strong>3.使用systemd编写服务(推荐)</strong></p>
+<p>见<a href="/posts/linux/systemd/">Systemd服务文件编写-centos7下</a></p>
+<h1 id="测试vps回程路由">测试vps回程路由</h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>yum install -y unzip wget
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cd /usr/local
+</span></span><span style="display:flex;"><span>mkdir trace
+</span></span><span style="display:flex;"><span>cd trace
+</span></span><span style="display:flex;"><span>wget https://cdn.ipip.net/17mon/besttrace4linux.zip
+</span></span><span style="display:flex;"><span>unzip besttrace4linux.zip
+</span></span><span style="display:flex;"><span>chmod +x besttrace
+</span></span><span style="display:flex;"><span>rm -f besttrace4linux.zip
+</span></span><span style="display:flex;"><span>cd
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ln -fs /usr/local/trace/besttrace /usr/local/bin/trace
+</span></span><span style="display:flex;"><span>trace arloor.com
+</span></span></code></pre></div><h1 id="流量转发">流量转发</h1>
+<pre tabindex="0"><code>wget -qO natcfg.sh https://raw.githubusercontent.com/arloor/iptablesUtils/master/natcfg.sh &amp;&amp; bash natcfg.sh
+</code></pre><p>支持到ddns和静态域名的iptables转发</p>
+<h1 id="搭建网速测试网站">搭建网速测试网站</h1>
+<p>先安装docker</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>yum install -y wget
+</span></span><span style="display:flex;"><span>wget -qO- https://get.docker.com/|bash
+</span></span><span style="display:flex;"><span>systemctl enable docker
+</span></span><span style="display:flex;"><span>systemctl start docker
+</span></span><span style="display:flex;"><span>docker run -d --restart always --name  speedtest -p 0.0.0.0:80:80 arloor/speedtest:latest
+</span></span></code></pre></div><p>或者，自己构建镜像：</p>
+<p>拉取speedtest镜像并运行</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cd 
+</span></span><span style="display:flex;"><span>git clone -b docker https://github.com/adolfintel/speedtest.git
+</span></span><span style="display:flex;"><span>cd speedtest
+</span></span><span style="display:flex;"><span>docker build -t arloor/speedtest:latest .
+</span></span><span style="display:flex;"><span>docker run -d --restart always --name  speedtest -p 0.0.0.0:80:80 arloor/speedtest:latest
+</span></span><span style="display:flex;"><span>cd 
+</span></span></code></pre></div><p>现在就可以访问 http://ip:80 测速了。参见<a href="https://github.com/adolfintel/speedtest/tree/docker">speedtest项目</a></p>
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/posts/learn/spider-system-design/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">针对热点问题的网络舆情爬取系统</span>
+    </a>
+    
+    
+    <a href="/posts/learn/rabbitmq-learn/" class="navigation-next">
+      <span class="navigation-tittle">RabbitMQ的使用</span>
+      <i aria-hidden="true" class="fa fa-chevron-right"></i>
+    </a>
+    
+</div>
+
+
+  
+
+  
+
+
+</article>
+
+
+        </div>
+        
+    
+
+
+
+<script defer src="/js/all.js" integrity="sha384-ZbbbT1gw3joYkKRqh0kWyRp32UAvdqkpbLedQJSlnI8iLQcFVxaGyrOgOJiDQTTR" crossorigin="anonymous"></script>
+
+
+    
+    
+    
+    <script src="/js/highlight.min.js"></script>
+        
+    <script type="text/javascript">
+        
+        hljs.initHighlightingOnLoad();
+    </script>
+    
+
+
+
+
+    
+
+
+
+    </body>
+</html>

@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    
+    <link rel="canonical" href="https://www.arloor.com/posts/what-ddd/">
+    
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.134.3">
+
+    
+    
+    
+
+<title>领域驱动设计 • ARLOOR</title>
+<meta name="description" content="今天，你学习了吗">
+<meta name="keywords" content="刘港欢, arloor, moontell">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="领域驱动设计">
+  <meta name="twitter:description" content="为什么要搞领域驱动设计 传统的软件开发模式有结构化设计，以数据为中心设计，面向对象设计。
+结构化设计：面向流程，面向过程的设计。先做A，再做B，最后做C。由过程之间的组合完成整体的系统功能 以数据为中心设计：先设计数据库ER图，然后再进行设计。持久化数据在软件应用中加工组合修改，反馈给用户，修改持久化到数据库。 面向对象设计：抽象出对象这个概念，使其在数据属性外增加职责。由对象之间协作完成整体的系统功能。 软件是对现实的模拟。软件设计的这种演进，归根结底原因是现在的软件所要模拟的现实越来越复杂，导致软件也越来越复杂。">
+      <meta name="twitter:site" content="@njulgh">
+
+<meta property="og:url" content="https://www.arloor.com/posts/what-ddd/">
+  <meta property="og:site_name" content="ARLOOR">
+  <meta property="og:title" content="领域驱动设计">
+  <meta property="og:description" content="为什么要搞领域驱动设计 传统的软件开发模式有结构化设计，以数据为中心设计，面向对象设计。
+结构化设计：面向流程，面向过程的设计。先做A，再做B，最后做C。由过程之间的组合完成整体的系统功能 以数据为中心设计：先设计数据库ER图，然后再进行设计。持久化数据在软件应用中加工组合修改，反馈给用户，修改持久化到数据库。 面向对象设计：抽象出对象这个概念，使其在数据属性外增加职责。由对象之间协作完成整体的系统功能。 软件是对现实的模拟。软件设计的这种演进，归根结底原因是现在的软件所要模拟的现实越来越复杂，导致软件也越来越复杂。">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2021-05-14T10:39:49+08:00">
+    <meta property="article:modified_time" content="2021-05-14T10:39:49+08:00">
+    <meta property="article:tag" content="Undefined">
+
+
+    
+
+
+
+
+
+<link rel="stylesheet" href="/styles/atom-one-dark.min.css">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.e0a163f994ccd5fb78b6074545c7e4cff283ba9948b7915f691d5c0f5459ba9c.css" integrity="sha256-4KFj&#43;ZTM1ft4tgdFRcfkz/KDuplIt5FfaR1cD1RZupw=">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+
+<link rel="stylesheet" href="/scss/hugo-toc.0873834b0f2e9fdc9e1d0301e8ebce21fc10383882a41e9373f29b90e85a9987.css" integrity="sha256-CHODSw8un9yeHQMB6OvOIfwQODiCpB6Tc/KbkOhamYc=">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="/favicon.png">
+    
+    
+
+</head>
+
+
+    <body class=" ">
+    
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="https://www.arloor.com/">
+          
+          ARLOOR
+          
+        </a>
+      </span>
+      <a href="https://www.arloor.com/">
+        
+        
+        
+        
+        <div class="author-image">
+          <img src="https://www.arloor.com/img/head.jpeg" alt="Author Image" class="img--circle img--headshot element--center">
+        </div>
+        
+        
+      </a>
+      
+      <p class="site__description">
+         都是瞎写的 
+      </p>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">ARLOOR</label>
+      <div class="menu-content">
+        <div class="show-in-small">
+          <a href="https://www.arloor.com/">
+            
+            
+            
+            
+            <div class="author-image">
+              <img src="https://www.arloor.com/img/head.jpeg" alt="Author Image" class="img--circle img--headshot element--center">
+            </div>
+            
+            
+          </a>
+        </div>
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/posts/">
+						<span>文章</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/tags/">
+						<span>分类</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/about/">
+						<span>关于我</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/speed">
+						<span>网速监控</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="http://beian.miit.gov.cn/">
+						<span>苏ICP备17024437号</span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://twitter.com/njulgh" rel="me"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	<a href="https://github.com/arloor" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://t.me/popstary" rel="me"><i class="fab fa-telegram fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	<a href="mailto:admin@arloor.com" rel="me"><i class="fas fa-at fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+</section>
+
+      </div>
+    </div>
+    
+<div class="copyright">
+  &copy; 2024 arloor
+  
+    <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>
+  
+</div>
+
+
+<div class="builtwith">
+Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.com/htr3n/hyde-hyde">hyde-hyde</a>.
+</div>
+
+
+  </div>
+</div>
+        <div class="content container">
+            
+    
+<article>
+  <header>
+    <h1>领域驱动设计</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> May 14, 2021
+    
+    
+    
+      
+      
+          in
+          
+          
+              <a class="badge badge-category" href="/categories/undefined">UNDEFINED</a>
+              
+          
+      
+    
+    
+    
+      
+      
+          <br/>
+           <i class="fas fa-tags"></i>
+          
+          <a class="badge badge-tag" href="/tags/undefined">undefined</a>
+          
+      
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 4 min read
+</div>
+
+
+  </header>
+  
+  
+  
+    <div class="toc-wrapper">
+      <input type="checkbox" id="tocToggle">
+      <label for="tocToggle">Table of Content</label>
+      
+          <nav id="TableOfContents">
+  <ul>
+    <li><a href="#为什么要搞领域驱动设计">为什么要搞领域驱动设计</a></li>
+    <li><a href="#如何进行领域驱动设计">如何进行领域驱动设计</a>
+      <ul>
+        <li><a href="#限界上下文">限界上下文</a></li>
+        <li><a href="#实体和值对象">实体和值对象</a></li>
+        <li><a href="#聚合和聚合根">聚合和聚合根</a></li>
+        <li><a href="#领域事件">领域事件</a></li>
+        <li><a href="#领域服务">领域服务</a></li>
+        <li><a href="#应用服务">应用服务</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+      
+    </div>
+  
+  
+  <div class="post">
+    <h2 id="为什么要搞领域驱动设计">为什么要搞领域驱动设计</h2>
+<p>传统的软件开发模式有结构化设计，以数据为中心设计，面向对象设计。</p>
+<ul>
+<li>结构化设计：面向流程，面向过程的设计。先做A，再做B，最后做C。由过程之间的组合完成整体的系统功能</li>
+<li>以数据为中心设计：先设计数据库ER图，然后再进行设计。持久化数据在软件应用中加工组合修改，反馈给用户，修改持久化到数据库。</li>
+<li>面向对象设计：抽象出对象这个概念，使其在数据属性外增加职责。由对象之间协作完成整体的系统功能。</li>
+</ul>
+<p>软件是对现实的模拟。软件设计的这种演进，归根结底原因是现在的软件所要模拟的现实越来越复杂，导致软件也越来越复杂。</p>
+<p>面向对象设计有很多原则：单一职责、面向接口等等。好像符合了这些原则就是面向对象设计一样。其实不然，我们设计的时候总是降级成以数据为中心设计，最后把高内聚低耦合什么的都抛弃了，最终导致这些原则也不能很好的遵守。也就不是面向对象设计了。</p>
+<p>很多人说领域驱动设计是划分微服务的好办法，其实应该说领域驱动设计的事件风暴、领域、子域、领域通用语言、限界上下文这些，能很好地进行微服务划分。总之不要说领域驱动设计是微服务中的一个概念，也不是为了微服务而要搞领域驱动设计，而是为了实现面向对象设计。我认为领域驱动设计其实就是如何进行面向对象设计的一种实践。</p>
+<p>我们简单看看领域驱动设计定了哪些规范，让我们不得不遵守面向对象的一些原则：</p>
+<ul>
+<li>以领域层为核心，而非以数据库层为代表的基础层为核心。将软件应用的核心从数据设计这个底层，移动到领域相关的抽象中，从而脱离数据库设计对软件设计的牵制。以数据为中心向以领域为中心的变化，从而实现面向对象设计</li>
+<li>聚合：多个实体和值对象生成的具有单一职责的集合，类似生物上多个细胞形成有功能的组织的原理。每个聚合都有自己的单一职责。规范上要求你定义聚合，强制实现单一职责。</li>
+</ul>
+<h2 id="如何进行领域驱动设计">如何进行领域驱动设计</h2>
+<p>我看领域驱动的目的不是为了划分微服务，不是为了划分业务子系统，首先自己目前是基础架构相关的工作，工作中也没有很复杂的业务系统，更多的是关注领域驱动设计在软件单体上的实践，如何进行设计，如何组织代码。</p>
+<p>我们先来关注领域驱动设计的一般过程</p>
+<p><img src="/img/3bb8915fd6e880d64e9029a1f8677473.jpeg" alt=""></p>
+<p>领域驱动设计是一个从发散到收敛的过程，首先先通过事件风暴找到系统中会出现的所有事件、实体——这是发散的部分。随后的收敛，就是通过实体之间的关系，先划分出聚合，再划分出领域。</p>
+<ol>
+<li>
+<p>第一步：在事件风暴中梳理业务过程中的用户操作、事件以及外部依赖关系等，根据这些要素梳理出领域实体等领域对象。</p>
+</li>
+<li>
+<p>第二步：根据领域实体之间的业务关联性，将业务紧密相关的实体进行组合形成聚合，同时确定聚合中的聚合根、值对象和实体。在这个图里，聚合之间的边界是第一层边界，它们在同一个微服务实例中运行，这个边界是逻辑边界，所以用虚线表示。</p>
+</li>
+<li>
+<p>第三步：根据业务及语义边界等因素，将一个或者多个聚合划定在一个限界上下文内，形成领域模型。在这个图里，限界上下文之间的边界是第二层边界，这一层边界可能就是未来微服务的边界，不同限界上下文内的领域逻辑被隔离在不同的微服务实例中运行，物理上相互隔离，所以是物理边界，边界之间用实线来表示。</p>
+</li>
+</ol>
+<p>以上就是进行领域驱动设计的简单步骤，有一些概念需要抽出来展开讲讲。</p>
+<h3 id="限界上下文">限界上下文</h3>
+<p>限界上下文就是领域的边界，英文为bounded context，“有边界的上下文”。上下文其实就是事物所处的环境，那么边界是什么呢？我们拿电商系统里的“派送员”为例。派送员所处的语义环境是在物流的上下文里，那么就是物流领域的实体，而不是商品领域的实体。</p>
+<h3 id="实体和值对象">实体和值对象</h3>
+<p>实体是具有唯一id的对象，而值对象是没有id的对象，值对象是不可变的。实体可以包含值对象。</p>
+<h3 id="聚合和聚合根">聚合和聚合根</h3>
+<p>多个实体和值对象生成的具有单一职责的集合，类似生物上多个细胞形成有功能的组织的原理。每个聚合都有自己的单一职责。</p>
+<p>由于聚合有多个对象，聚合根的作用会作为聚合的门面与外部进行交互，同时一个聚合对应一个仓储。由聚合根管理聚合的状态变化和状态持久化。</p>
+<h3 id="领域事件">领域事件</h3>
+<p>DDD定义了领域事件这一概念，围绕这一概念又有事件总线，事件接收等话题。其实只要理解到这只是为了保证我们使用发布订阅的模式在组织和使用领域服务和应用服务而已。在代码实现中，我们做的就是定义事件的基类，不同的事件再拓展事件基类，然后组织好事件的dispatch和accept，这样就实现好了发布订阅事件，而系统本身也可以称为是事件驱动的。</p>
+<h3 id="领域服务">领域服务</h3>
+<p>由领域内多个聚合协作实现的服务</p>
+<h3 id="应用服务">应用服务</h3>
+<p>由领域服务协作实现的服务</p>
+
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/posts/maven-central/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">Maven发布到中央仓库</span>
+    </a>
+    
+    
+    <a href="/posts/consistent-hashing/" class="navigation-next">
+      <span class="navigation-tittle">一致性hash</span>
+      <i aria-hidden="true" class="fa fa-chevron-right"></i>
+    </a>
+    
+</div>
+
+
+  
+
+  
+
+
+</article>
+
+
+        </div>
+        
+    
+
+
+
+<script defer src="/js/all.js" integrity="sha384-ZbbbT1gw3joYkKRqh0kWyRp32UAvdqkpbLedQJSlnI8iLQcFVxaGyrOgOJiDQTTR" crossorigin="anonymous"></script>
+
+
+    
+    
+    
+    <script src="/js/highlight.min.js"></script>
+        
+    <script type="text/javascript">
+        
+        hljs.initHighlightingOnLoad();
+    </script>
+    
+
+
+
+
+    
+
+
+
+    </body>
+</html>

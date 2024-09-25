@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Middleware on ARLOOR</title>
+    <link>https://www.arloor.com/tags/middleware/</link>
+    <description>Recent content in Middleware on ARLOOR</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Wed, 20 Apr 2022 14:18:04 +0800</lastBuildDate>
+    <atom:link href="https://www.arloor.com/tags/middleware/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Skywalking v8.9.1 源码阅读</title>
+      <link>https://www.arloor.com/posts/skywalking-codes-studying/</link>
+      <pubDate>Wed, 20 Apr 2022 14:18:04 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/skywalking-codes-studying/</guid>
+      <description>&lt;p&gt;skywalking搞了STAM流拓扑分析方法，具体见&lt;a href=&#34;https://github.com/wu-sheng/STAM/blob/master/README-cn.md&#34;&gt;README-cn.md&lt;/a&gt;，简单来说就是将上游的Service、Service Instance等信息放在下游span中，从而一个span就具有上游Service和下游Service的信息，从而直接聚合出一个依赖关系，避免了通过时间窗口聚合。&lt;/p&gt;&#xA;&lt;p&gt;这篇博客的内容是从STAM实现到skywalking的整体架构。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Skywalking v8.9.1文档学习</title>
+      <link>https://www.arloor.com/posts/skywalking-study/</link>
+      <pubDate>Tue, 19 Apr 2022 21:16:14 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/skywalking-study/</guid>
+      <description>&lt;p&gt;看看skywalking&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Zookeeper文档摘要</title>
+      <link>https://www.arloor.com/posts/zookeeper-learn/</link>
+      <pubDate>Sat, 07 Nov 2020 11:18:11 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/zookeeper-learn/</guid>
+      <description>&lt;p&gt;分布式共识一直以来是被广泛讨论的话题，每一个分布式系统都会涉及到“共识问题”——对某一个值或者状态达成共识。有些中间件（例如redis）自己写了分布式共识的实现方式，有些（例如kafka）则直接利用zookeeper或者etcd解决共识问题。在java的生态环境中，zookeeper是分布式共识的实际标准，这边博文就来了解下zookeeper相关的知识。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Jaeger学习</title>
+      <link>https://www.arloor.com/posts/learn/jaeger/</link>
+      <pubDate>Thu, 16 Jul 2020 17:45:02 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/learn/jaeger/</guid>
+      <description>&lt;p&gt;Jaeger是一个链路追踪系统，适合用于分布式的调用链路分析，服务依赖分析，性能和延迟优化。使用OpenTracing标准的语意和与其兼容的类库，使用灵活的抽样策略，支持多种后端存储（Cassandra, Elasticsearch, memory）&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>RabbitMQ的使用</title>
+      <link>https://www.arloor.com/posts/learn/rabbitmq-learn/</link>
+      <pubDate>Thu, 14 Mar 2019 21:19:06 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/learn/rabbitmq-learn/</guid>
+      <description>&lt;h1 id=&#34;rabbitmq-java-api使用demo&#34;&gt;rabbitmq java api使用demo&lt;/h1&gt;&#xA;&lt;p&gt;详情见github项目&lt;a href=&#34;https://github.com/arloor/rabbitmqdemo&#34;&gt;rabbitmqdemo&lt;/a&gt;&lt;/p&gt;&#xA;&lt;h1 id=&#34;在centos7上安装rabbitmq-3713&#34;&gt;在centos7上安装RabbitMQ 3.7.13&lt;/h1&gt;&#xA;&lt;p&gt;RabbitMQ是使用Erlang编写的消息中间件，因此首先需要安装Erlang，而且RabbitMQ与Erlang版本有着对应关系。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

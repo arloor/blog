@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    
+    <link rel="canonical" href="https://www.arloor.com/posts/wait-notify-and-condition/">
+    
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.134.3">
+
+    
+    
+    
+
+<title>Java wait/notify和condition • ARLOOR</title>
+<meta name="description" content="今天，你学习了吗">
+<meta name="keywords" content="刘港欢, arloor, moontell">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Java wait/notify和condition">
+  <meta name="twitter:description" content="以下全部来自jdk8的javaDoc。">
+      <meta name="twitter:site" content="@njulgh">
+
+<meta property="og:url" content="https://www.arloor.com/posts/wait-notify-and-condition/">
+  <meta property="og:site_name" content="ARLOOR">
+  <meta property="og:title" content="Java wait/notify和condition">
+  <meta property="og:description" content="以下全部来自jdk8的javaDoc。">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2020-06-11T10:59:36+08:00">
+    <meta property="article:modified_time" content="2020-06-11T10:59:36+08:00">
+    <meta property="article:tag" content="Java">
+
+
+    
+
+
+
+
+
+<link rel="stylesheet" href="/styles/atom-one-dark.min.css">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.e0a163f994ccd5fb78b6074545c7e4cff283ba9948b7915f691d5c0f5459ba9c.css" integrity="sha256-4KFj&#43;ZTM1ft4tgdFRcfkz/KDuplIt5FfaR1cD1RZupw=">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+
+<link rel="stylesheet" href="/scss/hugo-toc.0873834b0f2e9fdc9e1d0301e8ebce21fc10383882a41e9373f29b90e85a9987.css" integrity="sha256-CHODSw8un9yeHQMB6OvOIfwQODiCpB6Tc/KbkOhamYc=">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="/favicon.png">
+    
+    
+
+</head>
+
+
+    <body class=" ">
+    
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="https://www.arloor.com/">
+          
+          ARLOOR
+          
+        </a>
+      </span>
+      <a href="https://www.arloor.com/">
+        
+        
+        
+        
+        <div class="author-image">
+          <img src="https://www.arloor.com/img/head.jpeg" alt="Author Image" class="img--circle img--headshot element--center">
+        </div>
+        
+        
+      </a>
+      
+      <p class="site__description">
+         都是瞎写的 
+      </p>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">ARLOOR</label>
+      <div class="menu-content">
+        <div class="show-in-small">
+          <a href="https://www.arloor.com/">
+            
+            
+            
+            
+            <div class="author-image">
+              <img src="https://www.arloor.com/img/head.jpeg" alt="Author Image" class="img--circle img--headshot element--center">
+            </div>
+            
+            
+          </a>
+        </div>
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/posts/">
+						<span>文章</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/tags/">
+						<span>分类</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/about/">
+						<span>关于我</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/speed">
+						<span>网速监控</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="http://beian.miit.gov.cn/">
+						<span>苏ICP备17024437号</span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://twitter.com/njulgh" rel="me"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	<a href="https://github.com/arloor" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://t.me/popstary" rel="me"><i class="fab fa-telegram fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	<a href="mailto:admin@arloor.com" rel="me"><i class="fas fa-at fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+</section>
+
+      </div>
+    </div>
+    
+<div class="copyright">
+  &copy; 2024 arloor
+  
+    <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>
+  
+</div>
+
+
+<div class="builtwith">
+Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.com/htr3n/hyde-hyde">hyde-hyde</a>.
+</div>
+
+
+  </div>
+</div>
+        <div class="content container">
+            
+    
+<article>
+  <header>
+    <h1>Java wait/notify和condition</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> Jun 11, 2020
+    
+    
+    
+      
+      
+          in
+          
+          
+              <a class="badge badge-category" href="/categories/undefined">UNDEFINED</a>
+              
+          
+      
+    
+    
+    
+      
+      
+          <br/>
+           <i class="fas fa-tags"></i>
+          
+          <a class="badge badge-tag" href="/tags/java">java</a>
+          
+      
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 2 min read
+</div>
+
+
+  </header>
+  
+  
+  
+    <div class="toc-wrapper">
+      <input type="checkbox" id="tocToggle">
+      <label for="tocToggle">Table of Content</label>
+      
+          <nav id="TableOfContents">
+  <ul>
+    <li><a href="#object">Object</a></li>
+    <li><a href="#前置知识-monitor">前置知识-monitor</a></li>
+    <li><a href="#notify">notify</a></li>
+    <li><a href="#wait">wait</a></li>
+    <li><a href="#condition">Condition</a></li>
+  </ul>
+</nav>
+      
+    </div>
+  
+  
+  <div class="post">
+    <p>以下全部来自jdk8的javaDoc。</p>
+<h2 id="object">Object</h2>
+<h2 id="前置知识-monitor">前置知识-monitor</h2>
+<p>线程获取对象的monitor的三种方式</p>
+<ol>
+<li>调用对象的synchronized实例方法</li>
+<li>调用synchronized(obj)内的方法</li>
+<li>For objects of type Class, by executing a synchronized static method of that class.</li>
+</ol>
+<p>在某一时间，只能有一个线程持有对象的monitor</p>
+<h2 id="notify">notify</h2>
+<p>线程在已经获取对象monitor的前提下调用，唤醒一个或者所有在该对象monitor上等待的线程（notifyall）。</p>
+<p>被唤醒的线程在调用notify的线程放弃对象的锁之后才能继续执行，并且公平地和其他想要在该对象上同步的线程竞争。</p>
+<p>从以上描述，一种合理的notify：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">send</span>(){
+</span></span><span style="display:flex;"><span>  synchronsized(<span style="color:#66d9ef">this</span>){
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// send something;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">notify</span>();
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="wait">wait</h2>
+<p>使当前线程等待其他线程调用该对象的notify或notifyall。当前线程必须要持有对象的monitor。</p>
+<p>wait方法会将当前线程放到对象的等待集合（在对象头中？）然后放弃对该对象的所有同步声明（？所有）。最后该线程会被禁止线程调度。</p>
+<p>在被notify选中被wakeup时，该线程会移出对象等待集合，重新加入线程调度。然后和其他线程公平竞争来在该对象上同步。一旦获得该对象的控制，线程将恢复所有同步声明，也就是恢复到wait调用前的状态，然后从wait方法返回。</p>
+<p>因为线程会在没有被notify、被中断、超时的情况下被唤醒（称为可疑唤醒）。所以wait调用需要在while（不满足唤醒的条件）中来防止可疑唤醒。</p>
+<p>所以，wait的典型调用如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>      <span style="color:#66d9ef">synchronized</span> (obj) {
+</span></span><span style="display:flex;"><span>         <span style="color:#66d9ef">while</span> (<span style="color:#f92672">&lt;</span>condition does not hold<span style="color:#f92672">&gt;</span>){
+</span></span><span style="display:flex;"><span>             obj.<span style="color:#a6e22e">wait</span>(timeout);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>         ... <span style="color:#75715e">// Perform action appropriate to condition</span>
+</span></span><span style="display:flex;"><span>     }
+</span></span></code></pre></div><h2 id="condition">Condition</h2>
+<p>跟object的wait、 notify的主要区别是：</p>
+<ol>
+<li>condition依赖显式锁</li>
+<li>一个显示锁可以有多个conditon: 一个对象可以有多个等待队列</li>
+</ol>
+<p>用lock代替synchronized，用condition代替monitor（实现多个等待集）。</p>
+<p>可疑唤醒依然会出现，所以await需要在while（test）中</p>
+<p>典型调用</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">BoundedBuffer</span> {
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">final</span> Lock lock <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ReentrantLock();
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">final</span> Condition notFull  <span style="color:#f92672">=</span> lock.<span style="color:#a6e22e">newCondition</span>(); 
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">final</span> Condition notEmpty <span style="color:#f92672">=</span> lock.<span style="color:#a6e22e">newCondition</span>(); 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">final</span> Object<span style="color:#f92672">[]</span> items <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Object<span style="color:#f92672">[</span>100<span style="color:#f92672">]</span>;
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">int</span> putptr, takeptr, count;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">put</span>(Object x) <span style="color:#66d9ef">throws</span> InterruptedException {
+</span></span><span style="display:flex;"><span>     lock.<span style="color:#a6e22e">lock</span>();
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">try</span> {
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">while</span> (count <span style="color:#f92672">==</span> items.<span style="color:#a6e22e">length</span>)
+</span></span><span style="display:flex;"><span>         notFull.<span style="color:#a6e22e">await</span>();
+</span></span><span style="display:flex;"><span>       items<span style="color:#f92672">[</span>putptr<span style="color:#f92672">]</span> <span style="color:#f92672">=</span> x;
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">if</span> (<span style="color:#f92672">++</span>putptr <span style="color:#f92672">==</span> items.<span style="color:#a6e22e">length</span>) putptr <span style="color:#f92672">=</span> 0;
+</span></span><span style="display:flex;"><span>       <span style="color:#f92672">++</span>count;
+</span></span><span style="display:flex;"><span>       notEmpty.<span style="color:#a6e22e">signal</span>();
+</span></span><span style="display:flex;"><span>     } <span style="color:#66d9ef">finally</span> {
+</span></span><span style="display:flex;"><span>       lock.<span style="color:#a6e22e">unlock</span>();
+</span></span><span style="display:flex;"><span>     }
+</span></span><span style="display:flex;"><span>   }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">public</span> Object <span style="color:#a6e22e">take</span>() <span style="color:#66d9ef">throws</span> InterruptedException {
+</span></span><span style="display:flex;"><span>     lock.<span style="color:#a6e22e">lock</span>();
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">try</span> {
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">while</span> (count <span style="color:#f92672">==</span> 0)
+</span></span><span style="display:flex;"><span>         notEmpty.<span style="color:#a6e22e">await</span>();
+</span></span><span style="display:flex;"><span>       Object x <span style="color:#f92672">=</span> items<span style="color:#f92672">[</span>takeptr<span style="color:#f92672">]</span>;
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">if</span> (<span style="color:#f92672">++</span>takeptr <span style="color:#f92672">==</span> items.<span style="color:#a6e22e">length</span>) takeptr <span style="color:#f92672">=</span> 0;
+</span></span><span style="display:flex;"><span>       <span style="color:#f92672">--</span>count;
+</span></span><span style="display:flex;"><span>       notFull.<span style="color:#a6e22e">signal</span>();
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">return</span> x;
+</span></span><span style="display:flex;"><span>     } <span style="color:#66d9ef">finally</span> {
+</span></span><span style="display:flex;"><span>       lock.<span style="color:#a6e22e">unlock</span>();
+</span></span><span style="display:flex;"><span>     }
+</span></span><span style="display:flex;"><span>   }
+</span></span><span style="display:flex;"><span> }
+</span></span></code></pre></div>
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/posts/netty/select-register-nioeventloop/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">从register和accept的锁竞争问题到netty的nioEventLoop设计</span>
+    </a>
+    
+    
+    <a href="/posts/http-utils/" class="navigation-next">
+      <span class="navigation-tittle">HttpUtil的一段代码</span>
+      <i aria-hidden="true" class="fa fa-chevron-right"></i>
+    </a>
+    
+</div>
+
+
+  
+
+  
+
+
+</article>
+
+
+        </div>
+        
+    
+
+
+
+<script defer src="/js/all.js" integrity="sha384-ZbbbT1gw3joYkKRqh0kWyRp32UAvdqkpbLedQJSlnI8iLQcFVxaGyrOgOJiDQTTR" crossorigin="anonymous"></script>
+
+
+    
+    
+    
+    <script src="/js/highlight.min.js"></script>
+        
+    <script type="text/javascript">
+        
+        hljs.initHighlightingOnLoad();
+    </script>
+    
+
+
+
+
+    
+
+
+
+    </body>
+</html>

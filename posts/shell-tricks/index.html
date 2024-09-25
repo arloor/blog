@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    
+    <link rel="canonical" href="https://www.arloor.com/posts/shell-tricks/">
+    
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.134.3">
+
+    
+    
+    
+
+<title>Shell编程笔记 • ARLOOR</title>
+<meta name="description" content="今天，你学习了吗">
+<meta name="keywords" content="刘港欢, arloor, moontell">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Shell编程笔记">
+  <meta name="twitter:description" content="个人搞了很多零散的shell脚本，开个博客统一整理下">
+      <meta name="twitter:site" content="@njulgh">
+
+<meta property="og:url" content="https://www.arloor.com/posts/shell-tricks/">
+  <meta property="og:site_name" content="ARLOOR">
+  <meta property="og:title" content="Shell编程笔记">
+  <meta property="og:description" content="个人搞了很多零散的shell脚本，开个博客统一整理下">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2022-05-08T17:19:30+08:00">
+    <meta property="article:modified_time" content="2022-05-08T17:19:30+08:00">
+    <meta property="article:tag" content="Tools">
+
+
+    
+
+
+
+
+
+<link rel="stylesheet" href="/styles/atom-one-dark.min.css">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.e0a163f994ccd5fb78b6074545c7e4cff283ba9948b7915f691d5c0f5459ba9c.css" integrity="sha256-4KFj&#43;ZTM1ft4tgdFRcfkz/KDuplIt5FfaR1cD1RZupw=">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+
+<link rel="stylesheet" href="/scss/hugo-toc.0873834b0f2e9fdc9e1d0301e8ebce21fc10383882a41e9373f29b90e85a9987.css" integrity="sha256-CHODSw8un9yeHQMB6OvOIfwQODiCpB6Tc/KbkOhamYc=">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="/favicon.png">
+    
+    
+
+</head>
+
+
+    <body class=" ">
+    
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="https://www.arloor.com/">
+          
+          ARLOOR
+          
+        </a>
+      </span>
+      <a href="https://www.arloor.com/">
+        
+        
+        
+        
+        <div class="author-image">
+          <img src="https://www.arloor.com/img/head.jpeg" alt="Author Image" class="img--circle img--headshot element--center">
+        </div>
+        
+        
+      </a>
+      
+      <p class="site__description">
+         都是瞎写的 
+      </p>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">ARLOOR</label>
+      <div class="menu-content">
+        <div class="show-in-small">
+          <a href="https://www.arloor.com/">
+            
+            
+            
+            
+            <div class="author-image">
+              <img src="https://www.arloor.com/img/head.jpeg" alt="Author Image" class="img--circle img--headshot element--center">
+            </div>
+            
+            
+          </a>
+        </div>
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/posts/">
+						<span>文章</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/tags/">
+						<span>分类</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/about/">
+						<span>关于我</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/speed">
+						<span>网速监控</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="http://beian.miit.gov.cn/">
+						<span>苏ICP备17024437号</span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://twitter.com/njulgh" rel="me"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	<a href="https://github.com/arloor" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://t.me/popstary" rel="me"><i class="fab fa-telegram fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	<a href="mailto:admin@arloor.com" rel="me"><i class="fas fa-at fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+</section>
+
+      </div>
+    </div>
+    
+<div class="copyright">
+  &copy; 2024 arloor
+  
+    <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>
+  
+</div>
+
+
+<div class="builtwith">
+Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.com/htr3n/hyde-hyde">hyde-hyde</a>.
+</div>
+
+
+  </div>
+</div>
+        <div class="content container">
+            
+    
+<article>
+  <header>
+    <h1>Shell编程笔记</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> May 8, 2022
+    
+    
+    
+      
+      
+          in
+          
+          
+              <a class="badge badge-category" href="/categories/undefined">UNDEFINED</a>
+              
+          
+      
+    
+    
+    
+      
+      
+          <br/>
+           <i class="fas fa-tags"></i>
+          
+          <a class="badge badge-tag" href="/tags/tools">tools</a>
+          
+      
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 4 min read
+</div>
+
+
+  </header>
+  
+  
+  
+    <div class="toc-wrapper">
+      <input type="checkbox" id="tocToggle">
+      <label for="tocToggle">Table of Content</label>
+      
+          <nav id="TableOfContents">
+  <ul>
+    <li><a href="#统计客户端连接数">统计客户端连接数</a></li>
+    <li><a href="#统计网卡流量">统计网卡流量</a></li>
+    <li><a href="#sed替换文本内容">sed替换文本内容</a></li>
+    <li><a href="#sed删除行">sed删除行</a></li>
+    <li><a href="#awk-设置变量">awk 设置变量</a></li>
+    <li><a href="#clickhouse简化命令">Clickhouse简化命令</a></li>
+    <li><a href="#clickhouse导入不同环境数据">Clickhouse导入不同环境数据</a></li>
+    <li><a href="#curl--sslf">curl -sSLf</a></li>
+    <li><a href="#curl并gzip解压缩">curl并gzip解压缩</a></li>
+  </ul>
+</nav>
+      
+    </div>
+  
+  
+  <div class="post">
+    <p>个人搞了很多零散的shell脚本，开个博客统一整理下</p>
+<h2 id="统计客户端连接数">统计客户端连接数</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; /usr/local/bin/nt <span style="color:#e6db74">&lt;&lt;\EOF
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">netstat -ntp|grep -E &#34;ESTABLISHED|CLOSE_WAIT&#34;|awk -F &#34;[ :]+&#34;  -v OFS=&#34;&#34; &#39;$5&lt;10000 &amp;&amp; $5!=&#34;22&#34; &amp;&amp; $7&gt;1024 {printf(&#34;%15s   =&gt; %15s:%-5s %s\n&#34;,$6,$4,$5,$9)}&#39;|sort|uniq -c|sort -rn
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span><span style="display:flex;"><span>chmod +x /usr/local/bin/nt
+</span></span><span style="display:flex;"><span>nt
+</span></span></code></pre></div><p><strong>说明</strong></p>
+<p>过滤了localPort为22（到ssh的连接）、remotePort在1024以下（如80，443等公开服务）的连接，剩下的连接可以认为是remote主动发起连接的，可以认为是本机的client。</p>
+<p><strong>效果</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>     <span style="color:#ae81ff">22</span>    209.9.xxx.xx   <span style="color:#f92672">=</span>&gt;       10.0.4.10:443   144085/rust_xx
+</span></span><span style="display:flex;"><span>      <span style="color:#ae81ff">2</span>  222.70.xxx.xxx   <span style="color:#f92672">=</span>&gt;       10.0.4.10:443   144085/rust_xx
+</span></span><span style="display:flex;"><span>      <span style="color:#ae81ff">2</span>   101.90.xx.xxx   <span style="color:#f92672">=</span>&gt;       10.0.4.10:443   144085/rust_xx
+</span></span></code></pre></div><p><strong>用到的知识</strong></p>
+<ol>
+<li>awk设置FS、OFS</li>
+<li>awk条件判断</li>
+<li>tail从第几行开始显示文件</li>
+<li>sort和uniq搭配使用，统计行出现次数</li>
+</ol>
+<h2 id="统计网卡流量">统计网卡流量</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; /usr/local/bin/netsum <span style="color:#e6db74">&lt;&lt; \EOF
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">echo &#34;&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">echo Time: $(date &#39;+%F %T&#39;)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">cat /proc/uptime| awk -F. &#39;{run_days=$1 / 86400;run_hour=($1 % 86400)/3600;run_minute=($1 % 3600)/60;run_second=$1 % 60;printf(&#34;uptime：\033[32m%d天%d时%d分%d秒\033[0m\n&#34;,run_days,run_hour,run_minute,run_second)}&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">echo &#34;--------------------------------------------------------------------------&#34; 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">cat /proc/net/dev|tail -n +3|awk &#39;BEGIN{sumIn=0;sumOut=0;printf(&#34;流量累计使用情况：\n%6s %9s %9s\n&#34;,&#34;eth&#34;,&#34;out&#34;,&#34;in&#34;)} {eth=$1;sumIn+=$2;sumOut+=$10;xin=$2 / 1073741824;xout=$10 / 1073741824;printf(&#34;%6s \033[32m%7.2fGB\033[0m \033[32m%7.2fGB\033[0m\n&#34;,eth,xout,xin)} END{printf(&#34;%6s \033[32m%7.2fGB\033[0m \033[32m%7.2fGB\033[0m\n&#34;,&#34;sum:&#34;,sumOut / 1073741824,sumIn / 1073741824)}&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">echo &#34;--------------------------------------------------------------------------&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span><span style="display:flex;"><span>chmod +x /usr/local/bin/netsum
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ! grep <span style="color:#e6db74">&#34;/usr/local/bin/netsum&#34;</span> /etc/crontab &gt; /dev/null; 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">then</span> 
+</span></span><span style="display:flex;"><span>  echo <span style="color:#e6db74">&#34;* * * * * root /usr/local/bin/netsum &gt; /etc/motd&#34;</span> &gt;&gt; /etc/crontab; 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span> 
+</span></span><span style="display:flex;"><span>  echo 已设置定时任务; 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span></code></pre></div><p><strong>使用效果</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Time: Sun May <span style="color:#ae81ff">8</span> 17:30:34 CST <span style="color:#ae81ff">2022</span>
+</span></span><span style="display:flex;"><span>uptime：1天21时44分26秒
+</span></span><span style="display:flex;"><span>--------------------------------------------------------------------------
+</span></span><span style="display:flex;"><span>流量累计使用情况：
+</span></span><span style="display:flex;"><span>   eth       out        in
+</span></span><span style="display:flex;"><span>   lo:    0.03GB    0.03GB
+</span></span><span style="display:flex;"><span> eth0:   13.86GB   14.08GB
+</span></span><span style="display:flex;"><span> eth1:    0.00GB    0.00GB
+</span></span><span style="display:flex;"><span>  sum:   13.88GB   14.11GB
+</span></span><span style="display:flex;"><span>--------------------------------------------------------------------------
+</span></span></code></pre></div><p><strong>用到的知识</strong></p>
+<ol>
+<li>awk 加减乘除表达式运算</li>
+<li>awk BEGIN、END，在处理开始和结束执行任务</li>
+<li>printf 格式化输出 <code>printf &quot;%5s 分隔符 %5s\n&quot; one two</code></li>
+<li>利用grep返回结果在if语句里判断文件中是否存在某语句</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ! grep <span style="color:#e6db74">&#34;/usr/local/bin/netsum&#34;</span> /etc/crontab &gt; /dev/null; 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>....
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>....
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span></code></pre></div><h2 id="sed替换文本内容">sed替换文本内容</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sed -i <span style="color:#e6db74">&#34;s/UseDNS.*/UseDNS no/g&#34;</span> /etc/ssh/sshd_config
+</span></span></code></pre></div><p>将匹配<code>UseDNS.*</code>的行都换成<code>UseDNS no</code>，并写入原文件。支持正则表达式，见<a href="https://www.yiibai.com/sed/sed_regular_expressions.html">sed_regular_expressions</a></p>
+<h2 id="sed删除行">sed删除行</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sed -i <span style="color:#e6db74">&#39;/^alias nt=.*/d&#39;</span> .bashrc
+</span></span></code></pre></div><h2 id="awk-设置变量">awk 设置变量</h2>
+<p><code>host=$1</code> 设置了host这个变量，并在后续的awk command中用到</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>➜  ~ cat /data/bin/pod                                           
+</span></span><span style="display:flex;"><span>kubectl get pod -A -o wide -l app<span style="color:#f92672">=</span>proxy |awk -v host<span style="color:#f92672">=</span>$1 <span style="color:#e6db74">&#39;$8==host {print $2}&#39;</span>
+</span></span><span style="display:flex;"><span>➜  ~ pod hk
+</span></span><span style="display:flex;"><span>proxy-pqhhc
+</span></span></code></pre></div><h2 id="clickhouse简化命令">Clickhouse简化命令</h2>
+<p>场景：使用 clickhouse client 连接数据库时，经常要带一些参数，例如ip、用户名等。每次都输入这些信息的话，会比较麻烦。一种解法是写alias，但是在一些场景下免不了<code>source ~/.zsh_rc</code>。另一种更通用的方式是写个shell脚本：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/usr/bin/clickhouse client -h 10.0.218.10 --database xxxx --send_logs_level<span style="color:#f92672">=</span>trace --log-level<span style="color:#f92672">=</span>trace --server_logs_file<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;/tmp/query.log&#39;</span> <span style="color:#e6db74">&#34;</span>$@<span style="color:#e6db74">&#34;</span>
+</span></span></code></pre></div><p>核心是最后的 <code>&quot;$@&quot;</code> ，其他则是将ck查询的日志传送到本地。</p>
+<p>在shell脚本中，<code>&quot;$@&quot;</code>和<code>$@</code>有不同的行为：</p>
+<ul>
+<li><code>&quot;$@&quot;</code> 保留了每个参数的引号，并且将每个参数视为单独的字符串。所以，如果你传递了多个参数，它们会被视为多个独立的参数。</li>
+<li><code>$@</code> 不保留每个参数的引号，参数之间的空格会被解释为参数分隔符。</li>
+</ul>
+<p>在你的例子中，当你执行 <code>/usr/local/bin/ck --query &quot;select 1&quot;</code>时，<code>&quot;$@&quot;</code> 会把 <code>--query</code> 和 <code>&quot;select 1&quot;</code> 作为两个独立的参数，而 <code>$@</code> 会把它们看作一个参数 <code>--query select 1</code>（空格没有被保留）。</p>
+<p>在Clickhouse的情况下，它需要<code>--query</code>后面跟着的查询字符串作为单独的参数。如果你使用<code>$@</code>，查询字符串 <code>&quot;select 1&quot;</code> 会和 <code>--query</code> 合并为一个参数，而Clickhouse期望它们是分开的，这就是为什么会报错。</p>
+<p>所以在这种情况下，使用 <code>&quot;$@&quot;</code> 是正确的，因为它会把 <code>--query</code> 和 <code>&quot;select 1&quot;</code> 作为两个独立的参数传递给 Clickhouse 客户端。</p>
+<h2 id="clickhouse导入不同环境数据">Clickhouse导入不同环境数据</h2>
+<p>用Fomart CSV进行导入</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 定义sql</span>
+</span></span><span style="display:flex;"><span>query<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>cat <span style="color:#e6db74">&lt;&lt;EOF
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">with &#39;c4e22d5e5c90364863af7e06e3c9d9c5&#39; as traceID,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;20230805&#39; as part
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">SELECT
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    *
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">FROM tracing_span_v3_distributed
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">where trace_id=traceID
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">and _partition_id=part
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">order by seq,span_id
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 将结果集赋值给result</span>
+</span></span><span style="display:flex;"><span>result<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>ck --query <span style="color:#e6db74">&#34;</span>$query<span style="color:#e6db74"> Format CSV&#34;</span><span style="color:#66d9ef">)</span> 
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 生成导入数据的脚本</span>
+</span></span><span style="display:flex;"><span>cat &gt; a.sh <span style="color:#e6db74">&lt;&lt;EPF
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">ck40 --query &#34;insert into tracing_span_v3 Format CSV&#34; &lt;&lt;\EOF
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">$result
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EPF</span>
+</span></span></code></pre></div><p>接下来通过scp或者ftp或者直接复制文本的方式将a.sh下载到目标环境，执行a.sh即可导入。</p>
+<h2 id="curl--sslf">curl -sSLf</h2>
+<p>使用 <code>curl</code> 命令时，可以通过添加不同的参数来定制你的请求。<code>-sSLf</code> 参数具有以下作用：</p>
+<ol>
+<li>
+<p><code>-s</code>（或 <code>--silent</code>）：这个选项会使 <code>curl</code> 进入“静默”模式，意味着所有的常规和进度错误都会被抑制，不会显示在命令行界面上。</p>
+</li>
+<li>
+<p><code>-S</code>（或 <code>--show-error</code>）：与 <code>-s</code> 一起使用时，这个选项允许在发生错误时显示错误消息。如果只使用了 <code>-s</code> 参数而没有 <code>-S</code> 参数，那么即使发生错误，也不会在屏幕上显示任何内容。通过组合这两个选项，你可以隐藏正常的进度和信息输出，但在出现问题时显示错误信息。</p>
+</li>
+<li>
+<p><code>-L</code>（或 <code>--location</code>）：这个选项告诉 <code>curl</code> 如果遇到重定向，就自动跟随重定向的位置。对于许多网络请求，这是非常有用的，因为它允许 <code>curl</code> 透明地处理重定向，无需人工干预。</p>
+</li>
+<li>
+<p><code>-f</code>（或 <code>--fail</code>）：通常，当HTTP请求返回非成功的状态代码（如404或500）时，<code>curl</code> 仍会显示页面的响应体。使用 <code>-f</code> 选项会导致 <code>curl</code> 在遇到错误代码时立即失败并不显示响应体。这有助于在脚本中更容易地检测和处理失败的情况。</p>
+</li>
+</ol>
+<p>总体来说，组合这些选项的效果是，<code>curl</code> 将在正常操作时保持静默，但在出现错误时显示错误消息，同时自动处理重定向并且在遇到服务器错误时失败。这使得 <code>curl</code> 更加方便地用于自动化脚本和错误处理，尤其是在你的观察性平台开发工作中可能会非常有用。</p>
+<h2 id="curl并gzip解压缩">curl并gzip解压缩</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>version<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;2023.07.22&#34;</span>
+</span></span><span style="display:flex;"><span>curl -Lf <span style="color:#e6db74">&#34;https://github.com/Dreamacro/clash/releases/download/premium/clash-linux-amd64-</span><span style="color:#e6db74">${</span>version<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>.gz | gzip -d &gt; /tmp/clash
+</span></span><span style="display:flex;"><span>install -m <span style="color:#ae81ff">777</span> /tmp/clash /usr/local/bin/clash
+</span></span></code></pre></div>
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/posts/skywalking-codes-studying/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">Skywalking v8.9.1 源码阅读</span>
+    </a>
+    
+    
+    <a href="/posts/rhel8-dd-install/" class="navigation-next">
+      <span class="navigation-tittle">dd安装rhel8</span>
+      <i aria-hidden="true" class="fa fa-chevron-right"></i>
+    </a>
+    
+</div>
+
+
+  
+
+  
+
+
+</article>
+
+
+        </div>
+        
+    
+
+
+
+<script defer src="/js/all.js" integrity="sha384-ZbbbT1gw3joYkKRqh0kWyRp32UAvdqkpbLedQJSlnI8iLQcFVxaGyrOgOJiDQTTR" crossorigin="anonymous"></script>
+
+
+    
+    
+    
+    <script src="/js/highlight.min.js"></script>
+        
+    <script type="text/javascript">
+        
+        hljs.initHighlightingOnLoad();
+    </script>
+    
+
+
+
+
+    
+
+
+
+    </body>
+</html>

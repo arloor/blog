@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    
+    <link rel="canonical" href="https://www.arloor.com/posts/redis/redis-online-load-rdb/">
+    
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.134.3">
+
+    
+    
+    
+
+<title>实现redis运行时加载rdb文件 • ARLOOR</title>
+<meta name="description" content="今天，你学习了吗">
+<meta name="keywords" content="刘港欢, arloor, moontell">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="实现redis运行时加载rdb文件">
+  <meta name="twitter:description" content="对redis比较了解的人应该知道redis提供rdb持久化机制。rdb文件其实就是redis在某一时间的一个快照，redis在重启时，可以加载这个快照，从而恢复状态。然而redis没有暴露加载rdb这个接口，因此没有办法在运行时手动地导入rdb快照。
+其实，在阅读replicate.c后发现，redis的从节点在接收了rdb全量同步文件后，直接调用了rdbload函数——这就意味着：运行时动态加载rdb文件完全可行！毕竟redis自己也是这么做的。但是redis不肯暴露这个接口给用户。
+我们上一篇文章要进行redis异地数据中心同步，同样需要加载rdb文件，如果只能重启redis来加载rdb文件，多少有点不舒服。因此探讨一下redis动态加载rdb文件的实现总归有好处的，事实证明我做到了。">
+      <meta name="twitter:site" content="@njulgh">
+
+<meta property="og:url" content="https://www.arloor.com/posts/redis/redis-online-load-rdb/">
+  <meta property="og:site_name" content="ARLOOR">
+  <meta property="og:title" content="实现redis运行时加载rdb文件">
+  <meta property="og:description" content="对redis比较了解的人应该知道redis提供rdb持久化机制。rdb文件其实就是redis在某一时间的一个快照，redis在重启时，可以加载这个快照，从而恢复状态。然而redis没有暴露加载rdb这个接口，因此没有办法在运行时手动地导入rdb快照。
+其实，在阅读replicate.c后发现，redis的从节点在接收了rdb全量同步文件后，直接调用了rdbload函数——这就意味着：运行时动态加载rdb文件完全可行！毕竟redis自己也是这么做的。但是redis不肯暴露这个接口给用户。
+我们上一篇文章要进行redis异地数据中心同步，同样需要加载rdb文件，如果只能重启redis来加载rdb文件，多少有点不舒服。因此探讨一下redis动态加载rdb文件的实现总归有好处的，事实证明我做到了。">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2019-09-04T23:02:03+08:00">
+    <meta property="article:modified_time" content="2019-09-04T23:02:03+08:00">
+    <meta property="article:tag" content="Redis">
+
+
+    
+
+
+
+
+
+<link rel="stylesheet" href="/styles/atom-one-dark.min.css">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.e0a163f994ccd5fb78b6074545c7e4cff283ba9948b7915f691d5c0f5459ba9c.css" integrity="sha256-4KFj&#43;ZTM1ft4tgdFRcfkz/KDuplIt5FfaR1cD1RZupw=">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+
+<link rel="stylesheet" href="/scss/hugo-toc.0873834b0f2e9fdc9e1d0301e8ebce21fc10383882a41e9373f29b90e85a9987.css" integrity="sha256-CHODSw8un9yeHQMB6OvOIfwQODiCpB6Tc/KbkOhamYc=">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="/favicon.png">
+    
+    
+
+</head>
+
+
+    <body class=" ">
+    
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="https://www.arloor.com/">
+          
+          ARLOOR
+          
+        </a>
+      </span>
+      <a href="https://www.arloor.com/">
+        
+        
+        
+        
+        <div class="author-image">
+          <img src="https://www.arloor.com/img/head.jpeg" alt="Author Image" class="img--circle img--headshot element--center">
+        </div>
+        
+        
+      </a>
+      
+      <p class="site__description">
+         都是瞎写的 
+      </p>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">ARLOOR</label>
+      <div class="menu-content">
+        <div class="show-in-small">
+          <a href="https://www.arloor.com/">
+            
+            
+            
+            
+            <div class="author-image">
+              <img src="https://www.arloor.com/img/head.jpeg" alt="Author Image" class="img--circle img--headshot element--center">
+            </div>
+            
+            
+          </a>
+        </div>
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/posts/">
+						<span>文章</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/tags/">
+						<span>分类</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/about/">
+						<span>关于我</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/speed">
+						<span>网速监控</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="http://beian.miit.gov.cn/">
+						<span>苏ICP备17024437号</span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://twitter.com/njulgh" rel="me"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	<a href="https://github.com/arloor" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://t.me/popstary" rel="me"><i class="fab fa-telegram fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	<a href="mailto:admin@arloor.com" rel="me"><i class="fas fa-at fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+</section>
+
+      </div>
+    </div>
+    
+<div class="copyright">
+  &copy; 2024 arloor
+  
+    <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>
+  
+</div>
+
+
+<div class="builtwith">
+Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.com/htr3n/hyde-hyde">hyde-hyde</a>.
+</div>
+
+
+  </div>
+</div>
+        <div class="content container">
+            
+    
+<article>
+  <header>
+    <h1>实现redis运行时加载rdb文件</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> Sep 4, 2019
+    
+    
+    
+      
+      
+          in
+          
+          
+              <a class="badge badge-category" href="/categories/redis">REDIS</a>
+              
+          
+      
+    
+    
+    
+      
+      
+          <br/>
+           <i class="fas fa-tags"></i>
+          
+          <a class="badge badge-tag" href="/tags/redis">redis</a>
+          
+      
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 3 min read
+</div>
+
+
+  </header>
+  
+  
+  
+    <div class="toc-wrapper">
+      <input type="checkbox" id="tocToggle">
+      <label for="tocToggle">Table of Content</label>
+      
+          <nav id="TableOfContents">
+  <ul>
+    <li><a href="#实现">实现</a></li>
+    <li><a href="#测试">测试</a></li>
+  </ul>
+</nav>
+      
+    </div>
+  
+  
+  <div class="post">
+    <p>对redis比较了解的人应该知道redis提供rdb持久化机制。rdb文件其实就是redis在某一时间的一个快照，redis在重启时，可以加载这个快照，从而恢复状态。然而redis没有暴露加载rdb这个接口，因此没有办法在运行时手动地导入rdb快照。</p>
+<p>其实，在阅读replicate.c后发现，redis的从节点在接收了rdb全量同步文件后，直接调用了<code>rdbload</code>函数——这就意味着：运行时动态加载rdb文件完全可行！毕竟redis自己也是这么做的。但是redis不肯暴露这个接口给用户。</p>
+<p>我们上一篇文章要进行redis异地数据中心同步，同样需要加载rdb文件，如果只能重启redis来加载rdb文件，多少有点不舒服。因此探讨一下redis动态加载rdb文件的实现总归有好处的，事实证明我做到了。</p>
+<h2 id="实现">实现</h2>
+<p>参考了修改redis-3.0.7源码以增加该功能的<a href="https://blog.csdn.net/laowxl/article/details/68924510">博客</a>。</p>
+<p>我自己修改了redis-4.0.1的部分代码，暴露出原版redis不想暴露的接口。修改后的redis项目在<a href="https://github.com/arloor/redis-4.0.1-feature-online-loadrdb">redis-4.0.1-feature-online-loadrdb</a>。所有重要的修改都在<a href="https://github.com/arloor/redis-4.0.1-feature-online-loadrdb/commit/a8c58feb26861106a38b8293180906df9b4a9797">第二次提交</a>。请一定要访问这个链接，git diff能够直观地展示我在redis源码上增加了哪些东西，所以我就不贴代码了。</p>
+<p>效果是redis-cli中可以使用<code>loadrdb &lt;dumpfile&gt;</code>命令来热加载rdb文件。该命令的tcp报文是这样的：<code>loadrdb filename\r\n</code>。效果展示请看“测试”章节</p>
+<h2 id="测试">测试</h2>
+<ol>
+<li>clone上面的项目，进入项目文件夹</li>
+<li>执行 <code>make MALLOC=libc</code>，进行编译</li>
+<li>执行<code>src/redis-server</code>以默认配置（rdb开启）启动redis</li>
+<li>启动另一个bash，执行以下命令：</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>src/redis-cli set a test       <span style="color:#75715e">#设置a</span>
+</span></span><span style="display:flex;"><span>src/redis-cli BGSAVE           <span style="color:#75715e">#进行rdb持久化</span>
+</span></span><span style="display:flex;"><span>src/redis-cli get a            <span style="color:#75715e">#获取a，此时为test</span>
+</span></span><span style="display:flex;"><span>sleep <span style="color:#ae81ff">10</span>                       <span style="color:#75715e">#睡10秒，等待rdb持久化完成</span>
+</span></span><span style="display:flex;"><span>mv -f dump.rdb dump            <span style="color:#75715e">#移动该dump.rdb文件到新文件dump</span>
+</span></span><span style="display:flex;"><span>src/redis-cli flushall         <span style="color:#75715e">#删除所有key</span>
+</span></span><span style="display:flex;"><span>src/redis-cli get a            <span style="color:#75715e">#此时a为nil</span>
+</span></span><span style="display:flex;"><span>src/redis-cli loadrdb dump     <span style="color:#75715e">#调用loadrdb指令热加载dump文件</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 等同于 (printf &#34;loadrdb dump\r\n&#34;;sleep 1)|nc localhost 6379 </span>
+</span></span><span style="display:flex;"><span>src/redis-cli get a            <span style="color:#75715e">#此时a为test</span>
+</span></span></code></pre></div><p>以上测试先写了一个a，然后调用BGSAVE导出rdb文件，然后flushall删除所有key，然后使用<code>loadrdb</code>动态导入之前的rdb文件，最后检查a的value。结果能拿到之前设置的a的值，说明<code>loadrdb</code>工作正常！</p>
+<p>尚未解决的问题：loadrdb指定的文件不能是redis.conf指定的rdbfilename，尚未增加该校验。如果是同一文件，则我们在loadrdb该文件，而同时redis可能正在往这个文件写rdb，这会导致redis崩溃。——以后会增加这个校验的，要查一下c语言字符串比较。。。我忘记了</p>
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/posts/redis/use-redis-replicate-to-do-remote-sync/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">Redis异步拷贝实现—replicate.c</span>
+    </a>
+    
+    
+    <a href="/posts/redis/psync2/" class="navigation-next">
+      <span class="navigation-tittle">Psync2——redis备份机制的发展【转载】</span>
+      <i aria-hidden="true" class="fa fa-chevron-right"></i>
+    </a>
+    
+</div>
+
+
+  
+
+  
+
+
+</article>
+
+
+        </div>
+        
+    
+
+
+
+<script defer src="/js/all.js" integrity="sha384-ZbbbT1gw3joYkKRqh0kWyRp32UAvdqkpbLedQJSlnI8iLQcFVxaGyrOgOJiDQTTR" crossorigin="anonymous"></script>
+
+
+    
+    
+    
+    <script src="/js/highlight.min.js"></script>
+        
+    <script type="text/javascript">
+        
+        hljs.initHighlightingOnLoad();
+    </script>
+    
+
+
+
+
+    
+
+
+
+    </body>
+</html>
