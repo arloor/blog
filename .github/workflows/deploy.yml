@@ -50,16 +50,15 @@ jobs:
     - name: hugo build
       run: |
         hugo -d public
-    - name: git auth
-      run: git config --global url.https://arloor:${{ github.token }}@github.com/.insteadOf https://github.com/
     - name: commit and push
       env:
         GH_TOKEN: ${{ github.token }}
       run: |
+        git config url.https://arloor:${{ github.token }}@github.com/.insteadOf https://github.com/
         cd  public
         git config user.name "arloor"
         git config user.email "admin@arloor.com"
-        git add .&&git commit -m "${{ steps.vars.outputs.sha_short }}" && git push -u origin gh-pages -f || echo "nothing to commit"
+        git add .&&git commit -m "updates from ${{ steps.vars.outputs.sha_short }}" && git push -u origin gh-pages -f || echo "nothing to commit"
     # - name: Deploy
     #   uses: peaceiris/actions-gh-pages@v3
     #   with:
