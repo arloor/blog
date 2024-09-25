@@ -287,6 +287,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
         <li><a href="#apt设置代理">apt设置代理</a></li>
         <li><a href="#apt不更新某软件">apt不更新某软件</a></li>
         <li><a href="#git设置">git设置</a></li>
+        <li><a href="#安装ca证书">安装ca证书</a></li>
       </ul>
     </li>
     <li><a href="#参考文档">参考文档</a></li>
@@ -462,7 +463,10 @@ git config --global core.autocrlf input
 <p>git文档推荐，linux和macos使用input，windows使用true。这样保证index、linux、macos中永远是lf，windows中是crlf。</p>
 <p><strong>但是</strong>我的设置成了windows上也是input。</p>
 <p>直接原因是我有很多shell脚本，原本git.exe的bash是可以执行crlf的shell文件的。安装wsl后，bash被替换为了Debian的bash，不能处理crlf的shell文件。——我需要shell脚本是lf的。根本原因，换行符的问题是一个历史遗留问题，是操作系统之间的壁垒。现代的ide或者文本编辑器都是跨平台使用的，他们能处理换行符的问题，那么用vscode，idea就行了，不要用windows的老版文本编辑器了。我已经比较习惯在linux处理文本了，vim、grep、awk、sed等等很爽，wsl的最大好处就是在windows上能用上原生的bash，那就文本全部linux化好了。</p>
-<h2 id="参考文档">参考文档</h2>
+<h3 id="安装ca证书">安装ca证书</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo cp your-certificate.crt /usr/local/share/ca-certificates/
+</span></span><span style="display:flex;"><span>sudo update-ca-certificates
+</span></span></code></pre></div><h2 id="参考文档">参考文档</h2>
 <ul>
 <li><a href="https://www.ryanshang.com/2024/01/06/WSL2%E8%AE%BE%E7%BD%AE%E9%95%9C%E5%83%8F%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%BC%8F/">WSL2设置镜像网络模式</a></li>
 <li><a href="https://learn.microsoft.com/zh-cn/windows/wsl/wsl-config">WSL 中的高级设置配置</a></li>
