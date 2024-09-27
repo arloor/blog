@@ -488,7 +488,7 @@ fi
         "rust-analyzer", // rust-analyzer
         "codelldb",
         "tamasfe.even-better-toml",
-        "fill-labs.dependi",
+        "serayuzgur.crates",
         "golang.go",
         "ms-python.vscode-pylance",
         "ms-python.python"
@@ -505,7 +505,7 @@ fi
     "go.toolsManagement.autoUpdate": true,
     "diffEditor.ignoreTrimWhitespace": true,
     "debug.onTaskErrors": "showErrors",
-    "diffEditor.renderSideBySide": true,
+    "diffEditor.renderSideBySide": false,
     "github.copilot.editor.enableAutoCompletions": true,
     "terminal.integrated.shellIntegration.enabled": false,
     "go.formatTool": "gofmt",
@@ -518,15 +518,52 @@ fi
             "source.organizeImports": "always"
         }
     },
-    "go.testFlags": [
-        "-v",
-        "-gcflags=all=-l"
+    "go.testFlags": [ // 只对TestXXXX方法上的run按钮生效
+        "-v", // 使t.Log()输出到console
     ],
     "go.formatFlags": [
         "-w"
     ],
     "security.workspace.trust.untrustedFiles": "open",
+    "go.testExplorer.showOutput": false,
     "gitblame.inlineMessageEnabled": true,
-    "gitblame.inlineMessageFormat": "${author.name}, (${time.ago}) · ${commit.summary}"
+    "gitblame.inlineMessageFormat": "${author.name}, (${time.ago}) · ${commit.summary}",
+    "github.copilot.advanced": {
+        "authProvider": "github"
+    },
+    "files.associations": {
+        "*.json": "jsonc"
+    },
+    "diffEditor.hideUnchangedRegions.enabled": true,
+    "terminal.integrated.profiles.windows": {
+        "PowerShell": {
+            "source": "PowerShell",
+            "icon": "terminal-powershell"
+        },
+        "Command Prompt": {
+            "path": [
+                "${env:windir}\\Sysnative\\cmd.exe",
+                "${env:windir}\\System32\\cmd.exe"
+            ],
+            "args": [],
+            "icon": "terminal-cmd"
+        },
+        "Git Bash": {
+            "source": "Git Bash"
+        },
+        "Debian (WSL)": {
+            "path": "C:\\Windows\\System32\\wsl.exe",
+            "args": [
+                "-d",
+                "Debian"
+            ]
+        },
+        "Windows PowerShell": {
+            "path": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+        }
+    },
+    "terminal.integrated.defaultProfile.windows": "Windows PowerShell",
+    "dev.containers.executeInWSL": true,
+    "diffEditor.experimental.showMoves": true,
 }
 ```
