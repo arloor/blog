@@ -819,10 +819,12 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
       </tr>
   </tbody>
 </table>
-<p>并且为 GitBlame增加了这个配置以开启行内的git blame信息</p>
+<p>并且为这些插件做了些配置变更：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;gitblame.inlineMessageEnabled&#34;</span>: <span style="color:#66d9ef">true</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;gitblame.inlineMessageFormat&#34;</span>: <span style="color:#e6db74">&#34;${author.name}, (${time.ago}) · ${commit.summary}&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;gitblame.inlineMessageFormat&#34;</span>: <span style="color:#e6db74">&#34;${author.name}, (${time.ago}) · ${commit.summary}&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;git-graph.commitDetailsView.location&#34;</span>: <span style="color:#e6db74">&#34;Docked to Bottom&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;git-graph.date.format&#34;</span>: <span style="color:#e6db74">&#34;ISO Date &amp; Time&#34;</span>,
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h2 id="我的vscode配置备份">我的vscode配置备份</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
@@ -941,6 +943,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;terminal.integrated.defaultProfile.windows&#34;</span>: <span style="color:#e6db74">&#34;Windows PowerShell&#34;</span>,
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;dev.containers.executeInWSL&#34;</span>: <span style="color:#66d9ef">true</span>,
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;diffEditor.experimental.showMoves&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;git-graph.commitDetailsView.location&#34;</span>: <span style="color:#e6db74">&#34;Docked to Bottom&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;git-graph.date.format&#34;</span>: <span style="color:#e6db74">&#34;ISO Date &amp; Time&#34;</span>,
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div>
   </div>
