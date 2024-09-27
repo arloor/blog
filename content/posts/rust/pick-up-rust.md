@@ -494,3 +494,7 @@ gcc -o myprogram myprogram.c -Wl,-Bstatic -lfoo -lbar -Wl,-Bdynamic -lbaz
 - [**重点是在async read中拆包解包**极客时间 | 36 | 阶段实操（4）：构建一个简单的KV server-网络处理](https://time.geekbang.org/column/article/446948)
 - [**非常重要，反复观看**Rust 的 Pin 与 Unpin](https://folyd.com/blog/rust-pin-unpin/)
 - [**非常重要，反复观看**Rust Pin 进阶](https://folyd.com/blog/rust-pin-advanced/)
+
+## Rust博客
+
+1. [Return type notation MVP: Call for testing!](https://blog.rust-lang.org/inside-rust/2024/09/26/rtn-call-for-testing.html) 解决 `RPITIT` + `Send` 的问题
