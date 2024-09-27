@@ -8,6 +8,9 @@
     <loc>https://www.arloor.com/posts/macos-switch-cmd-option/</loc>
     <lastmod>2024-09-22T18:17:18+08:00</lastmod>
   </url><url>
+    <loc>https://www.arloor.com/posts/rust/pick-up-rust/</loc>
+    <lastmod>2024-09-22T13:57:38+08:00</lastmod>
+  </url><url>
     <loc>https://www.arloor.com/posts/windows11-23h2-wsl2/</loc>
     <lastmod>2024-09-22T13:45:23+08:00</lastmod>
   </url><url>
@@ -247,9 +250,6 @@
   </url><url>
     <loc>https://www.arloor.com/posts/springboot-tomcat-config/</loc>
     <lastmod>2021-09-27T17:21:58+08:00</lastmod>
-  </url><url>
-    <loc>https://www.arloor.com/posts/rust/pick-up-rust/</loc>
-    <lastmod>2021-09-22T13:57:38+08:00</lastmod>
   </url><url>
     <loc>https://www.arloor.com/posts/arthas/</loc>
     <lastmod>2021-09-02T22:21:36+08:00</lastmod>
@@ -518,11 +518,11 @@
     <loc>https://www.arloor.com/categories/undefined/</loc>
     <lastmod>2024-09-22T23:20:35+08:00</lastmod>
   </url><url>
+    <loc>https://www.arloor.com/tags/rust/</loc>
+    <lastmod>2024-09-22T13:57:38+08:00</lastmod>
+  </url><url>
     <loc>https://www.arloor.com/tags/windows/</loc>
     <lastmod>2024-09-22T13:45:23+08:00</lastmod>
-  </url><url>
-    <loc>https://www.arloor.com/tags/rust/</loc>
-    <lastmod>2024-08-09T13:10:52+08:00</lastmod>
   </url><url>
     <loc>https://www.arloor.com/tags/software/</loc>
     <lastmod>2024-07-26T15:02:39+08:00</lastmod>
