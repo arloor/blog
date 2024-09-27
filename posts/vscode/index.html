@@ -813,10 +813,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
           <td style="text-align: left"><a href="https://marketplace.visualstudio.com/items?itemName=waderyan.gitblame">GitBlame</a></td>
           <td style="text-align: left">显示每行是谁在什么时候修改的</td>
       </tr>
-      <tr>
-          <td style="text-align: left"><a href="https://marketplace.visualstudio.com/items?itemName=donjayamanne.githistory">GitHistory</a></td>
-          <td style="text-align: left">可以在资源管理器看到git时间线，也可以 <code>option + H</code> 来看文件历史</td>
-      </tr>
   </tbody>
 </table>
 <p>并且为这些插件做了些配置变更：</p>
@@ -860,13 +856,12 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#f92672">&#34;github-actions.workflows.pinned.refresh.interval&#34;</span>: <span style="color:#ae81ff">10</span>,
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;remote.SSH.defaultExtensions&#34;</span>: [
 </span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;waderyan.gitblame&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;donjayamanne.githistory&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;mhutchie.git-graph&#34;</span>,
 </span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;github.copilot&#34;</span>,
 </span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;github.vscode-github-actions&#34;</span>, <span style="color:#75715e">// github actions
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#e6db74">&#34;rust-analyzer&#34;</span>, <span style="color:#75715e">// rust-analyzer
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#e6db74">&#34;codelldb&#34;</span>,
 </span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;tamasfe.even-better-toml&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;serayuzgur.crates&#34;</span>,
 </span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;golang.go&#34;</span>,
 </span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;ms-python.vscode-pylance&#34;</span>,
 </span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;ms-python.python&#34;</span>
@@ -883,7 +878,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;go.toolsManagement.autoUpdate&#34;</span>: <span style="color:#66d9ef">true</span>,
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;diffEditor.ignoreTrimWhitespace&#34;</span>: <span style="color:#66d9ef">true</span>,
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;debug.onTaskErrors&#34;</span>: <span style="color:#e6db74">&#34;showErrors&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;diffEditor.renderSideBySide&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;diffEditor.renderSideBySide&#34;</span>: <span style="color:#66d9ef">true</span>,
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;github.copilot.editor.enableAutoCompletions&#34;</span>: <span style="color:#66d9ef">true</span>,
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;terminal.integrated.shellIntegration.enabled&#34;</span>: <span style="color:#66d9ef">false</span>,
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;go.formatTool&#34;</span>: <span style="color:#e6db74">&#34;gofmt&#34;</span>,
