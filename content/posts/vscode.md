@@ -437,12 +437,14 @@ fi
 | [GitBlame](https://marketplace.visualstudio.com/items?itemName=waderyan.gitblame) | 显示每行是谁在什么时候修改的 |
 | [GitHistory](https://marketplace.visualstudio.com/items?itemName=donjayamanne.githistory) | 可以在资源管理器看到git时间线，也可以 `option + H` 来看文件历史|
 
-并且为 GitBlame增加了这个配置以开启行内的git blame信息
+并且为这些插件做了些配置变更：
 
 ```json
 {
     "gitblame.inlineMessageEnabled": true,
-    "gitblame.inlineMessageFormat": "${author.name}, (${time.ago}) · ${commit.summary}"
+    "gitblame.inlineMessageFormat": "${author.name}, (${time.ago}) · ${commit.summary}",
+    "git-graph.commitDetailsView.location": "Docked to Bottom",
+    "git-graph.date.format": "ISO Date & Time",
 }
 ```
 
@@ -565,5 +567,7 @@ fi
     "terminal.integrated.defaultProfile.windows": "Windows PowerShell",
     "dev.containers.executeInWSL": true,
     "diffEditor.experimental.showMoves": true,
+    "git-graph.commitDetailsView.location": "Docked to Bottom",
+    "git-graph.date.format": "ISO Date & Time",
 }
 ```
