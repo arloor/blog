@@ -492,9 +492,11 @@ gcc -o myprogram myprogram.c -Wl,-Bstatic -lfoo -lbar -Wl,-Bdynamic -lbaz
 - [极客时间 | 14 | 类型系统：有哪些必须掌握的trait？](https://time.geekbang.org/column/article/421324)
 - [极客时间 | 15 | 数据结构：这些浓眉大眼的结构竟然都是智能指针？](https://time.geekbang.org/column/article/422182)
 - [**重点是在async read中拆包解包**极客时间 | 36 | 阶段实操（4）：构建一个简单的KV server-网络处理](https://time.geekbang.org/column/article/446948)
-- [**非常重要，反复观看**Rust 的 Pin 与 Unpin](https://folyd.com/blog/rust-pin-unpin/)
-- [**非常重要，反复观看**Rust Pin 进阶](https://folyd.com/blog/rust-pin-advanced/)
 
 ## Rust博客
 
 1. [Return type notation MVP: Call for testing!](https://blog.rust-lang.org/inside-rust/2024/09/26/rtn-call-for-testing.html) 解决 `RPITIT` + `Send` 的问题
+2. [Changes to `impl Trait` in Rust 2024](https://blog.rust-lang.org/2024/09/05/impl-trait-capture-rules.html) "use bound": impl Trait + use<'x, T>
+3. [于 Rust 1.75 稳定的 RPITIT 与 AFIT](https://nihil.cc/posts/rust_rpitit_afit/)
+4. [**非常重要，反复观看**Rust 的 Pin 与 Unpin](https://folyd.com/blog/rust-pin-unpin/)
+5. [**非常重要，反复观看**Rust Pin 进阶](https://folyd.com/blog/rust-pin-advanced/)
