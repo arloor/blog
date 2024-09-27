@@ -435,7 +435,6 @@ fi
 | --- | --- |
 | [Git Graph](https://marketplace.visualstudio.com/items?itemName=mhutchie.git-graph) | `cmd + shift + p`输入`git log`可以看完整提交历史 |
 | [GitBlame](https://marketplace.visualstudio.com/items?itemName=waderyan.gitblame) | 显示每行是谁在什么时候修改的 |
-| [GitHistory](https://marketplace.visualstudio.com/items?itemName=donjayamanne.githistory) | 可以在资源管理器看到git时间线，也可以 `option + H` 来看文件历史|
 
 并且为这些插件做了些配置变更：
 
@@ -484,13 +483,12 @@ fi
     "github-actions.workflows.pinned.refresh.interval": 10,
     "remote.SSH.defaultExtensions": [
         "waderyan.gitblame",
-        "donjayamanne.githistory",
+        "mhutchie.git-graph",
         "github.copilot",
         "github.vscode-github-actions", // github actions
         "rust-analyzer", // rust-analyzer
         "codelldb",
         "tamasfe.even-better-toml",
-        "serayuzgur.crates",
         "golang.go",
         "ms-python.vscode-pylance",
         "ms-python.python"
@@ -507,7 +505,7 @@ fi
     "go.toolsManagement.autoUpdate": true,
     "diffEditor.ignoreTrimWhitespace": true,
     "debug.onTaskErrors": "showErrors",
-    "diffEditor.renderSideBySide": false,
+    "diffEditor.renderSideBySide": true,
     "github.copilot.editor.enableAutoCompletions": true,
     "terminal.integrated.shellIntegration.enabled": false,
     "go.formatTool": "gofmt",
