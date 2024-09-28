@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.134.3">
+<meta name="generator" content="Hugo 0.135.0">
 
     
     
@@ -543,6 +543,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </ul>
 <p>参考<a href="https://doc.rust-lang.org/reference/linkage.html#static-and-dynamic-c-runtimes">Rust Linkage: Static and dynamic C runtimes</a>，Rust的toolchain支持动态和静态两种链接方式，可以指定<code>crt-static</code> target feature 来手动配置。大部份toolchain默认是动态链接的，musl的toolchain则默认是静态链接。下面就以 <code>x86_64-unknown-linux-gnu</code> 和 <code>x86_64-unknown-linux-musl</code> 两种linux上常见的toolchain为例介绍如何进行静态链接，并介绍使用 <code>build.rs</code> 让部分库使用静态链接</p>
 <h3 id="x86_64-unknown-linux-gnu">x86_64-unknown-linux-gnu</h3>
+<p>参考<a href="https://doc.rust-lang.org/reference/linkage.html">Linkage - The Rust Reference</a></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>RUSTFLAGS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;-C target-feature=+crt-static&#34;</span> cargo build --release --target x86_64-unknown-linux-gnu
 </span></span></code></pre></div><p>注意：</p>
 <ol>
@@ -572,7 +573,9 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <blockquote>
 <p>musl 1.2 is now available and changes time_t for 32-bit archs to a 64-bit type。 PS: 具体而言，好像是从1.2.4开始支持64位的time_t</p>
 </blockquote>
-<h4 id="安装musl">安装musl</h4>
+<ol>
+<li>安装musl</li>
+</ol>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cd /var/
 </span></span><span style="display:flex;"><span>version<span style="color:#f92672">=</span>1.2.5
 </span></span><span style="display:flex;"><span>curl -SsLf  http://musl.libc.org/releases/musl-<span style="color:#e6db74">${</span>version<span style="color:#e6db74">}</span>.tar.gz -o musl-<span style="color:#e6db74">${</span>version<span style="color:#e6db74">}</span>.tar.gz
@@ -582,9 +585,13 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>make -j <span style="color:#ae81ff">2</span> &gt; /dev/null
 </span></span><span style="display:flex;"><span>make install &gt; /dev/null
 </span></span><span style="display:flex;"><span>ln -fs /usr/local/musl/bin/musl-gcc /usr/bin/musl-gcc
-</span></span></code></pre></div><h4 id="安装musl-toolchain">安装musl toolchain</h4>
+</span></span></code></pre></div><ol start="2">
+<li>安装musl toolchain</li>
+</ol>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>rustup target add x86_64-unknown-linux-musl
-</span></span></code></pre></div><h4 id="使用musl-toolchain编译">使用musl toolchain编译</h4>
+</span></span></code></pre></div><ol start="3">
+<li>使用musl toolchain编译</li>
+</ol>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># debug, 可执行文件在target/x86_64-unknown-linux-musl/debug/</span>
 </span></span><span style="display:flex;"><span>cargo build --target x86_64-unknown-linux-musl
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># release，可执行文件在target/x86_64-unknown-linux-musl/release/</span>
