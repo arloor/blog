@@ -349,6 +349,8 @@ gcc -static -o main main.c -I/path/to/include -L/path/to/library -lexample
 
 ### x86_64-unknown-linux-gnu
 
+参考[Linkage - The Rust Reference](https://doc.rust-lang.org/reference/linkage.html)
+
 ```bash
 RUSTFLAGS="-C target-feature=+crt-static" cargo build --release --target x86_64-unknown-linux-gnu
 ```
@@ -395,7 +397,7 @@ libc6-dev: /usr/lib/x86_64-linux-gnu/libm.a
 
 > musl 1.2 is now available and changes time_t for 32-bit archs to a 64-bit type。 PS: 具体而言，好像是从1.2.4开始支持64位的time_t
 
-#### 安装musl
+1. 安装musl
 
 ```bash
 cd /var/
@@ -409,13 +411,13 @@ make install > /dev/null
 ln -fs /usr/local/musl/bin/musl-gcc /usr/bin/musl-gcc
 ```
 
-#### 安装musl toolchain
+2. 安装musl toolchain
 
 ```bash
 rustup target add x86_64-unknown-linux-musl
 ```
 
-#### 使用musl toolchain编译
+3. 使用musl toolchain编译
 
 ```bash
 # debug, 可执行文件在target/x86_64-unknown-linux-musl/debug/
