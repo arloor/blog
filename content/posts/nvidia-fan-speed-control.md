@@ -53,9 +53,8 @@ afterburner是一款显卡超频、风扇调教、游戏帧率监控软件，可
 
 不过我发现设置手动转速后，风扇最低转速是30%，无法停转。
 
-{{<img fancontrol-overrides-nvidia-hardware-curve.png 500>}}
-
-
 ### 使用FanControl设置
 
 如果需要手动转速时能停转，则需要使用[FanControl](https://github.com/Rem0o/FanControl.Releases)，参考这个[Nvidia 30% and 0 RPM](https://github.com/Rem0o/FanControl.Releases/wiki/Nvidia-30%25-and-0-RPM)进行设置。FanControl功能很强大，可以设置一切风扇，包括机箱风扇、显卡风扇、CPU风扇、水冷水泵等。但用起来比较复杂，我个人觉得大部分人用风扇智能启停就行了。
+
+{{<img fancontrol-overrides-nvidia-hardware-curve.png 500>}}
