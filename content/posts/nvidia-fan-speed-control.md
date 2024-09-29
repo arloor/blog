@@ -27,7 +27,9 @@ B站有UP主建议电源管理模式选“最高性能优先”，以获得最�
 
 ### 2. 不要使用Nvidia APP beta
 
-Nvidia APP beta虽然相比Nvidia GeForce Experience更现代，但是会导致显存频率在低负载也全频率运行，进而功耗偏高导致风扇智能启停失效。推荐使用Nvidia GeForce Experience，并将性能调优里面**风扇速度目标**设置为自动
+Nvidia APP beta虽然相比Nvidia GeForce Experience更现代，但是会导致显存频率在低负载也全频率运行，进而功耗偏高导致风扇智能启停失效。推荐使用Nvidia GeForce Experience，并在游戏内覆盖（`alt + z`）中将性能里**风扇速度目标**设置为自动。
+
+{{<img nvdia-youxineifugai-fan-speed-target.png 350>}}
 
 ## 手动风扇转速
 
