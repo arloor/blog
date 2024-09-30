@@ -179,8 +179,8 @@ killcode
 				"$rustc"
 			],
 			"args": [
-				"-p",
-				"rust_http_proxy",
+				// "-p",
+				// "rust_http_proxy",
 			],
 			"group": {
 				"kind": "build",
