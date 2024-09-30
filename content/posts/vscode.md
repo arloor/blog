@@ -178,11 +178,15 @@ killcode
 			"problemMatcher": [
 				"$rustc"
 			],
+			"args": [
+				"-p",
+				"rust_http_proxy",
+			],
 			"group": {
 				"kind": "build",
 				"isDefault": true
 			},
-		    "label": "rust: cargo build",
+			"label": "rust: cargo build",
 			"presentation": {
 				"reveal": "silent",
 			}
