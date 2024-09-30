@@ -227,10 +227,11 @@ killcode
 
 ## Golang开发
 
-1. 安装golang
+1. 安装golang (linux-amd64)
 
 ```bash
-curl https://go.dev/dl/go1.21.11.linux-amd64.tar.gz -Lf -o /tmp/golang.tar.gz
+version=1.21.11
+curl https://go.dev/dl/go${version}.linux-amd64.tar.gz -Lf -o /tmp/golang.tar.gz
 rm -rf /usr/local/go && tar -C /usr/local -xzf /tmp/golang.tar.gz
 if ! grep "go/bin" ~/.zshrc;then
   export PATH=$PATH:/usr/local/go/bin
