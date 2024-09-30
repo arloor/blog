@@ -342,6 +342,12 @@ fn main() {
 cargo run --example example1
 ```
 
+### 查看系统当前有哪些ebpf程序
+
+```bash
+bpftool prog show
+```
+
 ## 进阶
 
 ### docker运行
