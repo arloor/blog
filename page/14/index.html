@@ -219,6 +219,28 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   <div class="post-list__item">
     <span class="item__title--big">
+      <a href="/posts/libuv-install/" >Libuv教程</a>
+    </span>
+    <span class="item__date">
+      Sep 6, 2019
+    </span>
+    <span >
+      
+      <p>到目前为止写了挺多网络编程的东西，要么用netty，要么用go。因为网络编程是IO密集的应用，用带gc的语言写，总是因为频繁的gc需求导致cpu占用过高。netty使用unsafepointer的使用堆外内存来避免频繁gc，但是这还是不够，因为你总得生成string这种堆内对象。只有一个办法来避免这种问题，那就是用没有gc的语言来编写网络编程了。</p>
+<p>libuv就是c语言的一个异步事件库，这篇博客就是来搞一下。</p>
+      
+    </span>
+    
+    ... <a class="read-more-symbol" href="/posts/libuv-install/">➦</a>
+    
+  </div>
+  
+  
+  
+  
+  
+  <div class="post-list__item">
+    <span class="item__title--big">
       <a href="/posts/redis/psync2/" >Psync2——redis备份机制的发展【转载】</a>
     </span>
     <span class="item__date">
@@ -403,28 +425,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     </span>
     
     ... <a class="read-more-symbol" href="/posts/linux/install-ss5-squid/">➦</a>
-    
-  </div>
-  
-  
-  
-  
-  
-  <div class="post-list__item">
-    <span class="item__title--big">
-      <a href="/posts/linux/systemd/" >Systemd服务文件编写-centos7下</a>
-    </span>
-    <span class="item__date">
-      Jun 7, 2019
-    </span>
-    <span >
-      
-      <p>以前的博客中有如何使用shell脚本重启应用的教程，也有解决tty的最大打开文件数量限制的方法。其实这些都可以用systemd服务的方式解决。今天就来一个简单的service文件，记录下怎么使用。</p>
-<p>使用如下命令即可编写sogo服务的service文件，并设置开机自启动。</p>
-      
-    </span>
-    
-    ... <a class="read-more-symbol" href="/posts/linux/systemd/">➦</a>
     
   </div>
   
