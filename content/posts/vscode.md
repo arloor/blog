@@ -369,7 +369,7 @@ go test -c github.com/arloor/xxxx/internal/app -o __debug_bin_test -gcflags='all
 ### venv
     
 ```bash
-pip3 install virtualenv&&virtualenv venv #或 python3 -m venv virEnv
+python3 -m venv venv
 source venv/bin/activate
 pip3 install -r requirements.txt
 ```
