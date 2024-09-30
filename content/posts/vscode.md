@@ -204,6 +204,10 @@ killcode
             "type": "lldb",
             "request": "launch",
             "name": "Debug",
+            "sourceLanguages": [
+                "rust"
+            ],
+            // https://code.visualstudio.com/docs/editor/variables-reference
             "program": "${workspaceFolder}/target/debug/${workspaceFolderBasename}",
             "args": [],
             "cwd": "${workspaceFolder}",
