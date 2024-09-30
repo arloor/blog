@@ -268,7 +268,7 @@ curl -fsSL https://raw.githubusercontent.com/golangci/golangci-lint/master/insta
 
 3. launch.json
 
-**注意**：vscode好像不能正确处理软链接，所以最好不好把项目放在软链接的项目中，或者配置 `substitutePath`。其他高级功能可以见 [vscode-go debugging](https://github.com/golang/vscode-go/wiki/debugging)
+**注意**：golang debug不能正确处理软链接，所以最好不要把项目放在软链接的文件夹中，或者配置 `substitutePath`，见[Debug symlink directories](https://github.com/golang/vscode-go/wiki/debugging#debug-symlink-directories)。其他高级功能可以见 [vscode-go debugging](https://github.com/golang/vscode-go/wiki/debugging)
 
 ```json
 {
