@@ -204,6 +204,7 @@ killcode
             "type": "lldb",
             "request": "launch",
             "name": "Debug",
+            // https://github.com/vadimcn/codelldb/blob/v1.10.0/MANUAL.md#rust-language-support
             "sourceLanguages": [
                 "rust"
             ],
