@@ -205,6 +205,7 @@ killcode
             "request": "launch",
             "name": "Debug",
             // https://github.com/vadimcn/codelldb/blob/v1.10.0/MANUAL.md#rust-language-support
+            // 虽然lldb支持cargo build，但是restart debug不会重新编译代码，所以不用。见https://github.com/vadimcn/codelldb/issues/988
             "sourceLanguages": [
                 "rust"
             ],
