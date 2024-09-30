@@ -1,4 +1,5 @@
 red="\033[31m"
+green='\033[0;32m'
 black="\033[0m"
 
 base=/etc/dnat
@@ -6,9 +7,11 @@ mkdir $base 2>/dev/null
 conf=$base/conf
 touch $conf
 
-# wget wget --no-check-certificate -qO natcfg.sh http://blog.arloor.com/sh/iptablesUtils/natcfg.sh && bash natcfg.sh
-
     clear
+    echo  -e "${red}计划下线本命令使用的下载链接，请使用下面的命令代替。详见Github README.md${black}"
+    echo  -e "${red}bash <(curl -fsSL https://us.arloor.dev/https://raw.githubusercontent.com/arloor/iptablesUtils/master/natcfg.sh)${black}"
+    echo  -e "${red}新命令使用了Github Proxy来加速Github资源下载，其他不变${black}"
+    echo
     echo "#############################################################"
     echo "# Usage: setup iptables nat rules for domian/ip             #"
     echo "# Website:  http://www.arloor.com/                          #"
@@ -281,7 +284,7 @@ done
 
 
 
-echo  -e "${red}你要做什么呢（请输入数字）？Ctrl+C 退出本脚本${black}"
+echo  -e "${green}你要做什么呢（请输入数字）？Ctrl+C 退出本脚本${black}"
 select todo in 增加转发规则 删除转发规则 列出所有转发规则 查看当前iptables配置
 do
     case $todo in
