@@ -16,6 +16,13 @@
       <description>&lt;p&gt;如何快速关闭WeGame和LOL客户端？恶心的wegame总是在关闭游戏的时候浪费我时间，所以写了一个批处理文件，一键关闭wegame和LOL客户端。&lt;/p&gt;</description>
     </item>
     <item>
+      <title>Windows11仅以大核启动以解决部分游戏大小核心调度不佳导致帧率不稳定的问题</title>
+      <link>https://www.arloor.com/posts/windows11-boot-only-pcores/</link>
+      <pubDate>Fri, 28 Jun 2024 21:25:52 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/windows11-boot-only-pcores/</guid>
+      <description>&lt;p&gt;大小核调度横空出世后，游戏需要额外做优化来让大小核架构发挥最大潜力。而没有正确优化的游戏比如老头环就会出现帧率抖动，伴随着显卡占用率抖动的现象。之前我使用 process lasso这个软件来设置cpu亲和性来解决该问题。该方案最大的问题是需要屏蔽小懒熊防作弊后，process lasso 才能生效。而屏蔽小懒熊会导致无法使用联机模式。&lt;/p&gt;</description>
+    </item>
+    <item>
       <title>Windows11彻底禁止自动更新</title>
       <link>https://www.arloor.com/posts/windows11-disable-auto-update/</link>
       <pubDate>Fri, 28 Jun 2024 21:05:32 +0800</pubDate>
