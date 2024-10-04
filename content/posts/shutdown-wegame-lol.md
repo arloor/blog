@@ -2,7 +2,7 @@
 title: "一键关闭WeGame和LOL客户端，避免浪费时间"
 subtitle:
 tags: 
-- undefined
+- windows
 date: 2024-10-01T00:42:03+08:00
 draft: false
 categories: 
