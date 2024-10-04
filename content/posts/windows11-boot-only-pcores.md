@@ -3,7 +3,9 @@ title: "Windows11仅以大核启动以解决部分游戏大小核心调度不佳
 date: 2024-06-28T21:25:52+08:00
 draft: false
 categories: [ "undefined"]
-tags: ["windows"]
+tags: 
+- windows
+- bat
 weight: 10
 subtitle: ""
 description : ""
