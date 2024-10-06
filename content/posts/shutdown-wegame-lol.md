@@ -11,14 +11,13 @@ categories:
 weight: 10
 description:
 highlightjslanguages:
-- powershell
 ---
 
 如何快速关闭WeGame和LOL客户端？恶心的wegame总是在关闭游戏的时候浪费我时间，所以写了一个批处理文件，一键关闭wegame和LOL客户端。
 
 <!--more-->
 
-```powershell
+```ps1
 @echo off
 :: 检查是否以管理员身份运行
 net session >nul 2>&1
