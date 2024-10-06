@@ -4,6 +4,7 @@ subtitle:
 tags: 
 - undefined
 date: {{ .Date }}
+lastmod: {{ .Date }}
 draft: false
 categories: 
 - undefined
