@@ -17,7 +17,7 @@ highlightjslanguages:
 
 <!--more-->
 
-```ps1
+```bat
 @echo off
 :: 检查是否以管理员身份运行
 net session >nul 2>&1
