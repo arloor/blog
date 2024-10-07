@@ -25,13 +25,13 @@
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Windows11 WSL2使用">
-  <meta name="twitter:description" content="wsl全称是windows的linux子系统，可以理解为在你的windows电脑上提供一个linux的工作环境，举个简单的例子是：windows没有bash，执行不了shell脚本，但是有了wsl之后，就有了bash。">
+  <meta name="twitter:description" content="wsl全称是windows的linux子系统，可以理解为在你的windows电脑上提供一个linux的工作环境。">
       <meta name="twitter:site" content="@njulgh">
 
 <meta property="og:url" content="https://www.arloor.com/posts/windows11-23h2-wsl2/">
   <meta property="og:site_name" content="ARLOOR">
   <meta property="og:title" content="Windows11 WSL2使用">
-  <meta property="og:description" content="wsl全称是windows的linux子系统，可以理解为在你的windows电脑上提供一个linux的工作环境，举个简单的例子是：windows没有bash，执行不了shell脚本，但是有了wsl之后，就有了bash。">
+  <meta property="og:description" content="wsl全称是windows的linux子系统，可以理解为在你的windows电脑上提供一个linux的工作环境。">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
@@ -271,7 +271,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     <li><a href="#windows虚拟化的基础知识">windows虚拟化的基础知识</a></li>
     <li><a href="#userprofilewslconfig">%userprofile%/.wslconfig</a></li>
     <li><a href="#安装wsl2">安装WSL2</a></li>
-    <li><a href="#设置默认root用户">设置默认root用户</a></li>
     <li><a href="#第一次启动">第一次启动</a></li>
     <li><a href="#其他设置">其他设置</a>
       <ul>
@@ -299,7 +298,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   
   <div class="post">
-    <p>wsl全称是windows的linux子系统，可以理解为在你的windows电脑上提供一个linux的工作环境，举个简单的例子是：windows没有bash，执行不了shell脚本，但是有了wsl之后，就有了bash。</p>
+    <p>wsl全称是windows的linux子系统，可以理解为在你的windows电脑上提供一个linux的工作环境。</p>
 <h2 id="windows虚拟化的基础知识">windows虚拟化的基础知识</h2>
 <table>
   <thead>
@@ -337,6 +336,9 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
       </tr>
   </tbody>
 </table>
+
+
+
 <img src="/img/windows-feature-disable-virt.png" alt="" width="400px" style="max-width: 100%;">
 
 <blockquote>
@@ -346,14 +348,14 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </ol>
 </blockquote>
 <p>关闭虚拟机平台和Hyper-V虚拟机监控程序：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>dism.exe /online /disable-feature /featurename:VirtualMachinePlatform /norestart
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bat" data-lang="bat"><span style="display:flex;"><span>dism.exe /online /disable-feature /featurename:VirtualMachinePlatform /norestart
 </span></span><span style="display:flex;"><span>DISM /Online /Disable-Feature /FeatureName:Microsoft-Hyper-V-All /NoRestart
-</span></span><span style="display:flex;"><span>@REM 其实只要关闭 Microsoft-Hyper-V-Hypervisor 就行了
+</span></span><span style="display:flex;"><span>@<span style="color:#75715e">REM 其实只要关闭 Microsoft-Hyper-V-Hypervisor 就行了</span>
 </span></span></code></pre></div><p>开启虚拟机平台和Hyper-V虚拟机监控程序：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bat" data-lang="bat"><span style="display:flex;"><span>dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
 </span></span><span style="display:flex;"><span>DISM /Online /Enable-Feature /All /FeatureName:Microsoft-Hyper-V-All /NoRestart
 </span></span></code></pre></div><p>查看所有windows功能</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>dism.exe /online /Get-Features
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bat" data-lang="bat"><span style="display:flex;"><span>dism.exe /online /Get-Features
 </span></span></code></pre></div><h2 id="userprofilewslconfig">%userprofile%/.wslconfig</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[<span style="color:#a6e22e">wsl2</span>]
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># networkingMode=bridged</span>
@@ -378,17 +380,17 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>loss
 </span></span></code></pre></div><h2 id="安装wsl2">安装WSL2</h2>
 <p>这里使用了Debian12，因为我不喜欢Ubuntu的Snap，而且Debian12的wsl发行版支持ebpf。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>@REM 启用VMP 虚拟机平台
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bat" data-lang="bat"><span style="display:flex;"><span>@<span style="color:#75715e">REM 启用VMP 虚拟机平台</span>
 </span></span><span style="display:flex;"><span>dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
-</span></span><span style="display:flex;"><span>echo you may need reboot to take effect
-</span></span><span style="display:flex;"><span>@REM 启用wslservice
-</span></span><span style="display:flex;"><span>sc.exe config wslservice start<span style="color:#f92672">=</span> demand
-</span></span><span style="display:flex;"><span>wsl --set-default-version <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> you may need reboot to take effect
+</span></span><span style="display:flex;"><span>@<span style="color:#75715e">REM 启用wslservice</span>
+</span></span><span style="display:flex;"><span>sc.exe config wslservice start= demand
+</span></span><span style="display:flex;"><span>wsl --set-default-version 2
 </span></span><span style="display:flex;"><span>wsl -v
 </span></span><span style="display:flex;"><span>wsl --list --online
 </span></span><span style="display:flex;"><span>wsl --install -d Debian
-</span></span></code></pre></div><h2 id="设置默认root用户">设置默认root用户</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>debian config --default-user root
+</span></span><span style="display:flex;"><span>@<span style="color:#75715e">REM 设置默认root用户</span>
+</span></span><span style="display:flex;"><span>debian config --default-user root
 </span></span></code></pre></div><h2 id="第一次启动">第一次启动</h2>
 <p>设置用户名和密码：</p>
 <p><img src="/img/Snipaste_2024-09-21_16-56-02.png" alt=""></p>
@@ -406,49 +408,55 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><p>执行 <code>wsl --shutdown</code> 重启wsl，然后就可以使用systemd了。</p>
 <h2 id="其他设置">其他设置</h2>
 <h3 id="apt设置代理">apt设置代理</h3>
-<p>默认安装的Debian的默认源是官方源，国内比较慢，直接配置apt代理，支持我的ProxyOverTls哦。</p>
-<pre tabindex="0"><code>if ! grep -q Acquire::http::Proxy /etc/apt/apt.conf.d/proxy.conf;then
-    cat &lt;&lt;EOF | sudo tee /etc/apt/apt.conf.d/proxy.conf
-Acquire::http::Proxy &#34;https://user:passwd@server:port/&#34;;
-Acquire::https::Proxy &#34;https://user:passwd@server:port/&#34;;
-# 否则报错没有ca-certificates
-Acquire::https::Verify-Peer &#34;false&#34;;
-EOF
-fi
-</code></pre><h3 id="apt不更新某软件">apt不更新某软件</h3>
+<p>默认安装的Debian的默认源是官方源，国内比较慢，直接配置apt代理。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ! grep -q Acquire::http::Proxy /etc/apt/apt.conf.d/proxy.conf;<span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>    cat <span style="color:#e6db74">&lt;&lt;EOF | sudo tee /etc/apt/apt.conf.d/proxy.conf
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Acquire::http::Proxy &#34;https://user:passwd@server:port/&#34;;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Acquire::https::Proxy &#34;https://user:passwd@server:port/&#34;;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"># 否则报错没有ca-certificates
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Acquire::https::Verify-Peer &#34;false&#34;;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span></code></pre></div><h3 id="apt不更新某软件">apt不更新某软件</h3>
 <p>apt-mark 可以对软件包进行设置（手动/自动）安装标记，也可以用来处理软件包的 dpkg(1) 选中状态，以及列出或过滤拥有某个标记的软件包。</p>
-<p>apt-mark常用命令</p>
-<pre tabindex="0"><code>apt-mark auto – 标记指定软件包为自动安装
-apt-mark manual – 标记指定软件包为手动安装
-apt-mark minimize-manual – Mark all dependencies of meta packages as automatically installed.
-apt-mark hold – 标记指定软件包为保留(held back)，阻止软件自动更新
-apt-mark unhold – 取消指定软件包的保留(held back)标记，解除阻止自动更新
-apt-mark showauto – 列出所有自动安装的软件包
-apt-mark showmanual – 列出所有手动安装的软件包
-apt-mark showhold – 列出设为保留的软件包
-
-比如保留某个软件不更新可以使用hold标记,如docker
-sudo apt-mark hold docker*
-
-sudo apt-mark showhold
-
-如果要解除保留可以使用unhold
-sudo apt-mark unhold docker*
-</code></pre><h3 id="git设置">git设置</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>apt-mark auto – 标记指定软件包为自动安装
+</span></span><span style="display:flex;"><span>apt-mark manual – 标记指定软件包为手动安装
+</span></span><span style="display:flex;"><span>apt-mark minimize-manual – Mark all dependencies of meta packages as automatically installed.
+</span></span><span style="display:flex;"><span>apt-mark hold – 标记指定软件包为保留<span style="color:#f92672">(</span>held back<span style="color:#f92672">)</span>，阻止软件自动更新
+</span></span><span style="display:flex;"><span>apt-mark unhold – 取消指定软件包的保留<span style="color:#f92672">(</span>held back<span style="color:#f92672">)</span>标记，解除阻止自动更新
+</span></span><span style="display:flex;"><span>apt-mark showauto – 列出所有自动安装的软件包
+</span></span><span style="display:flex;"><span>apt-mark showmanual – 列出所有手动安装的软件包
+</span></span><span style="display:flex;"><span>apt-mark showhold – 列出设为保留的软件包
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>比如保留某个软件不更新可以使用hold标记,如docker
+</span></span><span style="display:flex;"><span>sudo apt-mark hold docker*
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sudo apt-mark showhold
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>如果要解除保留可以使用unhold
+</span></span><span style="display:flex;"><span>sudo apt-mark unhold docker*
+</span></span></code></pre></div><h3 id="git设置">git设置</h3>
 <p>由于wsl支持windows和linux的命令互操作，你实际上会有两个git，一个wsl的git，一个windows的git.exe。</p>
 <p><strong>WSL git配置</strong></p>
-<pre tabindex="0"><code>git config --global core.editor vim
-git config --global user.name &#34;user&#34;
-git config --global user.email &#34;xx@xx.com&#34;
-git config --global credential.helper store
-# wsl的git忽略文件权限的变更
-git config --global core.filemode false
-# wsl的git 提交时自动将crlf转换为lf，checkout时不转成crlf
-git config --global core.autocrlf input
-</code></pre><p><strong>windows git配置</strong></p>
-<pre tabindex="0"><code># wsl的git 提交时自动将crlf转换为lf，checkout时不转成crlf
-git config --global core.autocrlf input
-</code></pre><p>autocrlf的配置详见<a href="https://git-scm.com/book/en/v2/Customizing-Git-Git-Configuration#_formatting_and_whitespace">git文档</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git config --global core.editor vim
+</span></span><span style="display:flex;"><span>git config --global http.proxy http://127.0.0.1:7880
+</span></span><span style="display:flex;"><span>git config --global https.proxy http://127.0.0.1:7880
+</span></span><span style="display:flex;"><span>git config --global <span style="color:#e6db74">&#34;includeIf.hasconfig:remote.*.url:*://*github.com*/**.path&#34;</span> .gitconfig_github
+</span></span><span style="display:flex;"><span>git config --global <span style="color:#e6db74">&#34;includeIf.hasconfig:remote.*.url:git@github.com:*/**.path&#34;</span> .gitconfig_github
+</span></span><span style="display:flex;"><span>cat &gt; ~/.gitconfig_github <span style="color:#e6db74">&lt;&lt;EOF
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[user]
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        name = arloor
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        email = admin@arloor.com
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span><span style="display:flex;"><span>git config --global credential.helper store
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># wsl的git忽略文件权限的变更</span>
+</span></span><span style="display:flex;"><span>git config --global core.filemode false
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># wsl的git 提交时自动将crlf转换为lf，checkout时不转成crlf</span>
+</span></span><span style="display:flex;"><span>git config --global core.autocrlf input
+</span></span></code></pre></div><p><strong>windows git配置</strong></p>
+<p>wsl的git 提交时自动将crlf转换为lf，checkout时不转成crlf</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git config --global core.autocrlf input
+</span></span></code></pre></div><p>autocrlf的配置详见<a href="https://git-scm.com/book/en/v2/Customizing-Git-Git-Configuration#_formatting_and_whitespace">git文档</a></p>
 <p>简单解释就是：</p>
 <ul>
 <li>windows使用crlf换行，linux和macos使用lf换行（早期macos使用cr换行）</li>
@@ -520,26 +528,26 @@ git config --global core.autocrlf input
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>无法启动服务，原因可能是已被禁用或与其相关联的设备没有启动。
 </span></span><span style="display:flex;"><span>Error code: Wsl/0x80070422
 </span></span></code></pre></div><p>解决方案：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>sc.exe config wslservice start= demand
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bat" data-lang="bat"><span style="display:flex;"><span>sc.exe config wslservice start= demand
 </span></span></code></pre></div><h3 id="0x8004032d-虚拟机平台功能未启用">0x8004032d 虚拟机平台功能未启用</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>WslRegisterDistribution failed with error<span style="color:#960050;background-color:#1e0010">:</span> 0x8004032d
-</span></span><span style="display:flex;"><span>Error<span style="color:#960050;background-color:#1e0010">:</span> 0x8004032d (null)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bat" data-lang="bat"><span style="display:flex;"><span>WslRegisterDistribution failed with error: 0x8004032d
+</span></span><span style="display:flex;"><span>Error: 0x8004032d (null)
 </span></span></code></pre></div><p>解决方案：在启用和关闭windows功能中打开“虚拟机平台”或使用下面的cmd命令并重启</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>dism.exe /online /enable-feature /featurename<span style="color:#960050;background-color:#1e0010">:</span>VirtualMachinePlatform /all /norestart
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bat" data-lang="bat"><span style="display:flex;"><span>dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
 </span></span></code></pre></div><h3 id="端口被占用问题解决">端口被占用问题解决</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 查看当前动态端口范围</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bat" data-lang="bat"><span style="display:flex;"><span># 查看当前动态端口范围
 </span></span><span style="display:flex;"><span>netsh int ipv4 show dynamicport tcp
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 查看被使用的端口</span>
+</span></span><span style="display:flex;"><span># 查看被使用的端口
 </span></span><span style="display:flex;"><span>netsh int ipv4 show excludedportrange protocol=tcp
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 修改动态端口范围</span>
-</span></span><span style="display:flex;"><span>netsh int ipv4 set dynamic tcp start=<span style="color:#ae81ff">50000</span> num=<span style="color:#ae81ff">15536</span>
-</span></span><span style="display:flex;"><span>netsh int ipv6 set dynamic tcp start=<span style="color:#ae81ff">50000</span> num=<span style="color:#ae81ff">15536</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 重启网络</span>
+</span></span><span style="display:flex;"><span># 修改动态端口范围
+</span></span><span style="display:flex;"><span>netsh int ipv4 set dynamic tcp start=50000 num=15536
+</span></span><span style="display:flex;"><span>netsh int ipv6 set dynamic tcp start=50000 num=15536
+</span></span><span style="display:flex;"><span># 重启网络
 </span></span><span style="display:flex;"><span>net stop winnat
 </span></span><span style="display:flex;"><span>net start winnat
 </span></span></code></pre></div><h2 id="卸载发行版">卸载发行版</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>wsl --uninstall Debian
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bat" data-lang="bat"><span style="display:flex;"><span>wsl --uninstall Debian
 </span></span><span style="display:flex;"><span>wsl --unregister Debian
 </span></span></code></pre></div>
   </div>
@@ -582,14 +590,7 @@ git config --global core.autocrlf input
     <script src="/js/highlight.min.js"></script>
     <script src="/js/languages/dos.min.js"></script>
         
-            
-                <script src="https://bwg.arloor.dev/ajax/libs/highlight.js/11.9.0/languages/powershell.min.js"></script>
-                
-            
-        
     <script type="text/javascript">
-        
-        hljs.configure({languages: ["powershell"]});
         
         hljs.highlightAll();
     </script>
