@@ -10,10 +10,9 @@ weight: 10
 subtitle:
 description:
 highlightjslanguages:
-- powershell
 ---
 
-wsl全称是windows的linux子系统，可以理解为在你的windows电脑上提供一个linux的工作环境，举个简单的例子是：windows没有bash，执行不了shell脚本，但是有了wsl之后，就有了bash。
+wsl全称是windows的linux子系统，可以理解为在你的windows电脑上提供一个linux的工作环境。
 
 ## windows虚拟化的基础知识
 
@@ -25,14 +24,14 @@ wsl全称是windows的linux子系统，可以理解为在你的windows电脑上�
 | Windows Sandbox | 一个隔离的桌面环境 | 我反正没用过，不了解 |
 | Windows 虚拟机监控程序平台 | 用于支持vmware等第三方虚拟机软件 | |
 
-{{<imgx src="/img/windows-feature-disable-virt.png" width="400px">}}
+{{<img windows-feature-disable-virt.png 400 >}}
 
 > 1. 虚拟机平台会一定程度上影响游戏性能，为了游戏性能，可以关闭虚拟机平台、Hyper-V。Windows虚拟机监控程序平台、适用于Linux的Windows子系统我理解是不影响游戏性能的。参考[用于在 Windows 11 中优化游戏性能的选项](https://prod.support.services.microsoft.com/zh-cn/windows/%E7%94%A8%E4%BA%8E%E5%9C%A8-windows-11-%E4%B8%AD%E4%BC%98%E5%8C%96%E6%B8%B8%E6%88%8F%E6%80%A7%E8%83%BD%E7%9A%84%E9%80%89%E9%A1%B9-a255f612-2949-4373-a566-ff6f3f474613)。
 > 2. Hyper-V和vmware等软件是冲突的，详见[虚拟化应用程序无法与 Hyper-V、Device Guard 和 Credential Guard 协同工作](https://learn.microsoft.com/zh-cn/troubleshoot/windows-client/application-management/virtualization-apps-not-work-with-hyper-v)
 
 关闭虚拟机平台和Hyper-V虚拟机监控程序：
 
-```bash
+```bat
 dism.exe /online /disable-feature /featurename:VirtualMachinePlatform /norestart
 DISM /Online /Disable-Feature /FeatureName:Microsoft-Hyper-V-All /NoRestart
 @REM 其实只要关闭 Microsoft-Hyper-V-Hypervisor 就行了
@@ -40,14 +39,14 @@ DISM /Online /Disable-Feature /FeatureName:Microsoft-Hyper-V-All /NoRestart
 
 开启虚拟机平台和Hyper-V虚拟机监控程序：
 
-```bash
+```bat
 dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
 DISM /Online /Enable-Feature /All /FeatureName:Microsoft-Hyper-V-All /NoRestart
 ```
 
 查看所有windows功能
 
-```bash
+```bat
 dism.exe /online /Get-Features
 ```
 
@@ -85,7 +84,7 @@ loss
 
 这里使用了Debian12，因为我不喜欢Ubuntu的Snap，而且Debian12的wsl发行版支持ebpf。
 
-```bash
+```bat
 @REM 启用VMP 虚拟机平台
 dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
 echo you may need reboot to take effect
@@ -95,11 +94,7 @@ wsl --set-default-version 2
 wsl -v
 wsl --list --online
 wsl --install -d Debian
-```
-
-## 设置默认root用户
-
-```bash
+@REM 设置默认root用户
 debian config --default-user root
 ```
 
@@ -130,9 +125,9 @@ fi
 
 ### apt设置代理
 
-默认安装的Debian的默认源是官方源，国内比较慢，直接配置apt代理，支持我的ProxyOverTls哦。
+默认安装的Debian的默认源是官方源，国内比较慢，直接配置apt代理。
 
-```
+```bash
 if ! grep -q Acquire::http::Proxy /etc/apt/apt.conf.d/proxy.conf;then
     cat <<EOF | sudo tee /etc/apt/apt.conf.d/proxy.conf
 Acquire::http::Proxy "https://user:passwd@server:port/";
@@ -147,9 +142,7 @@ fi
 
 apt-mark 可以对软件包进行设置（手动/自动）安装标记，也可以用来处理软件包的 dpkg(1) 选中状态，以及列出或过滤拥有某个标记的软件包。 
 
-apt-mark常用命令
-
-```
+```bash
 apt-mark auto – 标记指定软件包为自动安装
 apt-mark manual – 标记指定软件包为手动安装
 apt-mark minimize-manual – Mark all dependencies of meta packages as automatically installed.
@@ -174,10 +167,17 @@ sudo apt-mark unhold docker*
 
 **WSL git配置**
 
-```
+```bash
 git config --global core.editor vim
-git config --global user.name "user"
-git config --global user.email "xx@xx.com"
+git config --global http.proxy http://127.0.0.1:7880
+git config --global https.proxy http://127.0.0.1:7880
+git config --global "includeIf.hasconfig:remote.*.url:*://*github.com*/**.path" .gitconfig_github
+git config --global "includeIf.hasconfig:remote.*.url:git@github.com:*/**.path" .gitconfig_github
+cat > ~/.gitconfig_github <<EOF
+[user]
+        name = arloor
+        email = admin@arloor.com
+EOF
 git config --global credential.helper store
 # wsl的git忽略文件权限的变更
 git config --global core.filemode false
@@ -187,8 +187,9 @@ git config --global core.autocrlf input
 
 **windows git配置**
 
-```
-# wsl的git 提交时自动将crlf转换为lf，checkout时不转成crlf
+wsl的git 提交时自动将crlf转换为lf，checkout时不转成crlf
+
+```bash
 git config --global core.autocrlf input
 ```
 
@@ -284,25 +285,25 @@ Error code: Wsl/0x80070422
 
 解决方案：
 
-```powershell
+```bat
 sc.exe config wslservice start= demand
 ```
 
 ### 0x8004032d 虚拟机平台功能未启用
 
-```powershell
+```bat
 WslRegisterDistribution failed with error: 0x8004032d
 Error: 0x8004032d (null)
 ```
 解决方案：在启用和关闭windows功能中打开“虚拟机平台”或使用下面的cmd命令并重启
 
-```powershell
+```bat
 dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
 ```
 
 ### 端口被占用问题解决
 
-```powershell
+```bat
 # 查看当前动态端口范围
 netsh int ipv4 show dynamicport tcp
 # 查看被使用的端口
@@ -318,7 +319,7 @@ net start winnat
 
 ## 卸载发行版
 
-```powershell
+```bat
 wsl --uninstall Debian
 wsl --unregister Debian
 ```
