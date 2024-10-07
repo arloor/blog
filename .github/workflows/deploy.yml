@@ -40,7 +40,7 @@ jobs:
           extended: true
     # - name: setup hugo
     #   run: |
-    #     hugoVersion="0.134.3"
+    #     hugoVersion="0.135.0"
     #     hugoURL=https://github.com/gohugoio/hugo/releases/download/v${hugoVersion}/hugo_extended_${hugoVersion}_Linux-64bit.tar.gz
     #     sudo apt-get install -y tar curl
     #     mkdir /tmp/hugo
