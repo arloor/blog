@@ -330,6 +330,7 @@ go test -c github.com/arloor/xxxx/internal/app -o __debug_bin_test -gcflags='all
     "go.lintTool": "golangci-lint",
     "go.toolsManagement.autoUpdate": true,
     "go.formatTool": "gofmt",
+    "go.testExplorer.showOutput": true,
     "[go]": {
         "editor.formatOnSave": true,
         "editor.codeActionsOnSave": {
@@ -338,17 +339,13 @@ go test -c github.com/arloor/xxxx/internal/app -o __debug_bin_test -gcflags='all
     },
     "go.testFlags": [
         "-gcflags=all=-l", // 针对run test禁用内联优化，使gomonkey可以成功打桩。对debug test不生效，因为golang插件针对debug test自行设置了-gcflags="all=-l -N"
-        "-v", // 使debug test可以输出t.Logf的日志
-        "-args", // 使run test可以输出t.Logf的日志
-        "-test.v",
+        "-v", // 使run test可以输出t.Logf的日志。对debug test不生效，只在test fail的时候才会打印t.Logf的日志
     ],
     "go.formatFlags": [
         "-w"
     ],
 }
 ```
-
-其中 `go.testFlags` 为了让 `t.Logf` 的日志输出到console，兼顾了CodeLens中的 `run test` 和 `debug test`，这么写的原因参考[https://github.com/golang/vscode-go/issues/855#issue-731679624](https://github.com/golang/vscode-go/issues/855#issue-731679624)
 
 ## Python开发
 
@@ -544,7 +541,7 @@ fi
         "-w"
     ],
     "security.workspace.trust.untrustedFiles": "open",
-    "go.testExplorer.showOutput": false,
+    "go.testExplorer.showOutput": true,
     "gitblame.inlineMessageEnabled": true,
     "gitblame.inlineMessageFormat": "${author.name}, (${time.ago}) · ${commit.summary}",
     "github.copilot.advanced": {
