@@ -35,7 +35,7 @@ highlightjslanguages:
 
 {{<img grafana_contactor.png  500>}}
 
-其中邮件通知需要在 `grafana.ini` 中配置smtp服务器：
+其中邮件通知需要在 `grafana.ini` 中[配置smtp服务器](https://grafana.com/docs/grafana/latest/alerting/configure-notifications/manage-contact-points/integrations/configure-email/)：
 
 ```ini
 [smtp]
@@ -52,3 +52,7 @@ from_name = Grafana告警
 特别注意： Group interval 控制组内通知的间隔。设置5min的话，告警和恢复的通知会间隔5min，即使1min后就恢复了。并且如果5min内多次告警并恢复，后续的告警和恢复通知会被吞没。
 
 {{<img grafana_Edit_notification_policy.png 700>}}
+
+## 其他备忘
+
+- [Configure Grafana HTTPS](https://grafana.com/docs/grafana/latest/setup-grafana/set-up-https/#configure-grafana-https-and-restart-grafana)
