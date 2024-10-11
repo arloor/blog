@@ -218,6 +218,28 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   <div class="post-list__item">
     <span class="item__title--big">
+      <a href="/posts/golang-string-data-race-panic/" >Golang的string数据争用导致的panic</a>
+    </span>
+    <span class="item__date">
+      Oct 11, 2024
+    </span>
+    <span >
+      
+      <p>简单说下问题：多个goroutine并发读写string，读取string（<code>fmt.Println</code>和<code>json.Marshal</code>）的goroutine会panic。根因是string是一个胖指针，除了pointer字段之外还有一个len字段的元数据。在给string变量赋值（拷贝）时，会逐个设置pointer和len字段，这个过程不是原子的。在有并发修改时，pointer和len就不一致了，这时就回发生问题：当len不为0，pointer为nil(0x0)时，就会<code>panic: runtime error: invalid memory address or nil pointer dereference</code>。</p>
+<p>本文首先探究下为什么golang string有这个问题，然后对比下java的string为什么没这个问题，最后介绍Rust是如何从语言层面避免数据争用(data race)问题的。</p>
+      
+    </span>
+    
+    ... <a class="read-more-symbol" href="/posts/golang-string-data-race-panic/">➦</a>
+    
+  </div>
+  
+  
+  
+  
+  
+  <div class="post-list__item">
+    <span class="item__title--big">
       <a href="/posts/shutdown-wegame-lol/" >一键关闭WeGame和LOL客户端，避免浪费时间</a>
     </span>
     <span class="item__date">
@@ -411,26 +433,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     </span>
     
     ... <a class="read-more-symbol" href="/posts/rust-reqwest-hyper-http-client/">➦</a>
-    
-  </div>
-  
-  
-  
-  
-  
-  <div class="post-list__item">
-    <span class="item__title--big">
-      <a href="/posts/afterburner-profile/" >Afterburner配置文件备份</a>
-    </span>
-    <span class="item__date">
-      Jun 28, 2024
-    </span>
-    <span >
-      
-      <p>下载<a href="/backup/MSIAfterburner.cfg">MSIAfterburner.cfg</a>到 <code>%programfiles(x86)%\MSI Afterburner\Profiles</code>。当前版本是4.6.6(beta3)，下载地址：<a href="https://www.msi.com/Landing/afterburner/graphics-cards">msi官方</a>或<a href="https://www.guru3d.com/download/msi-afterburner-beta-download/">guru3d下载</a>。核心效果是展示各个cpu核心的使用率，如下：</p>
-<p><img src="/img/afterburner-snapshot.png" alt="alt text"></p>
-      
-    </span>
     
   </div>
   
