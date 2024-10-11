@@ -650,7 +650,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><ol start="3">
 <li>launch.json</li>
 </ol>
-<p><strong>注意</strong>：golang debug不能正确处理软链接，所以最好不要把项目放在软链接的文件夹中，或者配置 <code>substitutePath</code>，见<a href="https://github.com/golang/vscode-go/wiki/debugging#debug-symlink-directories">Debug symlink directories</a>。其他高级功能可以见 <a href="https://github.com/golang/vscode-go/wiki/debugging">vscode-go debugging</a></p>
+<p><strong>注意</strong>：golang debug不能正确处理软链接，所以最好不要把项目放在软链接的文件夹中，或者配置 <code>substitutePath</code>，见<a href="https://github.com/golang/vscode-go/wiki/debugging#debug-symlink-directories">Debug symlink directories</a>和<a href="https://github.com/golang/vscode-go/wiki/debugging#settings">go.delveConfig settings</a>(用于CodeLens里的debug test按钮)。其他高级功能可以见 <a href="https://github.com/golang/vscode-go/wiki/debugging">vscode-go debugging</a></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 使用 IntelliSense 了解相关属性。 
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// 悬停以查看现有属性的描述。
