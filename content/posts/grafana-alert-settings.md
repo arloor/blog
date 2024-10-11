@@ -2,7 +2,7 @@
 title: "Grafana告警配置"
 subtitle:
 tags: 
-- undefined
+- software
 date: 2024-10-11T16:22:26+08:00
 lastmod: 2024-10-11T16:22:26+08:00
 draft: false
