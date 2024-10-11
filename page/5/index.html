@@ -218,6 +218,34 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   <div class="post-list__item">
     <span class="item__title--big">
+      <a href="/posts/k3s-multi-cloud-air-gap-install/" >K3S多云环境下的离线部署</a>
+    </span>
+    <span class="item__date">
+      Jul 23, 2023
+    </span>
+    <span >
+      
+      <p>这几天把k8s折腾了个遍，个人觉得k3s更适合我，主要有五个优势</p>
+<ol>
+<li>类似springboot的“约定优于配置”，就是默认给你一个开箱即用的东西，如果需要，再进行修改。而不是k8s那样样样要你配置</li>
+<li>内置<a href="https://docs.k3s.io/networking#service-load-balancer">LoadBalancer实现</a>，而不是像k8s那样没有LoadBalancer实现，导致裸机安装情况下得用NodePort、HostPort、HostNetwork来暴露服务，或者安装Metallb。</li>
+<li>可以轻松的支持多云环境，对我这种有多个云厂商vps的玩家很友好</li>
+<li>资源消耗较少。虽然节点增加后，控制面的内存压力也不小</li>
+<li>文档<a href="https://docs.k3s.io/">docs.k3s.io</a>很清晰。PS：不要看中文版的文档，也不要看rancher中国的文档，垃圾</li>
+</ol>
+      
+    </span>
+    
+    ... <a class="read-more-symbol" href="/posts/k3s-multi-cloud-air-gap-install/">➦</a>
+    
+  </div>
+  
+  
+  
+  
+  
+  <div class="post-list__item">
+    <span class="item__title--big">
       <a href="/posts/clash-tun-gateway/" >Clash Tun模式和透明代理</a>
     </span>
     <span class="item__date">
@@ -433,175 +461,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     </span>
     
     ... <a class="read-more-symbol" href="/posts/git-commands/">➦</a>
-    
-  </div>
-  
-  
-  
-  
-  
-  <div class="post-list__item">
-    <span class="item__title--big">
-      <a href="/posts/notion/%E9%93%BE%E8%B7%AF%E8%BF%BD%E8%B8%AA%E4%B8%9A%E7%95%8C%E5%AF%B9%E6%A0%87/" >链路追踪业界对标</a>
-    </span>
-    <span class="item__date">
-      May 18, 2023
-    </span>
-    <span >
-      
-      <h1 id="链路追踪业界对标">链路追踪业界对标</h1>
-<table>
-  <thead>
-      <tr>
-          <th style="text-align: left"></th>
-          <th style="text-align: left">阿里</th>
-          <th style="text-align: left">腾讯</th>
-          <th style="text-align: left">美团</th>
-          <th style="text-align: left">SkyWalking</th>
-          <th style="text-align: left">小红书</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">产品名称</td>
-          <td style="text-align: left"><a href="https://sls4service.console.aliyun.com/lognext/trace/qs-demos/sls-mall?resource=/trace/sls-mall/explorer&amp;isShare=true&amp;readOnly=true&amp;hideTopbar=true&amp;hiddenAppBread=true&amp;hiddenPSql=true&amp;hiddenEtl=true">SLS trace</a></td>
-          <td style="text-align: left"><a href="https://console.cloud.tencent.com/monitor/apm/system?from=now-15m&amp;to=now&amp;team=apm-ylTJfTSbn&amp;rid=1&amp;role=server">APM应用性能监控</a></td>
-          <td style="text-align: left">Mtrace</td>
-          <td style="text-align: left"><a href="http://demo.skywalking.apache.org/">SkyWalking</a></td>
-          <td style="text-align: left">Xray-trace</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">成本</td>
-          <td style="text-align: left">低</td>
-          <td style="text-align: left">较高</td>
-          <td style="text-align: left">较低</td>
-          <td style="text-align: left">高</td>
-          <td style="text-align: left">较低</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">SLA</td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">副本</td>
-          <td style="text-align: left">三副本</td>
-          <td style="text-align: left">三副本</td>
-          <td style="text-align: left">三副本</td>
-          <td style="text-align: left">可配置</td>
-          <td style="text-align: left">单副本</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">语言支持</td>
-          <td style="text-align: left">多语言(10种语言+)</td>
-          <td style="text-align: left">Java、Go、Python、C++ 、PHP</td>
-          <td style="text-align: left">java、go、C++</td>
-          <td style="text-align: left">多语言</td>
-          <td style="text-align: left"></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">协议支持</td>
-          <td style="text-align: left">支持OpenTelemetry、Jaeger、Zipkin协议接入</td>
-          <td style="text-align: left">支持OpenTelemetry、Jaeger、SkyWalking协议接入</td>
-          <td style="text-align: left">自研协议，主要借鉴pinpoint</td>
-          <td style="text-align: left">自研协议+OpenTelemetry</td>
-          <td style="text-align: left">自研协议</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">数据规范</td>
-          <td style="text-align: left">OpenTelemetry Trace 1.0</td>
-          <td style="text-align: left">OpenTracing协议</td>
-          <td style="text-align: left">自研规范</td>
-          <td style="text-align: left">自研规范</td>
-          <td style="text-align: left">自研规范</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">弹性能力</td>
-          <td style="text-align: left">强</td>
-          <td style="text-align: left">强</td>
-          <td style="text-align: left">较弱</td>
-          <td style="text-align: left">较弱</td>
-          <td style="text-align: left">较弱</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">底层存储</td>
-          <td style="text-align: left">自研LogStore、MetricStore</td>
-          <td style="text-align: left">ES</td>
-          <td style="text-align: left">ClickHouse、HBase</td>
-          <td style="text-align: left">ES</td>
-          <td style="text-align: left">ClickHouse</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">异地多活</td>
-          <td style="text-align: left">是</td>
-          <td style="text-align: left">是</td>
-          <td style="text-align: left">否</td>
-          <td style="text-align: left">- 依赖部署架构</td>
-          <td style="text-align: left">否</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">点查性能</td>
-          <td style="text-align: left">高</td>
-          <td style="text-align: left">高</td>
-          <td style="text-align: left">高</td>
-          <td style="text-align: left">高</td>
-          <td style="text-align: left">较低</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">拓扑染色</td>
-          <td style="text-align: left">不支持</td>
-          <td style="text-align: left">不支持</td>
-          <td style="text-align: left">支持</td>
-          <td style="text-align: left">不支持</td>
-          <td style="text-align: left">建设中</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">性能指标生成</td>
-          <td style="text-align: left">支持</td>
-          <td style="text-align: left">支持</td>
-          <td style="text-align: left">不支持</td>
-          <td style="text-align: left">支持</td>
-          <td style="text-align: left">建设中</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">完整日志查看</td>
-          <td style="text-align: left">支持</td>
-          <td style="text-align: left">支持</td>
-          <td style="text-align: left">支持</td>
-          <td style="text-align: left">不完备</td>
-          <td style="text-align: left">不支持</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">告警能力</td>
-          <td style="text-align: left">支持</td>
-          <td style="text-align: left">支持</td>
-          <td style="text-align: left">不支持</td>
-          <td style="text-align: left">不支持</td>
-          <td style="text-align: left">不支持</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">慢事务智能分析</td>
-          <td style="text-align: left">支持</td>
-          <td style="text-align: left">不支持</td>
-          <td style="text-align: left">不支持</td>
-          <td style="text-align: left">不支持</td>
-          <td style="text-align: left">不支持</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">Span粒度区分</td>
-          <td style="text-align: left">无法区分</td>
-          <td style="text-align: left">无法区分</td>
-          <td style="text-align: left">可区分RPC级别/内部方法级别</td>
-          <td style="text-align: left">无法区分</td>
-          <td style="text-align: left">可区分RPC级别/内部方法级别</td>
-      </tr>
-  </tbody>
-</table>
-      
-    </span>
     
   </div>
   

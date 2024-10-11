@@ -6,8 +6,15 @@
     <description>Recent content in Undefined on ARLOOR</description>
     <generator>Hugo</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Fri, 11 Oct 2024 10:43:56 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 11 Oct 2024 16:22:26 +0800</lastBuildDate>
     <atom:link href="https://www.arloor.com/categories/undefined/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Grafana告警配置</title>
+      <link>https://www.arloor.com/posts/grafana-alert-settings/</link>
+      <pubDate>Fri, 11 Oct 2024 16:22:26 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/grafana-alert-settings/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Golang的string数据争用导致的panic</title>
       <link>https://www.arloor.com/posts/golang-string-data-race-panic/</link>
