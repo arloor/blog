@@ -239,6 +239,8 @@ if ! grep "go/bin" ~/.zshrc;then
 fi
 ```
 
+或者到[https://go.dev/dl/](https://go.dev/dl/)下载安装包安装
+
 2. 安装插件 `golang.go`。
 3. 安装相关的依赖
 
