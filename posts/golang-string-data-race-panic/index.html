@@ -418,7 +418,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>这意味着如果要在golang中完全避免数据争用，需要对某个data的全部并发访问都上锁。这无疑是困难的，现实是代码里data race到处可见（ <code>go build</code> 加上 <code>-race</code>，运行时会一直panic）。在<a href="https://go.dev/ref/mem">The Go Memory Model(golang内存模型)</a>中，全篇都在说如何使用channel、lock、atomic、once等同步手段实现data-race-free的golang程序，有兴趣可以看下</p>
 <p>但是rust这门优秀的语言天生避免了这个问题（不使用unsafe rust的前提下），其实现机制如下：</p>
 <ol>
-<li>值的可变引用只能有一个（所有权机制）</li>
+<li>值的可变引用只能有一个（所有权机制），只有可变引用可以修改值</li>
 <li>需要跨线程传递/同步的值需要满足 <code>send + sync</code> 约束，实现方式是包裹 <code>Arc&lt;Mutex&lt;YourData&gt;&gt;</code>。编译器强制你包裹Mutex，否则编译都通不过。——Rust代码只要可以编译，运行时就不大会出离谱的问题。</li>
 </ol>
 <p>除了data race，还有race condition竞态条件，这需要通过临界区保护，详见<a href="https://doc.rust-lang.org/nomicon/races.html">Data Races and Race Conditions</a>，本文不展开。</p>
