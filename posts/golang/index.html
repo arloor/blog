@@ -7,7 +7,7 @@
     <head>
     <link href="https://gmpg.org/xfn/11" rel="profile">
     
-    <link rel="canonical" href="https://www.arloor.com/posts/linux/aliyun-turnoff-aliyundun/">
+    <link rel="canonical" href="https://www.arloor.com/posts/golang/">
     
     <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,25 +19,27 @@
     
     
 
-<title>阿里云vps关闭阿里云盾和云监控c&#43;&#43;插件 • ARLOOR</title>
+<title>Golang • ARLOOR</title>
 <meta name="description" content="今天，你学习了吗">
 <meta name="keywords" content="刘港欢, arloor, moontell">
 
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="阿里云vps关闭阿里云盾和云监控c&#43;&#43;插件">
-  <meta name="twitter:description" content="都是瞎写的">
+  <meta name="twitter:title" content="Golang">
+  <meta name="twitter:description" content="安装golang (linux-amd64) version=1.22.6 curl https://go.dev/dl/go${version}.linux-amd64.tar.gz -Lf -o /tmp/golang.tar.gz rm -rf /usr/local/go &amp;&amp; tar -C /usr/local -xzf /tmp/golang.tar.gz if ! grep &#34;go/bin&#34; ~/.zshrc;then export PATH=$PATH:/usr/local/go/bin echo &#39;export PATH=$PATH:/usr/local/go/bin&#39; &gt;&gt; ~/.zshrc fi 或者到https://go.dev/dl/下载安装包安装
+设置go test的快捷命令 mkdir -p ~/bin if ! grep &#34;PATH=~/bin&#34; ~/.zshrc;then export PATH=~/bin:$PATH echo &#39;export PATH=~/bin:$PATH&#39; &gt;&gt; ~/.zshrc fi cat &gt; ~/bin/testgo &lt;&lt;\EOF go test -gcflags=&#39;all=-N -l&#39; -v &#34;$@&#34; EOF chmod &#43;x ~/bin/testgo ">
       <meta name="twitter:site" content="@njulgh">
 
-<meta property="og:url" content="https://www.arloor.com/posts/linux/aliyun-turnoff-aliyundun/">
+<meta property="og:url" content="https://www.arloor.com/posts/golang/">
   <meta property="og:site_name" content="ARLOOR">
-  <meta property="og:title" content="阿里云vps关闭阿里云盾和云监控c&#43;&#43;插件">
-  <meta property="og:description" content="都是瞎写的">
+  <meta property="og:title" content="Golang">
+  <meta property="og:description" content="安装golang (linux-amd64) version=1.22.6 curl https://go.dev/dl/go${version}.linux-amd64.tar.gz -Lf -o /tmp/golang.tar.gz rm -rf /usr/local/go &amp;&amp; tar -C /usr/local -xzf /tmp/golang.tar.gz if ! grep &#34;go/bin&#34; ~/.zshrc;then export PATH=$PATH:/usr/local/go/bin echo &#39;export PATH=$PATH:/usr/local/go/bin&#39; &gt;&gt; ~/.zshrc fi 或者到https://go.dev/dl/下载安装包安装
+设置go test的快捷命令 mkdir -p ~/bin if ! grep &#34;PATH=~/bin&#34; ~/.zshrc;then export PATH=~/bin:$PATH echo &#39;export PATH=~/bin:$PATH&#39; &gt;&gt; ~/.zshrc fi cat &gt; ~/bin/testgo &lt;&lt;\EOF go test -gcflags=&#39;all=-N -l&#39; -v &#34;$@&#34; EOF chmod &#43;x ~/bin/testgo ">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
-    <meta property="article:published_time" content="2024-10-12T16:46:54+08:00">
-    <meta property="article:modified_time" content="2024-10-12T16:46:54+08:00">
-    <meta property="article:tag" content="Linux">
+    <meta property="article:published_time" content="2024-10-13T01:14:37+08:00">
+    <meta property="article:modified_time" content="2024-10-13T01:14:37+08:00">
+    <meta property="article:tag" content="Golang">
 
 
     
@@ -221,13 +223,13 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     
 <article>
   <header>
-    <h1>阿里云vps关闭阿里云盾和云监控c&#43;&#43;插件</h1>
+    <h1>Golang</h1>
     
     
 <div class="post__meta">
     
     
-      <i class="fas fa-calendar-alt"></i> Oct 12, 2024
+      <i class="fas fa-calendar-alt"></i> Oct 13, 2024
     
     
     
@@ -248,7 +250,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
           <br/>
            <i class="fas fa-tags"></i>
           
-          <a class="badge badge-tag" href="/tags/linux">linux</a>
+          <a class="badge badge-tag" href="/tags/golang">golang</a>
           
       
     
@@ -268,10 +270,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
       
           <nav id="TableOfContents">
   <ul>
-    <li><a href="#卸载阿里云盾agent客户端">卸载阿里云盾Agent客户端</a></li>
-    <li><a href="#卸载云监控c版本插件">卸载云监控C++版本插件</a></li>
-    <li><a href="#卸载云助手命令执行工具">卸载云助手（命令执行工具）</a></li>
-    <li><a href="#参考文档">参考文档</a></li>
+    <li><a href="#安装golang-linux-amd64">安装golang (linux-amd64)</a></li>
+    <li><a href="#设置go-test的快捷命令">设置go test的快捷命令</a></li>
   </ul>
 </nav>
       
@@ -279,48 +279,36 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   
   <div class="post">
-    <h2 id="卸载阿里云盾agent客户端">卸载阿里云盾Agent客户端</h2>
-<p>首先关闭客户端的自保护功能，需要在<a href="https://yundun.console.aliyun.com/?spm=a2c4g.11186623.0.0.33d52fa0MAUoc3&amp;p=sas#/assetHost/cn-hangzhou">阿里云云安全中心</a>关闭，具体操作如下：</p>
-<p><strong>资产中心-主机资产</strong></p>
-<p><img src="/img/aliyun-host-assets.png" alt="alt text"></p>
-<p><strong>基本信息-防御状态</strong></p>
-<p><img src="/img/aliyun-close-client-self-protection.png" alt="alt text"></p>
-<p>然后在机器上执行以下命令：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget <span style="color:#e6db74">&#34;http://update2.aegis.aliyun.com/download/uninstall.sh&#34;</span> <span style="color:#f92672">&amp;&amp;</span> chmod +x uninstall.sh <span style="color:#f92672">&amp;&amp;</span> ./uninstall.sh
-</span></span></code></pre></div><h2 id="卸载云监控c版本插件">卸载云监控C++版本插件</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bash /usr/local/cloudmonitor/cloudmonitorCtl.sh stop
-</span></span><span style="display:flex;"><span>bash /usr/local/cloudmonitor/cloudmonitorCtl.sh uninstall
-</span></span><span style="display:flex;"><span>rm -rf /usr/local/cloudmonitor
-</span></span></code></pre></div><h2 id="卸载云助手命令执行工具">卸载云助手（命令执行工具）</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 停止并卸载云助手守护进程</span>
-</span></span><span style="display:flex;"><span>/usr/local/share/assist-daemon/assist_daemon --stop
-</span></span><span style="display:flex;"><span>/usr/local/share/assist-daemon/assist_daemon --delete
-</span></span><span style="display:flex;"><span>rm -rf /usr/local/share/assist-daemon
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 停止云助手服务</span>
-</span></span><span style="display:flex;"><span>systemctl stop aliyun.service
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 删除文件</span>
-</span></span><span style="display:flex;"><span>rm -rf /usr/local/share/aliyun-assist
-</span></span></code></pre></div><h2 id="参考文档">参考文档</h2>
-<ul>
-<li><a href="https://help.aliyun.com/zh/security-center/user-guide/uninstall-the-security-center-agent">卸载阿里云盾Agent客户端</a></li>
-<li><a href="https://help.aliyun.com/zh/cms/user-guide/install-and-uninstall-the-cloudmonitor-agent-for-cpp?spm=a2c4g.11186623.0.0.4d3551beCEhTI8#section-hdw-doi-fv4">卸载云监控C++版本插件</a></li>
-<li><a href="https://help.aliyun.com/zh/ecs/user-guide/start-stop-or-uninstall-the-cloud-assistant-agent?spm=a2c4g.11186623.0.0.6f5055e0LThgs9#section-o45-6j5-x5m">卸载云助手Agent（Linux实例）</a></li>
-</ul>
+    <h2 id="安装golang-linux-amd64">安装golang (linux-amd64)</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>version<span style="color:#f92672">=</span>1.22.6
+</span></span><span style="display:flex;"><span>curl https://go.dev/dl/go<span style="color:#e6db74">${</span>version<span style="color:#e6db74">}</span>.linux-amd64.tar.gz -Lf -o /tmp/golang.tar.gz
+</span></span><span style="display:flex;"><span>rm -rf /usr/local/go <span style="color:#f92672">&amp;&amp;</span> tar -C /usr/local -xzf /tmp/golang.tar.gz
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ! grep <span style="color:#e6db74">&#34;go/bin&#34;</span> ~/.zshrc;<span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>  export PATH<span style="color:#f92672">=</span>$PATH:/usr/local/go/bin
+</span></span><span style="display:flex;"><span>  echo <span style="color:#e6db74">&#39;export PATH=$PATH:/usr/local/go/bin&#39;</span> &gt;&gt; ~/.zshrc
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span></code></pre></div><p>或者到<a href="https://go.dev/dl/">https://go.dev/dl/</a>下载安装包安装</p>
+<h2 id="设置go-test的快捷命令">设置go test的快捷命令</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p ~/bin
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ! grep <span style="color:#e6db74">&#34;PATH=~/bin&#34;</span> ~/.zshrc;<span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>  export PATH<span style="color:#f92672">=</span>~/bin:$PATH
+</span></span><span style="display:flex;"><span>  echo <span style="color:#e6db74">&#39;export PATH=~/bin:$PATH&#39;</span> &gt;&gt; ~/.zshrc
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>cat &gt; ~/bin/testgo <span style="color:#e6db74">&lt;&lt;\EOF                    
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">go test -gcflags=&#39;all=-N -l&#39; -v &#34;$@&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span><span style="display:flex;"><span>chmod +x ~/bin/testgo
+</span></span></code></pre></div>
   </div>
   
 
 <div class="navigation navigation-single">
     
-    <a href="/posts/grafana-alert-settings/" class="navigation-prev">
+    <a href="/posts/linux/aliyun-turnoff-aliyundun/" class="navigation-prev">
       <i aria-hidden="true" class="fa fa-chevron-left"></i>
-      <span class="navigation-tittle">Grafana告警配置</span>
+      <span class="navigation-tittle">阿里云vps关闭阿里云盾和云监控c&#43;&#43;插件</span>
     </a>
     
-    
-    <a href="/posts/golang/" class="navigation-next">
-      <span class="navigation-tittle">Golang</span>
-      <i aria-hidden="true" class="fa fa-chevron-right"></i>
-    </a>
     
 </div>
 
