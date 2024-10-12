@@ -278,7 +278,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
       </ul>
     </li>
     <li><a href="#java的string为什么没这个问题">java的string为什么没这个问题</a></li>
-    <li><a href="#罪魁祸首data-races">罪魁祸首：Data Races</a></li>
+    <li><a href="#一切的罪魁祸首数据争用data-race">一切的罪魁祸首：数据争用(data race)</a></li>
   </ul>
 </nav>
       
@@ -407,7 +407,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>java都是值传递的，针对object reference，值传递指的是pass by copy of object reference。这个拷贝是原子的。</li>
 </ol>
 <p>所以当我们做到不在 <code>new()</code> 中泄漏this引用，java String就不会有这个问题。而golang的string胖指针是个struct，赋值时会逐个设置pointer和len字段，这个过程不是原子的。</p>
-<h2 id="罪魁祸首data-races">罪魁祸首：Data Races</h2>
+<h2 id="一切的罪魁祸首数据争用data-race">一切的罪魁祸首：数据争用(data race)</h2>
 <p>Rust的一个文档<a href="https://doc.rust-lang.org/nomicon/races.html">Data Races and Race Conditions</a>介绍了data race（数据争用）和 race condition（竞态条件）。引用Rust文档中对data race的定义：</p>
 <p>Safe Rust guarantees an absence of data races, which are defined as:</p>
 <ol>
