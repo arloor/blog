@@ -11,7 +11,7 @@ weight: 10
 
 ## 卸载阿里云盾Agent客户端
 
-首先关闭客户端的自保护功能，需要在阿里云云安全中心关闭，具体操作如下：
+首先关闭客户端的自保护功能，需要在[阿里云云安全中心](https://yundun.console.aliyun.com/?spm=a2c4g.11186623.0.0.33d52fa0MAUoc3&p=sas#/assetHost/cn-hangzhou)关闭，具体操作如下：
 
 **资产中心-主机资产**
 
