@@ -123,7 +123,7 @@ string很明确的是一个胖指针结构体。在给string变量赋值（拷�
 1. string是值类型。虽然string和slice一样也是胖指针，但string的实现确保修改一个变量的内容时，这个修改对其他变量不可见（重新分配底层数据，而不是通过下标原地修改）
 2. string是不可变的。
 
-作为一个java老手，“**不可变对象是线程安全的**”是一个基本概念。但是golang的string却在多线程数据争用中出现了问题，为什么java和golang有这样的差异？
+作为一个java老手，“**不可变对象是线程安全的**”是一个基本概念。但是golang的string却在多线程数据争用中出现了问题，为什么java和golang有这样的差异？后面会讲到。
 
 ## java的string为什么没这个问题
 
@@ -155,7 +155,7 @@ Safe Rust guarantees an absence of data races, which are defined as:
 2. one or more of them is a write
 3. one or more of them is unsynchronized
 
-这意味着如果要在golang中完全避免数据争用，需要对某个data的全部并发访问都上锁。这无疑是困难的，现实是代码里data race到处可见（ `go build` 加上 `-race`，运行时会一直panic）。
+这意味着如果要在golang中完全避免数据争用，需要对某个data的全部并发访问都上锁。这无疑是困难的，现实是代码里data race到处可见（ `go build` 加上 `-race`，运行时会一直panic）。在[The Go Memory Model(golang内存模型)](https://go.dev/ref/mem)中，全篇都在说如何使用channel、lock、atomic、once等同步手段实现data-race-free的golang程序，有兴趣可以看下
 
 但是rust这门优秀的语言天生避免了这个问题（不使用unsafe rust的前提下），其实现机制如下：
 
