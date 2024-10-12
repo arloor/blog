@@ -1,6 +1,6 @@
 ---
 title: "阿里云vps关闭阿里云盾和云监控c++插件"
-date: 2019-03-21T16:46:54+08:00
+date: 2024-10-12T16:46:54+08:00
 draft: false
 categories: [ "undefined"]
 tags: ["linux"]
