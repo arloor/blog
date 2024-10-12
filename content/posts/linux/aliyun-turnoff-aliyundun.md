@@ -7,9 +7,6 @@ tags: ["linux"]
 weight: 10
 ---
 
-- [卸载阿里云盾Agent客户端](https://help.aliyun.com/zh/security-center/user-guide/uninstall-the-security-center-agent)
-- [卸载云监控C++版本插件](https://help.aliyun.com/zh/cms/user-guide/install-and-uninstall-the-cloudmonitor-agent-for-cpp?spm=a2c4g.11186623.0.0.4d3551beCEhTI8#section-hdw-doi-fv4)
-
 <!--more-->
 
 ## 卸载阿里云盾Agent客户端
@@ -32,3 +29,8 @@ bash /usr/local/cloudmonitor/cloudmonitorCtl.sh stop
 bash /usr/local/cloudmonitor/cloudmonitorCtl.sh uninstall
 rm -rf /usr/local/cloudmonitor
 ```
+
+## 参考文档
+
+- [卸载阿里云盾Agent客户端](https://help.aliyun.com/zh/security-center/user-guide/uninstall-the-security-center-agent)
+- [卸载云监控C++版本插件](https://help.aliyun.com/zh/cms/user-guide/install-and-uninstall-the-cloudmonitor-agent-for-cpp?spm=a2c4g.11186623.0.0.4d3551beCEhTI8#section-hdw-doi-fv4)
