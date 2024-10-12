@@ -2,6 +2,9 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://www.arloor.com/posts/linux/aliyun-turnoff-aliyundun/</loc>
+    <lastmod>2024-10-12T16:46:54+08:00</lastmod>
+  </url><url>
     <loc>https://www.arloor.com/posts/grafana-alert-settings/</loc>
     <lastmod>2024-10-11T16:22:26+08:00</lastmod>
   </url><url>
@@ -449,9 +452,6 @@
     <loc>https://www.arloor.com/posts/responsive-embedded-iframe-hugo-youtueb-vedio/</loc>
     <lastmod>2019-04-10T01:10:48+08:00</lastmod>
   </url><url>
-    <loc>https://www.arloor.com/posts/linux/aliyun-turnoff-aliyundun/</loc>
-    <lastmod>2019-03-21T16:46:54+08:00</lastmod>
-  </url><url>
     <loc>https://www.arloor.com/posts/learn/rabbitmq-learn/</loc>
     <lastmod>2019-03-14T21:19:06+08:00</lastmod>
   </url><url>
@@ -510,21 +510,24 @@
     <lastmod>2018-06-15T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://www.arloor.com/</loc>
-    <lastmod>2024-10-11T16:22:26+08:00</lastmod>
+    <lastmod>2024-10-12T16:46:54+08:00</lastmod>
   </url><url>
     <loc>https://www.arloor.com/categories/</loc>
-    <lastmod>2024-10-11T16:22:26+08:00</lastmod>
+    <lastmod>2024-10-12T16:46:54+08:00</lastmod>
+  </url><url>
+    <loc>https://www.arloor.com/tags/linux/</loc>
+    <lastmod>2024-10-12T16:46:54+08:00</lastmod>
   </url><url>
     <loc>https://www.arloor.com/posts/</loc>
-    <lastmod>2024-10-11T16:22:26+08:00</lastmod>
-  </url><url>
-    <loc>https://www.arloor.com/tags/software/</loc>
-    <lastmod>2024-10-11T16:22:26+08:00</lastmod>
+    <lastmod>2024-10-12T16:46:54+08:00</lastmod>
   </url><url>
     <loc>https://www.arloor.com/tags/</loc>
-    <lastmod>2024-10-11T16:22:26+08:00</lastmod>
+    <lastmod>2024-10-12T16:46:54+08:00</lastmod>
   </url><url>
     <loc>https://www.arloor.com/categories/undefined/</loc>
+    <lastmod>2024-10-12T16:46:54+08:00</lastmod>
+  </url><url>
+    <loc>https://www.arloor.com/tags/software/</loc>
     <lastmod>2024-10-11T16:22:26+08:00</lastmod>
   </url><url>
     <loc>https://www.arloor.com/tags/golang/</loc>
@@ -553,9 +556,6 @@
   </url><url>
     <loc>https://www.arloor.com/tags/k8s/</loc>
     <lastmod>2023-07-31T22:56:47+08:00</lastmod>
-  </url><url>
-    <loc>https://www.arloor.com/tags/linux/</loc>
-    <lastmod>2023-07-12T09:58:57+08:00</lastmod>
   </url><url>
     <loc>https://www.arloor.com/tags/%E5%91%BD%E8%BF%90/</loc>
     <lastmod>2023-07-06T20:51:35+08:00</lastmod>

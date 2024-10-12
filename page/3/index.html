@@ -218,6 +218,33 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   <div class="post-list__item">
     <span class="item__title--big">
+      <a href="/posts/notion/java%E8%99%9A%E6%8B%9F%E7%BA%BF%E7%A8%8B/" >Java虚拟线程</a>
+    </span>
+    <span class="item__date">
+      Apr 20, 2024
+    </span>
+    <span >
+      
+      <p>内容来自<a href="https://openjdk.org/jeps/444">JEP 444</a></p>
+<ol>
+<li>thread-per-thread style。BIO</li>
+<li>thread-sharing style. Reactive模式，write on complete 一个lambda表达式，异步编程十分痛苦。signal their completion to a callback，并且listener在不同的线程中，观测，trycatch等很困难。典型的就是Netty</li>
+<li><strong>thread-per-request style with virtual threads</strong></li>
+</ol>
+<p>详细说明：</p>
+      
+    </span>
+    
+    ... <a class="read-more-symbol" href="/posts/notion/java%E8%99%9A%E6%8B%9F%E7%BA%BF%E7%A8%8B/">➦</a>
+    
+  </div>
+  
+  
+  
+  
+  
+  <div class="post-list__item">
+    <span class="item__title--big">
       <a href="/posts/libbpf-rust-integration/" >在Rust项目中集成libbpf-rs</a>
     </span>
     <span class="item__date">
@@ -423,28 +450,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     </span>
     
     ... <a class="read-more-symbol" href="/posts/async-profiler/">➦</a>
-    
-  </div>
-  
-  
-  
-  
-  
-  <div class="post-list__item">
-    <span class="item__title--big">
-      <a href="/posts/jdk8-socketchannel-directbytebuffer-overflow/" >Java8 Direct Bytebuffer Overflow</a>
-    </span>
-    <span class="item__date">
-      Dec 1, 2023
-    </span>
-    <span >
-      
-      <h2 id="前言">前言</h2>
-<p>Hbase会为每一个region server创建一个IPC client线程来做读写操作，并且该线程空闲两分钟就会被关闭。并且Hbase使用Java NIO的<code>Socket Channel</code>和<code>HeapByteBuffer</code>来做读写操作。由于JDK内部机制的问题，会导致直接内存泄漏，下面介绍所谓的内部机制来剖析根因。</p>
-      
-    </span>
-    
-    ... <a class="read-more-symbol" href="/posts/jdk8-socketchannel-directbytebuffer-overflow/">➦</a>
     
   </div>
   

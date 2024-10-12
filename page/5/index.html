@@ -218,6 +218,27 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   <div class="post-list__item">
     <span class="item__title--big">
+      <a href="/posts/k3s-create-service-of-proxy/" >在K8S集群中创建clash代理服务</a>
+    </span>
+    <span class="item__date">
+      Jul 23, 2023
+    </span>
+    <span >
+      
+      <p>学习下ConfigMap、Deployment、Service的用法。</p>
+      
+    </span>
+    
+    ... <a class="read-more-symbol" href="/posts/k3s-create-service-of-proxy/">➦</a>
+    
+  </div>
+  
+  
+  
+  
+  
+  <div class="post-list__item">
+    <span class="item__title--big">
       <a href="/posts/k3s-multi-cloud-air-gap-install/" >K3S多云环境下的离线部署</a>
     </span>
     <span class="item__date">
@@ -425,42 +446,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     </span>
     
     ... <a class="read-more-symbol" href="/posts/grafana-docs/">➦</a>
-    
-  </div>
-  
-  
-  
-  
-  
-  <div class="post-list__item">
-    <span class="item__title--big">
-      <a href="/posts/git-commands/" >Git常用命令</a>
-    </span>
-    <span class="item__date">
-      Jun 7, 2023
-    </span>
-    <span >
-      
-      <h2 id="设置githubcom的用户名">设置github.com的用户名</h2>
-<p>参考<a href="https://git-scm.com/docs/git-config#Documentation/git-config.txt-codehasconfigremoteurlcode">git文档</a>，允许使用标准文件路径匹配（standard globbing wildcards）和<code>/**</code>、<code>**/</code>来定义url的pattern</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git config --global <span style="color:#e6db74">&#34;includeIf.hasconfig:remote.*.url:*://*github.com*/**.path&#34;</span> .gitconfig_github
-</span></span><span style="display:flex;"><span>git config --global <span style="color:#e6db74">&#34;includeIf.hasconfig:remote.*.url:git@github.com:*/**.path&#34;</span> .gitconfig_github
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>cat &gt; ~/.gitconfig_github <span style="color:#e6db74">&lt;&lt;EOF
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[user]
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        name = arloor
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        email = admin@arloor.com
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
-</span></span></code></pre></div><h2 id="永久保存git密码">永久保存git密码</h2>
-<h3 id="linuxwindows">Linux/Windows</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git config --global credential.helper store
-</span></span><span style="display:flex;"><span>touch ~/.git-credentials
-</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;https://arloor:</span><span style="color:#e6db74">${</span>{ github.token <span style="color:#e6db74">}</span><span style="color:#e6db74">}@github.com&#34;</span> &gt;&gt; ~/.git-credentials
-</span></span></code></pre></div><p>当github账号启用了二次验证时，输入的密码请填写自己在github上生成的api key。</p>
-      
-    </span>
-    
-    ... <a class="read-more-symbol" href="/posts/git-commands/">➦</a>
     
   </div>
   

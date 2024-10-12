@@ -218,6 +218,28 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   <div class="post-list__item">
     <span class="item__title--big">
+      <a href="/posts/jdk8-socketchannel-directbytebuffer-overflow/" >Java8 Direct Bytebuffer Overflow</a>
+    </span>
+    <span class="item__date">
+      Dec 1, 2023
+    </span>
+    <span >
+      
+      <h2 id="前言">前言</h2>
+<p>Hbase会为每一个region server创建一个IPC client线程来做读写操作，并且该线程空闲两分钟就会被关闭。并且Hbase使用Java NIO的<code>Socket Channel</code>和<code>HeapByteBuffer</code>来做读写操作。由于JDK内部机制的问题，会导致直接内存泄漏，下面介绍所谓的内部机制来剖析根因。</p>
+      
+    </span>
+    
+    ... <a class="read-more-symbol" href="/posts/jdk8-socketchannel-directbytebuffer-overflow/">➦</a>
+    
+  </div>
+  
+  
+  
+  
+  
+  <div class="post-list__item">
+    <span class="item__title--big">
       <a href="/posts/grafana-new-table/" >Grafana表格Pannel配置</a>
     </span>
     <span class="item__date">
@@ -449,27 +471,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     </span>
     
     ... <a class="read-more-symbol" href="/posts/k3s-daemonset-rust-http-proxy/">➦</a>
-    
-  </div>
-  
-  
-  
-  
-  
-  <div class="post-list__item">
-    <span class="item__title--big">
-      <a href="/posts/k3s-create-service-of-proxy/" >在K8S集群中创建clash代理服务</a>
-    </span>
-    <span class="item__date">
-      Jul 23, 2023
-    </span>
-    <span >
-      
-      <p>学习下ConfigMap、Deployment、Service的用法。</p>
-      
-    </span>
-    
-    ... <a class="read-more-symbol" href="/posts/k3s-create-service-of-proxy/">➦</a>
     
   </div>
   

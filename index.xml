@@ -6,8 +6,15 @@
     <description>Recent content on ARLOOR</description>
     <generator>Hugo</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Fri, 11 Oct 2024 16:22:26 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 12 Oct 2024 16:46:54 +0800</lastBuildDate>
     <atom:link href="https://www.arloor.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>阿里云vps关闭阿里云盾和云监控c&#43;&#43;插件</title>
+      <link>https://www.arloor.com/posts/linux/aliyun-turnoff-aliyundun/</link>
+      <pubDate>Sat, 12 Oct 2024 16:46:54 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/linux/aliyun-turnoff-aliyundun/</guid>
+      <description>&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://help.aliyun.com/zh/security-center/user-guide/uninstall-the-security-center-agent&#34;&gt;卸载阿里云盾Agent客户端&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://help.aliyun.com/zh/cms/user-guide/install-and-uninstall-the-cloudmonitor-agent-for-cpp?spm=a2c4g.11186623.0.0.4d3551beCEhTI8#section-hdw-doi-fv4&#34;&gt;卸载云监控C++版本插件&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
+    </item>
     <item>
       <title>Grafana告警配置</title>
       <link>https://www.arloor.com/posts/grafana-alert-settings/</link>
@@ -1050,13 +1057,6 @@
       <pubDate>Wed, 10 Apr 2019 01:10:48 +0800</pubDate>
       <guid>https://www.arloor.com/posts/responsive-embedded-iframe-hugo-youtueb-vedio/</guid>
       <description>&lt;p&gt;其实只是博客中想嵌入16：9的youtube视频，但youtube官方的嵌入代码是固定宽度1280，高度720，在手机上表现十分不好。因此有了这个偏前端的主题。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>阿里云vps关闭阿里云盾和云监控c&#43;&#43;插件</title>
-      <link>https://www.arloor.com/posts/linux/aliyun-turnoff-aliyundun/</link>
-      <pubDate>Thu, 21 Mar 2019 16:46:54 +0800</pubDate>
-      <guid>https://www.arloor.com/posts/linux/aliyun-turnoff-aliyundun/</guid>
-      <description>&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://help.aliyun.com/zh/security-center/user-guide/uninstall-the-security-center-agent&#34;&gt;卸载阿里云盾Agent客户端&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://help.aliyun.com/zh/cms/user-guide/install-and-uninstall-the-cloudmonitor-agent-for-cpp?spm=a2c4g.11186623.0.0.4d3551beCEhTI8#section-hdw-doi-fv4&#34;&gt;卸载云监控C++版本插件&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
     </item>
     <item>
       <title>RabbitMQ的使用</title>
