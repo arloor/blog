@@ -408,7 +408,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </ol>
 <p>所以当我们做到不在 <code>new()</code> 中泄漏this引用，java String就不会有这个问题。而golang的string胖指针是个struct，赋值时会逐个设置pointer和len字段，这个过程不是原子的。</p>
 <h2 id="safe-rust是如何避免数据争用的">Safe Rust是如何避免数据争用的</h2>
-<p>Rust的一个文档<a href="https://doc.rust-lang.org/nomicon/races.html">Data Races and Race Conditions</a>，介绍了data race（数据争用）和 race condition（竞态条件）。引用Rust文档中对data race的定义：</p>
+<p>Rust的一个文档<a href="https://doc.rust-lang.org/nomicon/races.html">Data Races and Race Conditions</a>介绍了data race（数据争用）和 race condition（竞态条件）。引用Rust文档中对data race的定义：</p>
 <p>Safe Rust guarantees an absence of data races, which are defined as:</p>
 <ol>
 <li>two or more threads concurrently accessing a location of memory</li>
@@ -421,7 +421,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>值的可变引用只能有一个（所有权机制）</li>
 <li>需要跨线程传递/同步的值需要满足 <code>send + sync</code> 约束，实现方式是包裹 <code>Arc&lt;Mutex&lt;YourData&gt;&gt;</code>。编译器强制你包裹Mutex，否则编译都通不过。——Rust代码只要可以编译，运行时就不大会出离谱的问题。</li>
 </ol>
-<p>除了data race，还有race condition竞态条件，这需要通过临界区保护，详见https://doc.rust-lang.org/nomicon/races.html，本文不展开。</p>
+<p>除了data race，还有race condition竞态条件，这需要通过临界区保护，详见<a href="https://doc.rust-lang.org/nomicon/races.html">Data Races and Race Conditions</a>，本文不展开。</p>
   </div>
   
 
