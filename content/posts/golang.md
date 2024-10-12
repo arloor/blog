@@ -426,3 +426,53 @@ issues:
   # Default is false.
   new: false
 ```
+
+## defer
+
+1. defer匿名函数中“**捕获**”的参数是**执行时**的最新值。而“**传递**”的参数是声明defer时确定的。
+2. defer函数可以修改返回值，只要返回值是“**捕获**”的
+3. 探讨defer和for、if一起使用的情况(这个有点坑的)： [Golang Defer: From Basic To Traps](https://victoriametrics.com/blog/defer-in-go/)
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	i := 0
+	defer func(n int) {
+		fmt.Println("// catch", i)
+		fmt.Println("// param", n)
+	}(i)
+	i = 1
+	defer func(n int) {
+		fmt.Println("// catch", i)
+		fmt.Println("// param", n)
+	}(i)
+	i = 2
+	defer func(n int) {
+		fmt.Println("// catch", i)
+		fmt.Println("// param", n)
+	}(i)
+
+	fmt.Println(deferModReturn())
+	fmt.Println()
+}
+
+func deferModReturn() (str string) {
+	str = "# raw"
+	defer func() {
+		str = "// defer modified"
+	}()
+	return str
+}
+
+// defer modified
+
+// catch 2
+// param 2
+// catch 2
+// param 1
+// catch 2
+// param 0
+```
