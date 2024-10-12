@@ -145,7 +145,7 @@ String str = new String()
 
 所以当我们做到不在 `new()` 中泄漏this引用，java String就不会有这个问题。而golang的string胖指针是个struct，赋值时会逐个设置pointer和len字段，这个过程不是原子的。
 
-## 罪魁祸首：Data Races
+## 一切的罪魁祸首：数据争用(data race)
 
 Rust的一个文档[Data Races and Race Conditions](https://doc.rust-lang.org/nomicon/races.html)介绍了data race（数据争用）和 race condition（竞态条件）。引用Rust文档中对data race的定义：
 
