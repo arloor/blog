@@ -258,7 +258,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     
     
     <br/>
-    <i class="fas fa-clock"></i> 7 min read
+    <i class="fas fa-clock"></i> 6 min read
 </div>
 
 
@@ -284,7 +284,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
         <li><a href="#配置调试任务-vscodelaunchjson">配置调试任务 <code>.vscode/launch.json</code></a></li>
       </ul>
     </li>
-    <li><a href="#golang开发">Golang开发</a></li>
     <li><a href="#python开发">Python开发</a>
       <ul>
         <li><a href="#python插件">python插件</a></li>
@@ -610,115 +609,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;env&#34;</span>: {<span style="color:#f92672">&#34;port&#34;</span>:<span style="color:#e6db74">&#34;80&#34;</span>}
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>    ]
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h2 id="golang开发">Golang开发</h2>
-<ol>
-<li>安装golang (linux-amd64)</li>
-</ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>version<span style="color:#f92672">=</span>1.22.6
-</span></span><span style="display:flex;"><span>curl https://go.dev/dl/go<span style="color:#e6db74">${</span>version<span style="color:#e6db74">}</span>.linux-amd64.tar.gz -Lf -o /tmp/golang.tar.gz
-</span></span><span style="display:flex;"><span>rm -rf /usr/local/go <span style="color:#f92672">&amp;&amp;</span> tar -C /usr/local -xzf /tmp/golang.tar.gz
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ! grep <span style="color:#e6db74">&#34;go/bin&#34;</span> ~/.zshrc;<span style="color:#66d9ef">then</span>
-</span></span><span style="display:flex;"><span>  export PATH<span style="color:#f92672">=</span>$PATH:/usr/local/go/bin
-</span></span><span style="display:flex;"><span>  echo <span style="color:#e6db74">&#39;export PATH=$PATH:/usr/local/go/bin&#39;</span> &gt;&gt; ~/.zshrc
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
-</span></span></code></pre></div><p>或者到<a href="https://go.dev/dl/">https://go.dev/dl/</a>下载安装包安装</p>
-<ol start="2">
-<li>安装插件 <code>golang.go</code>。</li>
-<li>安装相关的依赖</li>
-</ol>
-<p>参考 <a href="https://github.com/devcontainers/features/blob/main/src/go/install.sh#L177">codespaces devcontainers go feature install.sh</a></p>
-<blockquote>
-<p>The extension depends on go, gopls, dlv and other optional tools. If any of the dependencies are missing, the ⚠️ Analysis Tools Missing warning is displayed. Click on the warning to download dependencies.See the <a href="https://github.com/golang/vscode-go/wiki/tools">tools documentation</a> for a complete list of tools the extension depends on.</p>
-</blockquote>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Install Go tools that are isImportant &amp;&amp; !replacedByGopls based on</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># https://github.com/golang/vscode-go/blob/v0.38.0/src/goToolsInformation.ts</span>
-</span></span><span style="display:flex;"><span>GO_TOOLS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;\
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    golang.org/x/tools/gopls@latest \
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    honnef.co/go/tools/cmd/staticcheck@latest \
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    golang.org/x/lint/golint@latest \
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    github.com/mgechev/revive@latest \
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    github.com/go-delve/delve/cmd/dlv@latest \
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    github.com/fatih/gomodifytags@latest \
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    github.com/haya14busa/goplay/cmd/goplay@latest \
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    github.com/cweill/gotests/gotests@latest \ 
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    github.com/josharian/impl@latest&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">(</span>echo <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>GO_TOOLS<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> | xargs -n <span style="color:#ae81ff">1</span> go install -v <span style="color:#f92672">)</span>2&gt;&amp;<span style="color:#ae81ff">1</span> | tee  ./init_go.log
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;Installing golangci-lint latest...&#34;</span>
-</span></span><span style="display:flex;"><span>curl -fsSL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    sh -s -- -b <span style="color:#e6db74">&#34;</span>$HOME<span style="color:#e6db74">/go/bin&#34;</span> | tee  -a ./init_go.log
-</span></span></code></pre></div><ol start="3">
-<li>launch.json</li>
-</ol>
-<p><strong>注意</strong>：golang debug不能正确处理软链接，所以最好不要把项目放在软链接的文件夹中，或者配置 <code>substitutePath</code>，见<a href="https://github.com/golang/vscode-go/wiki/debugging#debug-symlink-directories">Debug symlink directories</a>和<a href="https://github.com/golang/vscode-go/wiki/debugging#settings">go.delveConfig settings</a>(用于CodeLens里的debug test按钮)。其他高级功能可以见 <a href="https://github.com/golang/vscode-go/wiki/debugging">vscode-go debugging</a></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 使用 IntelliSense 了解相关属性。 
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// 悬停以查看现有属性的描述。
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#f92672">&#34;version&#34;</span>: <span style="color:#e6db74">&#34;0.2.0&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;configurations&#34;</span>: [
-</span></span><span style="display:flex;"><span>        {
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Launch Package&#34;</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;go&#34;</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;request&#34;</span>: <span style="color:#e6db74">&#34;launch&#34;</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;mode&#34;</span>: <span style="color:#e6db74">&#34;auto&#34;</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;cwd&#34;</span>: <span style="color:#e6db74">&#34;${workspaceFolder}&#34;</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;program&#34;</span>: <span style="color:#e6db74">&#34;${workspaceFolder}/cmd/${workspaceFolderBasename}&#34;</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;output&#34;</span>: <span style="color:#e6db74">&#34;__debug_bin_main&#34;</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;args&#34;</span>: [
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;--addr=localhost:7788&#34;</span>,
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;--refer=arloor&#34;</span>
-</span></span><span style="display:flex;"><span>                ,<span style="color:#e6db74">&#34;--tls=true&#34;</span>
-</span></span><span style="display:flex;"><span>            ]
-</span></span><span style="display:flex;"><span>        },        
-</span></span><span style="display:flex;"><span>        {<span style="color:#75715e">// 参考 https://blog.csdn.net/passenger12234/article/details/122930124
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Test Debug&#34;</span>, <span style="color:#75715e">// debug 单测
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;go&#34;</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;mode&#34;</span>: <span style="color:#e6db74">&#34;test&#34;</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;request&#34;</span>: <span style="color:#e6db74">&#34;launch&#34;</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;buildFlags&#34;</span>: [
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;-a&#34;</span>, <span style="color:#75715e">// force rebuilding of packages that are already up-to-date. 
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            ],
-</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// &#34;program&#34;: &#34;${relativeFileDirname}&#34;, // 当前打开的目录
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#f92672">&#34;program&#34;</span>: <span style="color:#e6db74">&#34;./internal/app&#34;</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;output&#34;</span>: <span style="color:#e6db74">&#34;__debug_bin_test&#34;</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;args&#34;</span>: [
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;-test.v&#34;</span>, <span style="color:#75715e">// 使t.Log()输出到console
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                <span style="color:#75715e">// &#34;-test.run&#34;,
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                <span style="color:#75715e">// &#34;^TestGetLlamAccessPoint$&#34;
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                <span style="color:#75715e">// &#34;-test.bench&#34;,
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                <span style="color:#75715e">// &#34;BenchmarkTranslateWithFallback&#34;,
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                <span style="color:#75715e">// &#34;-test.benchmem&#34;
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            ],
-</span></span><span style="display:flex;"><span>        },
-</span></span><span style="display:flex;"><span>    ]
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>其中 <code>Test debug</code> 相当于：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>go test -c github.com/arloor/xxxx/internal/app -o __debug_bin_test -gcflags<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;all=-N -l&#39;</span> <span style="color:#75715e"># -gcflags是vscode自动加入的，用于关闭优化，使得可以断点调试</span>
-</span></span><span style="display:flex;"><span>./__debug_bin_test -test.v -test.run<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;^TestGetRTMPAccessPoint</span>$<span style="color:#e6db74">&#34;</span> -test.bench<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;BenchmarkTranslateWithFallback&#34;</span> -test.benchmem
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 可以参考 go help test, go help testflag</span>
-</span></span></code></pre></div><ol start="4">
-<li>settings.json中golang相关配置</li>
-</ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;go.lintTool&#34;</span>: <span style="color:#e6db74">&#34;golangci-lint&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;go.toolsManagement.autoUpdate&#34;</span>: <span style="color:#66d9ef">true</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;go.formatTool&#34;</span>: <span style="color:#e6db74">&#34;gofmt&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;go.testExplorer.showOutput&#34;</span>: <span style="color:#66d9ef">true</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;[go]&#34;</span>: {
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;editor.formatOnSave&#34;</span>: <span style="color:#66d9ef">true</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;editor.codeActionsOnSave&#34;</span>: {
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;source.organizeImports&#34;</span>: <span style="color:#e6db74">&#34;always&#34;</span>
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>    },
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;go.testFlags&#34;</span>: [
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;-gcflags=all=-l&#34;</span>, <span style="color:#75715e">// 针对run test禁用内联优化，使gomonkey可以成功打桩。对debug test不生效，因为golang插件针对debug test自行设置了-gcflags=&#34;all=-l -N&#34;
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#e6db74">&#34;-v&#34;</span>, <span style="color:#75715e">// 使run test可以输出t.Logf的日志。对debug test不生效，只在test fail的时候才会打印t.Logf的日志
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ],
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;go.formatFlags&#34;</span>: [
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;-w&#34;</span>
-</span></span><span style="display:flex;"><span>    ],
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h2 id="python开发">Python开发</h2>
 <h3 id="python插件">python插件</h3>

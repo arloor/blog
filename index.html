@@ -218,35 +218,18 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   <div class="post-list__item">
     <span class="item__title--big">
-      <a href="/posts/golang/" >Golang</a>
+      <a href="/posts/golang/" >Golang笔记</a>
     </span>
     <span class="item__date">
       Oct 13, 2024
     </span>
     <span >
       
-      <h2 id="安装golang-linux-amd64">安装golang (linux-amd64)</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>version<span style="color:#f92672">=</span>1.22.6
-</span></span><span style="display:flex;"><span>curl https://go.dev/dl/go<span style="color:#e6db74">${</span>version<span style="color:#e6db74">}</span>.linux-amd64.tar.gz -Lf -o /tmp/golang.tar.gz
-</span></span><span style="display:flex;"><span>rm -rf /usr/local/go <span style="color:#f92672">&amp;&amp;</span> tar -C /usr/local -xzf /tmp/golang.tar.gz
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ! grep <span style="color:#e6db74">&#34;go/bin&#34;</span> ~/.zshrc;<span style="color:#66d9ef">then</span>
-</span></span><span style="display:flex;"><span>  export PATH<span style="color:#f92672">=</span>$PATH:/usr/local/go/bin
-</span></span><span style="display:flex;"><span>  echo <span style="color:#e6db74">&#39;export PATH=$PATH:/usr/local/go/bin&#39;</span> &gt;&gt; ~/.zshrc
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
-</span></span></code></pre></div><p>或者到<a href="https://go.dev/dl/">https://go.dev/dl/</a>下载安装包安装</p>
-<h2 id="设置go-test的快捷命令">设置go test的快捷命令</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p ~/bin
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ! grep <span style="color:#e6db74">&#34;PATH=~/bin&#34;</span> ~/.zshrc;<span style="color:#66d9ef">then</span>
-</span></span><span style="display:flex;"><span>  export PATH<span style="color:#f92672">=</span>~/bin:$PATH
-</span></span><span style="display:flex;"><span>  echo <span style="color:#e6db74">&#39;export PATH=~/bin:$PATH&#39;</span> &gt;&gt; ~/.zshrc
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
-</span></span><span style="display:flex;"><span>cat &gt; ~/bin/testgo <span style="color:#e6db74">&lt;&lt;\EOF                    
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">go test -gcflags=&#39;all=-N -l&#39; -v &#34;$@&#34;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
-</span></span><span style="display:flex;"><span>chmod +x ~/bin/testgo
-</span></span></code></pre></div>
+      <p>以后可能以golang谋生一段时间了，开个golang的笔记</p>
       
     </span>
+    
+    ... <a class="read-more-symbol" href="/posts/golang/">➦</a>
     
   </div>
   
