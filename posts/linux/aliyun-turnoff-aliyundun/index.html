@@ -270,6 +270,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   <ul>
     <li><a href="#卸载阿里云盾agent客户端">卸载阿里云盾Agent客户端</a></li>
     <li><a href="#卸载云监控c版本插件">卸载云监控C++版本插件</a></li>
+    <li><a href="#卸载云助手命令执行工具">卸载云助手（命令执行工具）</a></li>
     <li><a href="#参考文档">参考文档</a></li>
   </ul>
 </nav>
@@ -290,10 +291,20 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bash /usr/local/cloudmonitor/cloudmonitorCtl.sh stop
 </span></span><span style="display:flex;"><span>bash /usr/local/cloudmonitor/cloudmonitorCtl.sh uninstall
 </span></span><span style="display:flex;"><span>rm -rf /usr/local/cloudmonitor
+</span></span></code></pre></div><h2 id="卸载云助手命令执行工具">卸载云助手（命令执行工具）</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 停止并卸载云助手守护进程</span>
+</span></span><span style="display:flex;"><span>/usr/local/share/assist-daemon/assist_daemon --stop
+</span></span><span style="display:flex;"><span>/usr/local/share/assist-daemon/assist_daemon --delete
+</span></span><span style="display:flex;"><span>rm -rf /usr/local/share/assist-daemon
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 停止云助手服务</span>
+</span></span><span style="display:flex;"><span>systemctl stop aliyun.service
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 删除文件</span>
+</span></span><span style="display:flex;"><span>rm -rf /usr/local/share/aliyun-assist
 </span></span></code></pre></div><h2 id="参考文档">参考文档</h2>
 <ul>
 <li><a href="https://help.aliyun.com/zh/security-center/user-guide/uninstall-the-security-center-agent">卸载阿里云盾Agent客户端</a></li>
 <li><a href="https://help.aliyun.com/zh/cms/user-guide/install-and-uninstall-the-cloudmonitor-agent-for-cpp?spm=a2c4g.11186623.0.0.4d3551beCEhTI8#section-hdw-doi-fv4">卸载云监控C++版本插件</a></li>
+<li><a href="https://help.aliyun.com/zh/ecs/user-guide/start-stop-or-uninstall-the-cloud-assistant-agent?spm=a2c4g.11186623.0.0.6f5055e0LThgs9#section-o45-6j5-x5m">卸载云助手Agent（Linux实例）</a></li>
 </ul>
   </div>
   
