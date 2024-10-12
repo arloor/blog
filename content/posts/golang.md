@@ -476,3 +476,12 @@ func deferModReturn() (str string) {
 // catch 2
 // param 0
 ```
+
+## 类型转换
+
+[go之4种类型转换-腾讯云开发者社区-腾讯云 (tencent.com)](https://cloud.tencent.com/developer/article/2358351)
+
+1. **显式转换： T(x)**
+2. **隐式转换：不需要开发人员编写转换代码，由编译器自动完成。**
+3. **类型断言：newT, ok := x.(T)**
+4. **unsafe.Pointer强制转换**
