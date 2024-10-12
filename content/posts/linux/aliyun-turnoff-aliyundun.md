@@ -35,7 +35,21 @@ bash /usr/local/cloudmonitor/cloudmonitorCtl.sh uninstall
 rm -rf /usr/local/cloudmonitor
 ```
 
+## 卸载云助手（命令执行工具）
+
+```bash
+# 停止并卸载云助手守护进程
+/usr/local/share/assist-daemon/assist_daemon --stop
+/usr/local/share/assist-daemon/assist_daemon --delete
+rm -rf /usr/local/share/assist-daemon
+# 停止云助手服务
+systemctl stop aliyun.service
+# 删除文件
+rm -rf /usr/local/share/aliyun-assist
+```
+
 ## 参考文档
 
 - [卸载阿里云盾Agent客户端](https://help.aliyun.com/zh/security-center/user-guide/uninstall-the-security-center-agent)
 - [卸载云监控C++版本插件](https://help.aliyun.com/zh/cms/user-guide/install-and-uninstall-the-cloudmonitor-agent-for-cpp?spm=a2c4g.11186623.0.0.4d3551beCEhTI8#section-hdw-doi-fv4)
+- [卸载云助手Agent（Linux实例）](https://help.aliyun.com/zh/ecs/user-guide/start-stop-or-uninstall-the-cloud-assistant-agent?spm=a2c4g.11186623.0.0.6f5055e0LThgs9#section-o45-6j5-x5m)
