@@ -975,11 +975,11 @@
       <description>&lt;p&gt;其实只是博客中想嵌入16：9的youtube视频，但youtube官方的嵌入代码是固定宽度1280，高度720，在手机上表现十分不好。因此有了这个偏前端的主题。&lt;/p&gt;</description>
     </item>
     <item>
-      <title>阿里云vps关闭阿里云盾</title>
+      <title>阿里云vps关闭阿里云盾和云监控c&#43;&#43;插件</title>
       <link>https://www.arloor.com/posts/linux/aliyun-turnoff-aliyundun/</link>
       <pubDate>Thu, 21 Mar 2019 16:46:54 +0800</pubDate>
       <guid>https://www.arloor.com/posts/linux/aliyun-turnoff-aliyundun/</guid>
-      <description>&lt;p&gt;阿里云 ECS 默认自动安装了阿里云盾（安骑士）的 WAF 防火墙，这个云盾基本是没有用的，唯一的用处就是记录一些所谓的漏洞、扫描/注入攻击以便在阿里云后台提示用户购买使用收费版“安骑士”服务。可以说这玩意儿除了是阿里云营销“套路”调用获取数据外基本没有什么用的，摆设的感觉非常强烈。删！&lt;/p&gt;</description>
+      <description>&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://help.aliyun.com/zh/security-center/user-guide/uninstall-the-security-center-agent&#34;&gt;卸载阿里云盾Agent客户端&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://help.aliyun.com/zh/cms/user-guide/install-and-uninstall-the-cloudmonitor-agent-for-cpp?spm=a2c4g.11186623.0.0.4d3551beCEhTI8#section-hdw-doi-fv4&#34;&gt;卸载云监控C++版本插件&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
     </item>
     <item>
       <title>RabbitMQ的使用</title>
