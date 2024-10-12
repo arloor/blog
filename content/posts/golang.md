@@ -31,6 +31,14 @@ fi
 
 或者到[https://go.dev/dl/](https://go.dev/dl/)下载安装包安装
 
+## 设置私有仓库等golang 环境变量
+
+```bash
+go env -w GOPROXY="https://goproxy.cn,https://proxy.golang.org,direct"
+go env -w GOPRIVATE="*.xxxx.xxx,*.xxxxx.cn,git.xxxxxx.com"
+go env -w GOSUMDB="sum.golang.google.cn"
+```
+
 ## 设置go test的快捷命令
 
 ```bash
