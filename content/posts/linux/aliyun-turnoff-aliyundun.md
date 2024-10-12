@@ -11,12 +11,17 @@ weight: 10
 
 ## 卸载阿里云盾Agent客户端
 
+首先关闭客户端的自保护功能，需要在阿里云云安全中心关闭，具体操作如下：
+
+**资产中心-主机资产**
+
 ![alt text](/img/aliyun-host-assets.png)
 
+**基本信息-防御状态**
 
 ![alt text](/img/aliyun-close-client-self-protection.png)
 
-然后执行以下命令：
+然后在机器上执行以下命令：
 
 ```bash
 wget "http://update2.aegis.aliyun.com/download/uninstall.sh" && chmod +x uninstall.sh && ./uninstall.sh
