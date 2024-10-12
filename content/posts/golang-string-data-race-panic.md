@@ -15,7 +15,7 @@ highlightjslanguages:
 
 简单说下问题：多个goroutine并发读写string，读取string（`fmt.Println`和`json.Marshal`）的goroutine会panic。根因是string是一个胖指针，除了pointer字段之外还有一个len字段的元数据。在给string变量赋值（拷贝）时，会逐个设置pointer和len字段，这个过程不是原子的。在有并发修改时，pointer和len就不一致了，这时就回发生问题：当len不为0，pointer为nil(0x0)时，就会`panic: runtime error: invalid memory address or nil pointer dereference`。
 
-本文首先探究下为什么golang string有这个问题，然后对比下java的string为什么没这个问题，最后介绍Rust是如何从语言层面避免数据争用(data race)问题的。
+本文首先探究下为什么golang string有这个问题，然后对比下java的string为什么没这个问题，最后介绍数据争用(data race)问题以及Golang和Rust如何避免该问题。
 
 <!--more-->
 
@@ -145,7 +145,7 @@ String str = new String()
 
 所以当我们做到不在 `new()` 中泄漏this引用，java String就不会有这个问题。而golang的string胖指针是个struct，赋值时会逐个设置pointer和len字段，这个过程不是原子的。
 
-## Safe Rust是如何避免数据争用的
+## 罪魁祸首：Data Races
 
 Rust的一个文档[Data Races and Race Conditions](https://doc.rust-lang.org/nomicon/races.html)介绍了data race（数据争用）和 race condition（竞态条件）。引用Rust文档中对data race的定义：
 
