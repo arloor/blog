@@ -147,7 +147,7 @@ String str = new String()
 
 ## Safe Rust是如何避免数据争用的
 
-Rust的一个文档[Data Races and Race Conditions](https://doc.rust-lang.org/nomicon/races.html)，介绍了data race（数据争用）和 race condition（竞态条件）。引用Rust文档中对data race的定义：
+Rust的一个文档[Data Races and Race Conditions](https://doc.rust-lang.org/nomicon/races.html)介绍了data race（数据争用）和 race condition（竞态条件）。引用Rust文档中对data race的定义：
 
 Safe Rust guarantees an absence of data races, which are defined as:
 
@@ -162,4 +162,4 @@ Safe Rust guarantees an absence of data races, which are defined as:
 1. 值的可变引用只能有一个（所有权机制）
 2. 需要跨线程传递/同步的值需要满足 `send + sync` 约束，实现方式是包裹 `Arc<Mutex<YourData>>`。编译器强制你包裹Mutex，否则编译都通不过。——Rust代码只要可以编译，运行时就不大会出离谱的问题。
 
-除了data race，还有race condition竞态条件，这需要通过临界区保护，详见https://doc.rust-lang.org/nomicon/races.html，本文不展开。
+除了data race，还有race condition竞态条件，这需要通过临界区保护，详见[Data Races and Race Conditions](https://doc.rust-lang.org/nomicon/races.html)，本文不展开。
