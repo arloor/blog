@@ -48,6 +48,14 @@ systemctl stop aliyun.service
 rm -rf /usr/local/share/aliyun-assist
 ```
 
+## 一键脚本
+
+```bash
+bash <(curl -SsLf https://us.arloor.dev/https://gist.githubusercontent.com/arloor/f1414882b9bcb003c15f58e92be43606/raw/uninstall_aliyundun.sh)
+```
+
+注意，仍然需要在阿里云云安全中心关闭自保护功能。
+
 ## 参考文档
 
 - [卸载阿里云盾Agent客户端](https://help.aliyun.com/zh/security-center/user-guide/uninstall-the-security-center-agent)
