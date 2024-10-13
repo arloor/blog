@@ -96,21 +96,7 @@ eval "$(starship init zsh)"
 EOF
     fi
 }
-setup_starship() {
-    bash ~/.oh-my-zsh/tools/uninstall.sh &>/dev/null
 
-    mkdir -p /usr/share/fonts/nerd-fonts
-    cd /usr/share/fonts/nerd-fonts
-    curl -L https://us.arloor.dev/https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.2/3270.zip -o 3270.zip && unzip -o 3270.zip
-    cd
-
-    curl -sS https://starship.rs/install.sh | sh -s -- -y --bin-dir /usr/bin --base-url https://github.com/starship/starship/releases
-    if ! grep -q "starship init zsh" ~/.zshrc; then
-        cat >>~/.zshrc <<'EOF'
-eval "$(starship init zsh)"
-EOF
-    fi
-}
 setup_zsh
 setup_starship
 ```
