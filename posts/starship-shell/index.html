@@ -350,21 +350,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fi</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>setup_starship<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    bash ~/.oh-my-zsh/tools/uninstall.sh &amp;&gt;/dev/null
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    mkdir -p /usr/share/fonts/nerd-fonts
-</span></span><span style="display:flex;"><span>    cd /usr/share/fonts/nerd-fonts
-</span></span><span style="display:flex;"><span>    curl -L https://us.arloor.dev/https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.2/3270.zip -o 3270.zip <span style="color:#f92672">&amp;&amp;</span> unzip -o 3270.zip
-</span></span><span style="display:flex;"><span>    cd
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    curl -sS https://starship.rs/install.sh | sh -s -- -y --bin-dir /usr/bin --base-url https://github.com/starship/starship/releases
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> ! grep -q <span style="color:#e6db74">&#34;starship init zsh&#34;</span> ~/.zshrc; <span style="color:#66d9ef">then</span>
-</span></span><span style="display:flex;"><span>        cat &gt;&gt;~/.zshrc <span style="color:#e6db74">&lt;&lt;&#39;EOF&#39;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">eval &#34;$(starship init zsh)&#34;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fi</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
 </span></span><span style="display:flex;"><span>setup_zsh
 </span></span><span style="display:flex;"><span>setup_starship
 </span></span></code></pre></div><p>注意，默认的zsh跟bash在一些行为上有一些差距，所以我手动调用了setopt来设置一些行为，主要控制history和交互式命令行中注释的处理。可以参考zsh中的setopt设置：带localoptions的是仅在当前shell生效，可以不关注。</p>
