@@ -38,25 +38,34 @@ Invoke-Expression (&starship init powershell)
 ## Linux zsh
 
 ```bash
-bash ~/.oh-my-zsh/tools/uninstall.sh
+add_zsh_plugin() {
+    local plugin=$1
+    if [ -z "${plugin}" ]; then
+        echo "Usage: add_plugin <plugin>"
+        return 1
+    fi
+    if [ -d "${zsh_base_dir}/${plugin}" ]; then
+        rm -rf ${zsh_base_dir}/${plugin}
+    fi
+    if git clone https://github.com/zsh-users/${plugin}.git ${zsh_base_dir}/${plugin}; then
+        if ! grep -E "^source ${zsh_base_dir}/${plugin}/${plugin}.zsh" ~/.zshrc &>/dev/null; then
+            echo "source ${zsh_base_dir}/${plugin}/${plugin}.zsh" >>~/.zshrc
+        fi
+    else
+        echo "Failed to add plugin ${plugin}"
+    fi
+}
 
-if ! grep debian /etc/os-release &>/dev/null; then
-  yum install -y zsh git unzip
-else
-  apt-get install -y zsh git unzip
-fi
-cd /usr/share/fonts
-mkdir -p nerd-fonts
-cd nerd-fonts
-curl -L https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.2/3270.zip -o 3270.zip&&unzip -o 3270.zip
-cd
+setup_zsh() {
+    usermod -s /bin/zsh $USER
 
+    zsh_base_dir=~/.zsh
+    add_zsh_plugin zsh-syntax-highlighting
+    add_zsh_plugin zsh-autosuggestions
 
-usermod -s /bin/zsh $USER
-curl -sS https://starship.rs/install.sh | sh -s -- -y
-
-if ! grep "HISTFILE=" ~/.zshrc &>/dev/null; then
-  cat >> ~/.zshrc <<\EOF
+    if ! grep "HISTFILE=" ~/.zshrc &>/dev/null; then
+        cat >>~/.zshrc <<'EOF'
+export ZDOTDIR=$HOME
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=1000
@@ -64,41 +73,46 @@ setopt INC_APPEND_HISTORY
 setopt HIST_IGNORE_DUPS
 setopt INTERACTIVE_COMMENTS
 EOF
-fi
-
-if ! grep "export ZDOTDIR=" /etc/zshrc &>/dev/null; then
-  cat >> /etc/zshrc <<\EOF
-export ZDOTDIR=$HOME
-EOF
-fi
-
-if ! grep "starship init zsh" ~/.zshrc &>/dev/null; then
-  cat >> ~/.zshrc <<\EOF
-eval "$(starship init zsh)"
-EOF
-fi
-
-base_dir=~/.zsh
-add_plugin(){
-    local plugin=$1
-    if [ -z "${plugin}" ];then
-        echo "Usage: add_plugin <plugin>"
-        return 1
     fi
-    if [ -d "${base_dir}/${plugin}" ];then
-        rm -rf ${base_dir}/${plugin}
-    fi
-    if git clone https://github.com/zsh-users/${plugin}.git ${base_dir}/${plugin}; then
-        if ! grep -E "^source ${base_dir}/${plugin}/${plugin}.zsh" ~/.zshrc &>/dev/null; then
-            echo "source ${base_dir}/${plugin}/${plugin}.zsh" >> ~/.zshrc
-        fi
-    else
-        echo "Failed to add plugin ${plugin}"
+
+    # 手动开启vscode集成
+    if ! grep -q TERM_PROGRAM ~/.zshrc; then
+        echo '[[ "$TERM_PROGRAM" == "vscode" ]] && . "$(code --locate-shell-integration-path zsh)"' >>~/.zshrc
     fi
 }
 
-add_plugin zsh-syntax-highlighting
-add_plugin zsh-autosuggestions
+setup_starship() {
+    bash ~/.oh-my-zsh/tools/uninstall.sh &>/dev/null
+
+    mkdir -p /usr/share/fonts/nerd-fonts
+    cd /usr/share/fonts/nerd-fonts
+    curl -L https://us.arloor.dev/https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.2/3270.zip -o 3270.zip && unzip -o 3270.zip
+    cd
+
+    curl -sS https://starship.rs/install.sh | sh -s -- -y --bin-dir /usr/bin --base-url https://github.com/starship/starship/releases
+    if ! grep -q "starship init zsh" ~/.zshrc; then
+        cat >>~/.zshrc <<'EOF'
+eval "$(starship init zsh)"
+EOF
+    fi
+}
+setup_starship() {
+    bash ~/.oh-my-zsh/tools/uninstall.sh &>/dev/null
+
+    mkdir -p /usr/share/fonts/nerd-fonts
+    cd /usr/share/fonts/nerd-fonts
+    curl -L https://us.arloor.dev/https://github.com/ryanoasis/nerd-fonts/releases/download/v2.2.2/3270.zip -o 3270.zip && unzip -o 3270.zip
+    cd
+
+    curl -sS https://starship.rs/install.sh | sh -s -- -y --bin-dir /usr/bin --base-url https://github.com/starship/starship/releases
+    if ! grep -q "starship init zsh" ~/.zshrc; then
+        cat >>~/.zshrc <<'EOF'
+eval "$(starship init zsh)"
+EOF
+    fi
+}
+setup_zsh
+setup_starship
 ```
 
 注意，默认的zsh跟bash在一些行为上有一些差距，所以我手动调用了setopt来设置一些行为，主要控制history和交互式命令行中注释的处理。可以参考zsh中的setopt设置：带localoptions的是仅在当前shell生效，可以不关注。
