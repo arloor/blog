@@ -29,27 +29,21 @@ traceparent: {version}-{trace-id}-{parent-id}-{trace-flags}
 
 例如：
 
-```
-
+```bash
 traceparent: 00-0af7651916cd43dd8448eb211c80319c-b7ad6b7169203331-01
-
 ```
 
 1. **`tracestate`**：
 **`tracestate`**头部字段允许跟踪系统扩展**`traceparent`**头部字段中的信息。它包含多个键值对，由逗号分隔，每个键值对由供应商定义的键和值组成。
 
-```
-
+```bash
 tracestate: {vendor1Key}={vendor1Value},{vendor2Key}={vendor2Value},...
-
 ```
 
 例如：
 
-```
-
+```bash
 tracestate: congo=t61rcWkgMzE,rojo=00f067aa0ba902b7
-
 ```
 
 在分布式追踪过程中，每个服务都需要遵循W3C Trace Context规范，将**`traceparent`**和**`tracestate`**头部字段传递给下游服务。这些头部字段使得跨服务的请求链路可追踪和可观测。
