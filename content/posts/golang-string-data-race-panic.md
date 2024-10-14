@@ -125,7 +125,9 @@ string很明确的是一个胖指针结构体。在给string变量赋值（拷�
 
 作为一个java老手，“**不可变对象是线程安全的**”是一个基本概念。但是golang的string却在多线程数据争用中出现了问题，为什么java和golang有这样的差异？后面会讲到。
 
-## java的string为什么没这个问题
+## java的String为什么没这个问题
+
+### 首先：java赋值/传参是pass by copy of object reference
 
 以下面的代码为例，Java的赋值和传参（非基础类型）操作可以分为两步：
 
@@ -135,7 +137,7 @@ String str = new String()
 
 | | 步骤 | 是否原子 | 备注 |
 | --- | --- | --- | --- |
-| 1 | 通过new()方法初始化对象（省略更前面的类加载、static变量初始化、父类对象初始化） | 不原子 | 逐个初始化各个字段。在《java并发编程》中说到，不能在new()方法中泄漏this引用，因为此时的this还没有被完全初始化好 |
+| 1 | 通过new()方法初始化对象（省略更前面的类加载、内存申请、static变量初始化、父类对象初始化） | 不原子 | 逐个初始化各个字段。在《java并发编程》中说到，不能在new()方法中泄漏this引用，因为此时的this还没有被完全初始化好 |
 | 2 | pass by copy of object reference | 引用的拷贝都是原子的 |  |
 
 另外提两个点：
@@ -143,7 +145,14 @@ String str = new String()
 1. java的object其实都是object reference
 2. java都是值传递的，针对object reference，值传递指的是pass by copy of object reference。这个拷贝是原子的。
 
-所以当我们做到不在 `new()` 中泄漏this引用，java String就不会有这个问题。而golang的string胖指针是个struct，赋值时会逐个设置pointer和len字段，这个过程不是原子的。
+而golang的string胖指针是个struct，赋值时会逐个设置pointer和len字段，这个过程不是原子的。这是java String和golang string的第一个区别，但不是全部，请继续看。
+
+### 其次：Java对象的final字段初始化后对所有线程可见
+
+`final` 在Java中本来是变量、属性创建后不可修改的意思。[JSR-133修订](https://jcp.org/en/jsr/detail?id=133)新增了针对 `final` 字段的两个“禁止重排序”规则，以保证 `final` 字段在构造方法执行完毕后对所有线程可见（详见[Java内存模型中final字段语意](https://docs.oracle.com/javase/specs/jls/se21/html/jls-17.html#jls-17.5)）。这也是Java不可变对象是线程安全的根本原因。
+
+[JSR-133修订](https://jcp.org/en/jsr/detail?id=133)还给 `volatile` 关键词增加了“顺序一致性”的保证，一个典型的场景是使用双重检验锁 + `static volatile` 来保证顺序一致性（防止读到未完全初始化的对象）和可见性（读到最新的值）。总之[JSR-133修订](https://jcp.org/en/jsr/detail?id=133)是对Java内存模型一次重要的修订。
+
 
 ## 一切的罪魁祸首：数据争用(data race)
 
