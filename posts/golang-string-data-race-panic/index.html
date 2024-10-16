@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.135.0">
+<meta name="generator" content="Hugo 0.136.0">
 
     
     
@@ -383,24 +383,24 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><table>
   <thead>
       <tr>
-          <th style="text-align: left"></th>
-          <th style="text-align: left">步骤</th>
-          <th style="text-align: left">是否原子</th>
-          <th style="text-align: left">备注</th>
+          <th></th>
+          <th>步骤</th>
+          <th>是否原子</th>
+          <th>备注</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">1</td>
-          <td style="text-align: left">通过new()方法初始化对象（省略更前面的类加载、内存申请、static变量初始化、父类对象初始化）</td>
-          <td style="text-align: left">不原子</td>
-          <td style="text-align: left">逐个初始化各个字段。在《java并发编程》中说到，不能在new()方法中泄漏this引用，因为此时的this还没有被完全初始化好</td>
+          <td>1</td>
+          <td>通过new()方法初始化对象（省略更前面的类加载、内存申请、static变量初始化、父类对象初始化）</td>
+          <td>不原子</td>
+          <td>逐个初始化各个字段。在《java并发编程》中说到，不能在new()方法中泄漏this引用，因为此时的this还没有被完全初始化好</td>
       </tr>
       <tr>
-          <td style="text-align: left">2</td>
-          <td style="text-align: left">pass by copy of object reference</td>
-          <td style="text-align: left">引用的拷贝都是原子的</td>
-          <td style="text-align: left"></td>
+          <td>2</td>
+          <td>pass by copy of object reference</td>
+          <td>引用的拷贝都是原子的</td>
+          <td></td>
       </tr>
   </tbody>
 </table>

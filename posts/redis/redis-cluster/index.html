@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.135.0">
+<meta name="generator" content="Hugo 0.136.0">
 
     
     
@@ -369,82 +369,82 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">字段</th>
-          <th style="text-align: left">含义</th>
+          <th>字段</th>
+          <th>含义</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">char sig[4]</td>
-          <td style="text-align: left">消息的签名，固定为”RCmb“（redis cluster message bus）</td>
+          <td>char sig[4]</td>
+          <td>消息的签名，固定为”RCmb“（redis cluster message bus）</td>
       </tr>
       <tr>
-          <td style="text-align: left">uint32_t totlen;</td>
-          <td style="text-align: left">消息的长度</td>
+          <td>uint32_t totlen;</td>
+          <td>消息的长度</td>
       </tr>
       <tr>
-          <td style="text-align: left">uint16_t ver;</td>
-          <td style="text-align: left">协议版本，当前固定为1</td>
+          <td>uint16_t ver;</td>
+          <td>协议版本，当前固定为1</td>
       </tr>
       <tr>
-          <td style="text-align: left">uint16_t port;</td>
-          <td style="text-align: left">sender的端口号</td>
+          <td>uint16_t port;</td>
+          <td>sender的端口号</td>
       </tr>
       <tr>
-          <td style="text-align: left">uint16_t type;</td>
-          <td style="text-align: left">消息类型：PING、PONG、MEET等</td>
+          <td>uint16_t type;</td>
+          <td>消息类型：PING、PONG、MEET等</td>
       </tr>
       <tr>
-          <td style="text-align: left">uint16_t count;</td>
-          <td style="text-align: left">包含的gossip信息的数量，PING、PONG、MEET消息含有该字段</td>
+          <td>uint16_t count;</td>
+          <td>包含的gossip信息的数量，PING、PONG、MEET消息含有该字段</td>
       </tr>
       <tr>
-          <td style="text-align: left">uint64_t currentEpoch;</td>
-          <td style="text-align: left">sender所知道的集群当前epoch</td>
+          <td>uint64_t currentEpoch;</td>
+          <td>sender所知道的集群当前epoch</td>
       </tr>
       <tr>
-          <td style="text-align: left">uint64_t configEpoch;</td>
-          <td style="text-align: left">sender（或其最后所知的其主节点）的configEpoch</td>
+          <td>uint64_t configEpoch;</td>
+          <td>sender（或其最后所知的其主节点）的configEpoch</td>
       </tr>
       <tr>
-          <td style="text-align: left">uint64_t offset;</td>
-          <td style="text-align: left">异步拷贝的offset</td>
+          <td>uint64_t offset;</td>
+          <td>异步拷贝的offset</td>
       </tr>
       <tr>
-          <td style="text-align: left">char sender[CLUSTER_NAMELEN];</td>
-          <td style="text-align: left">sender的节点NODEID</td>
+          <td>char sender[CLUSTER_NAMELEN];</td>
+          <td>sender的节点NODEID</td>
       </tr>
       <tr>
-          <td style="text-align: left">unsigned char myslots[CLUSTER_SLOTS/8];</td>
-          <td style="text-align: left">sender（或其主节点）所持有的slots信息，使用16384bit的bitmap表示</td>
+          <td>unsigned char myslots[CLUSTER_SLOTS/8];</td>
+          <td>sender（或其主节点）所持有的slots信息，使用16384bit的bitmap表示</td>
       </tr>
       <tr>
-          <td style="text-align: left">char slaveof[CLUSTER_NAMELEN];</td>
-          <td style="text-align: left">sender的主节点的NODEID</td>
+          <td>char slaveof[CLUSTER_NAMELEN];</td>
+          <td>sender的主节点的NODEID</td>
       </tr>
       <tr>
-          <td style="text-align: left">char myip[NET_IP_STR_LEN];</td>
-          <td style="text-align: left">sender的IP，或全为0</td>
+          <td>char myip[NET_IP_STR_LEN];</td>
+          <td>sender的IP，或全为0</td>
       </tr>
       <tr>
-          <td style="text-align: left">uint16_t cport;</td>
-          <td style="text-align: left">cluster bus的端口，比上面的port大10000</td>
+          <td>uint16_t cport;</td>
+          <td>cluster bus的端口，比上面的port大10000</td>
       </tr>
       <tr>
-          <td style="text-align: left">uint16_t flags</td>
-          <td style="text-align: left">sender状态标志</td>
+          <td>uint16_t flags</td>
+          <td>sender状态标志</td>
       </tr>
       <tr>
-          <td style="text-align: left">unsigned char state;</td>
-          <td style="text-align: left">sender视角认为的集群状态：down/ok</td>
+          <td>unsigned char state;</td>
+          <td>sender视角认为的集群状态：down/ok</td>
       </tr>
       <tr>
-          <td style="text-align: left">unsigned char mflags[3];</td>
-          <td style="text-align: left">Message flags: CLUSTERMSG_FLAG[012]_&hellip;</td>
+          <td>unsigned char mflags[3];</td>
+          <td>Message flags: CLUSTERMSG_FLAG[012]_&hellip;</td>
       </tr>
       <tr>
-          <td style="text-align: left">union clusterMsgData data;</td>
-          <td style="text-align: left">9种消息类型的载体</td>
+          <td>union clusterMsgData data;</td>
+          <td>9种消息类型的载体</td>
       </tr>
   </tbody>
 </table>

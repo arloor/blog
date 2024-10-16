@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.135.0">
+<meta name="generator" content="Hugo 0.136.0">
 
     
     
@@ -26,14 +26,14 @@
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="使用node-exporter &#43; prometheus &#43; grafana 监控k8s集群">
   <meta name="twitter:description" content="最近在K8S集群中部署了node-exporter &#43; prometheus &#43; grafana，具体过程可以参考我的Github项目kubernetes-prometheus-grafana。这个博客用来记录下过程中的一些知识点，主要有这些：
-主题 详述 K8S的RBAC 全称是基于角色的访问控制，K8S权限机制的基础 在Pod中访问ApiServer Prometheus是运行在k8s集群中的一个pod，访问k8s的apiserver时需要一些鉴权机制 Prometheus Service Discovery Prometheus是pull模型，需要自动地发现k8s集群中有哪些endpoing、node、service等，并watch其变更 Prometheus relabel_configs 在prometheus的抓取job中过滤、转换target的label ">
+主题 详述 K8S的RBAC 全称是基于角色的访问控制，K8S权限机制的基础 在Pod中访问ApiServer Prometheus是运行在k8s集群中的一个pod，访问k8s的apiserver时需要一些鉴权机制 Prometheus Service Discovery Prometheus是pull模型，需要自动地发现k8s集群中有哪些endpoing、node、service等，并watch其变更 Prometheus relabel_configs 在prometheus的抓取job中过滤、转换target的label">
       <meta name="twitter:site" content="@njulgh">
 
 <meta property="og:url" content="https://www.arloor.com/posts/k8s-rbac-prometheus-sd-relabel-config/">
   <meta property="og:site_name" content="ARLOOR">
   <meta property="og:title" content="使用node-exporter &#43; prometheus &#43; grafana 监控k8s集群">
   <meta property="og:description" content="最近在K8S集群中部署了node-exporter &#43; prometheus &#43; grafana，具体过程可以参考我的Github项目kubernetes-prometheus-grafana。这个博客用来记录下过程中的一些知识点，主要有这些：
-主题 详述 K8S的RBAC 全称是基于角色的访问控制，K8S权限机制的基础 在Pod中访问ApiServer Prometheus是运行在k8s集群中的一个pod，访问k8s的apiserver时需要一些鉴权机制 Prometheus Service Discovery Prometheus是pull模型，需要自动地发现k8s集群中有哪些endpoing、node、service等，并watch其变更 Prometheus relabel_configs 在prometheus的抓取job中过滤、转换target的label ">
+主题 详述 K8S的RBAC 全称是基于角色的访问控制，K8S权限机制的基础 在Pod中访问ApiServer Prometheus是运行在k8s集群中的一个pod，访问k8s的apiserver时需要一些鉴权机制 Prometheus Service Discovery Prometheus是pull模型，需要自动地发现k8s集群中有哪些endpoing、node、service等，并watch其变更 Prometheus relabel_configs 在prometheus的抓取job中过滤、转换target的label">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">

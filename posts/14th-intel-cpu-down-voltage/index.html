@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.135.0">
+<meta name="generator" content="Hugo 0.136.0">
 
     
     
@@ -26,14 +26,14 @@
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="14600KF降压（123微码）以及风扇调教">
   <meta name="twitter:description" content="现在用的电脑CPU是14600kf，记录下CPU降压操作和对风扇的调教。整体调教方向是日常无声音&#43;游戏时散热够用即可。最终效果是
-水泵风扇（3pin接口，只能DC调速），常态下4.0v电压，1100转，有轻微声音 冷排风扇轻负载下650转以下，基本听不到声音 ">
+水泵风扇（3pin接口，只能DC调速），常态下4.0v电压，1100转，有轻微声音 冷排风扇轻负载下650转以下，基本听不到声音">
       <meta name="twitter:site" content="@njulgh">
 
 <meta property="og:url" content="https://www.arloor.com/posts/14th-intel-cpu-down-voltage/">
   <meta property="og:site_name" content="ARLOOR">
   <meta property="og:title" content="14600KF降压（123微码）以及风扇调教">
   <meta property="og:description" content="现在用的电脑CPU是14600kf，记录下CPU降压操作和对风扇的调教。整体调教方向是日常无声音&#43;游戏时散热够用即可。最终效果是
-水泵风扇（3pin接口，只能DC调速），常态下4.0v电压，1100转，有轻微声音 冷排风扇轻负载下650转以下，基本听不到声音 ">
+水泵风扇（3pin接口，只能DC调速），常态下4.0v电压，1100转，有轻微声音 冷排风扇轻负载下650转以下，基本听不到声音">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
@@ -290,56 +290,56 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">PWM百分比</th>
-          <th style="text-align: left">RPM</th>
-          <th style="text-align: left">说明</th>
+          <th>PWM百分比</th>
+          <th>RPM</th>
+          <th>说明</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">0%</td>
-          <td style="text-align: left">0</td>
-          <td style="text-align: left">停转，不推荐</td>
+          <td>0%</td>
+          <td>0</td>
+          <td>停转，不推荐</td>
       </tr>
       <tr>
-          <td style="text-align: left">20%</td>
-          <td style="text-align: left">500</td>
-          <td style="text-align: left">基本无声音</td>
+          <td>20%</td>
+          <td>500</td>
+          <td>基本无声音</td>
       </tr>
       <tr>
-          <td style="text-align: left">25%</td>
-          <td style="text-align: left">650</td>
-          <td style="text-align: left">基本无声音</td>
+          <td>25%</td>
+          <td>650</td>
+          <td>基本无声音</td>
       </tr>
       <tr>
-          <td style="text-align: left">30%</td>
-          <td style="text-align: left">800</td>
-          <td style="text-align: left">声音很小，可以忽略</td>
+          <td>30%</td>
+          <td>800</td>
+          <td>声音很小，可以忽略</td>
       </tr>
       <tr>
-          <td style="text-align: left">40%</td>
-          <td style="text-align: left">1000</td>
-          <td style="text-align: left">声音很小，但能听到</td>
+          <td>40%</td>
+          <td>1000</td>
+          <td>声音很小，但能听到</td>
       </tr>
       <tr>
-          <td style="text-align: left">50%</td>
-          <td style="text-align: left">1300</td>
-          <td style="text-align: left">有明显声音</td>
+          <td>50%</td>
+          <td>1300</td>
+          <td>有明显声音</td>
       </tr>
       <tr>
-          <td style="text-align: left">60%</td>
-          <td style="text-align: left">1500</td>
-          <td style="text-align: left">中负载下，有明显声音</td>
+          <td>60%</td>
+          <td>1500</td>
+          <td>中负载下，有明显声音</td>
       </tr>
       <tr>
-          <td style="text-align: left">80%</td>
-          <td style="text-align: left">2000</td>
-          <td style="text-align: left">重负载下，有明显声音</td>
+          <td>80%</td>
+          <td>2000</td>
+          <td>重负载下，有明显声音</td>
       </tr>
       <tr>
-          <td style="text-align: left">100%</td>
-          <td style="text-align: left">2500</td>
-          <td style="text-align: left">不设置，声音很大，收益很小</td>
+          <td>100%</td>
+          <td>2500</td>
+          <td>不设置，声音很大，收益很小</td>
       </tr>
   </tbody>
 </table>

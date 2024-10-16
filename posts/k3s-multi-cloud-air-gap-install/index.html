@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.135.0">
+<meta name="generator" content="Hugo 0.136.0">
 
     
     
@@ -26,14 +26,14 @@
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="K3S多云环境下的离线部署">
   <meta name="twitter:description" content="这几天把k8s折腾了个遍，个人觉得k3s更适合我，主要有五个优势
-类似springboot的“约定优于配置”，就是默认给你一个开箱即用的东西，如果需要，再进行修改。而不是k8s那样样样要你配置 内置LoadBalancer实现，而不是像k8s那样没有LoadBalancer实现，导致裸机安装情况下得用NodePort、HostPort、HostNetwork来暴露服务，或者安装Metallb。 可以轻松的支持多云环境，对我这种有多个云厂商vps的玩家很友好 资源消耗较少。虽然节点增加后，控制面的内存压力也不小 文档docs.k3s.io很清晰。PS：不要看中文版的文档，也不要看rancher中国的文档，垃圾 ">
+类似springboot的“约定优于配置”，就是默认给你一个开箱即用的东西，如果需要，再进行修改。而不是k8s那样样样要你配置 内置LoadBalancer实现，而不是像k8s那样没有LoadBalancer实现，导致裸机安装情况下得用NodePort、HostPort、HostNetwork来暴露服务，或者安装Metallb。 可以轻松的支持多云环境，对我这种有多个云厂商vps的玩家很友好 资源消耗较少。虽然节点增加后，控制面的内存压力也不小 文档docs.k3s.io很清晰。PS：不要看中文版的文档，也不要看rancher中国的文档，垃圾">
       <meta name="twitter:site" content="@njulgh">
 
 <meta property="og:url" content="https://www.arloor.com/posts/k3s-multi-cloud-air-gap-install/">
   <meta property="og:site_name" content="ARLOOR">
   <meta property="og:title" content="K3S多云环境下的离线部署">
   <meta property="og:description" content="这几天把k8s折腾了个遍，个人觉得k3s更适合我，主要有五个优势
-类似springboot的“约定优于配置”，就是默认给你一个开箱即用的东西，如果需要，再进行修改。而不是k8s那样样样要你配置 内置LoadBalancer实现，而不是像k8s那样没有LoadBalancer实现，导致裸机安装情况下得用NodePort、HostPort、HostNetwork来暴露服务，或者安装Metallb。 可以轻松的支持多云环境，对我这种有多个云厂商vps的玩家很友好 资源消耗较少。虽然节点增加后，控制面的内存压力也不小 文档docs.k3s.io很清晰。PS：不要看中文版的文档，也不要看rancher中国的文档，垃圾 ">
+类似springboot的“约定优于配置”，就是默认给你一个开箱即用的东西，如果需要，再进行修改。而不是k8s那样样样要你配置 内置LoadBalancer实现，而不是像k8s那样没有LoadBalancer实现，导致裸机安装情况下得用NodePort、HostPort、HostNetwork来暴露服务，或者安装Metallb。 可以轻松的支持多云环境，对我这种有多个云厂商vps的玩家很友好 资源消耗较少。虽然节点增加后，控制面的内存压力也不小 文档docs.k3s.io很清晰。PS：不要看中文版的文档，也不要看rancher中国的文档，垃圾">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
@@ -403,26 +403,26 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><table>
   <thead>
       <tr>
-          <th style="text-align: left">参数</th>
-          <th style="text-align: left">说明</th>
+          <th>参数</th>
+          <th>说明</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left"><code>--attach</code></td>
-          <td style="text-align: left">附加到pod中</td>
+          <td><code>--attach</code></td>
+          <td>附加到pod中</td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>--command</code></td>
-          <td style="text-align: left"><code>--</code> 后的表示命令，而不是参数</td>
+          <td><code>--command</code></td>
+          <td><code>--</code> 后的表示命令，而不是参数</td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>--rm</code></td>
-          <td style="text-align: left">运行完成后删除pod</td>
+          <td><code>--rm</code></td>
+          <td>运行完成后删除pod</td>
       </tr>
       <tr>
-          <td style="text-align: left"><code>--restart=Never</code></td>
-          <td style="text-align: left">不设置的话，会是backoff的状态</td>
+          <td><code>--restart=Never</code></td>
+          <td>不设置的话，会是backoff的状态</td>
       </tr>
   </tbody>
 </table>

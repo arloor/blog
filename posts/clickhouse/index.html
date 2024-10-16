@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.135.0">
+<meta name="generator" content="Hugo 0.136.0">
 
     
     
@@ -383,26 +383,26 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">文件名</th>
-          <th style="text-align: left">描述</th>
-          <th style="text-align: left">作用</th>
+          <th>文件名</th>
+          <th>描述</th>
+          <th>作用</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left"><strong>primary.idx</strong></td>
-          <td style="text-align: left">索引文件</td>
-          <td style="text-align: left">用于存放稀疏索引</td>
+          <td><strong>primary.idx</strong></td>
+          <td>索引文件</td>
+          <td>用于存放稀疏索引</td>
       </tr>
       <tr>
-          <td style="text-align: left"><strong>[Column].mrk2</strong></td>
-          <td style="text-align: left">标记文件</td>
-          <td style="text-align: left">保存了bin文件中数据的偏移信息，用于建立primary.idx和[Column].bin文件之间的映射</td>
+          <td><strong>[Column].mrk2</strong></td>
+          <td>标记文件</td>
+          <td>保存了bin文件中数据的偏移信息，用于建立primary.idx和[Column].bin文件之间的映射</td>
       </tr>
       <tr>
-          <td style="text-align: left"><strong>[Column].bin</strong></td>
-          <td style="text-align: left">数据文件</td>
-          <td style="text-align: left">存储数据，默认使用lz4压缩存储</td>
+          <td><strong>[Column].bin</strong></td>
+          <td>数据文件</td>
+          <td>存储数据，默认使用lz4压缩存储</td>
       </tr>
   </tbody>
 </table>
@@ -564,31 +564,31 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <table>
   <thead>
       <tr>
-          <th style="text-align: left">参数</th>
-          <th style="text-align: left">参考值</th>
-          <th style="text-align: left">作用</th>
+          <th>参数</th>
+          <th>参考值</th>
+          <th>作用</th>
       </tr>
   </thead>
   <tbody>
       <tr>
-          <td style="text-align: left">max_threads</td>
-          <td style="text-align: left">32</td>
-          <td style="text-align: left">用于控制一个用户的查询线程数</td>
+          <td>max_threads</td>
+          <td>32</td>
+          <td>用于控制一个用户的查询线程数</td>
       </tr>
       <tr>
-          <td style="text-align: left">max_memory_usage</td>
-          <td style="text-align: left">10000000000</td>
-          <td style="text-align: left">单个查询最多能够使用内存大小9.31G</td>
+          <td>max_memory_usage</td>
+          <td>10000000000</td>
+          <td>单个查询最多能够使用内存大小9.31G</td>
       </tr>
       <tr>
-          <td style="text-align: left">max_execution_time</td>
-          <td style="text-align: left">30</td>
-          <td style="text-align: left">单个查询最大执行时间</td>
+          <td>max_execution_time</td>
+          <td>30</td>
+          <td>单个查询最大执行时间</td>
       </tr>
       <tr>
-          <td style="text-align: left">skip_unavailable_shards</td>
-          <td style="text-align: left">1</td>
-          <td style="text-align: left">在通过分布式表查询的时候，当某一个shard无法访问时，其他shard的数据仍然可以查询</td>
+          <td>skip_unavailable_shards</td>
+          <td>1</td>
+          <td>在通过分布式表查询的时候，当某一个shard无法访问时，其他shard的数据仍然可以查询</td>
       </tr>
   </tbody>
 </table>
