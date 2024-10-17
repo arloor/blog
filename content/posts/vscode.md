@@ -377,12 +377,13 @@ fi
         "mhutchie.git-graph",
         "github.copilot",
         "github.vscode-github-actions", // github actions
-        "rust-analyzer", // rust-analyzer
-        "codelldb",
+        "rust-lang.rust-analyzer", // rust-analyzer
+        "vadimcn.vscode-lldb",
         "tamasfe.even-better-toml",
         "golang.go",
         "ms-python.vscode-pylance",
-        "ms-python.python"
+        "ms-python.python",
+        "fill-labs.dependi"
     ],
     "workbench.colorTheme": "Default Dark+",
     "rust-analyzer.check.command": "clippy",
@@ -391,7 +392,8 @@ fi
     "go.lintTool": "golangci-lint",
     "remote.SSH.remotePlatform": {
         "bi.arloor.com": "linux",
-        "pl.arloor.com": "linux"
+        "pl.arloor.com": "linux",
+        "tt.arloor.com": "linux"
     },
     "go.toolsManagement.autoUpdate": true,
     "diffEditor.ignoreTrimWhitespace": true,
@@ -411,9 +413,7 @@ fi
     },
     "go.testFlags": [
         "-gcflags=all=-l", // 针对run test禁用内联优化，使gomonkey可以成功打桩。对debug test不生效，因为golang插件针对debug test自行设置了-gcflags="all=-l -N"
-        "-v", // 使debug test可以输出t.Logf的日志
-        "-args", // 使run test可以输出t.Logf的日志
-        "-test.v",
+        "-v", // 使run test可以输出t.Logf的日志。对debug test不生效，只在test fail的时候才会打印t.Logf的日志
     ],
     "go.formatFlags": [
         "-w"
