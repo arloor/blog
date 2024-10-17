@@ -215,41 +215,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   <div class="post-list__item">
     <span class="item__title--big">
-      <a href="/posts/k3s-daemonset-rust-http-proxy/" >使用K8S DaemonSet部署rust_http_proxy</a>
-    </span>
-    <span class="item__date">
-      Jul 23, 2023
-    </span>
-    <span >
-      
-      <h2 id="整体说明">整体说明</h2>
-<ol>
-<li>tls的证书没有使用Secret，感觉没啥必要。</li>
-<li><del>使用HostPort来暴露端口，并将coredns的deployment移动到外网的vps上，已避免ClusterFirst的dnsPolicy下的国内dns污染问题</del></li>
-<li>使用hostNetwork使用主机网络栈，意义在于暴露端口+使用host的DNS（无污染问题）</li>
-<li>使用envFrom comfigMap加载环境变量，这要求configMap中所有字段都是String类型，443、true、false要用双引号包裹。</li>
-<li>使用hostPath挂载nginx的目录，展示web网页。</li>
-</ol>
-<h2 id="dockerfile">Dockerfile</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>FROM docker.io/redhat/ubi9-micro:9.2-9
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 设置时区为上海，ubi9-micro内置了tzdata </span>
-</span></span><span style="display:flex;"><span>RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime <span style="color:#f92672">&amp;&amp;</span> echo <span style="color:#e6db74">&#34;Asia/Shanghai&#34;</span> &gt; /etc/timezone
-</span></span><span style="display:flex;"><span>COPY target/x86_64-unknown-linux-musl/release/rust_http_proxy /
-</span></span><span style="display:flex;"><span>CMD <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;/rust_http_proxy&#34;</span><span style="color:#f92672">]</span>
-</span></span></code></pre></div><p>用的RHEL家的ubi9-micro基础镜像，它和alpine差不多大小，用的glibc，没有musl-libc的一些兼容性问题，并且设置时区更加简单，而且我对RHEL家的东西很有好感，所以就用了。一些相关的介绍：</p>
-      
-    </span>
-    
-    ... <a class="read-more-symbol" href="/posts/k3s-daemonset-rust-http-proxy/">➦</a>
-    
-  </div>
-  
-  
-  
-  
-  
-  <div class="post-list__item">
-    <span class="item__title--big">
       <a href="/posts/k3s-create-service-of-proxy/" >在K8S集群中创建clash代理服务</a>
     </span>
     <span class="item__date">
@@ -457,6 +422,27 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
       <div class="iframe-container"><iframe id="biliplayer" src="//player.bilibili.com/player.html?bvid=BV1fs4y1F7aV&page=1&high_quality=1&danmaku=0&cid=1038023328" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" loading="lazy" > </iframe></div>
       
     </span>
+    
+  </div>
+  
+  
+  
+  
+  
+  <div class="post-list__item">
+    <span class="item__title--big">
+      <a href="/posts/grafana-docs/" >Grafana文档学习</a>
+    </span>
+    <span class="item__date">
+      Jul 2, 2023
+    </span>
+    <span >
+      
+      <p>一直在用Grafana，从未好好看过他的文档，这次发现还是有不少东西的。借着这次学习Grafana的机会，复习下指标相关的东西。</p>
+      
+    </span>
+    
+    ... <a class="read-more-symbol" href="/posts/grafana-docs/">➦</a>
     
   </div>
   

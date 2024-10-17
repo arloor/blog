@@ -254,13 +254,6 @@
       <description>&lt;p&gt;本文首先介绍Springboot的单数据源配置方式，并介绍其中的Springboot自动装配细节；其次介绍如何配置多数据源。&lt;/p&gt;</description>
     </item>
     <item>
-      <title>艾尔登法环上手玩</title>
-      <link>https://www.arloor.com/posts/elden-ring/</link>
-      <pubDate>Sun, 10 Sep 2023 15:01:48 +0800</pubDate>
-      <guid>https://www.arloor.com/posts/elden-ring/</guid>
-      <description>&lt;p&gt;22年年初买了Xbox series S，恰逢22年年度游戏《艾尔登法环》发售，想着评价这么高，我也来试试。但是当时游玩体验还是比较差的，一方面是XSS的性能不够，画质和帧数不行，玩起来比较累；另一方面，由于没有玩过魂类游戏，很多设定和机制不了解，就不知道该怎么玩。最典型的例子是，我开局选择了一贫如洗的角色，等级低、还没初始武器，输在了起跑线上，哪哪玩起来都不顺。另一个例子就是开局直冲宁格姆福去打“恶兆”，卡住之后就阶段性放弃了这个游戏。&lt;/p&gt;</description>
-    </item>
-    <item>
       <title>MacOS睡眠和唤醒历史</title>
       <link>https://www.arloor.com/posts/macos-sleep-wake-history/</link>
       <pubDate>Sun, 13 Aug 2023 11:29:33 +0800</pubDate>
