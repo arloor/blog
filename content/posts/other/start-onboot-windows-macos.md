@@ -86,41 +86,6 @@ Macos提供三种开机自启动的方式，详情可以看这里[三种方式�
 如果想实现类似`systemctl restart xx`的能力，可以使用下面的脚本：
 
 ```bash
-#! /bin/sh
-service_name="com.arloor.sslocal"
-get_cur_pid() {
-    launchctl list | grep ${service_name} | awk '{print $1}'
-}
-old_pid=$(get_cur_pid)
-if [ "$old_pid" != "" ]; then
-    echo 关闭老进程 $old_pid
-    launchctl unload -w ~/Library/LaunchAgents/${service_name}.plist
-fi
-
-if [ "$1" != "stop" ]; then
-    sleep 1
-    launchctl load -w ~/Library/LaunchAgents/${service_name}.plist
-    pid=$(get_cur_pid)
-    if [ "$pid" != "" ]; then
-        echo 新进程 $pid
-    else
-        echo 启动失败
-    fi
-fi
-```
-
-#### 新命令
-
-unload和load是老旧的launchctl命令，`man launchctl`能看到，官方推荐我们使用 bootstrap | bootout | enable | disable
-> - `unload -w` 等同于 `bootout + disable`，停止进程并禁用开机自启动。
-> - `load -w` 等同于 `enable + bootstrap`，启动进程并设置开机自启动。 
-> - `bootstrap` 和 `bootout` 只有在service是enable的状态下才有效。所以下面的脚本中，bootout在disable之前，bootstrap后enable之后。
-> - `bootstrap` 需要使用plist的路径，而不是service-name
-> - `launchctl kickstart -p` 用于打印当前进程的pid
-
-使用新命令来达成上面的效果就是：
-
-```bash
 #! /bin/bash
 
 service_name="com.arloor.sslocal"
@@ -145,13 +110,45 @@ if [ "$1" != "stop" ]; then
         echo 启动失败
     fi
 fi
-
 ```
 
 service是否被disable的db文件地址如下。MacOS不会自动删除db文件中无效的service，这导致执行`launchctl print-disabled gui/$(id -u)`时会看到一些无效的service。如果想手动删除这些无效的service，需要先在恢复模式关闭安全模式，然后才能通过vim修改。
 
 ```bash
 /private/var/db/com.apple.xpc.launchd/disabled.$(id -u).plist 
+```
+
+#### 老命令
+
+unload和load是老旧的launchctl命令，`man launchctl`能看到，官方推荐我们使用 bootstrap | bootout | enable | disable
+> - `unload -w` 等同于 `bootout + disable`，停止进程并禁用开机自启动。
+> - `load -w` 等同于 `enable + bootstrap`，启动进程并设置开机自启动。 
+> - `bootstrap` 和 `bootout` 只有在service是enable的状态下才有效。所以下面的脚本中，bootout在disable之前，bootstrap后enable之后。
+> - `bootstrap` 需要使用plist的路径，而不是service-name
+> - `launchctl kickstart -p` 用于打印当前进程的pid
+
+```bash
+#! /bin/sh
+service_name="com.arloor.sslocal"
+get_cur_pid() {
+    launchctl list | grep ${service_name} | awk '{print $1}'
+}
+old_pid=$(get_cur_pid)
+if [ "$old_pid" != "" ]; then
+    echo 关闭老进程 $old_pid
+    launchctl unload -w ~/Library/LaunchAgents/${service_name}.plist
+fi
+
+if [ "$1" != "stop" ]; then
+    sleep 1
+    launchctl load -w ~/Library/LaunchAgents/${service_name}.plist
+    pid=$(get_cur_pid)
+    if [ "$pid" != "" ]; then
+        echo 新进程 $pid
+    else
+        echo 启动失败
+    fi
+fi
 ```
 
 ### 全局资源限制
@@ -200,10 +197,50 @@ sudo launchctl load -w /Library/LaunchDaemons/limit.maxfiles.plist
 4. 确认更改后的限制
 
 ```bash
- launchctl limit maxfiles
+launchctl limit maxfiles
 ```
 
 详见[Mac OS X下的资源限制](https://zidongwudaijun.com/2017/02/max-osx-ulimit/)
+
+## macOS定时任务
+
+参考[Scheduling Timed Jobs](https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/ScheduledJobs.html)
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>Label</key>
+        <string>com.arloor.job</string>
+        <!-- 加载后立即启动，即开机自启 -->
+        <key>RunAtLoad</key>
+        <true />
+        <key>WorkingDirectory</key>
+        <string>/tmp</string>
+        <key>ProgramArguments</key>
+        <array>
+            <string>/Users/arloor/bin/work</string>
+        </array>
+        <key>StartCalendarInterval</key>
+        <dict>
+            <!-- 每天10点 -->
+            <key>Hour</key>
+            <integer>10</integer>
+            <key>Minute</key>
+            <integer>0</integer>
+        </dict>
+        <!-- 标准输出路径 -->
+        <key>StandardOutPath</key>
+        <string>/tmp/work.log</string>
+    </dict>
+</plist>
+```
+
+1. 这样设置后，每天10点会执行一次。
+2. 如果10点刚好mac在待机，则唤醒后会执行一次。
+3. 如果10点是关机的，则开机后不会执行。
+4. 还有个StartInterval的参数，每多少秒执行一次。这个参数因睡眠导致的错过在唤醒时不会执行的。
 
 ## windows开机自启动
 
