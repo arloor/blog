@@ -34,7 +34,7 @@ Macos提供三种开机自启动的方式，详情可以看这里[三种方式�
                 <!-- 退出后是否重启 -->
                 <key>KeepAlive</key>
                 <false />
-                <!-- 加载后立即启动，即开机自启 -->
+                <!-- 加载后立即启动，即开机自启。如果设置为false，则bootstrap后还需要kickstart才会启动 -->
                 <key>RunAtLoad</key>
                 <true />
                 <key>WorkingDirectory</key>
