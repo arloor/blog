@@ -88,7 +88,21 @@ Macos提供三种开机自启动的方式，详情可以看这里[三种方式�
 ```bash
 #! /bin/bash
 
-service_name="com.arloor.sslocal"
+# 打印所有传递的参数
+echo "所有参数: $@"
+
+# 使用while循环读取参数
+while [ $# -gt 0 ]; do
+    if [ "$1" == "stop" ]; then
+        stop=1
+    else
+        service_name=$1
+    fi
+    shift # 移除第一个参数
+done
+[ "$service_name" == "" ] && {
+    service_name="com.arloor.sslocal"
+}
 
 get_cur_pid() {
     launchctl list | grep ${service_name} | awk '{print $1}'
@@ -100,7 +114,7 @@ if [ "$old_pid" != "" ]; then
     launchctl bootout gui/$(id -u)/${service_name}
     launchctl disable gui/$(id -u)/${service_name}
 fi
-if [ "$1" != "stop" ]; then
+if [ "$stop" != "1" ]; then
     launchctl enable gui/$(id -u)/${service_name}
     launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/${service_name}.plist
     pid=$(get_cur_pid)
