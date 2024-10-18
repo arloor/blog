@@ -85,23 +85,31 @@ Macos提供三种开机自启动的方式，详情可以看这里[三种方式�
 
 如果想实现类似`systemctl restart xx`的能力，可以使用下面的脚本：
 
-```
+```bash
 #! /bin/sh
-launchctl unload -w ~/Library/LaunchAgents/com.arloor.sslocal.plist
+service_name="com.arloor.sslocal"
+get_cur_pid() {
+    launchctl list | grep ${service_name} | awk '{print $1}'
+}
+old_pid=$(get_cur_pid)
+if [ "$old_pid" != "" ]; then
+    echo 关闭老进程 $old_pid
+    launchctl unload -w ~/Library/LaunchAgents/${service_name}.plist
+fi
+
 if [ "$1" != "stop" ]; then
     sleep 1
-    launchctl load -w ~/Library/LaunchAgents/com.arloor.sslocal.plist
+    launchctl load -w ~/Library/LaunchAgents/${service_name}.plist
+    pid=$(get_cur_pid)
+    if [ "$pid" != "" ]; then
+        echo 新进程 $pid
+    else
+        echo 启动失败
+    fi
 fi
 ```
 
-如果执行过程中报下面的错，是因为 `launchctl unload`（卸载服务） 时该服务还没运行，所以 `launchctl unload` 失败。可以忽略这个错误。
-
-```bash
-Unload failed: 5: Input/output error
-Try running `launchctl bootout` as root for richer errors.
-```
-
-#### 新命令（可以但没必要）
+#### 新命令
 
 unload和load是老旧的launchctl命令，`man launchctl`能看到，官方推荐我们使用 bootstrap | bootout | enable | disable
 > - `unload -w` 等同于 `bootout + disable`，停止进程并禁用开机自启动。
