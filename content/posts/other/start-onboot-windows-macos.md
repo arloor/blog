@@ -88,9 +88,6 @@ Macos提供三种开机自启动的方式，详情可以看这里[三种方式�
 ```bash
 #! /bin/bash
 
-# 打印所有传递的参数
-echo "所有参数: $@"
-
 # 使用while循环读取参数
 while [ $# -gt 0 ]; do
     if [ "$1" == "stop" ]; then
@@ -102,6 +99,11 @@ while [ $# -gt 0 ]; do
 done
 [ "$service_name" == "" ] && {
     service_name="com.arloor.sslocal"
+}
+[ "$stop" == "1" ] && {
+    echo "stop and disable ${service_name}"
+} || {
+    echo "start and enable ${service_name}"
 }
 
 get_cur_pid() {
