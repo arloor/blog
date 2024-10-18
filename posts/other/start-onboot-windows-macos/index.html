@@ -251,7 +251,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     
     
     <br/>
-    <i class="fas fa-clock"></i> 3 min read
+    <i class="fas fa-clock"></i> 4 min read
 </div>
 
 
@@ -272,6 +272,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
         <li><a href="#全局资源限制">全局资源限制</a></li>
       </ul>
     </li>
+    <li><a href="#macos定时任务">macOS定时任务</a></li>
     <li><a href="#windows开机自启动">windows开机自启动</a></li>
   </ul>
 </nav>
@@ -341,39 +342,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><p>如果需要其他字段来自定义能力，可以参考 <code>man launchd.plist</code>，或者看<a href="https://www.launchd.info/">launchd.info</a></p>
 <h3 id="启动和停止">启动和停止</h3>
 <p>如果想实现类似<code>systemctl restart xx</code>的能力，可以使用下面的脚本：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#! /bin/sh
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>service_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;com.arloor.sslocal&#34;</span>
-</span></span><span style="display:flex;"><span>get_cur_pid<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
-</span></span><span style="display:flex;"><span>    launchctl list | grep <span style="color:#e6db74">${</span>service_name<span style="color:#e6db74">}</span> | awk <span style="color:#e6db74">&#39;{print $1}&#39;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
-</span></span><span style="display:flex;"><span>old_pid<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>get_cur_pid<span style="color:#66d9ef">)</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span>$old_pid<span style="color:#e6db74">&#34;</span> !<span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
-</span></span><span style="display:flex;"><span>    echo 关闭老进程 $old_pid
-</span></span><span style="display:flex;"><span>    launchctl unload -w ~/Library/LaunchAgents/<span style="color:#e6db74">${</span>service_name<span style="color:#e6db74">}</span>.plist
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span>$1<span style="color:#e6db74">&#34;</span> !<span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;stop&#34;</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
-</span></span><span style="display:flex;"><span>    sleep <span style="color:#ae81ff">1</span>
-</span></span><span style="display:flex;"><span>    launchctl load -w ~/Library/LaunchAgents/<span style="color:#e6db74">${</span>service_name<span style="color:#e6db74">}</span>.plist
-</span></span><span style="display:flex;"><span>    pid<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>get_cur_pid<span style="color:#66d9ef">)</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span>$pid<span style="color:#e6db74">&#34;</span> !<span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
-</span></span><span style="display:flex;"><span>        echo 新进程 $pid
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>
-</span></span><span style="display:flex;"><span>        echo 启动失败
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fi</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
-</span></span></code></pre></div><h4 id="新命令">新命令</h4>
-<p>unload和load是老旧的launchctl命令，<code>man launchctl</code>能看到，官方推荐我们使用 bootstrap | bootout | enable | disable</p>
-<blockquote>
-<ul>
-<li><code>unload -w</code> 等同于 <code>bootout + disable</code>，停止进程并禁用开机自启动。</li>
-<li><code>load -w</code> 等同于 <code>enable + bootstrap</code>，启动进程并设置开机自启动。</li>
-<li><code>bootstrap</code> 和 <code>bootout</code> 只有在service是enable的状态下才有效。所以下面的脚本中，bootout在disable之前，bootstrap后enable之后。</li>
-<li><code>bootstrap</code> 需要使用plist的路径，而不是service-name</li>
-<li><code>launchctl kickstart -p</code> 用于打印当前进程的pid</li>
-</ul>
-</blockquote>
-<p>使用新命令来达成上面的效果就是：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#! /bin/bash
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
 </span></span><span style="display:flex;"><span>service_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;com.arloor.sslocal&#34;</span>
@@ -400,6 +368,38 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
 </span></span></code></pre></div><p>service是否被disable的db文件地址如下。MacOS不会自动删除db文件中无效的service，这导致执行<code>launchctl print-disabled gui/$(id -u)</code>时会看到一些无效的service。如果想手动删除这些无效的service，需要先在恢复模式关闭安全模式，然后才能通过vim修改。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/private/var/db/com.apple.xpc.launchd/disabled.<span style="color:#66d9ef">$(</span>id -u<span style="color:#66d9ef">)</span>.plist 
+</span></span></code></pre></div><h4 id="老命令">老命令</h4>
+<p>unload和load是老旧的launchctl命令，<code>man launchctl</code>能看到，官方推荐我们使用 bootstrap | bootout | enable | disable</p>
+<blockquote>
+<ul>
+<li><code>unload -w</code> 等同于 <code>bootout + disable</code>，停止进程并禁用开机自启动。</li>
+<li><code>load -w</code> 等同于 <code>enable + bootstrap</code>，启动进程并设置开机自启动。</li>
+<li><code>bootstrap</code> 和 <code>bootout</code> 只有在service是enable的状态下才有效。所以下面的脚本中，bootout在disable之前，bootstrap后enable之后。</li>
+<li><code>bootstrap</code> 需要使用plist的路径，而不是service-name</li>
+<li><code>launchctl kickstart -p</code> 用于打印当前进程的pid</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#! /bin/sh
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>service_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;com.arloor.sslocal&#34;</span>
+</span></span><span style="display:flex;"><span>get_cur_pid<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    launchctl list | grep <span style="color:#e6db74">${</span>service_name<span style="color:#e6db74">}</span> | awk <span style="color:#e6db74">&#39;{print $1}&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>old_pid<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>get_cur_pid<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span>$old_pid<span style="color:#e6db74">&#34;</span> !<span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>    echo 关闭老进程 $old_pid
+</span></span><span style="display:flex;"><span>    launchctl unload -w ~/Library/LaunchAgents/<span style="color:#e6db74">${</span>service_name<span style="color:#e6db74">}</span>.plist
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span>$1<span style="color:#e6db74">&#34;</span> !<span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;stop&#34;</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>    sleep <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    launchctl load -w ~/Library/LaunchAgents/<span style="color:#e6db74">${</span>service_name<span style="color:#e6db74">}</span>.plist
+</span></span><span style="display:flex;"><span>    pid<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>get_cur_pid<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span>$pid<span style="color:#e6db74">&#34;</span> !<span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>        echo 新进程 $pid
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>        echo 启动失败
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
 </span></span></code></pre></div><h3 id="全局资源限制">全局资源限制</h3>
 <p>unix系统都限制了可打开文件数，上面的plist修改了单个进程的文件描述符数量限制。如何修改全局资源限制呢？</p>
 <ol>
@@ -438,8 +438,44 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><ol start="4">
 <li>确认更改后的限制</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span> launchctl limit maxfiles
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>launchctl limit maxfiles
 </span></span></code></pre></div><p>详见<a href="https://zidongwudaijun.com/2017/02/max-osx-ulimit/">Mac OS X下的资源限制</a></p>
+<h2 id="macos定时任务">macOS定时任务</h2>
+<p>参考<a href="https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/ScheduledJobs.html">Scheduling Timed Jobs</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">&lt;!DOCTYPE plist PUBLIC &#34;-//Apple//DTD PLIST 1.0//EN&#34; &#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&#34;&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;plist</span> <span style="color:#a6e22e">version=</span><span style="color:#e6db74">&#34;1.0&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;dict&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;key&gt;</span>Label<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;string&gt;</span>com.arloor.job<span style="color:#f92672">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">&lt;!-- 加载后立即启动，即开机自启 --&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;key&gt;</span>RunAtLoad<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;true</span> <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;key&gt;</span>WorkingDirectory<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;string&gt;</span>/tmp<span style="color:#f92672">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;key&gt;</span>ProgramArguments<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;array&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;string&gt;</span>/Users/arloor/bin/work<span style="color:#f92672">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;/array&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;key&gt;</span>StartCalendarInterval<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;dict&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">&lt;!-- 每天10点 --&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;key&gt;</span>Hour<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;integer&gt;</span>10<span style="color:#f92672">&lt;/integer&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;key&gt;</span>Minute<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;integer&gt;</span>0<span style="color:#f92672">&lt;/integer&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;/dict&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">&lt;!-- 标准输出路径 --&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;key&gt;</span>StandardOutPath<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;string&gt;</span>/tmp/work.log<span style="color:#f92672">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/dict&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/plist&gt;</span>
+</span></span></code></pre></div><ol>
+<li>这样设置后，每天10点会执行一次。</li>
+<li>如果10点刚好mac在待机，则唤醒后会执行一次。</li>
+<li>如果10点是关机的，则开机后不会执行。</li>
+<li>还有个StartInterval的参数，每多少秒执行一次。这个参数因睡眠导致的错过在唤醒时不会执行的。</li>
+</ol>
 <h2 id="windows开机自启动">windows开机自启动</h2>
 <p>编写<code>startup.vbs</code>，放到</p>
 <pre tabindex="0"><code>C:\Users\你的用户名\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
