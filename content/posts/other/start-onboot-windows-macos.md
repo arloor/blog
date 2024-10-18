@@ -92,7 +92,7 @@ Macos提供三种开机自启动的方式，详情可以看这里[三种方式�
 while [ $# -gt 0 ]; do
     if [ "$1" == "stop" ]; then
         stop=1
-    else
+    elif [ "$1" != "start" ]; then
         service_name=$1
     fi
     shift # 移除第一个参数
@@ -101,9 +101,9 @@ done
     service_name="com.arloor.sslocal"
 }
 [ "$stop" == "1" ] && {
-    echo "stop and disable ${service_name}"
+    echo "stop and disable [${service_name}]"
 } || {
-    echo "start and enable ${service_name}"
+    echo "start and enable [${service_name}]"
 }
 
 get_cur_pid() {
@@ -126,6 +126,13 @@ if [ "$stop" != "1" ]; then
         echo 启动失败
     fi
 fi
+```
+
+把这个脚本命名成 `systemctl`，那你就可以：
+
+```bash
+systemctl start com.arloor.sslocal
+systemctl stop com.arloor.sslocal
 ```
 
 service是否被disable的db文件地址如下。MacOS不会自动删除db文件中无效的service，这导致执行`launchctl print-disabled gui/$(id -u)`时会看到一些无效的service。如果想手动删除这些无效的service，需要先在恢复模式关闭安全模式，然后才能通过vim修改。
