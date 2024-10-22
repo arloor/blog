@@ -98,6 +98,33 @@ fmt.(*fmt).padString(0x1400011a1c0?, {0x0, 0xf}) // 0x0是指针地址nil，0xf�
 
 0x0是指针地址nil，0xf是长度（15，即/test/test/test的长度）。发现len是15，尝试解引用nil指针来读底层数据，就会panic
 
+### 根因分析：
+
+为了分析这个panic的根因，先看string的定义：
+
+```go
+// go/src/reflect/value.go
+
+// StringHeader is the runtime representation of a string.
+// ...
+type StringHeader struct {
+    Data uintptr // 指针
+    Len  int     // 长度元数据
+}
+```
+
+string很明确的是一个胖指针结构体。在给string变量赋值（拷贝）时，会逐个设置pointer和len字段，这个过程不是原子的。在有并发修改时，pointer和len就不一致了，这时就会发生问题：
+
+1. 赋值时 len!=0, pointer=nil: `panic: runtime error: invalid memory address or nil pointer dereference`
+2. 赋值时 len和pointer都不为0，但是两者不匹配：会读到错误的数据，截断或读到错误数据
+
+回顾一下golang的string类型的特征：
+
+1. string是值类型。虽然string和slice一样也是胖指针，但string的实现确保修改一个变量的内容时，这个修改对其他变量不可见（重新分配底层数据，而不是通过下标原地修改）
+2. string是不可变的。
+
+作为一个java老手，“**不可变对象是线程安全的**”是一个基本概念。但是golang的string却在多线程数据争用中出现了问题，为什么java和golang有这样的差异？后面会讲到。
+
 ### 一种修复方案：使用 atomic.Value
 
 使用 `atomic.Value` 包裹string。不过atomic是乐观锁，这样的改动在 `sleep 10 纳秒` 的情况下，会导致CAS陷入自旋，CPU占用率100%且不阻塞住，这时候就要显式使用mutex了。
@@ -133,33 +160,6 @@ func request(c atomic.Value) {
 	println(fmt.Sprintf("fullPath: %s", c.Load().(string)))
 }
 ```
-
-### 根因分析：
-
-为了分析这个panic的根因，先看string的定义：
-
-```go
-// go/src/reflect/value.go
-
-// StringHeader is the runtime representation of a string.
-// ...
-type StringHeader struct {
-    Data uintptr // 指针
-    Len  int     // 长度元数据
-}
-```
-
-string很明确的是一个胖指针结构体。在给string变量赋值（拷贝）时，会逐个设置pointer和len字段，这个过程不是原子的。在有并发修改时，pointer和len就不一致了，这时就会发生问题：
-
-1. 赋值时 len!=0, pointer=nil: `panic: runtime error: invalid memory address or nil pointer dereference`
-2. 赋值时 len和pointer都不为0，但是两者不匹配：会读到错误的数据，截断或读到错误数据
-
-回顾一下golang的string类型的特征：
-
-1. string是值类型。虽然string和slice一样也是胖指针，但string的实现确保修改一个变量的内容时，这个修改对其他变量不可见（重新分配底层数据，而不是通过下标原地修改）
-2. string是不可变的。
-
-作为一个java老手，“**不可变对象是线程安全的**”是一个基本概念。但是golang的string却在多线程数据争用中出现了问题，为什么java和golang有这样的差异？后面会讲到。
 
 ## java的String为什么没这个问题
 
