@@ -96,7 +96,43 @@ exit status 2
 fmt.(*fmt).padString(0x1400011a1c0?, {0x0, 0xf}) // 0x0是指针地址nil，0xf是长度（15，即/test/test/test的长度）
 ```
 
-0x0是指针地址nil，0xf是长度（15，即/test/test/test的长度）。发现len是15，尝试解引用nil指针来读底层数据，就会panic。
+0x0是指针地址nil，0xf是长度（15，即/test/test/test的长度）。发现len是15，尝试解引用nil指针来读底层数据，就会panic
+
+### 一种修复方案：使用 atomic.Value
+
+使用 `atomic.Value` 包裹string。不过atomic是乐观锁，这样的改动在 `sleep 10 纳秒` 的情况下，会导致CAS陷入自旋，CPU占用率100%且不阻塞住，这时候就要显式使用mutex了。
+
+```go
+package main
+
+import (
+	"fmt"
+	"sync/atomic"
+	"time"
+)
+
+func main() {
+	var atomicFullPath atomic.Value
+	atomicFullPath.Store("init")
+	go func() {
+		for i := 1; i < 10000; i++ {
+			request(atomicFullPath)
+		}
+	}()
+
+	for {
+		atomicFullPath.Store("")
+		time.Sleep(10 * time.Nanosecond)
+		atomicFullPath.Store("/test/test/test")
+		time.Sleep(10 * time.Nanosecond)
+	}
+
+}
+
+func request(c atomic.Value) {
+	println(fmt.Sprintf("fullPath: %s", c.Load().(string)))
+}
+```
 
 ### 根因分析：
 
