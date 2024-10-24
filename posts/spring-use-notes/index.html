@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    
+    <link rel="canonical" href="https://www.arloor.com/posts/spring-use-notes/">
+    
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.136.4">
+
+    
+    
+    
+
+<title>Spring随用随记 • ARLOOR</title>
+<meta name="description" content="今天，你学习了吗">
+<meta name="keywords" content="刘港欢, arloor, moontell">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Spring随用随记">
+  <meta name="twitter:description" content="在工作之前大概有一年半没有写过spring的东西了，有些东西忘了，用这个记一下。">
+      <meta name="twitter:site" content="@njulgh">
+
+<meta property="og:url" content="https://www.arloor.com/posts/spring-use-notes/">
+  <meta property="og:site_name" content="ARLOOR">
+  <meta property="og:title" content="Spring随用随记">
+  <meta property="og:description" content="在工作之前大概有一年半没有写过spring的东西了，有些东西忘了，用这个记一下。">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2019-11-09T22:13:53+08:00">
+    <meta property="article:modified_time" content="2019-11-09T22:13:53+08:00">
+    <meta property="article:tag" content="Undefined">
+
+
+    
+
+
+
+
+
+<link rel="stylesheet" href="/styles/atom-one-dark.min.css">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.484b96856b25751067d56c8c0af9dc1fd6372707029b6d56ee178da6bead45b5.css" integrity="sha256-SEuWhWsldRBn1WyMCvncH9Y3JwcCm21W7heNpr6tRbU=">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+
+<link rel="stylesheet" href="/scss/hugo-toc.0873834b0f2e9fdc9e1d0301e8ebce21fc10383882a41e9373f29b90e85a9987.css" integrity="sha256-CHODSw8un9yeHQMB6OvOIfwQODiCpB6Tc/KbkOhamYc=">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="/favicon.png">
+    
+    
+
+    <script type="module" crossorigin src="/assets/index-JfmtLPLI.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-C1z1vz3D.css">
+</head>
+
+
+    <body class=" ">
+    
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="/">
+          
+          ARLOOR
+          
+        </a>
+      </span>
+      <a href="/">
+        
+        
+        <div class="author-image">
+          <img src="/img/head.jpeg" alt="Author Image" class="img--circle img--headshot element--center">
+        </div>
+        
+        
+      </a>
+      
+      <p class="site__description">
+         都是瞎写的 
+      </p>
+      <div id="docsearch" style="display: flex;justify-content: center;"></div>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">ARLOOR</label>
+      <div class="menu-content">
+        <div class="show-in-small">
+          <a href="/">
+            
+            
+            <div class="author-image">
+              <img src="/img/head.jpeg" alt="Author Image"
+                class="img--circle img--headshot element--center">
+            </div>
+            
+            
+          </a>
+        </div>
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/posts/">
+						<span>文章</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/tags/">
+						<span>分类</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/about/">
+						<span>关于我</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="http://beian.miit.gov.cn/">
+						<span>苏ICP备17024437号</span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://x.com/njulgh" rel="me"><i class="fa-brands fa-x-twitter fa-lg"></i></a>
+	
+	
+	
+	
+	
+	<a href="https://github.com/arloor" rel="me"><i class="fa-brands fa-github fa-lg"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://t.me/never_contact_me" rel="me"><i class="fa-brands fa-telegram fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	<a href="mailto:admin@arloor.com" rel="me"><i class="fa-solid fa-at fa-lg"></i></a>
+	
+	
+	
+	
+</section>
+      </div>
+    </div>
+    
+<div class="copyright">
+  &copy; 2024 arloor
+  
+    <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>
+  
+</div>
+
+
+<div class="builtwith">
+Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.com/arloor/hyde-arloor">hyde-arloor</a>.
+</div>
+
+
+  </div>
+</div>
+        <div class="content container">
+            
+    
+<article>
+  <header>
+    <h1>Spring随用随记</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> Nov 9, 2019
+    
+    
+    
+      
+      
+          in
+          
+          
+              <a class="badge badge-category" href="/categories/undefined">UNDEFINED</a>
+              
+          
+      
+    
+    
+    
+      
+      
+          <br/>
+           <i class="fas fa-tags"></i>
+          
+          <a class="badge badge-tag" href="/tags/undefined">undefined</a>
+          
+      
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 3 min read
+</div>
+
+
+  </header>
+  
+  
+  
+    <div class="toc-wrapper">
+      <input type="checkbox" id="tocToggle">
+      <label for="tocToggle">Table of Content</label>
+      
+          <nav id="TableOfContents">
+  <ul>
+    <li><a href="#controller和restcontoller">@Controller和@RestContoller</a></li>
+    <li><a href="#拦截器handlerinterceptor">拦截器HandlerInterceptor</a></li>
+    <li><a href="#modelattribute">@ModelAttribute</a></li>
+    <li><a href="#springboot设置ssl">springboot设置ssl</a></li>
+    <li><a href="#上传文件">上传文件</a></li>
+  </ul>
+</nav>
+      
+    </div>
+  
+  
+  <div class="post">
+    <p>在工作之前大概有一年半没有写过spring的东西了，有些东西忘了，用这个记一下。</p>
+<h2 id="controller和restcontoller">@Controller和@RestContoller</h2>
+<p>@RestController可以认为是@Controller+@ResponseBody。</p>
+<p>被@Controller注解的方法可以返回String、ModelAndView等类型的对象，他指定的是返回MVC中的M和V，会寻找一个对应的页面，并把Model设置进去。</p>
+<p>@RestController方法返回的对象会被Spring自动地转换为json，返回给浏览器。</p>
+<p>以上就是两者的不同。</p>
+<h2 id="拦截器handlerinterceptor">拦截器HandlerInterceptor</h2>
+<p>原生的Servlet API提供了Filter过滤器，可以对请求作出一些修改<br>
+Spring则提供拦截器这种东西。<a href="https://docs.spring.io/spring/docs/5.2.1.RELEASE/spring-framework-reference/web.html#mvc-handlermapping-interceptor">官方文档</a></p>
+<p>拦截器用于在Controller处理请求前，“拦截”请求并修改。拦截器提供三种方法：</p>
+<ul>
+<li>preHandle(..): Before the actual handler is executed</li>
+<li>postHandle(..): After the handler is executed</li>
+<li>afterCompletion(..): After the complete request has finished</li>
+</ul>
+<p>要实现自己的拦截器，需要实现HandlerInterceptor接口或者继承HandlerInterceptorAdapter类，并实现（重载）相关方法。例如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">GetCcmsUserInfo</span> <span style="color:#66d9ef">extends</span> HandlerInterceptorAdapter {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@Override</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">preHandle</span>(HttpServletRequest request, HttpServletResponse response, Object handler)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">throws</span> Exception {
+</span></span><span style="display:flex;"><span>         <span style="color:#75715e">//.........对request作出修改，比如request.setAttribute(....)等。</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span>;<span style="color:#75715e">//继续执行该请求</span>
+</span></span><span style="display:flex;"><span>         <span style="color:#75715e">//return false;//拦截该请求</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>注意1</strong>：postHandle对于@RestController和@ResponseBody和ResponseEntity的修改是无效的，因为已经提前返回给浏览器了。要修改他们，请使用<code>ResponseBodyAdvice</code>或者使用@ControllerAdvice。</p>
+<p><strong>注意2</strong>： 需要进行一些配置拦截器才会生效。配置方法是：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Configuration</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">InterceptorConfigure</span> <span style="color:#66d9ef">implements</span> WebMvcConfigurer {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">addInterceptors</span>(InterceptorRegistry registry){
+</span></span><span style="display:flex;"><span>        registry.<span style="color:#a6e22e">addInterceptor</span>(<span style="color:#66d9ef">new</span> MineTestInterceptor())
+</span></span><span style="display:flex;"><span>                .<span style="color:#a6e22e">addPathPatterns</span>(<span style="color:#e6db74">&#34;/test/**&#34;</span>)<span style="color:#75715e">//生效路径</span>
+</span></span><span style="display:flex;"><span>                .<span style="color:#a6e22e">excludePathPatterns</span>(<span style="color:#e6db74">&#34;/login&#34;</span>)
+</span></span><span style="display:flex;"><span>                .<span style="color:#a6e22e">excludePathPatterns</span>(<span style="color:#e6db74">&#34;/loginPost&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="modelattribute">@ModelAttribute</h2>
+<p>这里说的Model就是MVC里的那个M。SpringMVC会生成这个Model，并且Controller可以是用Model model来作为方法参数。</p>
+<p>先给一个@ModelAttribute的使用示例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@RestController</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TestInterceptorController</span> {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@ModelAttribute</span>(<span style="color:#e6db74">&#34;interceptorAdd&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">getInterceptorAdd</span>(HttpServletRequest request){
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> (String) request.<span style="color:#a6e22e">getAttribute</span>(<span style="color:#e6db74">&#34;interceptorAdd&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@RequestMapping</span>(<span style="color:#e6db74">&#34;/test/interceptor&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">test</span>(<span style="color:#a6e22e">@ModelAttribute</span>(<span style="color:#e6db74">&#34;interceptorAdd&#34;</span>)String interceptorAdd){
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> interceptorAdd;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>被@ModelAttribute注解的方法，会在Controller的任何@RequestMapping方法执行前被调用，并设置Model的属性。在这里就是设置model的interceptorAdd属性。</p>
+<p>在@RequestMapping方法中，可以使用该属性。</p>
+<p><strong>使用场景</strong>：结合拦截器和@ModelAttribute可以方便在Controller方法前设置一些需要用到的属性。</p>
+<h2 id="springboot设置ssl">springboot设置ssl</h2>
+<pre tabindex="0"><code>keytool -genkey -alias myhostname -storetype PKCS12 -keyalg RSA -keysize 2048 -keystore keystore.p12
+# 输入密码123456，其他直接按enter
+</code></pre><p>创建名为keystore.p12的密钥库，并将它移动到main/resources下。</p>
+<p>application.properties如下</p>
+<p>server.port= 8443
+server.ssl.key-store= classpath:keystore.p12
+server.ssl.key-store-password= 123456
+server.ssl.keyStoreType= PKCS12
+server.ssl.keyAlias= myhostname</p>
+<h2 id="上传文件">上传文件</h2>
+<p><a href="https://blog.csdn.net/gnail_oug/article/details/80324120">参见</a></p>
+<p>Controller:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Controller</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@CommonsLog</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UploadController</span> {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@GetMapping</span>(<span style="color:#e6db74">&#34;/&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">upload</span>() {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;upload&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@PostMapping</span>(<span style="color:#e6db74">&#34;/uploadfile&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">@ResponseBody</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> String <span style="color:#a6e22e">upload</span>(<span style="color:#a6e22e">@RequestParam</span>(<span style="color:#e6db74">&#34;file&#34;</span>) MultipartFile file) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (file.<span style="color:#a6e22e">isEmpty</span>()) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;上传失败，请选择文件&#34;</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        String fileName <span style="color:#f92672">=</span> file.<span style="color:#a6e22e">getOriginalFilename</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        String userHome<span style="color:#f92672">=</span>System.<span style="color:#a6e22e">getProperty</span>(<span style="color:#e6db74">&#34;user.home&#34;</span>);
+</span></span><span style="display:flex;"><span>        String parentDirPath <span style="color:#f92672">=</span>String.<span style="color:#a6e22e">format</span>( <span style="color:#e6db74">&#34;%s/upload/&#34;</span>,userHome);
+</span></span><span style="display:flex;"><span>        File parentDir <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> File(parentDirPath);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>parentDir.<span style="color:#a6e22e">exists</span>()) {
+</span></span><span style="display:flex;"><span>            parentDir.<span style="color:#a6e22e">mkdirs</span>();
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        String filePath <span style="color:#f92672">=</span> parentDirPath <span style="color:#f92672">+</span> fileName;
+</span></span><span style="display:flex;"><span>        File target <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> File(filePath);
+</span></span><span style="display:flex;"><span>        String absolutePath <span style="color:#f92672">=</span> target.<span style="color:#a6e22e">getAbsolutePath</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">try</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">//复制文件，如果存在则覆盖</span>
+</span></span><span style="display:flex;"><span>            Files.<span style="color:#a6e22e">copy</span>(file.<span style="color:#a6e22e">getInputStream</span>(), Paths.<span style="color:#a6e22e">get</span>(absolutePath),REPLACE_EXISTING);
+</span></span><span style="display:flex;"><span>            String msg<span style="color:#f92672">=</span>String.<span style="color:#a6e22e">format</span>(<span style="color:#e6db74">&#34;success: to %s&#34;</span>,absolutePath);
+</span></span><span style="display:flex;"><span>            log.<span style="color:#a6e22e">info</span>(msg);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> msg;
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">catch</span> (IOException e) {
+</span></span><span style="display:flex;"><span>            log.<span style="color:#a6e22e">error</span>(e.<span style="color:#a6e22e">toString</span>(), e);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> e.<span style="color:#a6e22e">toString</span>();
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>upload.html:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">style</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;line-height: 3em;width: 50%;font-family: &#39;Microsoft YaHei UI&#39;&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">form</span>  <span style="color:#a6e22e">method</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;post&#34;</span> <span style="color:#a6e22e">action</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/uploadfile&#34;</span> <span style="color:#a6e22e">enctype</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;multipart/form-data&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">style</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;margin: auto;width: 100%;font-size: 1.5rem&#34;</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;file&#34;</span> <span style="color:#a6e22e">name</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;file&#34;</span>&gt;&lt;<span style="color:#f92672">br</span>&gt;
+</span></span><span style="display:flex;"><span>        &lt;<span style="color:#f92672">input</span> <span style="color:#a6e22e">style</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;margin: auto;font-size: 1.5rem&#34;</span> <span style="color:#a6e22e">type</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;submit&#34;</span> <span style="color:#a6e22e">value</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;确定&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">form</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">div</span>&gt;
+</span></span></code></pre></div>
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/posts/spring-aop/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">Spring Aop使用</span>
+    </a>
+    
+    
+    <a href="/posts/huawei-turnoff-upgrade/" class="navigation-next">
+      <span class="navigation-tittle">华为手机关闭系统更新</span>
+      <i aria-hidden="true" class="fa fa-chevron-right"></i>
+    </a>
+    
+</div>
+
+
+  
+
+  
+
+
+</article>
+
+
+        </div>
+        
+    
+
+
+
+<script defer src="/js/all.js" crossorigin="anonymous"></script>
+
+    
+    
+    <script src="/js/highlight.min.js"></script>
+    <script src="/js/languages/dos.min.js"></script>
+        
+    <script type="text/javascript">
+        
+        hljs.highlightAll();
+    </script>
+    
+
+
+
+
+    
+
+
+
+    </body>
+</html>

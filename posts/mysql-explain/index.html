@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    
+    <link rel="canonical" href="https://www.arloor.com/posts/mysql-explain/">
+    
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.136.4">
+
+    
+    
+    
+
+<title>Mysql索引及explain使用 • ARLOOR</title>
+<meta name="description" content="今天，你学习了吗">
+<meta name="keywords" content="刘港欢, arloor, moontell">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Mysql索引及explain使用">
+  <meta name="twitter:description" content="首先放参考文档
+MySQL索引原理及慢查询优化-美团技术博客 explain_mysql文档">
+      <meta name="twitter:site" content="@njulgh">
+
+<meta property="og:url" content="https://www.arloor.com/posts/mysql-explain/">
+  <meta property="og:site_name" content="ARLOOR">
+  <meta property="og:title" content="Mysql索引及explain使用">
+  <meta property="og:description" content="首先放参考文档
+MySQL索引原理及慢查询优化-美团技术博客 explain_mysql文档">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2020-10-16T19:49:15+08:00">
+    <meta property="article:modified_time" content="2020-10-16T19:49:15+08:00">
+    <meta property="article:tag" content="Undefined">
+
+
+    
+
+
+
+
+
+<link rel="stylesheet" href="/styles/atom-one-dark.min.css">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.484b96856b25751067d56c8c0af9dc1fd6372707029b6d56ee178da6bead45b5.css" integrity="sha256-SEuWhWsldRBn1WyMCvncH9Y3JwcCm21W7heNpr6tRbU=">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+
+<link rel="stylesheet" href="/scss/hugo-toc.0873834b0f2e9fdc9e1d0301e8ebce21fc10383882a41e9373f29b90e85a9987.css" integrity="sha256-CHODSw8un9yeHQMB6OvOIfwQODiCpB6Tc/KbkOhamYc=">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="/favicon.png">
+    
+    
+
+    <script type="module" crossorigin src="/assets/index-JfmtLPLI.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-C1z1vz3D.css">
+</head>
+
+
+    <body class=" ">
+    
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="/">
+          
+          ARLOOR
+          
+        </a>
+      </span>
+      <a href="/">
+        
+        
+        <div class="author-image">
+          <img src="/img/head.jpeg" alt="Author Image" class="img--circle img--headshot element--center">
+        </div>
+        
+        
+      </a>
+      
+      <p class="site__description">
+         都是瞎写的 
+      </p>
+      <div id="docsearch" style="display: flex;justify-content: center;"></div>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">ARLOOR</label>
+      <div class="menu-content">
+        <div class="show-in-small">
+          <a href="/">
+            
+            
+            <div class="author-image">
+              <img src="/img/head.jpeg" alt="Author Image"
+                class="img--circle img--headshot element--center">
+            </div>
+            
+            
+          </a>
+        </div>
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/posts/">
+						<span>文章</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/tags/">
+						<span>分类</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/about/">
+						<span>关于我</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="http://beian.miit.gov.cn/">
+						<span>苏ICP备17024437号</span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://x.com/njulgh" rel="me"><i class="fa-brands fa-x-twitter fa-lg"></i></a>
+	
+	
+	
+	
+	
+	<a href="https://github.com/arloor" rel="me"><i class="fa-brands fa-github fa-lg"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://t.me/never_contact_me" rel="me"><i class="fa-brands fa-telegram fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	<a href="mailto:admin@arloor.com" rel="me"><i class="fa-solid fa-at fa-lg"></i></a>
+	
+	
+	
+	
+</section>
+      </div>
+    </div>
+    
+<div class="copyright">
+  &copy; 2024 arloor
+  
+    <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>
+  
+</div>
+
+
+<div class="builtwith">
+Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.com/arloor/hyde-arloor">hyde-arloor</a>.
+</div>
+
+
+  </div>
+</div>
+        <div class="content container">
+            
+    
+<article>
+  <header>
+    <h1>Mysql索引及explain使用</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> Oct 16, 2020
+    
+    
+    
+      
+      
+          in
+          
+          
+              <a class="badge badge-category" href="/categories/undefined">UNDEFINED</a>
+              
+          
+      
+    
+    
+    
+      
+      
+          <br/>
+           <i class="fas fa-tags"></i>
+          
+          <a class="badge badge-tag" href="/tags/undefined">undefined</a>
+          
+      
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 3 min read
+</div>
+
+
+  </header>
+  
+  
+  
+    <div class="toc-wrapper">
+      <input type="checkbox" id="tocToggle">
+      <label for="tocToggle">Table of Content</label>
+      
+          <nav id="TableOfContents">
+  <ul>
+    <li><a href="#索引创建原则">索引创建原则</a></li>
+    <li><a href="#explain使用">EXPLAIN使用</a></li>
+    <li><a href="#type字段的详细解释explain-join-types">type字段的详细解释（EXPLAIN Join Types）</a></li>
+    <li><a href="#extra字段解释">Extra字段解释</a></li>
+  </ul>
+</nav>
+      
+    </div>
+  
+  
+  <div class="post">
+    <p>首先放参考文档</p>
+<ol>
+<li><a href="https://tech.meituan.com/2014/06/30/mysql-index.html">MySQL索引原理及慢查询优化-美团技术博客</a></li>
+<li><a href="https://dev.mysql.com/doc/refman/8.0/en/explain-output.html">explain_mysql文档</a></li>
+</ol>
+<h2 id="索引创建原则">索引创建原则</h2>
+<ol>
+<li>尽量使用联合索引，尽量扩展联合索引，而非新建索引</li>
+<li>最左前缀匹配原则，
+<ol>
+<li>where语句中会一直向右匹配到范围查询(&gt;,&lt;,between,like&gt;)</li>
+<li>索引(a,b,c,d)——where中仅含有（b,c）不能使用索引，含(a,b,c)才能使用</li>
+</ol>
+</li>
+<li>mysql有查询优化器，会调整你的where语句以尽可能地使用索引——如果有(a,b,c)这个索引，where a = 1 and b = 2 and c = 3中的a、b、c也可以使用到上述索引。</li>
+<li>尽量使用区分度高的列作为索引，例如性别(0,1)的区分度没有姓名的区分度高</li>
+<li>不要对索引column做function，例如：禁止from_unixtime(create_time) = ’2014-05-29’</li>
+<li>尽量扩展索引，不要新建索引</li>
+<li>order by部分也可以使用到索引</li>
+</ol>
+<h2 id="explain使用">EXPLAIN使用</h2>
+<pre tabindex="0"><code>EXPLAIN
+SELECT *
+from table
+WHERE project_id IN (&#39;a&#39;, &#39;b&#39;, &#39;c&#39;)
+  and project_type = &#39;xxx_type&#39;
+  and user_type = &#39;xxx_user&#39;
+  and user_id = &#39;11111&#39;
+</code></pre><img src="/img/mysql_explain.png" alt="" width="600px" style="max-width: 100%;">
+
+<p>以上就是一个简单的EXPALIN使用的例子，接下来看看mysql官方文档怎么解释这些字段的。</p>
+<img src="/img/explain_columns.png" alt="" width="600px" style="max-width: 100%;">
+
+<ul>
+<li>id: 查询标识符，标示union联合查询这种有多个子查询</li>
+<li>select_type: 查询类型</li>
+<li>table: 查询的表</li>
+<li>partitions：查询的分区</li>
+<li>type: join类型，后面细讲（EXPLAIN Join Types）</li>
+<li>possible_keys: 可以使用的索引</li>
+<li>key: 真实使用的索引</li>
+<li>key_len: 使用的索引的长度，确定使用了联合索引的几个部分</li>
+<li>ref: 用于于索引列比较的值，例子：const,const,const 表示使用到了三个常量</li>
+<li>rows: 需要扫描的行数。在innodb中，这是一个估计值</li>
+<li>Extra：额外信息，下面细讲</li>
+</ul>
+<h2 id="type字段的详细解释explain-join-types">type字段的详细解释（EXPLAIN Join Types）</h2>
+<p>join Types即使在单表也是有意义的，这个需要首先能理解</p>
+<p>type字段的详细解析如下，从最优到最差排序</p>
+<ul>
+<li>system: 表只有一行（=system table）</li>
+<li>const: <code>【PRIMARY KEY / UNIQUE = const(s)】</code>通过索引只能找到<strong>一行</strong>。两种情况：使用<code>PRIMARY KEY</code>找到唯一行，通过<code>UNIQUE</code>索引与常量做等于找到唯一行</li>
+<li>eq_ref: <code>【PRIMARY KEY / UNIQUE NOT NULL = 另一个表column(s)的值】</code>join时，A表每次通过<code>PRIMARY KEY</code>或<code>UNIQUE NOT NULL</code>索引找到<strong>一行</strong>，与B表进行=比较。例子：</li>
+</ul>
+<pre tabindex="0"><code>SELECT * FROM ref_table,other_table
+  WHERE ref_table.key_column=other_table.column;
+
+SELECT * FROM ref_table,other_table
+  WHERE ref_table.key_column_part1=other_table.column
+  AND ref_table.key_column_part2=1;
+</code></pre><ul>
+<li>ref: <code>A表使用索引 找到多个rows 与B表的column(s)对应</code>。通过索引返回<strong>多行</strong>，返回的数量不多的情况下，是好的join type。例子：</li>
+</ul>
+<pre tabindex="0"><code>SELECT * FROM ref_table WHERE key_column=expr;
+
+SELECT * FROM ref_table,other_table
+  WHERE ref_table.key_column=other_table.column;
+
+SELECT * FROM ref_table,other_table
+  WHERE ref_table.key_column_part1=other_table.column
+  AND ref_table.key_column_part2=1;
+</code></pre><ul>
+<li>fulltext: 使用全文索引。对全文索引不咋了解</li>
+<li>ref_or_null: 在<code>ref</code>join的基础上加上对null值的扫描。例子：</li>
+</ul>
+<pre tabindex="0"><code>SELECT * FROM ref_table
+  WHERE key_column=expr OR key_column IS NULL;
+</code></pre><ul>
+<li>index_merge: 使用到index merge查询优化。使用到了多个索引。</li>
+<li>unique_subquery: 暂时不能理解 <code>value IN (SELECT primary_key FROM single_table WHERE some_expr)</code></li>
+<li>index_subquery: 暂时不能理解 <code>value IN (SELECT key_column FROM single_table WHERE some_expr)</code></li>
+<li>range: 跟ref比较像，对索引中的列使用了范围操作：=, &lt;&gt;, &gt;, &gt;=, &lt;, &lt;=, IS NULL, &lt;=&gt;, BETWEEN, LIKE, or IN()</li>
+<li>index: 不好！扫描了索引的全部数据</li>
+<li>ALL: 不好！全表扫描</li>
+</ul>
+<h2 id="extra字段解释">Extra字段解释</h2>
+<p>Extra也是比较有用的，展示sql执行的其他信息。</p>
+<p>想要sql更快的话，关注并排除<code>Using filesort</code>和<code>Using temporary</code></p>
+<ul>
+<li>Using filesort: mysql必须额外执行排序操作才能实现order by的语句。改进：把orderby使用到的column加入联合索引，这样排序就能利用到索引的顺序，就可以防止filesort了。更多order by优化，请看<a href="https://dev.mysql.com/doc/refman/8.0/en/order-by-optimization.html">8.2.1.16 ORDER BY Optimization</a></li>
+<li>Using temporary: mysql必须创建临时表以完成查询。通常出现在既包含GROUP BY又包含ORDER BY的sql中</li>
+</ul>
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/posts/http2/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">http2是什么</span>
+    </a>
+    
+    
+    <a href="/posts/kafka-learn/" class="navigation-next">
+      <span class="navigation-tittle">Kafka文档摘要</span>
+      <i aria-hidden="true" class="fa fa-chevron-right"></i>
+    </a>
+    
+</div>
+
+
+  
+
+  
+
+
+</article>
+
+
+        </div>
+        
+    
+
+
+
+<script defer src="/js/all.js" crossorigin="anonymous"></script>
+
+    
+    
+    <script src="/js/highlight.min.js"></script>
+    <script src="/js/languages/dos.min.js"></script>
+        
+    <script type="text/javascript">
+        
+        hljs.highlightAll();
+    </script>
+    
+
+
+
+
+    
+
+
+
+    </body>
+</html>

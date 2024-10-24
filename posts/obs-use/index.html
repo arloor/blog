@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    
+    <link rel="canonical" href="https://www.arloor.com/posts/obs-use/">
+    
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.136.4">
+
+    
+    
+    
+
+<title>OBS直播、录屏 • ARLOOR</title>
+<meta name="description" content="今天，你学习了吗">
+<meta name="keywords" content="刘港欢, arloor, moontell">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="OBS直播、录屏">
+  <meta name="twitter:description" content="都是瞎写的">
+      <meta name="twitter:site" content="@njulgh">
+
+<meta property="og:url" content="https://www.arloor.com/posts/obs-use/">
+  <meta property="og:site_name" content="ARLOOR">
+  <meta property="og:title" content="OBS直播、录屏">
+  <meta property="og:description" content="都是瞎写的">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-09-07T19:18:49+08:00">
+    <meta property="article:modified_time" content="2024-09-07T19:18:49+08:00">
+    <meta property="article:tag" content="Undefined">
+
+
+    
+
+
+
+
+
+<link rel="stylesheet" href="/styles/atom-one-dark.min.css">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.484b96856b25751067d56c8c0af9dc1fd6372707029b6d56ee178da6bead45b5.css" integrity="sha256-SEuWhWsldRBn1WyMCvncH9Y3JwcCm21W7heNpr6tRbU=">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+
+<link rel="stylesheet" href="/scss/hugo-toc.0873834b0f2e9fdc9e1d0301e8ebce21fc10383882a41e9373f29b90e85a9987.css" integrity="sha256-CHODSw8un9yeHQMB6OvOIfwQODiCpB6Tc/KbkOhamYc=">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="/favicon.png">
+    
+    
+
+    <script type="module" crossorigin src="/assets/index-JfmtLPLI.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-C1z1vz3D.css">
+</head>
+
+
+    <body class=" ">
+    
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="/">
+          
+          ARLOOR
+          
+        </a>
+      </span>
+      <a href="/">
+        
+        
+        <div class="author-image">
+          <img src="/img/head.jpeg" alt="Author Image" class="img--circle img--headshot element--center">
+        </div>
+        
+        
+      </a>
+      
+      <p class="site__description">
+         都是瞎写的 
+      </p>
+      <div id="docsearch" style="display: flex;justify-content: center;"></div>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">ARLOOR</label>
+      <div class="menu-content">
+        <div class="show-in-small">
+          <a href="/">
+            
+            
+            <div class="author-image">
+              <img src="/img/head.jpeg" alt="Author Image"
+                class="img--circle img--headshot element--center">
+            </div>
+            
+            
+          </a>
+        </div>
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/posts/">
+						<span>文章</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/tags/">
+						<span>分类</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/about/">
+						<span>关于我</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="http://beian.miit.gov.cn/">
+						<span>苏ICP备17024437号</span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://x.com/njulgh" rel="me"><i class="fa-brands fa-x-twitter fa-lg"></i></a>
+	
+	
+	
+	
+	
+	<a href="https://github.com/arloor" rel="me"><i class="fa-brands fa-github fa-lg"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://t.me/never_contact_me" rel="me"><i class="fa-brands fa-telegram fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	<a href="mailto:admin@arloor.com" rel="me"><i class="fa-solid fa-at fa-lg"></i></a>
+	
+	
+	
+	
+</section>
+      </div>
+    </div>
+    
+<div class="copyright">
+  &copy; 2024 arloor
+  
+    <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>
+  
+</div>
+
+
+<div class="builtwith">
+Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.com/arloor/hyde-arloor">hyde-arloor</a>.
+</div>
+
+
+  </div>
+</div>
+        <div class="content container">
+            
+    
+<article>
+  <header>
+    <h1>OBS直播、录屏</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> Sep 7, 2024
+    
+    
+    
+      
+      
+          in
+          
+          
+              <a class="badge badge-category" href="/categories/undefined">UNDEFINED</a>
+              
+          
+      
+    
+    
+    
+      
+      
+          <br/>
+           <i class="fas fa-tags"></i>
+          
+          <a class="badge badge-tag" href="/tags/undefined">undefined</a>
+          
+      
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 1 min read
+</div>
+
+
+  </header>
+  
+  
+  
+    <div class="toc-wrapper">
+      <input type="checkbox" id="tocToggle">
+      <label for="tocToggle">Table of Content</label>
+      
+          <nav id="TableOfContents">
+  <ul>
+    <li><a href="#设置obs以管理员权限运行以开启nvenc硬件编码">设置obs以管理员权限运行，以开启Nvenc硬件编码</a></li>
+    <li><a href="#直播设置">直播设置</a></li>
+    <li><a href="#录像设置">录像设置</a></li>
+    <li><a href="#视频设置">视频设置</a></li>
+    <li><a href="#音频设置">音频设置</a></li>
+    <li><a href="#高级设置">高级设置</a></li>
+    <li><a href="#给obs设置高性能的显卡电源模式">给OBS设置高性能的显卡电源模式</a></li>
+    <li><a href="#剪影导出4k视频用于b站">剪影导出4K视频，用于B站</a></li>
+    <li><a href="#b站4k稿件的具体要求">B站4K稿件的具体要求</a></li>
+    <li><a href="#youtube-4k稿件">Youtube 4K稿件</a></li>
+    <li><a href="#obs-notifier-插件">OBS Notifier 插件</a></li>
+    <li><a href="#参考文档">参考文档</a></li>
+  </ul>
+</nav>
+      
+    </div>
+  
+  
+  <div class="post">
+    <h2 id="设置obs以管理员权限运行以开启nvenc硬件编码">设置obs以管理员权限运行，以开启Nvenc硬件编码</h2>
+<img src="/img/Snipaste_2024-09-07_23-30-29.png" alt="" width="400px" style="max-width: 100%;">
+
+<h2 id="直播设置">直播设置</h2>
+<img src="/img/obs-settings-zhibo.png" alt="" width="700px" style="max-width: 100%;">
+
+<h2 id="录像设置">录像设置</h2>
+<img src="/img/Snipaste_2024-09-08_00-31-00.png" alt="" width="700px" style="max-width: 100%;">
+
+<h2 id="视频设置">视频设置</h2>
+<img src="/img/obs-settings-video.png" alt="" width="700px" style="max-width: 100%;">
+
+<h2 id="音频设置">音频设置</h2>
+<img src="/img/obs-settings-yinpin.png" alt="" width="700px" style="max-width: 100%;">
+
+<h2 id="高级设置">高级设置</h2>
+<img src="/img/obs-settings-advanced.png" alt="" width="700px" style="max-width: 100%;">
+
+<h2 id="给obs设置高性能的显卡电源模式">给OBS设置高性能的显卡电源模式</h2>
+<img src="/img/obs-settings-high-performance.png" alt="" width="700px" style="max-width: 100%;">
+
+<h2 id="剪影导出4k视频用于b站">剪影导出4K视频，用于B站</h2>
+<img src="/img/%e5%89%aa%e5%bd%b1-%e5%af%bc%e5%87%ba4K.png" alt="" width="700px" style="max-width: 100%;">
+
+<h2 id="b站4k稿件的具体要求">B站4K稿件的具体要求</h2>
+<img src="/img/bilibili-4k.png" alt="" width="700px" style="max-width: 100%;">
+
+<h2 id="youtube-4k稿件">Youtube 4K稿件</h2>
+<p><a href="https://support.google.com/youtube/answer/1722171?hl=zh-Hans#zippy=%2C%E5%AE%B9%E5%99%A8mp%2C%E9%9F%B3%E9%A2%91%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8aac-lc%2C%E8%A7%86%E9%A2%91%E7%BC%96%E8%A7%A3%E7%A0%81%E5%99%A8h%2C%E5%B8%A7%E9%80%9F%E7%8E%87%2C%E6%AF%94%E7%89%B9%E7%8E%87%2C%E8%A7%86%E9%A2%91%E5%88%86%E8%BE%A8%E7%8E%87%E5%92%8C%E5%AE%BD%E9%AB%98%E6%AF%94%2C%E9%A2%9C%E8%89%B2%E7%A9%BA%E9%97%B4">YouTube 推荐的上传编码设置 - YouTube帮助 (google.com)</a></p>
+<table>
+  <thead>
+      <tr>
+          <th>类型</th>
+          <th>视频比特率（标准帧速率）（24、25、30）</th>
+          <th>视频比特率（高帧速率）（48、50、60）</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>2160p (4K)</td>
+          <td>35 - 45 Mbps</td>
+          <td><strong>53 - 68 Mbps</strong></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="obs-notifier-插件">OBS Notifier 插件</h2>
+<p>设置了OBS的开启录制和结束录制的快捷键，但是没有桌面通知。这需要使用OBS Notifier插件。</p>
+<p>首先开启OBS的websocket服务，并复制密码：</p>
+<img src="/img/websockets.png" alt="" width="700px" style="max-width: 100%;">
+
+<p>然后下载OBSNotifier，下载地址：<a href="https://github.com/DmitriySalnikov/OBSNotifier/releases">OBSNotifier</a></p>
+<p>最后设置OBSNotifier：</p>
+<img src="/img/obs-notifier.png" alt="" width="400px" style="max-width: 100%;">
+
+<p>其中，上下左右偏移量可以调整通知位置，在屏幕有缩放的情况下应该需要手动设置，否则不会显示在屏幕上。，参考<a href="https://github.com/DmitriySalnikov/OBSNotifier/issues/16">Can you move the offset? Maybe a window outside the screen..</a></p>
+<p>另外这个软件在全屏游戏下不能正常显示通知，会被挡住。窗口或者无边框窗口的情况下可以正常显示。</p>
+<h2 id="参考文档">参考文档</h2>
+<ol>
+<li><a href="https://www.nvidia.cn/geforce/guides/broadcasting-guide/">NVIDIA NVENC OBS 指南</a></li>
+</ol>
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/posts/rust-use-lock-in-poll/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">Rust在poll方法中使用锁</span>
+    </a>
+    
+    
+    <a href="/posts/windows11-23h2-wsl2/" class="navigation-next">
+      <span class="navigation-tittle">Windows11 WSL2使用</span>
+      <i aria-hidden="true" class="fa fa-chevron-right"></i>
+    </a>
+    
+</div>
+
+
+  
+
+  
+
+
+</article>
+
+
+        </div>
+        
+    
+
+
+
+<script defer src="/js/all.js" crossorigin="anonymous"></script>
+
+    
+    
+    <script src="/js/highlight.min.js"></script>
+    <script src="/js/languages/dos.min.js"></script>
+        
+    <script type="text/javascript">
+        
+        hljs.highlightAll();
+    </script>
+    
+
+
+
+
+    
+
+
+
+    </body>
+</html>

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    
+    <link rel="canonical" href="https://www.arloor.com/posts/zookeeper-learn/">
+    
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.136.4">
+
+    
+    
+    
+
+<title>Zookeeper文档摘要 • ARLOOR</title>
+<meta name="description" content="今天，你学习了吗">
+<meta name="keywords" content="刘港欢, arloor, moontell">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Zookeeper文档摘要">
+  <meta name="twitter:description" content="分布式共识一直以来是被广泛讨论的话题，每一个分布式系统都会涉及到“共识问题”——对某一个值或者状态达成共识。有些中间件（例如redis）自己写了分布式共识的实现方式，有些（例如kafka）则直接利用zookeeper或者etcd解决共识问题。在java的生态环境中，zookeeper是分布式共识的实际标准，这边博文就来了解下zookeeper相关的知识。">
+      <meta name="twitter:site" content="@njulgh">
+
+<meta property="og:url" content="https://www.arloor.com/posts/zookeeper-learn/">
+  <meta property="og:site_name" content="ARLOOR">
+  <meta property="og:title" content="Zookeeper文档摘要">
+  <meta property="og:description" content="分布式共识一直以来是被广泛讨论的话题，每一个分布式系统都会涉及到“共识问题”——对某一个值或者状态达成共识。有些中间件（例如redis）自己写了分布式共识的实现方式，有些（例如kafka）则直接利用zookeeper或者etcd解决共识问题。在java的生态环境中，zookeeper是分布式共识的实际标准，这边博文就来了解下zookeeper相关的知识。">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2020-11-07T11:18:11+08:00">
+    <meta property="article:modified_time" content="2020-11-07T11:18:11+08:00">
+    <meta property="article:tag" content="Middleware">
+
+
+    
+
+
+
+
+
+<link rel="stylesheet" href="/styles/atom-one-dark.min.css">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.484b96856b25751067d56c8c0af9dc1fd6372707029b6d56ee178da6bead45b5.css" integrity="sha256-SEuWhWsldRBn1WyMCvncH9Y3JwcCm21W7heNpr6tRbU=">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+
+<link rel="stylesheet" href="/scss/hugo-toc.0873834b0f2e9fdc9e1d0301e8ebce21fc10383882a41e9373f29b90e85a9987.css" integrity="sha256-CHODSw8un9yeHQMB6OvOIfwQODiCpB6Tc/KbkOhamYc=">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="/favicon.png">
+    
+    
+
+    <script type="module" crossorigin src="/assets/index-JfmtLPLI.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-C1z1vz3D.css">
+</head>
+
+
+    <body class=" ">
+    
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="/">
+          
+          ARLOOR
+          
+        </a>
+      </span>
+      <a href="/">
+        
+        
+        <div class="author-image">
+          <img src="/img/head.jpeg" alt="Author Image" class="img--circle img--headshot element--center">
+        </div>
+        
+        
+      </a>
+      
+      <p class="site__description">
+         都是瞎写的 
+      </p>
+      <div id="docsearch" style="display: flex;justify-content: center;"></div>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">ARLOOR</label>
+      <div class="menu-content">
+        <div class="show-in-small">
+          <a href="/">
+            
+            
+            <div class="author-image">
+              <img src="/img/head.jpeg" alt="Author Image"
+                class="img--circle img--headshot element--center">
+            </div>
+            
+            
+          </a>
+        </div>
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/posts/">
+						<span>文章</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/tags/">
+						<span>分类</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/about/">
+						<span>关于我</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="http://beian.miit.gov.cn/">
+						<span>苏ICP备17024437号</span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://x.com/njulgh" rel="me"><i class="fa-brands fa-x-twitter fa-lg"></i></a>
+	
+	
+	
+	
+	
+	<a href="https://github.com/arloor" rel="me"><i class="fa-brands fa-github fa-lg"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://t.me/never_contact_me" rel="me"><i class="fa-brands fa-telegram fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	<a href="mailto:admin@arloor.com" rel="me"><i class="fa-solid fa-at fa-lg"></i></a>
+	
+	
+	
+	
+</section>
+      </div>
+    </div>
+    
+<div class="copyright">
+  &copy; 2024 arloor
+  
+    <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>
+  
+</div>
+
+
+<div class="builtwith">
+Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.com/arloor/hyde-arloor">hyde-arloor</a>.
+</div>
+
+
+  </div>
+</div>
+        <div class="content container">
+            
+    
+<article>
+  <header>
+    <h1>Zookeeper文档摘要</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> Nov 7, 2020
+    
+    
+    
+      
+      
+          in
+          
+          
+              <a class="badge badge-category" href="/categories/undefined">UNDEFINED</a>
+              
+          
+      
+    
+    
+    
+      
+      
+          <br/>
+           <i class="fas fa-tags"></i>
+          
+          <a class="badge badge-tag" href="/tags/middleware">middleware</a>
+          
+      
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 3 min read
+</div>
+
+
+  </header>
+  
+  
+  
+    <div class="toc-wrapper">
+      <input type="checkbox" id="tocToggle">
+      <label for="tocToggle">Table of Content</label>
+      
+          <nav id="TableOfContents">
+  <ul>
+    <li><a href="#设计目标">设计目标</a></li>
+    <li><a href="#数据模型和层级的命名空间">数据模型和层级的命名空间</a></li>
+    <li><a href="#watch机制">watch机制</a></li>
+    <li><a href="#承诺">承诺</a></li>
+    <li><a href="#简单的api">简单的api</a></li>
+    <li><a href="#开发者指南">开发者指南</a></li>
+    <li><a href="#paxos两阶段提交">PAXOS两阶段提交</a></li>
+  </ul>
+</nav>
+      
+    </div>
+  
+  
+  <div class="post">
+    <p>分布式共识一直以来是被广泛讨论的话题，每一个分布式系统都会涉及到“共识问题”——对某一个值或者状态达成共识。有些中间件（例如redis）自己写了分布式共识的实现方式，有些（例如kafka）则直接利用zookeeper或者etcd解决共识问题。在java的生态环境中，zookeeper是分布式共识的实际标准，这边博文就来了解下zookeeper相关的知识。</p>
+<p>zookeeper的自我定位：协调分布式应用的组件。他把分布式应用必做一个动物园，而自己则是动物园的keeper。zookeeper提供了一套简单的指令，分布式系统可以基于此实现更高等级的功能，例如：同步，分布式配置，分组，命名服务。分布式共识比较难实现，而zookeeper的目的就是让大家不需要自己造分布式共识的轮子。</p>
+<h2 id="设计目标">设计目标</h2>
+<ul>
+<li><strong>simple</strong> 类似文件系统的层级关系。基于内存——高吞吐、低延迟</li>
+<li><strong>replicated</strong> 数据有多副本——高可用。node保存状态、transaction log、快照</li>
+<li><strong>orderd</strong> 用ID标记每一次变更（transaction），这种顺序可以用来实现更高的抽象，例如同步原语。</li>
+<li><strong>fast</strong> 适合读多写少的应用，例如读写比10:1，读写比越高性能越好。10:1以下不建议使用</li>
+</ul>
+<h2 id="数据模型和层级的命名空间">数据模型和层级的命名空间</h2>
+<p>zookeeper的命名空间很像文件系统，一个znode的路径是以“/”分割的name组成的。与文件系统不同的是，一个znode既是“文件”又是“文件夹”，既可以包含数据，又可以有子节点。因为zookeeper是涉及来保存协作信息的，所以节点下的信息通常比较小，例如状态、配置、location这些，大约都在nb-nkb范围内。</p>
+<p>znode的数据结构包含版本号（标识数据变更、ACL变更、时间戳），以此实现缓存验证和协作更新（达成共识）。每次数据变更，这个版本号会增加。获取数据时，会同时获取版本号。</p>
+<p>读写单个znode的数据是原子的，要么读写所有数据，要么全部失败。每个znode都有一个ACL（Access Controll list）控制哪些客户端能做什么。</p>
+<p>zookeeper也有临时节点，临时节点的生命周期在与客户端session断开的时候结束，并被删除</p>
+<h2 id="watch机制">watch机制</h2>
+<p>支持watch机制，当数据变更时，zookeeper可以向client发送变更通知，然后删除这个watch。如果client和zookeeper断开，client会收到一个通知。</p>
+<p>3.6版本后：</p>
+<ul>
+<li>watch可以是永久的：发送变更，并且不删除这个watch</li>
+<li>watch可以是递归的：监听该znode及其任何子节点的变化</li>
+</ul>
+<h2 id="承诺">承诺</h2>
+<ul>
+<li>顺序一致性：client发来的变更会顺序地生效</li>
+<li>原子的： updates要么全部成功，要么全部失败</li>
+<li>单一系统镜像： 一个client如果连接断开，连上新的zookeeper，看到的东西也是一样的</li>
+<li>可靠的： 一旦update被采纳，不会丢失直到有新的update</li>
+<li>及时性：update被采纳的延时不会很长，保证client能及时地看到最新的数据</li>
+</ul>
+<h2 id="简单的api">简单的api</h2>
+<ul>
+<li>create : creates a node at a location in the tree</li>
+<li>delete : deletes a node</li>
+<li>exists : tests if a node exists at a location</li>
+<li>get data : reads the data from a node</li>
+<li>set data : writes data to a node</li>
+<li>get children : retrieves a list of children of a node</li>
+<li>sync : waits for data to be propagated</li>
+</ul>
+<h2 id="开发者指南">开发者指南</h2>
+<p><a href="https://zookeeper.apache.org/doc/r3.6.2/zookeeperProgrammers.html">zookeeperProgrammers.html</a></p>
+<h2 id="paxos两阶段提交">PAXOS两阶段提交</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 正常流程</span>
+</span></span><span style="display:flex;"><span>prepare<span style="color:#f92672">(</span>N<span style="color:#f92672">)</span>  <span style="color:#75715e"># N&gt;任何n</span>
+</span></span><span style="display:flex;"><span>promise<span style="color:#f92672">(</span>N,n,v<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>propose<span style="color:#f92672">(</span>N,?<span style="color:#f92672">)</span> <span style="color:#75715e"># 如果上面的v！=null，取上面的v；如果v==null，可以自定义</span>
+</span></span><span style="display:flex;"><span>accept<span style="color:#f92672">(</span>N,?<span style="color:#f92672">)</span>
+</span></span></code></pre></div><p><a href="https://tangwz.com/post/basic-paxos/">basic-paxos</a></p>
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/posts/when-to-use-forkjoinpool/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">ForkJoinPool使用场景</span>
+    </a>
+    
+    
+    <a href="/posts/macos-libuv/" class="navigation-next">
+      <span class="navigation-tittle">Macos安装Libuv</span>
+      <i aria-hidden="true" class="fa fa-chevron-right"></i>
+    </a>
+    
+</div>
+
+
+  
+
+  
+
+
+</article>
+
+
+        </div>
+        
+    
+
+
+
+<script defer src="/js/all.js" crossorigin="anonymous"></script>
+
+    
+    
+    <script src="/js/highlight.min.js"></script>
+    <script src="/js/languages/dos.min.js"></script>
+        
+    <script type="text/javascript">
+        
+        hljs.highlightAll();
+    </script>
+    
+
+
+
+
+    
+
+
+
+    </body>
+</html>

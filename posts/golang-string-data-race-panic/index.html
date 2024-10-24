@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    
+    <link rel="canonical" href="https://www.arloor.com/posts/golang-string-data-race-panic/">
+    
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.136.4">
+
+    
+    
+    
+
+<title>Golang的string数据争用导致的panic • ARLOOR</title>
+<meta name="description" content="今天，你学习了吗">
+<meta name="keywords" content="刘港欢, arloor, moontell">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Golang的string数据争用导致的panic">
+  <meta name="twitter:description" content="简单说下问题：多个goroutine并发读写string，读取string（fmt.Println和json.Marshal）的goroutine会panic。根因是string是一个胖指针，除了pointer字段之外还有一个len字段的元数据。在给string变量赋值（拷贝）时，会逐个设置pointer和len字段，这个过程不是原子的。在有并发修改时，pointer和len就不一致了，这时就回发生问题：当len不为0，pointer为nil(0x0)时，就会panic: runtime error: invalid memory address or nil pointer dereference。
+本文首先探究下为什么golang string有这个问题，然后对比下java的string为什么没这个问题，最后介绍数据争用(data race)问题以及Golang和Rust如何避免该问题。">
+      <meta name="twitter:site" content="@njulgh">
+
+<meta property="og:url" content="https://www.arloor.com/posts/golang-string-data-race-panic/">
+  <meta property="og:site_name" content="ARLOOR">
+  <meta property="og:title" content="Golang的string数据争用导致的panic">
+  <meta property="og:description" content="简单说下问题：多个goroutine并发读写string，读取string（fmt.Println和json.Marshal）的goroutine会panic。根因是string是一个胖指针，除了pointer字段之外还有一个len字段的元数据。在给string变量赋值（拷贝）时，会逐个设置pointer和len字段，这个过程不是原子的。在有并发修改时，pointer和len就不一致了，这时就回发生问题：当len不为0，pointer为nil(0x0)时，就会panic: runtime error: invalid memory address or nil pointer dereference。
+本文首先探究下为什么golang string有这个问题，然后对比下java的string为什么没这个问题，最后介绍数据争用(data race)问题以及Golang和Rust如何避免该问题。">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-10-11T10:43:56+08:00">
+    <meta property="article:modified_time" content="2024-10-11T10:43:56+08:00">
+    <meta property="article:tag" content="Golang">
+
+
+    
+
+
+
+
+
+<link rel="stylesheet" href="/styles/atom-one-dark.min.css">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.484b96856b25751067d56c8c0af9dc1fd6372707029b6d56ee178da6bead45b5.css" integrity="sha256-SEuWhWsldRBn1WyMCvncH9Y3JwcCm21W7heNpr6tRbU=">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+
+<link rel="stylesheet" href="/scss/hugo-toc.0873834b0f2e9fdc9e1d0301e8ebce21fc10383882a41e9373f29b90e85a9987.css" integrity="sha256-CHODSw8un9yeHQMB6OvOIfwQODiCpB6Tc/KbkOhamYc=">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="/favicon.png">
+    
+    
+
+    <script type="module" crossorigin src="/assets/index-JfmtLPLI.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-C1z1vz3D.css">
+</head>
+
+
+    <body class=" ">
+    
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="/">
+          
+          ARLOOR
+          
+        </a>
+      </span>
+      <a href="/">
+        
+        
+        <div class="author-image">
+          <img src="/img/head.jpeg" alt="Author Image" class="img--circle img--headshot element--center">
+        </div>
+        
+        
+      </a>
+      
+      <p class="site__description">
+         都是瞎写的 
+      </p>
+      <div id="docsearch" style="display: flex;justify-content: center;"></div>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">ARLOOR</label>
+      <div class="menu-content">
+        <div class="show-in-small">
+          <a href="/">
+            
+            
+            <div class="author-image">
+              <img src="/img/head.jpeg" alt="Author Image"
+                class="img--circle img--headshot element--center">
+            </div>
+            
+            
+          </a>
+        </div>
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/posts/">
+						<span>文章</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/tags/">
+						<span>分类</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/about/">
+						<span>关于我</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="http://beian.miit.gov.cn/">
+						<span>苏ICP备17024437号</span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://x.com/njulgh" rel="me"><i class="fa-brands fa-x-twitter fa-lg"></i></a>
+	
+	
+	
+	
+	
+	<a href="https://github.com/arloor" rel="me"><i class="fa-brands fa-github fa-lg"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://t.me/never_contact_me" rel="me"><i class="fa-brands fa-telegram fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	<a href="mailto:admin@arloor.com" rel="me"><i class="fa-solid fa-at fa-lg"></i></a>
+	
+	
+	
+	
+</section>
+      </div>
+    </div>
+    
+<div class="copyright">
+  &copy; 2024 arloor
+  
+    <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>
+  
+</div>
+
+
+<div class="builtwith">
+Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.com/arloor/hyde-arloor">hyde-arloor</a>.
+</div>
+
+
+  </div>
+</div>
+        <div class="content container">
+            
+    
+<article>
+  <header>
+    <h1>Golang的string数据争用导致的panic</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> Oct 11, 2024
+    
+    
+    
+      
+      
+          in
+          
+          
+              <a class="badge badge-category" href="/categories/undefined">UNDEFINED</a>
+              
+          
+      
+    
+    
+    
+      
+      
+          <br/>
+           <i class="fas fa-tags"></i>
+          
+          <a class="badge badge-tag" href="/tags/golang">golang</a>
+          
+      
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 6 min read
+</div>
+
+
+  </header>
+  
+  
+  
+    <div class="toc-wrapper">
+      <input type="checkbox" id="tocToggle">
+      <label for="tocToggle">Table of Content</label>
+      
+          <nav id="TableOfContents">
+  <ul>
+    <li><a href="#golang-string-data-race的panic复现及分析">golang string data race的panic复现及分析</a>
+      <ul>
+        <li><a href="#最简复现">最简复现：</a></li>
+        <li><a href="#panic内容">panic内容：</a></li>
+        <li><a href="#根因分析">根因分析：</a></li>
+        <li><a href="#一种修复方案使用-atomicvalue">一种修复方案：使用 atomic.Value</a></li>
+      </ul>
+    </li>
+    <li><a href="#java的string为什么没这个问题">java的String为什么没这个问题</a>
+      <ul>
+        <li><a href="#首先java赋值传参是pass-by-copy-of-object-reference">首先：java赋值/传参是pass by copy of object reference</a></li>
+        <li><a href="#其次java对象的final字段初始化后对所有线程可见">其次：Java对象的final字段初始化后对所有线程可见</a></li>
+      </ul>
+    </li>
+    <li><a href="#一切的罪魁祸首数据争用data-race">一切的罪魁祸首：数据争用(data race)</a></li>
+  </ul>
+</nav>
+      
+    </div>
+  
+  
+  <div class="post">
+    <p>简单说下问题：多个goroutine并发读写string，读取string（<code>fmt.Println</code>和<code>json.Marshal</code>）的goroutine会panic。根因是string是一个胖指针，除了pointer字段之外还有一个len字段的元数据。在给string变量赋值（拷贝）时，会逐个设置pointer和len字段，这个过程不是原子的。在有并发修改时，pointer和len就不一致了，这时就回发生问题：当len不为0，pointer为nil(0x0)时，就会<code>panic: runtime error: invalid memory address or nil pointer dereference</code>。</p>
+<p>本文首先探究下为什么golang string有这个问题，然后对比下java的string为什么没这个问题，最后介绍数据争用(data race)问题以及Golang和Rust如何避免该问题。</p>
+<h2 id="golang-string-data-race的panic复现及分析">golang string data race的panic复现及分析</h2>
+<h3 id="最简复现">最简复现：</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// go run main/string_data_race_panic.go
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;time&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 并发读写string，会panic
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">fullPath</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;init&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>() { <span style="color:#75715e">// goroutine 不断读取fullpath
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">1</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#ae81ff">10000</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">request</span>(<span style="color:#a6e22e">fullPath</span>)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> { <span style="color:#75715e">// main goroutine会不断修改fullPath.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#a6e22e">fullPath</span> = <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#ae81ff">10</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Nanosecond</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">fullPath</span> = <span style="color:#e6db74">&#34;/test/test/test&#34;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#ae81ff">10</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Nanosecond</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">request</span>(<span style="color:#a6e22e">c</span> <span style="color:#66d9ef">string</span>) { <span style="color:#75715e">// 这里传参，有一次拷贝，会做feild（string的poiner和len）的赋值
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;fullPath: %s\n&#34;</span>, <span style="color:#a6e22e">c</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 或者下面的json Marshal，也会panic
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// _, _ = json.Marshal(c)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><h3 id="panic内容">panic内容：</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>panic: runtime error: invalid memory address or nil pointer dereference
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>signal SIGSEGV: segmentation violation code<span style="color:#f92672">=</span>0x2 addr<span style="color:#f92672">=</span>0x0 pc<span style="color:#f92672">=</span>0x102310388<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>goroutine <span style="color:#ae81ff">18</span> <span style="color:#f92672">[</span>running<span style="color:#f92672">]</span>:
+</span></span><span style="display:flex;"><span>fmt.<span style="color:#f92672">(</span>*buffer<span style="color:#f92672">)</span>.writeString<span style="color:#f92672">(</span>...<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>        /opt/homebrew/Cellar/go/1.22.6/libexec/src/fmt/print.go:108
+</span></span><span style="display:flex;"><span>fmt.<span style="color:#f92672">(</span>*fmt<span style="color:#f92672">)</span>.padString<span style="color:#f92672">(</span>0x1400011a1c0?, <span style="color:#f92672">{</span>0x0, 0xf<span style="color:#f92672">})</span>
+</span></span><span style="display:flex;"><span>        /opt/homebrew/Cellar/go/1.22.6/libexec/src/fmt/format.go:110 +0x23c
+</span></span><span style="display:flex;"><span>fmt.<span style="color:#f92672">(</span>*fmt<span style="color:#f92672">)</span>.fmtS<span style="color:#f92672">(</span>0x14000104da8?, <span style="color:#f92672">{</span>0x0?, 0xd0?<span style="color:#f92672">})</span>
+</span></span><span style="display:flex;"><span>        /opt/homebrew/Cellar/go/1.22.6/libexec/src/fmt/format.go:359 +0x40
+</span></span><span style="display:flex;"><span>fmt.<span style="color:#f92672">(</span>*pp<span style="color:#f92672">)</span>.fmtString<span style="color:#f92672">(</span>0x0?, <span style="color:#f92672">{</span>0x0?, 0x14000104da8?<span style="color:#f92672">}</span>, 0x232fb58?<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>        /opt/homebrew/Cellar/go/1.22.6/libexec/src/fmt/print.go:497 +0xe4
+</span></span><span style="display:flex;"><span>fmt.<span style="color:#f92672">(</span>*pp<span style="color:#f92672">)</span>.printArg<span style="color:#f92672">(</span>0x1400007c000, <span style="color:#f92672">{</span>0x102367ae0, 0x14000010b60<span style="color:#f92672">}</span>, 0x73<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>        /opt/homebrew/Cellar/go/1.22.6/libexec/src/fmt/print.go:741 +0x314
+</span></span><span style="display:flex;"><span>fmt.<span style="color:#f92672">(</span>*pp<span style="color:#f92672">)</span>.doPrintf<span style="color:#f92672">(</span>0x1400007c000, <span style="color:#f92672">{</span>0x10233b9e5, 0xd<span style="color:#f92672">}</span>, <span style="color:#f92672">{</span>0x14000104fb0, 0x1, 0x1<span style="color:#f92672">})</span>
+</span></span><span style="display:flex;"><span>        /opt/homebrew/Cellar/go/1.22.6/libexec/src/fmt/print.go:1075 +0x2d8
+</span></span><span style="display:flex;"><span>fmt.Fprintf<span style="color:#f92672">({</span>0x10237c568, 0x14000116008<span style="color:#f92672">}</span>, <span style="color:#f92672">{</span>0x10233b9e5, 0xd<span style="color:#f92672">}</span>, <span style="color:#f92672">{</span>0x14000104fb0, 0x1, 0x1<span style="color:#f92672">})</span>
+</span></span><span style="display:flex;"><span>        /opt/homebrew/Cellar/go/1.22.6/libexec/src/fmt/print.go:224 +0x54
+</span></span><span style="display:flex;"><span>fmt.Printf<span style="color:#f92672">(</span>...<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>        /opt/homebrew/Cellar/go/1.22.6/libexec/src/fmt/print.go:233
+</span></span><span style="display:flex;"><span>main.request<span style="color:#f92672">(</span>...<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>        /Users/arloor/go-actions/main/string_data_race_panic.go:31
+</span></span><span style="display:flex;"><span>main.main.func1<span style="color:#f92672">()</span>
+</span></span><span style="display:flex;"><span>        /Users/arloor/go-actions/main/string_data_race_panic.go:15 +0x80
+</span></span><span style="display:flex;"><span>created by main.main in goroutine <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>        /Users/arloor/go-actions/main/string_data_race_panic.go:13 +0x7c
+</span></span><span style="display:flex;"><span>exit status <span style="color:#ae81ff">2</span>
+</span></span></code></pre></div><p>关注panic信息中的这一行：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>fmt.<span style="color:#f92672">(</span>*fmt<span style="color:#f92672">)</span>.padString<span style="color:#f92672">(</span>0x1400011a1c0?, <span style="color:#f92672">{</span>0x0, 0xf<span style="color:#f92672">})</span> // 0x0是指针地址nil，0xf是长度（15，即/test/test/test的长度）
+</span></span></code></pre></div><p>0x0是指针地址nil，0xf是长度（15，即/test/test/test的长度）。发现len是15，尝试解引用nil指针来读底层数据，就会panic</p>
+<h3 id="根因分析">根因分析：</h3>
+<p>为了分析这个panic的根因，先看string的定义：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// go/src/reflect/value.go
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// StringHeader is the runtime representation of a string.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">StringHeader</span> <span style="color:#66d9ef">struct</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Data</span> <span style="color:#66d9ef">uintptr</span> <span style="color:#75715e">// 指针
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#a6e22e">Len</span>  <span style="color:#66d9ef">int</span>     <span style="color:#75715e">// 长度元数据
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><p>string很明确的是一个胖指针结构体。在给string变量赋值（拷贝）时，会逐个设置pointer和len字段，这个过程不是原子的。在有并发修改时，pointer和len就不一致了，这时就会发生问题：</p>
+<ol>
+<li>赋值时 len!=0, pointer=nil: <code>panic: runtime error: invalid memory address or nil pointer dereference</code></li>
+<li>赋值时 len和pointer都不为0，但是两者不匹配：会读到错误的数据，截断或读到错误数据</li>
+</ol>
+<p>回顾一下golang的string类型的特征：</p>
+<ol>
+<li>string是值类型。虽然string和slice一样也是胖指针，但string的实现确保修改一个变量的内容时，这个修改对其他变量不可见（重新分配底层数据，而不是通过下标原地修改）</li>
+<li>string是不可变的。</li>
+</ol>
+<p>作为一个java老手，“<strong>不可变对象是线程安全的</strong>”是一个基本概念。但是golang的string却在多线程数据争用中出现了问题，为什么java和golang有这样的差异？后面会讲到。</p>
+<h3 id="一种修复方案使用-atomicvalue">一种修复方案：使用 atomic.Value</h3>
+<p>使用 <code>atomic.Value</code> 包裹string。不过atomic是基于CAS的，这样的改动在 <code>sleep 10 纳秒</code> 的情况下，会导致CAS陷入忙等待，CPU占用率100%且阻塞住，这时候就要显式使用mutex了。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;fmt&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;sync/atomic&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;time&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">atomicFullPath</span> <span style="color:#a6e22e">atomic</span>.<span style="color:#a6e22e">Value</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">atomicFullPath</span>.<span style="color:#a6e22e">Store</span>(<span style="color:#e6db74">&#34;init&#34;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>() {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">1</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#ae81ff">10000</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">request</span>(<span style="color:#a6e22e">atomicFullPath</span>)
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">atomicFullPath</span>.<span style="color:#a6e22e">Store</span>(<span style="color:#e6db74">&#34;&#34;</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#ae81ff">10</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Nanosecond</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">atomicFullPath</span>.<span style="color:#a6e22e">Store</span>(<span style="color:#e6db74">&#34;/test/test/test&#34;</span>)
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Sleep</span>(<span style="color:#ae81ff">10</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Nanosecond</span>)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">request</span>(<span style="color:#a6e22e">c</span> <span style="color:#a6e22e">atomic</span>.<span style="color:#a6e22e">Value</span>) {
+</span></span><span style="display:flex;"><span>	println(<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;fullPath: %s&#34;</span>, <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">Load</span>().(<span style="color:#66d9ef">string</span>)))
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="java的string为什么没这个问题">java的String为什么没这个问题</h2>
+<h3 id="首先java赋值传参是pass-by-copy-of-object-reference">首先：java赋值/传参是pass by copy of object reference</h3>
+<p>以下面的代码为例，Java的赋值和传参（非基础类型）操作可以分为两步：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>String str <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> String()
+</span></span></code></pre></div><table>
+  <thead>
+      <tr>
+          <th></th>
+          <th>步骤</th>
+          <th>是否原子</th>
+          <th>备注</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>1</td>
+          <td>通过new()方法初始化对象（省略更前面的类加载、内存申请、static变量初始化、父类对象初始化）</td>
+          <td>不原子</td>
+          <td>逐个初始化各个字段。在《java并发编程》中说到，不能在new()方法中泄漏this引用，因为此时的this还没有被完全初始化好</td>
+      </tr>
+      <tr>
+          <td>2</td>
+          <td>pass by copy of object reference</td>
+          <td>引用的拷贝都是原子的</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<p>另外提两个点：</p>
+<ol>
+<li>java的object其实都是object reference</li>
+<li>java都是值传递的，针对object reference，值传递指的是pass by copy of object reference。这个拷贝是原子的。</li>
+</ol>
+<p>而golang的string胖指针是个struct，赋值时会逐个设置pointer和len字段，这个过程不是原子的。这是java String和golang string的第一个区别，但不是全部，请继续看。</p>
+<h3 id="其次java对象的final字段初始化后对所有线程可见">其次：Java对象的final字段初始化后对所有线程可见</h3>
+<p><code>final</code> 在Java中本来是变量、属性创建后不可修改的意思。<a href="https://jcp.org/en/jsr/detail?id=133">JSR-133修订</a>新增了针对 <code>final</code> 字段的两个“禁止重排序”规则，以保证 <code>final</code> 字段在构造方法执行完毕后对所有线程可见（详见<a href="https://docs.oracle.com/javase/specs/jls/se21/html/jls-17.html#jls-17.5">Java内存模型中final字段语意</a>）。这也是Java不可变对象是线程安全的根本原因。</p>
+<p><a href="https://jcp.org/en/jsr/detail?id=133">JSR-133修订</a>还给 <code>volatile</code> 关键词增加了“顺序一致性”的保证，一个典型的场景是使用双重检验锁 + <code>static volatile</code> 来保证顺序一致性（防止读到未完全初始化的对象）和可见性（读到最新的值）。总之<a href="https://jcp.org/en/jsr/detail?id=133">JSR-133修订</a>是对Java内存模型一次重要的修订。</p>
+<h2 id="一切的罪魁祸首数据争用data-race">一切的罪魁祸首：数据争用(data race)</h2>
+<p>Rust的一个文档<a href="https://doc.rust-lang.org/nomicon/races.html">Data Races and Race Conditions</a>介绍了data race（数据争用）和 race condition（竞态条件）。引用Rust文档中对data race的定义：</p>
+<p>Safe Rust guarantees an absence of data races, which are defined as:</p>
+<ol>
+<li>two or more threads concurrently accessing a location of memory</li>
+<li>one or more of them is a write</li>
+<li>one or more of them is unsynchronized</li>
+</ol>
+<p>这意味着如果要在golang中完全避免数据争用，需要对某个data的全部并发访问都上锁。这无疑是困难的，现实是代码里data race到处可见（ <code>go build</code> 加上 <code>-race</code>，运行时会一直panic）。在<a href="https://go.dev/ref/mem">The Go Memory Model(golang内存模型)</a>中，全篇都在说如何使用channel、lock、atomic、once等同步手段实现data-race-free的golang程序，有兴趣可以看下</p>
+<p>但是rust这门优秀的语言天生避免了这个问题（不使用unsafe rust的前提下），其实现机制如下：</p>
+<ol>
+<li>值的可变引用只能有一个（所有权机制），只有可变引用可以修改值</li>
+<li>需要跨线程传递/同步的值需要满足 <code>send + sync</code> 约束，实现方式是包裹 <code>Arc&lt;Mutex&lt;YourData&gt;&gt;</code>。编译器强制你包裹Mutex，否则编译都通不过。——Rust代码只要可以编译，运行时就不大会出离谱的问题。</li>
+</ol>
+<p>除了data race，还有race condition竞态条件，这需要通过临界区保护，详见<a href="https://doc.rust-lang.org/nomicon/races.html">Data Races and Race Conditions</a>，本文不展开。</p>
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/posts/shutdown-wegame-lol/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">一键关闭WeGame和LOL客户端，避免浪费时间</span>
+    </a>
+    
+    
+    <a href="/posts/grafana-alert-settings/" class="navigation-next">
+      <span class="navigation-tittle">Grafana告警配置</span>
+      <i aria-hidden="true" class="fa fa-chevron-right"></i>
+    </a>
+    
+</div>
+
+
+  
+
+  
+
+
+</article>
+
+
+        </div>
+        
+    
+
+
+
+<script defer src="/js/all.js" crossorigin="anonymous"></script>
+
+    
+    
+    <script src="/js/highlight.min.js"></script>
+    <script src="/js/languages/dos.min.js"></script>
+        
+    <script type="text/javascript">
+        
+        hljs.highlightAll();
+    </script>
+    
+
+
+
+
+    
+
+
+
+    </body>
+</html>

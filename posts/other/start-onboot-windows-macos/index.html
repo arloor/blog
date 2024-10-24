@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    
+    <link rel="canonical" href="https://www.arloor.com/posts/other/start-onboot-windows-macos/">
+    
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.136.4">
+
+    
+    
+    
+
+<title>MacOS和windows开机自启动 • ARLOOR</title>
+<meta name="description" content="今天，你学习了吗">
+<meta name="keywords" content="刘港欢, arloor, moontell">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="MacOS和windows开机自启动">
+  <meta name="twitter:description" content="linux上的开机自启动很简单，通过systemd就能搞定。对于macos和windows的开机自启动则没有记录过，这里记录下。">
+      <meta name="twitter:site" content="@njulgh">
+
+<meta property="og:url" content="https://www.arloor.com/posts/other/start-onboot-windows-macos/">
+  <meta property="og:site_name" content="ARLOOR">
+  <meta property="og:title" content="MacOS和windows开机自启动">
+  <meta property="og:description" content="linux上的开机自启动很简单，通过systemd就能搞定。对于macos和windows的开机自启动则没有记录过，这里记录下。">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2020-07-17T19:59:39+08:00">
+    <meta property="article:modified_time" content="2020-07-17T19:59:39+08:00">
+    <meta property="article:tag" content="Undefined">
+
+
+    
+
+
+
+
+
+<link rel="stylesheet" href="/styles/atom-one-dark.min.css">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.484b96856b25751067d56c8c0af9dc1fd6372707029b6d56ee178da6bead45b5.css" integrity="sha256-SEuWhWsldRBn1WyMCvncH9Y3JwcCm21W7heNpr6tRbU=">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+
+<link rel="stylesheet" href="/scss/hugo-toc.0873834b0f2e9fdc9e1d0301e8ebce21fc10383882a41e9373f29b90e85a9987.css" integrity="sha256-CHODSw8un9yeHQMB6OvOIfwQODiCpB6Tc/KbkOhamYc=">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="/favicon.png">
+    
+    
+
+    <script type="module" crossorigin src="/assets/index-JfmtLPLI.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-C1z1vz3D.css">
+</head>
+
+
+    <body class=" ">
+    
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="/">
+          
+          ARLOOR
+          
+        </a>
+      </span>
+      <a href="/">
+        
+        
+        <div class="author-image">
+          <img src="/img/head.jpeg" alt="Author Image" class="img--circle img--headshot element--center">
+        </div>
+        
+        
+      </a>
+      
+      <p class="site__description">
+         都是瞎写的 
+      </p>
+      <div id="docsearch" style="display: flex;justify-content: center;"></div>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">ARLOOR</label>
+      <div class="menu-content">
+        <div class="show-in-small">
+          <a href="/">
+            
+            
+            <div class="author-image">
+              <img src="/img/head.jpeg" alt="Author Image"
+                class="img--circle img--headshot element--center">
+            </div>
+            
+            
+          </a>
+        </div>
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/posts/">
+						<span>文章</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/tags/">
+						<span>分类</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/about/">
+						<span>关于我</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="http://beian.miit.gov.cn/">
+						<span>苏ICP备17024437号</span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://x.com/njulgh" rel="me"><i class="fa-brands fa-x-twitter fa-lg"></i></a>
+	
+	
+	
+	
+	
+	<a href="https://github.com/arloor" rel="me"><i class="fa-brands fa-github fa-lg"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://t.me/never_contact_me" rel="me"><i class="fa-brands fa-telegram fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	<a href="mailto:admin@arloor.com" rel="me"><i class="fa-solid fa-at fa-lg"></i></a>
+	
+	
+	
+	
+</section>
+      </div>
+    </div>
+    
+<div class="copyright">
+  &copy; 2024 arloor
+  
+    <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>
+  
+</div>
+
+
+<div class="builtwith">
+Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.com/arloor/hyde-arloor">hyde-arloor</a>.
+</div>
+
+
+  </div>
+</div>
+        <div class="content container">
+            
+    
+<article>
+  <header>
+    <h1>MacOS和windows开机自启动</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> Jul 17, 2020
+    
+    
+    
+      
+      
+          in
+          
+          
+              <a class="badge badge-category" href="/categories/undefined">UNDEFINED</a>
+              
+          
+      
+    
+    
+    
+      
+      
+          <br/>
+           <i class="fas fa-tags"></i>
+          
+          <a class="badge badge-tag" href="/tags/undefined">undefined</a>
+          
+      
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 4 min read
+</div>
+
+
+  </header>
+  
+  
+  
+    <div class="toc-wrapper">
+      <input type="checkbox" id="tocToggle">
+      <label for="tocToggle">Table of Content</label>
+      
+          <nav id="TableOfContents">
+  <ul>
+    <li><a href="#macos开机自启动">MacOS开机自启动</a>
+      <ul>
+        <li><a href="#plist文件">plist文件</a></li>
+        <li><a href="#启动和停止">启动和停止</a></li>
+        <li><a href="#全局资源限制">全局资源限制</a></li>
+      </ul>
+    </li>
+    <li><a href="#macos定时任务">macOS定时任务</a></li>
+    <li><a href="#windows开机自启动">windows开机自启动</a></li>
+  </ul>
+</nav>
+      
+    </div>
+  
+  
+  <div class="post">
+    <p>linux上的开机自启动很简单，通过systemd就能搞定。对于macos和windows的开机自启动则没有记录过，这里记录下。</p>
+<h2 id="macos开机自启动">MacOS开机自启动</h2>
+<p>Macos提供三种开机自启动的方式，详情可以看这里<a href="https://blog.csdn.net/abby_sheen/article/details/7817198">三种方式配置Mac OS X的启动项</a>。这是一篇12年的老文章了。</p>
+<p>这里挑选一种和linux上的systemd很像的方式，使用launchd来进行开机自启动。和systemd一样，launchd也是MacOS上的第一个进程，并且提供和systemctl很类似的launchctl工具。</p>
+<h3 id="plist文件">plist文件</h3>
+<p>使用Launchd设置开机自启动，仅仅需要编写一个<code>plist</code>文件并将其放到<code>~/Library/LaunchAgents/</code>。以下是一个应用开机自启的plist文件。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">&lt;!DOCTYPE plist PUBLIC &#34;-//Apple//DTD PLIST 1.0//EN&#34; &#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&#34;&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;plist</span> <span style="color:#a6e22e">version=</span><span style="color:#e6db74">&#34;1.0&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;dict&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;key&gt;</span>Label<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;string&gt;</span>com.arloor.sslocal<span style="color:#f92672">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">&lt;!-- 退出后是否重启 --&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;key&gt;</span>KeepAlive<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;false</span> <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">&lt;!-- 加载后立即启动，即开机自启。如果设置为false，则bootstrap后还需要kickstart才会启动 --&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;key&gt;</span>RunAtLoad<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;true</span> <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;key&gt;</span>WorkingDirectory<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;string&gt;</span>/tmp<span style="color:#f92672">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;key&gt;</span>EnvironmentVariables<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;dict&gt;</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#f92672">&lt;key&gt;</span>aPATH<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#f92672">&lt;string&gt;</span>/bin:/usr/bin:/usr/local/bin<span style="color:#f92672">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;/dict&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;key&gt;</span>ProgramArguments<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;array&gt;</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#f92672">&lt;string&gt;</span>/Users/bytedance/.cargo/bin/sslocal<span style="color:#f92672">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#f92672">&lt;string&gt;</span>--local-addr<span style="color:#f92672">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#f92672">&lt;string&gt;</span>localhost:2080<span style="color:#f92672">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#f92672">&lt;string&gt;</span>-k<span style="color:#f92672">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#f92672">&lt;string&gt;</span>xxxxxxxx<span style="color:#f92672">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#f92672">&lt;string&gt;</span>-m<span style="color:#f92672">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#f92672">&lt;string&gt;</span>aes-256-gcm<span style="color:#f92672">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#f92672">&lt;string&gt;</span>-s<span style="color:#f92672">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#f92672">&lt;string&gt;</span>host:port<span style="color:#f92672">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#f92672">&lt;string&gt;</span>-v<span style="color:#f92672">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;/array&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">&lt;!-- 软资源限制 --&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;key&gt;</span>SoftResourceLimits<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;dict&gt;</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#f92672">&lt;key&gt;</span>NumberOfFiles<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#f92672">&lt;integer&gt;</span>65536<span style="color:#f92672">&lt;/integer&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;/dict&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">&lt;!-- 硬资源限制 --&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;key&gt;</span>HardResourceLimits<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;dict&gt;</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#f92672">&lt;key&gt;</span>NumberOfFiles<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#f92672">&lt;integer&gt;</span>65536<span style="color:#f92672">&lt;/integer&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;/dict&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">&lt;!-- 标准输出路径 --&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;key&gt;</span>StandardOutPath<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;string&gt;</span>/tmp/sslocal.log<span style="color:#f92672">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">&lt;!-- 标准错误路径 --&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;key&gt;</span>StandardErrorPath<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;string&gt;</span>/tmp/sslocal.log<span style="color:#f92672">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;/dict&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/plist&gt;</span>
+</span></span></code></pre></div><p>如果需要其他字段来自定义能力，可以参考 <code>man launchd.plist</code>，或者看<a href="https://www.launchd.info/">launchd.info</a></p>
+<h3 id="启动和停止">启动和停止</h3>
+<p>如果想实现类似<code>systemctl restart xx</code>的能力，可以使用下面的脚本：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#! /bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用while循环读取参数</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">while</span> <span style="color:#f92672">[</span> $# -gt <span style="color:#ae81ff">0</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">do</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span>$1<span style="color:#e6db74">&#34;</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;stop&#34;</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>        stop<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">elif</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span>$1<span style="color:#e6db74">&#34;</span> !<span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;start&#34;</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>        service_name<span style="color:#f92672">=</span>$1
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>    shift <span style="color:#75715e"># 移除第一个参数</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span>$service_name<span style="color:#e6db74">&#34;</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;&#34;</span> <span style="color:#f92672">]</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    service_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;com.arloor.sslocal&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span>$stop<span style="color:#e6db74">&#34;</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;1&#34;</span> <span style="color:#f92672">]</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    echo <span style="color:#e6db74">&#34;stop and disable [</span><span style="color:#e6db74">${</span>service_name<span style="color:#e6db74">}</span><span style="color:#e6db74">]&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span> <span style="color:#f92672">||</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    echo <span style="color:#e6db74">&#34;start and enable [</span><span style="color:#e6db74">${</span>service_name<span style="color:#e6db74">}</span><span style="color:#e6db74">]&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>get_cur_pid<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    launchctl list | grep <span style="color:#e6db74">${</span>service_name<span style="color:#e6db74">}</span> | awk <span style="color:#e6db74">&#39;{print $1}&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>old_pid<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>get_cur_pid<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span>$old_pid<span style="color:#e6db74">&#34;</span> !<span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>    echo 关闭老进程 $old_pid
+</span></span><span style="display:flex;"><span>    launchctl bootout gui/<span style="color:#66d9ef">$(</span>id -u<span style="color:#66d9ef">)</span>/<span style="color:#e6db74">${</span>service_name<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>    launchctl disable gui/<span style="color:#66d9ef">$(</span>id -u<span style="color:#66d9ef">)</span>/<span style="color:#e6db74">${</span>service_name<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span>$stop<span style="color:#e6db74">&#34;</span> !<span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;1&#34;</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>    launchctl enable gui/<span style="color:#66d9ef">$(</span>id -u<span style="color:#66d9ef">)</span>/<span style="color:#e6db74">${</span>service_name<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>    launchctl bootstrap gui/<span style="color:#66d9ef">$(</span>id -u<span style="color:#66d9ef">)</span> ~/Library/LaunchAgents/<span style="color:#e6db74">${</span>service_name<span style="color:#e6db74">}</span>.plist
+</span></span><span style="display:flex;"><span>    pid<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>get_cur_pid<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span>$pid<span style="color:#e6db74">&#34;</span> !<span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>        echo 新进程 $pid
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>        echo 启动失败
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span></code></pre></div><p>把这个脚本命名成 <code>systemctl</code>，那你就可以：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl start com.arloor.sslocal
+</span></span><span style="display:flex;"><span>systemctl stop com.arloor.sslocal
+</span></span></code></pre></div><p>service是否被disable的db文件地址如下。MacOS不会自动删除db文件中无效的service，这导致执行<code>launchctl print-disabled gui/$(id -u)</code>时会看到一些无效的service。如果想手动删除这些无效的service，需要先在恢复模式关闭安全模式，然后才能通过vim修改。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/private/var/db/com.apple.xpc.launchd/disabled.<span style="color:#66d9ef">$(</span>id -u<span style="color:#66d9ef">)</span>.plist 
+</span></span></code></pre></div><h4 id="老命令">老命令</h4>
+<p>unload和load是老旧的launchctl命令，<code>man launchctl</code>能看到，官方推荐我们使用 bootstrap | bootout | enable | disable</p>
+<blockquote>
+<ul>
+<li><code>unload -w</code> 等同于 <code>bootout + disable</code>，停止进程并禁用开机自启动。</li>
+<li><code>load -w</code> 等同于 <code>enable + bootstrap</code>，启动进程并设置开机自启动。</li>
+<li><code>bootstrap</code> 和 <code>bootout</code> 只有在service是enable的状态下才有效。所以下面的脚本中，bootout在disable之前，bootstrap后enable之后。</li>
+<li><code>bootstrap</code> 需要使用plist的路径，而不是service-name</li>
+<li><code>launchctl kickstart -p</code> 用于打印当前进程的pid</li>
+</ul>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#! /bin/sh
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>service_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;com.arloor.sslocal&#34;</span>
+</span></span><span style="display:flex;"><span>get_cur_pid<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    launchctl list | grep <span style="color:#e6db74">${</span>service_name<span style="color:#e6db74">}</span> | awk <span style="color:#e6db74">&#39;{print $1}&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>old_pid<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>get_cur_pid<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span>$old_pid<span style="color:#e6db74">&#34;</span> !<span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>    echo 关闭老进程 $old_pid
+</span></span><span style="display:flex;"><span>    launchctl unload -w ~/Library/LaunchAgents/<span style="color:#e6db74">${</span>service_name<span style="color:#e6db74">}</span>.plist
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span>$1<span style="color:#e6db74">&#34;</span> !<span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;stop&#34;</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>    sleep <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>    launchctl load -w ~/Library/LaunchAgents/<span style="color:#e6db74">${</span>service_name<span style="color:#e6db74">}</span>.plist
+</span></span><span style="display:flex;"><span>    pid<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>get_cur_pid<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span>$pid<span style="color:#e6db74">&#34;</span> !<span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>        echo 新进程 $pid
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>        echo 启动失败
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span></code></pre></div><h3 id="全局资源限制">全局资源限制</h3>
+<p>unix系统都限制了可打开文件数，上面的plist修改了单个进程的文件描述符数量限制。如何修改全局资源限制呢？</p>
+<ol>
+<li>新建/Library/LaunchDaemons/limit.maxfiles.plist文件，写入</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>  
+</span></span><span style="display:flex;"><span> <span style="color:#75715e">&lt;!DOCTYPE plist PUBLIC &#34;-//Apple//DTD PLIST 1.0//EN&#34;  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         &#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&#34;&gt;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">&lt;plist</span> <span style="color:#a6e22e">version=</span><span style="color:#e6db74">&#34;1.0&#34;</span><span style="color:#f92672">&gt;</span>  
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">&lt;dict&gt;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">&lt;key&gt;</span>Label<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">&lt;string&gt;</span>limit.maxfiles<span style="color:#f92672">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">&lt;key&gt;</span>ProgramArguments<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">&lt;array&gt;</span>
+</span></span><span style="display:flex;"><span>       <span style="color:#f92672">&lt;string&gt;</span>launchctl<span style="color:#f92672">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span>       <span style="color:#f92672">&lt;string&gt;</span>limit<span style="color:#f92672">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span>       <span style="color:#f92672">&lt;string&gt;</span>maxfiles<span style="color:#f92672">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span>       <span style="color:#f92672">&lt;string&gt;</span>64000<span style="color:#f92672">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span>       <span style="color:#f92672">&lt;string&gt;</span>524288<span style="color:#f92672">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">&lt;/array&gt;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">&lt;key&gt;</span>RunAtLoad<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">&lt;true/&gt;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">&lt;key&gt;</span>ServiceIPC<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span>     <span style="color:#f92672">&lt;false/&gt;</span>
+</span></span><span style="display:flex;"><span>   <span style="color:#f92672">&lt;/dict&gt;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">&lt;/plist&gt;</span>
+</span></span></code></pre></div><ol start="2">
+<li>修改文件权限</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span> sudo chown root:wheel /Library/LaunchDaemons/limit.maxfiles.plist
+</span></span><span style="display:flex;"><span> sudo chmod <span style="color:#ae81ff">644</span> /Library/LaunchDaemons/limit.maxfiles.plist
+</span></span></code></pre></div><ol start="3">
+<li>加载plist文件(或重启系统后生效 launchd在启动时会自动加载该目录的plist)</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo launchctl load -w /Library/LaunchDaemons/limit.maxfiles.plist
+</span></span></code></pre></div><ol start="4">
+<li>确认更改后的限制</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>launchctl limit maxfiles
+</span></span></code></pre></div><p>详见<a href="https://zidongwudaijun.com/2017/02/max-osx-ulimit/">Mac OS X下的资源限制</a></p>
+<h2 id="macos定时任务">macOS定时任务</h2>
+<p>参考<a href="https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/ScheduledJobs.html">Scheduling Timed Jobs</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">&lt;!DOCTYPE plist PUBLIC &#34;-//Apple//DTD PLIST 1.0//EN&#34; &#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&#34;&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;plist</span> <span style="color:#a6e22e">version=</span><span style="color:#e6db74">&#34;1.0&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;dict&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;key&gt;</span>Label<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;string&gt;</span>com.arloor.job<span style="color:#f92672">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">&lt;!-- 加载后立即启动，即开机自启 --&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;key&gt;</span>RunAtLoad<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;true</span> <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;key&gt;</span>WorkingDirectory<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;string&gt;</span>/tmp<span style="color:#f92672">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;key&gt;</span>ProgramArguments<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;array&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;string&gt;</span>/Users/arloor/bin/work<span style="color:#f92672">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;/array&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;key&gt;</span>StartCalendarInterval<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;dict&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">&lt;!-- 每天10点 --&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;key&gt;</span>Hour<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;integer&gt;</span>10<span style="color:#f92672">&lt;/integer&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;key&gt;</span>Minute<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;integer&gt;</span>0<span style="color:#f92672">&lt;/integer&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;/dict&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">&lt;!-- 标准输出路径 --&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;key&gt;</span>StandardOutPath<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;string&gt;</span>/tmp/work.log<span style="color:#f92672">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/dict&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/plist&gt;</span>
+</span></span></code></pre></div><ol>
+<li>这样设置后，每天10点会执行一次。</li>
+<li>如果10点刚好mac在待机，则唤醒后会执行一次。</li>
+<li>如果10点是关机的，则开机后不会执行。</li>
+<li>还有个StartInterval的参数，每多少秒执行一次。这个参数因睡眠导致的错过在唤醒时不会执行的。</li>
+</ol>
+<h2 id="windows开机自启动">windows开机自启动</h2>
+<p>编写<code>startup.vbs</code>，放到</p>
+<pre tabindex="0"><code>C:\Users\你的用户名\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
+</code></pre><p>文件夹下</p>
+<p><code>startup.vbs</code>内容如下：</p>
+<pre tabindex="0"><code>set forward=WScript.CreateObject(&#34;WScript.Shell&#34;)
+forward.Run &#34;taskkill /f /im forward.exe&#34;,0,True
+forward.Run &#34;C:\Users\arloor\go\bin\forward.exe -conf D:\bin\caddyfile -log E:\data\var\log\forward.log -socks5conf=D:\bin\socks5.yaml&#34;,0
+</code></pre><ol>
+<li>先关闭forward.exe，末尾的<code>0,True</code>表示不开启窗口，等待该命令结束再执行下一行</li>
+<li>再启动forward.exe，末尾的<code>0</code>表示不开启窗口</li>
+</ol>
+<p>具体Run命令见<a href="https://www.vbsedit.com/html/6f28899c-d653-4555-8a59-49640b0e32ea.asp">www.vbsedit.com</a></p>
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/posts/learn/jaeger/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">Jaeger学习</span>
+    </a>
+    
+    
+    <a href="/posts/other/use-thymeleaf-to-render-text-without-springmvc/" class="navigation-next">
+      <span class="navigation-tittle">在springboot之外使用thymeleaf渲染text</span>
+      <i aria-hidden="true" class="fa fa-chevron-right"></i>
+    </a>
+    
+</div>
+
+
+  
+
+  
+
+
+</article>
+
+
+        </div>
+        
+    
+
+
+
+<script defer src="/js/all.js" crossorigin="anonymous"></script>
+
+    
+    
+    <script src="/js/highlight.min.js"></script>
+    <script src="/js/languages/dos.min.js"></script>
+        
+    <script type="text/javascript">
+        
+        hljs.highlightAll();
+    </script>
+    
+
+
+
+
+    
+
+
+
+    </body>
+</html>

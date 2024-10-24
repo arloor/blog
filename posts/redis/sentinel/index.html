@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    
+    <link rel="canonical" href="https://www.arloor.com/posts/redis/sentinel/">
+    
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.136.4">
+
+    
+    
+    
+
+<title>Redis哨兵实现-sentinel.c • ARLOOR</title>
+<meta name="description" content="今天，你学习了吗">
+<meta name="keywords" content="刘港欢, arloor, moontell">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Redis哨兵实现-sentinel.c">
+  <meta name="twitter:description" content="这一篇记录一下sentinel的文档和实现。真的是好长的一篇文章😂">
+      <meta name="twitter:site" content="@njulgh">
+
+<meta property="og:url" content="https://www.arloor.com/posts/redis/sentinel/">
+  <meta property="og:site_name" content="ARLOOR">
+  <meta property="og:title" content="Redis哨兵实现-sentinel.c">
+  <meta property="og:description" content="这一篇记录一下sentinel的文档和实现。真的是好长的一篇文章😂">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2019-09-12T18:25:31+08:00">
+    <meta property="article:modified_time" content="2019-09-12T18:25:31+08:00">
+    <meta property="article:tag" content="Redis">
+
+
+    
+
+
+
+
+
+<link rel="stylesheet" href="/styles/atom-one-dark.min.css">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.484b96856b25751067d56c8c0af9dc1fd6372707029b6d56ee178da6bead45b5.css" integrity="sha256-SEuWhWsldRBn1WyMCvncH9Y3JwcCm21W7heNpr6tRbU=">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+
+<link rel="stylesheet" href="/scss/hugo-toc.0873834b0f2e9fdc9e1d0301e8ebce21fc10383882a41e9373f29b90e85a9987.css" integrity="sha256-CHODSw8un9yeHQMB6OvOIfwQODiCpB6Tc/KbkOhamYc=">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="/favicon.png">
+    
+    
+
+    <script type="module" crossorigin src="/assets/index-JfmtLPLI.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-C1z1vz3D.css">
+</head>
+
+
+    <body class=" ">
+    
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="/">
+          
+          ARLOOR
+          
+        </a>
+      </span>
+      <a href="/">
+        
+        
+        <div class="author-image">
+          <img src="/img/head.jpeg" alt="Author Image" class="img--circle img--headshot element--center">
+        </div>
+        
+        
+      </a>
+      
+      <p class="site__description">
+         都是瞎写的 
+      </p>
+      <div id="docsearch" style="display: flex;justify-content: center;"></div>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">ARLOOR</label>
+      <div class="menu-content">
+        <div class="show-in-small">
+          <a href="/">
+            
+            
+            <div class="author-image">
+              <img src="/img/head.jpeg" alt="Author Image"
+                class="img--circle img--headshot element--center">
+            </div>
+            
+            
+          </a>
+        </div>
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/posts/">
+						<span>文章</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/tags/">
+						<span>分类</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/about/">
+						<span>关于我</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="http://beian.miit.gov.cn/">
+						<span>苏ICP备17024437号</span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://x.com/njulgh" rel="me"><i class="fa-brands fa-x-twitter fa-lg"></i></a>
+	
+	
+	
+	
+	
+	<a href="https://github.com/arloor" rel="me"><i class="fa-brands fa-github fa-lg"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://t.me/never_contact_me" rel="me"><i class="fa-brands fa-telegram fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	<a href="mailto:admin@arloor.com" rel="me"><i class="fa-solid fa-at fa-lg"></i></a>
+	
+	
+	
+	
+</section>
+      </div>
+    </div>
+    
+<div class="copyright">
+  &copy; 2024 arloor
+  
+    <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>
+  
+</div>
+
+
+<div class="builtwith">
+Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.com/arloor/hyde-arloor">hyde-arloor</a>.
+</div>
+
+
+  </div>
+</div>
+        <div class="content container">
+            
+    
+<article>
+  <header>
+    <h1>Redis哨兵实现-sentinel.c</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> Sep 12, 2019
+    
+    
+    
+      
+      
+          in
+          
+          
+              <a class="badge badge-category" href="/categories/redis">REDIS</a>
+              
+          
+      
+    
+    
+    
+      
+      
+          <br/>
+           <i class="fas fa-tags"></i>
+          
+          <a class="badge badge-tag" href="/tags/redis">redis</a>
+          
+      
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 18 min read
+</div>
+
+
+  </header>
+  
+  
+  
+    <div class="toc-wrapper">
+      <input type="checkbox" id="tocToggle">
+      <label for="tocToggle">Table of Content</label>
+      
+          <nav id="TableOfContents">
+  <ul>
+    <li><a href="#sentinel工作流程">sentinel工作流程</a></li>
+    <li><a href="#模拟sentinel故障迁移过程">模拟sentinel故障迁移过程</a></li>
+    <li><a href="#sdown事件和odown事件">SDOWN事件和ODOWN事件</a></li>
+    <li><a href="#sentinel和salve自动发现机制">sentinel和salve自动发现机制</a></li>
+    <li><a href="#sentinel主动重新配置被监控redis节点">sentinel主动重新配置被监控redis节点</a></li>
+    <li><a href="#从节点选举及其优先级">从节点选举及其优先级</a></li>
+    <li><a href="#配置纪元epochs">配置纪元（epochs）</a></li>
+    <li><a href="#配置信息传播">配置信息传播</a></li>
+    <li><a href="#tilt模式">TILT模式</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#tilt模式实现">TILT模式实现</a></li>
+    <li><a href="#sentinel通知实现">Sentinel通知实现</a></li>
+    <li><a href="#sentinel监控实现">Sentinel监控实现</a></li>
+    <li><a href="#自动故障迁移实现">自动故障迁移实现</a></li>
+  </ul>
+</nav>
+      
+    </div>
+  
+  
+  <div class="post">
+    <p>这一篇记录一下sentinel的文档和实现。真的是好长的一篇文章😂</p>
+<h1 id="官方文档">官方文档</h1>
+<p>sentinel是redis官方高可用方案，从宏观角度看，sentinel提供以下能力。</p>
+<ul>
+<li><strong>监控</strong>： 持续检测主从节点是否正常工作</li>
+<li><strong>通知</strong>： sentinel可以通过调用notification_script向系统管理员报告事件</li>
+<li><strong>自动故障转移</strong>： 如果主节点不能正常工作，sentinel会提升其他从节点为主节点，并通知客户端新主节点的地址。</li>
+<li><strong>配置提供</strong>：告知客户端主节点的地址</li>
+</ul>
+<p>reids Sentinel以集群、分布式的方式运行。这样的好处：</p>
+<ol>
+<li>只有多个sentinel认为主节点主观下线，该主节点才会被判定客观下线——降低了误判几率</li>
+<li>当单个sentinel故障时，其他sentinel节点仍能正常进行故障迁移——故障迁移控制系统本身面临单点问题是很傻的。</li>
+</ol>
+<p>启动sentinel必须要提供配置文件，该配置文件会被sentinel进程重写，所以要提供写权限。至少需要三台sentinel实例才能保证健壮性(redis提供了几种推荐的部署方式)。配置文件仅需要指定自己监控的master（们），而不需要指定相关的slaves。sentinel会自动地获取slave信息。这份配置文件会在从节点成为主节点或新的sentinel被发现时被sentinel修改。</p>
+<h2 id="sentinel工作流程">sentinel工作流程</h2>
+<ol>
+<li>sentinel启动，指定<code>sentinel monitor &lt;master-group-name&gt; &lt;ip&gt; &lt;port&gt; &lt;quorum&gt;</code>——quorum是一个数字</li>
+<li>当一个sentinel得知有大于等于quorum个sentinel认为该主节点掉线时，该节点会尝试进行故障转移（提升从节点）</li>
+<li>sentinel需要被大多数sentinel选举为leader后才有权进行故障迁移——网络分区时，小分区的sentinel不可能执行故障迁移/如果大多数sentinel不能通信，则不可能发生故障迁移</li>
+</ol>
+<h2 id="模拟sentinel故障迁移过程">模拟sentinel故障迁移过程</h2>
+<p>使用<code>redis-cli -p 6379 DEBUG sleep 30</code>模拟主节点宕机三十秒。会出现以下过程</p>
+<ol>
+<li>每个sentinel都判定该主节点为+sdown（主观宕机）</li>
+<li>最终该主观宕机被确认为+odown（客观宕机）——多个sentinel判定其为主观宕机</li>
+<li>一个sentinel被大部分sentinel投票来执行故障迁移</li>
+<li>改sentinel执行故障迁移</li>
+</ol>
+<h2 id="sdown事件和odown事件">SDOWN事件和ODOWN事件</h2>
+<p>SDOWN是主观宕机，即sentinel自己认为某master宕机。<br>
+ODWON是客观宕机，即大于等于quorum个sentinel都认为该master宕机——此时才可故障。</p>
+<p>在sentinel向master发送PING后，超过<code>is-master-down-after-milliseconds</code>毫秒仍未收到有效的响应（+PONG、-LOADING、-MASTERDOWN），则sentinel记录master的状态为SDOWN。</p>
+<p>从SDOWN到ODOWN状态的转换没有使用强一致性协议，而是一种gossip（流言蜚语）协议——只要一个sentinel被足够数量的sentinel告知master处于SDOWN，则该sentinel标记其为ODOWN，并开始选举从而执行故障迁移。</p>
+<p>ODOWN只适用于master，而slave和sentinel节点还有SDOWN状态。<strong>被标记为SDOWN的从节点不会被选举为主节点。</strong></p>
+<h2 id="sentinel和salve自动发现机制">sentinel和salve自动发现机制</h2>
+<p>首先，sentinel仅需要配置监测的master而不需要配置slaves，sentinel会自动的向master查询slave信息。</p>
+<p>其次，sentinel会利用redis的发布订阅功能来实现自动发现。所有的sentinel都会连接到所有master和slave的<code> __sentinel__:hello</code>频道，每两分钟发布一条带有ip、port、runid的消息。所有sentinel都会收到这个消息，这个消息携带主节点的配置信息，如果自身保存的master配置信息旧于收到的，则立即更新。如果收到的sentinel hello消息携带的runid或地址信息已经存在，则删除自身保存的旧的sentinel，替换为新的这个。</p>
+<p>注意：sentinel不会主动删除（forget）自身保存的其他sentinel或slave信息，需要手动以30秒间隔的方式对每个sentinel执行<code>sentinel reset &lt;maste rname&gt;</code>，详情请见redis文档。</p>
+<h2 id="sentinel主动重新配置被监控redis节点">sentinel主动重新配置被监控redis节点</h2>
+<p>主动重新配置的主要目的是纠正redis从节点的错误配置。具体如下：</p>
+<ol>
+<li>认为自己是主节点的从节点（发生故障转移，被降级为从节点）将会被重配置为拷贝正确的主节点（成为他的从节点）</li>
+<li>拷贝旧主节点的从节点，将会被重新配置为拷贝新主节点。</li>
+</ol>
+<p>为了防止sentinel过期的知识错误地配置从节点，在真正进行重配置前，会等待一段时间看看其他sentinel会不会传播新的配置信息，以确保本sentinel本身信息足够新。</p>
+<p>这种重配置保证了主从架构在网络分区前后的健壮性：</p>
+<ol>
+<li>被故障迁移降为从节点的旧主节点会重新配置为从节点</li>
+<li>从节点在网络分区恢复后，会被重新配置为拷贝新的主节点</li>
+</ol>
+<h2 id="从节点选举及其优先级">从节点选举及其优先级</h2>
+<p>当sentinel确认master为ODOWN状态，且获得大多数sentinel授权来执行故障迁移时，就会挑选合适的从节点成为主节点。sentinel会从以下几个维度挑选：（英文更利于理解）</p>
+<ol>
+<li>Disconnection time from the master.</li>
+<li>Slave priority.</li>
+<li>Replication offset processed. ——异步拷贝接收的数据量</li>
+<li>Run ID. （当主节点挂了，从节点的Run id已经变为自己的，而不是与主节点相同）</li>
+</ol>
+<p>这些信息都可以对slave节点执行<code>info replication</code>进行查看。</p>
+<ol>
+<li>首先 断开时间大于特定时长的从节点没有资格。</li>
+<li>其次检查slave priority，数字小的优先。为0则不会被选择</li>
+<li>再其次，replication offset大的优先。</li>
+<li>如果以上都相同，则选择runid小的从节点——这样安排比随机选择一个更加有秩序。</li>
+</ol>
+<h2 id="配置纪元epochs">配置纪元（epochs）</h2>
+<p>当一个sentinel被授权进行故障迁移时，他会获得一个<strong>configuration epoch</strong>，用于标记配置信息的版本。——每一次故障迁移所使用的配置信息都对应一个配置纪元。</p>
+<p>故障迁移具有这样一个规则：其他sentinel会等待被授权的sentinel failover-timeout的时间进行故障迁移，之后自己才会尝试failover。这保证同一时间只有一个sentinel在进行故障迁移。</p>
+<h2 id="配置信息传播">配置信息传播</h2>
+<p>sentinel会在__sentinel__:hello 频道中传播自己持有的配置信息和配置纪元，前文提到，所有sentinel都会连接到主从节点的__sentinel__:hello。更新的配置信息有更新的配置纪元，当sentinel收到更新的配置纪元时，会更新自己的配置信息。——这确保了sentinel们只认可一份配置信息，也就是只认可一个主节点。</p>
+<p><strong>sentinel的配置信息会携带配置纪元一同进行持久化</strong>，所以重启不会丢失状态</p>
+<h2 id="tilt模式">TILT模式</h2>
+<p>sentinel重度依赖计算机时间，因为他会记录各种时间，依赖超时机制进行决策。如果计算机时间异常改变、计算机过忙或者进程被block一段时间，sentinel可能会出现异常的表现。</p>
+<p>TITL就是在发生上述情况时的一种保护状态。sentinel会进行周期中断，每十秒进行一次，因此两次中断的间隔大约为100ms，如果这个时间差为负，或者太大（&gt;=2秒），就会进入TILT模式。</p>
+<p>在TILT模式中，sentinel仍然进行监控，但不会进行操作。因为时间变得不可信，所以sentinel依赖时间的状态监控也不再可信。如果恢复正常超过30s，TITL模式退出。</p>
+<h1 id="实现">实现</h1>
+<p>如果redis实例为sentinel模式，则serverCron函数会执行sentinelTimer函数。sentinelTimer函数周期性执行，做以下几件事情：</p>
+<ol>
+<li>sentinelCheckTiltCondition()：判断系统时间是否出现异常，决定是否进入TILT模式</li>
+<li>sentinelHandleDictOfRedisInstances(sentinel.masters)：
+<ol>
+<li>遍历所有节点，handle每个节点，分为monitoring和acting两部分工作——如果在TILT模式，则不做acting工作；</li>
+<li>如果当前在TILT模式，且系统时间回复正常则退出TILT模式；</li>
+<li>如果某个主节点的failover_state为SENTINEL_FAILOVER_STATE_UPDATE_CONFIG，则执行+switch-master事件。</li>
+</ol>
+</li>
+</ol>
+<h2 id="tilt模式实现">TILT模式实现</h2>
+<p>TILT模式就像一个自动开关，根据系统时间是否正常决定是否执行主观下线、客观下线、failover这些acting。</p>
+<p><strong>进入TILT模式</strong></p>
+<p>判断是否进入TILT模式在sentinelTimer函数开头的sentinelCheckTiltCondition();</p>
+<pre tabindex="0"><code>    //delta为当前时间与上次时间之差
+    if (delta &lt; 0 || delta &gt; SENTINEL_TILT_TRIGGER) {
+        sentinel.tilt = 1;
+        sentinel.tilt_start_time = mstime();
+        sentinelEvent(LL_WARNING,&#34;+tilt&#34;,NULL,&#34;#tilt mode entered&#34;);
+    }
+</code></pre><p>如果delta为负，或者过大，说明在两次sentinelTimer的执行间隔中，系统时间被异常地修改，时间不再可信，进入TILT模式，只做监控，不做acting</p>
+<p><strong>退出TILT模式</strong></p>
+<p>在handle每个节点的acting部分的开始，都会检查是否在TILT模式中，如果在则判断能否退出。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (sentinel.tilt) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">mstime</span>()<span style="color:#f92672">-</span>sentinel.tilt_start_time <span style="color:#f92672">&lt;</span> SENTINEL_TILT_PERIOD) <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>        sentinel.tilt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">sentinelEvent</span>(LL_WARNING,<span style="color:#e6db74">&#34;-tilt&#34;</span>,NULL,<span style="color:#e6db74">&#34;#tilt mode exited&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><p>如果在这里能够退出TILT模式，则继续执行对给节点的acting部分。</p>
+<h2 id="sentinel通知实现">Sentinel通知实现</h2>
+<p>Sentinel通知主要通过发布订阅和notification_scripts实现。其实现在</p>
+<pre tabindex="0"><code>void sentinelEvent(int level, char *type, sentinelRedisInstance *ri,
+                   const char *fmt, ...)
+</code></pre><p>这很像一个log函数的声明，level有LL_DEBUG、LL_NOTICE、LL_WARNING等。LL_WARNING等级的事件会调用notification_scripts进行通知；非DEBUG等级的事件会通过名为type参数的发布订阅频道进行通知。</p>
+<h2 id="sentinel监控实现">Sentinel监控实现</h2>
+<p>Sentinel的监控实现在<code>sentinelHandleRedisInstance</code>函数（handle单个redis实例）的monitoring部分。</p>
+<p>一个sentinel实例到其他每个节点（master、slave、sentinel）都有两条tcp连接——命令传输连接和发布订阅连接。monitoring部分首先会修复该两条连接，如果断开则重建该两条连接。</p>
+<p>监控的实现主要依赖INFO、PING命令和发布hello消息到<code>__sentinel__:hello</code>频道。INFO、PING命令通过命令传输连接，hello消息通过发布订阅连接。所有这些命令都是通过异步回调的方式执行的。redis保持一个pending_commands变量来计算已发出但未收到响应的命令数量。如果该数量太大，则不再发送新的监控命令</p>
+<p><strong>PING及其回调</strong></p>
+<p>PING会发送给所有redis实例（master、slave、sentinel），其通过<code>sentinelSendPing</code>函数实现。他会更新last_ping_time为当前时间；同时，如果act_ping_time为0（意味着收到了上一次ping的pong），则也更新act_ping_time为当前时间。执行ping，pending_commands会累加一。</p>
+<p>PING命令收到响应的回调函数为<code>sentinelPingReplyCallback</code>。其会对pending_commands减一，同时更新last_pong_time为当前时间。如果响应为PONG、LOADING、MASTERDOWN，则更新last_avail_time为当前时间，act_ping_time为0。如果响应为BUSY，则有可能是其在执行脚本，sentinel会向其发送<code>SCRIPT KILL</code>命令。</p>
+<p>上面我们涉及 act_ping_time、last_ping_time、last_pong_time、last_avail_time这些变量。而monitoring部分发送PING命令就在last_ping_time和last_pong_time过老的时候：</p>
+<pre tabindex="0"><code>    if ((now - ri-&gt;link-&gt;last_pong_time) &gt; ping_period &amp;&amp;
+               (now - ri-&gt;link-&gt;last_ping_time) &gt; ping_period/2) {
+        /* Send PING to all the three kinds of instances. */
+        sentinelSendPing(ri);
+    }
+</code></pre><p><strong>INFO及其回调</strong></p>
+<p>INFO命令会发送给master和slave节点。</p>
+<p>它的回调函数是sentinelInfoReplyCallback，其会解析INFO的响应，并通过sentinelRefreshInstanceInfo，更新INFO命令目标节点在sentinel内存中的状态，包括以下信息：</p>
+<ul>
+<li>run_id——如果runid与之前记录的不同，则记录一次+reboot事件（LL_NOTICE）</li>
+<li>slave0、slave1&hellip;.——如果某slave是新发现的，则加入监听列表，并记录+slave事件（LL_NOTICE）</li>
+<li>master_link_down_since_seconds</li>
+<li>role:(master/slave)
+<ul>
+<li>如果是slave则继续读取<code>master_host</code>、<code>master_port</code>、master_link_status、slave_priority、slave_repl_offset</li>
+</ul>
+</li>
+</ul>
+<p>该回调函数还会在目标节点role发生变化时产生+/-role-change的事件（仅记录到日志）。</p>
+<p>如果当前不在TILT模式，还会继续执行以下：</p>
+<ol>
+<li>如果之前记录该节点为slave，而该INFO响应报告其为master。且他的主节点的SRI_FAILOVER_IN_PROGRESS flag被设置且failover_state为SENTINEL_FAILOVER_STATE_WAIT_PROMOTION，则说明该从节点成功地被提升为主节点。此事将failover_state置为SENTINEL_FAILOVER_STATE_RECONF_SLAVES。同时记录+promoted-slave和——这一段的作用将在下文状态机部分解释。</li>
+<li>如果该slave异常地报告自己是主节点（没有sentinel进行failover提升他）或报告自己拷贝的主节点不同于sentinel记录的，则修正该从节点的状态。</li>
+<li>处理SRI_RECONF_SENT-&gt;SRI_RECONF_INPROG-&gt;SRI_RECONF_DONE的状态转换</li>
+</ol>
+<p><strong>hello消息的发布与消费</strong></p>
+<p>hello消息会发送给所有节点的<code>__sentinel__:hello</code>频道。消息格式为：</p>
+<pre tabindex="0"><code>sentinel_ip,sentinel_port,sentinel_runid,current_epoch,
+master_name,master_ip,master_port,master_config_epoch
+</code></pre><p>发布hello消息的回调函数为sentinelPublishReplyCallback。其仅仅递减pending_commands，和更新last_pub_time为当前时间（如果发布成功）。</p>
+<p>hello消息的消费是通过sentinelReceiveHelloMessages函数，该函数是SUBSCRIBE命令的回调函数。该函数在解析hello消息的8个字段后，会做如下：</p>
+<ol>
+<li>增加新发现的sentinel或更新已有sentinel的地址。（决定更新还是增加是判断runID是否有记录过）</li>
+<li>如果hello消息中sentinel的current_epoch大于本地current_epoch,则更新本地的为hello消息中的current_epoch</li>
+<li>如果hello消息中master_config_epoch大于本地的记录，则更新本地的master地址和master_config_epoch。产生+config-update-from事件和+switch-master事件。</li>
+<li>更新last_hello_time为当前时间</li>
+</ol>
+<p>消费hello消息的过程就是配置传播的过程。</p>
+<h2 id="自动故障迁移实现">自动故障迁移实现</h2>
+<p>自动failover的实现在sentinelHandleRedisInstance的acting部分，包含：</p>
+<ul>
+<li>主观下线</li>
+<li>客观下线</li>
+<li>选举leader</li>
+<li>执行failover</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>    <span style="color:#75715e">/* ============== ACTING HALF ============= */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* Every kind of instance */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">sentinelCheckSubjectivelyDown</span>(ri);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* Masters and slaves */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (ri<span style="color:#f92672">-&gt;</span>flags <span style="color:#f92672">&amp;</span> (SRI_MASTER<span style="color:#f92672">|</span>SRI_SLAVE)) {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">/* Nothing so far. */</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* Only masters */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (ri<span style="color:#f92672">-&gt;</span>flags <span style="color:#f92672">&amp;</span> SRI_MASTER) {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//主观下线状态更新
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#a6e22e">sentinelCheckObjectivelyDown</span>(ri);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">sentinelStartFailoverIfNeeded</span>(ri))
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">//询问其他sentinel该master是否为sdown，并可能伴随选举leader
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#a6e22e">sentinelAskMasterStateToOtherSentinels</span>(ri,SENTINEL_ASK_FORCED);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">sentinelFailoverStateMachine</span>(ri);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">sentinelAskMasterStateToOtherSentinels</span>(ri,SENTINEL_NO_FLAGS);
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><p><strong>主观下线状态判断与更新</strong></p>
+<p>主观下线状态判断与更新会对master、slave和sentinel进行。</p>
+<p>主观下线状态的检测就是检测几个时间变量有没有超出阈值，因为是“主观”的变动，所以不需要与其他sentinel协商。会产生+sdown事件和-sdown事件（离开主观下线状态）</p>
+<p><strong>客观下线状态判断与更新</strong></p>
+<p>sentinel会遍历自己内存中所有sentinel的SRI_MASTER_DOWN标记，如果该flag为1，则计数+1，如果计数大于quorum则设置为主观下线状态。会产生+odown事件和-odown事件（离开客观下线状态）。</p>
+<p><strong>检测并开始failover</strong></p>
+<p>检测部分包括三项工作：</p>
+<ol>
+<li>Master must be in ODOWN condition.</li>
+<li>No failover already in progress.</li>
+<li>No failover already attempted recently.</li>
+</ol>
+<p>如果满足三项条件则执行sentinelStartFailover，该函数会做如下：</p>
+<ol>
+<li>设置flag：SRI_FAILOVER_IN_PROGRESS；</li>
+<li>master-&gt;failover_epoch = ++sentinel.current_epoch; ——更新两个epoch，该epoch比当前集群稳定的epoch大</li>
+<li>同时设置failover_state为SENTINEL_FAILOVER_STATE_WAIT_START。该failover_state随后进入一个状态机进行状态转换（真正的failover过程）。</li>
+<li>产生+new-epoch和+try-failover事件</li>
+</ol>
+<p><strong>与其他sentinel协商</strong></p>
+<p>sentinelAskMasterStateToOtherSentinels向其他所有sentinel发送IS-MASTER-DOWN-BY-ADDR。其请求和响应格式如下：</p>
+<pre tabindex="0"><code>请求：SENTINEL is-master-down-by-addr master_ip master_port sentinel_current_epoch sentinel_myid/*
+响应：down state, leader, vote epoch.
+</code></pre><p>该命令的作用其实有两部分：</p>
+<ul>
+<li>目标sentinel是否认为该master为sdown</li>
+<li>如果源sentinel开始了failover，则最后一个参数不为“*”，此时会进行failover的leader选举——这是从命名中看不出来的。</li>
+</ul>
+<p>我们看<code>sentinelCommand</code>中处理<code>is-master-down-by-addr</code>命令的激发选举leader的代码；</p>
+<pre tabindex="0"><code>        /* Vote for the master (or fetch the previous vote) if the request
+         * includes a runid, otherwise the sender is not seeking for a vote. */
+        if (ri &amp;&amp; ri-&gt;flags &amp; SRI_MASTER &amp;&amp; strcasecmp(c-&gt;argv[5]-&gt;ptr,&#34;*&#34;)) {
+            leader = sentinelVoteLeader(ri,(uint64_t)req_epoch,
+                                            c-&gt;argv[5]-&gt;ptr,
+                                            &amp;leader_epoch);
+        }
+</code></pre><p>可以看到判断第6个参数是不是“*”，已决定是否进行<code>sentinelVoteLeader</code>。我们先将sentinelVoteLeader视为一个黑盒，仅需要知道他会返回leader信息。</p>
+<p>现在来看收到响应的回调函数<code>sentinelReceiveIsMasterDownReply</code>。他会做两件事：</p>
+<ol>
+<li>更新内存中该sentinel对目标master的sdown状态标记</li>
+<li>更新内存中该sentinel的选举信息：leader以及leader_epoch</li>
+</ol>
+<p><strong>sentinelFailoverStateMachine-执行failover的状态机</strong></p>
+<p>该状态机真正调用一些函数来执行failover过程，状态转换如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>    <span style="color:#66d9ef">switch</span>(ri<span style="color:#f92672">-&gt;</span>failover_state) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> SENTINEL_FAILOVER_STATE_WAIT_START:
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">sentinelFailoverWaitStart</span>(ri);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> SENTINEL_FAILOVER_STATE_SELECT_SLAVE:
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">sentinelFailoverSelectSlave</span>(ri);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> SENTINEL_FAILOVER_STATE_SEND_SLAVEOF_NOONE:
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">sentinelFailoverSendSlaveOfNoOne</span>(ri);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> SENTINEL_FAILOVER_STATE_WAIT_PROMOTION:
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">sentinelFailoverWaitPromotion</span>(ri);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> SENTINEL_FAILOVER_STATE_RECONF_SLAVES:
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">sentinelFailoverReconfNextSlave</span>(ri);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><p>sentinelStartFailover函数将failover_state置为SENTINEL_FAILOVER_STATE_WAIT_START，随后进行状态机。</p>
+<p>sentinelFailoverWaitStart会统计其他sentinel的投票信息，判断自己是否为leader，如果是则置failover_state为SENTINEL_FAILOVER_STATE_SELECT_SLAVE，进入状态机下一步状态。</p>
+<p>sentinelFailoverSelectSlave会选举出一个slave，选举规则上文有陈述。</p>
+<p>sentinelFailoverSendSlaveOfNoOne会对该slave发送“SLAVEOF NO ONE”命令，让其成为一个主节点。</p>
+<p>sentinelFailoverWaitPromotion单纯为一个超时判断函数，SENTINEL_FAILOVER_STATE_WAIT_PROMOTION-&gt;SENTINEL_FAILOVER_STATE_RECONF_SLAVES的状态转换在INFO命令的回调函数中执行，上文有陈述。</p>
+<p>sentinelFailoverReconfNextSlave则是向其他slave发送“SLAVEOF new_master”。</p>
+<p><strong>以上过程的顺序——值得关注一下</strong></p>
+<p>sentinel在判断是否odown时使用自己内存中所保存的其他sentinel的信息。实现中在一个周期中，是先判断odown，而后发送<code>is-master-down-by-addr</code>要求更新其他sentinel的信息。也就是说判断时，使用的是陈旧的信息。为什么这样设计？</p>
+<p>首先我们注意到，is-master-down-by-addr是异步的，也就是不是发送后阻塞地等待更新。所以先发送<code>is-master-down-by-addr</code>,而后立即判断odown，其使用的仍然是陈旧的信息。</p>
+<p>其次，因为这是定时的任务，我们询问更新之后，会等待一个时间间隔，而后开始一次新的odown判断，因为这个时间间隔的存在，是有可能使用新的状态信息的。</p>
+<p>最后，<code>is-master-down-by-addr</code>依赖是否为odown决定是否需要进行leader选举，这是一个硬性的依赖。</p>
+<p>以上三点决定了这个顺序。</p>
+<p><strong>failover的leader选举</strong></p>
+<p>这是最后一个部分啦。</p>
+<p>请求成为leader的sentinel将自己的epoch+1，然后携带自己的runid和epoch向其他sentinel发送<code>is-master-down-by-addr</code>。</p>
+<p>其他sentinel会拿着该runid和epoch决定是否把票投给他。其实现在sentinelVoteLeader。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">sentinelVoteLeader</span>(sentinelRedisInstance <span style="color:#f92672">*</span>master, <span style="color:#66d9ef">uint64_t</span> req_epoch, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>req_runid, <span style="color:#66d9ef">uint64_t</span> <span style="color:#f92672">*</span>leader_epoch) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (req_epoch <span style="color:#f92672">&gt;</span> sentinel.current_epoch) {
+</span></span><span style="display:flex;"><span>        sentinel.current_epoch <span style="color:#f92672">=</span> req_epoch;
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">sentinelFlushConfig</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">sentinelEvent</span>(LL_WARNING,<span style="color:#e6db74">&#34;+new-epoch&#34;</span>,master,<span style="color:#e6db74">&#34;%llu&#34;</span>,
+</span></span><span style="display:flex;"><span>            (<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span>) sentinel.current_epoch);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//决定是否投给他
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (master<span style="color:#f92672">-&gt;</span>leader_epoch <span style="color:#f92672">&lt;</span> req_epoch <span style="color:#f92672">&amp;&amp;</span> sentinel.current_epoch <span style="color:#f92672">&lt;=</span> req_epoch)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">sdsfree</span>(master<span style="color:#f92672">-&gt;</span>leader);
+</span></span><span style="display:flex;"><span>        master<span style="color:#f92672">-&gt;</span>leader <span style="color:#f92672">=</span> <span style="color:#a6e22e">sdsnew</span>(req_runid);
+</span></span><span style="display:flex;"><span>        master<span style="color:#f92672">-&gt;</span>leader_epoch <span style="color:#f92672">=</span> sentinel.current_epoch;
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">sentinelFlushConfig</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">sentinelEvent</span>(LL_WARNING,<span style="color:#e6db74">&#34;+vote-for-leader&#34;</span>,master,<span style="color:#e6db74">&#34;%s %llu&#34;</span>,
+</span></span><span style="display:flex;"><span>            master<span style="color:#f92672">-&gt;</span>leader, (<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span>) master<span style="color:#f92672">-&gt;</span>leader_epoch);
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">/* If we did not voted for ourselves, set the master failover start
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         * time to now, in order to force a delay before we can start a
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">         * failover for the same master. */</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">strcasecmp</span>(master<span style="color:#f92672">-&gt;</span>leader,sentinel.myid))
+</span></span><span style="display:flex;"><span>            master<span style="color:#f92672">-&gt;</span>failover_start_time <span style="color:#f92672">=</span> <span style="color:#a6e22e">mstime</span>()<span style="color:#f92672">+</span><span style="color:#a6e22e">rand</span>()<span style="color:#f92672">%</span>SENTINEL_MAX_DESYNC;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">*</span>leader_epoch <span style="color:#f92672">=</span> master<span style="color:#f92672">-&gt;</span>leader_epoch;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> master<span style="color:#f92672">-&gt;</span>leader <span style="color:#f92672">?</span> <span style="color:#a6e22e">sdsnew</span>(master<span style="color:#f92672">-&gt;</span>leader) <span style="color:#f92672">:</span> NULL;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>先来先得票，投票给第一个epoch大于自己的sentinel。</p>
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/posts/redis/redis-persistence/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">Redis持久化机制-aof.c与rdb.c</span>
+    </a>
+    
+    
+    <a href="/posts/redis/redis-cluster/" class="navigation-next">
+      <span class="navigation-tittle">Redis Cluster实现</span>
+      <i aria-hidden="true" class="fa fa-chevron-right"></i>
+    </a>
+    
+</div>
+
+
+  
+
+  
+
+
+</article>
+
+
+        </div>
+        
+    
+
+
+
+<script defer src="/js/all.js" crossorigin="anonymous"></script>
+
+    
+    
+    <script src="/js/highlight.min.js"></script>
+    <script src="/js/languages/dos.min.js"></script>
+        
+    <script type="text/javascript">
+        
+        hljs.highlightAll();
+    </script>
+    
+
+
+
+
+    
+
+
+
+    </body>
+</html>

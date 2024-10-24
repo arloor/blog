@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    
+    <link rel="canonical" href="https://www.arloor.com/posts/async-profiler/">
+    
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.136.4">
+
+    
+    
+    
+
+<title>Async Profiler使用 • ARLOOR</title>
+<meta name="description" content="今天，你学习了吗">
+<meta name="keywords" content="刘港欢, arloor, moontell">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Async Profiler使用">
+  <meta name="twitter:description" content="Async Profile是Java应用profiling的强大工具，可以方便地输出火焰图html或者jfr格式给Java Mission Control查看，这里记录下如何使用。">
+      <meta name="twitter:site" content="@njulgh">
+
+<meta property="og:url" content="https://www.arloor.com/posts/async-profiler/">
+  <meta property="og:site_name" content="ARLOOR">
+  <meta property="og:title" content="Async Profiler使用">
+  <meta property="og:description" content="Async Profile是Java应用profiling的强大工具，可以方便地输出火焰图html或者jfr格式给Java Mission Control查看，这里记录下如何使用。">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2023-12-02T16:31:58+08:00">
+    <meta property="article:modified_time" content="2023-12-02T16:31:58+08:00">
+    <meta property="article:tag" content="Software">
+
+
+    
+
+
+
+
+
+<link rel="stylesheet" href="/styles/atom-one-dark.min.css">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.484b96856b25751067d56c8c0af9dc1fd6372707029b6d56ee178da6bead45b5.css" integrity="sha256-SEuWhWsldRBn1WyMCvncH9Y3JwcCm21W7heNpr6tRbU=">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+
+<link rel="stylesheet" href="/scss/hugo-toc.0873834b0f2e9fdc9e1d0301e8ebce21fc10383882a41e9373f29b90e85a9987.css" integrity="sha256-CHODSw8un9yeHQMB6OvOIfwQODiCpB6Tc/KbkOhamYc=">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="/favicon.png">
+    
+    
+
+    <script type="module" crossorigin src="/assets/index-JfmtLPLI.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-C1z1vz3D.css">
+</head>
+
+
+    <body class=" ">
+    
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="/">
+          
+          ARLOOR
+          
+        </a>
+      </span>
+      <a href="/">
+        
+        
+        <div class="author-image">
+          <img src="/img/head.jpeg" alt="Author Image" class="img--circle img--headshot element--center">
+        </div>
+        
+        
+      </a>
+      
+      <p class="site__description">
+         都是瞎写的 
+      </p>
+      <div id="docsearch" style="display: flex;justify-content: center;"></div>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">ARLOOR</label>
+      <div class="menu-content">
+        <div class="show-in-small">
+          <a href="/">
+            
+            
+            <div class="author-image">
+              <img src="/img/head.jpeg" alt="Author Image"
+                class="img--circle img--headshot element--center">
+            </div>
+            
+            
+          </a>
+        </div>
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/posts/">
+						<span>文章</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/tags/">
+						<span>分类</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/about/">
+						<span>关于我</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="http://beian.miit.gov.cn/">
+						<span>苏ICP备17024437号</span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://x.com/njulgh" rel="me"><i class="fa-brands fa-x-twitter fa-lg"></i></a>
+	
+	
+	
+	
+	
+	<a href="https://github.com/arloor" rel="me"><i class="fa-brands fa-github fa-lg"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://t.me/never_contact_me" rel="me"><i class="fa-brands fa-telegram fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	<a href="mailto:admin@arloor.com" rel="me"><i class="fa-solid fa-at fa-lg"></i></a>
+	
+	
+	
+	
+</section>
+      </div>
+    </div>
+    
+<div class="copyright">
+  &copy; 2024 arloor
+  
+    <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>
+  
+</div>
+
+
+<div class="builtwith">
+Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.com/arloor/hyde-arloor">hyde-arloor</a>.
+</div>
+
+
+  </div>
+</div>
+        <div class="content container">
+            
+    
+<article>
+  <header>
+    <h1>Async Profiler使用</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> Dec 2, 2023
+    
+    
+    
+      
+      
+          in
+          
+          
+              <a class="badge badge-category" href="/categories/undefined">UNDEFINED</a>
+              
+          
+      
+    
+    
+    
+      
+      
+          <br/>
+           <i class="fas fa-tags"></i>
+          
+          <a class="badge badge-tag" href="/tags/software">software</a>
+          
+      
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 2 min read
+</div>
+
+
+  </header>
+  
+  
+  
+    <div class="toc-wrapper">
+      <input type="checkbox" id="tocToggle">
+      <label for="tocToggle">Table of Content</label>
+      
+          <nav id="TableOfContents">
+  <ul>
+    <li><a href="#linux使用">linux使用</a></li>
+    <li><a href="#macos使用">macos使用</a></li>
+    <li><a href="#wall-clock-profiling观测spring应用启动耗时">Wall-clock profiling：观测Spring应用启动耗时</a></li>
+    <li><a href="#可视化">可视化</a>
+      <ul>
+        <li><a href="#浏览器打开火焰图的html">浏览器打开火焰图的html</a></li>
+        <li><a href="#jfr文件可视化">jfr文件可视化</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+      
+    </div>
+  
+  
+  <div class="post">
+    <p>Async Profile是Java应用profiling的强大工具，可以方便地输出火焰图html或者jfr格式给Java Mission Control查看，这里记录下如何使用。</p>
+<p>开源地址：<a href="https://github.com/async-profiler/async-profiler">Async-Profiler Github</a></p>
+<h2 id="linux使用">linux使用</h2>
+<p>注意，linux中的pid我填的是1，因为我的应用跑在docker容器中，默认进程号就是1</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -LO http://cdn.arloor.com/async-profiler-2.9-linux-x64.tar.gz
+</span></span><span style="display:flex;"><span>tar -zxvf async-profiler-2.9-linux-x64.tar.gz
+</span></span><span style="display:flex;"><span>cd async-profiler-2.9-linux-x64
+</span></span><span style="display:flex;"><span>export PATH<span style="color:#f92672">=</span>$PATH:$PWD
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># CPU profiling</span>
+</span></span><span style="display:flex;"><span>profiler.sh -e cpu -i 5ms -d <span style="color:#ae81ff">60</span> -f /a.html -o flamegraph  <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ALLOCATION profiling</span>
+</span></span><span style="display:flex;"><span>profiler.sh -e alloc --alloc 500k -d <span style="color:#ae81ff">60</span> -f /b.html -o flamegraph  <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># multi event, with jfr as output format, use IDEA/JMC to view</span>
+</span></span><span style="display:flex;"><span>profiler.sh -e cpu,alloc --alloc 500k -i 5ms -d <span style="color:#ae81ff">60</span> -f /a.jfr -o jfr  <span style="color:#ae81ff">1</span>
+</span></span></code></pre></div><h2 id="macos使用">macos使用</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cd /data
+</span></span><span style="display:flex;"><span>curl -LO https://github.com/jvm-profiling-tools/async-profiler/releases/download/v2.9/async-profiler-2.9-macos.zip
+</span></span><span style="display:flex;"><span>unzip async-profiler-2.9-macos.zip
+</span></span><span style="display:flex;"><span>cd async-profiler-2.9-macos
+</span></span><span style="display:flex;"><span>export PATH<span style="color:#f92672">=</span>$PATH:$PWD
+</span></span><span style="display:flex;"><span>cd ~
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># CPU profiling</span>
+</span></span><span style="display:flex;"><span>profiler.sh -e cpu-i 5ms -d <span style="color:#ae81ff">60</span> -f a.html -o flamegraph <span style="color:#e6db74">${</span>pid<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ALLOCATION profiling</span>
+</span></span><span style="display:flex;"><span>profiler.sh -e alloc --alloc 500k -d <span style="color:#ae81ff">60</span> -f b.html -o flamegraph <span style="color:#e6db74">${</span>pid<span style="color:#e6db74">}</span>
+</span></span></code></pre></div><h2 id="wall-clock-profiling观测spring应用启动耗时">Wall-clock profiling：观测Spring应用启动耗时</h2>
+<p>参考: <a href="https://github.com/async-profiler/async-profiler#wall-clock-profiling">#wall-clock-profiling</a></p>
+<p>在线服务通常使用 Spring Boot 作为基本框架，Spring Boot 会打印一条 “JVM running for” 的日志，表示进程启动使用了多长时间，那么在这个时长中，到底耗时在哪里，可以用下面的命令查看，注意要在应用一启动就运行。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 250 指的是持续观测 250秒，可以根据服务实际启动时长修改，1 指的是进程号⁢</span>
+</span></span><span style="display:flex;"><span>./profiler.sh -e wall -t -I <span style="color:#e6db74">&#39;org/springframework/boot/loader/JarLauncher.main&#39;</span> -f a.html -d <span style="color:#ae81ff">250</span> <span style="color:#ae81ff">1</span>
+</span></span></code></pre></div><blockquote>
+<p>我们往往会使用 Async Profiler 工具 Attach 到 JVM 来诊断 CPU利用率问题，采样堆栈并生成火焰图，这类火焰图只会记录 on-CPU 状态的线程，即 R 和 D 状态的线程。但进程启动时可能有很多等待 IO 或锁的操作，此时线程已让出CPU，所以应该改用时钟模式（Wall-Clock）采样 on-CPU 和 off-CPU 的堆栈。此外 Spring 初始化时会创建一些中间件客户端并关联生成一些线程，为了避免无关堆栈的干扰，应该只保留 Spring Boot 启动的 main 线程</p>
+</blockquote>
+<h2 id="可视化">可视化</h2>
+<h3 id="浏览器打开火焰图的html">浏览器打开火焰图的html</h3>
+<p><img src="/img/async-profiler-alloc-flamescope.png" alt="Alt text"></p>
+<h3 id="jfr文件可视化">jfr文件可视化</h3>
+<p><strong>使用Jetbrians IDEA查看</strong></p>
+<p><img src="/img/jfr-idea-view.png" alt="Alt text"></p>
+<p><strong>使用Java Mission Control查看</strong></p>
+<p><img src="/img/jfr-JMC-view.png" alt="Alt text"></p>
+<p>注意，高版本的JDK不再默认安装JMC，参考下面的文档安装</p>
+<ul>
+<li><a href="https://www.oracle.com/java/technologies/javase/products-jmc8-downloads.html">JMC下载</a></li>
+<li><a href="https://www.oracle.com/java/technologies/javase/jmc8-install.html">JMC安装</a></li>
+</ul>
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/posts/jdk8-socketchannel-directbytebuffer-overflow/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">Java8 Direct Bytebuffer Overflow</span>
+    </a>
+    
+    
+    <a href="/posts/windows11-settings/" class="navigation-next">
+      <span class="navigation-tittle">windows11设置、性能优化</span>
+      <i aria-hidden="true" class="fa fa-chevron-right"></i>
+    </a>
+    
+</div>
+
+
+  
+
+  
+
+
+</article>
+
+
+        </div>
+        
+    
+
+
+
+<script defer src="/js/all.js" crossorigin="anonymous"></script>
+
+    
+    
+    <script src="/js/highlight.min.js"></script>
+    <script src="/js/languages/dos.min.js"></script>
+        
+    <script type="text/javascript">
+        
+        hljs.highlightAll();
+    </script>
+    
+
+
+
+
+    
+
+
+
+    </body>
+</html>
