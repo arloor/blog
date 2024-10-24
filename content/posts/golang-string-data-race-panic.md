@@ -127,7 +127,7 @@ string很明确的是一个胖指针结构体。在给string变量赋值（拷�
 
 ### 一种修复方案：使用 atomic.Value
 
-使用 `atomic.Value` 包裹string。不过atomic是基于CAS的，这样的改动在 `sleep 10 纳秒` 的情况下，会导致CAS陷入忙等待，CPU占用率100%且不阻塞住，这时候就要显式使用mutex了。
+使用 `atomic.Value` 包裹string。不过atomic是基于CAS的，这样的改动在 `sleep 10 纳秒` 的情况下，会导致CAS陷入忙等待，CPU占用率100%且阻塞住，这时候就要显式使用mutex了。
 
 ```go
 package main
