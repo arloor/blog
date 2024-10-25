@@ -65,6 +65,7 @@ autoProxy = true # Windows设置代理时自动同步给WSL，用于使用代理
 [experimental]
 sparseVhd = true # 自动清理磁盘空间
 autoMemoryReclaim = gradual # 可以在gradual 、dropcache 、disabled之间选择。 如果设置成gradual，需要设置kernelCommandLine以开启cgroupV2，否则docker会有问题
+hostAddressLoopback = true # WSL2中访问Windows的localhost
 
 [wsl2]
 swap = 0 # 禁用swap，使用内存交换文件，不使用磁盘交换文件
