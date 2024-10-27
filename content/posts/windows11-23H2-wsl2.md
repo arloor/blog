@@ -170,8 +170,8 @@ sudo apt-mark unhold docker*
 
 ```bash
 git config --global core.editor vim
-git config --global http.proxy http://127.0.0.1:7880
-git config --global https.proxy http://127.0.0.1:7880
+git config --global http.proxy http://127.0.0.1:7890
+git config --global https.proxy http://127.0.0.1:7890
 git config --global "includeIf.hasconfig:remote.*.url:*://*github.com*/**.path" .gitconfig_github
 git config --global "includeIf.hasconfig:remote.*.url:git@github.com:*/**.path" .gitconfig_github
 cat > ~/.gitconfig_github <<EOF
