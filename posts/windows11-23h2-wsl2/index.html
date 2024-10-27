@@ -437,8 +437,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>由于wsl支持windows和linux的命令互操作，你实际上会有两个git，一个wsl的git，一个windows的git.exe。</p>
 <p><strong>WSL git配置</strong></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git config --global core.editor vim
-</span></span><span style="display:flex;"><span>git config --global http.proxy http://127.0.0.1:7880
-</span></span><span style="display:flex;"><span>git config --global https.proxy http://127.0.0.1:7880
+</span></span><span style="display:flex;"><span>git config --global http.proxy http://127.0.0.1:7890
+</span></span><span style="display:flex;"><span>git config --global https.proxy http://127.0.0.1:7890
 </span></span><span style="display:flex;"><span>git config --global <span style="color:#e6db74">&#34;includeIf.hasconfig:remote.*.url:*://*github.com*/**.path&#34;</span> .gitconfig_github
 </span></span><span style="display:flex;"><span>git config --global <span style="color:#e6db74">&#34;includeIf.hasconfig:remote.*.url:git@github.com:*/**.path&#34;</span> .gitconfig_github
 </span></span><span style="display:flex;"><span>cat &gt; ~/.gitconfig_github <span style="color:#e6db74">&lt;&lt;EOF
