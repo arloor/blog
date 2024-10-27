@@ -216,6 +216,18 @@ sudo cp your-certificate.crt /usr/local/share/ca-certificates/
 sudo update-ca-certificates
 ```
 
+## docker和podman
+
+- 如果你遇到 docker 无法从 Windows 访问的问题，这个是 iptables 的问题，在 /etc/docker/daemon.json 里添加一句 "iptables": false 就好了。
+    
+```json
+{
+"iptables": false
+}
+```
+
+- podman容器需要设置 `--network host`，否则其他容器访问会报错 no route to host。
+
 ## 参考文档
 
 - [WSL2设置镜像网络模式](https://www.ryanshang.com/2024/01/06/WSL2%E8%AE%BE%E7%BD%AE%E9%95%9C%E5%83%8F%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%BC%8F/)
@@ -321,6 +333,6 @@ net start winnat
 ## 卸载发行版
 
 ```bat
-wsl --uninstall Debian
-wsl --unregister Debian
+wsl --terminate Debian # 停止
+wsl --unregister Debian # 卸载
 ```
