@@ -1,5 +1,5 @@
 ---
-title: "阿里云vps关闭阿里云盾和云监控c++插件"
+title: "阿里云vps关闭阿里云盾、云监控c++插件和自动化助手"
 date: 2024-10-12T16:46:54+08:00
 draft: false
 categories: [ "undefined"]
@@ -54,10 +54,25 @@ rm -rf /usr/local/share/aliyun-assist
 bash <(curl -SsLf https://us.arloor.dev/https://gist.githubusercontent.com/arloor/f1414882b9bcb003c15f58e92be43606/raw/uninstall_aliyundun.sh)
 ```
 
-注意，仍然需要在阿里云云安全中心关闭自保护功能。
+注意，此脚本仍然需要在阿里云云安全中心关闭自保护功能。
 
 ## 参考文档
 
 - [卸载阿里云盾Agent客户端](https://help.aliyun.com/zh/security-center/user-guide/uninstall-the-security-center-agent)
 - [卸载云监控C++版本插件](https://help.aliyun.com/zh/cms/user-guide/install-and-uninstall-the-cloudmonitor-agent-for-cpp?spm=a2c4g.11186623.0.0.4d3551beCEhTI8#section-hdw-doi-fv4)
 - [卸载云助手Agent（Linux实例）](https://help.aliyun.com/zh/ecs/user-guide/start-stop-or-uninstall-the-cloud-assistant-agent?spm=a2c4g.11186623.0.0.6f5055e0LThgs9#section-o45-6j5-x5m)
+
+## 腾讯云卸载内置监控
+
+```bash
+#命令执行助手、云镜、云监控卸载命令：
+systemctl disable tat_agent --now
+/usr/local/qcloud/YunJing/uninst.sh
+/usr/local/qcloud/stargate/admin/uninstall.sh
+/usr/local/qcloud/monitor/barad/admin/uninstall.sh
+#删除云监控相关目录文件：
+rm -f /etc/systemd/system/tat_agent.service
+rm -rf /usr/local/qcloud
+#最后清理一下 /etc/rc.local 文件，将里面含qcloud的行全部删掉。
+sed -i '/.*qcloud.*/d' /etc/rc.local
+```
