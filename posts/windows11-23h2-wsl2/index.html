@@ -345,14 +345,14 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>Hyper-V和vmware等软件是冲突的，详见<a href="https://learn.microsoft.com/zh-cn/troubleshoot/windows-client/application-management/virtualization-apps-not-work-with-hyper-v">虚拟化应用程序无法与 Hyper-V、Device Guard 和 Credential Guard 协同工作</a></li>
 </ol>
 </blockquote>
-<p>关闭虚拟机平台和Hyper-V虚拟机监控程序：</p>
+<p><strong>关闭虚拟机平台和Hyper-V虚拟机监控程序：</strong></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bat" data-lang="bat"><span style="display:flex;"><span>dism.exe /online /disable-feature /featurename:VirtualMachinePlatform /norestart
 </span></span><span style="display:flex;"><span>DISM /Online /Disable-Feature /FeatureName:Microsoft-Hyper-V-All /NoRestart
 </span></span><span style="display:flex;"><span>@<span style="color:#75715e">REM 其实只要关闭 Microsoft-Hyper-V-Hypervisor 就行了</span>
-</span></span></code></pre></div><p>开启虚拟机平台和Hyper-V虚拟机监控程序：</p>
+</span></span></code></pre></div><p><strong>开启虚拟机平台和Hyper-V虚拟机监控程序：</strong></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bat" data-lang="bat"><span style="display:flex;"><span>dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
 </span></span><span style="display:flex;"><span>DISM /Online /Enable-Feature /All /FeatureName:Microsoft-Hyper-V-All /NoRestart
-</span></span></code></pre></div><p>查看所有windows功能</p>
+</span></span></code></pre></div><p><strong>查看所有windows功能</strong></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bat" data-lang="bat"><span style="display:flex;"><span>dism.exe /online /Get-Features
 </span></span></code></pre></div><h2 id="userprofilewslconfig">%userprofile%/.wslconfig</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[<span style="color:#a6e22e">wsl2</span>]
@@ -373,7 +373,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">swap</span> = <span style="color:#ae81ff">0</span> <span style="color:#75715e"># 禁用swap，使用内存交换文件，不使用磁盘交换文件</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 开启cgroup v2，用于docker和autoMemoryReclaim = gradual共存</span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">kernelCommandLine</span> = <span style="color:#a6e22e">cgroup_no_v1</span>=<span style="color:#a6e22e">all</span> <span style="color:#a6e22e">systemd</span>.<span style="color:#a6e22e">unified_cgroup_hierarchy</span>=<span style="color:#ae81ff">1</span> 
-</span></span></code></pre></div><p>上面的配置启用了自动内存回收，不过仍然可以手动释放page cache：</p>
+</span></span></code></pre></div><p>上面的配置启用了自动内存回收，不过仍然可以手动释放page cache（在wsl中执行）：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;sync; echo 3 &gt; /proc/sys/vm/drop_caches; touch /root/drop_caches_last_run&#34;</span> |tee /tmp/drop_caches
 </span></span><span style="display:flex;"><span>install /tmp/drop_caches /usr/local/bin/loss
 </span></span><span style="display:flex;"><span>loss
