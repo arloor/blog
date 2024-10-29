@@ -19,18 +19,18 @@
     
     
 
-<title>阿里云vps关闭阿里云盾和云监控c&#43;&#43;插件 • ARLOOR</title>
+<title>阿里云vps关闭阿里云盾、云监控c&#43;&#43;插件和自动化助手 • ARLOOR</title>
 <meta name="description" content="今天，你学习了吗">
 <meta name="keywords" content="刘港欢, arloor, moontell">
 
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="阿里云vps关闭阿里云盾和云监控c&#43;&#43;插件">
+  <meta name="twitter:title" content="阿里云vps关闭阿里云盾、云监控c&#43;&#43;插件和自动化助手">
   <meta name="twitter:description" content="都是瞎写的">
       <meta name="twitter:site" content="@njulgh">
 
 <meta property="og:url" content="https://www.arloor.com/posts/linux/aliyun-turnoff-aliyundun/">
   <meta property="og:site_name" content="ARLOOR">
-  <meta property="og:title" content="阿里云vps关闭阿里云盾和云监控c&#43;&#43;插件">
+  <meta property="og:title" content="阿里云vps关闭阿里云盾、云监控c&#43;&#43;插件和自动化助手">
   <meta property="og:description" content="都是瞎写的">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:type" content="article">
@@ -218,7 +218,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     
 <article>
   <header>
-    <h1>阿里云vps关闭阿里云盾和云监控c&#43;&#43;插件</h1>
+    <h1>阿里云vps关闭阿里云盾、云监控c&#43;&#43;插件和自动化助手</h1>
     
     
 <div class="post__meta">
@@ -270,6 +270,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     <li><a href="#卸载云助手命令执行工具">卸载云助手（命令执行工具）</a></li>
     <li><a href="#一键脚本">一键脚本</a></li>
     <li><a href="#参考文档">参考文档</a></li>
+    <li><a href="#腾讯云卸载内置监控">腾讯云卸载内置监控</a></li>
   </ul>
 </nav>
       
@@ -300,13 +301,25 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>rm -rf /usr/local/share/aliyun-assist
 </span></span></code></pre></div><h2 id="一键脚本">一键脚本</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bash &lt;<span style="color:#f92672">(</span>curl -SsLf https://us.arloor.dev/https://gist.githubusercontent.com/arloor/f1414882b9bcb003c15f58e92be43606/raw/uninstall_aliyundun.sh<span style="color:#f92672">)</span>
-</span></span></code></pre></div><p>注意，仍然需要在阿里云云安全中心关闭自保护功能。</p>
+</span></span></code></pre></div><p>注意，此脚本仍然需要在阿里云云安全中心关闭自保护功能。</p>
 <h2 id="参考文档">参考文档</h2>
 <ul>
 <li><a href="https://help.aliyun.com/zh/security-center/user-guide/uninstall-the-security-center-agent">卸载阿里云盾Agent客户端</a></li>
 <li><a href="https://help.aliyun.com/zh/cms/user-guide/install-and-uninstall-the-cloudmonitor-agent-for-cpp?spm=a2c4g.11186623.0.0.4d3551beCEhTI8#section-hdw-doi-fv4">卸载云监控C++版本插件</a></li>
 <li><a href="https://help.aliyun.com/zh/ecs/user-guide/start-stop-or-uninstall-the-cloud-assistant-agent?spm=a2c4g.11186623.0.0.6f5055e0LThgs9#section-o45-6j5-x5m">卸载云助手Agent（Linux实例）</a></li>
 </ul>
+<h2 id="腾讯云卸载内置监控">腾讯云卸载内置监控</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#命令执行助手、云镜、云监控卸载命令：</span>
+</span></span><span style="display:flex;"><span>systemctl disable tat_agent --now
+</span></span><span style="display:flex;"><span>/usr/local/qcloud/YunJing/uninst.sh
+</span></span><span style="display:flex;"><span>/usr/local/qcloud/stargate/admin/uninstall.sh
+</span></span><span style="display:flex;"><span>/usr/local/qcloud/monitor/barad/admin/uninstall.sh
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#删除云监控相关目录文件：</span>
+</span></span><span style="display:flex;"><span>rm -f /etc/systemd/system/tat_agent.service
+</span></span><span style="display:flex;"><span>rm -rf /usr/local/qcloud
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#最后清理一下 /etc/rc.local 文件，将里面含qcloud的行全部删掉。</span>
+</span></span><span style="display:flex;"><span>sed -i <span style="color:#e6db74">&#39;/.*qcloud.*/d&#39;</span> /etc/rc.local
+</span></span></code></pre></div>
   </div>
   
 
