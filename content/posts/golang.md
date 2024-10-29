@@ -253,3 +253,9 @@ const (
 	Default Strategy = iota
 )
 ```
+
+## 引入开发分支作为依赖
+
+```bash
+go get github.com/arloor/xxxx@feature/xxxx
+```
