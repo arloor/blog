@@ -260,6 +260,10 @@ func (s Status) String() string {
     return [...]string{"Unknown", "Active", "Inactive", "Suspended"}[s]
 }
 
+func AllStatus() []Strategy {
+    return []Status{Unknown,Active,Inactive,Suspended}
+}
+
 func main() {
     var currentStatus Status = Active
 
