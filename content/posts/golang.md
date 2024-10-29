@@ -238,48 +238,18 @@ func deferModReturn() (str string) {
 
 > 垃圾的一笔，连个原生的枚举都没
 
+```bash
+go get -u github.com/dmarkham/enumer
+```
+
 ```golang
 package main
 
-import (
-    "fmt"
-)
-
-// 定义一个自定义类型
-type Status int
+//go:generate go run github.com/dmarkham/enumer -type=Strategy -output=enumer_autogen.go
+type Strategy int
 
 // 使用常量定义枚举值
 const (
-    Unknown Status = iota
-    Active
-    Inactive
-    Suspended
+	Default Strategy = iota
 )
-
-func (s Status) String() string {
-    return [...]string{"Unknown", "Active", "Inactive", "Suspended"}[s]
-}
-
-func AllStatus() []Strategy {
-    return []Status{Unknown,Active,Inactive,Suspended}
-}
-
-func main() {
-    var currentStatus Status = Active
-
-    fmt.Println("Current Status:", currentStatus)
-    fmt.Println("Current Status (String):", currentStatus.String())
-
-    // 使用枚举值进行条件判断
-    switch currentStatus {
-    case Active:
-        fmt.Println("The status is Active.")
-    case Inactive:
-        fmt.Println("The status is Inactive.")
-    case Suspended:
-        fmt.Println("The status is Suspended.")
-    default:
-        fmt.Println("The status is Unknown.")
-    }
-}
 ```
