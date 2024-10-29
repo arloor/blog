@@ -233,3 +233,49 @@ func deferModReturn() (str string) {
 2. **隐式转换：不需要开发人员编写转换代码，由编译器自动完成。**
 3. **类型断言：newT, ok := x.(T)**
 4. **unsafe.Pointer强制转换**
+
+## Golang枚举
+
+> 垃圾的一笔，连个原生的枚举都没
+
+```golang
+package main
+
+import (
+    "fmt"
+)
+
+// 定义一个自定义类型
+type Status int
+
+// 使用常量定义枚举值
+const (
+    Unknown Status = iota
+    Active
+    Inactive
+    Suspended
+)
+
+func (s Status) String() string {
+    return [...]string{"Unknown", "Active", "Inactive", "Suspended"}[s]
+}
+
+func main() {
+    var currentStatus Status = Active
+
+    fmt.Println("Current Status:", currentStatus)
+    fmt.Println("Current Status (String):", currentStatus.String())
+
+    // 使用枚举值进行条件判断
+    switch currentStatus {
+    case Active:
+        fmt.Println("The status is Active.")
+    case Inactive:
+        fmt.Println("The status is Inactive.")
+    case Suspended:
+        fmt.Println("The status is Suspended.")
+    default:
+        fmt.Println("The status is Unknown.")
+    }
+}
+```
