@@ -121,7 +121,8 @@ TIPS：
 | Change language mode | ⌘K M | Ctrl+K M |  |
 | Go back / forward | ⌃- / ⌃⇧- | Alt+ ← / → |  |
 | Toggle word wrap | ⌥Z | alt + z |  |
-| 打开copilot chat | ctrl+cmd+i | ctrl+alt+i | 需要copilot chat插件 |
+| 打开copilot chat | ⌃⌘I | ctrl+alt+i | 需要copilot chat插件 |
+| 打开[copilot edit](https://code.visualstudio.com/docs/copilot/copilot-edits)，根据prompt修改多个文件 | ⇧⌘I | ctrl+shift+i | 需要copilot chat插件 |
 | 新建copilot chat | ⌃l | ctrl + l | 需要copilot chat插件 |
 | Delete line | ⇧⌘K | Ctrl+Shift+K |  |
 | 向下复制一行 | ⌥⇧⬇️ | shift+alt+⬇️ |  |
