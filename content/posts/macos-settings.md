@@ -34,3 +34,7 @@ keywords:
 ## 打开文稿时首选标签页——关闭
 
 {{<img Snipaste_2024-09-22_23-18-36.png 700>}}
+
+## 使用外界显示器供电时合盖使用而不睡眠
+
+{{<img close-monitor-but-not-sleep.png 700 >}}
