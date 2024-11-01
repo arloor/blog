@@ -38,3 +38,7 @@ keywords:
 ## 使用外界显示器供电时合盖使用而不睡眠
 
 {{<img close-monitor-but-not-sleep.png 700 >}}
+
+可以顺便把这个也设置下：
+
+{{<img never-close-monitor.png 700 >}}
