@@ -39,6 +39,6 @@ keywords:
 
 {{<img close-monitor-but-not-sleep.png 700 >}}
 
-可以顺便把这个也设置下：
+可以顺便把这个也设置下：这样使用kvm控制器切换到其他电脑时，macOS就不会停止输出DP、HDMI等显示信号了，也就是不用按键盘来让显示器显示了。
 
 {{<img never-close-monitor.png 700 >}}
