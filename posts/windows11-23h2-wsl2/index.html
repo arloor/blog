@@ -561,8 +561,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>wsl --unregister Debian # 卸载
 </span></span></code></pre></div><h2 id="wsl2-debian12-安装docker并配置daemonjson">WSL2 debian12 安装docker并配置daemon.json</h2>
 <ul>
-<li><a href="https://docs.docker.com/engine/install/debian/#install-from-a-package">https://docs.docker.com/engine/install/debian/#install-from-a-package</a></li>
-<li><a href="https://docs.docker.com/reference/cli/dockerd/#daemon-configuration-file">https://docs.docker.com/reference/cli/dockerd/#daemon-configuration-file</a></li>
+<li><a href="https://docs.docker.com/engine/install/debian/#install-from-a-package">debian/#install-from-a-package</a></li>
+<li><a href="https://docs.docker.com/reference/cli/dockerd/#daemon-configuration-file">#daemon-configuration-file</a></li>
 </ul>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Add Docker&#39;s official GPG key:</span>
 </span></span><span style="display:flex;"><span>sudo apt-get update
@@ -592,7 +592,16 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>sudo systemctl restart docker
-</span></span></code></pre></div><p>设置代理的另一种方式：<a href="https://docs.docker.com/engine/daemon/proxy/#daemon-configuration">https://docs.docker.com/engine/daemon/proxy/#daemon-configuration</a></p>
+</span></span></code></pre></div><p>该脚本修改了 <code>daemon.json</code> 文件，具体作用如下：</p>
+<ul>
+<li>
+<p><code>--iptables=false</code> prevents the Docker daemon from adding iptables rules. If multiple daemons manage iptables rules, they may overwrite rules set by another daemon. Be aware that disabling this option requires you to manually add iptables rules to expose container ports. If you prevent Docker from adding iptables rules, Docker also doesn&rsquo;t add IP masquerading rules, even if you set <code>--ip-masq</code> to <code>true</code>. Without IP masquerading rules, Docker containers can&rsquo;t connect to external hosts or the internet when using network other than default bridge.</p>
+</li>
+<li>
+<p>设置了使用windows clash的代理。</p>
+</li>
+</ul>
+<p>设置代理的另一种方式：<a href="https://docs.docker.com/engine/daemon/proxy/#daemon-configuration">proxy/#daemon-configuration</a></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo mkdir -p /etc/systemd/system/docker.service.d
 </span></span><span style="display:flex;"><span>sudo touch /etc/systemd/system/docker.service.d/http-proxy.conf
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ! grep HTTP_PROXY /etc/systemd/system/docker.service.d/http-proxy.conf;
