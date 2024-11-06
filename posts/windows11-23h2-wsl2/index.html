@@ -595,7 +595,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><p>该脚本修改了 <code>daemon.json</code> 文件，具体作用如下：</p>
 <ul>
 <li>
-<p><code>--iptables=false</code> prevents the Docker daemon from adding iptables rules. If multiple daemons manage iptables rules, they may overwrite rules set by another daemon. Be aware that disabling this option requires you to manually add iptables rules to expose container ports. If you prevent Docker from adding iptables rules, Docker also doesn&rsquo;t add IP masquerading rules, even if you set <code>--ip-masq</code> to <code>true</code>. Without IP masquerading rules, Docker containers can&rsquo;t connect to external hosts or the internet when using network other than default bridge.</p>
+<p><code>--iptables=false</code> prevents the Docker daemon from adding iptables rules. If multiple daemons manage iptables rules, they may overwrite rules set by another daemon. <strong>Be aware that disabling this option requires you to manually add iptables rules to expose container ports.</strong> If you prevent Docker from adding iptables rules, Docker also doesn&rsquo;t add IP masquerading rules, even if you set <code>--ip-masq</code> to <code>true</code>. Without IP masquerading rules, Docker containers can&rsquo;t connect to external hosts or the internet when using network other than default bridge.</p>
 </li>
 <li>
 <p>设置了使用windows clash的代理。</p>
