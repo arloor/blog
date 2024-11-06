@@ -381,5 +381,4 @@ sudo systemctl daemon-reload
 sudo systemctl restart docker
 #Verify that the configuration has been loaded:
 sudo systemctl show --property=Environment docker
-systemctl restart docker
 ```
