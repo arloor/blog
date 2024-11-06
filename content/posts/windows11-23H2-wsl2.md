@@ -355,26 +355,35 @@ echo \
   $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt-get update
-
 sudo apt-get install -y  docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
 mkdir -p /etc/docker
 cat > /etc/docker/daemon.json <<EOF
 {
-    "iptables": false
+    "iptables": false,
+    "proxies": {
+        "http-proxy": "http://127.0.0.1:7890",
+        "https-proxy": "http://127.0.0.1:7890",
+        "no-proxy": "*.test.example.com,.example.org,127.0.0.0/8,localhost,127.0.0.1,docker-registry.somecorporation.com"
+    }
 }
 EOF
 
+sudo systemctl restart docker
+```
+
+设置代理的另一种方式：
+
+```bash
 sudo mkdir -p /etc/systemd/system/docker.service.d
 sudo touch /etc/systemd/system/docker.service.d/http-proxy.conf
-
 if ! grep HTTP_PROXY /etc/systemd/system/docker.service.d/http-proxy.conf;
 then
 cat >> /etc/systemd/system/docker.service.d/http-proxy.conf <<EOF
 [Service]
-Environment="HTTP_PROXY=http://127.0.0.1:7890/" "HTTPS_PROXY=http://127.0.0.1:7890/" "NO_PROXY=localhost,127.0.0.1,docker-registry.somecorporation.com"
+Environment="HTTP_PROXY=http://127.0.0.1:7890" "HTTPS_PROXY=http://127.0.0.1:7890" "NO_PROXY=localhost,127.0.0.1,docker-registry.somecorporation.com"
 EOF
 fi
-
 # Flush changes:
 sudo systemctl daemon-reload
 #Restart Docker:
