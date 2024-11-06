@@ -339,8 +339,8 @@ wsl --unregister Debian # 卸载
 
 ## WSL2 debian12 安装docker并配置daemon.json
 
-- [https://docs.docker.com/engine/install/debian/#install-from-a-package](https://docs.docker.com/engine/install/debian/#install-from-a-package)
-- [https://docs.docker.com/reference/cli/dockerd/#daemon-configuration-file](https://docs.docker.com/reference/cli/dockerd/#daemon-configuration-file)
+- [debian/#install-from-a-package](https://docs.docker.com/engine/install/debian/#install-from-a-package)
+- [#daemon-configuration-file](https://docs.docker.com/reference/cli/dockerd/#daemon-configuration-file)
 
 ```bash
 # Add Docker's official GPG key:
@@ -373,7 +373,13 @@ EOF
 sudo systemctl restart docker
 ```
 
-设置代理的另一种方式：[https://docs.docker.com/engine/daemon/proxy/#daemon-configuration](https://docs.docker.com/engine/daemon/proxy/#daemon-configuration)
+该脚本修改了 `daemon.json` 文件，具体作用如下：
+
+- `--iptables=false` prevents the Docker daemon from adding iptables rules. If multiple daemons manage iptables rules, they may overwrite rules set by another daemon. Be aware that disabling this option requires you to manually add iptables rules to expose container ports. If you prevent Docker from adding iptables rules, Docker also doesn't add IP masquerading rules, even if you set `--ip-masq` to `true`. Without IP masquerading rules, Docker containers can't connect to external hosts or the internet when using network other than default bridge.
+
+- 设置了使用windows clash的代理。
+
+设置代理的另一种方式：[proxy/#daemon-configuration](https://docs.docker.com/engine/daemon/proxy/#daemon-configuration)
 
 ```bash
 sudo mkdir -p /etc/systemd/system/docker.service.d
