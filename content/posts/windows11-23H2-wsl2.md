@@ -372,7 +372,7 @@ EOF
 sudo systemctl restart docker
 ```
 
-设置代理的另一种方式：
+设置代理的另一种方式：[https://docs.docker.com/engine/daemon/proxy/#daemon-configuration](https://docs.docker.com/engine/daemon/proxy/#daemon-configuration)
 
 ```bash
 sudo mkdir -p /etc/systemd/system/docker.service.d
