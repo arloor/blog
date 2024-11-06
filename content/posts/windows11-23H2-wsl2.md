@@ -339,7 +339,8 @@ wsl --unregister Debian # 卸载
 
 ## WSL2 debian12 安装docker并配置daemon.json
 
-[https://docs.docker.com/engine/install/debian/#install-from-a-package](https://docs.docker.com/engine/install/debian/#install-from-a-package)
+- [https://docs.docker.com/engine/install/debian/#install-from-a-package](https://docs.docker.com/engine/install/debian/#install-from-a-package)
+- [https://docs.docker.com/reference/cli/dockerd/#daemon-configuration-file](https://docs.docker.com/reference/cli/dockerd/#daemon-configuration-file)
 
 ```bash
 # Add Docker's official GPG key:
