@@ -363,5 +363,23 @@ cat > /etc/docker/daemon.json <<EOF
     "iptables": false
 }
 EOF
+
+sudo mkdir -p /etc/systemd/system/docker.service.d
+sudo touch /etc/systemd/system/docker.service.d/http-proxy.conf
+
+if ! grep HTTP_PROXY /etc/systemd/system/docker.service.d/http-proxy.conf;
+then
+cat >> /etc/systemd/system/docker.service.d/http-proxy.conf <<EOF
+[Service]
+Environment="HTTP_PROXY=http://127.0.0.1:3128/" "HTTPS_PROXY=http://127.0.0.1:3128/" "NO_PROXY=localhost,127.0.0.1,docker-registry.somecorporation.com"
+EOF
+fi
+
+# Flush changes:
+sudo systemctl daemon-reload
+#Restart Docker:
+sudo systemctl restart docker
+#Verify that the configuration has been loaded:
+sudo systemctl show --property=Environment docker
 systemctl restart docker
 ```
