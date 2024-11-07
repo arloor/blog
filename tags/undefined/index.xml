@@ -6,8 +6,15 @@
     <description>Recent content in Undefined on ARLOOR</description>
     <generator>Hugo</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sun, 22 Sep 2024 23:20:35 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 07 Nov 2024 16:42:51 +0800</lastBuildDate>
     <atom:link href="https://www.arloor.com/tags/undefined/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>NextJS Study</title>
+      <link>https://www.arloor.com/posts/frontend-study/</link>
+      <pubDate>Thu, 07 Nov 2024 16:42:51 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/frontend-study/</guid>
+      <description>&lt;p&gt;是时候学习下现代的前端开发，之前学过html、css和js的dom操作，这次来系统学习下react、nextjs等前端技术栈。&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Huawei手机防杀后台</title>
       <link>https://www.arloor.com/posts/huawei-phone-dianchi-youhua/</link>
