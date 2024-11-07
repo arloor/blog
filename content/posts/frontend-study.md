@@ -703,3 +703,5 @@ https://nextjs.org/docs/app/building-your-application/data-fetching
 https://nextjs.org/docs/app/building-your-application/data-fetching/incremental-static-regeneration
 
 https://nextjs.org/docs/app/building-your-application/caching#data-cache
+
+https://nextjs.org/docs/pages/building-your-application/data-fetching/get-server-side-props
