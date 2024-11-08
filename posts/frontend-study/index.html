@@ -311,8 +311,9 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
         <li><a href="#启用部分预渲染">启用部分预渲染</a></li>
       </ul>
     </li>
+    <li><a href="#使用客户端组件添加搜索和分页并通过客户端重定向修改url并保持input的输入和input关联">使用客户端组件添加搜索和分页，并通过客户端重定向修改url，并保持input的输入和input关联</a></li>
     <li><a href="#route-handlers">Route Handlers</a></li>
-    <li><a href="#route-segment-config">Route Segment Config</a></li>
+    <li><a href="#其他文档">其他文档</a></li>
   </ul>
 </nav>
       
@@ -842,9 +843,11 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><p>然后在page.tsx中增加这个</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-tsx" data-lang="tsx"><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">experimental_ppr</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>;
 </span></span></code></pre></div><p>就是这样。您可能在开发中看不到应用程序的差异，但您应该注意到生产中的性能改进。 Next.js 将预渲染路由的静态部分，并推迟动态部分，直到用户请求它们。部分预渲染的优点在于您无需更改代码即可使用它。只要您使用 Suspense 包装路线的动态部分，Next.js 就会知道路线的哪些部分是静态的，哪些部分是动态的。我们相信 PPR 有潜力成为 Web 应用程序的默认渲染模型，汇集了静态站点和动态渲染的优点。然而，它仍处于实验阶段。我们希望将来能够稳定它，并使其成为 Next.js 构建的默认方式。</p>
+<h2 id="使用客户端组件添加搜索和分页并通过客户端重定向修改url并保持input的输入和input关联">使用客户端组件添加搜索和分页，并通过客户端重定向修改url，并保持input的输入和input关联</h2>
+<p><a href="https://nextjs.org/learn/dashboard-app/adding-search-and-pagination">https://nextjs.org/learn/dashboard-app/adding-search-and-pagination</a></p>
 <h2 id="route-handlers">Route Handlers</h2>
 <p>在 Next.js 中，您可以使用路由处理程序创建 API 端点。https://nextjs.org/docs/app/building-your-application/routing/route-handlers</p>
-<h2 id="route-segment-config">Route Segment Config</h2>
+<h2 id="其他文档">其他文档</h2>
 <p><a href="https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config#dynamic">https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config#dynamic</a></p>
 <p><a href="https://nextjs.org/docs/app/building-your-application/data-fetching">https://nextjs.org/docs/app/building-your-application/data-fetching</a></p>
 <p><a href="https://nextjs.org/docs/app/building-your-application/data-fetching/incremental-static-regeneration">https://nextjs.org/docs/app/building-your-application/data-fetching/incremental-static-regeneration</a></p>
