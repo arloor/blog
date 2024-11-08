@@ -684,7 +684,7 @@ export const experimental_ppr = true;
 就是这样。您可能在开发中看不到应用程序的差异，但您应该注意到生产中的性能改进。 Next.js 将预渲染路由的静态部分，并推迟动态部分，直到用户请求它们。部分预渲染的优点在于您无需更改代码即可使用它。只要您使用 Suspense 包装路线的动态部分，Next.js 就会知道路线的哪些部分是静态的，哪些部分是动态的。我们相信 PPR 有潜力成为 Web 应用程序的默认渲染模型，汇集了静态站点和动态渲染的优点。然而，它仍处于实验阶段。我们希望将来能够稳定它，并使其成为 Next.js 构建的默认方式。
 
 
-## 使用客户端组件添加搜索和分页，并通过客户端重定向修改url，并保持input的输入和input关联
+## 使用客户端组件添加搜索和分页，并通过客户端重定向修改url，并保持input的输入和input关联，以及输入的防抖
 
 https://nextjs.org/learn/dashboard-app/adding-search-and-pagination
 
