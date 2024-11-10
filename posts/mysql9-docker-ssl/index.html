@@ -265,7 +265,11 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
       
           <nav id="TableOfContents">
   <ul>
-    <li><a href="#mysql-daemon配置">MySQL Daemon配置</a></li>
+    <li><a href="#mysql-daemon配置">MySQL Daemon配置</a>
+      <ul>
+        <li><a href="#建表">建表</a></li>
+      </ul>
+    </li>
     <li><a href="#macos连接">macOS连接</a></li>
     <li><a href="#rust-sqlx-连接">Rust sqlx 连接：</a></li>
     <li><a href="#grafana配置数据源">Grafana配置数据源</a></li>
@@ -312,18 +316,42 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </ol>
 </li>
 </ol>
-<h2 id="macos连接">macOS连接</h2>
+<h3 id="建表">建表</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker exec mysql sh -c <span style="color:#e6db74">&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">mysql -pYOUR_PASSWORD -e &#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">use test
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">DROP TABLE IF EXISTS rank_record;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">CREATE TABLE rank_record (
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    id BIGINT NOT NULL AUTO_INCREMENT,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    hot_rank_score DOUBLE NOT NULL,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    inner_code VARCHAR(255) NOT NULL,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    his_rank_change_rank INT NOT NULL,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    market_all_count INT NOT NULL,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    calc_time DATETIME NOT NULL,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    his_rank_change INT NOT NULL,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    src_security_code VARCHAR(255) NOT NULL,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    \`rank\` INT NOT NULL,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    hour_rank_change INT NOT NULL,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    rank_change INT DEFAULT NULL,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    PRIMARY KEY (id),
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    UNIQUE INDEX idx_inner_code_calc_time (inner_code, calc_time)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">);
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">show tables
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;</span>
+</span></span></code></pre></div><h2 id="macos连接">macOS连接</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>brew install mysql-client
 </span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#39;export PATH=&#34;/opt/homebrew/opt/mysql-client/bin:$PATH&#34;&#39;</span> &gt;&gt; ~/.zshrc
 </span></span><span style="display:flex;"><span>export PATH<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/opt/homebrew/opt/mysql-client/bin:</span>$PATH<span style="color:#e6db74">&#34;</span>
-</span></span><span style="display:flex;"><span>mysql test -h tt.arloor.com -u root --password<span style="color:#f92672">=</span>xxxxxx --ssl-mode<span style="color:#f92672">=</span>REQUIRED
+</span></span><span style="display:flex;"><span>mysql test -h xxxx.com -u root --password<span style="color:#f92672">=</span>xxxxxx --ssl-mode<span style="color:#f92672">=</span>REQUIRED
 </span></span></code></pre></div><h2 id="rust-sqlx-连接">Rust sqlx 连接：</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> pool: <span style="color:#a6e22e">sqlx</span>::Pool<span style="color:#f92672">&lt;</span>sqlx::MySql<span style="color:#f92672">&gt;</span> <span style="color:#f92672">=</span> MySqlPoolOptions::new()
 </span></span><span style="display:flex;"><span>    .max_connections(<span style="color:#ae81ff">20</span>)
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// .connect(&#34;mysql://root:@127.0.0.1:3306/test&#34;)
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    .connect_with(
 </span></span><span style="display:flex;"><span>        MySqlConnectOptions::new()
-</span></span><span style="display:flex;"><span>            .host(<span style="color:#e6db74">&#34;tt.arloor.com&#34;</span>)
+</span></span><span style="display:flex;"><span>            .host(<span style="color:#e6db74">&#34;xxxx.com&#34;</span>)
 </span></span><span style="display:flex;"><span>            .username(<span style="color:#e6db74">&#34;root&#34;</span>)
 </span></span><span style="display:flex;"><span>            .password(<span style="color:#e6db74">&#34;xxxxxxx&#34;</span>)
 </span></span><span style="display:flex;"><span>            .database(<span style="color:#e6db74">&#34;test&#34;</span>)
