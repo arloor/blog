@@ -11,7 +11,6 @@ weight: 10
 subtitle: ""
 description : ""
 ---
-# MySQL9 docker容器配置SSL
 
 最近写个小东西用到了MySQL，折腾下怎么给MySQL配置SSL
 <!--more-->
