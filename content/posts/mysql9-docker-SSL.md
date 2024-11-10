@@ -50,13 +50,41 @@ docker.io/library/mysql:9.1
     1. 如果初始化时`/var/lib/mysql` 不为空，则会直接报错，所以不把ssl证书挂载在`/var/lib/mysql`中。
     2. 如果是后续再执行该脚本，则不会执行初始化。这意味着如果`/var/lib/mysql`的关键数据在的话，不会重新创建数据库、root用户、也不会修改root密码。也就是说，后续你稍微改了脚本中的 `MYSQL_DATABASE`和 `MYSQL_ROOT_PASSWORD` 环境变量也不会生效。
 
+### 建表
+
+```bash
+docker exec mysql sh -c '
+mysql -pYOUR_PASSWORD -e "
+use test
+DROP TABLE IF EXISTS rank_record;
+CREATE TABLE rank_record (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    hot_rank_score DOUBLE NOT NULL,
+    inner_code VARCHAR(255) NOT NULL,
+    his_rank_change_rank INT NOT NULL,
+    market_all_count INT NOT NULL,
+    calc_time DATETIME NOT NULL,
+    his_rank_change INT NOT NULL,
+    src_security_code VARCHAR(255) NOT NULL,
+    \`rank\` INT NOT NULL,
+    hour_rank_change INT NOT NULL,
+    rank_change INT DEFAULT NULL,
+    update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    UNIQUE INDEX idx_inner_code_calc_time (inner_code, calc_time)
+);
+show tables
+"
+'
+```
+
 ## macOS连接
 
 ```bash
 brew install mysql-client
 echo 'export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"' >> ~/.zshrc
 export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
-mysql test -h tt.arloor.com -u root --password=xxxxxx --ssl-mode=REQUIRED
+mysql test -h xxxx.com -u root --password=xxxxxx --ssl-mode=REQUIRED
 ```
 
 ## Rust sqlx 连接：
@@ -67,7 +95,7 @@ let pool: sqlx::Pool<sqlx::MySql> = MySqlPoolOptions::new()
     // .connect("mysql://root:@127.0.0.1:3306/test")
     .connect_with(
         MySqlConnectOptions::new()
-            .host("tt.arloor.com")
+            .host("xxxx.com")
             .username("root")
             .password("xxxxxxx")
             .database("test")
