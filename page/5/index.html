@@ -216,6 +216,53 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   <div class="post-list__item">
     <span class="item__title--big">
+      <a href="/posts/k8s-rbac-prometheus-sd-relabel-config/" >使用node-exporter &#43; prometheus &#43; grafana 监控k8s集群</a>
+    </span>
+    <span class="item__date">
+      Jul 30, 2023
+    </span>
+    <span >
+      
+      <p>最近在K8S集群中部署了node-exporter + prometheus + grafana，具体过程可以参考我的Github项目<a href="https://github.com/arloor/kubernetes-prometheus-grafana">kubernetes-prometheus-grafana</a>。这个博客用来记录下过程中的一些知识点，主要有这些：</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">主题</th>
+          <th style="text-align: left">详述</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">K8S的RBAC</td>
+          <td style="text-align: left">全称是基于角色的访问控制，K8S权限机制的基础</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">在Pod中访问ApiServer</td>
+          <td style="text-align: left">Prometheus是运行在k8s集群中的一个pod，访问k8s的apiserver时需要一些鉴权机制</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Prometheus Service Discovery</td>
+          <td style="text-align: left">Prometheus是pull模型，需要自动地发现k8s集群中有哪些endpoing、node、service等，并watch其变更</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Prometheus relabel_configs</td>
+          <td style="text-align: left">在prometheus的抓取job中过滤、转换target的label</td>
+      </tr>
+  </tbody>
+</table>
+      
+    </span>
+    
+    ... <a class="read-more-symbol" href="/posts/k8s-rbac-prometheus-sd-relabel-config/">➦</a>
+    
+  </div>
+  
+  
+  
+  
+  
+  <div class="post-list__item">
+    <span class="item__title--big">
       <a href="/posts/k3s-daemonset-rust-http-proxy/" >使用K8S DaemonSet部署rust_http_proxy</a>
     </span>
     <span class="item__date">
@@ -443,25 +490,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   </div>
   
   
-  
-  
-  
-  <div class="post-list__item">
-    <span class="item__title--big">
-      <a href="/posts/dunhuang/" >河西走廊：敦煌&amp;张掖</a>
-    </span>
-    <span class="item__date">
-      Jul 6, 2023
-    </span>
-    <span >
-      
-      <div class="iframe-container"><iframe id="biliplayer" src="//player.bilibili.com/player.html?bvid=BV1fs4y1F7aV&page=1&high_quality=1&danmaku=0&cid=1038023328" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" loading="lazy" > </iframe></div>
-      
-    </span>
-    
-  </div>
-  
-  
 </div>
 
 
@@ -642,7 +670,16 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
         
     
     
-    <li class="page-item"><a class="page-link" href="/page/17/">17</a></li>
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="page-item"><a class="page-link" href="/page/18/">18</a></li>
     
     
     <li class="page-item">
@@ -650,7 +687,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     </li>
     
     <li class="page-item">
-        <a href="/page/17/" class="page-link" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+        <a href="/page/18/" class="page-link" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
     </li>
     
 </ul>
