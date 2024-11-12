@@ -309,12 +309,13 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p><strong>一些坑点：</strong></p>
 <ol>
 <li>MySQL docker容器只能访问特定的文件夹（SELinux和ApkArmor机制），例如 <code>/var/lib/mysql</code> 和<code>/etc/mysql</code> 。如果将SSL证书放在别的地方，会报错  <code>Unable to get private key from xxx</code> 。这个脚本把ssl证书放在了<code>/etc/mysql</code>。</li>
-<li>这里挂在了宿主机的 <code>/var/lib/mysql</code>。在第一次运行本脚本时，该文件夹为空，此时dockerfile会执行初始化操作，例如创建数据库、创建root用户、设置root用户密码等。
+<li>挂载了宿主机的 <code>/var/lib/mysql</code>。在第一次运行本脚本时，该文件夹为空，此时dockerfile会执行初始化操作，例如创建数据库、创建root用户、设置root用户密码等。
 <ol>
 <li>如果初始化时<code>/var/lib/mysql</code> 不为空，则会直接报错，所以不把ssl证书挂载在<code>/var/lib/mysql</code>中。</li>
 <li>如果是后续再执行该脚本，则不会执行初始化。这意味着如果<code>/var/lib/mysql</code>的关键数据在的话，不会重新创建数据库、root用户、也不会修改root密码。也就是说，后续你稍微改了脚本中的 <code>MYSQL_DATABASE</code>和 <code>MYSQL_ROOT_PASSWORD</code> 环境变量也不会生效。</li>
 </ol>
 </li>
+<li>ssl是否配置成功需要 <code>docker run -it</code> 查看启动日志来确定。</li>
 </ol>
 <h3 id="建表">建表</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker exec mysql sh -c <span style="color:#e6db74">&#39;
