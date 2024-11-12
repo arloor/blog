@@ -94,7 +94,7 @@ mysql test -h xxxx.com -u root --password=xxxxxx --ssl-mode=REQUIRED
 ```rust
 let pool: sqlx::Pool<sqlx::MySql> = MySqlPoolOptions::new()
     .max_connections(20)
-    // .connect("mysql://root:@127.0.0.1:3306/test")
+    //  .connect("mysql://root:xxxxxxx@xxxxxx.com:3306/test?ssl-mode=Required")
     .connect_with(
         MySqlConnectOptions::new()
             .host("xxxx.com")
