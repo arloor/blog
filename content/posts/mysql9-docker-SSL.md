@@ -117,17 +117,36 @@ let pool: sqlx::Pool<sqlx::MySql> = MySqlPoolOptions::new()
 SELECT
   AVG(`rank`) as value,
   src_security_code as metric,
-  $__timeGroupAlias(calc_time,'10m')
-FROM rank_record
-WHERE $__timeFilter(calc_time) 
-  and src_security_code in (select distinct src_security_code 
-                            from (select src_security_code,max(`rank`)-min(`rank`) as rank_change 
-                                from rank_record
-                                WHERE $__timeFilter(calc_time)
-                                group by src_security_code
-                                order by rank_change desc limit 10) as stock_top_n) 
-GROUP BY metric,time
-ORDER BY time
+  $__timeGroupAlias(calc_time, '10m')
+FROM
+  rank_record
+WHERE
+  $__timeFilter(calc_time)
+  and src_security_code in (
+    select
+      distinct src_security_code
+    from
+      (
+        select
+          src_security_code,
+          max(`rank`) - min(`rank`) as rank_change
+        from
+          rank_record
+        WHERE
+          $__timeFilter(calc_time)
+        group by
+          src_security_code
+        order by
+          rank_change desc
+        limit
+          10
+      ) as stock_top_n
+  )
+GROUP BY
+  metric,
+  time
+ORDER BY
+  time
 ```
 
 对应的sql语句：
