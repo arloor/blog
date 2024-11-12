@@ -111,6 +111,32 @@ let pool: sqlx::Pool<sqlx::MySql> = MySqlPoolOptions::new()
 
 ![d27be30b18dff83b4aa40501bb9a0816.png](/img/d27be30b18dff83b4aa40501bb9a0816.png)
 
+查询语句：
+
+```sql
+SELECT
+  AVG(`rank`) as value,
+  src_security_code as metric,
+  $__timeGroupAlias(calc_time,'10m')
+FROM rank_record
+WHERE $__timeFilter(calc_time) and src_security_code in ($stock) 
+GROUP BY metric,time
+ORDER BY time
+```
+
+对应的sql语句：
+
+```sql
+SELECT
+    AVG(`rank`) as value,
+    src_security_code as metric,
+    CONVERT_TZ(from_unixtime(cast(cast(UNIX_TIMESTAMP(calc_time)/(600) as signed)*600 as signed)), 'UTC', '+08:00') as time
+FROM rank_record
+WHERE calc_time  BETWEEN now()-interval 24 hour AND now() and src_security_code in ("SH600177雅戈尔")
+GROUP BY metric,time
+ORDER BY time
+```
+
 ## 参考文档
 
 1. [8.3.1 Configuring MySQL to Use Encrypted Connections](https://dev.mysql.com/doc/refman/9.1/en/using-encrypted-connections.html)
