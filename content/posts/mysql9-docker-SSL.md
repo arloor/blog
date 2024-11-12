@@ -119,7 +119,13 @@ SELECT
   src_security_code as metric,
   $__timeGroupAlias(calc_time,'10m')
 FROM rank_record
-WHERE $__timeFilter(calc_time) and src_security_code in ($stock) 
+WHERE $__timeFilter(calc_time) 
+  and src_security_code in (select distinct src_security_code 
+                            from (select src_security_code,max(`rank`)-min(`rank`) as rank_change 
+                                from rank_record
+                                WHERE $__timeFilter(calc_time)
+                                group by src_security_code
+                                order by rank_change desc limit 10) as stock_top_n) 
 GROUP BY metric,time
 ORDER BY time
 ```
@@ -127,14 +133,21 @@ ORDER BY time
 对应的sql语句：
 
 ```sql
-SELECT
-    AVG(`rank`) as value,
-    src_security_code as metric,
-    CONVERT_TZ(from_unixtime(cast(cast(UNIX_TIMESTAMP(calc_time)/(600) as signed)*600 as signed)), 'UTC', '+08:00') as time
+SELECT AVG(`rank`)          as value,
+       src_security_code    as metric,
+       CONVERT_TZ(from_unixtime(cast(cast(UNIX_TIMESTAMP(calc_time) / (600) as signed) * 600 as signed)), 'UTC',
+                  '+08:00') as time
 FROM rank_record
-WHERE calc_time  BETWEEN now()-interval 24 hour AND now() and src_security_code in ("SH600177雅戈尔")
-GROUP BY metric,time
-ORDER BY time
+WHERE calc_time BETWEEN now() - interval 24 hour AND now()
+  and src_security_code in (select distinct src_security_code
+                            from (select src_security_code, max(`rank`) - min(`rank`) as rank_change
+                                  from rank_record
+                                  WHERE calc_time BETWEEN now() - interval 24 hour AND now()
+                                  group by src_security_code
+                                  order by rank_change desc
+                                  limit 10) as stock_top_n)
+GROUP BY metric, time
+ORDER BY time;
 ```
 
 ## 参考文档
