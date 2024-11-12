@@ -46,9 +46,10 @@ docker.io/library/mysql:9.1
 **一些坑点：**
 
 1. MySQL docker容器只能访问特定的文件夹（SELinux和ApkArmor机制），例如 `/var/lib/mysql` 和`/etc/mysql` 。如果将SSL证书放在别的地方，会报错  `Unable to get private key from xxx` 。这个脚本把ssl证书放在了`/etc/mysql`。
-2. 这里挂在了宿主机的 `/var/lib/mysql`。在第一次运行本脚本时，该文件夹为空，此时dockerfile会执行初始化操作，例如创建数据库、创建root用户、设置root用户密码等。
+2. 挂载了宿主机的 `/var/lib/mysql`。在第一次运行本脚本时，该文件夹为空，此时dockerfile会执行初始化操作，例如创建数据库、创建root用户、设置root用户密码等。
     1. 如果初始化时`/var/lib/mysql` 不为空，则会直接报错，所以不把ssl证书挂载在`/var/lib/mysql`中。
     2. 如果是后续再执行该脚本，则不会执行初始化。这意味着如果`/var/lib/mysql`的关键数据在的话，不会重新创建数据库、root用户、也不会修改root密码。也就是说，后续你稍微改了脚本中的 `MYSQL_DATABASE`和 `MYSQL_ROOT_PASSWORD` 环境变量也不会生效。
+3. ssl是否配置成功需要 `docker run -it` 查看启动日志来确定。
 
 ### 建表
 
