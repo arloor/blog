@@ -85,6 +85,7 @@ brew install mysql-client
 echo 'export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"' >> ~/.zshrc
 export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
 mysql test -h xxxx.com -u root --password=xxxxxx --ssl-mode=REQUIRED
+## 执行 SHOW SESSION STATUS LIKE 'Ssl_cipher'; 或 \s; 确认ssl已激活
 ```
 
 ## Rust sqlx 连接：
@@ -112,6 +113,6 @@ let pool: sqlx::Pool<sqlx::MySql> = MySqlPoolOptions::new()
 
 ## 参考文档
 
-1. https://dev.mysql.com/doc/refman/9.0/en/using-encrypted-connections.html
+1. [8.3.1 Configuring MySQL to Use Encrypted Connections](https://dev.mysql.com/doc/refman/9.1/en/using-encrypted-connections.html)
 2. [MySqlConnectOptions in sqlx::mysql - Rust](https://docs.rs/sqlx/latest/sqlx/mysql/struct.MySqlConnectOptions.html)
 3. [MySQL cannot get private key from a readable folder : r/mysql](https://www.reddit.com/r/mysql/comments/1enwniu/mysql_cannot_get_private_key_from_a_readable/)
