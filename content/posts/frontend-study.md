@@ -43,7 +43,7 @@ node -v&&npm -v
 
 ```bash
 npm install -g pnpm
-yes| npx create-next-app@latest nextjs-dashboard-demo --example "https://github.com/vercel/next-learn/tree/main/dashboard/starter-example" --use-pnpm
+yes| npx create-next-app@latest nextjs-dashboard-demo --use-pnpm --example "https://github.com/vercel/next-learn/tree/main/dashboard/starter-example"
 sed -i 's/next dev --turbo/next dev --turbo -H 127.0.0.1 -p 3000/g' nextjs-dashboard-demo/package.json # 修改启动的host
 cd nextjs-dashboard-demo
 pnpm i #安装依赖
