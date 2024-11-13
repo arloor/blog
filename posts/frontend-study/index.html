@@ -337,7 +337,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>node -v<span style="color:#f92672">&amp;&amp;</span>npm -v
 </span></span></code></pre></div><h2 id="创建example项目">创建example项目</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>npm install -g pnpm
-</span></span><span style="display:flex;"><span>yes| npx create-next-app@latest nextjs-dashboard-demo --example <span style="color:#e6db74">&#34;https://github.com/vercel/next-learn/tree/main/dashboard/starter-example&#34;</span> --use-pnpm
+</span></span><span style="display:flex;"><span>yes| npx create-next-app@latest nextjs-dashboard-demo --use-pnpm --example <span style="color:#e6db74">&#34;https://github.com/vercel/next-learn/tree/main/dashboard/starter-example&#34;</span>
 </span></span><span style="display:flex;"><span>sed -i <span style="color:#e6db74">&#39;s/next dev --turbo/next dev --turbo -H 127.0.0.1 -p 3000/g&#39;</span> nextjs-dashboard-demo/package.json <span style="color:#75715e"># 修改启动的host</span>
 </span></span><span style="display:flex;"><span>cd nextjs-dashboard-demo
 </span></span><span style="display:flex;"><span>pnpm i <span style="color:#75715e">#安装依赖</span>
