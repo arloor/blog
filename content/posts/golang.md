@@ -81,7 +81,7 @@ curl -fsSL https://raw.githubusercontent.com/golangci/golangci-lint/master/insta
 
 最后配置 `launch.json`:
 
-**注意**：golang debug不能正确处理软链接，所以最好不要把项目放在软链接的文件夹中，或者配置 `substitutePath`，见[Debug symlink directories](https://github.com/golang/vscode-go/wiki/debugging#debug-symlink-directories)和[go.delveConfig settings](https://github.com/golang/vscode-go/wiki/debugging#settings)(用于CodeLens里的debug test按钮)。其他高级配置可以见 [vscode-go debugging](https://github.com/golang/vscode-go/wiki/debugging)
+**注意**：golang debug不能正确处理软链接，所以最好不要把项目放在软链接的文件夹中，或者配置 `substitutePath`，见[Debug symlink directories](https://github.com/golang/vscode-go/wiki/debugging#debug-symlink-directories)和[go.delveConfig settings](https://github.com/golang/vscode-go/wiki/debugging#settings)(用于CodeLens里的debug test按钮)。其他高级配置可以见 [vscode-go debugging](https://github.com/golang/vscode-go/wiki/debugging)，也可以见 [delve的调试命令˝](https://github.com/go-delve/delve/blob/master/Documentation/cli/README.md)。
 
 ```json
 {
