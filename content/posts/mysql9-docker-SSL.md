@@ -103,7 +103,8 @@ let pool: sqlx::Pool<sqlx::MySql> = MySqlPoolOptions::new()
             .username("root")
             .password("xxxxxxx")
             .database("test")
-            .ssl_mode(MySqlSslMode::Required),
+            .ssl_mode(MySqlSslMode::Required)
+            .timezone(Some(String::from("+08:00"))), // 默认是UTC，这里改成+08:00
     )
     .await?;
 ```
