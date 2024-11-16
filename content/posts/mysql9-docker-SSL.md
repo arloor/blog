@@ -109,15 +109,19 @@ let pool: sqlx::Pool<sqlx::MySql> = MySqlPoolOptions::new()
     .await?;
 ```
 
-sqlx对时间的处理：
+**用chrono的什么时间类型表示MySQL的DATETIME呢？**这个问题在sqlx的文档中并没有明确说明。我的结论是使用NaiveDateTime。
+
+首先mysql的DATETIME是时区无关的，就是说我insert什么，写进去和查出来的结果就是什么，这和chrono的NaiveDateTime就一致了。
+
+如果我们使用 `DateTime<Local>` 映射MySQL的DATETIME，会遇到一个问题：
 
 ![alt text](/img/sqlx-decode-datetime-by-ref.png)
 
-可以看到它做了一个很大胆的假设，就是 `DateTime<Local>` 需要转换成 `DateTime<Utc>`再存到数据库中。但是mysql的Datetime是时区无关的，就是说我insert什么，存储和查询的结果就是什么。而sqlx给我做了转换，就会出错了。具体表现就是我插入一个 `14:00:00`的 `DateTime<Local>` , 数据库里村存的是 `06:00:00`。
+可以看到它做了一个很大胆的假设：`DateTime<Local>` 需要转换成 `DateTime<Utc>` 再存到数据库中。对北京时区来说，就是减了8小时，具体表现就是我插入一个 `14:00:00`的 `DateTime<Local>` , 数据库里村存的是 `06:00:00`。
+
+相同的事情在decode时候也会发生，sqlx会将数据库中的时间当作 `DateTime<Utc>`，转换成 `DateTime<Local>`，这样就会多加8小时。——这样一来一回，只在sqlx中使用是没问题的，但是在多个服务共同使用，特别是技术栈不同的系统中就容易出问题了。
 
 我们的解决办法是，不要使用 `DateTime<Local>` 而是使用 `NaiveDatetime`，它和mysql的Datetime一样都是没有时区的，所以也不存在转换。只需要在代码中调用下 `chrono::Local::now().naive_local()` 就可以了。
-
-相同的事情在decode时候也会发生。
 
 ## Grafana配置数据源
 
