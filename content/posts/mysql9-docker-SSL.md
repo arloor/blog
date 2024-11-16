@@ -106,6 +106,12 @@ let pool: sqlx::Pool<sqlx::MySql> = MySqlPoolOptions::new()
     .await?;
 ```
 
+sqlx对时间的处理：
+
+![alt text](/img/sqlx-decode-datetime-by-ref.png)
+
+可以看到它做了一个很大胆的假设，就是 `DateTime<Local>` 需要转换成 `DateTime<Utc>`再存到数据库中。但是mysql的Datetime是时区无关的，就是说我insert什么，存储和查询的结果就是什么。而sqlx给我做了转换，就会出错了。具体表现就是我插入一个 `14:00:00`的 `DateTime<Local>` , 数据库里村存的是 `06:00:00`。
+
 ## Grafana配置数据源
 
 核心是要打开 `With CA Cert` ，并把 `ssl_ca=` 指定的ca证书内容贴在下面，否则Grafana不会尝试使用ssl连接，就会被mysql服务端拒绝。 
