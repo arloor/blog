@@ -23,6 +23,7 @@ docker stop mysql
 mkdir -p /var/lib/mysql /etc/mysql/conf.d
 cat > /etc/mysql/conf.d/ssl.cnf <<EOF
 [mysqld]
+default-time_zone = '+8:00'
 ssl_ca=/etc/mysql/ssl/ca.cer
 ssl_cert=/etc/mysql/ssl/arloor.dev.cer
 ssl_key=/etc/mysql/ssl/arloor.dev.key
@@ -101,7 +102,8 @@ let pool: sqlx::Pool<sqlx::MySql> = MySqlPoolOptions::new()
             .username("root")
             .password("xxxxxxx")
             .database("test")
-            .ssl_mode(MySqlSslMode::Required),
+            .ssl_mode(MySqlSslMode::Required)
+            .timezone(Some(String::from("+08:00"))),
     )
     .await?;
 ```
@@ -111,6 +113,8 @@ sqlx对时间的处理：
 ![alt text](/img/sqlx-decode-datetime-by-ref.png)
 
 可以看到它做了一个很大胆的假设，就是 `DateTime<Local>` 需要转换成 `DateTime<Utc>`再存到数据库中。但是mysql的Datetime是时区无关的，就是说我insert什么，存储和查询的结果就是什么。而sqlx给我做了转换，就会出错了。具体表现就是我插入一个 `14:00:00`的 `DateTime<Local>` , 数据库里村存的是 `06:00:00`。
+
+我们的解决办法是，不要使用 `DateTime<Local>` 而是使用 `NaiveDatetime`，它和mysql的Datetime一样都是没有时区的，所以也不存在转换。只需要在代码中调用下 `chrono::Local::now().naive_local()` 就可以了。
 
 ## Grafana配置数据源
 
