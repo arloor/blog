@@ -109,7 +109,7 @@ let pool: sqlx::Pool<sqlx::MySql> = MySqlPoolOptions::new()
     .await?;
 ```
 
-**用chrono的什么时间类型表示MySQL的DATETIME呢？**这个问题在sqlx的文档中并没有明确说明。我的结论是使用NaiveDateTime。
+用chrono的什么时间类型表示MySQL的DATETIME呢？这个问题在sqlx的文档中并没有明确说明。我的结论是使用NaiveDateTime。
 
 首先mysql的DATETIME是时区无关的，就是说我insert什么，写进去和查出来的结果就是什么，这和chrono的NaiveDateTime就一致了。
 
