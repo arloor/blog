@@ -288,6 +288,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>mkdir -p /var/lib/mysql /etc/mysql/conf.d
 </span></span><span style="display:flex;"><span>cat &gt; /etc/mysql/conf.d/ssl.cnf <span style="color:#e6db74">&lt;&lt;EOF
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[mysqld]
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">default-time_zone = &#39;+8:00&#39;
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">ssl_ca=/etc/mysql/ssl/ca.cer
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">ssl_cert=/etc/mysql/ssl/arloor.dev.cer
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">ssl_key=/etc/mysql/ssl/arloor.dev.key
@@ -357,12 +358,14 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>            .username(<span style="color:#e6db74">&#34;root&#34;</span>)
 </span></span><span style="display:flex;"><span>            .password(<span style="color:#e6db74">&#34;xxxxxxx&#34;</span>)
 </span></span><span style="display:flex;"><span>            .database(<span style="color:#e6db74">&#34;test&#34;</span>)
-</span></span><span style="display:flex;"><span>            .ssl_mode(MySqlSslMode::Required),
+</span></span><span style="display:flex;"><span>            .ssl_mode(MySqlSslMode::Required)
+</span></span><span style="display:flex;"><span>            .timezone(Some(String::from(<span style="color:#e6db74">&#34;+08:00&#34;</span>))),
 </span></span><span style="display:flex;"><span>    )
 </span></span><span style="display:flex;"><span>    .<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
 </span></span></code></pre></div><p>sqlx对时间的处理：</p>
 <p><img src="/img/sqlx-decode-datetime-by-ref.png" alt="alt text"></p>
 <p>可以看到它做了一个很大胆的假设，就是 <code>DateTime&lt;Local&gt;</code> 需要转换成 <code>DateTime&lt;Utc&gt;</code>再存到数据库中。但是mysql的Datetime是时区无关的，就是说我insert什么，存储和查询的结果就是什么。而sqlx给我做了转换，就会出错了。具体表现就是我插入一个 <code>14:00:00</code>的 <code>DateTime&lt;Local&gt;</code> , 数据库里村存的是 <code>06:00:00</code>。</p>
+<p>我们的解决办法是，不要使用 <code>DateTime&lt;Local&gt;</code> 而是使用 <code>NaiveDatetime</code>，它和mysql的Datetime一样都是没有时区的，所以也不存在转换。只需要在代码中调用下 <code>chrono::Local::now().naive_local()</code> 就可以了。</p>
 <h2 id="grafana配置数据源">Grafana配置数据源</h2>
 <p>核心是要打开 <code>With CA Cert</code> ，并把 <code>ssl_ca=</code> 指定的ca证书内容贴在下面，否则Grafana不会尝试使用ssl连接，就会被mysql服务端拒绝。</p>
 <p><img src="/img/d27be30b18dff83b4aa40501bb9a0816.png" alt="d27be30b18dff83b4aa40501bb9a0816.png"></p>
