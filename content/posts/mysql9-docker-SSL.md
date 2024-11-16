@@ -116,6 +116,8 @@ sqlx对时间的处理：
 
 我们的解决办法是，不要使用 `DateTime<Local>` 而是使用 `NaiveDatetime`，它和mysql的Datetime一样都是没有时区的，所以也不存在转换。只需要在代码中调用下 `chrono::Local::now().naive_local()` 就可以了。
 
+相同的事情在decode时候也会发生。
+
 ## Grafana配置数据源
 
 核心是要打开 `With CA Cert` ，并把 `ssl_ca=` 指定的ca证书内容贴在下面，否则Grafana不会尝试使用ssl连接，就会被mysql服务端拒绝。 
