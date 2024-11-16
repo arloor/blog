@@ -51,6 +51,7 @@ docker.io/library/mysql:9.1
     1. 如果初始化时`/var/lib/mysql` 不为空，则会直接报错，所以不把ssl证书挂载在`/var/lib/mysql`中。
     2. 如果是后续再执行该脚本，则不会执行初始化。这意味着如果`/var/lib/mysql`的关键数据在的话，不会重新创建数据库、root用户、也不会修改root密码。也就是说，后续你稍微改了脚本中的 `MYSQL_DATABASE`和 `MYSQL_ROOT_PASSWORD` 环境变量也不会生效。
 3. ssl是否配置成功需要 `docker run -it` 查看启动日志来确定。
+4. 设置 `default-time_zone = '+8:00'` 是为了让mysql的时间和服务器时间一致，否则会有8小时的时差。
 
 ### 建表
 
@@ -102,8 +103,7 @@ let pool: sqlx::Pool<sqlx::MySql> = MySqlPoolOptions::new()
             .username("root")
             .password("xxxxxxx")
             .database("test")
-            .ssl_mode(MySqlSslMode::Required)
-            .timezone(Some(String::from("+08:00"))),
+            .ssl_mode(MySqlSslMode::Required),
     )
     .await?;
 ```
