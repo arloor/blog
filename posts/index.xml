@@ -6,15 +6,8 @@
     <description>Recent content in Posts on ARLOOR</description>
     <generator>Hugo</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sun, 10 Nov 2024 15:05:05 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 07 Nov 2024 16:42:51 +0800</lastBuildDate>
     <atom:link href="https://www.arloor.com/posts/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>MySQL9 docker容器配置SSL</title>
-      <link>https://www.arloor.com/posts/mysql9-docker-ssl/</link>
-      <pubDate>Sun, 10 Nov 2024 15:05:05 +0800</pubDate>
-      <guid>https://www.arloor.com/posts/mysql9-docker-ssl/</guid>
-      <description>&lt;p&gt;最近写个小东西用到了MySQL，折腾下怎么给MySQL配置SSL&lt;/p&gt;</description>
-    </item>
     <item>
       <title>NextJS Study</title>
       <link>https://www.arloor.com/posts/frontend-study/</link>
@@ -1204,6 +1197,13 @@
       <pubDate>Fri, 15 Jun 2018 00:00:00 +0000</pubDate>
       <guid>https://www.arloor.com/posts/springboot/redis%E4%B8%8Espringboot%E6%95%B4%E5%90%88%E5%AD%A6%E4%B9%A0/</guid>
       <description>&lt;p&gt;最近在做一个电商网站。今天想要实现一下购物车的功能。&lt;/p&gt;&#xA;&lt;p&gt;考虑问题如下：用户访问购物车会比较频繁，而且经常更改（比如修改数字）。对于后端的数据来说，也就是读写都很频繁。于是考虑通过redis，来减少对数据库的读写。&lt;/p&gt;&#xA;&lt;p&gt;就研究一下怎么使用redis以及整合到springboot中。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://www.arloor.com/posts/mysql9-docker-ssl/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://www.arloor.com/posts/mysql9-docker-ssl/</guid>
+      <description>&lt;h2 id=&#34;title-mysql9-docker容器配置ssl&#34;&gt;title: &amp;ldquo;MySQL9 docker容器配置SSL&amp;rdquo;&lt;/h2&gt;&#xA;&lt;p&gt;subtitle:&#xA;date: 2024-11-10T15:05:05+08:00&#xA;draft: false&#xA;categories:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;undefined&#xA;tags:&lt;/li&gt;&#xA;&lt;li&gt;notion&#xA;weight: 10&#xA;subtitle: &amp;quot;&amp;quot;&#xA;description : &amp;quot;&amp;quot;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;hr&gt;&#xA;&lt;p&gt;最近写个小东西用到了MySQL，折腾下怎么给MySQL配置SSL&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

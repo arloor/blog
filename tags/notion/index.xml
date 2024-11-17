@@ -6,15 +6,8 @@
     <description>Recent content in Notion on ARLOOR</description>
     <generator>Hugo</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sun, 10 Nov 2024 15:05:05 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 18 May 2023 17:51:10 +0800</lastBuildDate>
     <atom:link href="https://www.arloor.com/tags/notion/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>MySQL9 docker容器配置SSL</title>
-      <link>https://www.arloor.com/posts/mysql9-docker-ssl/</link>
-      <pubDate>Sun, 10 Nov 2024 15:05:05 +0800</pubDate>
-      <guid>https://www.arloor.com/posts/mysql9-docker-ssl/</guid>
-      <description>&lt;p&gt;最近写个小东西用到了MySQL，折腾下怎么给MySQL配置SSL&lt;/p&gt;</description>
-    </item>
     <item>
       <title>链路追踪业界对标</title>
       <link>https://www.arloor.com/posts/notion/%E9%93%BE%E8%B7%AF%E8%BF%BD%E8%B8%AA%E4%B8%9A%E7%95%8C%E5%AF%B9%E6%A0%87/</link>
