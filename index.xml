@@ -6,8 +6,15 @@
     <description>Recent content on ARLOOR</description>
     <generator>Hugo</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Thu, 07 Nov 2024 16:42:51 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 10 Nov 2024 15:05:05 +0800</lastBuildDate>
     <atom:link href="https://www.arloor.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>MySQL9 docker容器配置SSL</title>
+      <link>https://www.arloor.com/posts/mysql9-docker-ssl/</link>
+      <pubDate>Sun, 10 Nov 2024 15:05:05 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/mysql9-docker-ssl/</guid>
+      <description>&lt;p&gt;最近写个小东西用到了MySQL，折腾下怎么给MySQL配置SSL&lt;/p&gt;</description>
+    </item>
     <item>
       <title>NextJS Study</title>
       <link>https://www.arloor.com/posts/frontend-study/</link>
@@ -1225,13 +1232,6 @@
       <pubDate>Fri, 19 Jan 2018 00:00:00 +0000</pubDate>
       <guid>https://www.arloor.com/portfolio/laramod/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://github.com/htr3n/laramod&#34;&gt;LaraMod&lt;/a&gt; is another modularisation effort to systematically organising a &lt;a href=&#34;https://laravel.com&#34;&gt;Laravel&lt;/a&gt; based project. The idea stems from my struggle to structure a Laravel-based project so that I can work effectively on individual modules whilst keeping Laravel codebase intact as much as possible and also keeping the project&amp;rsquo;s codebase separate from Laravel.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title></title>
-      <link>https://www.arloor.com/posts/mysql9-docker-ssl/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://www.arloor.com/posts/mysql9-docker-ssl/</guid>
-      <description>&lt;h2 id=&#34;title-mysql9-docker容器配置ssl&#34;&gt;title: &amp;ldquo;MySQL9 docker容器配置SSL&amp;rdquo;&lt;/h2&gt;&#xA;&lt;p&gt;subtitle:&#xA;date: 2024-11-10T15:05:05+08:00&#xA;draft: false&#xA;categories:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;undefined&#xA;tags:&lt;/li&gt;&#xA;&lt;li&gt;notion&#xA;weight: 10&#xA;subtitle: &amp;quot;&amp;quot;&#xA;description : &amp;quot;&amp;quot;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;hr&gt;&#xA;&lt;p&gt;最近写个小东西用到了MySQL，折腾下怎么给MySQL配置SSL&lt;/p&gt;</description>
     </item>
     <item>
       <title>归档</title>
