@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    
+    <link rel="canonical" href="https://www.arloor.com/posts/rust-sqlx%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/">
+    
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.139.3">
+
+    
+    
+    
+
+<title>Rust sqlx使用记录 • ARLOOR</title>
+<meta name="description" content="今天，你学习了吗">
+<meta name="keywords" content="刘港欢, arloor, moontell">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Rust sqlx使用记录">
+  <meta name="twitter:description" content="依赖 sqlx = { version = &#34;0.8.2&#34;, features = [ &#34;mysql&#34;, &#34;runtime-tokio-rustls&#34;, # 使用rustls而不是native-tls # &#34;runtime-tokio-native-tls&#34;, &#34;chrono&#34;, # 使用chrono的时间类型，而不是sqlx自己的时间类型，例如PrimitiveDateTime # &#34;time&#34;, ] } sqlx-mysql = &#34;0.8.2&#34; # mysql驱动 查询宏 sqlx支持自动生成sql查询语句对应的Rust struct，这在编译期实现，因此可以在编译期确保你的rust代码和数据库表字段类型正确对应。这又分为online代码生成和offline代码生成。online指每次cargo build都扫描一次数据库表结构，offline指第一次cargo build扫描并生成缓存文件，后续直接使用缓存文件，直到表结构发生改变该缓存失效。">
+      <meta name="twitter:site" content="@njulgh">
+
+<meta property="og:url" content="https://www.arloor.com/posts/rust-sqlx%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/">
+  <meta property="og:site_name" content="ARLOOR">
+  <meta property="og:title" content="Rust sqlx使用记录">
+  <meta property="og:description" content="依赖 sqlx = { version = &#34;0.8.2&#34;, features = [ &#34;mysql&#34;, &#34;runtime-tokio-rustls&#34;, # 使用rustls而不是native-tls # &#34;runtime-tokio-native-tls&#34;, &#34;chrono&#34;, # 使用chrono的时间类型，而不是sqlx自己的时间类型，例如PrimitiveDateTime # &#34;time&#34;, ] } sqlx-mysql = &#34;0.8.2&#34; # mysql驱动 查询宏 sqlx支持自动生成sql查询语句对应的Rust struct，这在编译期实现，因此可以在编译期确保你的rust代码和数据库表字段类型正确对应。这又分为online代码生成和offline代码生成。online指每次cargo build都扫描一次数据库表结构，offline指第一次cargo build扫描并生成缓存文件，后续直接使用缓存文件，直到表结构发生改变该缓存失效。">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-12-05T22:17:05+08:00">
+    <meta property="article:modified_time" content="2024-12-05T22:17:05+08:00">
+    <meta property="article:tag" content="Notion">
+
+
+    
+
+
+
+
+
+<link rel="stylesheet" href="/styles/atom-one-dark.min.css">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.484b96856b25751067d56c8c0af9dc1fd6372707029b6d56ee178da6bead45b5.css" integrity="sha256-SEuWhWsldRBn1WyMCvncH9Y3JwcCm21W7heNpr6tRbU=">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+
+<link rel="stylesheet" href="/scss/hugo-toc.0873834b0f2e9fdc9e1d0301e8ebce21fc10383882a41e9373f29b90e85a9987.css" integrity="sha256-CHODSw8un9yeHQMB6OvOIfwQODiCpB6Tc/KbkOhamYc=">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="/favicon.png">
+    
+    
+
+</head>
+
+
+    <body class=" ">
+    
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="/">
+          
+          ARLOOR
+          
+        </a>
+      </span>
+      <a href="/">
+        
+        
+        <div class="author-image">
+          <img src="/img/head.jpeg" alt="Author Image" class="img--circle img--headshot element--center">
+        </div>
+        
+        
+      </a>
+      
+      <p class="site__description">
+         都是瞎写的 
+      </p>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">ARLOOR</label>
+      <div class="menu-content">
+        <div class="show-in-small">
+          <a href="/">
+            
+            
+            <div class="author-image">
+              <img src="/img/head.jpeg" alt="Author Image"
+                class="img--circle img--headshot element--center">
+            </div>
+            
+            
+          </a>
+        </div>
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/posts/">
+						<span>文章</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/tags/">
+						<span>分类</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/about/">
+						<span>关于我</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="http://beian.miit.gov.cn/">
+						<span>苏ICP备17024437号</span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://x.com/njulgh" rel="me"><i class="fa-brands fa-x-twitter fa-lg"></i></a>
+	
+	
+	
+	
+	
+	<a href="https://github.com/arloor" rel="me"><i class="fa-brands fa-github fa-lg"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://t.me/never_contact_me" rel="me"><i class="fa-brands fa-telegram fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	<a href="mailto:admin@arloor.com" rel="me"><i class="fa-solid fa-at fa-lg"></i></a>
+	
+	
+	
+	
+</section>
+      </div>
+    </div>
+    
+<div class="copyright">
+  &copy; 2024 arloor
+  
+    <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>
+  
+</div>
+
+
+<div class="builtwith">
+Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.com/arloor/hyde-arloor">hyde-arloor</a>.
+</div>
+
+
+  </div>
+</div>
+        <div class="content container">
+            
+    
+<article>
+  <header>
+    <h1>Rust sqlx使用记录</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> Dec 5, 2024
+    
+    
+    
+      
+      
+          in
+          
+          
+              <a class="badge badge-category" href="/categories/undefined">UNDEFINED</a>
+              
+          
+      
+    
+    
+    
+      
+      
+          <br/>
+           <i class="fas fa-tags"></i>
+          
+          <a class="badge badge-tag" href="/tags/notion">notion</a>
+          
+      
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 4 min read
+</div>
+
+
+  </header>
+  
+  
+  
+    <div class="toc-wrapper">
+      <input type="checkbox" id="tocToggle">
+      <label for="tocToggle">Table of Content</label>
+      
+          <nav id="TableOfContents">
+  <ul>
+    <li><a href="#依赖">依赖</a></li>
+    <li><a href="#查询宏">查询宏</a>
+      <ul>
+        <li><a href="#设置database_url环境变量">设置<code>DATABASE_URL</code>环境变量</a></li>
+        <li><a href="#cargo-sqlx-prepare来进行offline代码生成"><code>cargo sqlx prepare</code>来进行offline代码生成</a></li>
+        <li><a href="#查询宏-query_as">查询宏 <code>query_as!</code></a></li>
+      </ul>
+    </li>
+    <li><a href="#整体使用">整体使用</a></li>
+    <li><a href="#参考文档">参考文档</a></li>
+  </ul>
+</nav>
+      
+    </div>
+  
+  
+  <div class="post">
+    <h2 id="依赖">依赖</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span><span style="color:#a6e22e">sqlx</span> = { <span style="color:#a6e22e">version</span> = <span style="color:#e6db74">&#34;0.8.2&#34;</span>, <span style="color:#a6e22e">features</span> = [
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;mysql&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;runtime-tokio-rustls&#34;</span>, <span style="color:#75715e"># 使用rustls而不是native-tls</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># &#34;runtime-tokio-native-tls&#34;,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;chrono&#34;</span>, <span style="color:#75715e"># 使用chrono的时间类型，而不是sqlx自己的时间类型，例如PrimitiveDateTime</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># &#34;time&#34;,</span>
+</span></span><span style="display:flex;"><span>] }
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">sqlx-mysql</span> = <span style="color:#e6db74">&#34;0.8.2&#34;</span> <span style="color:#75715e"># mysql驱动</span>
+</span></span></code></pre></div><h2 id="查询宏">查询宏</h2>
+<p>sqlx支持自动生成sql查询语句对应的Rust struct，这在编译期实现，因此可以在编译期确保你的rust代码和数据库表字段类型正确对应。这又分为online代码生成和offline代码生成。online指每次cargo build都扫描一次数据库表结构，offline指第一次cargo build扫描并生成缓存文件，后续直接使用缓存文件，直到表结构发生改变该缓存失效。</p>
+<blockquote>
+<p>set <code>DATABASE_URL</code> to use query macros online, or run <code>cargo sqlx prepare</code> to update the query cache</p>
+</blockquote>
+<p>如引用文字所述，需要设置<code>DATABASE_URL</code> 以激活online的运行时代码生成或者执行<code>cargo sqlx prepare</code>来进行offline代码生成。</p>
+<h3 id="设置database_url环境变量">设置<code>DATABASE_URL</code>环境变量</h3>
+<p>方式一：在项目根目录下创建 <code>.env</code> 文件，文件内容如下（<strong>推荐</strong>）：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span><span style="color:#a6e22e">DATABASE_URL</span>=<span style="color:#a6e22e">mysql</span><span style="color:#960050;background-color:#1e0010">://</span><span style="color:#a6e22e">user</span><span style="color:#960050;background-color:#1e0010">:</span><span style="color:#a6e22e">passwd</span><span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">host</span><span style="color:#960050;background-color:#1e0010">:</span><span style="color:#ae81ff">3306</span><span style="color:#960050;background-color:#1e0010">/</span><span style="color:#a6e22e">test</span><span style="color:#960050;background-color:#1e0010">?</span><span style="color:#a6e22e">ssl-mode</span>=<span style="color:#a6e22e">Required</span><span style="color:#960050;background-color:#1e0010">&amp;</span><span style="color:#a6e22e">timezone</span>=<span style="color:#960050;background-color:#1e0010">%</span><span style="color:#ae81ff">2</span><span style="color:#a6e22e">B08</span><span style="color:#960050;background-color:#1e0010">:</span><span style="color:#ae81ff">00</span>
+</span></span></code></pre></div><p>方式二：在 vscode 的<code>tasks.json</code>的 <code>cargo build</code> 任务中设置该环境变量</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span><span style="color:#e6db74">&#34;env&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> {
+</span></span><span style="display:flex;"><span>				<span style="color:#f92672">&#34;DATABASE_URL&#34;</span>: <span style="color:#e6db74">&#34;mysql://user:passwd@host:3306/test?ssl-mode=Required&amp;timezone=%2B08:00&#34;</span>
+</span></span><span style="display:flex;"><span>			}
+</span></span></code></pre></div><h3 id="cargo-sqlx-prepare来进行offline代码生成"><code>cargo sqlx prepare</code>来进行offline代码生成</h3>
+<p>首先安装sqlx-cli: 这里仅激活了rustls和mysql驱动的feature</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span> cargo install sqlx-cli --no-default-features --features rustls,mysql
+</span></span></code></pre></div><p>然后使用“设置<code>DATABASE_URL</code>环境变量”中的方式一设置环境变量</p>
+<p>最后执行下面的命令:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cargo sqlx prepare
+</span></span></code></pre></div><p>此时，会生成 <code>.sqlx</code> 文件夹，其中保存了缓存信息。这种方式的好处是，不需要将<code>.env</code>提交到代码仓库。</p>
+<p>在既有<code>DATABASE_URL</code>环境变量又有<code>.sqlx</code> 文件夹的情况下，sqlx会优先使用<code>DATABASE_URL</code>环境变量进行online代码生成，从而确保代码是最新的。如果要强制使用<code>.sqlx</code> 文件夹的缓存，则需要在<code>.env</code> 中增加：<code>SQLX_OFFLINE=true</code></p>
+<p>参考文档：<a href="https://github.com/launchbadge/sqlx/blob/main/sqlx-cli/README.md#enable-building-in-offline-mode-with-query">Enable building in &ldquo;offline mode&rdquo; with query!()</a></p>
+<h3 id="查询宏-query_as">查询宏 <code>query_as!</code></h3>
+<p>可以自定义struct name，前提是struct需要derive FromRow</p>
+<h2 id="整体使用">整体使用</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span>info!(<span style="color:#e6db74">&#34;connecting to mysql...&#34;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> pool: <span style="color:#a6e22e">sqlx</span>::Pool<span style="color:#f92672">&lt;</span>sqlx::MySql<span style="color:#f92672">&gt;</span> <span style="color:#f92672">=</span> MySqlPoolOptions::new()
+</span></span><span style="display:flex;"><span>    .max_connections(<span style="color:#ae81ff">20</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// .connect(&#34;mysql://user:passwprd@host:3306/test?ssl-mode=Required&amp;timezone=%2B08:00&#34;) // timezone参数在url中目前无效，合码了但是未发新版
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    .connect_with(
+</span></span><span style="display:flex;"><span>        MySqlConnectOptions::new()
+</span></span><span style="display:flex;"><span>            .host(<span style="color:#e6db74">&#34;host&#34;</span>)
+</span></span><span style="display:flex;"><span>            .username(<span style="color:#e6db74">&#34;user&#34;</span>)
+</span></span><span style="display:flex;"><span>            .password(<span style="color:#e6db74">&#34;passwrod&#34;</span>)
+</span></span><span style="display:flex;"><span>            .database(<span style="color:#e6db74">&#34;test&#34;</span>)
+</span></span><span style="display:flex;"><span>            .ssl_mode(MySqlSslMode::Required)
+</span></span><span style="display:flex;"><span>            .timezone(Some(String::from(<span style="color:#e6db74">&#34;+08:00&#34;</span>))),
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>    .<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 获取connection
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> conn <span style="color:#f92672">=</span> pool.acquire().<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 查询
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>select_variables(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> conn).<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>; <span style="color:#75715e">//此处有一个deref_mut()，从PoolConnection&lt;sqlx::MySql&gt; 转成 sqlx::MySqlConnection
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ===============使用MySqlConnection========================
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">select_variables</span>(conn: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">mut</span> sqlx::MySqlConnection) -&gt; Result<span style="color:#f92672">&lt;</span>(), DynError<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> rows <span style="color:#f92672">=</span> sqlx::query!(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#34;show variables like &#39;%time_zone%&#39;;&#34;</span>)
+</span></span><span style="display:flex;"><span>        .fetch_all(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> <span style="color:#f92672">*</span>conn)<span style="color:#75715e">// 触发copy，从而复用connection
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        .<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> row <span style="color:#66d9ef">in</span> rows {
+</span></span><span style="display:flex;"><span>        info!(<span style="color:#e6db74">&#34;mysql variable: {:?}&#34;</span>, row);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> rows <span style="color:#f92672">=</span> sqlx::query!(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#34;select now() as now_local, now() as now_naive, now() as now_utc;&#34;</span>)
+</span></span><span style="display:flex;"><span>        .fetch_all(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> <span style="color:#f92672">*</span>conn)<span style="color:#75715e">// 触发copy，从而复用connection
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        .<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> row <span style="color:#66d9ef">in</span> rows {
+</span></span><span style="display:flex;"><span>        info!(<span style="color:#e6db74">&#34;select now(): {:?}&#34;</span>, row);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> rows <span style="color:#f92672">=</span> sqlx::query!(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#34;SHOW SESSION STATUS WHERE Variable_name = &#39;Ssl_cipher&#39;;&#34;</span>)
+</span></span><span style="display:flex;"><span>        .fetch_all(conn)
+</span></span><span style="display:flex;"><span>        .<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> row <span style="color:#66d9ef">in</span> rows {
+</span></span><span style="display:flex;"><span>        info!(<span style="color:#e6db74">&#34;mysql variable: {:?}&#34;</span>, row);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Ok(())
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ===============直接使用mysql pool======================
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">let</span> result <span style="color:#f92672">=</span> sqlx::query!(
+</span></span><span style="display:flex;"><span>                    <span style="color:#e6db74">r</span><span style="color:#e6db74">#&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                    INSERT INTO stock_rank_changes (
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                        market, code, name, bankuai, calc_time, current_rank, ten_minute_change, 
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                        thirty_minute_change, hour_change, day_change, price, price_change_rate, trading_volume, turnover_rate, float_market_capitalization, realtime_data,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                        today_posts, today_posts_fetch_err, created_at
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                    ON DUPLICATE KEY UPDATE created_at = VALUES(created_at)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                    &#34;#</span>,
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">&amp;</span>stock_rank_change.market,
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">&amp;</span>stock_rank_change.code,
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">&amp;</span>stock_rank_change.name,
+</span></span><span style="display:flex;"><span>                    rt.map(<span style="color:#f92672">|</span>rt<span style="color:#f92672">|</span> rt.bankuai.clone()),
+</span></span><span style="display:flex;"><span>                    stock_rank_change.calc_time,
+</span></span><span style="display:flex;"><span>                    stock_rank_change.current_rank,
+</span></span><span style="display:flex;"><span>                    stock_rank_change.ten_minute_change,
+</span></span><span style="display:flex;"><span>                    stock_rank_change.thirty_minute_change,
+</span></span><span style="display:flex;"><span>                    stock_rank_change.hour_change,
+</span></span><span style="display:flex;"><span>                    stock_rank_change.day_change,
+</span></span><span style="display:flex;"><span>                    rt.map(<span style="color:#f92672">|</span>rt<span style="color:#f92672">|</span> rt.price),
+</span></span><span style="display:flex;"><span>                    rt.map(<span style="color:#f92672">|</span>rt<span style="color:#f92672">|</span> rt.price_change_rate),
+</span></span><span style="display:flex;"><span>                    rt.map(<span style="color:#f92672">|</span>rt<span style="color:#f92672">|</span> rt.trading_volume),
+</span></span><span style="display:flex;"><span>                    rt.map(<span style="color:#f92672">|</span>rt<span style="color:#f92672">|</span> rt.turnover_rate),
+</span></span><span style="display:flex;"><span>                    rt.map(<span style="color:#f92672">|</span>rt<span style="color:#f92672">|</span> rt.float_market_capitalization),
+</span></span><span style="display:flex;"><span>                    rt.map(<span style="color:#f92672">|</span>rt<span style="color:#f92672">|</span> serde_json::to_string(rt).unwrap_or(<span style="color:#e6db74">&#34;{}&#34;</span>.to_string())),
+</span></span><span style="display:flex;"><span>                    serde_json::to_string(<span style="color:#f92672">&amp;</span>stock_rank_change.today_posts)
+</span></span><span style="display:flex;"><span>                        .unwrap_or(<span style="color:#e6db74">&#34;[]&#34;</span>.to_string()),
+</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">&amp;</span>stock_rank_change.today_posts_fetch_err,
+</span></span><span style="display:flex;"><span>                    Local::now().naive_local(),
+</span></span><span style="display:flex;"><span>                )
+</span></span><span style="display:flex;"><span>                .execute(<span style="color:#f92672">&amp;</span>self.mysql_pool) <span style="color:#75715e">//直接使用pool作为executor
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                .<span style="color:#66d9ef">await</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">match</span> result {
+</span></span><span style="display:flex;"><span>            Ok(_) <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>                debug!(<span style="color:#e6db74">&#34;插入 stock_rank_changes 成功&#34;</span>);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            Err(e) <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>                warn!(<span style="color:#e6db74">&#34;插入 stock_rank_changes 失败： {}&#34;</span>, e);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// =================	match self.mysql_pool.acquire()=================================
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>						<span style="color:#66d9ef">match</span> self.mysql_pool.acquire().<span style="color:#66d9ef">await</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// 将data根据时间排序
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                Ok(<span style="color:#66d9ef">mut</span> conn) <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">let</span> result<span style="color:#f92672">=</span> sqlx::query!(
+</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">r</span><span style="color:#e6db74">#&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                        INSERT INTO rank_record (hot_rank_score, inner_code, his_rank_change_rank, market_all_count, calc_time, his_rank_change, src_security_code, `rank`, hour_rank_change, rank_change)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                        on duplicate key update update_time = now()
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                    &#34;#</span>,
+</span></span><span style="display:flex;"><span>                        record.hot_rank_score,
+</span></span><span style="display:flex;"><span>                        record.inner_code,
+</span></span><span style="display:flex;"><span>                        record.his_rank_change_rank,
+</span></span><span style="display:flex;"><span>                        record.market_all_count,
+</span></span><span style="display:flex;"><span>                        record.calc_time,
+</span></span><span style="display:flex;"><span>                        record.his_rank_change,
+</span></span><span style="display:flex;"><span>                        record.src_security_code<span style="color:#f92672">+&amp;</span>self.name,
+</span></span><span style="display:flex;"><span>                        record.rank,
+</span></span><span style="display:flex;"><span>                        record.hour_rank_change,
+</span></span><span style="display:flex;"><span>                        record.rank_change
+</span></span><span style="display:flex;"><span>                    )
+</span></span><span style="display:flex;"><span>                    .execute(conn.deref_mut()).<span style="color:#66d9ef">await</span>; <span style="color:#75715e">// 手动调用deref_mut()，转成非池化的connection
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                    <span style="color:#66d9ef">match</span> result {
+</span></span><span style="display:flex;"><span>                        Ok(_) <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>                            self.insert_history.insert(history_key, record.calc_time);
+</span></span><span style="display:flex;"><span>                        }
+</span></span><span style="display:flex;"><span>                        Err(e) <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>                            warn!(<span style="color:#e6db74">&#34;插入失败： {}&#34;</span>, e);
+</span></span><span style="display:flex;"><span>                        }
+</span></span><span style="display:flex;"><span>                    }
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>                Err(e) <span style="color:#f92672">=&gt;</span> warn!(<span style="color:#e6db74">&#34;获取连接失败 {}&#34;</span>, e),
+</span></span><span style="display:flex;"><span>            }
+</span></span></code></pre></div><h2 id="参考文档">参考文档</h2>
+<ol>
+<li><a href="https://github.com/launchbadge/sqlx/blob/main/FAQ.md#how-can-i-bind-an-array-to-a-values-clause-how-can-i-do-bulk-inserts">sqlx目前只有pg支持batch insert，mysql不支持</a></li>
+</ol>
+
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/posts/mysql9-docker-ssl/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">MySQL9 docker容器配置SSL</span>
+    </a>
+    
+    
+</div>
+
+
+  
+
+  
+
+
+</article>
+
+
+        </div>
+        
+    
+
+
+
+<script defer src="/js/all.js" crossorigin="anonymous"></script>
+
+    
+    
+    <script src="/js/highlight.min.js"></script>
+    <script src="/js/languages/dos.min.js"></script>
+        
+    <script type="text/javascript">
+        
+        hljs.highlightAll();
+    </script>
+    
+
+
+
+
+    
+
+
+
+    </body>
+</html>

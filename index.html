@@ -216,6 +216,37 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   <div class="post-list__item">
     <span class="item__title--big">
+      <a href="/posts/rust-sqlx%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/" >Rust sqlx使用记录</a>
+    </span>
+    <span class="item__date">
+      Dec 5, 2024
+    </span>
+    <span >
+      
+      <h2 id="依赖">依赖</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span><span style="color:#a6e22e">sqlx</span> = { <span style="color:#a6e22e">version</span> = <span style="color:#e6db74">&#34;0.8.2&#34;</span>, <span style="color:#a6e22e">features</span> = [
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;mysql&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;runtime-tokio-rustls&#34;</span>, <span style="color:#75715e"># 使用rustls而不是native-tls</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># &#34;runtime-tokio-native-tls&#34;,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;chrono&#34;</span>, <span style="color:#75715e"># 使用chrono的时间类型，而不是sqlx自己的时间类型，例如PrimitiveDateTime</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># &#34;time&#34;,</span>
+</span></span><span style="display:flex;"><span>] }
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">sqlx-mysql</span> = <span style="color:#e6db74">&#34;0.8.2&#34;</span> <span style="color:#75715e"># mysql驱动</span>
+</span></span></code></pre></div><h2 id="查询宏">查询宏</h2>
+<p>sqlx支持自动生成sql查询语句对应的Rust struct，这在编译期实现，因此可以在编译期确保你的rust代码和数据库表字段类型正确对应。这又分为online代码生成和offline代码生成。online指每次cargo build都扫描一次数据库表结构，offline指第一次cargo build扫描并生成缓存文件，后续直接使用缓存文件，直到表结构发生改变该缓存失效。</p>
+      
+    </span>
+    
+    ... <a class="read-more-symbol" href="/posts/rust-sqlx%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/">➦</a>
+    
+  </div>
+  
+  
+  
+  
+  
+  <div class="post-list__item">
+    <span class="item__title--big">
       <a href="/posts/mysql9-docker-ssl/" >MySQL9 docker容器配置SSL</a>
     </span>
     <span class="item__date">
@@ -395,34 +426,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
       
       
     </span>
-    
-  </div>
-  
-  
-  
-  
-  
-  <div class="post-list__item">
-    <span class="item__title--big">
-      <a href="/posts/rust/pick-up-rust/" >Rust学习路径</a>
-    </span>
-    <span class="item__date">
-      Sep 22, 2024
-    </span>
-    <span >
-      
-      <h2 id="为什么学习rust">为什么学习rust？</h2>
-<blockquote>
-<ul>
-<li>高性能：Rust 速度惊人且内存利用率极高。由于没有运行时和垃圾回收，它能够胜任对性能要求特别高的服务，可以在嵌入式设备上运行，还能轻松和其他语言集成。</li>
-<li>可靠性：Rust 丰富的类型系统和所有权模型保证了内存安全和线程安全，让您在编译期就能够消除各种各样的错误。</li>
-<li>生产力：Rust 拥有出色的文档、友好的编译器和清晰的错误提示信息， 还集成了一流的工具——包管理器和构建工具， 智能地自动补全和类型检验的多编辑器支持， 以及自动格式化代码等等。</li>
-</ul>
-</blockquote>
-      
-    </span>
-    
-    ... <a class="read-more-symbol" href="/posts/rust/pick-up-rust/">➦</a>
     
   </div>
   

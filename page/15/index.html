@@ -216,6 +216,27 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   <div class="post-list__item">
     <span class="item__title--big">
+      <a href="/posts/redis/redis-document/" >Redis文档摘要</a>
+    </span>
+    <span class="item__date">
+      Aug 20, 2019
+    </span>
+    <span >
+      
+      <p>看了看redis的文档，觉得有些东西写的挺好的，就挑觉得有意义的记录一下。</p>
+      
+    </span>
+    
+    ... <a class="read-more-symbol" href="/posts/redis/redis-document/">➦</a>
+    
+  </div>
+  
+  
+  
+  
+  
+  <div class="post-list__item">
+    <span class="item__title--big">
       <a href="/posts/linux/nginx-install-and-reverse-proxy/" >Nginx安装使用：webserver及反向代理</a>
     </span>
     <span class="item__date">
@@ -400,27 +421,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     </span>
     
     ... <a class="read-more-symbol" href="/posts/netty/netty-bytetomessagedecoder-stream-like-decoder/">➦</a>
-    
-  </div>
-  
-  
-  
-  
-  
-  <div class="post-list__item">
-    <span class="item__title--big">
-      <a href="/posts/use-sync-pool-go/" >go使用sync.pool实现复用[]byte——降低IO密集应用的GC频率</a>
-    </span>
-    <span class="item__date">
-      Apr 14, 2019
-    </span>
-    <span >
-      
-      <p>前一篇文章介绍了<code>sogo</code>这个socks5代理的实现，在原始的sogo实现中，有一个重大的问题是：没有复用内存，导致频繁GC，导致cpu占用很高。对于socket通信这种io密集的应用，复用<code>[]byte</code>还是很重要的，不然每次去make新的<code>[]byte</code>，这些<code>[]byte</code>迟早要被GC，这就导致了cpu占用高的问题。解决这个问题也很简单，就是引入内存池。</p>
-      
-    </span>
-    
-    ... <a class="read-more-symbol" href="/posts/use-sync-pool-go/">➦</a>
     
   </div>
   
