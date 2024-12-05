@@ -251,7 +251,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     
     
     <br/>
-    <i class="fas fa-clock"></i> 3 min read
+    <i class="fas fa-clock"></i> 4 min read
 </div>
 
 
@@ -274,6 +274,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     <li><a href="#类型转换">类型转换</a></li>
     <li><a href="#golang枚举">Golang枚举</a></li>
     <li><a href="#引入开发分支作为依赖">引入开发分支作为依赖</a></li>
+    <li><a href="#context的key不要使用内置类型">context的key不要使用内置类型</a></li>
   </ul>
 </nav>
       
@@ -477,6 +478,13 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>)
 </span></span></code></pre></div><h2 id="引入开发分支作为依赖">引入开发分支作为依赖</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>go get github.com/arloor/xxxx@feature/xxxx
+</span></span></code></pre></div><h2 id="context的key不要使用内置类型">context的key不要使用内置类型</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">action</span> <span style="color:#66d9ef">struct</span>{} <span style="color:#75715e">// 自定义类型作为key。空struct不占内存
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 1. 设置value
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">tmp</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">WithValue</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>(), <span style="color:#a6e22e">action</span>{}, <span style="color:#e6db74">&#34;someAction&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 2. 读取value
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Printf</span>(<span style="color:#e6db74">&#34;%s&#34;</span>, <span style="color:#a6e22e">tmp</span>.<span style="color:#a6e22e">Value</span>(<span style="color:#a6e22e">action</span>{}).(<span style="color:#66d9ef">string</span>))
 </span></span></code></pre></div>
   </div>
   
