@@ -259,3 +259,14 @@ const (
 ```bash
 go get github.com/arloor/xxxx@feature/xxxx
 ```
+
+## context的key不要使用内置类型
+
+```golang
+type action struct{} // 自定义类型作为key。空struct不占内存
+
+    // 1. 设置value
+	tmp := context.WithValue(context.Background(), action{}, "someAction")
+    // 2. 读取value
+	fmt.Printf("%s", tmp.Value(action{}).(string))
+```
