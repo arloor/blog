@@ -477,6 +477,116 @@ gcc -o myprogram myprogram.c -Wl,-Bstatic -lfoo -lbar -Wl,-Bdynamic -lbaz
 
 上面谈到的都是针对C Runtime的静态链接。如果涉及到一些非通用的c库，例如 `libbpf-rs` 依赖 `libelf` 和 `zlib`，这种还是要单独处理的，这种crate一般会有 `xxxx-sys` 子crate，用于编译c库，也会提供 `vendored` 特性来开启静态链接，例如 `libbpf-sys` 的 [build.rs](https://github.com/libbpf/libbpf-sys/blob/master/build.rs)。
 
+## axum最简使用
+
+```rust
+const INDEX_HTML: &str = include_str!("../index.html");
+async fn axum_serve() -> Result<(), DynError> {
+    // build our application with a route
+    let app = Router::new()
+        .route(
+            "/metrics",
+            get(|| async move {
+                let mut buffer = String::new();
+                if let Err(e) = encode(&mut buffer, &metrics::METRIC.prom_registry) {
+                    log::error!("Failed to encode metrics: {:?}", e);
+                }
+                (StatusCode::OK, buffer)
+            }),
+        )
+        .route(
+            "/",
+            get(|| async move { (StatusCode::OK, Html(INDEX_HTML)) }),
+        )
+        .route(
+            "/json",
+            get(|| async move {
+                (
+                    StatusCode::OK,
+                    Json(Snapshot {
+                        scales: vec![],
+                        data: HashMap::new(),
+                    }),
+                )
+            }),
+        );
+    let port = PARAM.port;
+    let listener = tokio::net::TcpListener::bind(format!("0.0.0.0:{}", port)).await?;
+    log::info!("listening on port {}", port);
+    axum::serve(listener, app).await?;
+    Ok(())
+}
+```
+
+## serde_json自定义时间格式
+
+自定义格式为 "2024-10-25 00:10:00"
+
+```rust
+#[derive(Serialize, Deserialize, Debug)]
+pub(crate) struct RankRecord {
+    #[serde(rename = "HOTRANKSCORE")]
+    pub(crate) hot_rank_score: f64,
+    #[serde(rename = "INNERCODE")]
+    pub(crate) inner_code: String,
+    #[serde(rename = "HISRANKCHANGE_RANK")]
+    pub(crate) his_rank_change_rank: i32,
+    #[serde(rename = "MARKETALLCOUNT")]
+    pub(crate) market_all_count: i32,
+    // 格式是"CALCTIME": "2024-10-25 00:10:00"
+    #[serde(rename = "CALCTIME", with = "my_date_format")]
+    pub(crate) calc_time: NaiveDateTime,
+    #[serde(rename = "HISRANKCHANGE")]
+    pub(crate) his_rank_change: i32,
+    #[serde(rename = "SRCSECURITYCODE")]
+    pub(crate) src_security_code: String,
+    #[serde(rename = "RANK")]
+    pub(crate) rank: i32,
+    #[serde(rename = "HOURRANKCHANGE")]
+    pub(crate) hour_rank_change: i32,
+    #[serde(rename = "RANKCHANGE", default)]
+    pub(crate) rank_change: Option<i32>,
+}
+
+pub(crate) mod my_date_format {
+    use chrono::NaiveDateTime;
+    use serde::{self, Deserialize, Deserializer, Serializer};
+
+    const FORMAT: &str = "%Y-%m-%d %H:%M:%S";
+
+    // The signature of a serialize_with function must follow the pattern:
+    //
+    //    fn serialize<S>(&T, S) -> Result<S::Ok, S::Error>
+    //    where
+    //        S: Serializer
+    //
+    // although it may also be generic over the input types T.
+    pub fn serialize<S>(date: &NaiveDateTime, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        let s = format!("{}", date.format(FORMAT));
+        serializer.serialize_str(&s)
+    }
+
+    // The signature of a deserialize_with function must follow the pattern:
+    //
+    //    fn deserialize<'de, D>(D) -> Result<T, D::Error>
+    //    where
+    //        D: Deserializer<'de>
+    //
+    // although it may also be generic over the output types T.
+    pub fn deserialize<'de, D>(deserializer: D) -> Result<NaiveDateTime, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        let s = String::deserialize(deserializer)?;
+        let dt = NaiveDateTime::parse_from_str(&s, FORMAT).map_err(serde::de::Error::custom)?;
+        Ok(dt)
+    }
+}
+```
+
 ## 一些备忘
 
 - [rust-by-example | static_lifetime of trait-bound](https://doc.rust-lang.org/rust-by-example/scope/lifetime/static_lifetime.html#trait-bound)
