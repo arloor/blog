@@ -525,9 +525,9 @@ async fn axum_serve() -> Result<(), DynError> {
 ```rust
 #[derive(Serialize, Deserialize, Debug)]
 pub(crate) struct RankRecord {
-    #[serde(rename = "dateTime", with = "my_date_format")]
+    #[serde(rename = "dateTime", with = "my_date_format", default)] // default是为了兼容该字段缺失
     pub(crate) date_time: NaiveDateTime,
-    #[serde(rename = "dateTimeOption", with = "my_date_format_option")]
+    #[serde(rename = "dateTimeOption", with = "my_date_format_option", default)] // default是为了兼容该字段缺失
     pub(crate) date_time_option: Option<NaiveDateTime>,
 }
 
