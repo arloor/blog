@@ -216,6 +216,27 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   <div class="post-list__item">
     <span class="item__title--big">
+      <a href="/posts/netty/netty-bytetomessagedecoder-stream-like-decoder/" >Netty实现自定义流式解析器</a>
+    </span>
+    <span class="item__date">
+      Apr 26, 2019
+    </span>
+    <span >
+      
+      <p>tcp分包一般在pipeline的前部使用DelimiterBasedFrameDecoder, FixedLengthFrameDecoder, LengthFieldBasedFrameDecoder, or LineBasedFrameDecoder，分别适用于固定分隔符、固定长度帧、长度字段、换行符分割四种情况。但是，这四种不能涵盖tcp分包的全部情况，举个栗子：http协议的解析就不是上面四种中的一种。解析http协议或者其他自定义协议时，就需要用到ByteToMessageDecoder创建自己的“流式”解析器。netty的http解析器（HttpObectDecoder）就是继承ByteToMessageDecoder并override decode方法实现的。</p>
+      
+    </span>
+    
+    ... <a class="read-more-symbol" href="/posts/netty/netty-bytetomessagedecoder-stream-like-decoder/">➦</a>
+    
+  </div>
+  
+  
+  
+  
+  
+  <div class="post-list__item">
+    <span class="item__title--big">
       <a href="/posts/use-sync-pool-go/" >go使用sync.pool实现复用[]byte——降低IO密集应用的GC频率</a>
     </span>
     <span class="item__date">
@@ -407,27 +428,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     </span>
     
     ... <a class="read-more-symbol" href="/posts/other/java-aes128-then-base64/">➦</a>
-    
-  </div>
-  
-  
-  
-  
-  
-  <div class="post-list__item">
-    <span class="item__title--big">
-      <a href="/posts/other/java-aes128/" >java-AES128加密-代码与一些约定</a>
-    </span>
-    <span class="item__date">
-      Jan 3, 2019
-    </span>
-    <span >
-      
-      <p>在爬虫岗位实习，免不了接触加密解密，今天的工作中踩了一些java AES128加密的坑，也学习到了一些加密的常用做法。</p>
-      
-    </span>
-    
-    ... <a class="read-more-symbol" href="/posts/other/java-aes128/">➦</a>
     
   </div>
   

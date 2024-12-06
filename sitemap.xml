@@ -2,6 +2,9 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://www.arloor.com/posts/postman-pre-scripts/</loc>
+    <lastmod>2024-12-06T16:59:16+08:00</lastmod>
+  </url><url>
     <loc>https://www.arloor.com/posts/rust-sqlx%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/</loc>
     <lastmod>2024-12-05T22:17:05+08:00</lastmod>
   </url><url>
@@ -519,25 +522,25 @@
     <lastmod>2018-06-15T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://www.arloor.com/</loc>
-    <lastmod>2024-12-05T22:17:05+08:00</lastmod>
+    <lastmod>2024-12-06T16:59:16+08:00</lastmod>
   </url><url>
     <loc>https://www.arloor.com/categories/</loc>
-    <lastmod>2024-12-05T22:17:05+08:00</lastmod>
+    <lastmod>2024-12-06T16:59:16+08:00</lastmod>
+  </url><url>
+    <loc>https://www.arloor.com/posts/</loc>
+    <lastmod>2024-12-06T16:59:16+08:00</lastmod>
+  </url><url>
+    <loc>https://www.arloor.com/tags/</loc>
+    <lastmod>2024-12-06T16:59:16+08:00</lastmod>
+  </url><url>
+    <loc>https://www.arloor.com/tags/undefined/</loc>
+    <lastmod>2024-12-06T16:59:16+08:00</lastmod>
+  </url><url>
+    <loc>https://www.arloor.com/categories/undefined/</loc>
+    <lastmod>2024-12-06T16:59:16+08:00</lastmod>
   </url><url>
     <loc>https://www.arloor.com/tags/notion/</loc>
     <lastmod>2024-12-05T22:17:05+08:00</lastmod>
-  </url><url>
-    <loc>https://www.arloor.com/posts/</loc>
-    <lastmod>2024-12-05T22:17:05+08:00</lastmod>
-  </url><url>
-    <loc>https://www.arloor.com/tags/</loc>
-    <lastmod>2024-12-05T22:17:05+08:00</lastmod>
-  </url><url>
-    <loc>https://www.arloor.com/categories/undefined/</loc>
-    <lastmod>2024-12-05T22:17:05+08:00</lastmod>
-  </url><url>
-    <loc>https://www.arloor.com/tags/undefined/</loc>
-    <lastmod>2024-11-07T16:42:51+08:00</lastmod>
   </url><url>
     <loc>https://www.arloor.com/tags/golang/</loc>
     <lastmod>2024-10-13T01:14:37+08:00</lastmod>
