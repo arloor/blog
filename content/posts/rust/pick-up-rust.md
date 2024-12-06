@@ -593,6 +593,57 @@ pub(crate) mod my_date_format_option {
 }
 ```
 
+可以看到针对Option编写了单独的mod。也可以使用newtype来包装：
+
+```Rust
+use chrono::{DateTime, NaiveDateTime, Utc};
+use serde::{Deserialize, Serialize, Serializer, Deserializer};
+
+#[derive(Debug)]
+pub struct UnixTimestamp(DateTime<Utc>);
+
+const FORMAT: &'static str = "%s.%6f";
+
+impl Serialize for UnixTimestamp {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        let s = format!("{}", self.0.format(FORMAT));
+        serializer.serialize_str(&s)
+    }
+}
+
+impl<'de> Deserialize<'de> for UnixTimestamp {
+     fn deserialize<D>(deserializer: D) -> Result<UnixTimestamp, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        let s = String::deserialize(deserializer)?;
+        let dt = NaiveDateTime::parse_from_str(&s, FORMAT).map_err(serde::de::Error::custom)?;
+        Ok(UnixTimestamp(DateTime::<Utc>::from_naive_utc_and_offset(dt, Utc)))
+    }
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct Payload {
+    field1: String,
+    field2: Option<String>,
+    timestamp1: UnixTimestamp,
+    timestamp2: Option<UnixTimestamp>
+}
+
+pub fn main() {
+    let x = r#"{"field1": "hello", "timestamp1": "1714521961.793749"}"#;
+    
+    let deserr: Payload = serde_json::from_str(x).unwrap();
+    
+    println!("Paylaod: {deserr:?}");
+}
+```
+
+还可以使用 `serde_with` 库来序列化反序列化Option
+
 ## 一些备忘
 
 - [rust-by-example | static_lifetime of trait-bound](https://doc.rust-lang.org/rust-by-example/scope/lifetime/static_lifetime.html#trait-bound)
