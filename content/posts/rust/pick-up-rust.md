@@ -525,27 +525,10 @@ async fn axum_serve() -> Result<(), DynError> {
 ```rust
 #[derive(Serialize, Deserialize, Debug)]
 pub(crate) struct RankRecord {
-    #[serde(rename = "HOTRANKSCORE")]
-    pub(crate) hot_rank_score: f64,
-    #[serde(rename = "INNERCODE")]
-    pub(crate) inner_code: String,
-    #[serde(rename = "HISRANKCHANGE_RANK")]
-    pub(crate) his_rank_change_rank: i32,
-    #[serde(rename = "MARKETALLCOUNT")]
-    pub(crate) market_all_count: i32,
-    // 格式是"CALCTIME": "2024-10-25 00:10:00"
-    #[serde(rename = "CALCTIME", with = "my_date_format")]
-    pub(crate) calc_time: NaiveDateTime,
-    #[serde(rename = "HISRANKCHANGE")]
-    pub(crate) his_rank_change: i32,
-    #[serde(rename = "SRCSECURITYCODE")]
-    pub(crate) src_security_code: String,
-    #[serde(rename = "RANK")]
-    pub(crate) rank: i32,
-    #[serde(rename = "HOURRANKCHANGE")]
-    pub(crate) hour_rank_change: i32,
-    #[serde(rename = "RANKCHANGE", default)]
-    pub(crate) rank_change: Option<i32>,
+    #[serde(rename = "dateTime", with = "my_date_format")]
+    pub(crate) date_time: NaiveDateTime,
+    #[serde(rename = "dateTimeOption", with = "my_date_format_option")]
+    pub(crate) date_time_option: Option<NaiveDateTime>,
 }
 
 pub(crate) mod my_date_format {
@@ -554,13 +537,6 @@ pub(crate) mod my_date_format {
 
     const FORMAT: &str = "%Y-%m-%d %H:%M:%S";
 
-    // The signature of a serialize_with function must follow the pattern:
-    //
-    //    fn serialize<S>(&T, S) -> Result<S::Ok, S::Error>
-    //    where
-    //        S: Serializer
-    //
-    // although it may also be generic over the input types T.
     pub fn serialize<S>(date: &NaiveDateTime, serializer: S) -> Result<S::Ok, S::Error>
     where
         S: Serializer,
@@ -569,13 +545,6 @@ pub(crate) mod my_date_format {
         serializer.serialize_str(&s)
     }
 
-    // The signature of a deserialize_with function must follow the pattern:
-    //
-    //    fn deserialize<'de, D>(D) -> Result<T, D::Error>
-    //    where
-    //        D: Deserializer<'de>
-    //
-    // although it may also be generic over the output types T.
     pub fn deserialize<'de, D>(deserializer: D) -> Result<NaiveDateTime, D::Error>
     where
         D: Deserializer<'de>,
@@ -583,6 +552,43 @@ pub(crate) mod my_date_format {
         let s = String::deserialize(deserializer)?;
         let dt = NaiveDateTime::parse_from_str(&s, FORMAT).map_err(serde::de::Error::custom)?;
         Ok(dt)
+    }
+}
+
+pub(crate) mod my_date_format_option {
+    use chrono::NaiveDateTime;
+    use log::warn;
+    use serde::{self, Deserialize, Deserializer, Serializer};
+
+    use super::my_date_format;
+
+    const FORMAT: &str = "%Y-%m-%d %H:%M:%S";
+
+    pub fn serialize<S>(opt: &Option<NaiveDateTime>, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        match *opt {
+            Some(ref dt) => my_date_format::serialize(dt, serializer),
+            None => serializer.serialize_none(),
+        }
+    }
+
+    pub fn deserialize<'de, D>(deserializer: D) -> Result<Option<NaiveDateTime>, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        match String::deserialize(deserializer) {
+            Ok(s) => {
+                let dt =
+                    NaiveDateTime::parse_from_str(&s, FORMAT).map_err(serde::de::Error::custom)?;
+                Ok(Some(dt))
+            }
+            Err(err) => {
+                warn!("解析时间失败: {}", err);
+                Ok(None)
+            }
+        }
     }
 }
 ```
