@@ -266,7 +266,15 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
           <nav id="TableOfContents">
   <ul>
     <li><a href="#前言">前言</a></li>
-    <li><a href="#解释">解释</a></li>
+    <li><a href="#解释">解释</a>
+      <ul>
+        <li><a href="#1-sunniochsocketchannelimplwrite">1. sun.nio.ch.SocketChannelImpl#write</a></li>
+        <li><a href="#2-sunniochioutilwrite">2. sun.nio.ch.IOUtil#write</a></li>
+        <li><a href="#3-sunniochutilgettemporarydirectbuffer">3. sun.nio.ch.Util#getTemporaryDirectBuffer</a></li>
+        <li><a href="#4-sunniochutilbuffercache">4. sun.nio.ch.Util#bufferCache</a></li>
+        <li><a href="#5-sunniochutilfree">5. sun.nio.ch.Util#free</a></li>
+      </ul>
+    </li>
     <li><a href="#通过arthas诊断">通过Arthas诊断</a></li>
     <li><a href="#解决方案">解决方案</a></li>
     <li><a href="#拓展">拓展</a>
@@ -290,8 +298,9 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>老版本JDK在IO线程退出时，不会调用directByteBuffer的Cleaner方法<strong>释放threadlocal中BufferCache的直接内存</strong>。</li>
 <li>加上应用<strong>一直没有OldGC/FullGC</strong>，导致直接内存一直不会被回收，导致OOM</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">// sun.nio.ch.SocketChannelImpl#write(java.nio.ByteBuffer)</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">write</span>(ByteBuffer buf) <span style="color:#66d9ef">throws</span> IOException {
+<p>下面跟一下代码：</p>
+<h3 id="1-sunniochsocketchannelimplwrite">1. sun.nio.ch.SocketChannelImpl#write</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">write</span>(ByteBuffer buf) <span style="color:#66d9ef">throws</span> IOException {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (buf <span style="color:#f92672">==</span> <span style="color:#66d9ef">null</span>)
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">throw</span> <span style="color:#66d9ef">new</span> NullPointerException();
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">synchronized</span> (writeLock) {
@@ -321,8 +330,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">// sun.nio.ch.IOUtil#write(java.io.FileDescriptor, java.nio.ByteBuffer, long, sun.nio.ch.NativeDispatcher)</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">write</span>(FileDescriptor fd, ByteBuffer src, <span style="color:#66d9ef">long</span> position,
+</span></span></code></pre></div><h3 id="2-sunniochioutilwrite">2. sun.nio.ch.IOUtil#write</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">write</span>(FileDescriptor fd, ByteBuffer src, <span style="color:#66d9ef">long</span> position,
 </span></span><span style="display:flex;"><span>                    NativeDispatcher nd)
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">throws</span> IOException
 </span></span><span style="display:flex;"><span>{
@@ -351,8 +360,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>        Util.<span style="color:#a6e22e">offerFirstTemporaryDirectBuffer</span>(bb);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">// sun.nio.ch.Util#getTemporaryDirectBuffer</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">/**
+</span></span></code></pre></div><h3 id="3-sunniochutilgettemporarydirectbuffer">3. sun.nio.ch.Util#getTemporaryDirectBuffer</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">/**
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * Returns a temporary buffer of at least the given size
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> */</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> ByteBuffer <span style="color:#a6e22e">getTemporaryDirectBuffer</span>(<span style="color:#66d9ef">int</span> size) {
@@ -380,10 +389,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> ByteBuffer.<span style="color:#a6e22e">allocateDirect</span>(size);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><blockquote>
-<p>sun.nio.ch.Util#bufferCache</p>
-</blockquote>
-<p>新版本：无此问题</p>
+</span></span></code></pre></div><h3 id="4-sunniochutilbuffercache">4. sun.nio.ch.Util#bufferCache</h3>
+<p>新版本：无此问题。<strong>增加了 <code>threadTerminated</code> 方法</strong></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>    <span style="color:#75715e">// Per-thread cache of temporary direct buffers</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> ThreadLocal<span style="color:#f92672">&lt;</span>BufferCache<span style="color:#f92672">&gt;</span> bufferCache <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TerminatingThreadLocal<span style="color:#f92672">&lt;</span>BufferCache<span style="color:#f92672">&gt;</span>() {
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">@Override</span>
@@ -398,7 +405,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>            }
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>    };
-</span></span></code></pre></div><p>老版本：</p>
+</span></span></code></pre></div><p>老版本，有此问题</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>    <span style="color:#75715e">// Per-thread cache of temporary direct buffers</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> ThreadLocal<span style="color:#f92672">&lt;</span>BufferCache<span style="color:#f92672">&gt;</span> bufferCache <span style="color:#f92672">=</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">new</span> ThreadLocal<span style="color:#f92672">&lt;</span>BufferCache<span style="color:#f92672">&gt;</span>()
@@ -408,9 +415,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> BufferCache();
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>    };
-</span></span></code></pre></div><blockquote>
-<p>sun.nio.ch.Util#free</p>
-</blockquote>
+</span></span></code></pre></div><h3 id="5-sunniochutilfree">5. sun.nio.ch.Util#free</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>    <span style="color:#75715e">/**
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * Frees the memory for the given direct buffer
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
@@ -456,6 +461,9 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p><a href="https://stackoverflow.com/questions/36077641/java-when-does-direct-buffer-released">https://stackoverflow.com/questions/36077641/java-when-does-direct-buffer-released</a></p>
 </blockquote>
 <p>不使用finalizer，而是使用了sun.misc.Cleaner API。</p>
+<blockquote>
+<p>netty的池化直接内存又不一样，那是NoCleaner版本的直接内存，由netty自己管理，所以也不会统计到JVM的直接内存中（此处有点遗忘了，待确定）</p>
+</blockquote>
 <p>DirectByteBuffer does not use old Java finalizers. Instead, it uses internal sun.misc.Cleaner API. It creates new thread and stores a PhantomReference to every DirectByteBuffer created (except duplicates and slices which refer to the primary buffer). When the DirectByteBuffer becomes phantom-reachable (that is, no strong, soft or weak references to the byte buffer exist anymore) and garbage collector sees this, it adds this buffer to the ReferenceQueue which is processed by Cleaner thread. So three events should occur:</p>
 <p>DirectByteBuffer becomes phantom-reachable.
 Garbage collection is performed (in separate thread), DirectByteBuffer Java object is collected and an entry is added to the ReferenceQueue.
