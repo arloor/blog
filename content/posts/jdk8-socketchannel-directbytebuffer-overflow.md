@@ -22,8 +22,11 @@ Hbase会为每一个region server创建一个IPC client线程来做读写操作�
 2. 老版本JDK在IO线程退出时，不会调用directByteBuffer的Cleaner方法**释放threadlocal中BufferCache的直接内存**。
 3. 加上应用**一直没有OldGC/FullGC**，导致直接内存一直不会被回收，导致OOM
 
+下面跟一下代码：
+
+### 1. sun.nio.ch.SocketChannelImpl#write
+
 ```java
-// sun.nio.ch.SocketChannelImpl#write(java.nio.ByteBuffer)
 public int write(ByteBuffer buf) throws IOException {
     if (buf == null)
         throw new NullPointerException();
@@ -56,8 +59,9 @@ public int write(ByteBuffer buf) throws IOException {
 }
 ```
 
+### 2. sun.nio.ch.IOUtil#write
+
 ```java
-// sun.nio.ch.IOUtil#write(java.io.FileDescriptor, java.nio.ByteBuffer, long, sun.nio.ch.NativeDispatcher)
 static int write(FileDescriptor fd, ByteBuffer src, long position,
                     NativeDispatcher nd)
     throws IOException
@@ -89,9 +93,9 @@ static int write(FileDescriptor fd, ByteBuffer src, long position,
 }
 ```
 
+### 3. sun.nio.ch.Util#getTemporaryDirectBuffer
 
 ```java
-// sun.nio.ch.Util#getTemporaryDirectBuffer
 /**
  * Returns a temporary buffer of at least the given size
  */
@@ -122,9 +126,9 @@ public static ByteBuffer getTemporaryDirectBuffer(int size) {
 }
 ```
 
-> sun.nio.ch.Util#bufferCache
+### 4. sun.nio.ch.Util#bufferCache
 
-新版本：无此问题
+新版本：无此问题。**增加了 `threadTerminated` 方法**
 
 ```java
     // Per-thread cache of temporary direct buffers
@@ -143,7 +147,7 @@ public static ByteBuffer getTemporaryDirectBuffer(int size) {
     };
 ```
 
-老版本：
+老版本，有此问题
 
 ```java
     // Per-thread cache of temporary direct buffers
@@ -157,7 +161,7 @@ public static ByteBuffer getTemporaryDirectBuffer(int size) {
     };
 ```
 
-> sun.nio.ch.Util#free
+### 5. sun.nio.ch.Util#free
 
 ```java
     /**
@@ -198,6 +202,8 @@ stack java.nio.ByteBuffer allocateDirect  -n 5
 > [https://stackoverflow.com/questions/36077641/java-when-does-direct-buffer-released](https://stackoverflow.com/questions/36077641/java-when-does-direct-buffer-released)
 
 不使用finalizer，而是使用了sun.misc.Cleaner API。
+
+> netty的池化直接内存又不一样，那是NoCleaner版本的直接内存，由netty自己管理，所以也不会统计到JVM的直接内存中（此处有点遗忘了，待确定）
 
 DirectByteBuffer does not use old Java finalizers. Instead, it uses internal sun.misc.Cleaner API. It creates new thread and stores a PhantomReference to every DirectByteBuffer created (except duplicates and slices which refer to the primary buffer). When the DirectByteBuffer becomes phantom-reachable (that is, no strong, soft or weak references to the byte buffer exist anymore) and garbage collector sees this, it adds this buffer to the ReferenceQueue which is processed by Cleaner thread. So three events should occur:
 
