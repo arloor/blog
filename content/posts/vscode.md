@@ -138,6 +138,27 @@ TIPS：
     - 也可以在ssh config中增加 `RemoteForward 7890 localhost:7890` 使用本地的clash作为代理。
 3. 历史记录保存在 `~/.ssh/config` 中。
 
+### ssh到macOS上远程开发
+
+要ssh到macOS上进行远程开发，需要额外的命令：
+
+```shell
+xcode-select --install # 安装 LLDB.framework
+sudo DevToolsSecurity --enable # 永久允许Developer Tools Access 附加到其他进程上，以进行debug
+sudo security authorizationdb write system.privilege.taskport.debug allow # 允许remote-ssh调试进程。解决报错：this is a non-interactive debug session, cannot get permission to debug processes.
+```
+
+参考文档：
+
+1. [Debugging with LLDB-MI on macOS](https://code.visualstudio.com/docs/cpp/lldb-mi)
+2. [Unable to debug after connecting to macOS via "Remote - SSH" ](https://github.com/vadimcn/codelldb/issues/1079) 解决报错：this is a non-interactive debug session, cannot get permission to debug processes.
+
+如果每次ssh到macOS都需要输入密码，设置公钥就行：
+
+```shell
+echo ssh-rsa xxxxxxxx not@home > ~/.ssh/authorized_keys
+```
+
 ## 卸载远程服务器vscode server
 
 > **这个比想象的更加常用，因为在大型的项目中，符号跳转经常导致CPU占用很高并且无响应**
