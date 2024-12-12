@@ -524,11 +524,11 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </ol>
 <h3 id="ssh到macos上远程开发">ssh到macOS上远程开发</h3>
 <p>要ssh到macOS上进行远程开发，需要额外的命令：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>xcode-select --install <span style="color:#75715e"># 安装 LLDB.framework</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>xcode-select --install <span style="color:#75715e"># 安装 LLDB.framework</span>
 </span></span><span style="display:flex;"><span>sudo DevToolsSecurity --enable <span style="color:#75715e"># 永久允许Developer Tools Access 附加到其他进程上，以进行debug</span>
 </span></span><span style="display:flex;"><span>sudo security authorizationdb write system.privilege.taskport.debug allow <span style="color:#75715e"># 允许remote-ssh调试进程。解决报错：this is a non-interactive debug session, cannot get permission to debug processes.</span>
 </span></span></code></pre></div><p>其实第三个命令就是对第二个命令的补充。他们操作的都是rights definition for: system.privilege.taskport.debug。可以执行下面两条命令来验证，可以发现就是打印格式不同，内容是一样的。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>sudo DevToolsSecurity -status -verbose
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo DevToolsSecurity -status -verbose
 </span></span><span style="display:flex;"><span>sudo security authorizationdb read system.privilege.taskport.debug
 </span></span></code></pre></div><p>参考文档：</p>
 <ol>
@@ -536,7 +536,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li><a href="https://github.com/vadimcn/codelldb/issues/1079">Unable to debug after connecting to macOS via &ldquo;Remote - SSH&rdquo; </a> 解决报错：this is a non-interactive debug session, cannot get permission to debug processes.</li>
 </ol>
 <p>如果每次ssh到macOS都需要输入密码，设置公钥就行：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>echo ssh-rsa xxxxxxxx not@home &gt; ~/.ssh/authorized_keys
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo ssh-rsa xxxxxxxx not@home &gt; ~/.ssh/authorized_keys
 </span></span></code></pre></div><h2 id="卸载远程服务器vscode-server">卸载远程服务器vscode server</h2>
 <blockquote>
 <p><strong>这个比想象的更加常用，因为在大型的项目中，符号跳转经常导致CPU占用很高并且无响应</strong></p>
