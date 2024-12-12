@@ -1,5 +1,5 @@
 ---
-title: "Java8 Direct Bytebuffer Overflow"
+title: "老版本Java8 NIO Socket Channel读写HeapByteBuffer导致的直接内存泄漏"
 date: 2023-12-01T16:44:35+08:00
 draft: false
 categories: [ "undefined"]
