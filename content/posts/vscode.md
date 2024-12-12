@@ -374,7 +374,6 @@ fi
     "github-actions.workflows.pinned.refresh.enabled": true, // 自动刷新被pin住的github action的执行状态，可能触发Github API的限制
     "github-actions.workflows.pinned.refresh.interval": 10,
     "remote.SSH.defaultExtensions": [
-        "waderyan.gitblame",
         "mhutchie.git-graph",
         "github.copilot",
         "github.vscode-github-actions", // github actions
@@ -394,7 +393,8 @@ fi
     "remote.SSH.remotePlatform": {
         "bi.arloor.com": "linux",
         "pl.arloor.com": "linux",
-        "tt.arloor.com": "linux"
+        "tt.arloor.com": "linux",
+        "192.168.5.244": "macOS"
     },
     "go.toolsManagement.autoUpdate": true,
     "diffEditor.ignoreTrimWhitespace": true,
@@ -462,5 +462,74 @@ fi
     "diffEditor.experimental.showMoves": true,
     "git-graph.commitDetailsView.location": "Docked to Bottom",
     "git-graph.date.format": "ISO Date & Time",
+    "leek-fund.stocks": [
+        "sh000300",
+        "sh000688",
+        "hk03690",
+        "hk00700",
+        "usr_ixic",
+        "usr_dji",
+        "usr_inx",
+        "nf_IF0",
+        "nf_IH0",
+        "nf_IC0",
+        "nf_IM0",
+        "hf_OIL",
+        "hf_CHA50CFD",
+        "sz002768",
+        "sz002212",
+        "sz002602",
+        "sh603983"
+    ],
+    "leek-fund.statusBarStock": [
+        "sz002602"
+    ],
+    "leek-fund.stockPrice": {
+        "sz002768": {
+            "name": "国恩股份",
+            "amount": 0,
+            "price": "22.31",
+            "unitPrice": 0,
+            "earnings": 0
+        },
+        "sz002212": {
+            "name": "天融信",
+            "amount": 0,
+            "price": "6.79",
+            "unitPrice": 0,
+            "earnings": 0
+        },
+        "sz002602": {
+            "name": "ST华通",
+            "amount": 117200,
+            "price": "4.33",
+            "unitPrice": 4.233,
+            "earnings": 0
+        },
+        "sh603899": {
+            "name": "晨光股份",
+            "amount": 100,
+            "price": "29.70",
+            "unitPrice": 30.6,
+            "earnings": 0
+        },
+        "hk03690": {
+            "name": "美团-W",
+            "amount": 0,
+            "price": "162.0",
+            "unitPrice": 0,
+            "earnings": 0
+        },
+        "hk00700": {
+            "name": "腾讯控股",
+            "amount": 0,
+            "price": "395.2",
+            "unitPrice": 0,
+            "earnings": 0
+        }
+    },
+    "git.blame.editorDecoration.enabled": true,
+    "git.blame.statusBarItem.enabled": true,
+    "git.blame.editorDecoration.template": "${authorName} (${authorDateAgo}), ${subject}"
 }
 ```
