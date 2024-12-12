@@ -199,11 +199,9 @@ stack java.nio.ByteBuffer allocateDirect  -n 5
 
 ### DirectByteBuffer的释放
 
-> [https://stackoverflow.com/questions/36077641/java-when-does-direct-buffer-released](https://stackoverflow.com/questions/36077641/java-when-does-direct-buffer-released)
+参考[https://stackoverflow.com/questions/36077641/java-when-does-direct-buffer-released](https://stackoverflow.com/questions/36077641/java-when-does-direct-buffer-released)说的：不使用finalizer，而是使用了sun.misc.Cleaner API。
 
-不使用finalizer，而是使用了sun.misc.Cleaner API。
-
-> netty的池化直接内存又不一样，那是NoCleaner版本的直接内存，由netty自己管理，所以也不会统计到JVM的直接内存中（此处有点遗忘了，待确定）
+PS: netty的池化直接内存又不一样，那是NoCleaner版本的直接内存，由netty自己管理，所以也*不会统计到JVM的直接内存中（此处有点遗忘了，待确定）*
 
 DirectByteBuffer does not use old Java finalizers. Instead, it uses internal sun.misc.Cleaner API. It creates new thread and stores a PhantomReference to every DirectByteBuffer created (except duplicates and slices which refer to the primary buffer). When the DirectByteBuffer becomes phantom-reachable (that is, no strong, soft or weak references to the byte buffer exist anymore) and garbage collector sees this, it adds this buffer to the ReferenceQueue which is processed by Cleaner thread. So three events should occur:
 
