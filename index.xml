@@ -254,7 +254,7 @@
       <description>&lt;p&gt;Async Profile是Java应用profiling的强大工具，可以方便地输出火焰图html或者jfr格式给Java Mission Control查看，这里记录下如何使用。&lt;/p&gt;</description>
     </item>
     <item>
-      <title>Java8 Direct Bytebuffer Overflow</title>
+      <title>老版本Java8 NIO Socket Channel读写HeapByteBuffer导致的直接内存泄漏</title>
       <link>https://www.arloor.com/posts/jdk8-socketchannel-directbytebuffer-overflow/</link>
       <pubDate>Fri, 01 Dec 2023 16:44:35 +0800</pubDate>
       <guid>https://www.arloor.com/posts/jdk8-socketchannel-directbytebuffer-overflow/</guid>

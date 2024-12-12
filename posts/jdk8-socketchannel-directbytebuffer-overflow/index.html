@@ -19,18 +19,18 @@
     
     
 
-<title>Java8 Direct Bytebuffer Overflow • ARLOOR</title>
+<title>老版本Java8 NIO Socket Channel读写HeapByteBuffer导致的直接内存泄漏 • ARLOOR</title>
 <meta name="description" content="今天，你学习了吗">
 <meta name="keywords" content="刘港欢, arloor, moontell">
 
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Java8 Direct Bytebuffer Overflow">
+  <meta name="twitter:title" content="老版本Java8 NIO Socket Channel读写HeapByteBuffer导致的直接内存泄漏">
   <meta name="twitter:description" content="前言 Hbase会为每一个region server创建一个IPC client线程来做读写操作，并且该线程空闲两分钟就会被关闭。并且Hbase使用Java NIO的Socket Channel和HeapByteBuffer来做读写操作。由于JDK内部机制的问题，会导致直接内存泄漏，下面介绍所谓的内部机制来剖析根因。">
       <meta name="twitter:site" content="@njulgh">
 
 <meta property="og:url" content="https://www.arloor.com/posts/jdk8-socketchannel-directbytebuffer-overflow/">
   <meta property="og:site_name" content="ARLOOR">
-  <meta property="og:title" content="Java8 Direct Bytebuffer Overflow">
+  <meta property="og:title" content="老版本Java8 NIO Socket Channel读写HeapByteBuffer导致的直接内存泄漏">
   <meta property="og:description" content="前言 Hbase会为每一个region server创建一个IPC client线程来做读写操作，并且该线程空闲两分钟就会被关闭。并且Hbase使用Java NIO的Socket Channel和HeapByteBuffer来做读写操作。由于JDK内部机制的问题，会导致直接内存泄漏，下面介绍所谓的内部机制来剖析根因。">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:type" content="article">
@@ -218,7 +218,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     
 <article>
   <header>
-    <h1>Java8 Direct Bytebuffer Overflow</h1>
+    <h1>老版本Java8 NIO Socket Channel读写HeapByteBuffer导致的直接内存泄漏</h1>
     
     
 <div class="post__meta">
