@@ -148,6 +148,13 @@ sudo DevToolsSecurity --enable # 永久允许Developer Tools Access 附加到其
 sudo security authorizationdb write system.privilege.taskport.debug allow # 允许remote-ssh调试进程。解决报错：this is a non-interactive debug session, cannot get permission to debug processes.
 ```
 
+其实第三个命令就是对第二个命令的补充。他们操作的都是rights definition for: system.privilege.taskport.debug。可以执行下面两条命令来验证，可以发现就是打印格式不同，内容是一样的。
+
+```shell
+sudo DevToolsSecurity -status -verbose
+sudo security authorizationdb read system.privilege.taskport.debug
+```
+
 参考文档：
 
 1. [Debugging with LLDB-MI on macOS](https://code.visualstudio.com/docs/cpp/lldb-mi)
