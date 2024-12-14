@@ -87,5 +87,5 @@ keywords:
 | 内存 | 光威龙武 6800 海力士Adie |
 | 显卡 | 七彩虹 4070 ti super ultra OC 16GB |
 
-{{<img Snipaste_2024-12-15_01-14-53.png 500>}}
+{{<img Snipaste_2024-12-15_01-14-53.png 800>}}
 
