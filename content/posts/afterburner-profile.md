@@ -23,6 +23,4 @@ keywords:
 
 下面是将cpu利用率改成方块的配置：
 
-![alt text](image.png)
-
 {{< img afterbuner_cpu_barchart.png 700 >}}
