@@ -48,7 +48,7 @@
       <link>https://www.arloor.com/posts/afterburner-profile/</link>
       <pubDate>Fri, 28 Jun 2024 22:53:39 +0800</pubDate>
       <guid>https://www.arloor.com/posts/afterburner-profile/</guid>
-      <description>&lt;p&gt;下载&lt;a href=&#34;https://www.arloor.com/backup/MSIAfterburner.cfg&#34;&gt;MSIAfterburner.cfg&lt;/a&gt;到 &lt;code&gt;%programfiles(x86)%\MSI Afterburner\Profiles&lt;/code&gt;。当前版本是4.6.6(beta3)，下载地址：&lt;a href=&#34;https://www.msi.com/Landing/afterburner/graphics-cards&#34;&gt;msi官方&lt;/a&gt;或&lt;a href=&#34;https://www.guru3d.com/download/msi-afterburner-beta-download/&#34;&gt;guru3d下载&lt;/a&gt;。核心效果是展示各个cpu核心的使用率，如下：&lt;/p&gt;&#xA;&lt;p&gt;&lt;img src=&#34;https://www.arloor.com/img/afterburner-snapshot.png&#34; alt=&#34;alt text&#34;&gt;&lt;/p&gt;</description>
+      <description>&lt;p&gt;下载&lt;a href=&#34;https://www.arloor.com/backup/MSIAfterburner.cfg&#34;&gt;MSIAfterburner.cfg&lt;/a&gt;到 &lt;code&gt;%programfiles(x86)%\MSI Afterburner\Profiles&lt;/code&gt;。当前版本是4.6.6(beta3)，下载地址：&lt;a href=&#34;https://www.msi.com/Landing/afterburner/graphics-cards&#34;&gt;msi官方&lt;/a&gt;或&lt;a href=&#34;https://www.guru3d.com/download/msi-afterburner-beta-download/&#34;&gt;guru3d下载&lt;/a&gt;。核心效果是展示各个cpu核心的使用率，如下：&lt;/p&gt;&#xA;&lt;p&gt;&lt;img src=&#34;https://www.arloor.com/img/afterburner-snapshot.png&#34; alt=&#34;alt text&#34;&gt;&lt;/p&gt;&#xA;&lt;p&gt;下图是展示aida64提供的电压的配置：&lt;/p&gt;</description>
     </item>
     <item>
       <title>Debian10相关软件安装</title>
