@@ -36,9 +36,9 @@ reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /
 
 之后在设备管理器中查看这些内容，就是图中所示的版本：
 
-![881f076f28b4571961352a6600c22edf.png](/img/881f076f28b4571961352a6600c22edf.png)
+{{<img 881f076f28b4571961352a6600c22edf.png 700>}}
 
-并且，C盘的预配置包里也有了PPM文件：
+并且，C盘的预配置包( `C:\Windows\Provisioning\Packages` )里也有了PPM文件：
 
 ![e6f632a2dfed15334dd18bc35c634ea5.png](/img/e6f632a2dfed15334dd18bc35c634ea5.png)
 
@@ -48,7 +48,7 @@ reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /
 
 过程中还搜索到 Intel Extreme Tunning Utility（简称Intel XTU）也依赖IPF，这个我是用过的啊。我尝试安装了新版的 Intel XTU，下载地址[Intel® Extreme Tuning Utility (Intel® XTU)](https://www.intel.com/content/www/us/en/download/17881/intel-extreme-tuning-utility-intel-xtu.html)，安装10.x版本是支持265k的。
 
-![860f12eb5f83041cb9f13c0890ecda4d.png](/img/860f12eb5f83041cb9f13c0890ecda4d.png)
+{{<img 860f12eb5f83041cb9f13c0890ecda4d.png 500>}}
 
 安装结束后提示到这个链接（[Intel® Innovation Platform Framework](https://www.intel.com/content/www/us/en/download/826464/intel-innovation-platform-framework.html)）下载IPF installer，我心里一喜，结果打开来一看，这个页面提供的也是老版本的：
 
@@ -58,4 +58,4 @@ reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /
 
 ## 在XTU中查看IPF版本
 
-![28e81f36d6d93852bf0660edd6a3a1a8.png](/img/28e81f36d6d93852bf0660edd6a3a1a8.png)
+{{<img 28e81f36d6d93852bf0660edd6a3a1a8.png 500 >}}
