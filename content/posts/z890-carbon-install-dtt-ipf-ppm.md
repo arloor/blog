@@ -40,7 +40,7 @@ reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /
 
 ![8e8208913a70ca6459da9ae2b03a674b.png](/img/8e8208913a70ca6459da9ae2b03a674b.png)
 
-下载之后，我大胆运行了图中的 `AsusSetup.exe` ，这成功解决了问题，安装了对应版本的DTT Driver、IPF、PPM。这三个东西都是CPU相关的，跟主板没任何关系，所以我才敢安装。其中DTT是**Intel® Dynamic Tuning Technology (Intel® DTT)** ，Intel的官方系统内超频工具XTU就是依赖这个技术。
+下载之后，我大胆运行了图中的 `AsusSetup.exe` ，这成功解决了问题，安装了对应版本的DTT Driver、IPF、PPM。这三个东西都是CPU相关的，跟主板没任何关系，所以我才敢安装。其中DTT是**Intel® Dynamic Tuning Technology (Intel® DTT)** ，Intel的官方系统内超频工具XTU就是依赖这个技术，号称能提升游戏帧率的APO也是依赖这个。
 
 ![696f3485731aa73dc213e8f4943b1d87.png](/img/696f3485731aa73dc213e8f4943b1d87.png)
 
