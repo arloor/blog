@@ -21,15 +21,22 @@ description : ""
 官方的说明在[英特尔® PPM 配置包和驱动程序概述和常见问题解答](https://www.intel.cn/content/www/cn/zh/support/articles/000100206/processors/processor-utilities-and-programs.html)，但是细看这个文档非常抽象。针对我使用的[Arrow Lake](https://www.intel.cn/content/www/cn/zh/ark/products/codename/225837/products-formerly-arrow-lake.html)系列的265k CPU，需要IPF （**Intel® Innovation Platform Framework**）版本在 **2.2.10203.4 或更高版本**，文档里说这由OEM提供更新或这通过Windows Update（WU）提供驱动程序更新。但是我搜索了主板的[驱动更新页面](https://www.msi.cn/Motherboard/MPG-Z890-CARBON-WIFI/support#driver)和检查windows更新的驱动程序更新都没找到。
 
 > 允许windows更新检查驱动程序更新：（我之前关闭了，这里打开）
-> 
 
 ```bash
 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v ExcludeWUDriversInQualityUpdate /t REG_DWORD /d 0 /f
 ```
 
+最后我确认了原因，是微星的驱动程序更新太慢了: 下面这个图的DTT版本是9.0.11900.51013，还包含了老版本的IPF。
+
+{{<img msi-support-dtt-driver-version.png 700>}}
+
+工具软件页面还有一个ppm文件，也是老版本。当然不排除微星提供的这些老版本文件也是互相搭配的，可能是我查看intel的文档时，intel已经更新了文档。
+
+{{<img msi-old-ppm.png 700>}}
+
 ## 如何安装
 
-最后我确认了原因，是微星的驱动程序更新太慢了。但华硕就很给力，我在[华硕的z890-p主板支持页面](https://www.asus.com/bt/motherboards-components/motherboards/prime/prime-z890-p/helpdesk_download?model2Name=PRIME-Z890-P)找到了我要的驱动程序：
+但华硕就很给力，我在[华硕的z890-p主板支持页面](https://www.asus.com/bt/motherboards-components/motherboards/prime/prime-z890-p/helpdesk_download?model2Name=PRIME-Z890-P)找到了我要的驱动程序：
 
 ![8e8208913a70ca6459da9ae2b03a674b.png](/img/8e8208913a70ca6459da9ae2b03a674b.png)
 
