@@ -289,18 +289,30 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>下载之后，我大胆运行了图中的 <code>AsusSetup.exe</code> ，这成功解决了问题，安装了对应版本的DTT Driver、IPF、PPM。这三个东西都是CPU相关的，跟主板没任何关系，所以我才敢安装。其中DTT是<strong>Intel® Dynamic Tuning Technology (Intel® DTT)</strong> ，Intel的官方系统内超频工具XTU就是依赖这个技术。</p>
 <p><img src="/img/696f3485731aa73dc213e8f4943b1d87.png" alt="696f3485731aa73dc213e8f4943b1d87.png"></p>
 <p>之后在设备管理器中查看这些内容，就是图中所示的版本：</p>
-<p><img src="/img/881f076f28b4571961352a6600c22edf.png" alt="881f076f28b4571961352a6600c22edf.png"></p>
-<p>并且，C盘的预配置包里也有了PPM文件：</p>
+
+
+
+<img src="/img/881f076f28b4571961352a6600c22edf.png" alt="" width="700px" style="max-width: 100%;">
+
+<p>并且，C盘的预配置包( <code>C:\Windows\Provisioning\Packages</code> )里也有了PPM文件：</p>
 <p><img src="/img/e6f632a2dfed15334dd18bc35c634ea5.png" alt="e6f632a2dfed15334dd18bc35c634ea5.png"></p>
 <p>至此，就安装完成了。</p>
 <h2 id="探索路径">探索路径</h2>
 <p>过程中还搜索到 Intel Extreme Tunning Utility（简称Intel XTU）也依赖IPF，这个我是用过的啊。我尝试安装了新版的 Intel XTU，下载地址<a href="https://www.intel.com/content/www/us/en/download/17881/intel-extreme-tuning-utility-intel-xtu.html">Intel® Extreme Tuning Utility (Intel® XTU)</a>，安装10.x版本是支持265k的。</p>
-<p><img src="/img/860f12eb5f83041cb9f13c0890ecda4d.png" alt="860f12eb5f83041cb9f13c0890ecda4d.png"></p>
+
+
+
+<img src="/img/860f12eb5f83041cb9f13c0890ecda4d.png" alt="" width="500px" style="max-width: 100%;">
+
 <p>安装结束后提示到这个链接（<a href="https://www.intel.com/content/www/us/en/download/826464/intel-innovation-platform-framework.html">Intel® Innovation Platform Framework</a>）下载IPF installer，我心里一喜，结果打开来一看，这个页面提供的也是老版本的：</p>
 <p><img src="/img/581ca5407be2820f83a44113741963dd.png" alt="581ca5407be2820f83a44113741963dd.png"></p>
 <p>此路不通。</p>
 <h2 id="在xtu中查看ipf版本">在XTU中查看IPF版本</h2>
-<p><img src="/img/28e81f36d6d93852bf0660edd6a3a1a8.png" alt="28e81f36d6d93852bf0660edd6a3a1a8.png"></p>
+
+
+
+<img src="/img/28e81f36d6d93852bf0660edd6a3a1a8.png" alt="" width="500px" style="max-width: 100%;">
+
 
   </div>
   
