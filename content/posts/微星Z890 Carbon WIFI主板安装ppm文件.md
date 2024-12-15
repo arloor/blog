@@ -11,6 +11,9 @@ weight: 10
 subtitle: ""
 description : ""
 ---
+
+<!--more-->
+
 ## 什么是PPM
 
 全称**Intel® PPM(Processor Power Management) Provisioning Package**，即Intel处理器电源管理预配置包，为处理器提供经过调整和优化的电源管理设置，以提高响应速度、电池续航时间和性能。从12代CPU到Ultra 200s CPU，他们都是大小核心设计，额外需要这个东西。
