@@ -216,6 +216,27 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   <div class="post-list__item">
     <span class="item__title--big">
+      <a href="/posts/go-pprof/" >GO PProf使用</a>
+    </span>
+    <span class="item__date">
+      Jun 2, 2022
+    </span>
+    <span >
+      
+      <p>记录下如何使用pprof</p>
+      
+    </span>
+    
+    ... <a class="read-more-symbol" href="/posts/go-pprof/">➦</a>
+    
+  </div>
+  
+  
+  
+  
+  
+  <div class="post-list__item">
+    <span class="item__title--big">
       <a href="/posts/rhel8-dd-install/" >dd安装rhel8</a>
     </span>
     <span class="item__date">
@@ -400,31 +421,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     </span>
     
     ... <a class="read-more-symbol" href="/posts/java-agent/">➦</a>
-    
-  </div>
-  
-  
-  
-  
-  
-  <div class="post-list__item">
-    <span class="item__title--big">
-      <a href="/posts/opentelemetry-trace/" >Opentelemetry是怎么做链路追踪的</a>
-    </span>
-    <span class="item__date">
-      Dec 12, 2021
-    </span>
-    <span >
-      
-      <p>云原生可观测技术是云原生下很火的一个命题，opentelemetry的定位是统一metrics,trace和log的协议、api、sdk和exporter，他越来越成为云原生技术体系下的可观测性标准。这个博客就是来探究下opentelemetry是什么，做什么，怎么做的。</p>
-<blockquote>
-<p>OpenTelemetry is a collection of tools, APIs, and SDKs. Use it to instrument, generate, collect, and export telemetry data (metrics, logs, and traces) to help you analyze your software’s performance and behavior.</p>
-</blockquote>
-<p>上面是<a href="https://opentelemetry.io/">opentelemetry官网</a>对自己的定位。抽取一下关键词，opentelemetry仅提供了api和SDK，不负责后端实现（后端由prometheus、jaeger等实现），用这些api和SDK，你可以做性能数据埋点，生成、收集和导出（generate, collect, and export）监控数据。对这段话最终的理解是opentelemetry只做SDK层面的事，职责的边缘是export数据即止。</p>
-      
-    </span>
-    
-    ... <a class="read-more-symbol" href="/posts/opentelemetry-trace/">➦</a>
     
   </div>
   
