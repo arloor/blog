@@ -6,8 +6,15 @@
     <description>Recent content in Posts on ARLOOR</description>
     <generator>Hugo</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sun, 15 Dec 2024 15:30:06 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 16 Dec 2024 22:16:38 +0800</lastBuildDate>
     <atom:link href="https://www.arloor.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>使用Mac mini wakeonlan windows主机（微星主板）</title>
+      <link>https://www.arloor.com/posts/mac-wakeonlan-windows-11-msi-motherboard/</link>
+      <pubDate>Mon, 16 Dec 2024 22:16:38 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/mac-wakeonlan-windows-11-msi-motherboard/</guid>
+      <description>&lt;p&gt;家里有台Mac mini是一直开机的，作为软路由使用，也作为跳板机连接到家里网络。今天试了下怎么用这个mac mini通过wake on lan唤醒windows主机。&lt;/p&gt;</description>
+    </item>
     <item>
       <title>微星Z890 Carbon WIFI主板安装ppm文件</title>
       <link>https://www.arloor.com/posts/z890-carbon-install-dtt-ipf-ppm/</link>

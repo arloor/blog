@@ -216,6 +216,34 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   <div class="post-list__item">
     <span class="item__title--big">
+      <a href="/posts/huawei-turnoff-upgrade/" >华为手机关闭系统更新</a>
+    </span>
+    <span class="item__date">
+      Nov 16, 2019
+    </span>
+    <span >
+      
+      <ol>
+<li>下载安卓SDK platform tools（其实就是ADB）。下载地址：<a href="https://developer.android.com/studio/releases/platform-tools.html">platform-tools</a></li>
+<li>开启手机的开发者模式，开启usb调试</li>
+<li>手机连接电脑，允许usb调试</li>
+<li>使用<code>adb shell pm disable-user com.huawei.android.hwouc</code> 禁用系统更新</li>
+<li>使用<code>adb shell pm enable com.huawei.android.hwouc</code> 恢复系统更新</li>
+</ol>
+<p>【EOF】</p>
+      
+    </span>
+    
+    ... <a class="read-more-symbol" href="/posts/huawei-turnoff-upgrade/">➦</a>
+    
+  </div>
+  
+  
+  
+  
+  
+  <div class="post-list__item">
+    <span class="item__title--big">
       <a href="/posts/spring-use-notes/" >Spring随用随记</a>
     </span>
     <span class="item__date">
@@ -400,27 +428,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     </span>
     
     ... <a class="read-more-symbol" href="/posts/libuv-install/">➦</a>
-    
-  </div>
-  
-  
-  
-  
-  
-  <div class="post-list__item">
-    <span class="item__title--big">
-      <a href="/posts/redis/psync2/" >Psync2——redis备份机制的发展【转载】</a>
-    </span>
-    <span class="item__date">
-      Sep 5, 2019
-    </span>
-    <span >
-      
-      <p>今天的正题是想转发一篇关于<a href="https://mp.weixin.qq.com/s/ROQofjE5WwdAltazQ5p0QQ">“异步拷贝”发展的博文</a>，写的真的好，忍不住想转发。看完不禁感叹redis的牛逼，有种兴叹汪洋的感觉。。</p>
-      
-    </span>
-    
-    ... <a class="read-more-symbol" href="/posts/redis/psync2/">➦</a>
     
   </div>
   
