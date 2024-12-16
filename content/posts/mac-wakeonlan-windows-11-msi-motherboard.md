@@ -66,3 +66,42 @@ windows主机网卡的mac地址可以通过`ipconfig /all`查看，结果如下�
    TCPIP 上的 NetBIOS  . . . . . . . : 已启用
 ```
 
+
+## windows11 启用openssh
+
+参考文档：
+
+1. [适用于 Windows 的 OpenSSH 入门](https://learn.microsoft.com/zh-cn/windows-server/administration/openssh/openssh_install_firstuse?tabs=powershell&pivots=windows-server-2025#enable-openssh-for-windows-server-2025)
+2. [Install Win32 OpenSSH](https://github.com/PowerShell/Win32-OpenSSH/wiki/Install-Win32-OpenSSH)
+
+首先启用可选功能 openssh server
+
+![alt text](/img/winodws11-enable-opensshd.png)
+
+然后启动sshd服务，并设置为自动启动，并检查防火墙设置：
+
+```ps1
+# Start the sshd service
+Start-Service sshd
+# 设置为开机自启动
+Set-Service -Name sshd -StartupType 'Automatic'
+# 检查防火前设置
+if (!(Get-NetFirewallRule -Name "OpenSSH-Server-In-TCP" -ErrorAction SilentlyContinue | Select-Object Name, Enabled)) {
+    Write-Output "Firewall Rule 'OpenSSH-Server-In-TCP' does not exist, creating it..."
+    New-NetFirewallRule -Name 'OpenSSH-Server-In-TCP' -DisplayName 'OpenSSH Server (sshd)' -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22
+} else {
+    Write-Output "Firewall rule 'OpenSSH-Server-In-TCP' has been created and exists."
+}
+```
+
+配置sshd_config，位置在 %programdata%\ssh\sshd_config，参考文档：[OpenSSH Server configuration for Windows Server and Windows](https://learn.microsoft.com/zh-cn/windows-server/administration/OpenSSH/openssh-server-configuration)，主要修改下面两个配置：就是强制使用公钥登录
+
+```bash
+PubkeyAuthentication yes
+PasswordAuthentication no
+```
+
+然后重启sshd服务，让配置生效。
+
+在windows上保存公钥: 如果是系统管理员账户，则在 `%programdata%/ssh/administrators_authorized_keys` 中保存公钥，如果是普通用户，则在 `%userprofile%/.ssh/authorized_keys` 中保存公钥。
+
