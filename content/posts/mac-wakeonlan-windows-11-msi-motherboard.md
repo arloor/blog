@@ -1,5 +1,5 @@
 ---
-title: "使用Mac mini wakeonlan windows主机（微星主板）"
+title: "使用Mac mini wakeonlan windows主机（微星主板）并安装openssh"
 subtitle:
 tags: 
 - undefined
