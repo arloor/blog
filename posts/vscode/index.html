@@ -274,6 +274,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     <li><a href="#其他快捷键">其他快捷键</a></li>
     <li><a href="#远程开发">远程开发</a>
       <ul>
+        <li><a href="#ssh到windows上使用wsl开发">ssh到windows上使用WSL开发</a></li>
+        <li><a href="#使用socat作为proxycommand用http代理连接ssh服务器">使用socat作为ProxyCommand，用http代理连接ssh服务器</a></li>
         <li><a href="#ssh到macos上远程开发">ssh到macOS上远程开发</a></li>
       </ul>
     </li>
@@ -522,9 +524,15 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </li>
 <li>历史记录保存在 <code>~/.ssh/config</code> 中。</li>
 </ol>
-<p>我有时会ssh到windows上，然后用WSL远程开发。发现在WSL的镜像网络模式下，vscode不会自动进行端口转发，于是在 <code>.ssh/config</code> 中手动增加了LocalForward：</p>
+<h3 id="ssh到windows上使用wsl开发">ssh到windows上使用WSL开发</h3>
+<p>我有时会ssh到windows上，然后用WSL远程开发。发现在WSL的镜像网络（mirrored）模式下，vscode不会自动进行端口转发，于是在 <code>.ssh/config</code> 中手动增加了LocalForward：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>LocalForward <span style="color:#ae81ff">7788</span> 192.168.5.127:7788
-</span></span></code></pre></div><h3 id="ssh到macos上远程开发">ssh到macOS上远程开发</h3>
+</span></span></code></pre></div><h3 id="使用socat作为proxycommand用http代理连接ssh服务器">使用socat作为ProxyCommand，用http代理连接ssh服务器</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Host *.arloor.*
+</span></span><span style="display:flex;"><span>  ProxyCommand socat - PROXY:localhost:%h:%p,proxyport<span style="color:#f92672">=</span><span style="color:#ae81ff">6152</span>
+</span></span></code></pre></div><p>这使用了surge进行代理连接。注意，每次增加vscode的ssh服务器列表时，vscode都会把 <code>proxyport=6152</code> 改成 <code>proxyport 6152</code>，<strong>需要手动改回来</strong>。</p>
+<p>对应的surge规则是：<code>AND,((PROCESS-NAME,*socat*), (DEST-PORT,22), (DOMAIN-KEYWORD,arloor,extended-matching)),家里</code></p>
+<h3 id="ssh到macos上远程开发">ssh到macOS上远程开发</h3>
 <p>要ssh到macOS上进行远程开发，需要额外的命令：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>xcode-select --install <span style="color:#75715e"># 安装 LLDB.framework</span>
 </span></span><span style="display:flex;"><span>sudo DevToolsSecurity --enable <span style="color:#75715e"># 永久允许Developer Tools Access 附加到其他进程上，以进行debug</span>
