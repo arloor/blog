@@ -64,3 +64,24 @@ ssh -D [本地端口] [SSH服务器用户名]@[SSH服务器地址]
 
 - 可以使用 -N 选项在不执行远程命令的情况下建立SSH连接。
 - 使用 -f 选项可以使SSH会话在后台运行。
+
+## 我的ssh config备份
+
+```bash
+Host *.arloor.*
+  ProxyCommand socat - PROXY:localhost:%h:%p,proxyport=6152
+
+Host 192.168.5.*
+  ProxyCommand /opt/homebrew/bin/socat - PROXY:localhost:%h:%p,proxyport=6152
+  User arloor
+
+Host windows
+  HostName 192.168.5.127
+  LocalForward 7788 192.168.5.127:7788
+  User arloor
+  Port 5508
+
+Host tt.arloor.com
+  HostName tt.arloor.com
+  User root
+```
