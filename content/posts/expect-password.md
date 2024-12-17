@@ -99,3 +99,39 @@ chmod +x ~/bin/work
         </dict>
 </plist>
 ```
+
+因为macOS有keychain来保存kinit的密码，所以也可以改成：
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+        <dict>
+                <key>Label</key>
+                <string>com.arloor.kinit</string>
+                <!-- 加载后立即启动，即开机自启 -->
+                <key>RunAtLoad</key>
+                <true />
+                <key>WorkingDirectory</key>
+                <string>/tmp</string>
+                <key>ProgramArguments</key>
+                <array>
+                        <string>kinit</string>
+                        <string>--keychain</string>
+                        <string>-l</string>
+                        <string>100d</string>
+                        <string>liuganghuan@BYTEDANCE.COM</string>
+                </array>
+                <key>StartCalendarInterval</key>
+                <dict>
+                        <key>Hour</key>
+                        <integer>10</integer>
+                        <key>Minute</key>
+                        <integer>0</integer>
+                </dict>
+                <!-- 标准输出路径 -->
+                <key>StandardOutPath</key>
+                <string>/tmp/work.log</string>
+        </dict>
+</plist>
+```
