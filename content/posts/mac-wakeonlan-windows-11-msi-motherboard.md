@@ -108,6 +108,61 @@ PasswordAuthentication no
 
 在windows上保存公钥: 如果是系统管理员账户（一般第一个账户都是系统管理员账户），则在 `%programdata%/ssh/administrators_authorized_keys` 中保存公钥，如果是普通用户，则在 `%userprofile%/.ssh/authorized_keys` 中保存公钥。
 
+## 设置powershell默认http代理
+
+```ps1
+# 确保允许执行脚本
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+# 按需创建powershell的profile文件
+if (-not (Test-Path -Path $PROFILE)) {
+    New-Item -Path $PROFILE -Type File -Force
+    Write-Output "Profile 文件已创建: $PROFILE"
+} else {
+    Write-Output "Profile 文件已存在: $PROFILE"
+}
+
+@"
+# 设置系统代理
+`$proxy = "http://127.0.0.1:7890"  # 你的代理地址和端口
+`$env:HTTP_PROXY = `$proxy
+`$env:HTTPS_PROXY = `$proxy
+
+# 可选：输出代理状态
+Write-Output "HTTP_PROXY is set to `$env:HTTP_PROXY"
+"@ | Out-File -FilePath $PROFILE -Encoding UTF8 -Force
+
+# 或者用：Add-Content -Path $PROFILE -Encoding UTF8
+# 这个是追加
+```
+
+最后C:\Users\arloor\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1内容是：
+
+```ps1
+# 设置系统代理
+$proxy = "http://127.0.0.1:7890"  # 你的代理地址和端口
+$env:HTTP_PROXY = $proxy
+$env:HTTPS_PROXY = $proxy
+
+# 可选：输出代理状态
+Write-Output "HTTP_PROXY is set to $env:HTTP_PROXY"
+```
+
+### 说明：
+
+1. **Here-String (`@"... "@`)**  
+   - 使用 `@"` 和 `"@` 包裹多行字符串，内容会原样输出。  
+   - 在 PowerShell 中，变量名前的 `\``（反引号）用于转义特殊字符。
+   
+2. **`Out-File`**  
+   - 将内容写入指定文件路径。  
+   - 参数：
+     - `-FilePath`：指定目标文件路径。
+     - `-Encoding UTF8`：使用 UTF-8 编码写入文件。
+     - `-Force`：覆盖已有内容。
+
+3. **`Test-Path` 和 `New-Item`**  
+   - 确保文件存在。如果文件不存在，就先创建空文件。
+
 ## 远程关闭windows
 
 ssh上去后执行 `shutdown /s /f /t 0`
