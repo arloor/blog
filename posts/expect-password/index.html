@@ -269,6 +269,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     <li><a href="#安装expect">安装expect</a></li>
     <li><a href="#编写expect脚本">编写expect脚本</a></li>
     <li><a href="#配置macos快捷指令">配置MacOS快捷指令</a></li>
+    <li><a href="#配置launchd定时任务">配置launchd定时任务</a></li>
   </ul>
 </nav>
       
@@ -311,6 +312,37 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><h2 id="配置macos快捷指令">配置MacOS快捷指令</h2>
 <p>可以配置快捷指令，并固定到菜单栏</p>
 <p><img src="/img/macos-shortcode-expect-passwd.md" alt="alt text"></p>
+<h2 id="配置launchd定时任务">配置launchd定时任务</h2>
+<p>每天10点自动执行该命令</p>
+<p>文件地址：<code>~/Library/LaunchAgents/com.arloor.kinit.plist</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">&lt;!DOCTYPE plist PUBLIC &#34;-//Apple//DTD PLIST 1.0//EN&#34; &#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&#34;&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;plist</span> <span style="color:#a6e22e">version=</span><span style="color:#e6db74">&#34;1.0&#34;</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;dict&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;key&gt;</span>Label<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;string&gt;</span>com.arloor.kinit<span style="color:#f92672">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">&lt;!-- 加载后立即启动，即开机自启 --&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;key&gt;</span>RunAtLoad<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;true</span> <span style="color:#f92672">/&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;key&gt;</span>WorkingDirectory<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;string&gt;</span>/tmp<span style="color:#f92672">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;key&gt;</span>ProgramArguments<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;array&gt;</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#f92672">&lt;string&gt;</span>/Users/xxxx/bin/work<span style="color:#f92672">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;/array&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;key&gt;</span>StartCalendarInterval<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;dict&gt;</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#f92672">&lt;key&gt;</span>Hour<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#f92672">&lt;integer&gt;</span>10<span style="color:#f92672">&lt;/integer&gt;</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#f92672">&lt;key&gt;</span>Minute<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span>                        <span style="color:#f92672">&lt;integer&gt;</span>0<span style="color:#f92672">&lt;/integer&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;/dict&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">&lt;!-- 标准输出路径 --&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;key&gt;</span>StandardOutPath<span style="color:#f92672">&lt;/key&gt;</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;string&gt;</span>/tmp/work.log<span style="color:#f92672">&lt;/string&gt;</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;/dict&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/plist&gt;</span>
+</span></span></code></pre></div>
   </div>
   
 
