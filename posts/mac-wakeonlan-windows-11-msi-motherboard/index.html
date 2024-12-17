@@ -270,6 +270,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     <li><a href="#windows设置">windows设置</a></li>
     <li><a href="#mac-mini上安装wakeonlan并执行命令">Mac mini上安装wakeonlan，并执行命令</a></li>
     <li><a href="#windows11-启用openssh">windows11 启用openssh</a></li>
+    <li><a href="#远程关闭windows">远程关闭windows</a></li>
   </ul>
 </nav>
       
@@ -345,7 +346,9 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>PubkeyAuthentication yes
 </span></span><span style="display:flex;"><span>PasswordAuthentication no
 </span></span></code></pre></div><p>然后重启sshd服务，让配置生效。</p>
-<p>在windows上保存公钥: 如果是系统管理员账户，则在 <code>%programdata%/ssh/administrators_authorized_keys</code> 中保存公钥，如果是普通用户，则在 <code>%userprofile%/.ssh/authorized_keys</code> 中保存公钥。</p>
+<p>在windows上保存公钥: 如果是系统管理员账户（一般第一个账户都是系统管理员账户），则在 <code>%programdata%/ssh/administrators_authorized_keys</code> 中保存公钥，如果是普通用户，则在 <code>%userprofile%/.ssh/authorized_keys</code> 中保存公钥。</p>
+<h2 id="远程关闭windows">远程关闭windows</h2>
+<p>ssh上去后执行 <code>shutdown /s /f /t 0</code></p>
 
   </div>
   
