@@ -138,11 +138,26 @@ TIPS：
     - 也可以在ssh config中增加 `RemoteForward 7890 localhost:7890` 使用本地的clash作为代理。
 3. 历史记录保存在 `~/.ssh/config` 中。
 
-我有时会ssh到windows上，然后用WSL远程开发。发现在WSL的镜像网络模式下，vscode不会自动进行端口转发，于是在 `.ssh/config` 中手动增加了LocalForward：
+
+### ssh到windows上使用WSL开发
+
+我有时会ssh到windows上，然后用WSL远程开发。发现在WSL的镜像网络（mirrored）模式下，vscode不会自动进行端口转发，于是在 `.ssh/config` 中手动增加了LocalForward：
 
 ```bash
 LocalForward 7788 192.168.5.127:7788
 ```
+
+### 使用socat作为ProxyCommand，用http代理连接ssh服务器
+
+```bash
+Host *.arloor.*
+  ProxyCommand socat - PROXY:localhost:%h:%p,proxyport=6152
+```
+
+这使用了surge进行代理连接。注意，每次增加vscode的ssh服务器列表时，vscode都会把 `proxyport=6152` 改成 `proxyport 6152`，**需要手动改回来**。
+
+对应的surge规则是：`AND,((PROCESS-NAME,*socat*), (DEST-PORT,22), (DOMAIN-KEYWORD,arloor,extended-matching)),家里`
+
 
 ### ssh到macOS上远程开发
 
