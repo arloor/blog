@@ -522,7 +522,9 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </li>
 <li>历史记录保存在 <code>~/.ssh/config</code> 中。</li>
 </ol>
-<h3 id="ssh到macos上远程开发">ssh到macOS上远程开发</h3>
+<p>我有时会ssh到windows上，然后用WSL远程开发。发现在WSL的镜像网络模式下，vscode不会自动进行端口转发，于是在 <code>.ssh/config</code> 中手动增加了LocalForward：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>LocalForward <span style="color:#ae81ff">7788</span> 192.168.5.127:7788
+</span></span></code></pre></div><h3 id="ssh到macos上远程开发">ssh到macOS上远程开发</h3>
 <p>要ssh到macOS上进行远程开发，需要额外的命令：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>xcode-select --install <span style="color:#75715e"># 安装 LLDB.framework</span>
 </span></span><span style="display:flex;"><span>sudo DevToolsSecurity --enable <span style="color:#75715e"># 永久允许Developer Tools Access 附加到其他进程上，以进行debug</span>
