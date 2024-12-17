@@ -36,7 +36,7 @@ Host xxxxx
 注意有端口转发的tcp连接存在时，`exit` 断开ssh时，ssh命令并不会直接退出，还需要等端口转发连接断开或直接 `ctrl+c` 退出。
 
 
-**远程端口转发**
+## **远程端口转发**
 
 ```bash
 ssh -R [远程端口]:[本地地址]:[本地端口] root@xxxxxx
@@ -52,7 +52,7 @@ RemoteForward 7890 localhost:7890
 
 可以理解为**Remote 7890 forward to 本机的localhost:7890**，这其实是让远程服务器使用本机的clash代理
 
-**动态端口转发**
+## **动态端口转发**
 
 ```bash
 ssh -D [本地端口] [SSH服务器用户名]@[SSH服务器地址]
