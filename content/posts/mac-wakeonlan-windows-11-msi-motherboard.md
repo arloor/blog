@@ -103,5 +103,9 @@ PasswordAuthentication no
 
 然后重启sshd服务，让配置生效。
 
-在windows上保存公钥: 如果是系统管理员账户，则在 `%programdata%/ssh/administrators_authorized_keys` 中保存公钥，如果是普通用户，则在 `%userprofile%/.ssh/authorized_keys` 中保存公钥。
+在windows上保存公钥: 如果是系统管理员账户（一般第一个账户都是系统管理员账户），则在 `%programdata%/ssh/administrators_authorized_keys` 中保存公钥，如果是普通用户，则在 `%userprofile%/.ssh/authorized_keys` 中保存公钥。
+
+## 远程关闭windows
+
+ssh上去后执行 `shutdown /s /f /t 0`
 
