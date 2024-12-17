@@ -267,6 +267,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   <ul>
     <li><a href="#ssh隧道的类型">SSH隧道的类型</a></li>
     <li><a href="#本地端口转发"><strong>本地端口转发：</strong></a></li>
+    <li><a href="#远程端口转发"><strong>远程端口转发</strong></a></li>
+    <li><a href="#动态端口转发"><strong>动态端口转发</strong></a></li>
     <li><a href="#高级选项">高级选项</a></li>
   </ul>
 </nav>
@@ -288,13 +290,13 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>  LocalForward <span style="color:#ae81ff">8090</span> 127.0.0.1:8090
 </span></span></code></pre></div><p>可以理解为<strong>Local 8090 forward to 127.0.0.1:8090</strong>，即访问本地的8090端口就相当于访问远程服务器的127.0.0.1:8090。</p>
 <p>注意有端口转发的tcp连接存在时，<code>exit</code> 断开ssh时，ssh命令并不会直接退出，还需要等端口转发连接断开或直接 <code>ctrl+c</code> 退出。</p>
-<p><strong>远程端口转发</strong></p>
+<h2 id="远程端口转发"><strong>远程端口转发</strong></h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh -R <span style="color:#f92672">[</span>远程端口<span style="color:#f92672">]</span>:<span style="color:#f92672">[</span>本地地址<span style="color:#f92672">]</span>:<span style="color:#f92672">[</span>本地端口<span style="color:#f92672">]</span> root@xxxxxx
 </span></span></code></pre></div><p>这允许远程服务器上的用户连接到你本地机器上的服务。</p>
 <p>对应的 <code>.ssh/config</code> 内容如下：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>RemoteForward <span style="color:#ae81ff">7890</span> localhost:7890
 </span></span></code></pre></div><p>可以理解为<strong>Remote 7890 forward to 本机的localhost:7890</strong>，这其实是让远程服务器使用本机的clash代理</p>
-<p><strong>动态端口转发</strong></p>
+<h2 id="动态端口转发"><strong>动态端口转发</strong></h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh -D <span style="color:#f92672">[</span>本地端口<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>SSH服务器用户名<span style="color:#f92672">]</span>@<span style="color:#f92672">[</span>SSH服务器地址<span style="color:#f92672">]</span>
 </span></span></code></pre></div><p>这会创建一个SOCKS代理，你可以在浏览器或其他应用程序中配置使用。</p>
 <h2 id="高级选项">高级选项</h2>
