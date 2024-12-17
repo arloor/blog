@@ -63,3 +63,39 @@ chmod +x ~/bin/work
 可以配置快捷指令，并固定到菜单栏
 
 ![alt text](/img/macos-shortcode-expect-passwd.md)
+
+## 配置launchd定时任务
+
+每天10点自动执行该命令
+
+文件地址：`~/Library/LaunchAgents/com.arloor.kinit.plist`
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+        <dict>
+                <key>Label</key>
+                <string>com.arloor.kinit</string>
+                <!-- 加载后立即启动，即开机自启 -->
+                <key>RunAtLoad</key>
+                <true />
+                <key>WorkingDirectory</key>
+                <string>/tmp</string>
+                <key>ProgramArguments</key>
+                <array>
+                        <string>/Users/xxxx/bin/work</string>
+                </array>
+                <key>StartCalendarInterval</key>
+                <dict>
+                        <key>Hour</key>
+                        <integer>10</integer>
+                        <key>Minute</key>
+                        <integer>0</integer>
+                </dict>
+                <!-- 标准输出路径 -->
+                <key>StandardOutPath</key>
+                <string>/tmp/work.log</string>
+        </dict>
+</plist>
+```
