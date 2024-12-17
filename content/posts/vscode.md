@@ -138,6 +138,12 @@ TIPS：
     - 也可以在ssh config中增加 `RemoteForward 7890 localhost:7890` 使用本地的clash作为代理。
 3. 历史记录保存在 `~/.ssh/config` 中。
 
+我有时会ssh到windows上，然后用WSL远程开发。发现在WSL的镜像网络模式下，vscode不会自动进行端口转发，于是在 `.ssh/config` 中手动增加了LocalForward：
+
+```bash
+LocalForward 7788 192.168.5.127:7788
+```
+
 ### ssh到macOS上远程开发
 
 要ssh到macOS上进行远程开发，需要额外的命令：
