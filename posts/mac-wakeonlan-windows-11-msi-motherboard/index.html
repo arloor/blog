@@ -342,6 +342,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">else</span> {
 </span></span><span style="display:flex;"><span>    Write-Output <span style="color:#e6db74">&#34;Firewall rule &#39;OpenSSH-Server-In-TCP&#39; has been created and exists.&#34;</span>
 </span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 设置默认shell为powershell</span>
+</span></span><span style="display:flex;"><span>New-ItemProperty -Path <span style="color:#e6db74">&#34;HKLM:\SOFTWARE\OpenSSH&#34;</span> -Name DefaultShell -Value <span style="color:#e6db74">&#34;C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe&#34;</span> -PropertyType String -Force
 </span></span></code></pre></div><p>配置sshd_config，位置在 %programdata%\ssh\sshd_config，参考文档：<a href="https://learn.microsoft.com/zh-cn/windows-server/administration/OpenSSH/openssh-server-configuration">OpenSSH Server configuration for Windows Server and Windows</a>，主要修改下面两个配置：就是强制使用公钥登录</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>PubkeyAuthentication yes
 </span></span><span style="display:flex;"><span>PasswordAuthentication no
