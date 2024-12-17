@@ -93,6 +93,8 @@ if (!(Get-NetFirewallRule -Name "OpenSSH-Server-In-TCP" -ErrorAction SilentlyCon
 } else {
     Write-Output "Firewall rule 'OpenSSH-Server-In-TCP' has been created and exists."
 }
+# 设置默认shell为powershell
+New-ItemProperty -Path "HKLM:\SOFTWARE\OpenSSH" -Name DefaultShell -Value "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -PropertyType String -Force
 ```
 
 配置sshd_config，位置在 %programdata%\ssh\sshd_config，参考文档：[OpenSSH Server configuration for Windows Server and Windows](https://learn.microsoft.com/zh-cn/windows-server/administration/OpenSSH/openssh-server-configuration)，主要修改下面两个配置：就是强制使用公钥登录
