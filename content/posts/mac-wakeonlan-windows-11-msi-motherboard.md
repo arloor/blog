@@ -11,6 +11,7 @@ categories:
 weight: 10
 description:
 highlightjslanguages:
+- ps1
 ---
 
 家里有台Mac mini是一直开机的，作为软路由使用，也作为跳板机连接到家里网络。今天试了下怎么用这个mac mini通过wake on lan唤醒windows主机。
