@@ -439,10 +439,15 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     </span>
     <span >
       
-      <blockquote>
-<p>来自ChatGPT</p>
-</blockquote>
-<p>创建SSH隧道（SSH tunnel）是一种通过SSH协议安全地传输网络数据的方法。这通常用于安全地访问远程网络服务或为不安全的网络协议添加安全层。以下是创建SSH隧道的一般步骤：</p>
+      <h2 id="ssh隧道的类型">SSH隧道的类型</h2>
+<ul>
+<li>本地端口转发（Local Port Forwarding）：允许你将本地端口上的数据转发到远程服务器。</li>
+<li>远程端口转发（Remote Port Forwarding）：允许你将远程服务器上的端口转发到本地计算机。</li>
+<li>动态端口转发（Dynamic Port Forwarding）：创建一个本地的SOCKS代理服务器，可以用于多种目的，如安全浏览。</li>
+</ul>
+<h2 id="本地端口转发"><strong>本地端口转发：</strong></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh -L <span style="color:#f92672">[</span>本地端口<span style="color:#f92672">]</span>:<span style="color:#f92672">[</span>目标服务器地址<span style="color:#f92672">]</span>:<span style="color:#f92672">[</span>目标端口<span style="color:#f92672">]</span> root@xxxxx
+</span></span></code></pre></div><p>也可以将本地端口转发写到 <code>~/.ssh/config</code> 文件中，这样就可以直接在 <code>ssh [SSH服务器别名]</code> 时建立端口转发。</p>
       
     </span>
     

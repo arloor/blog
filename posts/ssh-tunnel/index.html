@@ -25,15 +25,13 @@
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="ssh隧道">
-  <meta name="twitter:description" content="来自ChatGPT
-创建SSH隧道（SSH tunnel）是一种通过SSH协议安全地传输网络数据的方法。这通常用于安全地访问远程网络服务或为不安全的网络协议添加安全层。以下是创建SSH隧道的一般步骤：">
+  <meta name="twitter:description" content="SSH隧道的类型 本地端口转发（Local Port Forwarding）：允许你将本地端口上的数据转发到远程服务器。 远程端口转发（Remote Port Forwarding）：允许你将远程服务器上的端口转发到本地计算机。 动态端口转发（Dynamic Port Forwarding）：创建一个本地的SOCKS代理服务器，可以用于多种目的，如安全浏览。 本地端口转发： ssh -L [本地端口]:[目标服务器地址]:[目标端口] root@xxxxx 也可以将本地端口转发写到 ~/.ssh/config 文件中，这样就可以直接在 ssh [SSH服务器别名] 时建立端口转发。">
       <meta name="twitter:site" content="@njulgh">
 
 <meta property="og:url" content="https://www.arloor.com/posts/ssh-tunnel/">
   <meta property="og:site_name" content="ARLOOR">
   <meta property="og:title" content="ssh隧道">
-  <meta property="og:description" content="来自ChatGPT
-创建SSH隧道（SSH tunnel）是一种通过SSH协议安全地传输网络数据的方法。这通常用于安全地访问远程网络服务或为不安全的网络协议添加安全层。以下是创建SSH隧道的一般步骤：">
+  <meta property="og:description" content="SSH隧道的类型 本地端口转发（Local Port Forwarding）：允许你将本地端口上的数据转发到远程服务器。 远程端口转发（Remote Port Forwarding）：允许你将远程服务器上的端口转发到本地计算机。 动态端口转发（Dynamic Port Forwarding）：创建一个本地的SOCKS代理服务器，可以用于多种目的，如安全浏览。 本地端口转发： ssh -L [本地端口]:[目标服务器地址]:[目标端口] root@xxxxx 也可以将本地端口转发写到 ~/.ssh/config 文件中，这样就可以直接在 ssh [SSH服务器别名] 时建立端口转发。">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
@@ -253,7 +251,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     
     
     <br/>
-    <i class="fas fa-clock"></i> 3 min read
+    <i class="fas fa-clock"></i> 2 min read
 </div>
 
 
@@ -265,73 +263,45 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
       <input type="checkbox" id="tocToggle">
       <label for="tocToggle">Table of Content</label>
       
-          <nav id="TableOfContents"></nav>
+          <nav id="TableOfContents">
+  <ul>
+    <li><a href="#ssh隧道的类型">SSH隧道的类型</a></li>
+    <li><a href="#本地端口转发"><strong>本地端口转发：</strong></a></li>
+    <li><a href="#高级选项">高级选项</a></li>
+  </ul>
+</nav>
       
     </div>
   
   
   <div class="post">
-    <blockquote>
-<p>来自ChatGPT</p>
-</blockquote>
-<p>创建SSH隧道（SSH tunnel）是一种通过SSH协议安全地传输网络数据的方法。这通常用于安全地访问远程网络服务或为不安全的网络协议添加安全层。以下是创建SSH隧道的一般步骤：</p>
-<ol>
-<li>确认基本要求</li>
-</ol>
-<ul>
-<li>SSH客户端：确保你的设备上安装了SSH客户端。在大多数Linux和macOS系统中，默认安装了SSH客户端。Windows用户可能需要安装如PuTTY等工具。</li>
-<li>远程服务器：你需要有一个运行SSH服务器的远程机器的访问权限。通常需要知道服务器的IP地址或域名、SSH端口号（默认是22），以及一个有效的用户名和密码或SSH密钥。</li>
-</ul>
-<ol start="2">
-<li>了解SSH隧道的类型</li>
-</ol>
+    <h2 id="ssh隧道的类型">SSH隧道的类型</h2>
 <ul>
 <li>本地端口转发（Local Port Forwarding）：允许你将本地端口上的数据转发到远程服务器。</li>
 <li>远程端口转发（Remote Port Forwarding）：允许你将远程服务器上的端口转发到本地计算机。</li>
 <li>动态端口转发（Dynamic Port Forwarding）：创建一个本地的SOCKS代理服务器，可以用于多种目的，如安全浏览。</li>
 </ul>
-<ol start="3">
-<li>创建SSH隧道</li>
-</ol>
-<p><strong>本地端口转发：</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh -L <span style="color:#f92672">[</span>本地端口<span style="color:#f92672">]</span>:<span style="color:#f92672">[</span>目标服务器地址<span style="color:#f92672">]</span>:<span style="color:#f92672">[</span>目标端口<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>SSH服务器用户名<span style="color:#f92672">]</span>@<span style="color:#f92672">[</span>SSH服务器地址<span style="color:#f92672">]</span>
-</span></span></code></pre></div><p>这会将本地机器上的指定端口转发到远程服务器上的指定端口。</p>
-<p>也可以将本地端口转发写到 <code>~/.ssh/config</code> 文件中，这样就可以直接在 <code>ssh [SSH服务器别名]</code> 时建立端口转发。</p>
+<h2 id="本地端口转发"><strong>本地端口转发：</strong></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh -L <span style="color:#f92672">[</span>本地端口<span style="color:#f92672">]</span>:<span style="color:#f92672">[</span>目标服务器地址<span style="color:#f92672">]</span>:<span style="color:#f92672">[</span>目标端口<span style="color:#f92672">]</span> root@xxxxx
+</span></span></code></pre></div><p>也可以将本地端口转发写到 <code>~/.ssh/config</code> 文件中，这样就可以直接在 <code>ssh [SSH服务器别名]</code> 时建立端口转发。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>Host xxxxx
-</span></span><span style="display:flex;"><span>  HostName xxxxxx
-</span></span><span style="display:flex;"><span>  User root
 </span></span><span style="display:flex;"><span>  LocalForward <span style="color:#ae81ff">8090</span> 127.0.0.1:8090
-</span></span><span style="display:flex;"><span>  LocalForward <span style="color:#ae81ff">1234</span> 127.0.0.1:1234
-</span></span></code></pre></div><p>注意有端口转发的tcp连接存在时，<code>exit</code> 断开ssh时，ssh命令并不会直接退出，还需要等端口转发连接断开或直接 <code>ctrl+c</code> 退出。</p>
+</span></span></code></pre></div><p>可以理解为<strong>Local 8090 forward to 127.0.0.1:8090</strong>，即访问本地的8090端口就相当于访问远程服务器的127.0.0.1:8090。</p>
+<p>注意有端口转发的tcp连接存在时，<code>exit</code> 断开ssh时，ssh命令并不会直接退出，还需要等端口转发连接断开或直接 <code>ctrl+c</code> 退出。</p>
 <p><strong>远程端口转发</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh -R <span style="color:#f92672">[</span>远程端口<span style="color:#f92672">]</span>:<span style="color:#f92672">[</span>本地地址<span style="color:#f92672">]</span>:<span style="color:#f92672">[</span>本地端口<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>SSH服务器用户名<span style="color:#f92672">]</span>@<span style="color:#f92672">[</span>SSH服务器地址<span style="color:#f92672">]</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh -R <span style="color:#f92672">[</span>远程端口<span style="color:#f92672">]</span>:<span style="color:#f92672">[</span>本地地址<span style="color:#f92672">]</span>:<span style="color:#f92672">[</span>本地端口<span style="color:#f92672">]</span> root@xxxxxx
 </span></span></code></pre></div><p>这允许远程服务器上的用户连接到你本地机器上的服务。</p>
-<p><code>RemoteForward 7890 localhost:7890</code> 可以让服务器使用本机的clash代理</p>
+<p>对应的 <code>.ssh/config</code> 内容如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>RemoteForward <span style="color:#ae81ff">7890</span> localhost:7890
+</span></span></code></pre></div><p>可以理解为<strong>Remote 7890 forward to 本机的localhost:7890</strong>，这其实是让远程服务器使用本机的clash代理</p>
 <p><strong>动态端口转发</strong></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh -D <span style="color:#f92672">[</span>本地端口<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>SSH服务器用户名<span style="color:#f92672">]</span>@<span style="color:#f92672">[</span>SSH服务器地址<span style="color:#f92672">]</span>
 </span></span></code></pre></div><p>这会创建一个SOCKS代理，你可以在浏览器或其他应用程序中配置使用。</p>
-<ol start="4">
-<li>使用SSH隧道</li>
-</ol>
-<p>对于本地和远程端口转发，你需要确保目标端口上的服务已启动。</p>
-<p>对于动态端口转发，配置你的应用程序或浏览器以使用本地端口作为SOCKS代理。</p>
-<ol start="5">
-<li>考虑安全和性能因素</li>
-</ol>
-<ul>
-<li>使用复杂的密码或SSH密钥对进行认证。</li>
-<li>仅转发必要的端口以减少安全风险。</li>
-<li>注意隧道可能对网络性能有影响。</li>
-</ul>
-<ol start="6">
-<li>高级选项</li>
-</ol>
+<h2 id="高级选项">高级选项</h2>
 <ul>
 <li>可以使用 -N 选项在不执行远程命令的情况下建立SSH连接。</li>
 <li>使用 -f 选项可以使SSH会话在后台运行。</li>
 </ul>
-<p>对于更高级的用例，可能需要配置SSH配置文件或使用额外的SSH选项。
-通过遵循这些步骤，你可以成功地设置SSH隧道来安全地传输数据或访问远程服务。记得根据你的具体需求和环境进行调整。</p>
 
   </div>
   
