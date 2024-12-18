@@ -10,6 +10,7 @@ weight: 10
 subtitle:
 description:
 highlightjslanguages:
+- powershell
 ---
 
 wsl全称是windows的linux子系统，可以理解为在你的windows电脑上提供一个linux的工作环境。
@@ -421,6 +422,13 @@ systemctl enable ssh.service
 ![alt text](/img/winodws11-firewall-setup-222-port.png)
 
 然后一路下一步即可。
+
+或者直接在管理员权限的powershell执行：
+
+
+```ps1
+New-NetFirewallRule -DisplayName '"Allow SSH on Port xxxxx"' -Direction Inbound -Protocol TCP -LocalPort xxxxx -Action Allow
+```
 
 之后就可以使用vscode remote-ssh到WSL2上来开发了，不过前提是WSL2启动了。具体的ssh config如下：
 
