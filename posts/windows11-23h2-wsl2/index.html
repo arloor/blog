@@ -251,7 +251,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     
     
     <br/>
-    <i class="fas fa-clock"></i> 8 min read
+    <i class="fas fa-clock"></i> 9 min read
 </div>
 
 
@@ -632,8 +632,13 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><p>放通windows防火墙：</p>
 <p><img src="/img/winodws11-firewall-setup-port.png" alt="alt text"></p>
 <p><img src="/img/winodws11-firewall-setup-222-port.png" alt="alt text"></p>
-<p>然后一路下一步即可。之后就可以使用vscode remote-ssh到WSL2上来开发了，不过前提是WSL2启动了</p>
-
+<p>然后一路下一步即可。</p>
+<p>之后就可以使用vscode remote-ssh到WSL2上来开发了，不过前提是WSL2启动了。具体的ssh config如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Host wsl
+</span></span><span style="display:flex;"><span>  HostName 192.168.xx.xx
+</span></span><span style="display:flex;"><span>  Port <span style="color:#ae81ff">222</span>
+</span></span><span style="display:flex;"><span>  User root
+</span></span></code></pre></div>
   </div>
   
 
