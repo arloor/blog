@@ -282,7 +282,7 @@
       <description>&lt;p&gt;忘记了怎么在Grafana中配置表格，今天来记录下。&lt;/p&gt;&#xA;&lt;p&gt;&lt;img src=&#34;https://www.arloor.com/img/grafana-table-pannel.png&#34; alt=&#34;Alt text&#34;&gt;&lt;/p&gt;</description>
     </item>
     <item>
-      <title>ssh隧道</title>
+      <title>ssh配置</title>
       <link>https://www.arloor.com/posts/ssh-tunnel/</link>
       <pubDate>Thu, 16 Nov 2023 20:20:22 +0800</pubDate>
       <guid>https://www.arloor.com/posts/ssh-tunnel/</guid>
