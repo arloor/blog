@@ -290,6 +290,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     </li>
     <li><a href="#卸载发行版">卸载发行版</a></li>
     <li><a href="#wsl2-debian12-安装docker并配置daemonjson">WSL2 debian12 安装docker并配置daemon.json</a></li>
+    <li><a href="#wsl2-debian12-安装openssh-server">WSL2 debian12 安装openssh-server</a></li>
   </ul>
 </nav>
       
@@ -617,7 +618,22 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>sudo systemctl restart docker
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#Verify that the configuration has been loaded:</span>
 </span></span><span style="display:flex;"><span>sudo systemctl show --property<span style="color:#f92672">=</span>Environment docker
-</span></span></code></pre></div>
+</span></span></code></pre></div><h2 id="wsl2-debian12-安装openssh-server">WSL2 debian12 安装openssh-server</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>apt remove -y openssh-server
+</span></span><span style="display:flex;"><span>apt install -y openssh-server
+</span></span><span style="display:flex;"><span>mkdir -p /root/.ssh
+</span></span><span style="display:flex;"><span>echo ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDZQzKHfZLlFEdaRUjfSK4twhL0y7+v23Ko4EI1nl6E1/zYqloSZCH3WqQFLGA7gnFlqSAfEHgCdD/4Ubei5a49iG0KSPajS6uPkrB/eiirTaGbe8oRKv2ib4R7ndbwdlkcTBLYFxv8ScfFQv6zBVX3ywZtRCboTxDPSmmrNGb2nhPuFFwnbOX8McQO5N4IkeMVedUlC4w5//xxSU67i1i/7kZlpJxMTXywg8nLlTuysQrJHOSQvYHG9a6TbL/tOrh/zwVFbBS+kx7X1DIRoeC0jHlVJSSwSfw6ESrH9JW71cAvn6x6XjjpGdQZJZxpnR1NTiG4Q5Mog7lCNMJjPtwJ not@home &gt;/root/.ssh/authorized_keys
+</span></span><span style="display:flex;"><span>sed -i <span style="color:#e6db74">&#39;s/\(#\)\?PasswordAuthentication yes/PasswordAuthentication no/g&#39;</span> /etc/ssh/sshd_config
+</span></span><span style="display:flex;"><span>sed -i <span style="color:#e6db74">&#39;s/\(#\)\?PubkeyAuthentication no/PubkeyAuthentication yes/g&#39;</span> /etc/ssh/sshd_config
+</span></span><span style="display:flex;"><span>sed -i <span style="color:#e6db74">&#39;s/\(#\)\?Port .*/Port 222/g&#39;</span> /etc/ssh/sshd_config <span style="color:#75715e"># 改成222端口</span>
+</span></span><span style="display:flex;"><span>sed -i <span style="color:#e6db74">&#39;s/\(#\)\?UseDNS.*/UseDNS no/g&#39;</span> /etc/ssh/sshd_config
+</span></span><span style="display:flex;"><span>systemctl restart sshd
+</span></span><span style="display:flex;"><span>systemctl enable ssh.service
+</span></span></code></pre></div><p>放通windows防火墙：</p>
+<p><img src="/img/winodws11-firewall-setup-port.png" alt="alt text"></p>
+<p><img src="/img/winodws11-firewall-setup-222-port.png" alt="alt text"></p>
+<p>然后一路下一步</p>
+
   </div>
   
 
