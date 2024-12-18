@@ -1,5 +1,5 @@
 ---
-title: "ssh隧道"
+title: "ssh配置"
 date: 2023-11-16T20:20:22+08:00
 draft: false
 categories: [ "undefined"]
