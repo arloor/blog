@@ -398,3 +398,26 @@ sudo systemctl restart docker
 #Verify that the configuration has been loaded:
 sudo systemctl show --property=Environment docker
 ```
+
+## WSL2 debian12 安装openssh-server
+
+```bash
+apt remove -y openssh-server
+apt install -y openssh-server
+mkdir -p /root/.ssh
+echo ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDZQzKHfZLlFEdaRUjfSK4twhL0y7+v23Ko4EI1nl6E1/zYqloSZCH3WqQFLGA7gnFlqSAfEHgCdD/4Ubei5a49iG0KSPajS6uPkrB/eiirTaGbe8oRKv2ib4R7ndbwdlkcTBLYFxv8ScfFQv6zBVX3ywZtRCboTxDPSmmrNGb2nhPuFFwnbOX8McQO5N4IkeMVedUlC4w5//xxSU67i1i/7kZlpJxMTXywg8nLlTuysQrJHOSQvYHG9a6TbL/tOrh/zwVFbBS+kx7X1DIRoeC0jHlVJSSwSfw6ESrH9JW71cAvn6x6XjjpGdQZJZxpnR1NTiG4Q5Mog7lCNMJjPtwJ not@home >/root/.ssh/authorized_keys
+sed -i 's/\(#\)\?PasswordAuthentication yes/PasswordAuthentication no/g' /etc/ssh/sshd_config
+sed -i 's/\(#\)\?PubkeyAuthentication no/PubkeyAuthentication yes/g' /etc/ssh/sshd_config
+sed -i 's/\(#\)\?Port .*/Port 222/g' /etc/ssh/sshd_config # 改成222端口
+sed -i 's/\(#\)\?UseDNS.*/UseDNS no/g' /etc/ssh/sshd_config
+systemctl restart sshd
+systemctl enable ssh.service
+```
+
+放通windows防火墙：
+
+![alt text](/img/winodws11-firewall-setup-port.png)
+
+![alt text](/img/winodws11-firewall-setup-222-port.png)
+
+然后一路下一步
