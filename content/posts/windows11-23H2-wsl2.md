@@ -420,4 +420,4 @@ systemctl enable ssh.service
 
 ![alt text](/img/winodws11-firewall-setup-222-port.png)
 
-然后一路下一步
+然后一路下一步即可。
