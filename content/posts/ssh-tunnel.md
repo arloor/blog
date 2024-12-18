@@ -71,15 +71,15 @@ ssh -D [本地端口] [SSH服务器用户名]@[SSH服务器地址]
 # 除了pi.arloor.com之外的，所有包含arloor或者家里的lan地址的HostName
 ## 设置使用socat代理，注意vscode可能把proxyport=6152改成proxyport 6152，注意手动恢复
 Host !pi.arloor.com *.arloor.* 192.168.5.*
-  ProxyCommand socat - PROXY:localhost:%h:%p,proxyport=6152
+  ProxyCommand /opt/homebrew/bin/socat - PROXY:localhost:%h:%p,proxyport=6152
 
 # 家里的mac-mini
-Host mac-mini
+Host 192.168.5.244
   HostName 192.168.5.244
   User arloor
 
 # 家里的windows11
-Host windows11
+Host pi.arloor.com
   HostName pi.arloor.com
   LocalForward 7788 192.168.5.127:7788
   User arloor
