@@ -306,18 +306,21 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>使用 -f 选项可以使SSH会话在后台运行。</li>
 </ul>
 <h2 id="我的ssh-config备份">我的ssh config备份</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Host *.arloor.*
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 除了pi.arloor.com之外的，所有包含arloor或者家里的lan地址的HostName</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## 设置使用socat代理，注意vscode可能把proxyport=6152改成proxyport 6152，注意手动恢复</span>
+</span></span><span style="display:flex;"><span>Host !pi.arloor.com *.arloor.* 192.168.5.*
 </span></span><span style="display:flex;"><span>  ProxyCommand socat - PROXY:localhost:%h:%p,proxyport<span style="color:#f92672">=</span><span style="color:#ae81ff">6152</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Host 192.168.5.*
-</span></span><span style="display:flex;"><span>  ProxyCommand /opt/homebrew/bin/socat - PROXY:localhost:%h:%p,proxyport<span style="color:#f92672">=</span><span style="color:#ae81ff">6152</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 家里的mac-mini</span>
+</span></span><span style="display:flex;"><span>Host mac-mini
+</span></span><span style="display:flex;"><span>  HostName 192.168.5.244
 </span></span><span style="display:flex;"><span>  User arloor
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Host windows
-</span></span><span style="display:flex;"><span>  HostName 192.168.5.127
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 家里的windows11</span>
+</span></span><span style="display:flex;"><span>Host windows11
+</span></span><span style="display:flex;"><span>  HostName pi.arloor.com
 </span></span><span style="display:flex;"><span>  LocalForward <span style="color:#ae81ff">7788</span> 192.168.5.127:7788
 </span></span><span style="display:flex;"><span>  User arloor
-</span></span><span style="display:flex;"><span>  Port <span style="color:#ae81ff">5508</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>Host tt.arloor.com
 </span></span><span style="display:flex;"><span>  HostName tt.arloor.com
