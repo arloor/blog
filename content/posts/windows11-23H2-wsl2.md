@@ -420,4 +420,13 @@ systemctl enable ssh.service
 
 ![alt text](/img/winodws11-firewall-setup-222-port.png)
 
-然后一路下一步即可。之后就可以使用vscode remote-ssh到WSL2上来开发了，不过前提是WSL2启动了
+然后一路下一步即可。
+
+之后就可以使用vscode remote-ssh到WSL2上来开发了，不过前提是WSL2启动了。具体的ssh config如下：
+
+```bash
+Host wsl
+  HostName 192.168.xx.xx
+  Port 222
+  User root
+```
