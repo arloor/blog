@@ -430,11 +430,17 @@ systemctl enable ssh.service
 New-NetFirewallRule -DisplayName '"Allow SSH on Port xxxxx"' -Direction Inbound -Protocol TCP -LocalPort xxxxx -Action Allow
 ```
 
-之后就可以使用vscode remote-ssh到WSL2上来开发了，不过前提是WSL2启动了。具体的ssh config如下：
+之后就可以使用vscode remote-ssh到WSL2上来开发了。具体的ssh config如下：
 
 ```bash
 Host wsl
   HostName 192.168.xx.xx
   Port 222
   User root
+```
+
+不过因为wsl2有idle自动关闭的特性，所以从外部remote-ssh进来时，需要从外部保活WSL2。思路是ssh到windows上（参考[widnows11启用openssh-server](/posts/mac-wakeonlan-windows-11-msi-motherboard/#windows11-%E5%90%AF%E7%94%A8openssh)），然后执行一个前台命令一直运行，具体命令是：
+
+```bash
+ssh windows_user@windows -t wsl
 ```
