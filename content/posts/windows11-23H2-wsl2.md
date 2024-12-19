@@ -269,7 +269,7 @@ keepalive命令：
 
 ```bash
 cat > /usr/local/bin/keepalive <<\EOF
-command="watch -n 30 uptime | tee /tmp/uptime"
+command="watch -n 30 'uptime |head -n 3 | tee /tmp/uptime'"
 ps -ef|grep "${command}"|grep -v grep
 if [ $? -ne 0 ]
 then
