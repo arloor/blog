@@ -635,11 +635,13 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>然后一路下一步即可。</p>
 <p>或者直接在管理员权限的powershell执行：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ps1" data-lang="ps1"><span style="display:flex;"><span>New-NetFirewallRule -DisplayName <span style="color:#e6db74">&#39;&#34;Allow SSH on Port xxxxx&#34;&#39;</span> -Direction Inbound -Protocol TCP -LocalPort xxxxx -Action Allow
-</span></span></code></pre></div><p>之后就可以使用vscode remote-ssh到WSL2上来开发了，不过前提是WSL2启动了。具体的ssh config如下：</p>
+</span></span></code></pre></div><p>之后就可以使用vscode remote-ssh到WSL2上来开发了。具体的ssh config如下：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Host wsl
 </span></span><span style="display:flex;"><span>  HostName 192.168.xx.xx
 </span></span><span style="display:flex;"><span>  Port <span style="color:#ae81ff">222</span>
 </span></span><span style="display:flex;"><span>  User root
+</span></span></code></pre></div><p>不过因为wsl2有idle自动关闭的特性，所以从外部remote-ssh进来时，需要从外部保活WSL2。思路是ssh到windows上（参考<a href="/posts/mac-wakeonlan-windows-11-msi-motherboard/#windows11-%E5%90%AF%E7%94%A8openssh">widnows11启用openssh-server</a>），然后执行一个前台命令一直运行，具体命令是：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh windows_user@windows -t wsl
 </span></span></code></pre></div>
   </div>
   
