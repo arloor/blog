@@ -521,7 +521,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><p><strong>进阶方案：</strong> 只启动一个后台进程，即使多次运行该VBS脚本：</p>
 <p>keepalive命令：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; /usr/local/bin/keepalive <span style="color:#e6db74">&lt;&lt;\EOF
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">command=&#34;watch -n 30 uptime | tee /tmp/uptime&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">command=&#34;watch -n 30 &#39;uptime |head -n 3 | tee /tmp/uptime&#39;&#34;
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">ps -ef|grep &#34;${command}&#34;|grep -v grep
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">if [ $? -ne 0 ]
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">then
