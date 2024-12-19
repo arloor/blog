@@ -445,6 +445,9 @@ Host wsl
 ssh windows_user@windows -t wsl
 ```
 
+
+> 以下经过测试无用：
+
 或者设置powershell的profile
 
 ```ps1
@@ -452,6 +455,9 @@ $ShortName = @{
     's' = 'Select-Object'
     'g' = 'Get-Content'
     'keep' = {
+        Start-Process "C:\Windows\System32\cscript.exe" -ArgumentList "C:\Users\arloor\Desktop\keep_wsl.vbs"
+    }
+    'keep2' = {
         Start-Process -FilePath "wsl.exe" -ArgumentList "-d Debian /usr/local/bin/keepalive" 
     }
 #  ...
@@ -459,7 +465,7 @@ $ShortName = @{
 
 # 为每个键设置别名或执行相应的命令
 $ShortName.Keys | ForEach-Object {
-    if ($_ -eq 'keep') {
+    if ($_ -eq 'keep' -or $_ -eq 'keep2') {
         # 对 'keep' 使用函数
         Set-Item -Path "function:$($_)" -Value $ShortName.$_ 
     } else {
