@@ -469,4 +469,4 @@ $ShortName.Keys | ForEach-Object {
 }
 ```
 
-之后ssh上去后执行`keep`即可。
+之后ssh上去后执行`keep`即可。尝试了`ssh xxx -t keep`是没这个效果的，得先ssh进去，再执行keep，后面就能退出这个ssh的窗口了。
