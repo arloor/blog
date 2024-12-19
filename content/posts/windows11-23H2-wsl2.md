@@ -444,3 +444,29 @@ Host wsl
 ```bash
 ssh windows_user@windows -t wsl
 ```
+
+或者设置powershell的profile
+
+```ps1
+$ShortName = @{
+    's' = 'Select-Object'
+    'g' = 'Get-Content'
+    'keep' = {
+        Start-Process -FilePath "wsl.exe" -ArgumentList "-d Debian /usr/local/bin/keepalive" -WorkingDirectory $env:USERPROFILE
+    }
+#  ...
+}
+
+# 为每个键设置别名或执行相应的命令
+$ShortName.Keys | ForEach-Object {
+    if ($_ -eq 'keep') {
+        # 对 'keep' 使用函数
+        Set-Item -Path "function:$($_)" -Value $ShortName.$_ 
+    } else {
+        # 对其他命令设置别名
+        Set-Alias $_ $ShortName.$_
+    }
+}
+```
+
+之后ssh上去后执行`keep`即可。
