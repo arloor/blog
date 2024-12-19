@@ -452,7 +452,7 @@ $ShortName = @{
     's' = 'Select-Object'
     'g' = 'Get-Content'
     'keep' = {
-        Start-Process -FilePath "wsl.exe" -ArgumentList "-d Debian /usr/local/bin/keepalive" -WorkingDirectory $env:USERPROFILE
+        Start-Process -FilePath "wsl.exe" -ArgumentList "-d Debian /usr/local/bin/keepalive" 
     }
 #  ...
 }
