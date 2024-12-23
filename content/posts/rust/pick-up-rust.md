@@ -556,11 +556,9 @@ pub(crate) mod my_date_format {
 }
 
 pub(crate) mod my_date_format_option {
-    use chrono::NaiveDateTime;
-    use log::warn;
-    use serde::{self, Deserialize, Deserializer, Serializer};
-
     use super::my_date_format;
+    use chrono::NaiveDateTime;
+    use serde::{self, Deserialize, Deserializer, Serializer};
 
     const FORMAT: &str = "%Y-%m-%d %H:%M:%S";
 
@@ -578,16 +576,13 @@ pub(crate) mod my_date_format_option {
     where
         D: Deserializer<'de>,
     {
-        match String::deserialize(deserializer) {
-            Ok(s) => {
+        match Option::<String>::deserialize(deserializer)? {
+            Some(s) => {
                 let dt =
                     NaiveDateTime::parse_from_str(&s, FORMAT).map_err(serde::de::Error::custom)?;
                 Ok(Some(dt))
             }
-            Err(err) => {
-                warn!("解析时间失败: {}", err);
-                Ok(None)
-            }
+            None => Ok(None),
         }
     }
 }
