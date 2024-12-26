@@ -271,6 +271,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
       </ul>
     </li>
     <li><a href="#创建example项目">创建example项目</a></li>
+    <li><a href="#prettier">prettier</a></li>
     <li><a href="#简单的ts">简单的TS</a></li>
     <li><a href="#样式">样式</a>
       <ul>
@@ -338,7 +339,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><h2 id="创建example项目">创建example项目</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>npm install -g pnpm
 </span></span><span style="display:flex;"><span>yes| npx create-next-app@latest nextjs-dashboard-demo --use-pnpm --example <span style="color:#e6db74">&#34;https://github.com/vercel/next-learn/tree/main/dashboard/starter-example&#34;</span>
-</span></span><span style="display:flex;"><span>sed -i <span style="color:#e6db74">&#39;s/next dev --turbo/next dev --turbo -H 127.0.0.1 -p 3000/g&#39;</span> nextjs-dashboard-demo/package.json <span style="color:#75715e"># 修改启动的host</span>
+</span></span><span style="display:flex;"><span>cd nextjs-dashboard-demo
+</span></span><span style="display:flex;"><span>sed -i <span style="color:#e6db74">&#39;s/next dev --turbopack/next dev --turbopack -H 127.0.0.1 -p 3000/g&#39;</span> package.json <span style="color:#75715e"># 修改启动的host</span>
 </span></span><span style="display:flex;"><span>cd nextjs-dashboard-demo
 </span></span><span style="display:flex;"><span>pnpm i <span style="color:#75715e">#安装依赖</span>
 </span></span><span style="display:flex;"><span>pnpm dev <span style="color:#75715e">#启动项目</span>
@@ -347,7 +349,40 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <code>/app/ui</code>: 包含所有的UI组件，例如卡片、表格、表单。
 <code>/public</code>: 包含所有的静态资源，例如图片
 <strong>Config Files</strong>: 在根目录还有 <code>next.config.js</code> 等配置文件。如果你使用 <code>create-next-app</code> 初始化项目，那么大部分文件已经预先配置好了。在NextJS的官方example中，不需要修改这个文件。</p>
-<h2 id="简单的ts">简单的TS</h2>
+<h2 id="prettier">prettier</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>npm install -g prettier
+</span></span></code></pre></div><p>vscode安装插件：<a href="https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode">esbenp.prettier-vscode</a></p>
+<p>settings.json</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;editor.formatOnSave&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;editor.defaultFormatter&#34;</span>: <span style="color:#e6db74">&#34;esbenp.prettier-vscode&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;eslint.format.enable&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;files.exclude&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;**/.next&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;**/node_modules&#34;</span>: <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;[typescriptreact]&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;editor.defaultFormatter&#34;</span>: <span style="color:#e6db74">&#34;esbenp.prettier-vscode&#34;</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>.prettierrc</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;semi&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;singleQuote&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;trailingComma&#34;</span>: <span style="color:#e6db74">&#34;es5&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;tabWidth&#34;</span>: <span style="color:#ae81ff">2</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;useTabs&#34;</span>: <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>.prettierignore</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>node_modules
+</span></span><span style="display:flex;"><span>.next
+</span></span><span style="display:flex;"><span>dist
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># shadcd/ui的目录</span>
+</span></span><span style="display:flex;"><span>components/ui/
+</span></span><span style="display:flex;"><span>hooks
+</span></span></code></pre></div><p>命令行</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>prettier --write .
+</span></span></code></pre></div><h2 id="简单的ts">简单的TS</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Invoice</span> <span style="color:#f92672">=</span> {
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">id</span>: <span style="color:#66d9ef">string</span>;
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">customer_id</span>: <span style="color:#66d9ef">string</span>;
