@@ -341,6 +341,7 @@ wsl --unregister Debian # 卸载
 ## WSL2 debian12 安装docker并配置daemon.json
 
 - [debian/#install-from-a-package](https://docs.docker.com/engine/install/debian/#install-from-a-package)
+- [rhel/#install-using-the-repository](https://docs.docker.com/engine/install/rhel/#install-using-the-repository)
 - [#daemon-configuration-file](https://docs.docker.com/reference/cli/dockerd/#daemon-configuration-file)
 
 ```bash
