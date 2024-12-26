@@ -44,7 +44,8 @@ node -v&&npm -v
 ```bash
 npm install -g pnpm
 yes| npx create-next-app@latest nextjs-dashboard-demo --use-pnpm --example "https://github.com/vercel/next-learn/tree/main/dashboard/starter-example"
-sed -i 's/next dev --turbo/next dev --turbo -H 127.0.0.1 -p 3000/g' nextjs-dashboard-demo/package.json # 修改启动的host
+cd nextjs-dashboard-demo
+sed -i 's/next dev --turbopack/next dev --turbopack -H 127.0.0.1 -p 3000/g' package.json # 修改启动的host
 cd nextjs-dashboard-demo
 pnpm i #安装依赖
 pnpm dev #启动项目
@@ -55,6 +56,61 @@ pnpm dev #启动项目
 `/app/ui`: 包含所有的UI组件，例如卡片、表格、表单。
 `/public`: 包含所有的静态资源，例如图片
 **Config Files**: 在根目录还有 `next.config.js` 等配置文件。如果你使用 `create-next-app` 初始化项目，那么大部分文件已经预先配置好了。在NextJS的官方example中，不需要修改这个文件。
+
+## prettier
+
+```bash
+npm install -g prettier
+```
+
+vscode安装插件：[esbenp.prettier-vscode](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+
+settings.json
+
+```json
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "eslint.format.enable": true,
+  "files.exclude": {
+    "**/.next": false,
+    "**/node_modules": false
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}
+```
+
+.prettierrc
+
+```json
+{
+  "semi": true,
+  "singleQuote": false,
+  "trailingComma": "es5",
+  "tabWidth": 2,
+  "useTabs": false
+}
+```
+
+.prettierignore
+
+```bash
+node_modules
+.next
+dist
+# shadcd/ui的目录
+components/ui/
+hooks
+```
+
+命令行
+
+```bash
+prettier --write .
+```
+
 
 ## 简单的TS
 
