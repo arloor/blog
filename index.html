@@ -216,6 +216,30 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   <div class="post-list__item">
     <span class="item__title--big">
+      <a href="/posts/2024/" >2024年度总结</a>
+    </span>
+    <span class="item__date">
+      Dec 29, 2024
+    </span>
+    <span >
+      
+      <h2 id="从小红书到字节跳到">从小红书到字节跳到</h2>
+<p>从可观测到了实时音视频的调度，还需要时间观察这个选择对不对</p>
+<h2 id="前端学习落地">前端学习落地</h2>
+<p>学会了React/Next.js开发前端项目，搭配shadcn/ui可以写一些小东西</p>
+      
+    </span>
+    
+    ... <a class="read-more-symbol" href="/posts/2024/">➦</a>
+    
+  </div>
+  
+  
+  
+  
+  
+  <div class="post-list__item">
+    <span class="item__title--big">
       <a href="/posts/mac-wakeonlan-windows-11-msi-motherboard/" >使用Mac mini wakeonlan windows主机（微星主板）并安装openssh</a>
     </span>
     <span class="item__date">
@@ -386,28 +410,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
       
       
     </span>
-    
-  </div>
-  
-  
-  
-  
-  
-  <div class="post-list__item">
-    <span class="item__title--big">
-      <a href="/posts/golang-string-data-race-panic/" >Golang的string数据争用导致的panic</a>
-    </span>
-    <span class="item__date">
-      Oct 11, 2024
-    </span>
-    <span >
-      
-      <p>简单说下问题：多个goroutine并发读写string，读取string（<code>fmt.Println</code>和<code>json.Marshal</code>）的goroutine会panic。根因是string是一个胖指针，除了pointer字段之外还有一个len字段的元数据。在给string变量赋值（拷贝）时，会逐个设置pointer和len字段，这个过程不是原子的。在有并发修改时，pointer和len就不一致了，这时就回发生问题：当len不为0，pointer为nil(0x0)时，就会<code>panic: runtime error: invalid memory address or nil pointer dereference</code>。</p>
-<p>本文首先探究下为什么golang string有这个问题，然后对比下java的string为什么没这个问题，最后介绍数据争用(data race)问题以及Golang和Rust如何避免该问题。</p>
-      
-    </span>
-    
-    ... <a class="read-more-symbol" href="/posts/golang-string-data-race-panic/">➦</a>
     
   </div>
   

@@ -216,6 +216,35 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   <div class="post-list__item">
     <span class="item__title--big">
+      <a href="/posts/ssh-tunnel/" >ssh配置</a>
+    </span>
+    <span class="item__date">
+      Nov 16, 2023
+    </span>
+    <span >
+      
+      <h2 id="ssh隧道的类型">SSH隧道的类型</h2>
+<ul>
+<li>本地端口转发（Local Port Forwarding）：允许你将本地端口上的数据转发到远程服务器。</li>
+<li>远程端口转发（Remote Port Forwarding）：允许你将远程服务器上的端口转发到本地计算机。</li>
+<li>动态端口转发（Dynamic Port Forwarding）：创建一个本地的SOCKS代理服务器，可以用于多种目的，如安全浏览。</li>
+</ul>
+<h2 id="本地端口转发"><strong>本地端口转发：</strong></h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh -L <span style="color:#f92672">[</span>本地端口<span style="color:#f92672">]</span>:<span style="color:#f92672">[</span>目标服务器地址<span style="color:#f92672">]</span>:<span style="color:#f92672">[</span>目标端口<span style="color:#f92672">]</span> root@xxxxx
+</span></span></code></pre></div><p>也可以将本地端口转发写到 <code>~/.ssh/config</code> 文件中，这样就可以直接在 <code>ssh [SSH服务器别名]</code> 时建立端口转发。</p>
+      
+    </span>
+    
+    ... <a class="read-more-symbol" href="/posts/ssh-tunnel/">➦</a>
+    
+  </div>
+  
+  
+  
+  
+  
+  <div class="post-list__item">
+    <span class="item__title--big">
       <a href="/posts/springboot-mybatis-multi-sql-session-factory/" >Springboot配置多个Mybatis的sqlSessionFactory</a>
     </span>
     <span class="item__date">
@@ -452,27 +481,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     </span>
     
     ... <a class="read-more-symbol" href="/posts/clash-tun-gateway/">➦</a>
-    
-  </div>
-  
-  
-  
-  
-  
-  <div class="post-list__item">
-    <span class="item__title--big">
-      <a href="/posts/k8s-kubeadm/" >使用Kubeadm安装K8S 1.27.3</a>
-    </span>
-    <span class="item__date">
-      Jul 19, 2023
-    </span>
-    <span >
-      
-      <p>尝试使用kubeadm安装k8s</p>
-      
-    </span>
-    
-    ... <a class="read-more-symbol" href="/posts/k8s-kubeadm/">➦</a>
     
   </div>
   
