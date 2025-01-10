@@ -306,6 +306,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <ol>
 <li>MySQL 数据文件在 <code>/var/lib/mysql</code></li>
 <li>在 <code>/etc/mysql/conf.d/ssl.cnf</code> 中指定了 acme.sh 生成的ssl证书，并强制要求客户端ssl连接</li>
+<li>如果想让mysqld自己生成自签名的证书，不指定 <code>ssl_ca</code>、<code>ssl_cert</code>和<code>ssl_key</code>即可。参见<a href="https://dev.mysql.com/doc/refman/9.1/en/creating-ssl-rsa-files-using-mysql.html#creating-ssl-rsa-files-using-mysql-automatic">Automatic SSL and RSA File Generation</a>。记得保留 <code>require_secure_transport=ON</code></li>
 </ol>
 <p><strong>一些坑点：</strong></p>
 <ol>
