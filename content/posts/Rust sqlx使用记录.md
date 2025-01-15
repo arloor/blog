@@ -6,7 +6,7 @@ draft: false
 categories: 
 - undefined
 tags: 
-- notion
+- rust
 weight: 10
 subtitle: ""
 description : ""
