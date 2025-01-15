@@ -107,13 +107,6 @@
       <description></description>
     </item>
     <item>
-      <title>Rust学习路径</title>
-      <link>https://www.arloor.com/posts/rust/pick-up-rust/</link>
-      <pubDate>Sun, 22 Sep 2024 13:57:38 +0800</pubDate>
-      <guid>https://www.arloor.com/posts/rust/pick-up-rust/</guid>
-      <description>&lt;h2 id=&#34;为什么学习rust&#34;&gt;为什么学习rust？&lt;/h2&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;高性能：Rust 速度惊人且内存利用率极高。由于没有运行时和垃圾回收，它能够胜任对性能要求特别高的服务，可以在嵌入式设备上运行，还能轻松和其他语言集成。&lt;/li&gt;&#xA;&lt;li&gt;可靠性：Rust 丰富的类型系统和所有权模型保证了内存安全和线程安全，让您在编译期就能够消除各种各样的错误。&lt;/li&gt;&#xA;&lt;li&gt;生产力：Rust 拥有出色的文档、友好的编译器和清晰的错误提示信息， 还集成了一流的工具——包管理器和构建工具， 智能地自动补全和类型检验的多编辑器支持， 以及自动格式化代码等等。&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/blockquote&gt;</description>
-    </item>
-    <item>
       <title>Windows11 WSL2使用</title>
       <link>https://www.arloor.com/posts/windows11-23h2-wsl2/</link>
       <pubDate>Sun, 22 Sep 2024 13:45:23 +0800</pubDate>
@@ -532,6 +525,13 @@
       <pubDate>Wed, 26 Oct 2022 00:00:00 +0000</pubDate>
       <guid>https://www.arloor.com/posts/other/google-service-framework-install/</guid>
       <description>&lt;p&gt;之前在telegram群里有人问，怎么给安卓手机安装谷歌三件套。他说的谷歌三件套大概就是google service framework(谷歌服务框架)、google play service、google play store。这里介绍一下如何安装这三个软件。&lt;strong&gt;对华为手机本文无效，请看文末贴的youtube链接的方案&lt;/strong&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Rust学习路径</title>
+      <link>https://www.arloor.com/posts/rust/pick-up-rust/</link>
+      <pubDate>Thu, 22 Sep 2022 13:57:38 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/rust/pick-up-rust/</guid>
+      <description>&lt;h2 id=&#34;为什么学习rust&#34;&gt;为什么学习rust？&lt;/h2&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;高性能：Rust 速度惊人且内存利用率极高。由于没有运行时和垃圾回收，它能够胜任对性能要求特别高的服务，可以在嵌入式设备上运行，还能轻松和其他语言集成。&lt;/li&gt;&#xA;&lt;li&gt;可靠性：Rust 丰富的类型系统和所有权模型保证了内存安全和线程安全，让您在编译期就能够消除各种各样的错误。&lt;/li&gt;&#xA;&lt;li&gt;生产力：Rust 拥有出色的文档、友好的编译器和清晰的错误提示信息， 还集成了一流的工具——包管理器和构建工具， 智能地自动补全和类型检验的多编辑器支持， 以及自动格式化代码等等。&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/blockquote&gt;</description>
     </item>
     <item>
       <title>威联通NAS折腾</title>

@@ -216,27 +216,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   <div class="post-list__item">
     <span class="item__title--big">
-      <a href="/posts/k8s-kubeadm/" >使用Kubeadm安装K8S 1.27.3</a>
-    </span>
-    <span class="item__date">
-      Jul 19, 2023
-    </span>
-    <span >
-      
-      <p>尝试使用kubeadm安装k8s</p>
-      
-    </span>
-    
-    ... <a class="read-more-symbol" href="/posts/k8s-kubeadm/">➦</a>
-    
-  </div>
-  
-  
-  
-  
-  
-  <div class="post-list__item">
-    <span class="item__title--big">
       <a href="/posts/k8s-kind/" >K8s Kind使用</a>
     </span>
     <span class="item__date">
@@ -601,6 +580,32 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     </span>
     
     ... <a class="read-more-symbol" href="/posts/tcpdump/">➦</a>
+    
+  </div>
+  
+  
+  
+  
+  
+  <div class="post-list__item">
+    <span class="item__title--big">
+      <a href="/posts/openssl_ca_type_s_client/" >Openssl使用：自定义CA签发证书、私钥格式、s_client使用</a>
+    </span>
+    <span class="item__date">
+      May 11, 2023
+    </span>
+    <span >
+      
+      <h2 id="签发ca并使用ca签发ssl证书">签发CA并使用CA签发SSL证书</h2>
+<ol>
+<li>在 <code>~/ca</code> 创建CA证书和私钥，私钥为 <code>ca_key.pem</code> ，公钥为 <code>ca.pem</code> 。 <code>ca.pem</code> 后续将被安装到系统并信任。</li>
+<li>在 <code>~/ca/certs</code> 创建自定义SSL证书，私钥为 <code>privkey.pem</code> ，公钥为 <code>cert.pem</code>。他们将被用于启动https服务。</li>
+</ol>
+<p>脚本下载：<a href="/sh/ca.sh">ca.sh</a>。</p>
+      
+    </span>
+    
+    ... <a class="read-more-symbol" href="/posts/openssl_ca_type_s_client/">➦</a>
     
   </div>
   
