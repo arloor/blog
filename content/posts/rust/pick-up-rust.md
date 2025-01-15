@@ -1,6 +1,6 @@
 ---
 title: "Rust学习路径"
-date: 2024-09-22T13:57:38+08:00
+date: 2022-09-22T13:57:38+08:00
 draft: false
 categories: [ "undefined"]
 tags: ["rust"]
