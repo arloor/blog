@@ -37,4 +37,4 @@ date: 2019-08-21T22:03:30+08:00
 
 ### 个人简历
 
-[点此查看PDF](/liuganghuan-resume.pdf)
+[点此查看PDF](/刘港欢简历.pdf)
