@@ -37,5 +37,5 @@ date: 2019-08-21T22:03:30+08:00
 
 ### 个人简历
 
-- [中文简历](/liuganghuan-resume.pdf)
+- [中文简历](/刘港欢简历.pdf)
 - [英文简历](/Ganghuan_Liu.pdf)
