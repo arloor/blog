@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.140.2">
+<meta name="generator" content="Hugo 0.141.0">
 
     
     
@@ -372,14 +372,14 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">buildSpanIndexQuery</span>(<span style="color:#a6e22e">f</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">SpanFilter</span>, <span style="color:#a6e22e">minutes</span> <span style="color:#66d9ef">float64</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">ch</span>.<span style="color:#a6e22e">SelectQuery</span> {
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">q</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">f</span>.<span style="color:#a6e22e">CH</span>().<span style="color:#a6e22e">NewSelect</span>().
 </span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">Model</span>((<span style="color:#f92672">*</span><span style="color:#a6e22e">SpanIndex</span>)(<span style="color:#66d9ef">nil</span>)).
-</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">Apply</span>(<span style="color:#a6e22e">f</span>.<span style="color:#a6e22e">whereClause</span>) <span style="color:#75715e">// 补充通用的where
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">q</span>, <span style="color:#a6e22e">f</span>.<span style="color:#a6e22e">columnMap</span> = <span style="color:#a6e22e">compileUQL</span>(<span style="color:#a6e22e">q</span>, <span style="color:#a6e22e">f</span>.<span style="color:#a6e22e">parts</span>, <span style="color:#a6e22e">minutes</span>) <span style="color:#75715e">//拼接sql
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">q</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">Apply</span>(<span style="color:#a6e22e">f</span>.<span style="color:#a6e22e">whereClause</span>) <span style="color:#75715e">// 补充通用的where</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">q</span>, <span style="color:#a6e22e">f</span>.<span style="color:#a6e22e">columnMap</span> = <span style="color:#a6e22e">compileUQL</span>(<span style="color:#a6e22e">q</span>, <span style="color:#a6e22e">f</span>.<span style="color:#a6e22e">parts</span>, <span style="color:#a6e22e">minutes</span>) <span style="color:#75715e">//拼接sql</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">q</span>
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>compileUQL分为结果列和where语句。</p>
 <p><strong>select结果列</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// expr as name
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">uqlColumn</span>(<span style="color:#a6e22e">q</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ch</span>.<span style="color:#a6e22e">SelectQuery</span>, <span style="color:#a6e22e">name</span> <span style="color:#a6e22e">uql</span>.<span style="color:#a6e22e">Name</span>, <span style="color:#a6e22e">minutes</span> <span style="color:#66d9ef">float64</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">ch</span>.<span style="color:#a6e22e">SelectQuery</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// expr as name</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">uqlColumn</span>(<span style="color:#a6e22e">q</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ch</span>.<span style="color:#a6e22e">SelectQuery</span>, <span style="color:#a6e22e">name</span> <span style="color:#a6e22e">uql</span>.<span style="color:#a6e22e">Name</span>, <span style="color:#a6e22e">minutes</span> <span style="color:#66d9ef">float64</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">ch</span>.<span style="color:#a6e22e">SelectQuery</span> {
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">b</span> []<span style="color:#66d9ef">byte</span>
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">b</span> = <span style="color:#a6e22e">appendUQLColumn</span>(<span style="color:#a6e22e">b</span>, <span style="color:#a6e22e">name</span>, <span style="color:#a6e22e">minutes</span>)
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">b</span> = append(<span style="color:#a6e22e">b</span>, <span style="color:#e6db74">&#34; AS &#34;</span><span style="color:#f92672">...</span>)
@@ -390,8 +390,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">appendUQLColumn</span>(<span style="color:#a6e22e">b</span> []<span style="color:#66d9ef">byte</span>, <span style="color:#a6e22e">name</span> <span style="color:#a6e22e">uql</span>.<span style="color:#a6e22e">Name</span>, <span style="color:#a6e22e">minutes</span> <span style="color:#66d9ef">float64</span>) []<span style="color:#66d9ef">byte</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 根据函数名判断，转译成clickhouse的函数
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">switch</span> <span style="color:#a6e22e">name</span>.<span style="color:#a6e22e">FuncName</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 根据函数名判断，转译成clickhouse的函数</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">switch</span> <span style="color:#a6e22e">name</span>.<span style="color:#a6e22e">FuncName</span> {
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;p50&#34;</span>, <span style="color:#e6db74">&#34;p75&#34;</span>, <span style="color:#e6db74">&#34;p90&#34;</span>, <span style="color:#e6db74">&#34;p99&#34;</span>:
 </span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">chschema</span>.<span style="color:#a6e22e">AppendQuery</span>(<span style="color:#a6e22e">b</span>, <span style="color:#e6db74">&#34;quantileTDigest(?)(toFloat64OrDefault(?))&#34;</span>,
 </span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">quantileLevel</span>(<span style="color:#a6e22e">name</span>.<span style="color:#a6e22e">FuncName</span>), <span style="color:#a6e22e">chColumn</span>(<span style="color:#a6e22e">name</span>.<span style="color:#a6e22e">AttrKey</span>))
@@ -411,8 +411,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">case</span> <span style="color:#a6e22e">xattr</span>.<span style="color:#a6e22e">SpanErrorPct</span>:
 </span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">chschema</span>.<span style="color:#a6e22e">AppendQuery</span>(
 </span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">b</span>, <span style="color:#e6db74">&#34;sumIf(`span.count`, `span.status_code` = &#39;error&#39;) / sum(`span.count`)&#34;</span>, <span style="color:#a6e22e">minutes</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 查询具体的列
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">default</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 查询具体的列</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">default</span>:
 </span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">name</span>.<span style="color:#a6e22e">FuncName</span> <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;&#34;</span> {
 </span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">b</span> = append(<span style="color:#a6e22e">b</span>, <span style="color:#a6e22e">name</span>.<span style="color:#a6e22e">FuncName</span><span style="color:#f92672">...</span>)
 </span></span><span style="display:flex;"><span>			<span style="color:#a6e22e">b</span> = append(<span style="color:#a6e22e">b</span>, <span style="color:#e6db74">&#39;(&#39;</span>)
@@ -433,16 +433,16 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">appendCHColumn</span>(<span style="color:#a6e22e">b</span> []<span style="color:#66d9ef">byte</span>, <span style="color:#a6e22e">key</span> <span style="color:#66d9ef">string</span>) []<span style="color:#66d9ef">byte</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 以span开头的列，直接返回
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">strings</span>.<span style="color:#a6e22e">HasPrefix</span>(<span style="color:#a6e22e">key</span>, <span style="color:#e6db74">&#34;span.&#34;</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 以span开头的列，直接返回</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">strings</span>.<span style="color:#a6e22e">HasPrefix</span>(<span style="color:#a6e22e">key</span>, <span style="color:#e6db74">&#34;span.&#34;</span>) {
 </span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">chschema</span>.<span style="color:#a6e22e">AppendIdent</span>(<span style="color:#a6e22e">b</span>, <span style="color:#a6e22e">key</span>)
 </span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 加入索引的列，例如service.name, host.name, db.name等等
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">indexedAttrSet</span>[<span style="color:#a6e22e">key</span>]; <span style="color:#a6e22e">ok</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 加入索引的列，例如service.name, host.name, db.name等等</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">indexedAttrSet</span>[<span style="color:#a6e22e">key</span>]; <span style="color:#a6e22e">ok</span> {
 </span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">chschema</span>.<span style="color:#a6e22e">AppendIdent</span>(<span style="color:#a6e22e">b</span>, <span style="color:#a6e22e">key</span>)
 </span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 未索引的列，key在attr_keys，value在attr_values中
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">chschema</span>.<span style="color:#a6e22e">AppendQuery</span>(<span style="color:#a6e22e">b</span>, <span style="color:#e6db74">&#34;attr_values[indexOf(attr_keys, ?)]&#34;</span>, <span style="color:#a6e22e">key</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 未索引的列，key在attr_keys，value在attr_values中</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">chschema</span>.<span style="color:#a6e22e">AppendQuery</span>(<span style="color:#a6e22e">b</span>, <span style="color:#e6db74">&#34;attr_values[indexOf(attr_keys, ?)]&#34;</span>, <span style="color:#a6e22e">key</span>)
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p><strong>where语句</strong></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">uqlWhere</span>(<span style="color:#a6e22e">q</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ch</span>.<span style="color:#a6e22e">SelectQuery</span>, <span style="color:#a6e22e">ast</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">uql</span>.<span style="color:#a6e22e">Where</span>, <span style="color:#a6e22e">minutes</span> <span style="color:#66d9ef">float64</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">ch</span>.<span style="color:#a6e22e">SelectQuery</span> {
@@ -628,10 +628,10 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">m</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">interface</span>{})
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 子查询作为表
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// groupBy time =》 一行是一分钟的聚合数据（分位线、个数、错误数）
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// orderBy time asc，控制递增
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#a6e22e">subq</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">h</span>.<span style="color:#a6e22e">CH</span>().<span style="color:#a6e22e">NewSelect</span>().
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 子查询作为表</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// groupBy time =》 一行是一分钟的聚合数据（分位线、个数、错误数）</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// orderBy time asc，控制递增</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">subq</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">h</span>.<span style="color:#a6e22e">CH</span>().<span style="color:#a6e22e">NewSelect</span>().
 </span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">Model</span>((<span style="color:#f92672">*</span><span style="color:#a6e22e">SpanIndex</span>)(<span style="color:#66d9ef">nil</span>)).
 </span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">WithAlias</span>(<span style="color:#e6db74">&#34;qsNaN&#34;</span>, <span style="color:#e6db74">&#34;quantilesTDigest(0.5, 0.9, 0.99)(`span.duration`)&#34;</span>).
 </span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">WithAlias</span>(<span style="color:#e6db74">&#34;qs&#34;</span>, <span style="color:#e6db74">&#34;if(isNaN(qsNaN[1]), [0, 0, 0], qsNaN)&#34;</span>).
@@ -654,9 +654,9 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">OrderExpr</span>(<span style="color:#e6db74">&#34;time ASC&#34;</span>).
 </span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">Limit</span>(<span style="color:#ae81ff">10000</span>)
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// groupBy 空元组，表示都放在一行
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// groupArray 表示将所有值变成一个数组
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">h</span>.<span style="color:#a6e22e">CH</span>().<span style="color:#a6e22e">NewSelect</span>().
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// groupBy 空元组，表示都放在一行</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// groupArray 表示将所有值变成一个数组</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">h</span>.<span style="color:#a6e22e">CH</span>().<span style="color:#a6e22e">NewSelect</span>().
 </span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">ColumnExpr</span>(<span style="color:#e6db74">&#34;groupArray(count) AS count&#34;</span>).
 </span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">ColumnExpr</span>(<span style="color:#e6db74">&#34;groupArray(rate) AS rate&#34;</span>).
 </span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">ColumnExpr</span>(<span style="color:#e6db74">&#34;groupArray(time) AS time&#34;</span>).

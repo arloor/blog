@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.140.2">
+<meta name="generator" content="Hugo 0.141.0">
 
     
     
@@ -377,10 +377,10 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>  <span style="color:#75715e"># the data is abbreviated in this example</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">cert</span>: |<span style="color:#e6db74">
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    -----BEGIN CERTIFICATE-----
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    ......</span>    
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    ......</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">key</span>: |<span style="color:#e6db74">
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    -----BEGIN RSA PRIVATE KEY-----
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    ........</span>    
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    ........</span>
 </span></span></code></pre></div><p>上面用到了hostPath卷，因为文件夹权限的问题，hostPath卷在容器中只可读，如果要可写，需要调整container的securityContext来赋予特权模式（如下），或者在宿主机上修改文件夹的权限。当然这都不推荐在生产上使用，生产上还是用pvc动态置备比较好。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>        securityContext:
 </span></span><span style="display:flex;"><span>          privileged: true
