@@ -103,24 +103,14 @@ ncode arloor
 ```bash
 git filter-branch --tree-filter 'rm -rf path/folder' HEAD
 git filter-branch --tree-filter 'rm -f path/file' HEAD
-```
+# 也可以指定 检索的 Commit 历史的范围：
+# git filter-branch --tree-filter 'rm -rf path/folder' 347ae59..HEAD
 
-也可以指定 检索的 Commit 历史的范围：
-
-```bash
-git filter-branch --tree-filter 'rm -rf path/folder' 347ae59..HEAD
-```
-
-最后强制推送
-
-```bash
+# 最后强制推送
 git push --force --all
 git push origin master --force --tags
-```
 
-立即删除本地无用的缓存，释放空间
-
-```bash
+# 立即删除本地无用的缓存，释放空间
 git for-each-ref --format="delete %(refname)" refs/original | git update-ref --stdin
 git reflog expire --expire=now --all
 git gc --prune=now
@@ -134,7 +124,7 @@ git -P log -1 -p --color
 
 ## 不再跟踪某个文件
 
-如果想要保持之前的内容，不再提交之后的变更，可以使用下面的命令：
+保持之前的内容，不再提交之后的变更，可以使用下面的命令：
 
 ```bash
 git update-index --assume-unchanged path/to/your/file # 假设某文件未变更，从而不加入暂存区
