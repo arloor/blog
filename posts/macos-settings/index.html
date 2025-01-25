@@ -251,7 +251,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     
     
     <br/>
-    <i class="fas fa-clock"></i> 1 min read
+    <i class="fas fa-clock"></i> 2 min read
 </div>
 
 
@@ -270,6 +270,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     <li><a href="#macos-解除f11的快捷键的占用vscode-debug-stepin">macOS 解除F11的快捷键的占用（vscode debug StepIn）</a></li>
     <li><a href="#打开文稿时首选标签页关闭">打开文稿时首选标签页——关闭</a></li>
     <li><a href="#使用外界显示器供电时合盖使用而不睡眠">使用外界显示器供电时合盖使用而不睡眠</a></li>
+    <li><a href="#ssh到macos上远程开发">ssh到macOS上远程开发</a></li>
   </ul>
 </nav>
       
@@ -314,6 +315,23 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 
 
 <img src="/img/never-close-monitor.png" alt="" width="700px" style="max-width: 100%;">
+
+<h2 id="ssh到macos上远程开发">ssh到macOS上远程开发</h2>
+<p>除了要开远程登录外，要ssh到macOS上进行远程开发，需要额外的命令：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>xcode-select --install <span style="color:#75715e"># 安装 LLDB.framework</span>
+</span></span><span style="display:flex;"><span>sudo DevToolsSecurity --enable <span style="color:#75715e"># 永久允许Developer Tools Access 附加到其他进程上，以进行debug</span>
+</span></span><span style="display:flex;"><span>sudo security authorizationdb write system.privilege.taskport.debug allow <span style="color:#75715e"># 允许remote-ssh调试进程。解决报错：this is a non-interactive debug session, cannot get permission to debug processes.</span>
+</span></span></code></pre></div><p>其实第三个命令就是对第二个命令的补充。他们操作的都是rights definition for: system.privilege.taskport.debug。可以执行下面两条命令来验证，可以发现就是打印格式不同，内容是一样的。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo DevToolsSecurity -status -verbose
+</span></span><span style="display:flex;"><span>sudo security authorizationdb read system.privilege.taskport.debug
+</span></span></code></pre></div><p>参考文档：</p>
+<ol>
+<li><a href="https://code.visualstudio.com/docs/cpp/lldb-mi">Debugging with LLDB-MI on macOS</a></li>
+<li><a href="https://github.com/vadimcn/codelldb/issues/1079">Unable to debug after connecting to macOS via &ldquo;Remote - SSH&rdquo; </a> 解决报错：this is a non-interactive debug session, cannot get permission to debug processes.</li>
+</ol>
+<p>如果每次ssh到macOS都需要输入密码，设置公钥就行：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo ssh-rsa xxxxxxxx not@home &gt; ~/.ssh/authorized_keys
+</span></span></code></pre></div>
   </div>
   
 
