@@ -42,3 +42,31 @@ keywords:
 可以顺便把这个也设置下：这样使用kvm控制器切换到其他电脑时，macOS就不会停止输出DP、HDMI等显示信号了，也就是不用按键盘来让显示器显示了。
 
 {{<img never-close-monitor.png 700 >}}
+
+## ssh到macOS上远程开发
+
+除了要开远程登录外，要ssh到macOS上进行远程开发，需要额外的命令：
+
+```bash
+xcode-select --install # 安装 LLDB.framework
+sudo DevToolsSecurity --enable # 永久允许Developer Tools Access 附加到其他进程上，以进行debug
+sudo security authorizationdb write system.privilege.taskport.debug allow # 允许remote-ssh调试进程。解决报错：this is a non-interactive debug session, cannot get permission to debug processes.
+```
+
+其实第三个命令就是对第二个命令的补充。他们操作的都是rights definition for: system.privilege.taskport.debug。可以执行下面两条命令来验证，可以发现就是打印格式不同，内容是一样的。
+
+```bash
+sudo DevToolsSecurity -status -verbose
+sudo security authorizationdb read system.privilege.taskport.debug
+```
+
+参考文档：
+
+1. [Debugging with LLDB-MI on macOS](https://code.visualstudio.com/docs/cpp/lldb-mi)
+2. [Unable to debug after connecting to macOS via "Remote - SSH" ](https://github.com/vadimcn/codelldb/issues/1079) 解决报错：this is a non-interactive debug session, cannot get permission to debug processes.
+
+如果每次ssh到macOS都需要输入密码，设置公钥就行：
+
+```bash
+echo ssh-rsa xxxxxxxx not@home > ~/.ssh/authorized_keys
+```
