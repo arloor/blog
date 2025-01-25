@@ -534,6 +534,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><p>写个VBS脚本：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>set ws<span style="color:#f92672">=</span>wscript.CreateObject<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;wscript.shell&#34;</span><span style="color:#f92672">)</span>
 </span></span><span style="display:flex;"><span>ws.run <span style="color:#e6db74">&#34;wsl -d Debian /usr/local/bin/keepalive&#34;</span>, <span style="color:#ae81ff">0</span>
+</span></span></code></pre></div><p>将这个VBS脚本的快捷方式放到启动文件夹，这样就可以在开机时自动运行了。启动文件夹在：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>%userprofile%<span style="color:#ae81ff">\A</span>ppData<span style="color:#ae81ff">\R</span>oaming<span style="color:#ae81ff">\M</span>icrosoft<span style="color:#ae81ff">\W</span>indows<span style="color:#ae81ff">\S</span>tart Menu<span style="color:#ae81ff">\P</span>rograms<span style="color:#ae81ff">\S</span>tartup
 </span></span></code></pre></div><h2 id="常见报错解决">常见报错解决</h2>
 <h3 id="0x80070422-wslservice服务未启动">0x80070422 wslservice服务未启动</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>无法启动服务，原因可能是已被禁用或与其相关联的设备没有启动。
