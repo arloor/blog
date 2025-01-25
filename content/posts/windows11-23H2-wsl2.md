@@ -288,6 +288,12 @@ set ws=wscript.CreateObject("wscript.shell")
 ws.run "wsl -d Debian /usr/local/bin/keepalive", 0
 ```
 
+将这个VBS脚本的快捷方式放到启动文件夹，这样就可以在开机时自动运行了。启动文件夹在：
+
+```bash
+%userprofile%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
+```
+
 ## 常见报错解决
 
 ### 0x80070422 wslservice服务未启动
