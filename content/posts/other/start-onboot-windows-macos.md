@@ -270,7 +270,7 @@ launchctl limit maxfiles
 编写`startup.vbs`，放到
 
 ```
-C:\Users\你的用户名\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
+%userprofile%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
 ```
 
 文件夹下
