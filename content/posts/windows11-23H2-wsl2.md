@@ -294,49 +294,6 @@ ws.run "wsl -d Debian /usr/local/bin/keepalive", 0
 %userprofile%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
 ```
 
-## 常见报错解决
-
-### 0x80070422 wslservice服务未启动
-
-```bash
-无法启动服务，原因可能是已被禁用或与其相关联的设备没有启动。
-Error code: Wsl/0x80070422
-```
-
-解决方案：
-
-```bat
-sc.exe config wslservice start= demand
-```
-
-### 0x8004032d 虚拟机平台功能未启用
-
-```bat
-WslRegisterDistribution failed with error: 0x8004032d
-Error: 0x8004032d (null)
-```
-解决方案：在启用和关闭windows功能中打开“虚拟机平台”或使用下面的cmd命令并重启
-
-```bat
-dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
-```
-
-### 端口被占用问题解决
-
-```bat
-# 查看当前动态端口范围
-netsh int ipv4 show dynamicport tcp
-# 查看被使用的端口
-netsh int ipv4 show excludedportrange protocol=tcp
-
-# 修改动态端口范围
-netsh int ipv4 set dynamic tcp start=50000 num=15536
-netsh int ipv6 set dynamic tcp start=50000 num=15536
-# 重启网络
-net stop winnat
-net start winnat
-```
-
 ## 卸载发行版
 
 ```bat
@@ -434,7 +391,6 @@ systemctl enable ssh.service
 
 或者直接在管理员权限的powershell执行：
 
-
 ```ps1
 New-NetFirewallRule -DisplayName '"Allow SSH on Port xxxxx"' -Direction Inbound -Protocol TCP -LocalPort xxxxx -Action Allow
 ```
@@ -485,3 +441,46 @@ $ShortName.Keys | ForEach-Object {
 ```
 
 之后ssh上去后执行`keep`即可。尝试了`ssh xxx -t keep`是没这个效果的，得先ssh进去，再执行keep，后面就能退出这个ssh的窗口了。
+
+## 常见报错解决
+
+### 0x80070422 wslservice服务未启动
+
+```bash
+无法启动服务，原因可能是已被禁用或与其相关联的设备没有启动。
+Error code: Wsl/0x80070422
+```
+
+解决方案：
+
+```bat
+sc.exe config wslservice start= demand
+```
+
+### 0x8004032d 虚拟机平台功能未启用
+
+```bat
+WslRegisterDistribution failed with error: 0x8004032d
+Error: 0x8004032d (null)
+```
+解决方案：在启用和关闭windows功能中打开“虚拟机平台”或使用下面的cmd命令并重启
+
+```bat
+dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+```
+
+### 端口被占用问题解决
+
+```bat
+# 查看当前动态端口范围
+netsh int ipv4 show dynamicport tcp
+# 查看被使用的端口
+netsh int ipv4 show excludedportrange protocol=tcp
+
+# 修改动态端口范围
+netsh int ipv4 set dynamic tcp start=50000 num=15536
+netsh int ipv6 set dynamic tcp start=50000 num=15536
+# 重启网络
+net stop winnat
+net start winnat
+```
