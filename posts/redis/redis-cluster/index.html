@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.142.0">
+<meta name="generator" content="Hugo 0.143.1">
 
     
     
@@ -346,8 +346,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>这些用于集群内部通信的tcp连接共同组成redis cluster bus。虽然官方称他为总线，但他不是总线型地拓扑而是P2P的。这条总线用于传播共计9种类型的消息（下文介绍），用于传播状态，进行协作等。redis称这种通信方式为gossip（闲言碎语），因为确实这种分布式的P2P架构下的通信确实有些混乱和不那么完整。但是通过“版本”来决定丢弃过时消息、认可最新消息，这些闲言碎语最终能让集群达成一致的状态。</p>
 <h3 id="p2p拓扑结构的建立">P2P拓扑结构的建立</h3>
 <blockquote>
-<p>N头独狼形成一个狼群</p>
-</blockquote>
+<p>N头独狼形成一个狼群</p></blockquote>
 <p>当集群刚刚建立或者有新的节点加入集群时，节点是孤立的，没有到其他节点的连接。我们需要一种“识别”的机制来让集群认可新的节点，创建新的tcp连接用于交换信息。</p>
 <p>redis cluster使用两个途径确保让集群中的老节点“认识”新的节点。</p>
 <p><strong>CLUSTER MEET ip port</strong></p>
@@ -361,8 +360,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>这里预先额外说明一点，大家都在八卦地发送gossip，那么怎么确定谁说的是“真的”？这是通过“版本”来实现的，在redis中用epoch（纪元）表示。大家形成一个共识：新epoch的消息是正确的，接收新纪元消息，拒绝旧纪元消息。</p>
 <h3 id="消息格式">消息格式</h3>
 <blockquote>
-<p>狼群内部的语言</p>
-</blockquote>
+<p>狼群内部的语言</p></blockquote>
 <p>上一节中redis节点之间成功建立了tcp连接，这一节将继续介绍建立连接后，他们会交换什么信息以完成协作。这一节使用了很长篇幅介绍各种消息，可能会很烦人。但是我觉得还是有必要的，毕竟分布式协作的本身就是消息传来传去。看这一节不需要看懂并记住，可以先大略看一下就往后。后面需要的时候再回头。</p>
 <p>首先介绍六种通过redis cluster bus传播的消息类型（这不是全部）。他们的c语言定义由clusterMsg（struct）、clusterMsgData、clusterMsgDataGossip等组合而成。具体字段如下：</p>
 <p><strong>clusterMsg</strong></p>

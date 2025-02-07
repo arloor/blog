@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.142.0">
+<meta name="generator" content="Hugo 0.143.1">
 
     
     
@@ -287,14 +287,11 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>总结一下里面说的。出现这个异常有两种情况，pooled buf没有release；写太快，超过了极限。</p>
 <p>重要摘录：</p>
 <blockquote>
-<p>If i&rsquo;m right, Netty in NIO-mode tries to offer a &ldquo;unlimited&rdquo; layer above a actually limited layer (socket, network). Netty uses DirectMemory to buffer performance differences between both layers. Means &ldquo;writing to fast&rdquo; that the buffer capacity in DirectMemory is overcharged by to much Write&amp;Flush on a Netty context?</p>
-</blockquote>
+<p>If i&rsquo;m right, Netty in NIO-mode tries to offer a &ldquo;unlimited&rdquo; layer above a actually limited layer (socket, network). Netty uses DirectMemory to buffer performance differences between both layers. Means &ldquo;writing to fast&rdquo; that the buffer capacity in DirectMemory is overcharged by to much Write&amp;Flush on a Netty context?</p></blockquote>
 <blockquote>
-<p>How can I balance this? Is there an API, where i can request the current loading and use this information to slow down my writes on Netty?</p>
-</blockquote>
+<p>How can I balance this? Is there an API, where i can request the current loading and use this information to slow down my writes on Netty?</p></blockquote>
 <blockquote>
-<p>yes&hellip; you may try writing faster then the remote peer accepts&hellip;. You can check Channel.isWritable() to see if it is writable atm. ChannelInboundHandler&rsquo;s channelWritabilityChanged(&hellip;) will be triggered whenever the writability state of the Channel changes</p>
-</blockquote>
+<p>yes&hellip; you may try writing faster then the remote peer accepts&hellip;. You can check Channel.isWritable() to see if it is writable atm. ChannelInboundHandler&rsquo;s channelWritabilityChanged(&hellip;) will be triggered whenever the writability state of the Channel changes</p></blockquote>
 <h2 id="设想的解决方案">设想的解决方案</h2>
 <p>既然是写太快了，就控制写的速度，主要就是监控isWritable了。</p>
 <p>实现：因为是代理，所以场景是channel A读，转发给channel B(写)。这里的问题就是，A读的太快，B来不及写，全挤在（直接）内存中。所以需要反馈机制。代码如下：</p>

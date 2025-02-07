@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.142.0">
+<meta name="generator" content="Hugo 0.143.1">
 
     
     
@@ -424,8 +424,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">20</span>  <span style="color:#ae81ff">4</span>  *  *  * root  /usr/local/bin/imcert
 </span></span></code></pre></div><h2 id="驱逐coredns到外网的vps"><del>驱逐coredns到外网的VPS</del></h2>
 <blockquote>
-<p>!! 不再需要此操作，因为hostNetwork的dnsPolicy会fallBack到default，也就是使用Host的dns</p>
-</blockquote>
+<p>!! 不再需要此操作，因为hostNetwork的dnsPolicy会fallBack到default，也就是使用Host的dns</p></blockquote>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl label node sg161 location<span style="color:#f92672">=</span>out
 </span></span><span style="display:flex;"><span>kubectl label node hk101 location<span style="color:#f92672">=</span>out
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#75715e"># p.yaml</span>

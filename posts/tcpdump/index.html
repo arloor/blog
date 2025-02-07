@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.142.0">
+<meta name="generator" content="Hugo 0.143.1">
 
     
     
@@ -297,8 +297,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>只适用于IPv4的原因是上面的表达式中用到IPv4协议头部字段中的长度，换成IPv6的包，就不对了。IPv6版本的就没这么容易了，因为IPv6的payload length(ip6[4:2])包含了<code>Extension header</code>和TCP数据，而<code>Extension header</code>长度计算比较复杂，也没看到网上有正确的写法，鉴于这是一个老软件了，我倾向于相信网上没有资料就是没有解法。</p>
 <h3 id="查看localhost的包">查看localhost的包</h3>
 <blockquote>
-<p>来自ChatGPT-4</p>
-</blockquote>
+<p>来自ChatGPT-4</p></blockquote>
 <p><code>tcpdump</code>通常是用来捕获通过网络接口传输的数据包，而不是那些仅在本地主机之间传输的数据包。</p>
 <p>127.0.0.1是一个特殊的IP地址，也被称为loopback地址。当你的计算机向这个地址发送数据时，数据包不会真正离开你的计算机，而是会在本地进行处理。因此，如果你试图用<code>tcpdump</code>在一个物理网络接口（如eth0）上捕获发送到127.0.0.1的数据包，你可能无法捕获到任何数据包，因为这些数据包并没有通过该网络接口。</p>
 <p>如果你想要用<code>tcpdump</code>捕获127.0.0.1上的网络流量，你应该在loopback接口（在Linux系统中通常被命名为lo）上运行<code>tcpdump</code>。例如：</p>

@@ -27,7 +27,7 @@
       <link>https://www.arloor.com/posts/w3c-trace-context/</link>
       <pubDate>Thu, 23 Mar 2023 14:42:06 +0800</pubDate>
       <guid>https://www.arloor.com/posts/w3c-trace-context/</guid>
-      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Generate by ChatGPT4&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;W3C (World Wide Web Consortium)推出了Trace Context规范，旨在规范分布式追踪中跟踪信息的传播格式。Trace Context规范主要定义了两个HTTP头部字段：&lt;strong&gt;&lt;code&gt;traceparent&lt;/code&gt;&lt;strong&gt;和&lt;/strong&gt;&lt;code&gt;tracestate&lt;/code&gt;&lt;/strong&gt;。&lt;/p&gt;</description>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Generate by ChatGPT4&lt;/p&gt;&lt;/blockquote&gt;&#xA;&lt;p&gt;W3C (World Wide Web Consortium)推出了Trace Context规范，旨在规范分布式追踪中跟踪信息的传播格式。Trace Context规范主要定义了两个HTTP头部字段：&lt;strong&gt;&lt;code&gt;traceparent&lt;/code&gt;&lt;strong&gt;和&lt;/strong&gt;&lt;code&gt;tracestate&lt;/code&gt;&lt;/strong&gt;。&lt;/p&gt;</description>
     </item>
     <item>
       <title>什么是trace，分布式调用监控的本质是什么？</title>
@@ -83,7 +83,7 @@
       <link>https://www.arloor.com/posts/opentelemetry-trace/</link>
       <pubDate>Sun, 12 Dec 2021 11:11:38 +0800</pubDate>
       <guid>https://www.arloor.com/posts/opentelemetry-trace/</guid>
-      <description>&lt;p&gt;云原生可观测技术是云原生下很火的一个命题，opentelemetry的定位是统一metrics,trace和log的协议、api、sdk和exporter，他越来越成为云原生技术体系下的可观测性标准。这个博客就是来探究下opentelemetry是什么，做什么，怎么做的。&lt;/p&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;OpenTelemetry is a collection of tools, APIs, and SDKs. Use it to instrument, generate, collect, and export telemetry data (metrics, logs, and traces) to help you analyze your software’s performance and behavior.&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;上面是&lt;a href=&#34;https://opentelemetry.io/&#34;&gt;opentelemetry官网&lt;/a&gt;对自己的定位。抽取一下关键词，opentelemetry仅提供了api和SDK，不负责后端实现（后端由prometheus、jaeger等实现），用这些api和SDK，你可以做性能数据埋点，生成、收集和导出（generate, collect, and export）监控数据。对这段话最终的理解是opentelemetry只做SDK层面的事，职责的边缘是export数据即止。&lt;/p&gt;</description>
+      <description>&lt;p&gt;云原生可观测技术是云原生下很火的一个命题，opentelemetry的定位是统一metrics,trace和log的协议、api、sdk和exporter，他越来越成为云原生技术体系下的可观测性标准。这个博客就是来探究下opentelemetry是什么，做什么，怎么做的。&lt;/p&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;OpenTelemetry is a collection of tools, APIs, and SDKs. Use it to instrument, generate, collect, and export telemetry data (metrics, logs, and traces) to help you analyze your software’s performance and behavior.&lt;/p&gt;&lt;/blockquote&gt;&#xA;&lt;p&gt;上面是&lt;a href=&#34;https://opentelemetry.io/&#34;&gt;opentelemetry官网&lt;/a&gt;对自己的定位。抽取一下关键词，opentelemetry仅提供了api和SDK，不负责后端实现（后端由prometheus、jaeger等实现），用这些api和SDK，你可以做性能数据埋点，生成、收集和导出（generate, collect, and export）监控数据。对这段话最终的理解是opentelemetry只做SDK层面的事，职责的边缘是export数据即止。&lt;/p&gt;</description>
     </item>
     <item>
       <title>Prometheus Exporter</title>

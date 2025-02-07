@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.142.0">
+<meta name="generator" content="Hugo 0.143.1">
 
     
     
@@ -286,8 +286,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   <div class="post">
     <blockquote>
-<p>内容来自ChatGPT4</p>
-</blockquote>
+<p>内容来自ChatGPT4</p></blockquote>
 <h2 id="问java的强-软-弱-幻引用区别和使用场景">问：Java的强 软 弱 幻引用区别和使用场景</h2>
 <p>答：Java中的引用类型是管理内存和垃圾回收的关键工具。在Java中，有四种类型的引用：强引用、软引用、弱引用和幻引用。每种引用类型都有其特定的使用场景和垃圾回收行为。</p>
 <ol>
@@ -388,8 +387,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>综上所述，幻引用在<code>DirectByteBuffer</code>的内存管理中扮演着重要角色，它允许开发者或JVM在直接内存不再被使用时及时采取措施进行清理，从而避免内存泄漏。</p>
 <h2 id="问java的directbytebuffer释放时机">问：Java的DirectByteBuffer释放时机</h2>
 <blockquote>
-<p><a href="https://stackoverflow.com/questions/36077641/java-when-does-direct-buffer-released">Java - When does direct buffer released?</a></p>
-</blockquote>
+<p><a href="https://stackoverflow.com/questions/36077641/java-when-does-direct-buffer-released">Java - When does direct buffer released?</a></p></blockquote>
 <p><code>DirectByteBuffer</code> 并不使用 Java 旧的终结器（finalizer）。相反，它使用内部的 <code>sun.misc.Cleaner</code> API。它创建一个新线程，并为每个创建的 <code>DirectByteBuffer</code>（除了那些指向主缓冲区的副本和切片）存储一个幻影引用（PhantomReference）。当 <code>DirectByteBuffer</code> 变成幻影可达状态（即，对字节缓冲区不再存在任何强、软或弱引用）并且垃圾收集器发现这一点时，它会将这个缓冲区添加到由 Cleaner 线程处理的 ReferenceQueue 中。因此，需要发生三个事件：</p>
 <ol>
 <li><code>DirectByteBuffer</code> 变成幻影可达状态。</li>

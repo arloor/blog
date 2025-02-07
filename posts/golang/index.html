@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.142.0">
+<meta name="generator" content="Hugo 0.143.1">
 
     
     
@@ -326,8 +326,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>curl -fsSL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    sh -s -- -b <span style="color:#e6db74">&#34;</span>$HOME<span style="color:#e6db74">/go/bin&#34;</span> | tee  -a ./init_go.log
 </span></span></code></pre></div><blockquote>
-<p>The extension depends on go, gopls, dlv and other optional tools. If any of the dependencies are missing, the ⚠️ Analysis Tools Missing warning is displayed. Click on the warning to download dependencies.See the <a href="https://github.com/golang/vscode-go/wiki/tools">tools documentation</a> for a complete list of tools the extension depends on.</p>
-</blockquote>
+<p>The extension depends on go, gopls, dlv and other optional tools. If any of the dependencies are missing, the ⚠️ Analysis Tools Missing warning is displayed. Click on the warning to download dependencies.See the <a href="https://github.com/golang/vscode-go/wiki/tools">tools documentation</a> for a complete list of tools the extension depends on.</p></blockquote>
 <p>最后配置 <code>launch.json</code>:</p>
 <p><strong>注意</strong>：golang debug不能正确处理软链接，所以最好不要把项目放在软链接的文件夹中，或者配置 <code>substitutePath</code>，见<a href="https://github.com/golang/vscode-go/wiki/debugging#debug-symlink-directories">Debug symlink directories</a>和<a href="https://github.com/golang/vscode-go/wiki/debugging#settings">go.delveConfig settings</a>(用于CodeLens里的debug test按钮)。其他高级配置可以见 <a href="https://github.com/golang/vscode-go/wiki/debugging">vscode-go debugging</a>，也可以见 <a href="https://github.com/go-delve/delve/blob/master/Documentation/cli/README.md">delve的调试命令˝</a>。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
@@ -464,8 +463,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </ol>
 <h2 id="golang枚举">Golang枚举</h2>
 <blockquote>
-<p>垃圾的一笔，连个原生的枚举都没</p>
-</blockquote>
+<p>垃圾的一笔，连个原生的枚举都没</p></blockquote>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>go get -u github.com/dmarkham/enumer
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 </span></span><span style="display:flex;"><span>

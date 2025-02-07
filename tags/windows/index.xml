@@ -13,7 +13,7 @@
       <link>https://www.arloor.com/posts/windows11-openssh/</link>
       <pubDate>Sun, 26 Jan 2025 11:14:36 +0800</pubDate>
       <guid>https://www.arloor.com/posts/windows11-openssh/</guid>
-      <description>&lt;h2 id=&#34;windows11-启用openssh&#34;&gt;windows11 启用openssh&lt;/h2&gt;&#xA;&lt;p&gt;参考文档：&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://learn.microsoft.com/zh-cn/windows-server/administration/openssh/openssh_install_firstuse?tabs=powershell&amp;amp;pivots=windows-server-2025#enable-openssh-for-windows-server-2025&#34;&gt;适用于 Windows 的 OpenSSH 入门&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://github.com/PowerShell/Win32-OpenSSH/wiki/Install-Win32-OpenSSH&#34;&gt;Install Win32 OpenSSH&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;p&gt;首先启用可选功能 openssh server&lt;/p&gt;&#xA;&lt;p&gt;&lt;img src=&#34;https://www.arloor.com/img/winodws11-enable-opensshd.png&#34; alt=&#34;alt text&#34;&gt;&lt;/p&gt;&#xA;&lt;p&gt;然后启动sshd服务，并设置为自动启动，并检查防火墙设置：&lt;/p&gt;</description>
+      <description></description>
     </item>
     <item>
       <title>一键关闭WeGame和LOL客户端，避免浪费时间</title>

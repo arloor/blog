@@ -13,7 +13,7 @@
       <link>https://www.arloor.com/posts/windows11-openssh/</link>
       <pubDate>Sun, 26 Jan 2025 11:14:36 +0800</pubDate>
       <guid>https://www.arloor.com/posts/windows11-openssh/</guid>
-      <description>&lt;h2 id=&#34;windows11-启用openssh&#34;&gt;windows11 启用openssh&lt;/h2&gt;&#xA;&lt;p&gt;参考文档：&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://learn.microsoft.com/zh-cn/windows-server/administration/openssh/openssh_install_firstuse?tabs=powershell&amp;amp;pivots=windows-server-2025#enable-openssh-for-windows-server-2025&#34;&gt;适用于 Windows 的 OpenSSH 入门&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://github.com/PowerShell/Win32-OpenSSH/wiki/Install-Win32-OpenSSH&#34;&gt;Install Win32 OpenSSH&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;p&gt;首先启用可选功能 openssh server&lt;/p&gt;&#xA;&lt;p&gt;&lt;img src=&#34;https://www.arloor.com/img/winodws11-enable-opensshd.png&#34; alt=&#34;alt text&#34;&gt;&lt;/p&gt;&#xA;&lt;p&gt;然后启动sshd服务，并设置为自动启动，并检查防火墙设置：&lt;/p&gt;</description>
+      <description></description>
     </item>
     <item>
       <title>2024年度总结</title>
@@ -237,7 +237,7 @@
       <link>https://www.arloor.com/posts/java-weak-phantom-reference-and-usages/</link>
       <pubDate>Wed, 24 Jan 2024 17:21:50 +0800</pubDate>
       <guid>https://www.arloor.com/posts/java-weak-phantom-reference-and-usages/</guid>
-      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;内容来自ChatGPT4&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;h2 id=&#34;问java的强-软-弱-幻引用区别和使用场景&#34;&gt;问：Java的强 软 弱 幻引用区别和使用场景&lt;/h2&gt;&#xA;&lt;p&gt;答：Java中的引用类型是管理内存和垃圾回收的关键工具。在Java中，有四种类型的引用：强引用、软引用、弱引用和幻引用。每种引用类型都有其特定的使用场景和垃圾回收行为。&lt;/p&gt;</description>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;内容来自ChatGPT4&lt;/p&gt;&lt;/blockquote&gt;&#xA;&lt;h2 id=&#34;问java的强-软-弱-幻引用区别和使用场景&#34;&gt;问：Java的强 软 弱 幻引用区别和使用场景&lt;/h2&gt;&#xA;&lt;p&gt;答：Java中的引用类型是管理内存和垃圾回收的关键工具。在Java中，有四种类型的引用：强引用、软引用、弱引用和幻引用。每种引用类型都有其特定的使用场景和垃圾回收行为。&lt;/p&gt;</description>
     </item>
     <item>
       <title>还IDEA一个整洁的滚动条高亮提示</title>
@@ -258,7 +258,7 @@
       <link>https://www.arloor.com/posts/github-codespace-use/</link>
       <pubDate>Thu, 21 Dec 2023 16:14:54 +0800</pubDate>
       <guid>https://www.arloor.com/posts/github-codespace-use/</guid>
-      <description>&lt;p&gt;前几天Github告诉我说&lt;code&gt;You&#39;re now in the CodeSpaces beta&lt;/code&gt;，今天体验了下，又发现了一个白嫖计算资源的机会啊。&lt;/p&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;2023-12-11更新：目前Codespaces已经正式发布，我个人将Rust开发全部移到了Codespaces上，下文有我的详细配置，欢迎阅读。收费策略上，目前个人免费账户每月有120小时的Core hours per month额度，这就意味着每月可以白嫖2C8G的机器60小时，或4C16G机器30小时。&lt;/p&gt;&#xA;&lt;/blockquote&gt;</description>
+      <description>&lt;p&gt;前几天Github告诉我说&lt;code&gt;You&#39;re now in the CodeSpaces beta&lt;/code&gt;，今天体验了下，又发现了一个白嫖计算资源的机会啊。&lt;/p&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;2023-12-11更新：目前Codespaces已经正式发布，我个人将Rust开发全部移到了Codespaces上，下文有我的详细配置，欢迎阅读。收费策略上，目前个人免费账户每月有120小时的Core hours per month额度，这就意味着每月可以白嫖2C8G的机器60小时，或4C16G机器30小时。&lt;/p&gt;&lt;/blockquote&gt;</description>
     </item>
     <item>
       <title>windows11设置、性能优化</title>
@@ -475,7 +475,7 @@
       <link>https://www.arloor.com/posts/w3c-trace-context/</link>
       <pubDate>Thu, 23 Mar 2023 14:42:06 +0800</pubDate>
       <guid>https://www.arloor.com/posts/w3c-trace-context/</guid>
-      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Generate by ChatGPT4&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;W3C (World Wide Web Consortium)推出了Trace Context规范，旨在规范分布式追踪中跟踪信息的传播格式。Trace Context规范主要定义了两个HTTP头部字段：&lt;strong&gt;&lt;code&gt;traceparent&lt;/code&gt;&lt;strong&gt;和&lt;/strong&gt;&lt;code&gt;tracestate&lt;/code&gt;&lt;/strong&gt;。&lt;/p&gt;</description>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Generate by ChatGPT4&lt;/p&gt;&lt;/blockquote&gt;&#xA;&lt;p&gt;W3C (World Wide Web Consortium)推出了Trace Context规范，旨在规范分布式追踪中跟踪信息的传播格式。Trace Context规范主要定义了两个HTTP头部字段：&lt;strong&gt;&lt;code&gt;traceparent&lt;/code&gt;&lt;strong&gt;和&lt;/strong&gt;&lt;code&gt;tracestate&lt;/code&gt;&lt;/strong&gt;。&lt;/p&gt;</description>
     </item>
     <item>
       <title>蔡司验光配镜纪实</title>
@@ -531,7 +531,7 @@
       <link>https://www.arloor.com/posts/rust/pick-up-rust/</link>
       <pubDate>Thu, 22 Sep 2022 13:57:38 +0800</pubDate>
       <guid>https://www.arloor.com/posts/rust/pick-up-rust/</guid>
-      <description>&lt;h2 id=&#34;为什么学习rust&#34;&gt;为什么学习rust？&lt;/h2&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;高性能：Rust 速度惊人且内存利用率极高。由于没有运行时和垃圾回收，它能够胜任对性能要求特别高的服务，可以在嵌入式设备上运行，还能轻松和其他语言集成。&lt;/li&gt;&#xA;&lt;li&gt;可靠性：Rust 丰富的类型系统和所有权模型保证了内存安全和线程安全，让您在编译期就能够消除各种各样的错误。&lt;/li&gt;&#xA;&lt;li&gt;生产力：Rust 拥有出色的文档、友好的编译器和清晰的错误提示信息， 还集成了一流的工具——包管理器和构建工具， 智能地自动补全和类型检验的多编辑器支持， 以及自动格式化代码等等。&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/blockquote&gt;</description>
+      <description>&lt;h2 id=&#34;为什么学习rust&#34;&gt;为什么学习rust？&lt;/h2&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;高性能：Rust 速度惊人且内存利用率极高。由于没有运行时和垃圾回收，它能够胜任对性能要求特别高的服务，可以在嵌入式设备上运行，还能轻松和其他语言集成。&lt;/li&gt;&#xA;&lt;li&gt;可靠性：Rust 丰富的类型系统和所有权模型保证了内存安全和线程安全，让您在编译期就能够消除各种各样的错误。&lt;/li&gt;&#xA;&lt;li&gt;生产力：Rust 拥有出色的文档、友好的编译器和清晰的错误提示信息， 还集成了一流的工具——包管理器和构建工具， 智能地自动补全和类型检验的多编辑器支持， 以及自动格式化代码等等。&lt;/li&gt;&#xA;&lt;/ul&gt;&lt;/blockquote&gt;</description>
     </item>
     <item>
       <title>威联通NAS折腾</title>
@@ -657,7 +657,7 @@
       <link>https://www.arloor.com/posts/opentelemetry-trace/</link>
       <pubDate>Sun, 12 Dec 2021 11:11:38 +0800</pubDate>
       <guid>https://www.arloor.com/posts/opentelemetry-trace/</guid>
-      <description>&lt;p&gt;云原生可观测技术是云原生下很火的一个命题，opentelemetry的定位是统一metrics,trace和log的协议、api、sdk和exporter，他越来越成为云原生技术体系下的可观测性标准。这个博客就是来探究下opentelemetry是什么，做什么，怎么做的。&lt;/p&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;OpenTelemetry is a collection of tools, APIs, and SDKs. Use it to instrument, generate, collect, and export telemetry data (metrics, logs, and traces) to help you analyze your software’s performance and behavior.&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;上面是&lt;a href=&#34;https://opentelemetry.io/&#34;&gt;opentelemetry官网&lt;/a&gt;对自己的定位。抽取一下关键词，opentelemetry仅提供了api和SDK，不负责后端实现（后端由prometheus、jaeger等实现），用这些api和SDK，你可以做性能数据埋点，生成、收集和导出（generate, collect, and export）监控数据。对这段话最终的理解是opentelemetry只做SDK层面的事，职责的边缘是export数据即止。&lt;/p&gt;</description>
+      <description>&lt;p&gt;云原生可观测技术是云原生下很火的一个命题，opentelemetry的定位是统一metrics,trace和log的协议、api、sdk和exporter，他越来越成为云原生技术体系下的可观测性标准。这个博客就是来探究下opentelemetry是什么，做什么，怎么做的。&lt;/p&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;OpenTelemetry is a collection of tools, APIs, and SDKs. Use it to instrument, generate, collect, and export telemetry data (metrics, logs, and traces) to help you analyze your software’s performance and behavior.&lt;/p&gt;&lt;/blockquote&gt;&#xA;&lt;p&gt;上面是&lt;a href=&#34;https://opentelemetry.io/&#34;&gt;opentelemetry官网&lt;/a&gt;对自己的定位。抽取一下关键词，opentelemetry仅提供了api和SDK，不负责后端实现（后端由prometheus、jaeger等实现），用这些api和SDK，你可以做性能数据埋点，生成、收集和导出（generate, collect, and export）监控数据。对这段话最终的理解是opentelemetry只做SDK层面的事，职责的边缘是export数据即止。&lt;/p&gt;</description>
     </item>
     <item>
       <title>Springboot内置Tomcat的配置</title>
@@ -1014,7 +1014,7 @@
       <link>https://www.arloor.com/posts/my-life-and-my-love/</link>
       <pubDate>Sat, 27 Apr 2019 17:56:22 +0800</pubDate>
       <guid>https://www.arloor.com/posts/my-life-and-my-love/</guid>
-      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;感谢刘港欢大学四年来1218天的陪伴&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;这是悦悦毕业论文的致谢中的一句话。一篇论文，洋洋洒洒，突然就写到了最后的致谢，这才恍然间发现，我们也过到了大学生涯的结尾。今天4月27日，我刚满22周岁不久。20多年的生命，我从来没有好好回忆过，思考过。想了一想，总归要抖一抖胸中不多的墨水写点什么。借着这个机会，要说说我生命里遇到的那些人，那些事。&lt;/p&gt;</description>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;感谢刘港欢大学四年来1218天的陪伴&lt;/p&gt;&lt;/blockquote&gt;&#xA;&lt;p&gt;这是悦悦毕业论文的致谢中的一句话。一篇论文，洋洋洒洒，突然就写到了最后的致谢，这才恍然间发现，我们也过到了大学生涯的结尾。今天4月27日，我刚满22周岁不久。20多年的生命，我从来没有好好回忆过，思考过。想了一想，总归要抖一抖胸中不多的墨水写点什么。借着这个机会，要说说我生命里遇到的那些人，那些事。&lt;/p&gt;</description>
     </item>
     <item>
       <title>go使用sync.pool实现复用[]byte——降低IO密集应用的GC频率</title>

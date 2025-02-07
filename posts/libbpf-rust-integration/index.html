@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.142.0">
+<meta name="generator" content="Hugo 0.143.1">
 
     
     
@@ -314,8 +314,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bpftool btf dump file /sys/kernel/btf/vmlinux format c &gt; vmlinux.h
 </span></span></code></pre></div><p>一些简单的ebpf程序可以不依赖vmlinux.h。</p>
 <blockquote>
-<p>也可以不依赖手动生成的vmlinux.h，而是直接将 libbpf-rs 下的 <a href="https://github.com/libbpf/libbpf-rs/tree/master/vmlinux">vmlinux模块</a> 作为build dependency，这样可以避免手动生成vmlinux.h的麻烦。后面的详细实操就没有生成vmlinux.h</p>
-</blockquote>
+<p>也可以不依赖手动生成的vmlinux.h，而是直接将 libbpf-rs 下的 <a href="https://github.com/libbpf/libbpf-rs/tree/master/vmlinux">vmlinux模块</a> 作为build dependency，这样可以避免手动生成vmlinux.h的麻烦。后面的详细实操就没有生成vmlinux.h</p></blockquote>
 <h2 id="rust-lib项目搭建">rust lib项目搭建</h2>
 <h3 id="总体文件结构">总体文件结构</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>.
@@ -335,8 +334,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>以最简单的 <code>socket filter</code> 统计网卡上行流量为例:</p>
 <p><strong>program.bpf.c：</strong></p>
 <blockquote>
-<p>如果想在c语言文件中进行符号跳转，可以安装微软的 C/C++ 插件 <code>ms-vscode.cpptools</code>，整体体验还是不错的，bpf的helper函数也能跳转。</p>
-</blockquote>
+<p>如果想在c语言文件中进行符号跳转，可以安装微软的 C/C++ 插件 <code>ms-vscode.cpptools</code>，整体体验还是不错的，bpf的helper函数也能跳转。</p></blockquote>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;vmlinux.h&#34;</span><span style="color:#75715e">
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bpf/bpf_helpers.h&gt;</span><span style="color:#75715e">
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bpf/bpf_core_read.h&gt;</span><span style="color:#75715e">

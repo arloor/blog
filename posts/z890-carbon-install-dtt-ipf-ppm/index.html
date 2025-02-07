@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.142.0">
+<meta name="generator" content="Hugo 0.143.1">
 
     
     
@@ -280,8 +280,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>全称<strong>Intel® PPM(Processor Power Management) Provisioning Package</strong>，即Intel处理器电源管理预配置包，为处理器提供经过调整和优化的电源管理设置，以提高响应速度、电池续航时间和性能。从12代CPU到Ultra 200s CPU，他们都是大小核心设计，额外需要这个东西。</p>
 <p>官方的说明在<a href="https://www.intel.cn/content/www/cn/zh/support/articles/000100206/processors/processor-utilities-and-programs.html">英特尔® PPM 配置包和驱动程序概述和常见问题解答</a>，但是细看这个文档非常抽象。针对我使用的<a href="https://www.intel.cn/content/www/cn/zh/ark/products/codename/225837/products-formerly-arrow-lake.html">Arrow Lake</a>系列的265k CPU，需要IPF （<strong>Intel® Innovation Platform Framework</strong>）版本在 <strong>2.2.10203.4 或更高版本</strong>，文档里说这由OEM提供更新或这通过Windows Update（WU）提供驱动程序更新。但是我搜索了主板的<a href="https://www.msi.cn/Motherboard/MPG-Z890-CARBON-WIFI/support#driver">驱动更新页面</a>和检查windows更新的驱动程序更新都没找到。</p>
 <blockquote>
-<p>允许windows更新检查驱动程序更新：（我之前关闭了，这里打开）</p>
-</blockquote>
+<p>允许windows更新检查驱动程序更新：（我之前关闭了，这里打开）</p></blockquote>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>reg add <span style="color:#e6db74">&#34;HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate&#34;</span> /v ExcludeWUDriversInQualityUpdate /t REG_DWORD /d <span style="color:#ae81ff">0</span> /f
 </span></span></code></pre></div><p>最后我确认了原因，是微星的驱动程序更新太慢了: 下面这个图的DTT版本是9.0.11900.51013，还包含了老版本的IPF。</p>
 

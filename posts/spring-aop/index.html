@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.142.0">
+<meta name="generator" content="Hugo 0.143.1">
 
     
     
@@ -299,11 +299,9 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <h2 id="代理实现">代理实现：</h2>
 <p>使用 jdk 动态代理和 CGlib 代理实现。对接口使用 jdk 动态代理，对只有实现的类提供CGlib代理。Spring 文档推荐对业务类增加接口，然后对接口使用 jdk 动态代理。</p>
 <blockquote>
-<p>不要在Controller上使用AOP，因为spring默认使用jdk代理，对controller不生效</p>
-</blockquote>
+<p>不要在Controller上使用AOP，因为spring默认使用jdk代理，对controller不生效</p></blockquote>
 <blockquote>
-<p>在进行相关配置后，上面的话就是屁话。例如在SpringBoot中约定aop对controller也生效</p>
-</blockquote>
+<p>在进行相关配置后，上面的话就是屁话。例如在SpringBoot中约定aop对controller也生效</p></blockquote>
 <h2 id="应用">应用</h2>
 <p><strong>增加pom依赖</strong></p>
 <pre tabindex="0"><code>&lt;dependency&gt;

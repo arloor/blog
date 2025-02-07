@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.142.0">
+<meta name="generator" content="Hugo 0.143.1">
 
     
     
@@ -326,8 +326,7 @@ lsof -i:8081||echo
     &#34;method&#34;:&#34;aes-256-gcm&#34;
 }
 </code></pre><blockquote>
-<p>上面的server一栏建议填写ip，填写域名则可能在开机自启动时无法成功解析域名。PS：无法成功解析域名也不是大事，会走进restart</p>
-</blockquote>
+<p>上面的server一栏建议填写ip，填写域名则可能在开机自启动时无法成功解析域名。PS：无法成功解析域名也不是大事，会走进restart</p></blockquote>
 <p>执行以下命令以增加ss服务</p>
 <pre tabindex="0"><code>cat &gt; /lib/systemd/system/ss.service &lt;&lt;EOF
 [Unit]

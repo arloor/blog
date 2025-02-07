@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.142.0">
+<meta name="generator" content="Hugo 0.143.1">
 
     
     
@@ -322,8 +322,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>          non_heap    <span style="color:#ae81ff">16355616</span>
 </span></span></code></pre></div><h2 id="jdk9以上设置--dionettytryreflectionsetaccessibletrue-的说明">jdk9以上设置 <code>-Dio.netty.tryReflectionSetAccessible=true</code> 的说明</h2>
 <blockquote>
-<p>JDK的directByteBuffer使用Cleaner机制和幻引用来释放内存，依赖GC的发生才会释放。Netty为了更及时地释放直接内存，自己池化管理了直接内存（PoolArena），也负责直接内存的释放，即显示调用Delocate方法，这个被称为allocateDirectNocleaner。这需要反射获取DirectByteBuffer的构造方法。在JDK9版本以上，JDK反射的限制被加强了，所以Netty在JDK9以上版本，需要设置-Dio.netty.tryReflectionSetAccessible=true来打开反射获取DirectByteBuffer的构造方法的权限。</p>
-</blockquote>
+<p>JDK的directByteBuffer使用Cleaner机制和幻引用来释放内存，依赖GC的发生才会释放。Netty为了更及时地释放直接内存，自己池化管理了直接内存（PoolArena），也负责直接内存的释放，即显示调用Delocate方法，这个被称为allocateDirectNocleaner。这需要反射获取DirectByteBuffer的构造方法。在JDK9版本以上，JDK反射的限制被加强了，所以Netty在JDK9以上版本，需要设置-Dio.netty.tryReflectionSetAccessible=true来打开反射获取DirectByteBuffer的构造方法的权限。</p></blockquote>
 <p>要统计netty直接内存使用量，实际使用的是netty中PlatformDependent类的<code>DIRECT_MEMORY_COUNTER</code>变量。</p>
 <p>netty在初始化这个变量前，会检查时候能反射拿到DirectByteBuffer的构造方法。</p>
 <p>在jdk9以上，拿构造方法被认为是<code>illegal reflective access</code>会看到这样的警告信息：</p>
@@ -341,8 +340,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>        }
 </span></span></code></pre></div><p>我们为了统计直接内存使用量，所以需要把这个打开</p>
 <blockquote>
-<p>对于GRPC的用户，需要设置-Dio.grpc.netty.shaded.io.netty.tryReflectionSetAccessible=true，因为GRPC对netty做了shaded，所以需要用shaded的包名。</p>
-</blockquote>
+<p>对于GRPC的用户，需要设置-Dio.grpc.netty.shaded.io.netty.tryReflectionSetAccessible=true，因为GRPC对netty做了shaded，所以需要用shaded的包名。</p></blockquote>
 <h2 id="jdk16以上设置---add-opens-javabasejavanioall-unnamed-的说明">jdk16以上设置 <code>--add-opens java.base/java.nio=ALL-UNNAMED</code> 的说明</h2>
 <p>如果不设置，则统计netty直接内存使用量时，会在反射获取 <code>DirectByteBuffer</code> 的构造函数 <code>private java.nio.DirectByteBuffer(long,int)</code> 的时候抛出下面的异常，导致无法获取：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>java.lang.reflect.InaccessibleObjectException: 

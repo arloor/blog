@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.142.0">
+<meta name="generator" content="Hugo 0.143.1">
 
     
     
@@ -326,8 +326,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </ul>
 <h2 id="mergetree">MergeTree</h2>
 <blockquote>
-<p>新数据插入到表中时，这些数据会存储为按<strong>主键排序</strong>的新<strong>片段</strong>（块）。插入后 10-15 分钟，同一分区的各个片段会<strong>合并</strong>为一整个片段。</p>
-</blockquote>
+<p>新数据插入到表中时，这些数据会存储为按<strong>主键排序</strong>的新<strong>片段</strong>（块）。插入后 10-15 分钟，同一分区的各个片段会<strong>合并</strong>为一整个片段。</p></blockquote>
 <ul>
 <li>以块的形式存储</li>
 <li>主键有序</li>
@@ -336,8 +335,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <h3 id="lsm-tree">LSM Tree</h3>
 <p>MergeTree类似于LSM（Log-Structured-Merge-Tree）。</p>
 <blockquote>
-<p>以下引用自<a href="https://zhuanlan.zhihu.com/p/181498475">LSM树详解</a></p>
-</blockquote>
+<p>以下引用自<a href="https://zhuanlan.zhihu.com/p/181498475">LSM树详解</a></p></blockquote>
 <p>LSM树的核心特点是利用顺序写来提高写性能，但因为分层(此处分层是指的分为内存和文件两部分)的设计会稍微降低读性能，但是通过牺牲小部分读性能换来高性能写，使得LSM树成为非常流行的存储结构。</p>
 <p><img src="/img/LSM-tree.png" alt=""></p>
 <p>如上图所示，LSM树有以下三个重要组成部分：</p>
@@ -353,8 +351,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>因此当MemTable达到一定大小flush到持久化存储变成SSTable后，在不同的SSTable中，可能存在相同Key的记录，当然最新的那条记录才是准确的。这样设计的虽然大大提高了写性能，但同时也会带来一些问题：</p>
 <blockquote>
 <p>1）冗余存储，对于某个key，实际上除了最新的那条记录外，其他的记录都是冗余无用的，但是仍然占用了存储空间。因此需要进行Compact操作(合并多个SSTable)来清除冗余的记录。  <br>
-2）读取时需要从最新的倒着查询，直到找到某个key的记录。最坏情况需要查询完所有的SSTable，这里可以通过前面提到的索引/布隆过滤器来优化查找速度。</p>
-</blockquote>
+2）读取时需要从最新的倒着查询，直到找到某个key的记录。最坏情况需要查询完所有的SSTable，这里可以通过前面提到的索引/布隆过滤器来优化查找速度。</p></blockquote>
 <h3 id="mergetree相关概念">MergeTree相关概念</h3>
 <p>参考<a href="https://clickhouse.com/docs/zh/engines/table-engines/mergetree-family/mergetree">mergetree文档</a></p>
 <ul>
@@ -478,8 +475,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>时间戳（timestamp）：一个精确到毫秒的时间戳;</li>
 <li>样本值（value）：表示当前样本的值。</li>
 </ul>
-<p>比如随着时间流逝，云原生场景下 tag 出现 pod/container ID之类，也有些 tag 出现 userId，甚至有些 tag 是 url，而这些 tag 组合时，时间线膨胀得非常厉害。</p>
-</blockquote>
+<p>比如随着时间流逝，云原生场景下 tag 出现 pod/container ID之类，也有些 tag 出现 userId，甚至有些 tag 是 url，而这些 tag 组合时，时间线膨胀得非常厉害。</p></blockquote>
 <h2 id="分布式">分布式</h2>
 <ul>
 <li>分片（shard）：创建分布式表</li>

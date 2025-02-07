@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.142.0">
+<meta name="generator" content="Hugo 0.143.1">
 
     
     
@@ -318,17 +318,14 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </table>
 <p>回忆<a href="https://www.arloor.com/posts/grafana-docs/#grafana%E6%9F%A5%E8%AF%A2%E6%8A%BD%E8%B1%A1">Grafana查询抽象</a>中的内容，实际上要点234就是在控制Grafana的各个流程：</p>
 <blockquote>
-<p>After the data is sourced, queried, and transformed, it passes to a panel, which is the final gate in the journey to a Grafana visualization.</p>
-</blockquote>
+<p>After the data is sourced, queried, and transformed, it passes to a panel, which is the final gate in the journey to a Grafana visualization.</p></blockquote>
 <h2 id="datasource变量">Datasource变量</h2>
 <blockquote>
-<p>参考文档<a href="https://grafana.com/docs/grafana/latest/dashboards/variables/add-template-variables/">dashboards variables</a></p>
-</blockquote>
+<p>参考文档<a href="https://grafana.com/docs/grafana/latest/dashboards/variables/add-template-variables/">dashboards variables</a></p></blockquote>
 <p><img src="/img/grafana-datasource_param.png" alt="Alt text"></p>
 <h2 id="query变量">Query变量</h2>
 <blockquote>
-<p>以 <code>label_values</code> 查询为例。</p>
-</blockquote>
+<p>以 <code>label_values</code> 查询为例。</p></blockquote>
 <p><strong>老版本UI</strong></p>
 <p>需要自己写查询语句，而且这个查询语句不是Promql，只是长得像Promql。需要单独看文档，有学习成本，使用体验差。</p>
 <p><img src="/img/grafana-query_param_old.png" alt="Alt text"></p>
@@ -336,15 +333,13 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p><img src="/img/grafana-query_param_new.png" alt="Alt text"></p>
 <h2 id="panel-query">Panel query</h2>
 <blockquote>
-<p>参考文档：<a href="https://grafana.com/docs/grafana/latest/datasources/prometheus/query-editor/">prometheus query-editor</a></p>
-</blockquote>
+<p>参考文档：<a href="https://grafana.com/docs/grafana/latest/datasources/prometheus/query-editor/">prometheus query-editor</a></p></blockquote>
 <p><img src="/img/grafana-query-option.png" alt="Alt text"></p>
 <h2 id="pannel-transform">Pannel Transform</h2>
 <p><img src="/img/grafana-transforms.png" alt="Alt text"></p>
 <h2 id="overrides">Overrides</h2>
 <blockquote>
-<p>参考文档<a href="https://grafana.com/docs/grafana/latest/panels-visualizations/visualizations/table/">visualizations table</a></p>
-</blockquote>
+<p>参考文档<a href="https://grafana.com/docs/grafana/latest/panels-visualizations/visualizations/table/">visualizations table</a></p></blockquote>
 <p>设置展示单位、展示精度、单元格样式、阈值、链接、不在表格中展示等。</p>
 <p><img src="/img/grafana-overrides.png" alt="Alt text"></p>
 <h3 id="设置datalink">设置datalink</h3>

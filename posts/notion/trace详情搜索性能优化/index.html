@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.142.0">
+<meta name="generator" content="Hugo 0.143.1">
 
     
     
@@ -482,8 +482,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>)
 </span></span><span style="display:flex;"><span> ENGINE <span style="color:#f92672">=</span> Distributed(<span style="color:#e6db74">&#39;default_cluster&#39;</span>, , <span style="color:#e6db74">&#39;tracing_trace_id_index&#39;</span>, rand());
 </span></span></code></pre></div><blockquote>
-<p>因为clickhouse-http-java的0.3.2版本并不支持<code>groupUniqArrayArray</code> 类型的<code>SimpleAggregateFunction</code>聚合函数，相关支持在此<a href="https://github.com/ClickHouse/clickhouse-java/pull/1054">PR</a> （代码很简单），已升级到0.4.4版本来引入该修复PR。</p>
-</blockquote>
+<p>因为clickhouse-http-java的0.3.2版本并不支持<code>groupUniqArrayArray</code> 类型的<code>SimpleAggregateFunction</code>聚合函数，相关支持在此<a href="https://github.com/ClickHouse/clickhouse-java/pull/1054">PR</a> （代码很简单），已升级到0.4.4版本来引入该修复PR。</p></blockquote>
 <p>写入过程：</p>
 <ol>
 <li>判断是新traceId还是老traceId：长度为32位的16进制字符串并且从前41位还原出的时间戳在前后最近的一小时内，则认为是新traceId，否则为老traceId。</li>

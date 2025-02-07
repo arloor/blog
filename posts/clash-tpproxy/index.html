@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.142.0">
+<meta name="generator" content="Hugo 0.143.1">
 
     
     
@@ -492,8 +492,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p><a href="https://www.ichenfu.com/2019/04/09/istio-inbond-interception-and-linux-transparent-proxy/">Istio的流量劫持和Linux下透明代理实现</a></p>
 <p>后续再补充，和redirect的主要区别是不需要ip_forward的特性，nftables的语句将主要是&ndash;tp-proxy等。因为tpproxy需要给流量标记，还需要单独对有流量标记的流量配置路由表</p>
 <blockquote>
-<p>除了利用REDIRECT模式，Istio还提供TPROXY模式，当然也是借助Linux内核提供的功能实现的，对于TPROXY模式，实现的原理要相对复杂不少，需要借助iptables和路由：通过iptables将数据包打上mark，然后使用一个特殊的路由，将数据包指向本地，由于使用了mangle表，所以数据包的原始和目的地址都是不会被修改的。下面是一个例子：</p>
-</blockquote>
+<p>除了利用REDIRECT模式，Istio还提供TPROXY模式，当然也是借助Linux内核提供的功能实现的，对于TPROXY模式，实现的原理要相对复杂不少，需要借助iptables和路由：通过iptables将数据包打上mark，然后使用一个特殊的路由，将数据包指向本地，由于使用了mangle表，所以数据包的原始和目的地址都是不会被修改的。下面是一个例子：</p></blockquote>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>iptables -t mangle -A PREROUTING -p tcp -j TPROXY --tproxy-mark 0x1/0x1 --on-port <span style="color:#ae81ff">8888</span>
 </span></span><span style="display:flex;"><span>ip rule add fwmark 0x1/0x1 pref <span style="color:#ae81ff">100</span> table <span style="color:#ae81ff">100</span>
 </span></span><span style="display:flex;"><span>ip route add local default dev lo table <span style="color:#ae81ff">100</span>

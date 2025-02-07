@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.142.0">
+<meta name="generator" content="Hugo 0.143.1">
 
     
     
@@ -328,14 +328,11 @@ gzip -dc /ghost.img.gz | dd of=/dev/sda
 14320025+0 records out
 </code></pre><h2 id="恢复系统后的网卡问题">恢复系统后的网卡问题</h2>
 <blockquote>
-<p>引用：如果你把镜像恢复到另一台计算机上，你可能会发现你的网卡是eth1，而不是eth0。这是因为/etc/udev/rules.d/70-persistent-net.rules文件把你做镜像的计算机的网卡作为eth0登记了。</p>
-</blockquote>
+<p>引用：如果你把镜像恢复到另一台计算机上，你可能会发现你的网卡是eth1，而不是eth0。这是因为/etc/udev/rules.d/70-persistent-net.rules文件把你做镜像的计算机的网卡作为eth0登记了。</p></blockquote>
 <blockquote>
-<p>如果你的网络脚本对eth0进行了处理，而没有对eth1进行处理，那么不修改网络脚本，你可能无法上网了。</p>
-</blockquote>
+<p>如果你的网络脚本对eth0进行了处理，而没有对eth1进行处理，那么不修改网络脚本，你可能无法上网了。</p></blockquote>
 <blockquote>
-<p>也许你会希望在做镜像之前，先删除 /etc/udev/rules.d/70-persistent-net.rules 文件。这样你恢复镜像时，网卡的名字是eth0。   不会造成你在恢复后的计算机上无法上网的问题了。</p>
-</blockquote>
+<p>也许你会希望在做镜像之前，先删除 /etc/udev/rules.d/70-persistent-net.rules 文件。这样你恢复镜像时，网卡的名字是eth0。   不会造成你在恢复后的计算机上无法上网的问题了。</p></blockquote>
 <p>可能会存在，系统启动后无法上网，使用ifconfig命令只能看到lo这一个网卡，无eth0网卡。这是因为恢复系统时将老系统上存留的网卡配置也带了过来，但是与新机器信息不对导致的。因此需要更正这一部分的配置。eth0的配置在：</p>
 <pre tabindex="0"><code>/etc/sysconfig/network-scripts/ifcfg-eth0
 </code></pre><p>先来看看几种<code>ifcfg-eth0</code>的内容吧</p>

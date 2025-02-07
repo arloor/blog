@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.142.0">
+<meta name="generator" content="Hugo 0.143.1">
 
     
     
@@ -294,8 +294,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><h2 id="查询宏">查询宏</h2>
 <p>sqlx支持自动生成sql查询语句对应的Rust struct，这在编译期实现，因此可以在编译期确保你的rust代码和数据库表字段类型正确对应。这又分为online代码生成和offline代码生成。online指每次cargo build都扫描一次数据库表结构，offline指第一次cargo build扫描并生成缓存文件，后续直接使用缓存文件，直到表结构发生改变该缓存失效。</p>
 <blockquote>
-<p>set <code>DATABASE_URL</code> to use query macros online, or run <code>cargo sqlx prepare</code> to update the query cache</p>
-</blockquote>
+<p>set <code>DATABASE_URL</code> to use query macros online, or run <code>cargo sqlx prepare</code> to update the query cache</p></blockquote>
 <p>如引用文字所述，需要设置<code>DATABASE_URL</code> 以激活online的运行时代码生成或者执行<code>cargo sqlx prepare</code>来进行offline代码生成。</p>
 <h3 id="设置database_url环境变量">设置<code>DATABASE_URL</code>环境变量</h3>
 <p>方式一：在项目根目录下创建 <code>.env</code> 文件，文件内容如下（<strong>推荐</strong>）：</p>
