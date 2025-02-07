@@ -11,6 +11,7 @@ categories:
 weight: 10
 description:
 highlightjslanguages:
+- powershell
 ---
 
 <!--more-->
