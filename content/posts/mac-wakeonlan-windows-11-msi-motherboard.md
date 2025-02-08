@@ -1,5 +1,5 @@
 ---
-title: "使用Mac mini wakeonlan windows主机（微星主板）并安装openssh"
+title: "使用Mac mini wakeonlan windows主机（微星主板）"
 subtitle:
 tags: 
 - undefined
@@ -11,7 +11,6 @@ categories:
 weight: 10
 description:
 highlightjslanguages:
-- powershell
 ---
 
 家里有台Mac mini是一直开机的，作为软路由使用，也作为跳板机连接到家里网络。今天试了下怎么用这个mac mini通过wake on lan唤醒windows主机。
