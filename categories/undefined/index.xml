@@ -919,11 +919,11 @@
       <description>&lt;h2 id=&#34;顾后&#34;&gt;顾后&lt;/h2&gt;&#xA;&lt;p&gt;2019年最大的关键词大概就是变化和转折。这一年，我结束了学生生涯，参加工作。所以2019年，一半在学校，一半在工作。&lt;/p&gt;</description>
     </item>
     <item>
-      <title>华为手机关闭系统更新</title>
+      <title>华为/荣耀手机关闭系统更新</title>
       <link>https://www.arloor.com/posts/huawei-turnoff-upgrade/</link>
       <pubDate>Sat, 16 Nov 2019 22:43:19 +0800</pubDate>
       <guid>https://www.arloor.com/posts/huawei-turnoff-upgrade/</guid>
-      <description>&lt;ol&gt;&#xA;&lt;li&gt;下载安卓SDK platform tools（其实就是ADB）。下载地址：&lt;a href=&#34;https://developer.android.com/studio/releases/platform-tools.html&#34;&gt;platform-tools&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;开启手机的开发者模式，开启usb调试&lt;/li&gt;&#xA;&lt;li&gt;手机连接电脑，允许usb调试&lt;/li&gt;&#xA;&lt;li&gt;使用&lt;code&gt;adb shell pm disable-user com.huawei.android.hwouc&lt;/code&gt; 禁用系统更新&lt;/li&gt;&#xA;&lt;li&gt;使用&lt;code&gt;adb shell pm enable com.huawei.android.hwouc&lt;/code&gt; 恢复系统更新&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;p&gt;【EOF】&lt;/p&gt;</description>
+      <description>&lt;ol&gt;&#xA;&lt;li&gt;下载安卓SDK platform tools（其实就是ADB）。下载地址：&lt;a href=&#34;https://developer.android.com/studio/releases/platform-tools.html&#34;&gt;platform-tools&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;开启手机的开发者模式，开启usb调试&lt;/li&gt;&#xA;&lt;li&gt;手机连接电脑，允许usb调试&lt;/li&gt;&#xA;&lt;li&gt;使用&lt;code&gt;adb shell pm disable-user com.huawei.android.hwouc&lt;/code&gt; 禁用系统更新&lt;/li&gt;&#xA;&lt;li&gt;使用&lt;code&gt;adb shell pm enable com.huawei.android.hwouc&lt;/code&gt; 恢复系统更新&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;p&gt;荣耀手机对应的是 com.hihonor.ouc&lt;/p&gt;&#xA;&lt;p&gt;【EOF】&lt;/p&gt;</description>
     </item>
     <item>
       <title>Spring随用随记</title>
