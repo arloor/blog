@@ -353,7 +353,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><h2 id="rust-sqlx-连接">Rust sqlx 连接：</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> pool: <span style="color:#a6e22e">sqlx</span>::Pool<span style="color:#f92672">&lt;</span>sqlx::MySql<span style="color:#f92672">&gt;</span> <span style="color:#f92672">=</span> MySqlPoolOptions::new()
 </span></span><span style="display:flex;"><span>    .max_connections(<span style="color:#ae81ff">20</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//  .connect(&#34;mysql://root:xxxxxxx@xxxxxx.com:3306/test?ssl-mode=Required&amp;timezone=%2B08:00&#34;) // timezone参数见https://github.com/launchbadge/sqlx/pull/3418/files。目前合码了，但是没发新版，所以无法使用。
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//  .connect(&#34;mysql://root:xxxxxxx@xxxxxx.com:3306/test?ssl-mode=Required&amp;timezone=%2B08:00&#34;) // timezone参数见https://github.com/launchbadge/sqlx/pull/3418/files。
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    .connect_with(
 </span></span><span style="display:flex;"><span>        MySqlConnectOptions::new()
 </span></span><span style="display:flex;"><span>            .host(<span style="color:#e6db74">&#34;xxxx.com&#34;</span>)
