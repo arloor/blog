@@ -97,7 +97,7 @@ mysql test -h xxxx.com -u root --password=xxxxxx --ssl-mode=REQUIRED
 ```rust
 let pool: sqlx::Pool<sqlx::MySql> = MySqlPoolOptions::new()
     .max_connections(20)
-    //  .connect("mysql://root:xxxxxxx@xxxxxx.com:3306/test?ssl-mode=Required&timezone=%2B08:00") // timezone参数见https://github.com/launchbadge/sqlx/pull/3418/files。目前合码了，但是没发新版，所以无法使用。
+    //  .connect("mysql://root:xxxxxxx@xxxxxx.com:3306/test?ssl-mode=Required&timezone=%2B08:00") // timezone参数见https://github.com/launchbadge/sqlx/pull/3418/files。
     .connect_with(
         MySqlConnectOptions::new()
             .host("xxxx.com")
