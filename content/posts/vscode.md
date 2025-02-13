@@ -375,6 +375,7 @@ fi
 | 插件名 | 说明 |
 | --- | --- |
 | [Git Graph](https://marketplace.visualstudio.com/items?itemName=mhutchie.git-graph) | `cmd + shift + p`输入`git log`可以看完整提交历史 |
+| [Git Graph 新版](https://marketplace.visualstudio.com/items?itemName=Gxl.git-graph-3) | `cmd + shift + p`输入`git log`可以看完整提交历史 |
 | [GitBlame](https://marketplace.visualstudio.com/items?itemName=waderyan.gitblame) | 显示每行是谁在什么时候修改的。PS：vscode 1.96内置了git blame的能力，这个插件可以卸载了，启用方式见：[November 2024 (version 1.96)](https://code.visualstudio.com/updates/v1_96#_source-control)|
 
 并且为这些插件做了些配置变更：
