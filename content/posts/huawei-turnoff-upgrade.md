@@ -11,6 +11,8 @@ keywords:
 - 刘港欢 arloor moontell
 ---
 
+<!--more-->
+
 1. 下载安卓SDK platform tools（其实就是ADB）。下载地址：[platform-tools](https://developer.android.com/studio/releases/platform-tools.html)
 2. 开启手机的开发者模式，开启usb调试
 3. 手机连接电脑，允许usb调试
@@ -19,5 +21,6 @@ keywords:
 
 荣耀手机对应的是 com.hihonor.ouc
 
-【EOF】
-<!--more-->
+
+如果连接电脑后不识别手机，不弹出来USB授权的通知，则参考：https://www.bilibili.com/opus/967723360922370051
+
