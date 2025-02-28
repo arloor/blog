@@ -590,10 +590,10 @@
     <loc>https://www.arloor.com/tags/obs/</loc>
     <lastmod>2023-05-10T14:28:41+08:00</lastmod>
   </url><url>
-    <loc>https://www.arloor.com/tags/program/</loc>
+    <loc>https://www.arloor.com/categories/program/</loc>
     <lastmod>2022-10-26T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://www.arloor.com/categories/program/</loc>
+    <loc>https://www.arloor.com/tags/program/</loc>
     <lastmod>2022-10-26T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://www.arloor.com/tags/tools/</loc>
@@ -602,19 +602,19 @@
     <loc>https://www.arloor.com/tags/middleware/</loc>
     <lastmod>2022-04-20T14:18:04+08:00</lastmod>
   </url><url>
-    <loc>https://www.arloor.com/tags/netty/</loc>
+    <loc>https://www.arloor.com/categories/netty/</loc>
     <lastmod>2020-06-05T19:05:40+08:00</lastmod>
   </url><url>
-    <loc>https://www.arloor.com/categories/netty/</loc>
+    <loc>https://www.arloor.com/tags/netty/</loc>
     <lastmod>2020-06-05T19:05:40+08:00</lastmod>
   </url><url>
     <loc>https://www.arloor.com/tags/elasticsearch/</loc>
     <lastmod>2020-04-27T14:09:21+08:00</lastmod>
   </url><url>
-    <loc>https://www.arloor.com/tags/redis/</loc>
+    <loc>https://www.arloor.com/categories/redis/</loc>
     <lastmod>2019-09-23T23:13:50+08:00</lastmod>
   </url><url>
-    <loc>https://www.arloor.com/categories/redis/</loc>
+    <loc>https://www.arloor.com/tags/redis/</loc>
     <lastmod>2019-09-23T23:13:50+08:00</lastmod>
   </url><url>
     <loc>https://www.arloor.com/about/</loc>
