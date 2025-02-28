@@ -26,6 +26,15 @@ cat > ~/.gitconfig_github <<EOF
 EOF
 ```
 
+> 可以增加下面的代码来控制内网的git仓库不走全局git代理：
+
+```bash
+[http]
+        proxy = 
+[https]
+        proxy = 
+```
+
 ## 永久保存git密码
 
 ### Linux/Windows
