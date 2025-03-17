@@ -70,19 +70,19 @@ ssh -D [本地端口] [SSH服务器用户名]@[SSH服务器地址]
 ```bash
 # 除了pi.arloor.com之外的，Host符合其他条件的Host
 ## 设置使用socat代理，注意vscode可能把proxyport=6152改成proxyport 6152，注意手动恢复
-Host !pi.arloor.com *.arloor.* mac-mini windows
+
+Host !pi.arloor.com *.arloor.* mac wsl
   ProxyCommand /opt/homebrew/bin/socat - PROXY:localhost:%h:%p,proxyport=6152
 
 # 家里的mac-mini
-Host mac-mini
+Host mac
   HostName 192.168.5.244
   User arloor
 
-# 家里的windows11
-Host windows
+Host wsl
   HostName 192.168.5.127
-  LocalForward 7788 192.168.5.127:7788
-  User arloor
+  Port 222
+  User root
 
 Host tt.arloor.com
   HostName tt.arloor.com
