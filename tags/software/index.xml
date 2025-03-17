@@ -52,9 +52,9 @@
     </item>
     <item>
       <title>ssh配置</title>
-      <link>https://www.arloor.com/posts/ssh-tunnel/</link>
+      <link>https://www.arloor.com/posts/ssh-config/</link>
       <pubDate>Thu, 16 Nov 2023 20:20:22 +0800</pubDate>
-      <guid>https://www.arloor.com/posts/ssh-tunnel/</guid>
+      <guid>https://www.arloor.com/posts/ssh-config/</guid>
       <description>&lt;h2 id=&#34;ssh隧道的类型&#34;&gt;SSH隧道的类型&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;本地端口转发（Local Port Forwarding）：允许你将本地端口上的数据转发到远程服务器。&lt;/li&gt;&#xA;&lt;li&gt;远程端口转发（Remote Port Forwarding）：允许你将远程服务器上的端口转发到本地计算机。&lt;/li&gt;&#xA;&lt;li&gt;动态端口转发（Dynamic Port Forwarding）：创建一个本地的SOCKS代理服务器，可以用于多种目的，如安全浏览。&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;本地端口转发&#34;&gt;&lt;strong&gt;本地端口转发：&lt;/strong&gt;&lt;/h2&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;ssh -L &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;本地端口&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;:&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;目标服务器地址&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;:&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;目标端口&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; root@xxxxx&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;也可以将本地端口转发写到 &lt;code&gt;~/.ssh/config&lt;/code&gt; 文件中，这样就可以直接在 &lt;code&gt;ssh [SSH服务器别名]&lt;/code&gt; 时建立端口转发。&lt;/p&gt;</description>
     </item>
     <item>
