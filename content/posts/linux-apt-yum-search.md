@@ -2,13 +2,13 @@
 title: "Linux包管理工具搜索特定文件/列出包的所有文件"
 date: 2024-06-18T01:09:02+08:00
 draft: false
-categories: [ "undefined"]
-tags: ["undefined"]
+categories: ["undefined"]
+tags: ["linux"]
 weight: 10
 subtitle: ""
-description : ""
+description: ""
 keywords:
-- 刘港欢 arloor moontell
+  - 刘港欢 arloor moontell
 ---
 
 <!--more-->
@@ -17,7 +17,7 @@ keywords:
 
 ### 查询文件所属的软件包
 
-例如搜索 `libc.a` （glibc的静态文件）和repoquery可执行文件所属的包：
+例如搜索 `libc.a` （glibc 的静态文件）和 repoquery 可执行文件所属的包：
 
 ```bash
 yum makecache
