@@ -16,6 +16,13 @@
       <description></description>
     </item>
     <item>
+      <title>Linux包管理工具搜索特定文件/列出包的所有文件</title>
+      <link>https://www.arloor.com/posts/linux-apt-yum-search/</link>
+      <pubDate>Tue, 18 Jun 2024 01:09:02 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/linux-apt-yum-search/</guid>
+      <description></description>
+    </item>
+    <item>
       <title>使用Kickstart从Centos8/9自动安装RHEL9.2，并制作dd镜像</title>
       <link>https://www.arloor.com/posts/kickstart-rhel9-from-8/</link>
       <pubDate>Wed, 12 Jul 2023 09:58:57 +0800</pubDate>

@@ -79,13 +79,6 @@
       <description>&lt;p&gt;对于需要输入密码的命令，通常我们不能简单地通过重定向输入（如使用 &lt;code&gt;&amp;lt;&lt;/code&gt; 或 &lt;code&gt;&amp;lt;&amp;lt;&lt;/code&gt; ）来避免手动输入密码。这是因为这些命令通常会直接从终端读取密码，以确保密码的安全性，不会从标准输入（stdin）读取。但是我们可以使用expect工具来自动输入密码。下面是自动实现kinit认证的步骤。&lt;/p&gt;</description>
     </item>
     <item>
-      <title>Linux包管理工具搜索特定文件/列出包的所有文件</title>
-      <link>https://www.arloor.com/posts/linux-apt-yum-search/</link>
-      <pubDate>Tue, 18 Jun 2024 01:09:02 +0800</pubDate>
-      <guid>https://www.arloor.com/posts/linux-apt-yum-search/</guid>
-      <description></description>
-    </item>
-    <item>
       <title>14600KF降压（123微码）以及风扇调教</title>
       <link>https://www.arloor.com/posts/14th-intel-cpu-down-voltage/</link>
       <pubDate>Sun, 12 May 2024 19:18:49 +0800</pubDate>

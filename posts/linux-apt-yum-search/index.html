@@ -37,7 +37,7 @@
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2024-06-18T01:09:02+08:00">
     <meta property="article:modified_time" content="2024-06-18T01:09:02+08:00">
-    <meta property="article:tag" content="Undefined">
+    <meta property="article:tag" content="Linux">
 
 
     
@@ -245,7 +245,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
           <br/>
            <i class="fas fa-tags"></i>
           
-          <a class="badge badge-tag" href="/tags/undefined">undefined</a>
+          <a class="badge badge-tag" href="/tags/linux">linux</a>
           
       
     
@@ -288,7 +288,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   <div class="post">
     <h2 id="yum">yum</h2>
 <h3 id="查询文件所属的软件包">查询文件所属的软件包</h3>
-<p>例如搜索 <code>libc.a</code> （glibc的静态文件）和repoquery可执行文件所属的包：</p>
+<p>例如搜索 <code>libc.a</code> （glibc 的静态文件）和 repoquery 可执行文件所属的包：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>yum makecache
 </span></span><span style="display:flex;"><span>yum provides <span style="color:#e6db74">&#34;*/libc.a&#34;</span> <span style="color:#75715e"># 搜索不在标准路径的文件，前面加上*/</span>
 </span></span><span style="display:flex;"><span>yum provides repoquery <span style="color:#75715e"># 搜索在标准路径下的文件</span>
