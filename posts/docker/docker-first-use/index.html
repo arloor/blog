@@ -25,13 +25,13 @@
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="docker使用笔记">
-  <meta name="twitter:description" content="docker很火，所以我想入门。这篇文章是记录学习的，所以可能很乱，称为杂说">
+  <meta name="twitter:description" content="docker 很火，所以我想入门。这篇文章是记录学习的，所以可能很乱，称为杂说">
       <meta name="twitter:site" content="@njulgh">
 
 <meta property="og:url" content="https://www.arloor.com/posts/docker/docker-first-use/">
   <meta property="og:site_name" content="ARLOOR">
   <meta property="og:title" content="docker使用笔记">
-  <meta property="og:description" content="docker很火，所以我想入门。这篇文章是记录学习的，所以可能很乱，称为杂说">
+  <meta property="og:description" content="docker 很火，所以我想入门。这篇文章是记录学习的，所以可能很乱，称为杂说">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
@@ -251,7 +251,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     
     
     <br/>
-    <i class="fas fa-clock"></i> 7 min read
+    <i class="fas fa-clock"></i> 6 min read
 </div>
 
 
@@ -265,19 +265,19 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
       
           <nav id="TableOfContents">
   <ul>
-    <li><a href="#设置docker命令使用代理">设置docker命令使用代理</a></li>
+    <li><a href="#设置-docker-命令使用代理">设置 docker 命令使用代理</a></li>
     <li><a href="#设置国内镜像">设置国内镜像</a></li>
-    <li><a href="#配置不需要sudo">配置不需要sudo</a></li>
+    <li><a href="#配置不需要-sudo">配置不需要 sudo</a></li>
   </ul>
 
   <ul>
-    <li><a href="#编写dockerfile">编写Dockerfile</a></li>
-    <li><a href="#构建image容器运行">构建image、容器、运行</a></li>
+    <li><a href="#编写-dockerfile">编写 Dockerfile</a></li>
+    <li><a href="#构建-image容器运行">构建 image、容器、运行</a></li>
     <li><a href="#进入容器一探究竟">进入容器一探究竟</a></li>
   </ul>
 
   <ul>
-    <li><a href="#以centos为基础构建image">以centos为基础构建image</a></li>
+    <li><a href="#以-centos-为基础构建-image">以 centos 为基础构建 image</a></li>
     <li><a href="#用基础映像启动一个容器并进行修改">用基础映像启动一个容器，并进行修改</a>
       <ul>
         <li><a href="#runsh">run.sh</a></li>
@@ -290,7 +290,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   </ul>
 
   <ul>
-    <li><a href="#安装docker-ce">安装docker-ce</a></li>
+    <li><a href="#安装-docker-ce">安装 docker-ce</a></li>
     <li><a href="#iptables">iptables</a></li>
   </ul>
 </nav>
@@ -299,12 +299,12 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   
   <div class="post">
-    <p>docker很火，所以我想入门。这篇文章是记录学习的，所以可能很乱，称为杂说</p>
-<h1 id="变成自己的docker">变成自己的docker</h1>
-<p>为了用的顺手，做两方面调整：配置使用代理、设置不需要sudo</p>
-<h2 id="设置docker命令使用代理">设置docker命令使用代理</h2>
-<p>在之前的博客中，我多次提到使用<code>. pass</code>来设置shell的代理，但是这对docker没有作用。</p>
-<p>在使用systemd的linux发行版中（比如ubuntu 18.04），可以这样配置：参见<a href="https://docs.docker.com/config/daemon/systemd/#httphttps-proxy">#httphttps-proxy</a></p>
+    <p>docker 很火，所以我想入门。这篇文章是记录学习的，所以可能很乱，称为杂说</p>
+<h1 id="变成自己的-docker">变成自己的 docker</h1>
+<p>为了用的顺手，做两方面调整：配置使用代理、设置不需要 sudo</p>
+<h2 id="设置-docker-命令使用代理">设置 docker 命令使用代理</h2>
+<p>在之前的博客中，我多次提到使用<code>. pass</code>来设置 shell 的代理，但是这对 docker 没有作用。</p>
+<p>在使用 systemd 的 linux 发行版中（比如 ubuntu 18.04），可以这样配置：参见<a href="https://docs.docker.com/config/daemon/systemd/#httphttps-proxy">#httphttps-proxy</a></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo mkdir -p /etc/systemd/system/docker.service.d
 </span></span><span style="display:flex;"><span>sudo touch /etc/systemd/system/docker.service.d/http-proxy.conf
 </span></span><span style="display:flex;"><span>
@@ -328,40 +328,40 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 sudo systemctl daemon-reload
 #Restart Docker:
 sudo systemctl restart docker
-</code></pre><h2 id="配置不需要sudo">配置不需要sudo</h2>
+</code></pre><h2 id="配置不需要-sudo">配置不需要 sudo</h2>
 <pre tabindex="0"><code>sudo groupadd docker
 sudo usermod -aG docker $USER
 </code></pre><p>解释：</p>
 <p>The Docker daemon binds to a Unix socket instead of a TCP port. By default that Unix socket is owned by the user root and other users can only access it using sudo. The Docker daemon always runs as the root user.</p>
 <p>If you don’t want to preface the docker command with sudo, create a Unix group called docker and add users to it. When the Docker daemon starts, it creates a Unix socket accessible by members of the docker group.</p>
-<p>重启一下电脑（虚拟机/服务器）这样就可以不加sudo地使用docker了。如果在运行docker命令时报：</p>
-<pre tabindex="0"><code>WARNING: Error loading config file: /home/user/.docker/config.json -
-stat /home/user/.docker/config.json: permission denied
-</code></pre><p>是因为<code>~/.docker/</code>directory was created with incorrect permissions due to the sudo commands.</p>
+<p>重启一下电脑（虚拟机/服务器）这样就可以不加 sudo 地使用 docker 了。如果在运行 docker 命令时报：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>WARNING: Error loading config file: /home/user/.docker/config.json -
+</span></span><span style="display:flex;"><span>stat /home/user/.docker/config.json: permission denied
+</span></span></code></pre></div><p>是因为<code>~/.docker/</code>directory was created with incorrect permissions due to the sudo commands.</p>
 <p>这时候就把这个文件夹删掉好了。或者参照官网：</p>
 <p>To fix this problem, either remove the ~/.docker/ directory (it is recreated automatically, but any custom settings are lost), or change its ownership and permissions using the following commands:</p>
 <pre tabindex="0"><code>$ sudo chown &#34;$USER&#34;:&#34;$USER&#34; /home/&#34;$USER&#34;/.docker -R
 $ sudo chmod g+rwx &#34;$HOME/.docker&#34; -R
-</code></pre><h1 id="java的简单docker使用">java的简单docker使用</h1>
-<p>以自己的proxyserver为例子：</p>
-<h2 id="编写dockerfile">编写Dockerfile</h2>
+</code></pre><h1 id="java-的简单-docker-使用">java 的简单 docker 使用</h1>
+<p>以自己的 proxyserver 为例子：</p>
+<h2 id="编写-dockerfile">编写 Dockerfile</h2>
 <pre tabindex="0"><code>mkdir docker-proxyserver
 # 里面放Dockerfile和proxyserver-1.2-jar-with-dependencies.jar
-</code></pre><p>Dockerfile内容：</p>
+</code></pre><p>Dockerfile 内容：</p>
 <pre tabindex="0"><code>FROM java:8
-COPY . /var/www/java  
-WORKDIR /var/www/java  
-#RUN java -jar proxyserver-1.2-jar-with-dependencies.jar 
+COPY . /var/www/java
+WORKDIR /var/www/java
+#RUN java -jar proxyserver-1.2-jar-with-dependencies.jar
 CMD [&#34;java&#34;, &#34;-jar&#34;,&#34;proxyserver-1.2-jar-with-dependencies.jar&#34;]
 </code></pre><p>解释：</p>
 <ol>
-<li>以java8为基础映像</li>
-<li>将该文件夹下所有文件复制到容器的/var/www/java文件夹</li>
-<li>已/var/www/java作为工作目录</li>
-<li>被注释掉了：不需要在cmd前做什么</li>
-<li>CMD: docker run会执行这行命令：启动proxyserver</li>
+<li>以 java8 为基础映像</li>
+<li>将该文件夹下所有文件复制到容器的/var/www/java 文件夹</li>
+<li>已/var/www/java 作为工作目录</li>
+<li>被注释掉了：不需要在 cmd 前做什么</li>
+<li>CMD: docker run 会执行这行命令：启动 proxyserver</li>
 </ol>
-<h2 id="构建image容器运行">构建image、容器、运行</h2>
+<h2 id="构建-image容器运行">构建 image、容器、运行</h2>
 <pre tabindex="0"><code>cd docker-proxyserver
 #构建
 docker build -t proxyserver .
@@ -371,14 +371,14 @@ docker run proxyserver
 #下面就可以看到proxyserver运行的日志了
 2019-01-01 15:09:17.312 [main] INFO  com.arloor.proxyserver.ServerProxyBootStrap - 开启代理 端口:8080
 </code></pre><h2 id="进入容器一探究竟">进入容器一探究竟</h2>
-<p>上面的容器，最后通过CMD执行了java -jar命令，虽然运行了程序，但容器的运行是个黑盒。现在开始进入这个黑盒。</p>
-<p>注释掉DockerFile的最后一行：</p>
+<p>上面的容器，最后通过 CMD 执行了 java -jar 命令，虽然运行了程序，但容器的运行是个黑盒。现在开始进入这个黑盒。</p>
+<p>注释掉 DockerFile 的最后一行：</p>
 <pre tabindex="0"><code>CMD [&#34;java&#34;, &#34;-jar&#34;,&#34;proxyserver-1.2-jar-with-dependencies.jar&#34;]
-</code></pre><p>重新构建映像，并以交互模式run容器：</p>
+</code></pre><p>重新构建映像，并以交互模式 run 容器：</p>
 <pre tabindex="0"><code>sudo docker build -t proxyserver .
 docker run -it  proxyserver /bin/bash 　＃-it表示交互模式
 #或者：docker run -it  proxyserver
-</code></pre><p>之后的terminal:</p>
+</code></pre><p>之后的 terminal:</p>
 <pre tabindex="0"><code>x1@carbon:~/docker-proxyserver$ docker run -it  proxyserver /bin/bash
 root@2afdacfb0dff:/var/www/java# ls
 Dockerfile  proxyserver-1.2-jar-with-dependencies.jar
@@ -390,38 +390,38 @@ root@2afdacfb0dff:/var/www/java# reboot
 Failed to talk to init daemon.
 </code></pre><p>这就像一个虚拟机啊。可以看出不同的大概是最后一个命令<code>reboot</code>的执行结果：Failed to talk to init daemon.可以看出进程隔离这个原理的影子吧</p>
 <h1 id="自己改造一个镜像">自己改造一个镜像</h1>
-<p>上面我们已经知道了，是可以进入镜像执行一些命令的，比如执行一些解压、设置PATH、新建软连接都是可以的，这就是安装软件的过程了。</p>
+<p>上面我们已经知道了，是可以进入镜像执行一些命令的，比如执行一些解压、设置 PATH、新建软连接都是可以的，这就是安装软件的过程了。</p>
 <p>而<code>docker commit</code>则允许<code>Create a new image from a container's changes</code>：由一个被修改过的容器创建一个映像。这给我们提供了魔改镜像、自定义镜像的能力。</p>
-<p>以一个需要nodejs8和java８的项目为例：我们以centos为基础映像，启动容器，然后进行魔改（安装jdk和node）。</p>
-<h2 id="以centos为基础构建image">以centos为基础构建image</h2>
+<p>以一个需要 nodejs8 和 java ８的项目为例：我们以 centos 为基础映像，启动容器，然后进行魔改（安装 jdk 和 node）。</p>
+<h2 id="以-centos-为基础构建-image">以 centos 为基础构建 image</h2>
 <p>Dockerfile:</p>
 <pre tabindex="0"><code>FROM centos:7
 COPY . /app
 WORKDIR /app
 EXPOSE 4000
-</code></pre><p>集成centos7映像，将本文件夹下的所有文件（是项目代码）复制到容器的<code>/app</code>文件下。这里也包括了npm_modules。最后定义暴露4000端口</p>
+</code></pre><p>集成 centos7 映像，将本文件夹下的所有文件（是项目代码）复制到容器的<code>/app</code>文件下。这里也包括了 npm_modules。最后定义暴露 4000 端口</p>
 <p>构建映像：</p>
 <pre tabindex="0"><code>docker build -t simlogin-with-docker .
 </code></pre><h2 id="用基础映像启动一个容器并进行修改">用基础映像启动一个容器，并进行修改</h2>
 <pre tabindex="0"><code>docker run -it -v ~/Downloads/:/usr/my/docker/download/ simlogin-with-docker /bin/bash
-</code></pre><p>解释：使用simlogin-with-docke镜像启动一个container。<code>-it</code>表示交互模式——启动容器后会进入docker的shell。<code>-v ~/Downloads/:/path/in/container</code>表示将宿主机的<code>下载</code>目录挂载到容器的<code>/usr/my/docker/download/</code>。最后的<code>/bin/bash</code>是容器所执行的CMD。注意我们在Dockfile中并没有定义CMD，所以在这里需要加上<code>/bin/bash</code>。实际上不加<code>/bin/bash</code>好像也可以。</p>
+</code></pre><p>解释：使用 simlogin-with-docke 镜像启动一个 container。<code>-it</code>表示交互模式——启动容器后会进入 docker 的 shell。<code>-v ~/Downloads/:/path/in/container</code>表示将宿主机的<code>下载</code>目录挂载到容器的<code>/usr/my/docker/download/</code>。最后的<code>/bin/bash</code>是容器所执行的 CMD。注意我们在 Dockfile 中并没有定义 CMD，所以在这里需要加上<code>/bin/bash</code>。实际上不加<code>/bin/bash</code>好像也可以。</p>
 <p>之后的终端是这样的</p>
 <pre tabindex="0"><code>x1@carbon:~$ docker run -it -v ~/Downloads/:/usr/my/docker/download/ simlogin-with-docker /bin/bash
 [root@4c97d816eba7 app]#
-</code></pre><p>这样就进入了容器的shell，像不像进入了一个虚拟机</p>
-<p>这样就可以对这个“虚拟机”进行修改了：我做了以下：安装java和nodejs、yum安装相关库、pm2、设置PATH、编写启动脚本<code>/app/run.sh</code></p>
-<p>这些步骤只讲最后一步，因为前面的步骤和在虚拟机里操作一模一样，而编写run.sh则很关键也有一些坑。</p>
+</code></pre><p>这样就进入了容器的 shell，像不像进入了一个虚拟机</p>
+<p>这样就可以对这个“虚拟机”进行修改了：我做了以下：安装 java 和 nodejs、yum 安装相关库、pm2、设置 PATH、编写启动脚本<code>/app/run.sh</code></p>
+<p>这些步骤只讲最后一步，因为前面的步骤和在虚拟机里操作一模一样，而编写 run.sh 则很关键也有一些坑。</p>
 <h3 id="runsh">run.sh</h3>
 <pre tabindex="0"><code>#! /bin/bash
 
 . ~/.bashrc  #关键：导入PATH
 pm2 start process.json --env local
 tail -f /dev/null  # 关键：让此bash进程永远不退出
-</code></pre><p>第一个坑：最好手动导入PATH</p>
-<p>第二个坑：CMD执行的进程结束，容器进程就结束了。所以加上最后一句让bash进程永不退出。这点坑了我很久。。。</p>
-<p>把这些做完之后，这个容器的就是我们需要的样子了。下一步就是将这个容器“持久化”成一个image，这样以后就可以直接启动容器而不需要再做环境修改。</p>
+</code></pre><p>第一个坑：最好手动导入 PATH</p>
+<p>第二个坑：CMD 执行的进程结束，容器进程就结束了。所以加上最后一句让 bash 进程永不退出。这点坑了我很久。。。</p>
+<p>把这些做完之后，这个容器的就是我们需要的样子了。下一步就是将这个容器“持久化”成一个 image，这样以后就可以直接启动容器而不需要再做环境修改。</p>
 <h2 id="持久化修改好的容器">持久化修改好的容器</h2>
-<p>第一点！不要在容器的“交互性”shell中输exit或者ctrl+D！就是不要让这个容器的运行结束</p>
+<p>第一点！不要在容器的“交互性”shell 中输 exit 或者 ctrl+D！就是不要让这个容器的运行结束</p>
 <p>第二步：另起终端。输入<code>docker ps</code>或<code>docker container list</code>，显示现在运行的容器，显示如下：</p>
 <pre tabindex="0"><code>x1@carbon:~$ docker container list
 CONTAINER ID        IMAGE                  COMMAND             CREATED             STATUS              PORTS               NAMES
@@ -429,19 +429,19 @@ CONTAINER ID        IMAGE                  COMMAND             CREATED          
 x1@carbon:~$ docker ps
 CONTAINER ID        IMAGE                  COMMAND             CREATED             STATUS              PORTS               NAMES
 4c97d816eba7        simlogin-with-docker   &#34;/bin/bash&#34;         22 minutes ago      Up 22 minutes       4000/tcp            distracted_agnesi
-</code></pre><p>第三步：commit容器，也就是“持久化”为镜像了</p>
+</code></pre><p>第三步：commit 容器，也就是“持久化”为镜像了</p>
 <pre tabindex="0"><code>docker commit 4c97d816eba7 simlogin-with-docker:1.0
-</code></pre><p>这样就新建了一个simlogin-with-docker:1.0映像。这就是最终的映像啦。</p>
+</code></pre><p>这样就新建了一个 simlogin-with-docker:1.0 映像。这就是最终的映像啦。</p>
 <h2 id="运行这个完成体映像">运行这个完成体映像</h2>
 <pre tabindex="0"><code>docker run  -d -p 80:4000 simlogin-with-docker /app/run.sh
 </code></pre><p><code>-d</code>表示在后台运行；</p>
-<p><code> -p 80:4000</code>表示宿主机80端口映射容器4000端口；</p>
-<p><code>/app/run.sh</code>表示执行的CMD，注意这个sh脚本被我们控制为了永远不会退出。</p>
-<p>问题：这个sh脚本不会退出。。所以pm2启动的进程如果异常退出了，这个docker容器也不会退出，也就没有实现监控了。</p>
+<p><code> -p 80:4000</code>表示宿主机 80 端口映射容器 4000 端口；</p>
+<p><code>/app/run.sh</code>表示执行的 CMD，注意这个 sh 脚本被我们控制为了永远不会退出。</p>
+<p>问题：这个 sh 脚本不会退出。。所以 pm2 启动的进程如果异常退出了，这个 docker 容器也不会退出，也就没有实现监控了。</p>
 <h2 id="进入这个正在在运行的容器">进入这个正在在运行的容器</h2>
 <p>一开始我用<code>docker attach containerID</code>，但是发现有一些问题。后来我用</p>
 <pre tabindex="0"><code>docker exec -it containerID /bin/bash
-</code></pre><p>好了，docker算入门了吧</p>
+</code></pre><p>好了，docker 算入门了吧</p>
 <h2 id="删除容器镜像">删除容器、镜像</h2>
 <p>一个镜像很容易就超级超级大，有必要删除没用的镜像和容器</p>
 <p>要删除镜像，需要首先删除容器。</p>
@@ -453,16 +453,16 @@ docker rmi `docker images -a -q`
 docker rmi --force `docker images | grep xxx | awk &#39;{print $3}&#39;`
 # 删除没有标签的镜像
 docker rmi `docker images -q | awk &#39;/^&lt;none&gt;/ { print $3 }&#39;`
-</code></pre><h1 id="push本地镜像到docker-hub">push本地镜像到docker hub</h1>
-<p>首先<code>docker login</code>登录到docker hub，需要输入docker hub的用户名密码</p>
-<p>然后，把本地的docker镜像打上用户名的tag..</p>
-<p>最后push</p>
+</code></pre><h1 id="push-本地镜像到-docker-hub">push 本地镜像到 docker hub</h1>
+<p>首先<code>docker login</code>登录到 docker hub，需要输入 docker hub 的用户名密码</p>
+<p>然后，把本地的 docker 镜像打上用户名的 tag..</p>
+<p>最后 push</p>
 <pre tabindex="0"><code>docker tag ubuntu:18.04 arloor/ubuntu:18.04
 docker push arloor/ubuntu:18.04
 docker search arloor
-</code></pre><h1 id="centos-7的docker使用">centos 7的docker使用</h1>
-<p>服务器一般是centos系统，记录一下centos中的一些东西</p>
-<h2 id="安装docker-ce">安装docker-ce</h2>
+</code></pre><h1 id="centos-7-的-docker-使用">centos 7 的 docker 使用</h1>
+<p>服务器一般是 centos 系统，记录一下 centos 中的一些东西</p>
+<h2 id="安装-docker-ce">安装 docker-ce</h2>
 <p>卸载旧版本</p>
 <p>Docker 的早期版本称为 docker 或 docker-engine。如果安装了这些版本，请卸载它们及关联的依赖资源。</p>
 <pre tabindex="0"><code> sudo yum remove docker \
@@ -477,18 +477,18 @@ docker search arloor
 <pre tabindex="0"><code>yum install -y yum-utils \
   device-mapper-persistent-data \
   lvm2
-</code></pre><p>设置docker源</p>
+</code></pre><p>设置 docker 源</p>
 <pre tabindex="0"><code>yum-config-manager \
   --add-repo \
   https://download.docker.com/linux/centos/docker-ce.repo
-</code></pre><p>安装docker</p>
+</code></pre><p>安装 docker</p>
 <pre tabindex="0"><code>yum install docker-ce
 </code></pre><h2 id="iptables">iptables</h2>
-<p>iptables是linux下的防火墙服务。在我的使用中，遇到一个问题：编辑/etc/sysconfig/iptables配置文件后，重启iptables服务(service iptables restart)。正在运行的docker容器可以正常接受请求，却不能向其他服务器发送http请求（tcp流量）。搜索之后发现，docker服务启动时，会增加iptables规则，应该是定义nat规则的。当iptables服务重启时，docker服务增加的iptables就被丢弃了，所以会出现这样的问题。</p>
+<p>iptables 是 linux 下的防火墙服务。在我的使用中，遇到一个问题：编辑/etc/sysconfig/iptables 配置文件后，重启 iptables 服务(service iptables restart)。正在运行的 docker 容器可以正常接受请求，却不能向其他服务器发送 http 请求（tcp 流量）。搜索之后发现，docker 服务启动时，会增加 iptables 规则，应该是定义 nat 规则的。当 iptables 服务重启时，docker 服务增加的 iptables 就被丢弃了，所以会出现这样的问题。</p>
 <p>所以解决方式：</p>
 <ol>
-<li>重启docker服务 service docker restart</li>
-<li>将docker增加的iptables持久化 iptables save（不怎么推荐且我也不知道有没有什么副作用）</li>
+<li>重启 docker 服务 service docker restart</li>
+<li>将 docker 增加的 iptables 持久化 iptables save（不怎么推荐且我也不知道有没有什么副作用）</li>
 </ol>
   </div>
   
