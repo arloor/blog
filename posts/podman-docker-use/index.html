@@ -278,7 +278,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     <li><a href="#设置-podman-cli-的-http-代理设置">设置 podman CLI 的 HTTP 代理设置</a></li>
     <li><a href="#podman-使用-systemd-管理容器">Podman 使用 systemd 管理容器</a>
       <ul>
-        <li><a href="#man-podman-generate-systemd">man podman-generate-systemd</a></li>
+        <li><a href="#podman-generate-systemd">podman generate systemd</a></li>
         <li><a href="#qualet-运行">qualet 运行</a></li>
       </ul>
     </li>
@@ -384,7 +384,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><h2 id="设置-podman-cli-的-http-代理设置">设置 podman CLI 的 HTTP 代理设置</h2>
 <p>podman 的 build 和 run 都会默认使用 podman 进程的 http 代理环境变量，如果容器不需要的话，可以使用 <code>--http-proxy=false</code> 来关闭。</p>
 <h2 id="podman-使用-systemd-管理容器">Podman 使用 systemd 管理容器</h2>
-<h3 id="man-podman-generate-systemd">man podman-generate-systemd</h3>
+<h3 id="podman-generate-systemd">podman generate systemd</h3>
+<p>参考 <code>man podman-generate-systemd</code> 或 <a href="https://docs.podman.io/en/latest/markdown/podman-generate-systemd.1.html">podman-generate-systemd(1)</a></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>podman run -d <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--pull<span style="color:#f92672">=</span>newer <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--name redis <span style="color:#ae81ff">\
