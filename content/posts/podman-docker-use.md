@@ -97,7 +97,7 @@ systemctl restart docker
 
 #### 全局设置
 
-> 注意，这个配置文件中还有其他的配置，例如 docker registry 的账户密码，建议不要直接覆盖。
+> 注意，这个配置文件中还有其他的配置，例如 docker registry 的账户密码，不建议直接覆盖。
 
 ```bash
 mkdir -p ~/.docker
@@ -142,7 +142,7 @@ podman rmi -a
 
 podman 的 build 和 run 都会默认使用 podman 进程的 http 代理环境变量，如果容器不需要的话，可以使用 `--http-proxy=false` 来关闭。
 
-## Podman使用systemd管理容器
+## Podman 使用 systemd 管理容器
 
 ### man podman-generate-systemd
 

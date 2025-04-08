@@ -2,16 +2,16 @@
 title: "Proxyme-基于javaNIO的http代理"
 date: 2018-08-14
 author: "刘港欢"
-categories: [ "java","网络编程"]
+categories: ["java", "网络编程"]
 tags: ["Program"]
 weight: 10
 ---
 
-# proxyme 一个http代理
+# proxyme 一个 http 代理
 
-使用java NIO的http代理。支持https。建议不要再chrome上使用本代理，因为chrome本身会请求很多谷歌的api，结果被墙住了，又只有两个线程，导致其他都被阻塞，很尴尬。
+使用 java NIO 的 http 代理。支持 https。不建议再 chrome 上使用本代理，因为 chrome 本身会请求很多谷歌的 api，结果被墙住了，又只有两个线程，导致其他都被阻塞，很尴尬。
 
-之前也打算做过这个东西，结果做出来的有点缺陷（现在想可能是selector中锁的问题，忘记了）。这大概隔了半年，这个项目的http代理功能实现了。
+之前也打算做过这个东西，结果做出来的有点缺陷（现在想可能是 selector 中锁的问题，忘记了）。这大概隔了半年，这个项目的 http 代理功能实现了。
 
 ## 源码地址
 
@@ -45,37 +45,37 @@ weight: 10
 
 ## 性能与内存
 
-占用cpu不到1%
+占用 cpu 不到 1%
 
-内存最大35m（不含jvm自身）。GC次数和时间很少
+内存最大 35m（不含 jvm 自身）。GC 次数和时间很少
 
 总的来说，性能可以了吧。
 
 ## 思路
 
-两个线程，每个线程一个selector。
+两个线程，每个线程一个 selector。
 
-localSelector线程，负责接收本地浏览器的连接请求和读写浏览器到代理的socketChannel
+localSelector 线程，负责接收本地浏览器的连接请求和读写浏览器到代理的 socketChannel
 
-remoteSelector线程，负责读写web服务器到代理的socketChannel。
+remoteSelector 线程，负责读写 web 服务器到代理的 socketChannel。
 
-ChannelBridge类,持有localSocketChannel和remoteSocketChannel。职责是处理请求和响应，并转发。
+ChannelBridge 类,持有 localSocketChannel 和 remoteSocketChannel。职责是处理请求和响应，并转发。
 
-RequestHeader类，职责是格式化请求行和请求头。
+RequestHeader 类，职责是格式化请求行和请求头。
 
 ## 实现中的注意点
 
-首先是健壮性！每一个try块都是很重要的！都解决了一个问题
+首先是健壮性！每一个 try 块都是很重要的！都解决了一个问题
 
 其次是锁的问题：
 
 selector.select()会占有锁，channel.register(selector)需要持有同样的锁。
 
-如果调用上面的两个方法的语句在两个线程中，会让channel.regiter等很久很久，导致响应难以及时得到。
+如果调用上面的两个方法的语句在两个线程中，会让 channel.regiter 等很久很久，导致响应难以及时得到。
 
-而在实现中，这是一个生产者消费者问题。localSelector线程根据本地浏览器请求产生了一个从代理到web服务器的remoteChannel。而remoteSelector要接收这个remoteChannel,这也就是消费了。
+而在实现中，这是一个生产者消费者问题。localSelector 线程根据本地浏览器请求产生了一个从代理到 web 服务器的 remoteChannel。而 remoteSelector 要接收这个 remoteChannel,这也就是消费了。
 
-很自然的，避免上面锁等待最好的方法：localSelector生成remoteChannel，将其放入队列。remoteSelector线程从队列中取。再结合selector.wakeup()使其从阻塞中返回，可以快速地接收（register）这个remoteChannel。
+很自然的，避免上面锁等待最好的方法：localSelector 生成 remoteChannel，将其放入队列。remoteSelector 线程从队列中取。再结合 selector.wakeup()使其从阻塞中返回，可以快速地接收（register）这个 remoteChannel。
 
 这两点，就是最最重要的两点了。
 
@@ -85,14 +85,14 @@ selector.select()会占有锁，channel.register(selector)需要持有同样的�
 com.arloor.proxyme.RequestHeader.reform()
 ```
 
-最后，https代理实现中的坑。http代理传输的内容是明文，字节肯定大于0，而https传输的字节可能小于0。因为这个，传输https数据的bybebuff时，要特意指定bytebuff的limit为实际大小。
+最后，https 代理实现中的坑。http 代理传输的内容是明文，字节肯定大于 0，而 https 传输的字节可能小于 0。因为这个，传输 https 数据的 bybebuff 时，要特意指定 bytebuff 的 limit 为实际大小。
 
-还有一个小问题，向remoteChannel 写的时候，有时候会写0个字节，原因是底层tcp缓冲满了，我的处理是等0.1秒，再继续传。当然设置OP_WRITE这个监听选项的目的就是处理这种情况。
+还有一个小问题，向 remoteChannel 写的时候，有时候会写 0 个字节，原因是底层 tcp 缓冲满了，我的处理是等 0.1 秒，再继续传。当然设置 OP_WRITE 这个监听选项的目的就是处理这种情况。
 
-http代理不神秘。
+http 代理不神秘。
 
 ## 可以改进的地方
 
-对channel的读写可以加入更多的线程来进行。
+对 channel 的读写可以加入更多的线程来进行。
 
-其实这就是要加入reactor模式了。reactor模式可以看：[java设计模式](https://github.com/iluwatar/java-design-patterns/tree/master/reactor)
+其实这就是要加入 reactor 模式了。reactor 模式可以看：[java 设计模式](https://github.com/iluwatar/java-design-patterns/tree/master/reactor)
