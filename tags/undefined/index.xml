@@ -6,8 +6,15 @@
     <description>Recent content in Undefined on ARLOOR</description>
     <generator>Hugo</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sun, 29 Dec 2024 17:58:10 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 08 Apr 2025 10:53:42 +0800</lastBuildDate>
     <atom:link href="https://www.arloor.com/tags/undefined/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Podman和Docker使用备忘</title>
+      <link>https://www.arloor.com/posts/podman-docker-use/</link>
+      <pubDate>Tue, 08 Apr 2025 10:53:42 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/podman-docker-use/</guid>
+      <description></description>
+    </item>
     <item>
       <title>2024年度总结</title>
       <link>https://www.arloor.com/posts/2024/</link>

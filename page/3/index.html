@@ -216,6 +216,33 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   <div class="post-list__item">
     <span class="item__title--big">
+      <a href="/posts/rust-reqwest-hyper-http-client/" >Rust reqwest代码阅读</a>
+    </span>
+    <span class="item__date">
+      Jul 20, 2024
+    </span>
+    <span >
+      
+      <p>最近在自己的<a href="https://github.com/arloor/rust_http_proxy">rust_http_proxy</a>中实现了简单的反向代理，第一版用的是手搓的无连接池版本，大致流程如下：</p>
+<ol>
+<li>首先 <code>TcpStream::connect</code> 建立连接</li>
+<li>通过 <code>conn::http1::Builder</code> 拿到 <code>sender</code></li>
+<li>发送请求 <code>sender.send_request(new_req)</code></li>
+</ol>
+<p>工作的很正常，但是没有连接池。想到 <code>hyper</code> 官方提供的 <code>reqwest</code> 是有内置连接池的，于是研究了下做了改造，记录下过程中读到的代码。</p>
+      
+    </span>
+    
+    ... <a class="read-more-symbol" href="/posts/rust-reqwest-hyper-http-client/">➦</a>
+    
+  </div>
+  
+  
+  
+  
+  
+  <div class="post-list__item">
+    <span class="item__title--big">
       <a href="/posts/afterburner-profile/" >Afterburner配置文件备份</a>
     </span>
     <span class="item__date">
@@ -406,27 +433,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     </span>
     
     ... <a class="read-more-symbol" href="/posts/notion/java%E8%99%9A%E6%8B%9F%E7%BA%BF%E7%A8%8B/">➦</a>
-    
-  </div>
-  
-  
-  
-  
-  
-  <div class="post-list__item">
-    <span class="item__title--big">
-      <a href="/posts/libbpf-rust-integration/" >在Rust项目中集成libbpf-rs</a>
-    </span>
-    <span class="item__date">
-      Apr 20, 2024
-    </span>
-    <span >
-      
-      <p>前面已经有两篇博客记录了ebpf的一些知识，这篇则是实操。作为一个对C语言和Rust有一定了解的选手，我选择使用 <code>libbpf-rs</code> 开发ebpf应用，这就记录下我在Rust项目中集成 <code>libbpf-rs</code> 的过程。</p>
-      
-    </span>
-    
-    ... <a class="read-more-symbol" href="/posts/libbpf-rust-integration/">➦</a>
     
   </div>
   
