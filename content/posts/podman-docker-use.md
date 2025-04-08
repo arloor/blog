@@ -62,7 +62,7 @@ if ! grep HTTP_PROXY /etc/systemd/system/docker.service.d/http-proxy.conf;
 then
 cat >> /etc/systemd/system/docker.service.d/http-proxy.conf <<EOF
 [Service]
-Environment="HTTP_PROXY=http://127.0.0.1:3128/" "HTTPS_PROXY=http://127.0.0.1:3128/" "NO_PROXY=*.arloor.com,localhost,127.0.0.1,docker-registry.somecorporation.com"
+Environment="HTTP_PROXY=http://127.0.0.1:3128/" "HTTPS_PROXY=http://127.0.0.1:3128/" "NO_PROXY=arloor.com,localhost,127.0.0.1,docker-registry.somecorporation.com"
 EOF
 fi
 
