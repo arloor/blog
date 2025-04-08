@@ -128,7 +128,7 @@ docker run --env HTTP_PROXY="http://proxy.example.com:3128" redis --network=host
 - [man podman-run](https://docs.podman.io/en/latest/markdown/podman-run.1.html)
 - [man podman-build](https://docs.podman.io/en/stable/markdown/podman-build.1.html)
 
-## 删除 podman build 中途退出的中间镜像
+### 删除 podman build 中途退出的中间镜像
 
 https://github.com/containers/podman/issues/7889
 
@@ -138,13 +138,13 @@ buildah rm --all
 podman rmi -a
 ```
 
-## 设置 podman CLI 的 HTTP 代理设置
+### 设置 podman CLI 的 HTTP 代理设置
 
 podman 的 build 和 run 都会默认使用 podman 进程的 http 代理环境变量，如果容器不需要的话，可以使用 `--http-proxy=false` 来关闭。
 
-## Podman 使用 systemd 管理容器
+### Podman 使用 systemd 管理容器
 
-### podman generate systemd
+#### podman generate systemd
 
 参考 `man podman-generate-systemd` 或 [podman-generate-systemd(1)](https://docs.podman.io/en/latest/markdown/podman-generate-systemd.1.html)
 
@@ -166,7 +166,7 @@ systemctl daemon-reload
 
 其中 `--pull=newer` 表示每次都 pull 镜像，这在使用 `latest` 镜像时很有用
 
-### qualet 运行
+#### qualet 运行
 
 参考[podman-systemd.unit.5](https://docs.podman.io/en/latest/markdown/podman-systemd.unit.5.html)或者 `man podman-systemd.unit`
 
