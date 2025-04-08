@@ -144,7 +144,9 @@ podman 的 build 和 run 都会默认使用 podman 进程的 http 代理环境�
 
 ## Podman 使用 systemd 管理容器
 
-### man podman-generate-systemd
+### podman generate systemd
+
+参考 `man podman-generate-systemd` 或 [podman-generate-systemd(1)](https://docs.podman.io/en/latest/markdown/podman-generate-systemd.1.html)
 
 ```bash
 podman run -d \
