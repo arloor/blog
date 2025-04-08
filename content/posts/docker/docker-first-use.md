@@ -31,24 +31,22 @@ cat >> /etc/systemd/system/docker.service.d/http-proxy.conf <<EOF
 [Service]
 Environment="HTTP_PROXY=http://127.0.0.1:3128/" "HTTPS_PROXY=http://127.0.0.1:3128/" "NO_PROXY=localhost,127.0.0.1,docker-registry.somecorporation.com"
 EOF
+fi
+systemctl daemon-reload
+systemctl restart docker
 ```
 
 ## 设置国内镜像
 
 除了上面的设置代理，还可以配置国内镜像
 
-```
-vi /etc/docker/daemon.json
-
-#写入以下内容
+```bash
+cat > /etc/docker/daemon.json <<EOF
 {
  "registry-mirrors": ["https://registry.docker-cn.com"]
 }
+EOF
 
-# 最后
-# Flush changes:
-sudo systemctl daemon-reload
-#Restart Docker:
 sudo systemctl restart docker
 ```
 
