@@ -1,23 +1,23 @@
 ---
 title: "Golang笔记"
 subtitle:
-tags: 
-- golang
+tags:
+  - golang
 date: 2024-10-13T01:14:37+08:00
 lastmod: 2024-10-13T01:14:37+08:00
 draft: false
-categories: 
-- undefined
+categories:
+  - undefined
 weight: 10
 description:
 highlightjslanguages:
 ---
 
-以后可能以golang谋生一段时间了，开个golang的笔记
+以后可能以 golang 谋生一段时间了，开个 golang 的笔记
 
 <!--more-->
 
-## 安装golang (linux-amd64)
+## 安装 golang (linux-amd64)
 
 ```bash
 version=1.22.6
@@ -31,7 +31,7 @@ fi
 
 或者到[https://go.dev/dl/](https://go.dev/dl/)下载安装包安装
 
-## 设置私有仓库等golang 环境变量
+## 设置私有仓库等 golang 环境变量
 
 ```bash
 go env -w GOPROXY="https://goproxy.cn,https://proxy.golang.org,direct"
@@ -39,7 +39,7 @@ go env -w GOPRIVATE="*.xxxx.xxx,*.xxxxx.cn,git.xxxxxx.com"
 go env -w GOSUMDB="sum.golang.google.cn"
 ```
 
-## 设置go test的快捷命令
+## 设置 go test 的快捷命令
 
 ```bash
 mkdir -p ~/bin
@@ -47,13 +47,13 @@ if ! grep "PATH=~/bin" ~/.zshrc;then
   export PATH=~/bin:$PATH
   echo 'export PATH=~/bin:$PATH' >> ~/.zshrc
 fi
-cat > ~/bin/testgo <<\EOF                    
-go test -gcflags='all=-N -l' -v "$@"
+cat > ~/bin/testgo <<\EOF
+go test -gcflags='all=-N -l' -v --count=1 "$@"
 EOF
 chmod +x ~/bin/testgo
 ```
 
-## vscode设置
+## vscode 设置
 
 首先安装插件 `golang.go`。然后参考 [codespaces devcontainers go feature install.sh](https://github.com/devcontainers/features/blob/main/src/go/install.sh#L177)，安装相关的依赖：
 
@@ -68,7 +68,7 @@ GO_TOOLS="\
     github.com/go-delve/delve/cmd/dlv@latest \
     github.com/fatih/gomodifytags@latest \
     github.com/haya14busa/goplay/cmd/goplay@latest \
-    github.com/cweill/gotests/gotests@latest \ 
+    github.com/cweill/gotests/gotests@latest \
     github.com/josharian/impl@latest"
 (echo "${GO_TOOLS}" | xargs -n 1 go install -v )2>&1 | tee  ./init_go.log
 
@@ -81,50 +81,47 @@ curl -fsSL https://raw.githubusercontent.com/golangci/golangci-lint/master/insta
 
 最后配置 `launch.json`:
 
-**注意**：golang debug不能正确处理软链接，所以最好不要把项目放在软链接的文件夹中，或者配置 `substitutePath`，见[Debug symlink directories](https://github.com/golang/vscode-go/wiki/debugging#debug-symlink-directories)和[go.delveConfig settings](https://github.com/golang/vscode-go/wiki/debugging#settings)(用于CodeLens里的debug test按钮)。其他高级配置可以见 [vscode-go debugging](https://github.com/golang/vscode-go/wiki/debugging)，也可以见 [delve的调试命令˝](https://github.com/go-delve/delve/blob/master/Documentation/cli/README.md)。
+**注意**：golang debug 不能正确处理软链接，所以最好不要把项目放在软链接的文件夹中，或者配置 `substitutePath`，见[Debug symlink directories](https://github.com/golang/vscode-go/wiki/debugging#debug-symlink-directories)和[go.delveConfig settings](https://github.com/golang/vscode-go/wiki/debugging#settings)(用于 CodeLens 里的 debug test 按钮)。其他高级配置可以见 [vscode-go debugging](https://github.com/golang/vscode-go/wiki/debugging)，也可以见 [delve 的调试命令 ˝](https://github.com/go-delve/delve/blob/master/Documentation/cli/README.md)。
 
 ```json
 {
-    // 使用 IntelliSense 了解相关属性。 
-    // 悬停以查看现有属性的描述。
-    // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "Launch Package",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "cwd": "${workspaceFolder}",
-            "program": "${workspaceFolder}/cmd/${workspaceFolderBasename}",
-            "output": "__debug_bin_main",
-            "args": [
-                "--addr=localhost:7788",
-                "--refer=arloor"
-                ,"--tls=true"
-            ]
-        },        
-        {// 参考 https://blog.csdn.net/passenger12234/article/details/122930124
-            "name": "Test Debug", // debug 单测
-            "type": "go",
-            "mode": "test",
-            "request": "launch",
-            "buildFlags": [
-                "-a", // force rebuilding of packages that are already up-to-date. 
-            ],
-            // "program": "${relativeFileDirname}", // 当前打开的目录
-            "program": "./internal/app",
-            "output": "__debug_bin_test",
-            "args": [
-                "-test.v", // 使t.Log()输出到console
-                // "-test.run",
-                // "^TestGetLlamAccessPoint$"
-                // "-test.bench",
-                // "BenchmarkTranslateWithFallback",
-                // "-test.benchmem"
-            ],
-        },
-    ]
+  // 使用 IntelliSense 了解相关属性。
+  // 悬停以查看现有属性的描述。
+  // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch Package",
+      "type": "go",
+      "request": "launch",
+      "mode": "auto",
+      "cwd": "${workspaceFolder}",
+      "program": "${workspaceFolder}/cmd/${workspaceFolderBasename}",
+      "output": "__debug_bin_main",
+      "args": ["--addr=localhost:7788", "--refer=arloor", "--tls=true"]
+    },
+    {
+      // 参考 https://blog.csdn.net/passenger12234/article/details/122930124
+      "name": "Test Debug", // debug 单测
+      "type": "go",
+      "mode": "test",
+      "request": "launch",
+      "buildFlags": [
+        "-a" // force rebuilding of packages that are already up-to-date.
+      ],
+      // "program": "${relativeFileDirname}", // 当前打开的目录
+      "program": "./internal/app",
+      "output": "__debug_bin_test",
+      "args": [
+        "-test.v" // 使t.Log()输出到console
+        // "-test.run",
+        // "^TestGetLlamAccessPoint$"
+        // "-test.bench",
+        // "BenchmarkTranslateWithFallback",
+        // "-test.benchmem"
+      ]
+    }
+  ]
 }
 ```
 
@@ -136,33 +133,32 @@ go test -c github.com/arloor/xxxx/internal/app -o __debug_bin_test -gcflags='all
 # 可以参考 go help test, go help testflag
 ```
 
-也需要注意 `settings.json` 中golang相关配置
+也需要注意 `settings.json` 中 golang 相关配置
 
 ```json
 {
-    "go.lintTool": "golangci-lint",
-    "go.toolsManagement.autoUpdate": true,
-    "go.formatTool": "gofmt",
-    "go.testExplorer.showOutput": true,
-    "[go]": {
-        "editor.formatOnSave": true,
-        "editor.codeActionsOnSave": {
-            "source.organizeImports": "always"
-        }
-    },
-    "go.testFlags": [
-        "-gcflags=all=-l", // 针对run test禁用内联优化，使gomonkey可以成功打桩。对debug test不生效，因为golang插件针对debug test自行设置了-gcflags="all=-l -N"
-        "-v", // 使run test可以输出t.Logf的日志。对debug test不生效，只在test fail的时候才会打印t.Logf的日志
-    ],
-    "go.formatFlags": [
-        "-w"
-    ],
+  "go.lintTool": "golangci-lint",
+  "go.toolsManagement.autoUpdate": true,
+  "go.formatTool": "gofmt",
+  "go.testExplorer.showOutput": true,
+  "[go]": {
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "always"
+    }
+  },
+  "go.testFlags": [
+    "-gcflags=all=-l", // 针对run test禁用内联优化，使gomonkey可以成功打桩。对debug test不生效，因为golang插件针对debug test自行设置了-gcflags="all=-l -N"
+    "-v", // 使run test可以输出t.Logf的日志。对debug test不生效，只在test fail的时候才会打印t.Logf的日志
+    "--count=1" // 不缓存go test的结果
+  ],
+  "go.formatFlags": ["-w"]
 }
 ```
 
-这样的配置下仍有一个棘手的问题难以解决：CodeLens的debug test难以打印 `t.Logf` 的日志，除非test fail，万般尝试都失败，最终放弃吧。
+这样的配置下仍有一个棘手的问题难以解决：CodeLens 的 debug test 难以打印 `t.Logf` 的日志，除非 test fail，万般尝试都失败，最终放弃吧。
 
-## golangci-lint使用
+## golangci-lint 使用
 
 参考文档：
 
@@ -171,15 +167,15 @@ go test -c github.com/arloor/xxxx/internal/app -o __debug_bin_test -gcflags='all
 - [False Positives](https://golangci-lint.run/usage/false-positives/)
 - [Nolint Directive](https://golangci-lint.run/usage/false-positives/#nolint-directive)
 
-需要在某些地方忽略某个 `linter` 时，可以注释 `//nolint:xx,xx`，这个注释可以用在go文件开头、行末、函数、结构体，分别代表不同的作用域。
+需要在某些地方忽略某个 `linter` 时，可以注释 `//nolint:xx,xx`，这个注释可以用在 go 文件开头、行末、函数、结构体，分别代表不同的作用域。
 
 配置见[.golangci.yml](/.golangci.yml)
 
 ## defer
 
-1. defer匿名函数中“**捕获**”的参数是**执行时**的最新值。而“**传递**”的参数是声明defer时确定的。
-2. defer函数可以修改返回值，只要返回值是“**捕获**”的
-3. 探讨defer和for、if一起使用的情况(这个有点坑的)： [Golang Defer: From Basic To Traps](https://victoriametrics.com/blog/defer-in-go/)
+1. defer 匿名函数中“**捕获**”的参数是**执行时**的最新值。而“**传递**”的参数是声明 defer 时确定的。
+2. defer 函数可以修改返回值，只要返回值是“**捕获**”的
+3. 探讨 defer 和 for、if 一起使用的情况(这个有点坑的)： [Golang Defer: From Basic To Traps](https://victoriametrics.com/blog/defer-in-go/)
 
 ```go
 package main
@@ -227,14 +223,14 @@ func deferModReturn() (str string) {
 
 ## 类型转换
 
-[go之4种类型转换-腾讯云开发者社区-腾讯云 (tencent.com)](https://cloud.tencent.com/developer/article/2358351)
+[go 之 4 种类型转换-腾讯云开发者社区-腾讯云 (tencent.com)](https://cloud.tencent.com/developer/article/2358351)
 
 1. **显式转换： T(x)**
 2. **隐式转换：不需要开发人员编写转换代码，由编译器自动完成。**
 3. **类型断言：newT, ok := x.(T)**
-4. **unsafe.Pointer强制转换**
+4. **unsafe.Pointer 强制转换**
 
-## Golang枚举
+## Golang 枚举
 
 > 垃圾的一笔，连个原生的枚举都没
 
@@ -260,7 +256,7 @@ const (
 go get github.com/arloor/xxxx@feature/xxxx
 ```
 
-## context的key不要使用内置类型
+## context 的 key 不要使用内置类型
 
 ```golang
 type action struct{} // 自定义类型作为key。空struct不占内存
