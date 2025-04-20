@@ -15,7 +15,7 @@ keywords:
 
 ## 准备安装源
 
-首先到[红帽开发者网站-rhel下载](https://developers.redhat.com/products/rhel/download)注册开发者账号，然后下载rhel9的DVD iso到一台提供http服务的公网vps上。
+首先到[Popular Downloads for Red Hat Enterprise Linux](https://access.redhat.com/downloads/content/rhel)下载rhel9的DVD iso到一台提供http服务的公网vps上。
 
 然后挂载该镜像到一个目录，然后启动httpd服务（文档:[使用 HTTP 或 HTTPS 创建安装源](https://access.redhat.com/documentation/zh-cn/red_hat_enterprise_linux/9/html-single/performing_an_advanced_rhel_9_installation/index#creating-installation-sources-for-kickstart-installations_installing-rhel-as-an-experienced-user)）
 
