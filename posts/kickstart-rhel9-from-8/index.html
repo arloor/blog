@@ -296,7 +296,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   <div class="post">
     <p>自动安装是通过 <code>pxeboot</code> + <code> kickstart</code>实现的，自动安装因为要通过内存承载liveos，所以内存要大一点。通过腾讯云CVM测试，建议是直接4G内存起步，反正按量计费下2小时自动销毁也就两块钱。</p>
 <h2 id="准备安装源">准备安装源</h2>
-<p>首先到<a href="https://developers.redhat.com/products/rhel/download">红帽开发者网站-rhel下载</a>注册开发者账号，然后下载rhel9的DVD iso到一台提供http服务的公网vps上。</p>
+<p>首先到<a href="https://access.redhat.com/downloads/content/rhel">Popular Downloads for Red Hat Enterprise Linux</a>下载rhel9的DVD iso到一台提供http服务的公网vps上。</p>
 <p>然后挂载该镜像到一个目录，然后启动httpd服务（文档:<a href="https://access.redhat.com/documentation/zh-cn/red_hat_enterprise_linux/9/html-single/performing_an_advanced_rhel_9_installation/index#creating-installation-sources-for-kickstart-installations_installing-rhel-as-an-experienced-user">使用 HTTP 或 HTTPS 创建安装源</a>）</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 下面这个链接自己在下载页面复制</span>
 </span></span><span style="display:flex;"><span>wget https://access.cdn.redhat.com/content/origin/files/sha256/30/30fd8dff2d29a384bd97886fa826fa5be872213c81e853eae3f9d9674f720ad0/rhel-9.2-x86_64-dvd.iso?_auth_<span style="color:#f92672">=</span>xxxxxxxxxxx -O /var/redhat9.iso
