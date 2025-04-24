@@ -6,8 +6,15 @@
     <description>Recent content in Undefined on ARLOOR</description>
     <generator>Hugo</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Tue, 08 Apr 2025 10:53:42 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 24 Apr 2025 14:58:23 +0800</lastBuildDate>
     <atom:link href="https://www.arloor.com/tags/undefined/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Nftables基础链的优先级与默认策略</title>
+      <link>https://www.arloor.com/posts/nftable-base-chain-priority/</link>
+      <pubDate>Thu, 24 Apr 2025 14:58:23 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/nftable-base-chain-priority/</guid>
+      <description>&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://wiki.nftables.org/wiki-nftables/index.php/Configuring_chains#Base_chain_priority&#34;&gt;nftables wiki: Configuring chains&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://mp.weixin.qq.com/s/uzuRM9YHkKeyO6RC7XSdPQ&#34;&gt;Netfilter 架构与 iptables/ebtables 入门&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://www.thebyte.com.cn/content/chapter1/netfilter.html#iptables&#34;&gt;iptables 与 netfilter&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;iptables-四表五链&#34;&gt;iptables 四表五链&lt;/h2&gt;&#xA;&lt;p&gt;&lt;img src=&#34;https://www.arloor.com/img/iptables-packet-routing.png&#34; alt=&#34;alt text&#34;&gt;&lt;/p&gt;&#xA;&lt;h3 id=&#34;四表&#34;&gt;四表&lt;/h3&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;&#xA;&lt;p&gt;&lt;strong&gt;filter 表&lt;/strong&gt; - 默认表，主要用于过滤数据包。控制允许或拒绝数据包通过。&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Podman和Docker使用备忘</title>
       <link>https://www.arloor.com/posts/podman-docker-use/</link>

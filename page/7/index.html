@@ -10,7 +10,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.146.5">
+<meta name="generator" content="Hugo 0.146.7">
 
     
 
@@ -209,6 +209,175 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
         <div class="content container">
             
 <div class="post-list">
+  
+  
+  
+  
+  
+  <div class="post-list__item">
+    <span class="item__title--big">
+      <a href="/posts/notion/%E9%93%BE%E8%B7%AF%E8%BF%BD%E8%B8%AA%E4%B8%9A%E7%95%8C%E5%AF%B9%E6%A0%87/" >链路追踪业界对标</a>
+    </span>
+    <span class="item__date">
+      May 18, 2023
+    </span>
+    <span >
+      
+      <h1 id="链路追踪业界对标">链路追踪业界对标</h1>
+<table>
+  <thead>
+      <tr>
+          <th></th>
+          <th>阿里</th>
+          <th>腾讯</th>
+          <th>美团</th>
+          <th>SkyWalking</th>
+          <th>小红书</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>产品名称</td>
+          <td><a href="https://sls4service.console.aliyun.com/lognext/trace/qs-demos/sls-mall?resource=/trace/sls-mall/explorer&amp;isShare=true&amp;readOnly=true&amp;hideTopbar=true&amp;hiddenAppBread=true&amp;hiddenPSql=true&amp;hiddenEtl=true">SLS trace</a></td>
+          <td><a href="https://console.cloud.tencent.com/monitor/apm/system?from=now-15m&amp;to=now&amp;team=apm-ylTJfTSbn&amp;rid=1&amp;role=server">APM应用性能监控</a></td>
+          <td>Mtrace</td>
+          <td><a href="http://demo.skywalking.apache.org/">SkyWalking</a></td>
+          <td>Xray-trace</td>
+      </tr>
+      <tr>
+          <td>成本</td>
+          <td>低</td>
+          <td>较高</td>
+          <td>较低</td>
+          <td>高</td>
+          <td>较低</td>
+      </tr>
+      <tr>
+          <td>SLA</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>副本</td>
+          <td>三副本</td>
+          <td>三副本</td>
+          <td>三副本</td>
+          <td>可配置</td>
+          <td>单副本</td>
+      </tr>
+      <tr>
+          <td>语言支持</td>
+          <td>多语言(10种语言+)</td>
+          <td>Java、Go、Python、C++ 、PHP</td>
+          <td>java、go、C++</td>
+          <td>多语言</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>协议支持</td>
+          <td>支持OpenTelemetry、Jaeger、Zipkin协议接入</td>
+          <td>支持OpenTelemetry、Jaeger、SkyWalking协议接入</td>
+          <td>自研协议，主要借鉴pinpoint</td>
+          <td>自研协议+OpenTelemetry</td>
+          <td>自研协议</td>
+      </tr>
+      <tr>
+          <td>数据规范</td>
+          <td>OpenTelemetry Trace 1.0</td>
+          <td>OpenTracing协议</td>
+          <td>自研规范</td>
+          <td>自研规范</td>
+          <td>自研规范</td>
+      </tr>
+      <tr>
+          <td>弹性能力</td>
+          <td>强</td>
+          <td>强</td>
+          <td>较弱</td>
+          <td>较弱</td>
+          <td>较弱</td>
+      </tr>
+      <tr>
+          <td>底层存储</td>
+          <td>自研LogStore、MetricStore</td>
+          <td>ES</td>
+          <td>ClickHouse、HBase</td>
+          <td>ES</td>
+          <td>ClickHouse</td>
+      </tr>
+      <tr>
+          <td>异地多活</td>
+          <td>是</td>
+          <td>是</td>
+          <td>否</td>
+          <td>- 依赖部署架构</td>
+          <td>否</td>
+      </tr>
+      <tr>
+          <td>点查性能</td>
+          <td>高</td>
+          <td>高</td>
+          <td>高</td>
+          <td>高</td>
+          <td>较低</td>
+      </tr>
+      <tr>
+          <td>拓扑染色</td>
+          <td>不支持</td>
+          <td>不支持</td>
+          <td>支持</td>
+          <td>不支持</td>
+          <td>建设中</td>
+      </tr>
+      <tr>
+          <td>性能指标生成</td>
+          <td>支持</td>
+          <td>支持</td>
+          <td>不支持</td>
+          <td>支持</td>
+          <td>建设中</td>
+      </tr>
+      <tr>
+          <td>完整日志查看</td>
+          <td>支持</td>
+          <td>支持</td>
+          <td>支持</td>
+          <td>不完备</td>
+          <td>不支持</td>
+      </tr>
+      <tr>
+          <td>告警能力</td>
+          <td>支持</td>
+          <td>支持</td>
+          <td>不支持</td>
+          <td>不支持</td>
+          <td>不支持</td>
+      </tr>
+      <tr>
+          <td>慢事务智能分析</td>
+          <td>支持</td>
+          <td>不支持</td>
+          <td>不支持</td>
+          <td>不支持</td>
+          <td>不支持</td>
+      </tr>
+      <tr>
+          <td>Span粒度区分</td>
+          <td>无法区分</td>
+          <td>无法区分</td>
+          <td>可区分RPC级别/内部方法级别</td>
+          <td>无法区分</td>
+          <td>可区分RPC级别/内部方法级别</td>
+      </tr>
+  </tbody>
+</table>
+      
+    </span>
+    
+  </div>
   
   
   
@@ -433,27 +602,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     </span>
     
     ... <a class="read-more-symbol" href="/posts/zeiss-glasses/">➦</a>
-    
-  </div>
-  
-  
-  
-  
-  
-  <div class="post-list__item">
-    <span class="item__title--big">
-      <a href="/posts/years-after-graduation/" >毕业后的这四年</a>
-    </span>
-    <span class="item__date">
-      Mar 6, 2023
-    </span>
-    <span >
-      
-      <p>我即将在这个阳光明媚的春天离开美团，草草总结下毕业后的这四年。</p>
-      
-    </span>
-    
-    ... <a class="read-more-symbol" href="/posts/years-after-graduation/">➦</a>
     
   </div>
   

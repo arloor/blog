@@ -10,7 +10,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.146.5">
+<meta name="generator" content="Hugo 0.146.7">
 
     
 
@@ -216,6 +216,28 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   <div class="post-list__item">
     <span class="item__title--big">
+      <a href="/posts/kafka-learn/" >Kafka文档摘要</a>
+    </span>
+    <span class="item__date">
+      Oct 17, 2020
+    </span>
+    <span >
+      
+      <p><strong>用自己的语言组织kafka文档，如有错漏，纯属我菜，造成损失，概不负责</strong></p>
+<p>目标：看完<a href="https://kafka.apache.org/documentation/#design">DESIGN</a>、<a href="https://kafka.apache.org/documentation/#implementation">IMPLEMENTATION</a>、<a href="https://kafka.apache.org/documentation/#operations">OPERATIONS</a></p>
+      
+    </span>
+    
+    ... <a class="read-more-symbol" href="/posts/kafka-learn/">➦</a>
+    
+  </div>
+  
+  
+  
+  
+  
+  <div class="post-list__item">
+    <span class="item__title--big">
       <a href="/posts/mysql-explain/" >Mysql索引及explain使用</a>
     </span>
     <span class="item__date">
@@ -400,30 +422,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     </span>
     
     ... <a class="read-more-symbol" href="/posts/wait-notify-and-condition/">➦</a>
-    
-  </div>
-  
-  
-  
-  
-  
-  <div class="post-list__item">
-    <span class="item__title--big">
-      <a href="/posts/netty/select-register-nioeventloop/" >从register和accept的锁竞争问题到netty的nioEventLoop设计</a>
-    </span>
-    <span class="item__date">
-      Jun 5, 2020
-    </span>
-    <span >
-      
-      <p>今天在v2ex看到一个问题，<a href="https://v2ex.com/t/678682">NIO 如下代码怎么绕过死锁？还是说我写的不对？如下代码</a>，里面贴了代码。</p>
-<p>简单说明：创建了两个selector A和B，线程1使用A来accept连接，并且register到B上。同时，线程2使用B来select，处理读写事件。</p>
-<p>问题：select和register都要获取Selector publicKeys 的锁-&gt;虽然创建了线程1和2，但是还是要等待对方释放锁，所以这两个线程就没啥用，在以往的NIO实践中我也遇到过。解决这个问题很简单，生产者消费者模式就可以，线程1生产register请求，线程2消费register事件，真正执行在B上的register。反正一句话，同一个selector的register和select需要串行，并行不了（因为需要获取同一个锁）。</p>
-<p>上面只是引子，我想看看netty是如何处理这个细节的。关于netty的架构和设计，什么EventLoopGroup、EventLoop、Pipepline、ChannelHandler网上说的很多了。今天要做的是看netty如何封装java NIO的accept、register，如何进行select，下面开始。</p>
-      
-    </span>
-    
-    ... <a class="read-more-symbol" href="/posts/netty/select-register-nioeventloop/">➦</a>
     
   </div>
   
