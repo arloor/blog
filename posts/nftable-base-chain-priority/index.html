@@ -25,13 +25,13 @@
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Nftables基础链的优先级与默认策略">
-  <meta name="twitter:description" content="nftables wiki: Configuring chains Netfilter 架构与 iptables/ebtables 入门 iptables 与 netfilter iptables 四表五链 四表 filter 表 - 默认表，主要用于过滤数据包。控制允许或拒绝数据包通过。">
+  <meta name="twitter:description" content="nftables wiki: Configuring chains Netfilter 架构与 iptables/ebtables 入门 iptables 与 netfilter">
       <meta name="twitter:site" content="@njulgh">
 
 <meta property="og:url" content="https://www.arloor.com/posts/nftable-base-chain-priority/">
   <meta property="og:site_name" content="ARLOOR">
   <meta property="og:title" content="Nftables基础链的优先级与默认策略">
-  <meta property="og:description" content="nftables wiki: Configuring chains Netfilter 架构与 iptables/ebtables 入门 iptables 与 netfilter iptables 四表五链 四表 filter 表 - 默认表，主要用于过滤数据包。控制允许或拒绝数据包通过。">
+  <meta property="og:description" content="nftables wiki: Configuring chains Netfilter 架构与 iptables/ebtables 入门 iptables 与 netfilter">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
@@ -427,12 +427,11 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </ul>
 <h2 id="acceptdeny-策略">accept/deny 策略</h2>
 <ul>
-<li>accept：表示继续后续的判断（并不代表放行该packet）</li>
+<li>accept：表示继续后续的判断（并不代表放行该 packet）</li>
 <li>deny： 表示立即拒绝，并且不再执行后续的判断</li>
 </ul>
-<p>这意味着如果有两条type、hook相同的链，无论哪个链的优先级高，只要其中一个链中该packet被accept（无论是chain的默认策略，还是命中某个rule），但另一个链中该packet被drop。这个packet依然会被drop。</p>
+<p>这意味着如果有两条 type、hook 相同的链，无论哪个链的优先级高，只要其中一个链中该 packet 被 accept（无论是 chain 的默认策略，还是命中某个 rule），但另一个链中该 packet 被 drop。这个 packet 依然会被 drop。</p>
 <p>详见：<a href="https://wiki.nftables.org/wiki-nftables/index.php/Configuring_chains#Base_chain_priority">nftables wiki: Base_chain_priority</a></p>
-
   </div>
   
 
