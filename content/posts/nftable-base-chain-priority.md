@@ -17,6 +17,8 @@ highlightjslanguages:
 - [Netfilter 架构与 iptables/ebtables 入门](https://mp.weixin.qq.com/s/uzuRM9YHkKeyO6RC7XSdPQ)
 - [iptables 与 netfilter](https://www.thebyte.com.cn/content/chapter1/netfilter.html#iptables)
 
+<!--more-->
+
 ## iptables 四表五链
 
 ![alt text](/img/iptables-packet-routing.png)
@@ -123,9 +125,9 @@ nftables 中的`type`是链的一个关键属性，定义了链的类型和挂�
 
 ## accept/deny 策略
 
-- accept：表示继续后续的判断（并不代表放行该packet）
+- accept：表示继续后续的判断（并不代表放行该 packet）
 - deny： 表示立即拒绝，并且不再执行后续的判断
 
-这意味着如果有两条type、hook相同的链，无论哪个链的优先级高，只要其中一个链中该packet被accept（无论是chain的默认策略，还是命中某个rule），但另一个链中该packet被drop。这个packet依然会被drop。
+这意味着如果有两条 type、hook 相同的链，无论哪个链的优先级高，只要其中一个链中该 packet 被 accept（无论是 chain 的默认策略，还是命中某个 rule），但另一个链中该 packet 被 drop。这个 packet 依然会被 drop。
 
 详见：[nftables wiki: Base_chain_priority](https://wiki.nftables.org/wiki-nftables/index.php/Configuring_chains#Base_chain_priority)
