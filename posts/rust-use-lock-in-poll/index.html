@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.146.7">
+<meta name="generator" content="Hugo 0.147.3">
 
     
     
@@ -333,14 +333,14 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">loop</span> {
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Some(_guard) <span style="color:#f92672">=</span> this.guard.as_mut() {
-</span></span><span style="display:flex;"><span>                todo!()
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">todo!</span>()
 </span></span><span style="display:flex;"><span>            } <span style="color:#66d9ef">else</span> { 
 </span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">match</span> this.fut.as_mut() {
 </span></span><span style="display:flex;"><span>                    None <span style="color:#f92672">=</span>{
 </span></span><span style="display:flex;"><span>                        this.fut.replace(this.inner.lock_owned());
 </span></span><span style="display:flex;"><span>                    }
 </span></span><span style="display:flex;"><span>                    Some(fut) <span style="color:#f92672">=</span>{
-</span></span><span style="display:flex;"><span>                        <span style="color:#66d9ef">let</span> guard <span style="color:#f92672">=</span> futures_core::ready!(Pin::new(fut).poll(cx));
+</span></span><span style="display:flex;"><span>                        <span style="color:#66d9ef">let</span> guard <span style="color:#f92672">=</span> futures_core::<span style="color:#a6e22e">ready!</span>(Pin::new(fut).poll(cx));
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>                        this.guard.replace(guard);
 </span></span><span style="display:flex;"><span>                    }

@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.146.7">
+<meta name="generator" content="Hugo 0.147.3">
 
     
     
@@ -315,7 +315,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <h3 id="查询宏-query_as">查询宏 <code>query_as!</code></h3>
 <p>可以自定义struct name，前提是struct需要derive FromRow</p>
 <h2 id="整体使用">整体使用</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span>info!(<span style="color:#e6db74">&#34;connecting to mysql...&#34;</span>);
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#a6e22e">info!</span>(<span style="color:#e6db74">&#34;connecting to mysql...&#34;</span>);
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> pool: <span style="color:#a6e22e">sqlx</span>::Pool<span style="color:#f92672">&lt;</span>sqlx::MySql<span style="color:#f92672">&gt;</span> <span style="color:#f92672">=</span> MySqlPoolOptions::new()
 </span></span><span style="display:flex;"><span>    .max_connections(<span style="color:#ae81ff">20</span>)
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// .connect(&#34;mysql://user:passwprd@host:3306/test?ssl-mode=Required&amp;timezone=%2B08:00&#34;) // timezone参数在url中目前无效，合码了但是未发新版
@@ -337,32 +337,32 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">// ===============使用MySqlConnection========================
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">select_variables</span>(conn: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">mut</span> sqlx::MySqlConnection) -&gt; Result<span style="color:#f92672">&lt;</span>(), DynError<span style="color:#f92672">&gt;</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> rows <span style="color:#f92672">=</span> sqlx::query!(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#34;show variables like &#39;%time_zone%&#39;;&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> rows <span style="color:#f92672">=</span> sqlx::<span style="color:#a6e22e">query!</span>(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#34;show variables like &#39;%time_zone%&#39;;&#34;</span>)
 </span></span><span style="display:flex;"><span>        .fetch_all(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> <span style="color:#f92672">*</span>conn)<span style="color:#75715e">// 触发copy，从而复用connection
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        .<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> row <span style="color:#66d9ef">in</span> rows {
-</span></span><span style="display:flex;"><span>        info!(<span style="color:#e6db74">&#34;mysql variable: {:?}&#34;</span>, row);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">info!</span>(<span style="color:#e6db74">&#34;mysql variable: {:?}&#34;</span>, row);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> rows <span style="color:#f92672">=</span> sqlx::query!(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#34;select now() as now_local, now() as now_naive, now() as now_utc;&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> rows <span style="color:#f92672">=</span> sqlx::<span style="color:#a6e22e">query!</span>(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#34;select now() as now_local, now() as now_naive, now() as now_utc;&#34;</span>)
 </span></span><span style="display:flex;"><span>        .fetch_all(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> <span style="color:#f92672">*</span>conn)<span style="color:#75715e">// 触发copy，从而复用connection
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        .<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> row <span style="color:#66d9ef">in</span> rows {
-</span></span><span style="display:flex;"><span>        info!(<span style="color:#e6db74">&#34;select now(): {:?}&#34;</span>, row);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">info!</span>(<span style="color:#e6db74">&#34;select now(): {:?}&#34;</span>, row);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> rows <span style="color:#f92672">=</span> sqlx::query!(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#34;SHOW SESSION STATUS WHERE Variable_name = &#39;Ssl_cipher&#39;;&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> rows <span style="color:#f92672">=</span> sqlx::<span style="color:#a6e22e">query!</span>(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#34;SHOW SESSION STATUS WHERE Variable_name = &#39;Ssl_cipher&#39;;&#34;</span>)
 </span></span><span style="display:flex;"><span>        .fetch_all(conn)
 </span></span><span style="display:flex;"><span>        .<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> row <span style="color:#66d9ef">in</span> rows {
-</span></span><span style="display:flex;"><span>        info!(<span style="color:#e6db74">&#34;mysql variable: {:?}&#34;</span>, row);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">info!</span>(<span style="color:#e6db74">&#34;mysql variable: {:?}&#34;</span>, row);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    Ok(())
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">// ===============直接使用mysql pool======================
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">let</span> result <span style="color:#f92672">=</span> sqlx::query!(
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">let</span> result <span style="color:#f92672">=</span> sqlx::<span style="color:#a6e22e">query!</span>(
 </span></span><span style="display:flex;"><span>                    <span style="color:#e6db74">r</span><span style="color:#e6db74">#&#34;
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                    INSERT INTO stock_rank_changes (
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                        market, code, name, bankuai, calc_time, current_rank, ten_minute_change, 
@@ -397,10 +397,10 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">match</span> result {
 </span></span><span style="display:flex;"><span>            Ok(_) <span style="color:#f92672">=&gt;</span> {
-</span></span><span style="display:flex;"><span>                debug!(<span style="color:#e6db74">&#34;插入 stock_rank_changes 成功&#34;</span>);
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">debug!</span>(<span style="color:#e6db74">&#34;插入 stock_rank_changes 成功&#34;</span>);
 </span></span><span style="display:flex;"><span>            }
 </span></span><span style="display:flex;"><span>            Err(e) <span style="color:#f92672">=&gt;</span> {
-</span></span><span style="display:flex;"><span>                warn!(<span style="color:#e6db74">&#34;插入 stock_rank_changes 失败： {}&#34;</span>, e);
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">warn!</span>(<span style="color:#e6db74">&#34;插入 stock_rank_changes 失败： {}&#34;</span>, e);
 </span></span><span style="display:flex;"><span>            }
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>
@@ -408,7 +408,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>						<span style="color:#66d9ef">match</span> self.mysql_pool.acquire().<span style="color:#66d9ef">await</span> {
 </span></span><span style="display:flex;"><span>                <span style="color:#75715e">// 将data根据时间排序
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                Ok(<span style="color:#66d9ef">mut</span> conn) <span style="color:#f92672">=&gt;</span> {
-</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">let</span> result<span style="color:#f92672">=</span> sqlx::query!(
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">let</span> result<span style="color:#f92672">=</span> sqlx::<span style="color:#a6e22e">query!</span>(
 </span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">r</span><span style="color:#e6db74">#&#34;
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                        INSERT INTO rank_record (hot_rank_score, inner_code, his_rank_change_rank, market_all_count, calc_time, his_rank_change, src_security_code, `rank`, hour_rank_change, rank_change)
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -431,11 +431,11 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>                            self.insert_history.insert(history_key, record.calc_time);
 </span></span><span style="display:flex;"><span>                        }
 </span></span><span style="display:flex;"><span>                        Err(e) <span style="color:#f92672">=&gt;</span> {
-</span></span><span style="display:flex;"><span>                            warn!(<span style="color:#e6db74">&#34;插入失败： {}&#34;</span>, e);
+</span></span><span style="display:flex;"><span>                            <span style="color:#a6e22e">warn!</span>(<span style="color:#e6db74">&#34;插入失败： {}&#34;</span>, e);
 </span></span><span style="display:flex;"><span>                        }
 </span></span><span style="display:flex;"><span>                    }
 </span></span><span style="display:flex;"><span>                }
-</span></span><span style="display:flex;"><span>                Err(e) <span style="color:#f92672">=&gt;</span> warn!(<span style="color:#e6db74">&#34;获取连接失败 {}&#34;</span>, e),
+</span></span><span style="display:flex;"><span>                Err(e) <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">warn!</span>(<span style="color:#e6db74">&#34;获取连接失败 {}&#34;</span>, e),
 </span></span><span style="display:flex;"><span>            }
 </span></span></code></pre></div><h2 id="参考文档">参考文档</h2>
 <ol>
