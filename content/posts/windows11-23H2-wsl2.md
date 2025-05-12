@@ -294,7 +294,7 @@ ws.run "wsl -d Debian /usr/local/bin/keepalive", 0
 %userprofile%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
 ```
 
-或者使用windows的任务计划程序设置为用户登录时自动运行：
+或者使用windows的任务计划程序设置为用户登录时自动运行，参考[实现 WSL 2 开机免登录自动启动](https://www.sjdhome.com/blog/post/wsl2-auto-start/ )：
 
 ![alt text](/img/task-scheduler-keep-wsl-1.png)
 ![alt text](/img/task-scheduler-keep-wsl-2.png)
