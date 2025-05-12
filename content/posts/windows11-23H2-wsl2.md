@@ -268,7 +268,7 @@ ws.run "wsl -d Debian", 0
 keepalive命令：
 
 ```bash
-cat > /usr/local/bin/keepalive <<\EOF
+cat > /usr/local/bin/keepalive <<'EOF'
 command="watch -n 30 'uptime |head -n 3 | tee /tmp/uptime'"
 ps -ef|grep "${command}"|grep -v grep
 if [ $? -ne 0 ]
@@ -293,6 +293,12 @@ ws.run "wsl -d Debian /usr/local/bin/keepalive", 0
 ```bash
 %userprofile%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
 ```
+
+或者使用windows的任务计划程序设置为用户登录时自动运行：
+
+![alt text](/img/task-scheduler-keep-wsl-1.png)
+![alt text](/img/task-scheduler-keep-wsl-2.png)
+
 
 ## 卸载发行版
 
