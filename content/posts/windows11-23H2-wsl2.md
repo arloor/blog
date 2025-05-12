@@ -298,6 +298,7 @@ ws.run "wsl -d Debian /usr/local/bin/keepalive", 0
 
 ![alt text](/img/task-scheduler-keep-wsl-1.png)
 ![alt text](/img/task-scheduler-keep-wsl-2.png)
+![alt text](/img/task-scheduler-keep-wsl-3.png)
 
 
 ## 卸载发行版
