@@ -251,7 +251,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     
     
     <br/>
-    <i class="fas fa-clock"></i> 9 min read
+    <i class="fas fa-clock"></i> 10 min read
 </div>
 
 
@@ -472,7 +472,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>sudo update-ca-certificates
 </span></span></code></pre></div><h2 id="docker和podman">docker和podman</h2>
 <ul>
-<li>如果你遇到 docker 无法从 Windows 访问的问题，这个是 iptables 的问题，在 /etc/docker/daemon.json 里添加一句 &ldquo;iptables&rdquo;: false 就好了。</li>
+<li>如果你遇到 docker 无法从 Windows 访问的问题，这个是 iptables 的问题，在 /etc/docker/daemon.json 里添加一句 &ldquo;iptables&rdquo;: false 就好了。参考文档：<a href="https://www.sulinehk.com/post/fix-docker-connection-issues-in-wsl2-mirrored-networking-mode/#%E6%96%B9%E6%B3%95-2">修复 WSL2 镜像网络模式下无法连接 Docker 的问题</a></li>
 </ul>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span><span style="color:#f92672">&#34;iptables&#34;</span>: <span style="color:#66d9ef">false</span>
@@ -480,6 +480,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><ul>
 <li>podman容器需要设置 <code>--network host</code>，否则其他容器访问会报错 no route to host。</li>
 </ul>
+<p>也可以在 <code>.wslconfig</code> 的 <code>[experimental]</code> 章节设置 <code>ignoredPorts</code> 来让镜像网络模式跳过这些需要被docker转发的端口。</p>
 <h2 id="参考文档">参考文档</h2>
 <ul>
 <li><a href="https://www.ryanshang.com/2024/01/06/WSL2%E8%AE%BE%E7%BD%AE%E9%95%9C%E5%83%8F%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%BC%8F/">WSL2设置镜像网络模式</a></li>
