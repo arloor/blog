@@ -241,7 +241,7 @@ docker run -d --restart=always --network host --name registry \
             -e http_proxy="http://localhost:3128" -e https_proxy="http://localhost:3128" \
             -e HTTP_PROXY="http://localhost:3128" -e HTTPS_PROXY="http://localhost:3128" \
             -v /etc/distribution/config.yml:/etc/distribution/config.yml \
-            registry:3.0.0-rc.4 /etc/distribution/config.yml
+            registry:3 /etc/distribution/config.yml
 docker logs -f registry
 ```
 
