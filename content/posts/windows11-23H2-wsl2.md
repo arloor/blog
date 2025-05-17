@@ -219,7 +219,7 @@ sudo update-ca-certificates
 
 ## docker和podman
 
-- 如果你遇到 docker 无法从 Windows 访问的问题，这个是 iptables 的问题，在 /etc/docker/daemon.json 里添加一句 "iptables": false 就好了。参考文档：[修复 WSL2 镜像网络模式下无法连接 Docker 的问题](https://www.sulinehk.com/post/fix-docker-connection-issues-in-wsl2-mirrored-networking-mode/#%E6%96%B9%E6%B3%95-2)
+- 如果你遇到 docker 无法从 Windows 访问的问题。首先确保docker版本在27.3.0以上，这个版本修复了这个问题，见[[27.x backport] Do not DNAT packets from WSL2's loopback0](https://github.com/moby/moby/pull/48514/files#diff-aa946998315144e84ceffe7bd84918fd8d34183af1cae444ce90e2b620ec8371)。如果不能升级docker的话，可以在 /etc/docker/daemon.json 里添加一句 "iptables": false，然后重启docker daemon
     
 ```json
 {
@@ -228,8 +228,6 @@ sudo update-ca-certificates
 ```
 
 - podman容器需要设置 `--network host`，否则其他容器访问会报错 no route to host。
-
-也可以在 `.wslconfig` 的 `[experimental]` 章节设置 `ignoredPorts` 来让镜像网络模式跳过这些需要被docker转发的端口。
 
 ## 参考文档
 
