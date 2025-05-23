@@ -27,8 +27,8 @@ curl -Lf https://nodejs.org/dist/v20.18.0/node-v20.18.0-linux-x64.tar.xz -o /tmp
 apt-get install xz-utils -y
 tar -xvf /tmp/node-v20.18.0-linux-x64.tar.xz -C /usr/local
 export PATH=$PATH:/usr/local/node-v20.18.0-linux-x64/bin
-echo "export PATH=$PATH:/usr/local/node-v20.18.0-linux-x64/bin" >> /etc/profile
-echo "export PATH=$PATH:/usr/local/node-v20.18.0-linux-x64/bin" >> /etc/zshrc
+echo 'export PATH=$PATH:/usr/local/node-v20.18.0-linux-x64/bin' >> /etc/profile
+echo 'export PATH=$PATH:/usr/local/node-v20.18.0-linux-x64/bin' >> /etc/zshrc
 node -v&&npm -v
 ```
 
