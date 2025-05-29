@@ -278,5 +278,5 @@ EOF
 ```bash
 $ podman login quay.io -u arloor -p ${token}
 Login Succeeded!
-$ cat /run/user/0/containers/auth.json
+$ cat /run/user/0/containers/auth.json #密码在此
 ```
