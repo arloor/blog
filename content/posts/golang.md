@@ -17,12 +17,27 @@ highlightjslanguages:
 
 <!--more-->
 
-## 安装 golang (linux-amd64)
+## 安装 golang 
+
+### linux-amd64
 
 ```bash
 version=1.22.12
-curl https://go.dev/dl/go${version}.linux-amd64.tar.gz -Lf -o /tmp/golang.tar.gz
+curl "https://go.dev/dl/go${version}.linux-amd64.tar.gz" -Lf -o /tmp/golang.tar.gz
 rm -rf /usr/local/go && tar -C /usr/local -xzf /tmp/golang.tar.gz
+if ! grep "go/bin" ~/.zshrc;then
+  export PATH=$PATH:/usr/local/go/bin
+  echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.zshrc
+fi
+```
+
+### darwin-arm64
+
+```bash
+version=1.22.12
+sudo rm -f /tmp/golang.tar.gz
+curl "https://go.dev/dl/go${version}.darwin-arm64.tar.gz" -Lf -o /tmp/golang.tar.gz
+sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf /tmp/golang.tar.gz
 if ! grep "go/bin" ~/.zshrc;then
   export PATH=$PATH:/usr/local/go/bin
   echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.zshrc
