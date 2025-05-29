@@ -20,7 +20,7 @@ highlightjslanguages:
 ## 安装 golang (linux-amd64)
 
 ```bash
-version=1.22.6
+version=1.22.12
 curl https://go.dev/dl/go${version}.linux-amd64.tar.gz -Lf -o /tmp/golang.tar.gz
 rm -rf /usr/local/go && tar -C /usr/local -xzf /tmp/golang.tar.gz
 if ! grep "go/bin" ~/.zshrc;then
