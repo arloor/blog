@@ -281,6 +281,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
       </ul>
     </li>
     <li><a href="#docker-hub-pull-through-cache">Docker Hub pull-through cache</a></li>
+    <li><a href="#podman保存密码">podman保存密码</a></li>
   </ul>
 </nav>
       
@@ -490,6 +491,10 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">location = &#34;ttl.arloor.com:6666&#34;  # 你的镜像加速地址
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">insecure = true  # 如果镜像站使用HTTP而非HTTPS，设为true
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span></code></pre></div><h2 id="podman保存密码">podman保存密码</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ podman login quay.io -u arloor -p <span style="color:#e6db74">${</span>token<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>Login Succeeded!
+</span></span><span style="display:flex;"><span>$ cat /run/user/0/containers/auth.json
 </span></span></code></pre></div>
   </div>
   
