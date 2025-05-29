@@ -31,6 +31,18 @@ fi
 
 或者到[https://go.dev/dl/](https://go.dev/dl/)下载安装包安装
 
+### 安装多版本
+
+```bash
+go install golang.org/dl/go1.24.3@latest
+go1.24.3 download
+go1.24.3 version
+
+which go1.24.3
+go1.24.3 env GOROOT # GOROOT=~/sdk/go1.24.3
+ls -lh ~/go/bin/go1.24.3
+```
+
 ## 设置私有仓库等 golang 环境变量
 
 ```bash
