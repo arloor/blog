@@ -272,3 +272,11 @@ location = "ttl.arloor.com:6666"  # 你的镜像加速地址
 insecure = true  # 如果镜像站使用HTTP而非HTTPS，设为true
 EOF
 ```
+
+## podman保存密码
+
+```bash
+$ podman login quay.io -u arloor -p ${token}
+Login Succeeded!
+$ cat /run/user/0/containers/auth.json
+```
