@@ -265,8 +265,10 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
       
           <nav id="TableOfContents">
   <ul>
-    <li><a href="#安装-golang-linux-amd64">安装 golang (linux-amd64)</a>
+    <li><a href="#安装-golang">安装 golang</a>
       <ul>
+        <li><a href="#linux-amd64">linux-amd64</a></li>
+        <li><a href="#darwin-arm64">darwin-arm64</a></li>
         <li><a href="#安装多版本">安装多版本</a></li>
       </ul>
     </li>
@@ -287,10 +289,20 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   <div class="post">
     <p>以后可能以 golang 谋生一段时间了，开个 golang 的笔记</p>
-<h2 id="安装-golang-linux-amd64">安装 golang (linux-amd64)</h2>
+<h2 id="安装-golang">安装 golang</h2>
+<h3 id="linux-amd64">linux-amd64</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>version<span style="color:#f92672">=</span>1.22.12
-</span></span><span style="display:flex;"><span>curl https://go.dev/dl/go<span style="color:#e6db74">${</span>version<span style="color:#e6db74">}</span>.linux-amd64.tar.gz -Lf -o /tmp/golang.tar.gz
+</span></span><span style="display:flex;"><span>curl <span style="color:#e6db74">&#34;https://go.dev/dl/go</span><span style="color:#e6db74">${</span>version<span style="color:#e6db74">}</span><span style="color:#e6db74">.linux-amd64.tar.gz&#34;</span> -Lf -o /tmp/golang.tar.gz
 </span></span><span style="display:flex;"><span>rm -rf /usr/local/go <span style="color:#f92672">&amp;&amp;</span> tar -C /usr/local -xzf /tmp/golang.tar.gz
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ! grep <span style="color:#e6db74">&#34;go/bin&#34;</span> ~/.zshrc;<span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>  export PATH<span style="color:#f92672">=</span>$PATH:/usr/local/go/bin
+</span></span><span style="display:flex;"><span>  echo <span style="color:#e6db74">&#39;export PATH=$PATH:/usr/local/go/bin&#39;</span> &gt;&gt; ~/.zshrc
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span></code></pre></div><h3 id="darwin-arm64">darwin-arm64</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>version<span style="color:#f92672">=</span>1.22.12
+</span></span><span style="display:flex;"><span>sudo rm -f /tmp/golang.tar.gz
+</span></span><span style="display:flex;"><span>curl <span style="color:#e6db74">&#34;https://go.dev/dl/go</span><span style="color:#e6db74">${</span>version<span style="color:#e6db74">}</span><span style="color:#e6db74">.darwin-arm64.tar.gz&#34;</span> -Lf -o /tmp/golang.tar.gz
+</span></span><span style="display:flex;"><span>sudo rm -rf /usr/local/go <span style="color:#f92672">&amp;&amp;</span> sudo tar -C /usr/local -xzf /tmp/golang.tar.gz
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ! grep <span style="color:#e6db74">&#34;go/bin&#34;</span> ~/.zshrc;<span style="color:#66d9ef">then</span>
 </span></span><span style="display:flex;"><span>  export PATH<span style="color:#f92672">=</span>$PATH:/usr/local/go/bin
 </span></span><span style="display:flex;"><span>  echo <span style="color:#e6db74">&#39;export PATH=$PATH:/usr/local/go/bin&#39;</span> &gt;&gt; ~/.zshrc
