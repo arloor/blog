@@ -295,7 +295,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     <li><a href="#安装helm">安装helm</a></li>
     <li><a href="#安装-kubernetes-dashboard">安装 kubernetes-dashboard</a></li>
     <li><a href="#配置-kubernetes-dashboard-的-traefik-ingress">配置 kubernetes-dashboard 的 traefik ingress</a></li>
-    <li><a href="#配置私有镜像仓库">配置私有镜像仓库</a></li>
+    <li><a href="#配置私有镜像仓库-使用pull-through-cache">配置私有镜像仓库 使用pull-through cache</a></li>
   </ul>
 </nav>
       
@@ -768,11 +768,11 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                port:
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                  number: 8000
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
-</span></span></code></pre></div><h2 id="配置私有镜像仓库">配置私有镜像仓库</h2>
+</span></span></code></pre></div><h2 id="配置私有镜像仓库-使用pull-through-cache">配置私有镜像仓库 使用pull-through cache</h2>
 <p><a href="https://docs.k3s.io/installation/private-registry#with-tls">https://docs.k3s.io/installation/private-registry#with-tls</a></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; /etc/rancher/k3s/registries.yaml <span style="color:#e6db74">&lt;&lt;EOF
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">mirrors:
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  ttl.arloor.com:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  docker.io:
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    endpoint:
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      - &#34;http://ttl.arloor.com:6666&#34;
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
