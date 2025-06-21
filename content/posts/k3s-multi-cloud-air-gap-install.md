@@ -409,13 +409,15 @@ systemctl restart k3s-agent.service
 
 在家用小主机上使用
 
+## 安装k3s
+
 ```bash
 version=$(curl -s https://api.github.com/repos/k3s-io/k3s/releases/latest | jq -r '.tag_name')
 version_url_encoded=$(echo $version | sed 's/+/%2B/g' | sed 's/\//\\\//g')
 echo 安装 k3s 版本 $version
 mkdir -p /var/lib/rancher/k3s/agent/images/
-curl -L -o /var/lib/rancher/k3s/agent/images/k3s-airgap-images-amd64.tar.zst "https://github.com/k3s-io/k3s/releases/download/${version_url_encoded}/k3s-airgap-images-amd64.tar.zst"
-curl -L -o /tmp/k3s "https://github.com/k3s-io/k3s/releases/download/${version_url_encoded}/k3s"
+curl -L -o /var/lib/rancher/k3s/agent/images/k3s-airgap-images-amd64.tar.zst "https://us.arloor.dev/https://github.com/k3s-io/k3s/releases/download/${version_url_encoded}/k3s-airgap-images-amd64.tar.zst"
+curl -L -o /tmp/k3s "https://us.arloor.dev/https://github.com/k3s-io/k3s/releases/download/${version_url_encoded}/k3s"
 install /tmp/k3s /usr/local/bin/
 
 
@@ -428,46 +430,159 @@ CONTAINERD_NO_PROXY=127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16 \
 K3S_TOKEN=12345 \
 INSTALL_K3S_SKIP_DOWNLOAD=true \
 ./k3s_init.sh
-watch kubectl get pod -A
+cp -f /etc/rancher/k3s/k3s.yaml ~/.kube/config # 复制 kubeconfig 到默认位置
+kubectl get pod -A --watch --output wide
 ```
-输出：
+
+## 安装helm
+
+[Installing Helm](https://helm.sh/docs/intro/install/)
 
 ```bash
-安装 k3s 版本 v1.33.1+k3s1
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
-100  145M  100  145M    0     0  19.7M      0  0:00:07  0:00:07 --:--:-- 31.2M
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0
-100 71.0M  100 71.0M    0     0  13.9M      0  0:00:05  0:00:05 --:--:-- 22.1M
+curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+```
 
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-100 36557  100 36557    0     0  20115      0  0:00:01  0:00:01 --:--:-- 20108
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-100    13  100    13    0     0     23      0 --:--:-- --:--:-- --:--:--    23
-[INFO]  Skipping k3s download and verify
-[INFO]  Skipping installation of SELinux RPM
-[INFO]  Creating /usr/local/bin/kubectl symlink to k3s
-[INFO]  Creating /usr/local/bin/crictl symlink to k3s
-[INFO]  Creating /usr/local/bin/ctr symlink to k3s
-[INFO]  Creating killall script /usr/local/bin/k3s-killall.sh
-[INFO]  Creating uninstall script /usr/local/bin/k3s-uninstall.sh
-[INFO]  env: Creating environment file /etc/systemd/system/k3s.service.env
-[INFO]  systemd: Creating service file /etc/systemd/system/k3s.service
-[INFO]  systemd: Enabling k3s unit
-Created symlink '/etc/systemd/system/multi-user.target.wants/k3s.service' → '/etc/systemd/system/k3s.service'.
-[INFO]  systemd: Starting k3s
+## 安装 kubernetes-dashboard
 
-NAMESPACE     NAME                                      READY   STATUS      RESTARTS   AGE
-kube-system   coredns-697968c856-nfvz9                  1/1     Running     0          21s
-kube-system   helm-install-traefik-crd-x4lsh            0/1     Completed   0          21s
-kube-system   helm-install-traefik-tdhh2                0/1     Completed   1          21s
-kube-system   local-path-provisioner-774c6665dc-7t2sl   1/1     Running     0          21s
-kube-system   metrics-server-6f4c6675d5-pfvmr           1/1     Running     0          21s
-kube-system   svclb-traefik-5e76e7e7-ch9t8              2/2     Running     0          20s
-kube-system   traefik-c98fdf6fb-5nfkv                   1/1     Running     0          20s
+```bash
+helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
+helm repo update
+helm search repo kubernetes-dashboard -l 
+helm show values kubernetes-dashboard/kubernetes-dashboard --version 7.13.0 > /tmp/values.yaml
+helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --create-namespace --namespace kubernetes-dashboard --set kong.enabled=false
+# 临时访问
+kubectl -n kubernetes-dashboard port-forward --address 0.0.0.0 svc/kubernetes-dashboard-kong-proxy 8443:443
+```
+
+## 配置 kubernetes-dashboard 的 traefik ingress
+
+- [How to to configure Ingress when deploying on K3S with Traefik? #9554](https://github.com/kubernetes/dashboard/issues/9554)
+- [Traefik & Kubernetes with Ingress](https://doc.traefik.io/traefik/reference/routing-configuration/kubernetes/ingress/)
+- [Middleware](https://doc.traefik.io/traefik/reference/routing-configuration/kubernetes/crd/http/middleware/)
+
+1. Middleware that will redirect http to https
+2. Ingress for the http
+3. Actual ingress on https
+
+```bash
+host=k3s.arloor.com
+kubectl apply -f - <<EOF
+# 创建k3s-arloor-tls secret
+apiVersion: v1
+kind: Secret
+metadata:
+  # secret名
+  name: k3s-arloor-tls
+  # 证书放置的namespace
+  namespace: kubernetes-dashboard
+type: kubernetes.io/tls
+data:
+  tls.crt: $(cat /root/.acme.sh/arloor.dev/fullchain.cer | base64 -w 0)
+  tls.key: $(cat /root/.acme.sh/arloor.dev/arloor.dev.key| base64 -w 0)
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: dashboard-http-redirect
+  namespace: kubernetes-dashboard
+spec:
+  redirectScheme:
+    scheme: https
+    permanent: true
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: dashboard-http-redirect
+  namespace: kubernetes-dashboard
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web
+    # MUST be <namespace>-<name>@kubernetescrd
+    traefik.ingress.kubernetes.io/router.middlewares: kubernetes-dashboard-dashboard-http-redirect@kubernetescrd
+spec:
+  rules:
+  - host: ${host}
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: kubernetes-dashboard-web
+            port:
+              number: 8000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: dashboard-https
+  namespace: kubernetes-dashboard
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+spec:
+  tls:
+  - hosts:
+    - ${host}
+    secretName: k3s-arloor-tls
+  rules:
+    - host: ${host}
+      http:
+        paths:
+          - path: /api/v1/login
+            pathType: Prefix
+            backend:
+              service:
+                name: kubernetes-dashboard-auth
+                port:
+                  number: 8000
+          - path: /api/v1/csrftoken/login
+            pathType: Prefix
+            backend:
+              service:
+                name: kubernetes-dashboard-auth
+                port:
+                  number: 8000
+          - path: /api/v1/me
+            pathType: Prefix
+            backend:
+              service:
+                name: kubernetes-dashboard-auth
+                port:
+                  number: 8000
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: kubernetes-dashboard-api
+                port:
+                  number: 8000
+          - path: /metrics
+            pathType: Prefix
+            backend:
+              service:
+                name: kubernetes-dashboard-api
+                port:
+                  number: 8000
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: kubernetes-dashboard-web
+                port:
+                  number: 8000
+EOF
+```
+
+## 配置私有镜像仓库
+
+https://docs.k3s.io/installation/private-registry#with-tls
+
+```bash
+cat > /etc/rancher/k3s/registries.yaml <<EOF
+mirrors:
+  ttl.arloor.com:
+    endpoint:
+      - "http://ttl.arloor.com:6666"
+EOF
 ```
