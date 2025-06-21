@@ -586,3 +586,5 @@ mirrors:
       - "http://ttl.arloor.com:6666"
 EOF
 ```
+
+重启k3s服务生效
