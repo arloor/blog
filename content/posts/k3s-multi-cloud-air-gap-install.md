@@ -574,14 +574,14 @@ spec:
 EOF
 ```
 
-## 配置私有镜像仓库
+## 配置私有镜像仓库 使用pull-through cache
 
 https://docs.k3s.io/installation/private-registry#with-tls
 
 ```bash
 cat > /etc/rancher/k3s/registries.yaml <<EOF
 mirrors:
-  ttl.arloor.com:
+  docker.io:
     endpoint:
       - "http://ttl.arloor.com:6666"
 EOF
