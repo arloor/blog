@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.147.6">
+<meta name="generator" content="Hugo 0.147.8">
 
     
     
@@ -25,15 +25,15 @@
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="K3S多云环境下的离线部署">
-  <meta name="twitter:description" content="这几天把k8s折腾了个遍，个人觉得k3s更适合我，主要有五个优势
-类似springboot的“约定优于配置”，就是默认给你一个开箱即用的东西，如果需要，再进行修改。而不是k8s那样样样要你配置 内置LoadBalancer实现，而不是像k8s那样没有LoadBalancer实现，导致裸机安装情况下得用NodePort、HostPort、HostNetwork来暴露服务，或者安装Metallb。 可以轻松的支持多云环境，对我这种有多个云厂商vps的玩家很友好 资源消耗较少。虽然节点增加后，控制面的内存压力也不小 文档docs.k3s.io很清晰。PS：不要看中文版的文档，也不要看rancher中国的文档，垃圾">
+  <meta name="twitter:description" content="这几天把 k8s 折腾了个遍，个人觉得 k3s 更适合我，主要有五个优势
+类似 springboot 的“约定优于配置”，就是默认给你一个开箱即用的东西，如果需要，再进行修改。而不是 k8s 那样样样要你配置 内置LoadBalancer 实现，而不是像 k8s 那样没有 LoadBalancer 实现，导致裸机安装情况下得用 NodePort、HostPort、HostNetwork 来暴露服务，或者安装 Metallb。 可以轻松的支持多云环境，对我这种有多个云厂商 vps 的玩家很友好 资源消耗较少。虽然节点增加后，控制面的内存压力也不小 文档docs.k3s.io很清晰。PS：不要看中文版的文档，也不要看 rancher 中国的文档，垃圾">
       <meta name="twitter:site" content="@njulgh">
 
 <meta property="og:url" content="https://www.arloor.com/posts/k3s-multi-cloud-air-gap-install/">
   <meta property="og:site_name" content="ARLOOR">
   <meta property="og:title" content="K3S多云环境下的离线部署">
-  <meta property="og:description" content="这几天把k8s折腾了个遍，个人觉得k3s更适合我，主要有五个优势
-类似springboot的“约定优于配置”，就是默认给你一个开箱即用的东西，如果需要，再进行修改。而不是k8s那样样样要你配置 内置LoadBalancer实现，而不是像k8s那样没有LoadBalancer实现，导致裸机安装情况下得用NodePort、HostPort、HostNetwork来暴露服务，或者安装Metallb。 可以轻松的支持多云环境，对我这种有多个云厂商vps的玩家很友好 资源消耗较少。虽然节点增加后，控制面的内存压力也不小 文档docs.k3s.io很清晰。PS：不要看中文版的文档，也不要看rancher中国的文档，垃圾">
+  <meta property="og:description" content="这几天把 k8s 折腾了个遍，个人觉得 k3s 更适合我，主要有五个优势
+类似 springboot 的“约定优于配置”，就是默认给你一个开箱即用的东西，如果需要，再进行修改。而不是 k8s 那样样样要你配置 内置LoadBalancer 实现，而不是像 k8s 那样没有 LoadBalancer 实现，导致裸机安装情况下得用 NodePort、HostPort、HostNetwork 来暴露服务，或者安装 Metallb。 可以轻松的支持多云环境，对我这种有多个云厂商 vps 的玩家很友好 资源消耗较少。虽然节点增加后，控制面的内存压力也不小 文档docs.k3s.io很清晰。PS：不要看中文版的文档，也不要看 rancher 中国的文档，垃圾">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
@@ -253,7 +253,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     
     
     <br/>
-    <i class="fas fa-clock"></i> 8 min read
+    <i class="fas fa-clock"></i> 7 min read
 </div>
 
 
@@ -270,26 +270,27 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     <li><a href="#环境说明">环境说明</a></li>
     <li><a href="#离线安装">离线安装</a>
       <ul>
-        <li><a href="#创建控制面server节点">创建控制面Server节点</a></li>
-        <li><a href="#agent节点加入集群">Agent节点加入集群</a></li>
-        <li><a href="#卸载server和agent">卸载Server和Agent</a></li>
-        <li><a href="#另一个选择使用rancher的中国加速镜像安装">另一个选择：使用Rancher的中国加速镜像安装</a></li>
+        <li><a href="#创建控制面-server-节点">创建控制面 Server 节点</a></li>
+        <li><a href="#agent-节点加入集群">Agent 节点加入集群</a></li>
+        <li><a href="#卸载-server-和-agent">卸载 Server 和 Agent</a></li>
+        <li><a href="#另一个选择使用-rancher-的中国加速镜像安装">另一个选择：使用 Rancher 的中国加速镜像安装</a></li>
       </ul>
     </li>
-    <li><a href="#测试dns正常工作">测试dns正常工作</a></li>
-    <li><a href="#kubernetes-dashboard安装">kubernetes dashboard安装</a>
+    <li><a href="#测试-dns-正常工作">测试 dns 正常工作</a></li>
+    <li><a href="#kubernetes-dashboard-安装">kubernetes dashboard 安装</a>
       <ul>
-        <li><a href="#使用manifest安装">使用manifest安装</a></li>
-        <li><a href="#使用helm安装">使用helm安装</a></li>
-        <li><a href="#生成访问token">生成访问token</a></li>
+        <li><a href="#使用-manifest-安装">使用 manifest 安装</a></li>
+        <li><a href="#使用-helm-安装">使用 helm 安装</a></li>
+        <li><a href="#生成访问-token">生成访问 token</a></li>
       </ul>
     </li>
     <li><a href="#访问集群">访问集群</a>
       <ul>
-        <li><a href="#mac上管理该k3s集群">Mac上管理该k3s集群：</a></li>
+        <li><a href="#mac-上管理该-k3s-集群">Mac 上管理该 k3s 集群：</a></li>
       </ul>
     </li>
-    <li><a href="#server或agent-ip改变时的操作">Server或Agent IP改变时的操作</a></li>
+    <li><a href="#server-或-agent-ip-改变时的操作">Server 或 Agent IP 改变时的操作</a></li>
+    <li><a href="#2025-重新折腾">2025 重新折腾</a></li>
   </ul>
 </nav>
       
@@ -297,48 +298,48 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   
   <div class="post">
-    <p>这几天把k8s折腾了个遍，个人觉得k3s更适合我，主要有五个优势</p>
+    <p>这几天把 k8s 折腾了个遍，个人觉得 k3s 更适合我，主要有五个优势</p>
 <ol>
-<li>类似springboot的“约定优于配置”，就是默认给你一个开箱即用的东西，如果需要，再进行修改。而不是k8s那样样样要你配置</li>
-<li>内置<a href="https://docs.k3s.io/networking#service-load-balancer">LoadBalancer实现</a>，而不是像k8s那样没有LoadBalancer实现，导致裸机安装情况下得用NodePort、HostPort、HostNetwork来暴露服务，或者安装Metallb。</li>
-<li>可以轻松的支持多云环境，对我这种有多个云厂商vps的玩家很友好</li>
+<li>类似 springboot 的“约定优于配置”，就是默认给你一个开箱即用的东西，如果需要，再进行修改。而不是 k8s 那样样样要你配置</li>
+<li>内置<a href="https://docs.k3s.io/networking#service-load-balancer">LoadBalancer 实现</a>，而不是像 k8s 那样没有 LoadBalancer 实现，导致裸机安装情况下得用 NodePort、HostPort、HostNetwork 来暴露服务，或者安装 Metallb。</li>
+<li>可以轻松的支持多云环境，对我这种有多个云厂商 vps 的玩家很友好</li>
 <li>资源消耗较少。虽然节点增加后，控制面的内存压力也不小</li>
-<li>文档<a href="https://docs.k3s.io/">docs.k3s.io</a>很清晰。PS：不要看中文版的文档，也不要看rancher中国的文档，垃圾</li>
+<li>文档<a href="https://docs.k3s.io/">docs.k3s.io</a>很清晰。PS：不要看中文版的文档，也不要看 rancher 中国的文档，垃圾</li>
 </ol>
 <h2 id="环境说明">环境说明</h2>
 <ul>
-<li>linux发型版： RHEL9.2</li>
-<li>关闭firewalld</li>
-<li>关闭selinux</li>
-<li>安装v1.27.3+k3s1版本k3s</li>
-<li>安装v2.7.0版本kubernetes-dashboard</li>
+<li>linux 发型版： RHEL9.2</li>
+<li>关闭 firewalld</li>
+<li>关闭 selinux</li>
+<li>安装 v1.27.3+k3s1 版本 k3s</li>
+<li>安装 v2.7.0 版本 kubernetes-dashboard</li>
 </ul>
 <h2 id="离线安装">离线安装</h2>
 <p>步骤说明：</p>
 <ol>
 <li>下载离线安装包</li>
-<li>下载k3s可执行文件</li>
-<li>下载install.sh安装脚本</li>
+<li>下载 k3s 可执行文件</li>
+<li>下载 install.sh 安装脚本</li>
 <li>进行安装</li>
 </ol>
 <p>Tips：</p>
 <ol>
-<li>关于离线安装，参考：<a href="https://docs.k3s.io/installation/airgap#manually-deploy-images-method">Manually Deploy Images Method</a>。下面的脚本通过wget和mv命令展示了如何准备各项资源来做离线安装</li>
+<li>关于离线安装，参考：<a href="https://docs.k3s.io/installation/airgap#manually-deploy-images-method">Manually Deploy Images Method</a>。下面的脚本通过 wget 和 mv 命令展示了如何准备各项资源来做离线安装</li>
 <li>关于多云部署，参考<a href="https://docs.k3s.io/installation/network-options#distributed-hybrid-or-multicloud-cluster">Distributed hybrid or multicloud cluster</a>。</li>
-<li>多云部署需要预先安装wireguard的内核模块，RHEL9的5.14内核已经内置，老的发行版需要参考<a href="https://www.wireguard.com/install/">WireGuard Install Guide</a>(k3s agent节点也需要安装wireguard内核模块)</li>
-<li>执行安装脚本时，默认会把当前的http_proxy环境变量传递给kubectl、kubelet、containerd。我通过 <code>CONTAINERD_</code>开头的环境变量配置了仅供containerd使用的而不影响kubectl、kubelet的本地clash代理，用于加速镜像拉取。不过这不是必须的，因为docker hub没有被墙。代理传递参考：<a href="https://docs.k3s.io/advanced#configuring-an-http-proxy">Configuring an HTTP proxy</a>。</li>
-<li><code>--node-external-ip=&lt;SERVER_EXTERNAL_IP&gt; --flannel-backend=wireguard-native --flannel-external-ip</code> 来设置server的使用外网ip，以实现多云集群</li>
-<li><code>--node-external-ip=&lt;AGENT_EXTERNAL_IP&gt;</code> 来实现Agent使用外网ip，以实现多云集群。</li>
-<li>多云集群下，k3s的监管流量走外网的websocket，cluster流量走wireguard的VPN。我的集群是国内和国外机器都有，wireguard流量特征明显，不知道gfw会不会干扰wireguard流量</li>
-<li>禁用traefik ingress controller。我觉得它用起来太烦了，而且还占用了80、443端口，不如直接用LoadBalancer</li>
-<li>集群节点越多，对控制面节点的CPU、内存压力越大，参见<a href="https://docs.k3s.io/installation/requirements#cpu-and-memory">requirements#cpu-and-memory</a></li>
+<li>多云部署需要预先安装 wireguard 的内核模块，RHEL9 的 5.14 内核已经内置，老的发行版需要参考<a href="https://www.wireguard.com/install/">WireGuard Install Guide</a>(k3s agent 节点也需要安装 wireguard 内核模块)</li>
+<li>执行安装脚本时，默认会把当前的 http*proxy 环境变量传递给 kubectl、kubelet、containerd。我通过 <code>CONTAINERD*</code>开头的环境变量配置了仅供 containerd 使用的而不影响 kubectl、kubelet 的本地 clash 代理，用于加速镜像拉取。不过这不是必须的，因为 docker hub 没有被墙。代理传递参考：<a href="https://docs.k3s.io/advanced#configuring-an-http-proxy">Configuring an HTTP proxy</a>。</li>
+<li><code>--node-external-ip=&lt;SERVER_EXTERNAL_IP&gt; --flannel-backend=wireguard-native --flannel-external-ip</code> 来设置 server 的使用外网 ip，以实现多云集群</li>
+<li><code>--node-external-ip=&lt;AGENT_EXTERNAL_IP&gt;</code> 来实现 Agent 使用外网 ip，以实现多云集群。</li>
+<li>多云集群下，k3s 的监管流量走外网的 websocket，cluster 流量走 wireguard 的 VPN。我的集群是国内和国外机器都有，wireguard 流量特征明显，不知道 gfw 会不会干扰 wireguard 流量</li>
+<li>禁用 traefik ingress controller。我觉得它用起来太烦了，而且还占用了 80、443 端口，不如直接用 LoadBalancer</li>
+<li>集群节点越多，对控制面节点的 CPU、内存压力越大，参见<a href="https://docs.k3s.io/installation/requirements#cpu-and-memory">requirements#cpu-and-memory</a></li>
 </ol>
-<h3 id="创建控制面server节点">创建控制面Server节点</h3>
+<h3 id="创建控制面-server-节点">创建控制面 Server 节点</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget <span style="color:#e6db74">&#34;https://github.com/k3s-io/k3s/releases/download/v1.27.3%2Bk3s1/k3s-airgap-images-amd64.tar&#34;</span> -O k3s-airgap-images-amd64.tar
 </span></span><span style="display:flex;"><span>sudo mkdir -p /var/lib/rancher/k3s/agent/images/
 </span></span><span style="display:flex;"><span>sudo mv -f ./k3s-airgap-images-amd64.tar /var/lib/rancher/k3s/agent/images/
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>wget <span style="color:#e6db74">&#34;https://github.com/k3s-io/k3s/releases/download/v1.27.3%2Bk3s1/k3s&#34;</span> -O k3s 
+</span></span><span style="display:flex;"><span>wget <span style="color:#e6db74">&#34;https://github.com/k3s-io/k3s/releases/download/v1.27.3%2Bk3s1/k3s&#34;</span> -O k3s
 </span></span><span style="display:flex;"><span>mv -f k3s /usr/local/bin/k3s
 </span></span><span style="display:flex;"><span>chmod +x /usr/local/bin/k3s
 </span></span><span style="display:flex;"><span>wget <span style="color:#e6db74">&#34;https://get.k3s.io/&#34;</span> -O install.sh
@@ -355,9 +356,9 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--flannel-external-ip <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--disable<span style="color:#f92672">=</span>traefik <span style="color:#75715e"># 禁用traefik ingress controller</span>
 </span></span><span style="display:flex;"><span>watch kubectl get pod -A
-</span></span></code></pre></div><p>安装好server后，在server node上执行以下命令来得到agent加入集群的token：</p>
+</span></span></code></pre></div><p>安装好 server 后，在 server node 上执行以下命令来得到 agent 加入集群的 token：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat /var/lib/rancher/k3s/server/token
-</span></span></code></pre></div><h3 id="agent节点加入集群">Agent节点加入集群</h3>
+</span></span></code></pre></div><h3 id="agent-节点加入集群">Agent 节点加入集群</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>. unpass
 </span></span><span style="display:flex;"><span>wget <span style="color:#e6db74">&#34;http://cdn.arloor.com/k3s/k3s-airgap-images-amd64.tar&#34;</span> -O k3s-airgap-images-amd64.tar <span style="color:#75715e"># https://github.com/k3s-io/k3s/releases/download/v1.27.3%2Bk3s1/k3s-airgap-images-amd64.tar</span>
 </span></span><span style="display:flex;"><span>sudo mkdir -p /var/lib/rancher/k3s/agent/images/
@@ -375,7 +376,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>K3S_URL<span style="color:#f92672">=</span>https://118.25.142.222:6443  <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>bash install.sh <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--node-external-ip<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;`curl https://bwg.arloor.dev:444/ip -k`&#34;</span>
-</span></span></code></pre></div><p>如果Agent节点能自由访问Internet，也可以用下面的命令：</p>
+</span></span></code></pre></div><p>如果 Agent 节点能自由访问 Internet，也可以用下面的命令：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://get.k3s.io/ -O install.sh <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span><span style="color:#f92672">&amp;&amp;</span> chmod +x install.sh
 </span></span><span style="display:flex;"><span>INSTALL_K3S_VERSION<span style="color:#f92672">=</span>v1.27.3+k3s1 <span style="color:#ae81ff">\
@@ -383,10 +384,10 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>K3S_URL<span style="color:#f92672">=</span>https://118.25.142.222:6443  <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>./install.sh <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--node-external-ip<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;`curl https://bwg.arloor.dev:444/ip -k`&#34;</span>
-</span></span></code></pre></div><h3 id="卸载server和agent">卸载Server和Agent</h3>
+</span></span></code></pre></div><h3 id="卸载-server-和-agent">卸载 Server 和 Agent</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/usr/local/bin/k3s-uninstall.sh
 </span></span><span style="display:flex;"><span>/usr/local/bin/k3s-agent-uninstall.sh
-</span></span></code></pre></div><h3 id="另一个选择使用rancher的中国加速镜像安装">另一个选择：使用Rancher的中国加速镜像安装</h3>
+</span></span></code></pre></div><h3 id="另一个选择使用-rancher-的中国加速镜像安装">另一个选择：使用 Rancher 的中国加速镜像安装</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>. unpass
 </span></span><span style="display:flex;"><span>curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh -o install.sh
 </span></span><span style="display:flex;"><span>chmod +x install.sh
@@ -396,8 +397,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --flannel-external-ip <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>		--disable<span style="color:#f92672">=</span>traefik
 </span></span><span style="display:flex;"><span>watch kubectl get pod -A
-</span></span></code></pre></div><p>虽然rancher中国的文档不咋样，但是这个加速镜像还是要点赞的， <code>INSTALL_K3S_MIRROR=cn</code> 环境变量就是来使用加速镜像的。此方式也不需要使用代理。我是在<a href="https://docs.rancher.cn/docs/k3s/installation/install-options/_index/#%E4%BD%BF%E7%94%A8%E8%84%9A%E6%9C%AC%E5%AE%89%E8%A3%85%E7%9A%84%E9%80%89%E9%A1%B9">Rancher中国的安装选项介绍</a>找到这个镜像的。建议配合 <code>INSTALL_K3S_VERSION=v1.27.3+k3s1</code>环境变量指定k3s版本为v1.27.3+k3s1(我离线安装的版本)</p>
-<h2 id="测试dns正常工作">测试dns正常工作</h2>
+</span></span></code></pre></div><p>虽然 rancher 中国的文档不咋样，但是这个加速镜像还是要点赞的， <code>INSTALL_K3S_MIRROR=cn</code> 环境变量就是来使用加速镜像的。此方式也不需要使用代理。我是在<a href="https://docs.rancher.cn/docs/k3s/installation/install-options/_index/#%E4%BD%BF%E7%94%A8%E8%84%9A%E6%9C%AC%E5%AE%89%E8%A3%85%E7%9A%84%E9%80%89%E9%A1%B9">Rancher 中国的安装选项介绍</a>找到这个镜像的。建议配合 <code>INSTALL_K3S_VERSION=v1.27.3+k3s1</code>环境变量指定 k3s 版本为 v1.27.3+k3s1(我离线安装的版本)</p>
+<h2 id="测试-dns-正常工作">测试 dns 正常工作</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl run curl --image<span style="color:#f92672">=</span>redhat/ubi9-minimal --attach --command --rm --restart<span style="color:#f92672">=</span>Never -- <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>sh -c <span style="color:#e6db74">&#39;curl https://kubernetes.default:443 -k -v; echo $?&#39;</span>
 </span></span></code></pre></div><table>
@@ -410,7 +411,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   <tbody>
       <tr>
           <td><code>--attach</code></td>
-          <td>附加到pod中</td>
+          <td>附加到 pod 中</td>
       </tr>
       <tr>
           <td><code>--command</code></td>
@@ -418,26 +419,26 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
       </tr>
       <tr>
           <td><code>--rm</code></td>
-          <td>运行完成后删除pod</td>
+          <td>运行完成后删除 pod</td>
       </tr>
       <tr>
           <td><code>--restart=Never</code></td>
-          <td>不设置的话，会是backoff的状态</td>
+          <td>不设置的话，会是 backoff 的状态</td>
       </tr>
   </tbody>
 </table>
-<h2 id="kubernetes-dashboard安装">kubernetes dashboard安装</h2>
-<p>先介绍两种安装方式，首先是通过manifest yaml文件安装，另一种是通过helm chart安装。再介绍token生成，以及使用token登陆kubernetes-dashboard。</p>
-<h3 id="使用manifest安装">使用manifest安装</h3>
+<h2 id="kubernetes-dashboard-安装">kubernetes dashboard 安装</h2>
+<p>先介绍两种安装方式，首先是通过 manifest yaml 文件安装，另一种是通过 helm chart 安装。再介绍 token 生成，以及使用 token 登陆 kubernetes-dashboard。</p>
+<h3 id="使用-manifest-安装">使用 manifest 安装</h3>
 <blockquote>
-<p>这里还是使用v2.7.0版本，因为v3.0.0版本需要ingress-nginx-controller，而我不想用ingress-controller。</p></blockquote>
-<p>下载k8s dashboard的manifest，并预先下载镜像</p>
+<p>这里还是使用 v2.7.0 版本，因为 v3.0.0 版本需要 ingress-nginx-controller，而我不想用 ingress-controller。</p></blockquote>
+<p>下载 k8s dashboard 的 manifest，并预先下载镜像</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>. pass
 </span></span><span style="display:flex;"><span>wget https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml -O recommended.yaml
 </span></span><span style="display:flex;"><span>. unpass
 </span></span><span style="display:flex;"><span>crictl pull docker.io/kubernetesui/dashboard:v2.7.0
 </span></span><span style="display:flex;"><span>crictl pull docker.io/kubernetesui/metrics-scraper:v1.0.8
-</span></span></code></pre></div><p>修改Service/kubernetes-dashboard，将type设置成LoadBalancer，修改port为8443，修改后的样子：</p>
+</span></span></code></pre></div><p>修改 Service/kubernetes-dashboard，将 type 设置成 LoadBalancer，修改 port 为 8443，修改后的样子：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Service</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
@@ -456,18 +457,18 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>. unpass
 </span></span><span style="display:flex;"><span>kubectl apply -f recommended.yaml
 </span></span><span style="display:flex;"><span>watch kubectl get pod -n kubernetes-dashboard
-</span></span></code></pre></div><h3 id="使用helm安装">使用helm安装</h3>
-<p>安装helm：</p>
+</span></span></code></pre></div><h3 id="使用-helm-安装">使用 helm 安装</h3>
+<p>安装 helm：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://get.helm.sh/helm-v3.12.0-linux-amd64.tar.gz -O /tmp/helm-v3.12.0-linux-amd64.tar.gz
 </span></span><span style="display:flex;"><span>tar -zxvf /tmp/helm-v3.12.0-linux-amd64.tar.gz -C /tmp
 </span></span><span style="display:flex;"><span>mv /tmp/linux-amd64/helm  /usr/local/bin/
-</span></span></code></pre></div><p>安装dashboard的helm chart</p>
+</span></span></code></pre></div><p>安装 dashboard 的 helm chart</p>
 <blockquote>
-<p>需要先参考<a href="#%E8%AE%BF%E9%97%AE%E9%9B%86%E7%BE%A4">访问集群</a>设置kubeconfig，从而让helm与集群交互</p></blockquote>
+<p>需要先参考<a href="#%E8%AE%BF%E9%97%AE%E9%9B%86%E7%BE%A4">访问集群</a>设置 kubeconfig，从而让 helm 与集群交互</p></blockquote>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
 </span></span><span style="display:flex;"><span>helm repo update
 </span></span><span style="display:flex;"><span>helm search repo kubernetes-dashboard -l <span style="color:#75715e">#找到 app version 2.7.0对应的version为6.0.8</span>
-</span></span><span style="display:flex;"><span>helm show values kubernetes-dashboard/kubernetes-dashboard --version 6.0.8 &gt; /tmp/values.yaml 
+</span></span><span style="display:flex;"><span>helm show values kubernetes-dashboard/kubernetes-dashboard --version 6.0.8 &gt; /tmp/values.yaml
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 修改values.yaml</span>
 </span></span><span style="display:flex;"><span>cat &gt; /tmp/values.yaml <span style="color:#e6db74">&lt;&lt;EOF
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">service:
@@ -494,10 +495,10 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>watch kubectl get pod -n kubernetes-dashboard
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 卸载</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># helm delete kubernetes-dashboard --namespace kubernetes-dashboard </span>
-</span></span></code></pre></div><h3 id="生成访问token">生成访问token</h3>
-<p>kubernetes-dashboard使用RBAC的权限控制，需要我们生成ServiceRole和ClusterRoleBinding，并生成token。可以生成永不过期的token，也可以生成带过期时间的token</p>
-<h4 id="永不过期的token">永不过期的token</h4>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># helm delete kubernetes-dashboard --namespace kubernetes-dashboard</span>
+</span></span></code></pre></div><h3 id="生成访问-token">生成访问 token</h3>
+<p>kubernetes-dashboard 使用 RBAC 的权限控制，需要我们生成 ServiceRole 和 ClusterRoleBinding，并生成 token。可以生成永不过期的 token，也可以生成带过期时间的 token</p>
+<h4 id="永不过期的-token">永不过期的 token</h4>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl apply -f - <span style="color:#e6db74">&lt;&lt;EOF
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: v1
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kind: ServiceAccount
@@ -534,11 +535,11 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>kubectl get secret/arloor-secret -o yaml <span style="color:#75715e">#查看token字段，base64格式的</span>
 </span></span><span style="display:flex;"><span>kubectl describe secret/arloor-secret <span style="color:#75715e"># 查看token字段，原始的</span>
-</span></span></code></pre></div><p>其中 kubectl get 得到的是Base64编码过的，需要base64解码才能使用：</p>
+</span></span></code></pre></div><p>其中 kubectl get 得到的是 Base64 编码过的，需要 base64 解码才能使用：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>base64 -d - <span style="color:#e6db74">&lt;&lt;EOF
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">xxxxxxx token
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
-</span></span></code></pre></div><h4 id="带过期时间的token">带过期时间的token</h4>
+</span></span></code></pre></div><h4 id="带过期时间的-token">带过期时间的 token</h4>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl apply -f - <span style="color:#e6db74">&lt;&lt;EOF
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: v1
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kind: ServiceAccount
@@ -567,14 +568,14 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
 </span></span><span style="display:flex;"><span>chmod +x /usr/local/bin/token
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>token <span style="color:#75715e"># 有效期100天</span>
-</span></span></code></pre></div><p> 使用token登陆dashboard后可以看到类似下面的界面</p>
+</span></span></code></pre></div><p>使用 token 登陆 dashboard 后可以看到类似下面的界面</p>
 <p><img src="/img/k3s-two-nodes.png" alt=""></p>
-<p>kubernetes-dashboard的鉴权机制可以看<a href="https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/README.md#login-view">access-control</a>。我是用的文档中的Authorization header配合chrome的modHeader插件来使用上面的token进行鉴权，这样使用dashboard就很方便了。</p>
-<p>k8s的RBAC鉴权机制可以参考<a href="https://juejin.cn/post/7116104973644988446">Kubernetes（k8s）权限管理RBAC详解</a>。简单说就是Role Based Access Control ，Role定义了访问一系列资源的权限。Subject有User、Group、ServiceAccount等几种。每个NameSpace都有一个默认ServiceAccount，名为&quot;default&quot;。Role和Subject（主体）通过RoleBinding绑定，绑定后Subject就有了Role定义的权限。ClusterRole有集群所有命名空间的权限，Role只有指定命名空间的权限。</p>
+<p>kubernetes-dashboard 的鉴权机制可以看<a href="https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/README.md#login-view">access-control</a>。我是用的文档中的 Authorization header 配合 chrome 的 modHeader 插件来使用上面的 token 进行鉴权，这样使用 dashboard 就很方便了。</p>
+<p>k8s 的 RBAC 鉴权机制可以参考<a href="https://juejin.cn/post/7116104973644988446">Kubernetes（k8s）权限管理 RBAC 详解</a>。简单说就是 Role Based Access Control ，Role 定义了访问一系列资源的权限。Subject 有 User、Group、ServiceAccount 等几种。每个 NameSpace 都有一个默认 ServiceAccount，名为&quot;default&quot;。Role 和 Subject（主体）通过 RoleBinding 绑定，绑定后 Subject 就有了 Role 定义的权限。ClusterRole 有集群所有命名空间的权限，Role 只有指定命名空间的权限。</p>
 <h2 id="访问集群">访问集群</h2>
-<p>kubeconfig保存在 /etc/rancher/k3s/k3s.yaml。如果你安装了上游k8s的命令行工具，例如kubectl、helm，你需要给他们配置正确的kubeconfig位置。有三种方式，推荐方式三。</p>
+<p>kubeconfig 保存在 /etc/rancher/k3s/k3s.yaml。如果你安装了上游 k8s 的命令行工具，例如 kubectl、helm，你需要给他们配置正确的 kubeconfig 位置。有三种方式，推荐方式三。</p>
 <ol>
-<li>配置KUBECONFIG环境变量</li>
+<li>配置 KUBECONFIG 环境变量</li>
 </ol>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>export KUBECONFIG<span style="color:#f92672">=</span>/etc/rancher/k3s/k3s.yaml
 </span></span><span style="display:flex;"><span>kubectl get pods --all-namespaces
@@ -585,10 +586,10 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl --kubeconfig /etc/rancher/k3s/k3s.yaml get pods --all-namespaces
 </span></span><span style="display:flex;"><span>helm --kubeconfig /etc/rancher/k3s/k3s.yaml ls --all-namespaces
 </span></span></code></pre></div><ol start="3">
-<li>复制到默认kubeconfig的位置</li>
+<li>复制到默认 kubeconfig 的位置</li>
 </ol>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cp -f /etc/rancher/k3s/k3s.yaml ~/.kube/config
-</span></span></code></pre></div><h3 id="mac上管理该k3s集群">Mac上管理该k3s集群：</h3>
+</span></span></code></pre></div><h3 id="mac-上管理该-k3s-集群">Mac 上管理该 k3s 集群：</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir ~/.kube
 </span></span><span style="display:flex;"><span>scp root@mi.arloor.com:/etc/rancher/k3s/k3s.yaml ~/.kube/config
 </span></span><span style="display:flex;"><span>curl -LO <span style="color:#e6db74">&#34;https://dl.k8s.io/release/v1.27.3/bin/darwin/arm64/kubectl&#34;</span>
@@ -596,20 +597,79 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>mv kubectl /data/bin/
 </span></span><span style="display:flex;"><span>sed -i <span style="color:#e6db74">&#34;&#34;</span> <span style="color:#e6db74">&#39;s/127.0.0.1/118.25.142.222/&#39;</span> ~/.kube/config
 </span></span><span style="display:flex;"><span>kubectl get nodes
-</span></span></code></pre></div><p>其中，Mac上安装kubectl参考<a href="https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/#install-kubectl-binary-with-curl-on-macos">install-kubectl-binary-with-curl-on-macos</a>。注意kubectl和集群版本要保持一致，否则有些api可能不兼容。</p>
-<p>另外，使用sed命令是要注意： Mac 和 Linux 在 sed 命令的 -i 参数上存在一些不同。在 Linux 上，-i 参数后面可以直接跟着文件名，但在 macOS 上，-i 需要后跟一个扩展名。这个扩展名用于创建一个备份文件。如果你不想创建备份文件，你可以使用空字符串（&quot;&quot;）作为扩展名。</p>
-<h2 id="server或agent-ip改变时的操作">Server或Agent IP改变时的操作</h2>
-<p>下面以ServerIP变更为例：</p>
+</span></span></code></pre></div><p>其中，Mac 上安装 kubectl 参考<a href="https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/#install-kubectl-binary-with-curl-on-macos">install-kubectl-binary-with-curl-on-macos</a>。注意 kubectl 和集群版本要保持一致，否则有些 api 可能不兼容。</p>
+<p>另外，使用 sed 命令是要注意： Mac 和 Linux 在 sed 命令的 -i 参数上存在一些不同。在 Linux 上，-i 参数后面可以直接跟着文件名，但在 macOS 上，-i 需要后跟一个扩展名。这个扩展名用于创建一个备份文件。如果你不想创建备份文件，你可以使用空字符串（&quot;&quot;）作为扩展名。</p>
+<h2 id="server-或-agent-ip-改变时的操作">Server 或 Agent IP 改变时的操作</h2>
+<p>下面以 ServerIP 变更为例：</p>
 <p><strong>Server</strong></p>
 <ol>
 <li>修改 <code>/etc/systemd/system/k3s.service</code> 中的 <code>--node-external-ip</code> 参数</li>
-<li>重启k3s服务</li>
+<li>重启 k3s 服务</li>
 </ol>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl daemon-reload
 </span></span><span style="display:flex;"><span>systemctl restart k3s
 </span></span></code></pre></div><p><strong>Agent</strong></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sed -i <span style="color:#e6db74">&#39;s/K3S_URL.*/K3S_URL=&#34;https:\/\/154.xx.xx.xx:6443&#34;/&#39;</span>  /etc/systemd/system/k3s-agent.service.env
 </span></span><span style="display:flex;"><span>systemctl restart k3s-agent.service
+</span></span></code></pre></div><h2 id="2025-重新折腾">2025 重新折腾</h2>
+<p>在家用小主机上使用</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>version<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>curl -s https://api.github.com/repos/k3s-io/k3s/releases/latest | jq -r <span style="color:#e6db74">&#39;.tag_name&#39;</span><span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>version_url_encoded<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>echo $version | sed <span style="color:#e6db74">&#39;s/+/%2B/g&#39;</span> | sed <span style="color:#e6db74">&#39;s/\//\\\//g&#39;</span><span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>echo 安装 k3s 版本 $version
+</span></span><span style="display:flex;"><span>mkdir -p /var/lib/rancher/k3s/agent/images/
+</span></span><span style="display:flex;"><span>curl -L -o /var/lib/rancher/k3s/agent/images/k3s-airgap-images-amd64.tar.zst <span style="color:#e6db74">&#34;https://github.com/k3s-io/k3s/releases/download/</span><span style="color:#e6db74">${</span>version_url_encoded<span style="color:#e6db74">}</span><span style="color:#e6db74">/k3s-airgap-images-amd64.tar.zst&#34;</span>
+</span></span><span style="display:flex;"><span>curl -L -o /tmp/k3s <span style="color:#e6db74">&#34;https://github.com/k3s-io/k3s/releases/download/</span><span style="color:#e6db74">${</span>version_url_encoded<span style="color:#e6db74">}</span><span style="color:#e6db74">/k3s&#34;</span>
+</span></span><span style="display:flex;"><span>install /tmp/k3s /usr/local/bin/
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>curl -L <span style="color:#e6db74">&#34;https://get.k3s.io/&#34;</span> -o k3s_init.sh
+</span></span><span style="display:flex;"><span>chmod +x k3s_init.sh
+</span></span><span style="display:flex;"><span>. unpass <span style="color:#75715e">#取消我的http_proxy环境变量</span>
+</span></span><span style="display:flex;"><span>CONTAINERD_HTTP_PROXY<span style="color:#f92672">=</span>http://127.0.0.1:3128 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>CONTAINERD_HTTPS_PROXY<span style="color:#f92672">=</span>http://127.0.0.1:3128 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>CONTAINERD_NO_PROXY<span style="color:#f92672">=</span>127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>K3S_TOKEN<span style="color:#f92672">=</span><span style="color:#ae81ff">12345</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>INSTALL_K3S_SKIP_DOWNLOAD<span style="color:#f92672">=</span>true <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>./k3s_init.sh
+</span></span><span style="display:flex;"><span>watch kubectl get pod -A
+</span></span></code></pre></div><p>输出：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>安装 k3s 版本 v1.33.1+k3s1
+</span></span><span style="display:flex;"><span>  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+</span></span><span style="display:flex;"><span>                                 Dload  Upload   Total   Spent    Left  Speed
+</span></span><span style="display:flex;"><span>  <span style="color:#ae81ff">0</span>     <span style="color:#ae81ff">0</span>    <span style="color:#ae81ff">0</span>     <span style="color:#ae81ff">0</span>    <span style="color:#ae81ff">0</span>     <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span> --:--:-- --:--:-- --:--:--     <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">100</span>  145M  <span style="color:#ae81ff">100</span>  145M    <span style="color:#ae81ff">0</span>     <span style="color:#ae81ff">0</span>  19.7M      <span style="color:#ae81ff">0</span>  0:00:07  0:00:07 --:--:-- 31.2M
+</span></span><span style="display:flex;"><span>  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+</span></span><span style="display:flex;"><span>                                 Dload  Upload   Total   Spent    Left  Speed
+</span></span><span style="display:flex;"><span>  <span style="color:#ae81ff">0</span>     <span style="color:#ae81ff">0</span>    <span style="color:#ae81ff">0</span>     <span style="color:#ae81ff">0</span>    <span style="color:#ae81ff">0</span>     <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span> --:--:--  0:00:01 --:--:--     <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">100</span> 71.0M  <span style="color:#ae81ff">100</span> 71.0M    <span style="color:#ae81ff">0</span>     <span style="color:#ae81ff">0</span>  13.9M      <span style="color:#ae81ff">0</span>  0:00:05  0:00:05 --:--:-- 22.1M
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+</span></span><span style="display:flex;"><span>                                 Dload  Upload   Total   Spent    Left  Speed
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">100</span> <span style="color:#ae81ff">36557</span>  <span style="color:#ae81ff">100</span> <span style="color:#ae81ff">36557</span>    <span style="color:#ae81ff">0</span>     <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">20115</span>      <span style="color:#ae81ff">0</span>  0:00:01  0:00:01 --:--:-- <span style="color:#ae81ff">20108</span>
+</span></span><span style="display:flex;"><span>  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+</span></span><span style="display:flex;"><span>                                 Dload  Upload   Total   Spent    Left  Speed
+</span></span><span style="display:flex;"><span><span style="color:#ae81ff">100</span>    <span style="color:#ae81ff">13</span>  <span style="color:#ae81ff">100</span>    <span style="color:#ae81ff">13</span>    <span style="color:#ae81ff">0</span>     <span style="color:#ae81ff">0</span>     <span style="color:#ae81ff">23</span>      <span style="color:#ae81ff">0</span> --:--:-- --:--:-- --:--:--    <span style="color:#ae81ff">23</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>INFO<span style="color:#f92672">]</span>  Skipping k3s download and verify
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>INFO<span style="color:#f92672">]</span>  Skipping installation of SELinux RPM
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>INFO<span style="color:#f92672">]</span>  Creating /usr/local/bin/kubectl symlink to k3s
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>INFO<span style="color:#f92672">]</span>  Creating /usr/local/bin/crictl symlink to k3s
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>INFO<span style="color:#f92672">]</span>  Creating /usr/local/bin/ctr symlink to k3s
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>INFO<span style="color:#f92672">]</span>  Creating killall script /usr/local/bin/k3s-killall.sh
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>INFO<span style="color:#f92672">]</span>  Creating uninstall script /usr/local/bin/k3s-uninstall.sh
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>INFO<span style="color:#f92672">]</span>  env: Creating environment file /etc/systemd/system/k3s.service.env
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>INFO<span style="color:#f92672">]</span>  systemd: Creating service file /etc/systemd/system/k3s.service
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>INFO<span style="color:#f92672">]</span>  systemd: Enabling k3s unit
+</span></span><span style="display:flex;"><span>Created symlink <span style="color:#e6db74">&#39;/etc/systemd/system/multi-user.target.wants/k3s.service&#39;</span> → <span style="color:#e6db74">&#39;/etc/systemd/system/k3s.service&#39;</span>.
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>INFO<span style="color:#f92672">]</span>  systemd: Starting k3s
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>NAMESPACE     NAME                                      READY   STATUS      RESTARTS   AGE
+</span></span><span style="display:flex;"><span>kube-system   coredns-697968c856-nfvz9                  1/1     Running     <span style="color:#ae81ff">0</span>          21s
+</span></span><span style="display:flex;"><span>kube-system   helm-install-traefik-crd-x4lsh            0/1     Completed   <span style="color:#ae81ff">0</span>          21s
+</span></span><span style="display:flex;"><span>kube-system   helm-install-traefik-tdhh2                0/1     Completed   <span style="color:#ae81ff">1</span>          21s
+</span></span><span style="display:flex;"><span>kube-system   local-path-provisioner-774c6665dc-7t2sl   1/1     Running     <span style="color:#ae81ff">0</span>          21s
+</span></span><span style="display:flex;"><span>kube-system   metrics-server-6f4c6675d5-pfvmr           1/1     Running     <span style="color:#ae81ff">0</span>          21s
+</span></span><span style="display:flex;"><span>kube-system   svclb-traefik-5e76e7e7-ch9t8              2/2     Running     <span style="color:#ae81ff">0</span>          20s
+</span></span><span style="display:flex;"><span>kube-system   traefik-c98fdf6fb-5nfkv                   1/1     Running     <span style="color:#ae81ff">0</span>          20s
 </span></span></code></pre></div>
   </div>
   
