@@ -384,6 +384,21 @@ kubectl get nodes
 
 另外，使用 sed 命令是要注意： Mac 和 Linux 在 sed 命令的 -i 参数上存在一些不同。在 Linux 上，-i 参数后面可以直接跟着文件名，但在 macOS 上，-i 需要后跟一个扩展名。这个扩展名用于创建一个备份文件。如果你不想创建备份文件，你可以使用空字符串（""）作为扩展名。
 
+如果报错证书不信任，需要做这个： 见[https://docs.k3s.io/installation/configuration](https://docs.k3s.io/installation/configuration)
+
+```bash
+$ vim /etc/rancher/k3s/config.yaml
+tls-san:
+  - you_domain
+  - kubernetes
+  - kubernetes.default
+  - kubernetes.default.svc
+  - kubernetes.default.svc.cluster.local
+  - localhost
+  - station
+$ systemctl restart k3s
+```
+
 ## Server 或 Agent IP 改变时的操作
 
 下面以 ServerIP 变更为例：
