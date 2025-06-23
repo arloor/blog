@@ -604,7 +604,18 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>kubectl get nodes
 </span></span></code></pre></div><p>其中，Mac 上安装 kubectl 参考<a href="https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/#install-kubectl-binary-with-curl-on-macos">install-kubectl-binary-with-curl-on-macos</a>。注意 kubectl 和集群版本要保持一致，否则有些 api 可能不兼容。</p>
 <p>另外，使用 sed 命令是要注意： Mac 和 Linux 在 sed 命令的 -i 参数上存在一些不同。在 Linux 上，-i 参数后面可以直接跟着文件名，但在 macOS 上，-i 需要后跟一个扩展名。这个扩展名用于创建一个备份文件。如果你不想创建备份文件，你可以使用空字符串（&quot;&quot;）作为扩展名。</p>
-<h2 id="server-或-agent-ip-改变时的操作">Server 或 Agent IP 改变时的操作</h2>
+<p>如果报错证书不信任，需要做这个： 见<a href="https://docs.k3s.io/installation/configuration">https://docs.k3s.io/installation/configuration</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ vim /etc/rancher/k3s/config.yaml
+</span></span><span style="display:flex;"><span>tls-san:
+</span></span><span style="display:flex;"><span>  - you_domain
+</span></span><span style="display:flex;"><span>  - kubernetes
+</span></span><span style="display:flex;"><span>  - kubernetes.default
+</span></span><span style="display:flex;"><span>  - kubernetes.default.svc
+</span></span><span style="display:flex;"><span>  - kubernetes.default.svc.cluster.local
+</span></span><span style="display:flex;"><span>  - localhost
+</span></span><span style="display:flex;"><span>  - station
+</span></span><span style="display:flex;"><span>$ systemctl restart k3s
+</span></span></code></pre></div><h2 id="server-或-agent-ip-改变时的操作">Server 或 Agent IP 改变时的操作</h2>
 <p>下面以 ServerIP 变更为例：</p>
 <p><strong>Server</strong></p>
 <ol>
