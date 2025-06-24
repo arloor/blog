@@ -36,7 +36,7 @@ apt-get install -y libbpf-dev zlib1g-dev libelf-dev pkg-config clang bpftool mak
 **centos stream 9 安装：**
 
 ```bash
-yum install -y libbpf zlib-devel elfutils-libelf-devel pkgconf-pkg-config clang bpftool make
+yum install -y libbpf zlib-devel elfutils-libelf-devel pkgconf-pkg-config clang bpftool make gettext-devel automake
 ```
 
 ## 生成vmlinux.h
