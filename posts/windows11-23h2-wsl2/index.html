@@ -347,14 +347,15 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>Hyper-V和vmware等软件是冲突的，详见<a href="https://learn.microsoft.com/zh-cn/troubleshoot/windows-client/application-management/virtualization-apps-not-work-with-hyper-v">虚拟化应用程序无法与 Hyper-V、Device Guard 和 Credential Guard 协同工作</a></li>
 </ol></blockquote>
 <p><strong>关闭虚拟机平台和Hyper-V虚拟机监控程序：</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bat" data-lang="bat"><span style="display:flex;"><span>dism.exe /online /disable-feature /featurename:VirtualMachinePlatform /norestart
-</span></span><span style="display:flex;"><span>DISM /Online /Disable-Feature /FeatureName:Microsoft-Hyper-V-All /NoRestart
-</span></span><span style="display:flex;"><span>@<span style="color:#75715e">REM 其实只要关闭 Microsoft-Hyper-V-Hypervisor 就行了</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>dism.exe /online /disable-feature /featurename<span style="color:#960050;background-color:#1e0010">:</span>VirtualMachinePlatform /norestart
+</span></span><span style="display:flex;"><span>DISM /Online /Disable-Feature /FeatureName<span style="color:#960050;background-color:#1e0010">:</span>Microsoft-Hyper-V-All /NoRestart
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 其实只要关闭 Microsoft-Hyper-V-Hypervisor 就行了</span>
+</span></span><span style="display:flex;"><span>sc.exe config wslservice start= disabled
 </span></span></code></pre></div><p><strong>开启虚拟机平台和Hyper-V虚拟机监控程序：</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bat" data-lang="bat"><span style="display:flex;"><span>dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
-</span></span><span style="display:flex;"><span>DISM /Online /Enable-Feature /All /FeatureName:Microsoft-Hyper-V-All /NoRestart
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>dism.exe /online /enable-feature /featurename<span style="color:#960050;background-color:#1e0010">:</span>VirtualMachinePlatform /all /norestart
+</span></span><span style="display:flex;"><span>DISM /Online /Enable-Feature /All /FeatureName<span style="color:#960050;background-color:#1e0010">:</span>Microsoft-Hyper-V-All /NoRestart
 </span></span></code></pre></div><p><strong>查看所有windows功能</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bat" data-lang="bat"><span style="display:flex;"><span>dism.exe /online /Get-Features
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>dism.exe /online /Get-Features
 </span></span></code></pre></div><h2 id="userprofilewslconfig">%userprofile%/.wslconfig</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[<span style="color:#a6e22e">wsl2</span>]
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># networkingMode=bridged</span>
