@@ -32,22 +32,23 @@ wsl全称是windows的linux子系统，可以理解为在你的windows电脑上�
 
 **关闭虚拟机平台和Hyper-V虚拟机监控程序：**
 
-```bat
+```powershell
 dism.exe /online /disable-feature /featurename:VirtualMachinePlatform /norestart
 DISM /Online /Disable-Feature /FeatureName:Microsoft-Hyper-V-All /NoRestart
-@REM 其实只要关闭 Microsoft-Hyper-V-Hypervisor 就行了
+# 其实只要关闭 Microsoft-Hyper-V-Hypervisor 就行了
+sc.exe config wslservice start= disabled
 ```
 
 **开启虚拟机平台和Hyper-V虚拟机监控程序：**
 
-```bat
+```powershell
 dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
 DISM /Online /Enable-Feature /All /FeatureName:Microsoft-Hyper-V-All /NoRestart
 ```
 
 **查看所有windows功能**
 
-```bat
+```powershell
 dism.exe /online /Get-Features
 ```
 
