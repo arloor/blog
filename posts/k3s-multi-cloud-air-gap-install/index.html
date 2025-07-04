@@ -26,14 +26,14 @@
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="K3S多云环境下的离线部署">
   <meta name="twitter:description" content="这几天把 k8s 折腾了个遍，个人觉得 k3s 更适合我，主要有五个优势
-类似 springboot 的“约定优于配置”，就是默认给你一个开箱即用的东西，如果需要，再进行修改。而不是 k8s 那样样样要你配置 内置LoadBalancer 实现，而不是像 k8s 那样没有 LoadBalancer 实现，导致裸机安装情况下得用 NodePort、HostPort、HostNetwork 来暴露服务，或者安装 Metallb。 可以轻松的支持多云环境，对我这种有多个云厂商 vps 的玩家很友好 资源消耗较少。虽然节点增加后，控制面的内存压力也不小 文档docs.k3s.io很清晰。PS：不要看中文版的文档，也不要看 rancher 中国的文档，垃圾">
+类似 springboot 的“约定优于配置”，就是默认给你一个开箱即用的东西，如果需要，再进行修改。而不是 k8s 那样样样要你配置 内置LoadBalancer 实现，而不是像 k8s 那样没有 LoadBalancer 实现，导致裸机安装情况下得用 NodePort、HostPort、HostNetwork 来暴露服务，或者安装 Metallb。 使用Node的ip作为 LoadBalancer 的 ip。——需要保证多个LoaderBalancer Service的端口不冲突 y 可以轻松的支持多云环境，对我这种有多个云厂商 vps 的玩家很友好 资源消耗较少。虽然节点增加后，控制面的内存压力也不小 文档docs.k3s.io很清晰。PS：不要看中文版的文档，也不要看 rancher 中国的文档，垃圾">
       <meta name="twitter:site" content="@njulgh">
 
 <meta property="og:url" content="https://www.arloor.com/posts/k3s-multi-cloud-air-gap-install/">
   <meta property="og:site_name" content="ARLOOR">
   <meta property="og:title" content="K3S多云环境下的离线部署">
   <meta property="og:description" content="这几天把 k8s 折腾了个遍，个人觉得 k3s 更适合我，主要有五个优势
-类似 springboot 的“约定优于配置”，就是默认给你一个开箱即用的东西，如果需要，再进行修改。而不是 k8s 那样样样要你配置 内置LoadBalancer 实现，而不是像 k8s 那样没有 LoadBalancer 实现，导致裸机安装情况下得用 NodePort、HostPort、HostNetwork 来暴露服务，或者安装 Metallb。 可以轻松的支持多云环境，对我这种有多个云厂商 vps 的玩家很友好 资源消耗较少。虽然节点增加后，控制面的内存压力也不小 文档docs.k3s.io很清晰。PS：不要看中文版的文档，也不要看 rancher 中国的文档，垃圾">
+类似 springboot 的“约定优于配置”，就是默认给你一个开箱即用的东西，如果需要，再进行修改。而不是 k8s 那样样样要你配置 内置LoadBalancer 实现，而不是像 k8s 那样没有 LoadBalancer 实现，导致裸机安装情况下得用 NodePort、HostPort、HostNetwork 来暴露服务，或者安装 Metallb。 使用Node的ip作为 LoadBalancer 的 ip。——需要保证多个LoaderBalancer Service的端口不冲突 y 可以轻松的支持多云环境，对我这种有多个云厂商 vps 的玩家很友好 资源消耗较少。虽然节点增加后，控制面的内存压力也不小 文档docs.k3s.io很清晰。PS：不要看中文版的文档，也不要看 rancher 中国的文档，垃圾">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
@@ -253,7 +253,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     
     
     <br/>
-    <i class="fas fa-clock"></i> 7 min read
+    <i class="fas fa-clock"></i> 8 min read
 </div>
 
 
@@ -306,7 +306,13 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     <p>这几天把 k8s 折腾了个遍，个人觉得 k3s 更适合我，主要有五个优势</p>
 <ol>
 <li>类似 springboot 的“约定优于配置”，就是默认给你一个开箱即用的东西，如果需要，再进行修改。而不是 k8s 那样样样要你配置</li>
-<li>内置<a href="https://docs.k3s.io/networking#service-load-balancer">LoadBalancer 实现</a>，而不是像 k8s 那样没有 LoadBalancer 实现，导致裸机安装情况下得用 NodePort、HostPort、HostNetwork 来暴露服务，或者安装 Metallb。</li>
+<li>内置<a href="https://docs.k3s.io/networking/networking-services?_highlight=servicelb#service-load-balancer">LoadBalancer 实现</a>，而不是像 k8s 那样没有 LoadBalancer 实现，导致裸机安装情况下得用 NodePort、HostPort、HostNetwork 来暴露服务，或者安装 Metallb。</li>
+</ol>
+<ul>
+<li>使用Node的ip作为 LoadBalancer 的 ip。——需要保证多个LoaderBalancer Service的端口不冲突</li>
+<li>y</li>
+</ul>
+<ol start="3">
 <li>可以轻松的支持多云环境，对我这种有多个云厂商 vps 的玩家很友好</li>
 <li>资源消耗较少。虽然节点增加后，控制面的内存压力也不小</li>
 <li>文档<a href="https://docs.k3s.io/">docs.k3s.io</a>很清晰。PS：不要看中文版的文档，也不要看 rancher 中国的文档，垃圾</li>
