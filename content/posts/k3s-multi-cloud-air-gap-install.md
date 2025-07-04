@@ -16,7 +16,7 @@ keywords:
 1. 类似 springboot 的“约定优于配置”，就是默认给你一个开箱即用的东西，如果需要，再进行修改。而不是 k8s 那样样样要你配置
 2. 内置[LoadBalancer 实现](https://docs.k3s.io/networking/networking-services?_highlight=servicelb#service-load-balancer)，而不是像 k8s 那样没有 LoadBalancer 实现，导致裸机安装情况下得用 NodePort、HostPort、HostNetwork 来暴露服务，或者安装 Metallb。
   - 使用Node的ip作为 LoadBalancer 的 ip。——需要保证多个LoaderBalancer Service的端口不冲突
-  - y
+  - 具体实现见 [klipper-lb](https://github.com/k3s-io/klipper-lb)，比较简单。是通过NAT将流量转发到Service的Cluster IP上，然后kube-proxy再将流量转发到Pod上（这一步包含负载均衡和故障迁移能力）
 3. 可以轻松的支持多云环境，对我这种有多个云厂商 vps 的玩家很友好
 4. 资源消耗较少。虽然节点增加后，控制面的内存压力也不小
 5. 文档[docs.k3s.io](https://docs.k3s.io/)很清晰。PS：不要看中文版的文档，也不要看 rancher 中国的文档，垃圾
