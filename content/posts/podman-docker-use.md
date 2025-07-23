@@ -276,7 +276,16 @@ EOF
 ## podman保存密码
 
 ```bash
-$ podman login quay.io -u arloor -p ${token}
-Login Succeeded!
-$ cat /run/user/0/containers/auth.json #密码在此
+podman login quay.io -u arloor -p ${token}
+cat /run/user/0/containers/auth.json #密码在此
+cp /run/user/0/containers/auth.json ~/.config/podman_auth.json 
+if ! grep REGISTRY_AUTH_FILE ~/.zshrc;then
+ export REGISTRY_AUTH_FILE=~/.config/podman_auth.json
+ echo "export REGISTRY_AUTH_FILE=~/.config/podman_auth.json" >> ~/.zshrc     
+ echo " add REGISTRY_AUTH_FILE to ~/.zshrc"                  
+else
+ echo "REGISTRY_AUTH_FILE already exists in ~/.zshrc"
+fi
 ```
+
+[why login registry auth.json always been cleared?](https://github.com/containers/podman/discussions/9454)：默认保存在 `/run/user/0` 下，在用户log out的时候会被清空。如果需要持久化保存，可以将其复制到其他位置，并设置环境变量 `REGISTRY_AUTH_FILE` 指向该文件或使用 `--authfile` 命令行参数。
