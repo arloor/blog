@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.148.0">
+<meta name="generator" content="Hugo 0.148.1">
 
     
     
@@ -251,7 +251,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     
     
     <br/>
-    <i class="fas fa-clock"></i> 2 min read
+    <i class="fas fa-clock"></i> 3 min read
 </div>
 
 
@@ -492,10 +492,17 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">insecure = true  # 如果镜像站使用HTTP而非HTTPS，设为true
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
 </span></span></code></pre></div><h2 id="podman保存密码">podman保存密码</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ podman login quay.io -u arloor -p <span style="color:#e6db74">${</span>token<span style="color:#e6db74">}</span>
-</span></span><span style="display:flex;"><span>Login Succeeded!
-</span></span><span style="display:flex;"><span>$ cat /run/user/0/containers/auth.json <span style="color:#75715e">#密码在此</span>
-</span></span></code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>podman login quay.io -u arloor -p <span style="color:#e6db74">${</span>token<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>cat /run/user/0/containers/auth.json <span style="color:#75715e">#密码在此</span>
+</span></span><span style="display:flex;"><span>cp /run/user/0/containers/auth.json ~/.config/podman_auth.json 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ! grep REGISTRY_AUTH_FILE ~/.zshrc;<span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span> export REGISTRY_AUTH_FILE<span style="color:#f92672">=</span>~/.config/podman_auth.json
+</span></span><span style="display:flex;"><span> echo <span style="color:#e6db74">&#34;export REGISTRY_AUTH_FILE=~/.config/podman_auth.json&#34;</span> &gt;&gt; ~/.zshrc     
+</span></span><span style="display:flex;"><span> echo <span style="color:#e6db74">&#34; add REGISTRY_AUTH_FILE to ~/.zshrc&#34;</span>                  
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span> echo <span style="color:#e6db74">&#34;REGISTRY_AUTH_FILE already exists in ~/.zshrc&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span></code></pre></div><p><a href="https://github.com/containers/podman/discussions/9454">why login registry auth.json always been cleared?</a>：默认保存在 <code>/run/user/0</code> 下，在用户log out的时候会被清空。如果需要持久化保存，可以将其复制到其他位置，并设置环境变量 <code>REGISTRY_AUTH_FILE</code> 指向该文件或使用 <code>--authfile</code> 命令行参数。</p>
   </div>
   
 
