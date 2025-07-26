@@ -284,6 +284,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     <li><a href="#卸载发行版">卸载发行版</a></li>
     <li><a href="#wsl2-debian12-安装docker并配置daemonjson">WSL2 debian12 安装docker并配置daemon.json</a></li>
     <li><a href="#wsl2-debian12-安装openssh-server">WSL2 debian12 安装openssh-server</a></li>
+    <li><a href="#将-vhdx-文件移动到d盘">将 vhdx 文件移动到D盘</a></li>
     <li><a href="#常见报错解决">常见报错解决</a>
       <ul>
         <li><a href="#0x80070422-wslservice服务未启动">0x80070422 wslservice服务未启动</a></li>
@@ -651,7 +652,16 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>之后ssh上去后执行<code>keep</code>即可。尝试了<code>ssh xxx -t keep</code>是没这个效果的，得先ssh进去，再执行keep，后面就能退出这个ssh的窗口了。</p>
-<h2 id="常见报错解决">常见报错解决</h2>
+<h2 id="将-vhdx-文件移动到d盘">将 vhdx 文件移动到D盘</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>(Get-ChildItem -Path HKCU<span style="color:#960050;background-color:#1e0010">:</span>\Software\Microsoft\Windows\CurrentVersion\Lxss | Where-Object { $_.GetValue(<span style="color:#e6db74">&#34;DistributionName&#34;</span>) <span style="color:#f92672">-eq</span> <span style="color:#e6db74">&#39;Debian&#39;</span> }).GetValue(<span style="color:#e6db74">&#34;BasePath&#34;</span>) + <span style="color:#e6db74">&#34;\ext4.vhdx&#34;</span>
+</span></span><span style="display:flex;"><span>wsl -l
+</span></span><span style="display:flex;"><span>wsl --export Debian d://Debian.tar  <span style="color:#75715e"># 导出成tar文件</span>
+</span></span><span style="display:flex;"><span>wsl --unregister Debian <span style="color:#75715e"># 需要先注销原来的发行版</span>
+</span></span><span style="display:flex;"><span>mkdir d:\wsl <span style="color:#75715e"># 创建目录</span>
+</span></span><span style="display:flex;"><span>wsl --import Debian d:\wsl D:\Debian.tar  --version <span style="color:#ae81ff">2</span><span style="color:#75715e"># 导入到D盘</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 确认vhdx文件位置</span>
+</span></span><span style="display:flex;"><span>(Get-ChildItem -Path HKCU<span style="color:#960050;background-color:#1e0010">:</span>\Software\Microsoft\Windows\CurrentVersion\Lxss | Where-Object { $_.GetValue(<span style="color:#e6db74">&#34;DistributionName&#34;</span>) <span style="color:#f92672">-eq</span> <span style="color:#e6db74">&#39;Debian&#39;</span> }).GetValue(<span style="color:#e6db74">&#34;BasePath&#34;</span>) + <span style="color:#e6db74">&#34;\ext4.vhdx&#34;</span>
+</span></span></code></pre></div><h2 id="常见报错解决">常见报错解决</h2>
 <h3 id="0x80070422-wslservice服务未启动">0x80070422 wslservice服务未启动</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>无法启动服务，原因可能是已被禁用或与其相关联的设备没有启动。
 </span></span><span style="display:flex;"><span>Error code: Wsl/0x80070422
