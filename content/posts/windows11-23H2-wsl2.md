@@ -450,6 +450,19 @@ $ShortName.Keys | ForEach-Object {
 
 之后ssh上去后执行`keep`即可。尝试了`ssh xxx -t keep`是没这个效果的，得先ssh进去，再执行keep，后面就能退出这个ssh的窗口了。
 
+## 将 vhdx 文件移动到D盘
+
+```powershell
+(Get-ChildItem -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Lxss | Where-Object { $_.GetValue("DistributionName") -eq 'Debian' }).GetValue("BasePath") + "\ext4.vhdx"
+wsl -l
+wsl --export Debian d://Debian.tar  # 导出成tar文件
+wsl --unregister Debian # 需要先注销原来的发行版
+mkdir d:\wsl # 创建目录
+wsl --import Debian d:\wsl D:\Debian.tar  --version 2# 导入到D盘
+# 确认vhdx文件位置
+(Get-ChildItem -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Lxss | Where-Object { $_.GetValue("DistributionName") -eq 'Debian' }).GetValue("BasePath") + "\ext4.vhdx"
+```
+
 ## 常见报错解决
 
 ### 0x80070422 wslservice服务未启动
