@@ -381,16 +381,16 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>loss
 </span></span></code></pre></div><h2 id="安装wsl2">安装WSL2</h2>
 <p>这里使用了Debian12，因为我不喜欢Ubuntu的Snap，而且Debian12的wsl发行版支持ebpf。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bat" data-lang="bat"><span style="display:flex;"><span>@<span style="color:#75715e">REM 启用VMP 虚拟机平台</span>
-</span></span><span style="display:flex;"><span>dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> you may need reboot to take effect
-</span></span><span style="display:flex;"><span>@<span style="color:#75715e">REM 启用wslservice</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 启用VMP 虚拟机平台</span>
+</span></span><span style="display:flex;"><span>dism.exe /online /enable-feature /featurename<span style="color:#960050;background-color:#1e0010">:</span>VirtualMachinePlatform /all /norestart
+</span></span><span style="display:flex;"><span>echo you may need reboot to take effect
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 启用wslservice</span>
 </span></span><span style="display:flex;"><span>sc.exe config wslservice start= demand
-</span></span><span style="display:flex;"><span>wsl --set-default-version 2
+</span></span><span style="display:flex;"><span>wsl --set-default-version <span style="color:#ae81ff">2</span>
 </span></span><span style="display:flex;"><span>wsl -v
 </span></span><span style="display:flex;"><span>wsl --list --online
 </span></span><span style="display:flex;"><span>wsl --install -d Debian
-</span></span><span style="display:flex;"><span>@<span style="color:#75715e">REM 设置默认root用户</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 设置默认root用户</span>
 </span></span><span style="display:flex;"><span>debian config --default-user root
 </span></span></code></pre></div><h2 id="第一次启动">第一次启动</h2>
 <p>设置用户名和密码：</p>
