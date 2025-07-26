@@ -87,17 +87,17 @@ loss
 
 这里使用了Debian12，因为我不喜欢Ubuntu的Snap，而且Debian12的wsl发行版支持ebpf。
 
-```bat
-@REM 启用VMP 虚拟机平台
+```powershell
+# 启用VMP 虚拟机平台
 dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
 echo you may need reboot to take effect
-@REM 启用wslservice
+# 启用wslservice
 sc.exe config wslservice start= demand
 wsl --set-default-version 2
 wsl -v
 wsl --list --online
 wsl --install -d Debian
-@REM 设置默认root用户
+# 设置默认root用户
 debian config --default-user root
 ```
 
