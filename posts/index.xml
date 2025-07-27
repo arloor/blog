@@ -6,8 +6,15 @@
     <description>Recent content in Posts on ARLOOR</description>
     <generator>Hugo</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Thu, 24 Apr 2025 14:58:23 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 27 Jul 2025 14:41:54 +0800</lastBuildDate>
     <atom:link href="https://www.arloor.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ultra 265k 风扇转速设置</title>
+      <link>https://www.arloor.com/posts/intel-ultra-265ks-bios/</link>
+      <pubDate>Sun, 27 Jul 2025 14:41:54 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/intel-ultra-265ks-bios/</guid>
+      <description>&lt;h2 id=&#34;系统配置&#34;&gt;系统配置&lt;/h2&gt;&#xA;&lt;p&gt;2024 年 12 月 15 日更新：换了硬件，老硬件只保留了电源、显卡、内存&lt;/p&gt;&#xA;&lt;table&gt;&#xA;  &lt;thead&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;th&gt;组件&lt;/th&gt;&#xA;          &lt;th&gt;型号&lt;/th&gt;&#xA;      &lt;/tr&gt;&#xA;  &lt;/thead&gt;&#xA;  &lt;tbody&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;CPU&lt;/td&gt;&#xA;          &lt;td&gt;Intel Ultra 265k&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;主板&lt;/td&gt;&#xA;          &lt;td&gt;MSI z890 carbon wifi&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;显卡&lt;/td&gt;&#xA;          &lt;td&gt;七彩虹 5070 ti 战斧豪华版 16GB (原价 6299 购入，血赚)&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;内存&lt;/td&gt;&#xA;          &lt;td&gt;威刚 D500G 8800 频率 24Gx2 海力士 M-die&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;机箱&lt;/td&gt;&#xA;          &lt;td&gt;恩杰 H5 flow&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;散热器&lt;/td&gt;&#xA;          &lt;td&gt;猫头鹰 D15 g2&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;风扇&lt;/td&gt;&#xA;          &lt;td&gt;6x 猫头鹰 &lt;code&gt;NF-A12X25&lt;/code&gt; + 2x 猫头鹰 &lt;code&gt;NF-A14&lt;/code&gt;&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;电源&lt;/td&gt;&#xA;          &lt;td&gt;海韵 GX850&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;  &lt;/tbody&gt;&#xA;&lt;/table&gt;&#xA;&lt;h2 id=&#34;风扇转速&#34;&gt;风扇转速&lt;/h2&gt;&#xA;&lt;p&gt;目前用了 CPU 风扇、系统风扇 3 和 4（显卡下方风扇）、系统风扇 5（使用风扇集线器控制其他所有），都使用了下面的风扇转速曲线：&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Nftables基础链的优先级与默认策略</title>
       <link>https://www.arloor.com/posts/nftable-base-chain-priority/</link>
