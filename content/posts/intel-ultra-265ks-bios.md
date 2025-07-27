@@ -1,5 +1,5 @@
 ---
-title: "ultra 265k 风扇转速设置"
+title: "ultra 265k BIOS/风扇设置"
 subtitle:
 tags:
   - undefined
@@ -12,6 +12,8 @@ weight: 10
 description:
 highlightjslanguages:
 ---
+
+<!--more-->
 
 ## 系统配置
 
