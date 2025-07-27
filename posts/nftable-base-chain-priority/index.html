@@ -25,13 +25,13 @@
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Nftables基础链的优先级与默认策略">
-  <meta name="twitter:description" content="nftables wiki: Configuring chains Netfilter 架构与 iptables/ebtables 入门 iptables 与 netfilter">
+  <meta name="twitter:description" content="都是瞎写的">
       <meta name="twitter:site" content="@njulgh">
 
 <meta property="og:url" content="https://www.arloor.com/posts/nftable-base-chain-priority/">
   <meta property="og:site_name" content="ARLOOR">
   <meta property="og:title" content="Nftables基础链的优先级与默认策略">
-  <meta property="og:description" content="nftables wiki: Configuring chains Netfilter 架构与 iptables/ebtables 入门 iptables 与 netfilter">
+  <meta property="og:description" content="都是瞎写的">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
@@ -280,6 +280,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     </li>
     <li><a href="#hook-点">hook 点</a></li>
     <li><a href="#acceptdeny-策略">accept/deny 策略</a></li>
+    <li><a href="#参考文档">参考文档</a></li>
   </ul>
 </nav>
       
@@ -287,12 +288,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   
   <div class="post">
-    <ul>
-<li><a href="https://wiki.nftables.org/wiki-nftables/index.php/Configuring_chains#Base_chain_priority">nftables wiki: Configuring chains</a></li>
-<li><a href="https://mp.weixin.qq.com/s/uzuRM9YHkKeyO6RC7XSdPQ">Netfilter 架构与 iptables/ebtables 入门</a></li>
-<li><a href="https://www.thebyte.com.cn/content/chapter1/netfilter.html#iptables">iptables 与 netfilter</a></li>
-</ul>
-<h2 id="iptables-四表五链">iptables 四表五链</h2>
+    <h2 id="iptables-四表五链">iptables 四表五链</h2>
 <p><img src="/img/iptables-packet-routing.png" alt="alt text"></p>
 <h3 id="四表">四表</h3>
 <ol>
@@ -432,6 +428,12 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </ul>
 <p>这意味着如果有两条 type、hook 相同的链，无论哪个链的优先级高，只要其中一个链中该 packet 被 accept（无论是 chain 的默认策略，还是命中某个 rule），但另一个链中该 packet 被 drop。这个 packet 依然会被 drop。</p>
 <p>详见：<a href="https://wiki.nftables.org/wiki-nftables/index.php/Configuring_chains#Base_chain_priority">nftables wiki: Base_chain_priority</a></p>
+<h2 id="参考文档">参考文档</h2>
+<ul>
+<li><a href="https://wiki.nftables.org/wiki-nftables/index.php/Configuring_chains#Base_chain_priority">nftables wiki: Configuring chains</a></li>
+<li><a href="https://mp.weixin.qq.com/s/uzuRM9YHkKeyO6RC7XSdPQ">Netfilter 架构与 iptables/ebtables 入门</a></li>
+<li><a href="https://www.thebyte.com.cn/content/chapter1/netfilter.html#iptables">iptables 与 netfilter</a></li>
+</ul>
   </div>
   
 
