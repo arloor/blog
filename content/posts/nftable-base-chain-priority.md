@@ -13,10 +13,6 @@ description:
 highlightjslanguages:
 ---
 
-- [nftables wiki: Configuring chains](https://wiki.nftables.org/wiki-nftables/index.php/Configuring_chains#Base_chain_priority)
-- [Netfilter 架构与 iptables/ebtables 入门](https://mp.weixin.qq.com/s/uzuRM9YHkKeyO6RC7XSdPQ)
-- [iptables 与 netfilter](https://www.thebyte.com.cn/content/chapter1/netfilter.html#iptables)
-
 <!--more-->
 
 ## iptables 四表五链
@@ -131,3 +127,10 @@ nftables 中的`type`是链的一个关键属性，定义了链的类型和挂�
 这意味着如果有两条 type、hook 相同的链，无论哪个链的优先级高，只要其中一个链中该 packet 被 accept（无论是 chain 的默认策略，还是命中某个 rule），但另一个链中该 packet 被 drop。这个 packet 依然会被 drop。
 
 详见：[nftables wiki: Base_chain_priority](https://wiki.nftables.org/wiki-nftables/index.php/Configuring_chains#Base_chain_priority)
+
+
+## 参考文档
+
+- [nftables wiki: Configuring chains](https://wiki.nftables.org/wiki-nftables/index.php/Configuring_chains#Base_chain_priority)
+- [Netfilter 架构与 iptables/ebtables 入门](https://mp.weixin.qq.com/s/uzuRM9YHkKeyO6RC7XSdPQ)
+- [iptables 与 netfilter](https://www.thebyte.com.cn/content/chapter1/netfilter.html#iptables)
