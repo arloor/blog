@@ -141,18 +141,18 @@ TIPS：
 
 ### ssh到windows上使用WSL开发
 
-我有时会ssh到windows上，然后用WSL远程开发。发现在WSL的镜像网络（mirrored）模式下，vscode不会自动进行端口转发，于是在 `.ssh/config` 中手动增加了LocalForward：
-
-```bash
-LocalForward 7788 192.168.5.127:7788
-```
-
-在设置-远程的配置文件中设置不自动端口转发：
+我的WSL工作在镜像网络模式下，所以在设置-远程的配置文件中设置不自动端口转发：
 
 ```json
 {
   "remote.autoForwardPorts": false
 }
+```
+
+我有时会ssh到windows上的WSL远程开发，不自动转发也不方便，折衷的方式是在ssh的配置文件中增加一个端口转发，从而在ssh中实现端口转发，在wsl中不端口转发。
+
+```bash
+LocalForward 7788 192.168.5.127:7788
 ```
 
 
