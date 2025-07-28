@@ -147,6 +147,15 @@ TIPS：
 LocalForward 7788 192.168.5.127:7788
 ```
 
+在设置-远程的配置文件中设置不自动端口转发：
+
+```json
+{
+  "remote.autoForwardPorts": false
+}
+```
+
+
 ### 使用socat作为ProxyCommand，用http代理连接ssh服务器
 
 ```bash
