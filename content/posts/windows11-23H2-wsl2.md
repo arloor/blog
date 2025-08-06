@@ -463,6 +463,15 @@ wsl --import Debian d:\wsl D:\Debian.tar  --version 2# 导入到D盘
 (Get-ChildItem -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Lxss | Where-Object { $_.GetValue("DistributionName") -eq 'Debian' }).GetValue("BasePath") + "\ext4.vhdx"
 ```
 
+## 安装 rhel10 作为WSL
+
+```powershell
+mkdir D:\redhat
+wsl --import rhel D:\redhat C:\Users\arloor\Downloads\composer-api-8d21250f-6d7f-4483-8a1e-c79c51929d45-disk.tar.gz
+wsl.exe --shutdown
+wsl.exe --manage rhel --set-sparse true --allow-unsafe
+```
+
 ## 常见报错解决
 
 ### 0x80070422 wslservice服务未启动
