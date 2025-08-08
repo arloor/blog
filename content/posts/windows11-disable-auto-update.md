@@ -142,12 +142,12 @@ HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows
 taskkill /im MicrosoftEdgeUpdate.exe /f
 taskkill /im msedge.exe /f
 
-sc stop edgeupdate
-sc config edgeupdate start= disabled
-sc stop edgeupdatem
-sc config edgeupdatem start= disabled
-sc stop MicrosoftEdgeElevationService
-sc config MicrosoftEdgeElevationService start= disabled
+sc.exe stop edgeupdate
+sc.exe config edgeupdate start=disabled
+sc.exe stop edgeupdatem
+sc.exe config edgeupdatem start=disabled
+sc.exe stop MicrosoftEdgeElevationService
+sc.exe config MicrosoftEdgeElevationService start=disabled
 
 # schtasks.exe /Delete /TN \MicrosoftEdgeUpdateBrowserReplacementTask /F
 # schtasks.exe /Delete /TN \MicrosoftEdgeUpdateTaskMachineCore /F
@@ -158,8 +158,8 @@ Get-ScheduledTask -taskname MicrosoftEdgeUpdate* | Unregister-ScheduledTask -Con
 启用
 
 ```powershell
-sc config edgeupdate start= delayed-auto
+sc.exe config edgeupdate start= delayed-auto
 
 # 启用 edgeupdatem 服务
-sc config edgeupdatem start= demand
+sc.exe config edgeupdatem start= demand
 ```
