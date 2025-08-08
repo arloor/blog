@@ -9,6 +9,8 @@ subtitle: ""
 description: ""
 keywords:
   - 刘港欢 arloor moontell
+highlightjslanguages:
+  - powershell
 ---
 
 ## 开启无需密码自动登录
