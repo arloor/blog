@@ -105,9 +105,8 @@ explorer.exe
 
 ## 关闭 edge 浏览器的自动更新
 
-
-
-## 禁止edge自动更新
+[如何禁用 Microsoft Edge 自动更新 (Windows, Linux, macOS)
+Posted by sysin on 2022-09-03](https://sysin.org/blog/disable-edge-auto-update/#Microsoft-Edge-for-Windows )
 
 禁用
 
