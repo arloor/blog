@@ -255,7 +255,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     
     
     <br/>
-    <i class="fas fa-clock"></i> 6 min read
+    <i class="fas fa-clock"></i> 5 min read
 </div>
 
 
@@ -274,7 +274,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     <li><a href="#本站准备好的bat文件">本站准备好的bat文件</a></li>
     <li><a href="#组策略">组策略</a></li>
     <li><a href="#注册表">注册表</a></li>
-    <li><a href="#禁止edge自动更新">禁止edge自动更新</a></li>
   </ul>
 </nav>
       
@@ -383,28 +382,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>双击新建的ExcludeWUDriversInQualityUpdate，在弹出窗口中将其数值数据从0更改为1，然后单击“确定”。</li>
 <li>关闭注册表编辑器，重启计算机即可关闭驱动自动更新。</li>
 </ol>
-<h2 id="禁止edge自动更新">禁止edge自动更新</h2>
-<p>禁用</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>taskkill /im MicrosoftEdgeUpdate.exe /f
-</span></span><span style="display:flex;"><span>taskkill /im msedge.exe /f
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>sc.exe stop edgeupdate
-</span></span><span style="display:flex;"><span>sc.exe config edgeupdate start=disabled
-</span></span><span style="display:flex;"><span>sc.exe stop edgeupdatem
-</span></span><span style="display:flex;"><span>sc.exe config edgeupdatem start=disabled
-</span></span><span style="display:flex;"><span>sc.exe stop MicrosoftEdgeElevationService
-</span></span><span style="display:flex;"><span>sc.exe config MicrosoftEdgeElevationService start=disabled
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># schtasks.exe /Delete /TN \MicrosoftEdgeUpdateBrowserReplacementTask /F</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># schtasks.exe /Delete /TN \MicrosoftEdgeUpdateTaskMachineCore /F</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># schtasks.exe /Delete /TN \MicrosoftEdgeUpdateTaskMachineUA /F</span>
-</span></span><span style="display:flex;"><span>Get-ScheduledTask -taskname MicrosoftEdgeUpdate* | Unregister-ScheduledTask -Confirm: $false
-</span></span></code></pre></div><p>启用</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>sc.exe config edgeupdate start= delayed-auto
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 启用 edgeupdatem 服务</span>
-</span></span><span style="display:flex;"><span>sc.exe config edgeupdatem start= demand
-</span></span></code></pre></div>
+
   </div>
   
 
