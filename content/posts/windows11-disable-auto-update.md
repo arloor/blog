@@ -132,34 +132,3 @@ HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows
 4. 右键单击新建的WindowsUpdate文件夹，选择“新建”>“DWORD（32位）值”，然后将其命名为“ExcludeWUDriversInQualityUpdate”
 6. 双击新建的ExcludeWUDriversInQualityUpdate，在弹出窗口中将其数值数据从0更改为1，然后单击“确定”。
 7. 关闭注册表编辑器，重启计算机即可关闭驱动自动更新。
-
-
-## 禁止edge自动更新
-
-禁用
-
-```powershell
-taskkill /im MicrosoftEdgeUpdate.exe /f
-taskkill /im msedge.exe /f
-
-sc.exe stop edgeupdate
-sc.exe config edgeupdate start=disabled
-sc.exe stop edgeupdatem
-sc.exe config edgeupdatem start=disabled
-sc.exe stop MicrosoftEdgeElevationService
-sc.exe config MicrosoftEdgeElevationService start=disabled
-
-# schtasks.exe /Delete /TN \MicrosoftEdgeUpdateBrowserReplacementTask /F
-# schtasks.exe /Delete /TN \MicrosoftEdgeUpdateTaskMachineCore /F
-# schtasks.exe /Delete /TN \MicrosoftEdgeUpdateTaskMachineUA /F
-Get-ScheduledTask -taskname MicrosoftEdgeUpdate* | Unregister-ScheduledTask -Confirm: $false
-```
-
-启用
-
-```powershell
-sc.exe config edgeupdate start= delayed-auto
-
-# 启用 edgeupdatem 服务
-sc.exe config edgeupdatem start= demand
-```
