@@ -25,13 +25,15 @@
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Windows11 WSL2使用">
-  <meta name="twitter:description" content="wsl全称是windows的linux子系统，可以理解为在你的windows电脑上提供一个linux的工作环境。">
+  <meta name="twitter:description" content="wsl 全称是 windows 的 linux 子系统，可以理解为在你的 windows 电脑上提供一个 linux 的工作环境。
+windows 虚拟化的基础知识 windows 功能 作用 其他 Hyper-V 微软自己的虚拟化工具 包含了“管理工具”和“平台”，其中“平台”包含“服务”和“虚拟机监控程序” Windows Subsystem for Linux WSL1，不是我们讨论的 WSL2 所需要的 Virtual Machine Platform 虚拟机平台（WSL2 的底层依赖） 看到说 Hyper-V 也依赖这个，但启用 Hyper-V 并不需要启用虚拟机平台，因此我觉得 Hyper-V 依赖的是“Hyper-V 虚拟机监控程序”吧 Windows Sandbox 一个隔离的桌面环境 我反正没用过，不了解 Windows 虚拟机监控程序平台 用于支持 vmware 等第三方虚拟机软件 虚拟机平台会一定程度上影响游戏性能，为了游戏性能，可以关闭虚拟机平台、Hyper-V。Windows 虚拟机监控程序平台、适用于 Linux 的 Windows 子系统我理解是不影响游戏性能的。参考用于在 Windows 11 中优化游戏性能的选项。 Hyper-V 和 vmware 等软件是冲突的，详见虚拟化应用程序无法与 Hyper-V、Device Guard 和 Credential Guard 协同工作 关闭虚拟机平台和 Hyper-V 虚拟机监控程序：">
       <meta name="twitter:site" content="@njulgh">
 
 <meta property="og:url" content="https://www.arloor.com/posts/windows11-23h2-wsl2/">
   <meta property="og:site_name" content="ARLOOR">
   <meta property="og:title" content="Windows11 WSL2使用">
-  <meta property="og:description" content="wsl全称是windows的linux子系统，可以理解为在你的windows电脑上提供一个linux的工作环境。">
+  <meta property="og:description" content="wsl 全称是 windows 的 linux 子系统，可以理解为在你的 windows 电脑上提供一个 linux 的工作环境。
+windows 虚拟化的基础知识 windows 功能 作用 其他 Hyper-V 微软自己的虚拟化工具 包含了“管理工具”和“平台”，其中“平台”包含“服务”和“虚拟机监控程序” Windows Subsystem for Linux WSL1，不是我们讨论的 WSL2 所需要的 Virtual Machine Platform 虚拟机平台（WSL2 的底层依赖） 看到说 Hyper-V 也依赖这个，但启用 Hyper-V 并不需要启用虚拟机平台，因此我觉得 Hyper-V 依赖的是“Hyper-V 虚拟机监控程序”吧 Windows Sandbox 一个隔离的桌面环境 我反正没用过，不了解 Windows 虚拟机监控程序平台 用于支持 vmware 等第三方虚拟机软件 虚拟机平台会一定程度上影响游戏性能，为了游戏性能，可以关闭虚拟机平台、Hyper-V。Windows 虚拟机监控程序平台、适用于 Linux 的 Windows 子系统我理解是不影响游戏性能的。参考用于在 Windows 11 中优化游戏性能的选项。 Hyper-V 和 vmware 等软件是冲突的，详见虚拟化应用程序无法与 Hyper-V、Device Guard 和 Credential Guard 协同工作 关闭虚拟机平台和 Hyper-V 虚拟机监控程序：">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
@@ -251,7 +253,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     
     
     <br/>
-    <i class="fas fa-clock"></i> 10 min read
+    <i class="fas fa-clock"></i> 9 min read
 </div>
 
 
@@ -265,30 +267,31 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
       
           <nav id="TableOfContents">
   <ul>
-    <li><a href="#windows虚拟化的基础知识">windows虚拟化的基础知识</a></li>
+    <li><a href="#windows-虚拟化的基础知识">windows 虚拟化的基础知识</a></li>
     <li><a href="#userprofilewslconfig">%userprofile%/.wslconfig</a></li>
-    <li><a href="#安装wsl2">安装WSL2</a></li>
+    <li><a href="#安装-wsl2">安装 WSL2</a></li>
     <li><a href="#第一次启动">第一次启动</a></li>
     <li><a href="#其他设置">其他设置</a>
       <ul>
-        <li><a href="#apt设置代理">apt设置代理</a></li>
-        <li><a href="#apt不更新某软件">apt不更新某软件</a></li>
-        <li><a href="#git设置">git设置</a></li>
-        <li><a href="#安装ca证书">安装ca证书</a></li>
+        <li><a href="#apt-设置代理">apt 设置代理</a></li>
+        <li><a href="#apt-不更新某软件">apt 不更新某软件</a></li>
+        <li><a href="#git-设置">git 设置</a></li>
+        <li><a href="#安装-ca-证书">安装 ca 证书</a></li>
       </ul>
     </li>
-    <li><a href="#docker和podman">docker和podman</a></li>
+    <li><a href="#docker-和-podman">docker 和 podman</a></li>
     <li><a href="#参考文档">参考文档</a></li>
     <li><a href="#内存释放太慢最不满意的一点">内存释放太慢，最不满意的一点</a></li>
-    <li><a href="#让wsl一直在后台运行">让wsl一直在后台运行</a></li>
+    <li><a href="#让-wsl-一直在后台运行">让 wsl 一直在后台运行</a></li>
     <li><a href="#卸载发行版">卸载发行版</a></li>
-    <li><a href="#wsl2-debian12-安装docker并配置daemonjson">WSL2 debian12 安装docker并配置daemon.json</a></li>
-    <li><a href="#wsl2-debian12-安装openssh-server">WSL2 debian12 安装openssh-server</a></li>
-    <li><a href="#将-vhdx-文件移动到d盘">将 vhdx 文件移动到D盘</a></li>
-    <li><a href="#安装-rhel10-作为wsl">安装 rhel10 作为WSL</a></li>
+    <li><a href="#wsl2-debian12-安装-docker-并配置-daemonjson">WSL2 debian12 安装 docker 并配置 daemon.json</a></li>
+    <li><a href="#wsl2-debian12-安装-openssh-server">WSL2 debian12 安装 openssh-server</a></li>
+    <li><a href="#将-wsl-的-debian12-升级到-debian13">将 WSL 的 Debian12 升级到 Debian13</a></li>
+    <li><a href="#将-vhdx-文件移动到-d-盘">将 vhdx 文件移动到 D 盘</a></li>
+    <li><a href="#安装-rhel10-作为-wsl">安装 rhel10 作为 WSL</a></li>
     <li><a href="#常见报错解决">常见报错解决</a>
       <ul>
-        <li><a href="#0x80070422-wslservice服务未启动">0x80070422 wslservice服务未启动</a></li>
+        <li><a href="#0x80070422-wslservice-服务未启动">0x80070422 wslservice 服务未启动</a></li>
         <li><a href="#0x8004032d-虚拟机平台功能未启用">0x8004032d 虚拟机平台功能未启用</a></li>
         <li><a href="#端口被占用问题解决">端口被占用问题解决</a></li>
       </ul>
@@ -300,12 +303,12 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   
   <div class="post">
-    <p>wsl全称是windows的linux子系统，可以理解为在你的windows电脑上提供一个linux的工作环境。</p>
-<h2 id="windows虚拟化的基础知识">windows虚拟化的基础知识</h2>
+    <p>wsl 全称是 windows 的 linux 子系统，可以理解为在你的 windows 电脑上提供一个 linux 的工作环境。</p>
+<h2 id="windows-虚拟化的基础知识">windows 虚拟化的基础知识</h2>
 <table>
   <thead>
       <tr>
-          <th>windows功能</th>
+          <th>windows 功能</th>
           <th>作用</th>
           <th>其他</th>
       </tr>
@@ -318,13 +321,13 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
       </tr>
       <tr>
           <td>Windows Subsystem for Linux</td>
-          <td>WSL1，不是我们讨论的WSL2所需要的</td>
+          <td>WSL1，不是我们讨论的 WSL2 所需要的</td>
           <td></td>
       </tr>
       <tr>
           <td>Virtual Machine Platform</td>
-          <td>虚拟机平台（WSL2的底层依赖）</td>
-          <td>看到说Hyper-V也依赖这个，但启用Hyper-V并不需要启用虚拟机平台，因此我觉得Hyper-V依赖的是“Hyper-V虚拟机监控程序”吧</td>
+          <td>虚拟机平台（WSL2 的底层依赖）</td>
+          <td>看到说 Hyper-V 也依赖这个，但启用 Hyper-V 并不需要启用虚拟机平台，因此我觉得 Hyper-V 依赖的是“Hyper-V 虚拟机监控程序”吧</td>
       </tr>
       <tr>
           <td>Windows Sandbox</td>
@@ -333,7 +336,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
       </tr>
       <tr>
           <td>Windows 虚拟机监控程序平台</td>
-          <td>用于支持vmware等第三方虚拟机软件</td>
+          <td>用于支持 vmware 等第三方虚拟机软件</td>
           <td></td>
       </tr>
   </tbody>
@@ -345,18 +348,18 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 
 <blockquote>
 <ol>
-<li>虚拟机平台会一定程度上影响游戏性能，为了游戏性能，可以关闭虚拟机平台、Hyper-V。Windows虚拟机监控程序平台、适用于Linux的Windows子系统我理解是不影响游戏性能的。参考<a href="https://prod.support.services.microsoft.com/zh-cn/windows/%E7%94%A8%E4%BA%8E%E5%9C%A8-windows-11-%E4%B8%AD%E4%BC%98%E5%8C%96%E6%B8%B8%E6%88%8F%E6%80%A7%E8%83%BD%E7%9A%84%E9%80%89%E9%A1%B9-a255f612-2949-4373-a566-ff6f3f474613">用于在 Windows 11 中优化游戏性能的选项</a>。</li>
-<li>Hyper-V和vmware等软件是冲突的，详见<a href="https://learn.microsoft.com/zh-cn/troubleshoot/windows-client/application-management/virtualization-apps-not-work-with-hyper-v">虚拟化应用程序无法与 Hyper-V、Device Guard 和 Credential Guard 协同工作</a></li>
+<li>虚拟机平台会一定程度上影响游戏性能，为了游戏性能，可以关闭虚拟机平台、Hyper-V。Windows 虚拟机监控程序平台、适用于 Linux 的 Windows 子系统我理解是不影响游戏性能的。参考<a href="https://prod.support.services.microsoft.com/zh-cn/windows/%E7%94%A8%E4%BA%8E%E5%9C%A8-windows-11-%E4%B8%AD%E4%BC%98%E5%8C%96%E6%B8%B8%E6%88%8F%E6%80%A7%E8%83%BD%E7%9A%84%E9%80%89%E9%A1%B9-a255f612-2949-4373-a566-ff6f3f474613">用于在 Windows 11 中优化游戏性能的选项</a>。</li>
+<li>Hyper-V 和 vmware 等软件是冲突的，详见<a href="https://learn.microsoft.com/zh-cn/troubleshoot/windows-client/application-management/virtualization-apps-not-work-with-hyper-v">虚拟化应用程序无法与 Hyper-V、Device Guard 和 Credential Guard 协同工作</a></li>
 </ol></blockquote>
-<p><strong>关闭虚拟机平台和Hyper-V虚拟机监控程序：</strong></p>
+<p><strong>关闭虚拟机平台和 Hyper-V 虚拟机监控程序：</strong></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>dism.exe /online /disable-feature /featurename<span style="color:#960050;background-color:#1e0010">:</span>VirtualMachinePlatform /norestart
 </span></span><span style="display:flex;"><span>DISM /Online /Disable-Feature /FeatureName<span style="color:#960050;background-color:#1e0010">:</span>Microsoft-Hyper-V-All /NoRestart
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 其实只要关闭 Microsoft-Hyper-V-Hypervisor 就行了</span>
 </span></span><span style="display:flex;"><span>sc.exe config wslservice start= disabled
-</span></span></code></pre></div><p><strong>开启虚拟机平台和Hyper-V虚拟机监控程序：</strong></p>
+</span></span></code></pre></div><p><strong>开启虚拟机平台和 Hyper-V 虚拟机监控程序：</strong></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>dism.exe /online /enable-feature /featurename<span style="color:#960050;background-color:#1e0010">:</span>VirtualMachinePlatform /all /norestart
 </span></span><span style="display:flex;"><span>DISM /Online /Enable-Feature /All /FeatureName<span style="color:#960050;background-color:#1e0010">:</span>Microsoft-Hyper-V-All /NoRestart
-</span></span></code></pre></div><p><strong>查看所有windows功能</strong></p>
+</span></span></code></pre></div><p><strong>查看所有 windows 功能</strong></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>dism.exe /online /Get-Features
 </span></span></code></pre></div><h2 id="userprofilewslconfig">%userprofile%/.wslconfig</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[<span style="color:#a6e22e">wsl2</span>]
@@ -376,13 +379,13 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>[<span style="color:#a6e22e">wsl2</span>]
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">swap</span> = <span style="color:#ae81ff">0</span> <span style="color:#75715e"># 禁用swap，使用内存交换文件，不使用磁盘交换文件</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 开启cgroup v2，用于docker和autoMemoryReclaim = gradual共存</span>
-</span></span><span style="display:flex;"><span><span style="color:#a6e22e">kernelCommandLine</span> = <span style="color:#a6e22e">cgroup_no_v1</span>=<span style="color:#a6e22e">all</span> <span style="color:#a6e22e">systemd</span>.<span style="color:#a6e22e">unified_cgroup_hierarchy</span>=<span style="color:#ae81ff">1</span> 
-</span></span></code></pre></div><p>上面的配置启用了自动内存回收，不过仍然可以手动释放page cache（在wsl中执行）：</p>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">kernelCommandLine</span> = <span style="color:#a6e22e">cgroup_no_v1</span>=<span style="color:#a6e22e">all</span> <span style="color:#a6e22e">systemd</span>.<span style="color:#a6e22e">unified_cgroup_hierarchy</span>=<span style="color:#ae81ff">1</span>
+</span></span></code></pre></div><p>上面的配置启用了自动内存回收，不过仍然可以手动释放 page cache（在 wsl 中执行）：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;sync; echo 3 &gt; /proc/sys/vm/drop_caches; touch /root/drop_caches_last_run&#34;</span> |tee /tmp/drop_caches
 </span></span><span style="display:flex;"><span>install /tmp/drop_caches /usr/local/bin/loss
 </span></span><span style="display:flex;"><span>loss
-</span></span></code></pre></div><h2 id="安装wsl2">安装WSL2</h2>
-<p>这里使用了Debian12，因为我不喜欢Ubuntu的Snap，而且Debian12的wsl发行版支持ebpf。</p>
+</span></span></code></pre></div><h2 id="安装-wsl2">安装 WSL2</h2>
+<p>这里使用了 Debian12，因为我不喜欢 Ubuntu 的 Snap，而且 Debian12 的 wsl 发行版支持 ebpf。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 启用VMP 虚拟机平台</span>
 </span></span><span style="display:flex;"><span>dism.exe /online /enable-feature /featurename<span style="color:#960050;background-color:#1e0010">:</span>VirtualMachinePlatform /all /norestart
 </span></span><span style="display:flex;"><span>echo you may need reboot to take effect
@@ -397,7 +400,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><h2 id="第一次启动">第一次启动</h2>
 <p>设置用户名和密码：</p>
 <p><img src="/img/Snipaste_2024-09-21_16-56-02.png" alt=""></p>
-<p>启用systemd：</p>
+<p>启用 systemd：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ! grep -q <span style="color:#e6db74">&#34;systemd=true&#34;</span> /etc/wsl.conf; <span style="color:#66d9ef">then</span>
 </span></span><span style="display:flex;"><span>    cat <span style="color:#e6db74">&lt;&lt;EOF | sudo tee /etc/wsl.conf
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[boot]
@@ -408,10 +411,10 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
-</span></span></code></pre></div><p>执行 <code>wsl --shutdown</code> 重启wsl，然后就可以使用systemd了。</p>
+</span></span></code></pre></div><p>执行 <code>wsl --shutdown</code> 重启 wsl，然后就可以使用 systemd 了。</p>
 <h2 id="其他设置">其他设置</h2>
-<h3 id="apt设置代理">apt设置代理</h3>
-<p>默认安装的Debian的默认源是官方源，国内比较慢，直接配置apt代理。</p>
+<h3 id="apt-设置代理">apt 设置代理</h3>
+<p>默认安装的 Debian 的默认源是官方源，国内比较慢，直接配置 apt 代理。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ! grep -q Acquire::http::Proxy /etc/apt/apt.conf.d/proxy.conf;<span style="color:#66d9ef">then</span>
 </span></span><span style="display:flex;"><span>    cat <span style="color:#e6db74">&lt;&lt;EOF | sudo tee /etc/apt/apt.conf.d/proxy.conf
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Acquire::http::Proxy &#34;https://user:passwd@server:port/&#34;;
@@ -420,7 +423,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Acquire::https::Verify-Peer &#34;false&#34;;
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
-</span></span></code></pre></div><h3 id="apt不更新某软件">apt不更新某软件</h3>
+</span></span></code></pre></div><h3 id="apt-不更新某软件">apt 不更新某软件</h3>
 <p>apt-mark 可以对软件包进行设置（手动/自动）安装标记，也可以用来处理软件包的 dpkg(1) 选中状态，以及列出或过滤拥有某个标记的软件包。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>apt-mark auto – 标记指定软件包为自动安装
 </span></span><span style="display:flex;"><span>apt-mark manual – 标记指定软件包为手动安装
@@ -438,9 +441,9 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>如果要解除保留可以使用unhold
 </span></span><span style="display:flex;"><span>sudo apt-mark unhold docker*
-</span></span></code></pre></div><h3 id="git设置">git设置</h3>
-<p>由于wsl支持windows和linux的命令互操作，你实际上会有两个git，一个wsl的git，一个windows的git.exe。</p>
-<p><strong>WSL git配置</strong></p>
+</span></span></code></pre></div><h3 id="git-设置">git 设置</h3>
+<p>由于 wsl 支持 windows 和 linux 的命令互操作，你实际上会有两个 git，一个 wsl 的 git，一个 windows 的 git.exe。</p>
+<p><strong>WSL git 配置</strong></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git config --global core.editor vim
 </span></span><span style="display:flex;"><span>git config --global http.proxy http://127.0.0.1:7890
 </span></span><span style="display:flex;"><span>git config --global https.proxy http://127.0.0.1:7890
@@ -456,43 +459,43 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>git config --global core.filemode false
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># wsl的git 提交时自动将crlf转换为lf，checkout时不转成crlf</span>
 </span></span><span style="display:flex;"><span>git config --global core.autocrlf input
-</span></span></code></pre></div><p><strong>windows git配置</strong></p>
-<p>wsl的git 提交时自动将crlf转换为lf，checkout时不转成crlf</p>
+</span></span></code></pre></div><p><strong>windows git 配置</strong></p>
+<p>wsl 的 git 提交时自动将 crlf 转换为 lf，checkout 时不转成 crlf</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git config --global core.autocrlf input
-</span></span></code></pre></div><p>autocrlf的配置详见<a href="https://git-scm.com/book/en/v2/Customizing-Git-Git-Configuration#_formatting_and_whitespace">git文档</a></p>
+</span></span></code></pre></div><p>autocrlf 的配置详见<a href="https://git-scm.com/book/en/v2/Customizing-Git-Git-Configuration#_formatting_and_whitespace">git 文档</a></p>
 <p>简单解释就是：</p>
 <ul>
-<li>windows使用crlf换行，linux和macos使用lf换行（早期macos使用cr换行）</li>
-<li>autocrlf=true，提交到index时自动将crlf换成lf，checkout时自动将lf换成crlf。适合windows使用，widnwos默认配置</li>
-<li>autocrlf=input，提交到index时自动将crlf换成lf，checkout时不自动转换。适合macos和linux用。</li>
+<li>windows 使用 crlf 换行，linux 和 macos 使用 lf 换行（早期 macos 使用 cr 换行）</li>
+<li>autocrlf=true，提交到 index 时自动将 crlf 换成 lf，checkout 时自动将 lf 换成 crlf。适合 windows 使用，widnwos 默认配置</li>
+<li>autocrlf=input，提交到 index 时自动将 crlf 换成 lf，checkout 时不自动转换。适合 macos 和 linux 用。</li>
 <li>autocrlf=false，不自动转换换行符。</li>
 </ul>
-<p>git文档推荐，linux和macos使用input，windows使用true。这样保证index、linux、macos中永远是lf，windows中是crlf。</p>
-<p><strong>但是</strong>我的设置成了windows上也是input。</p>
-<p>直接原因是我有很多shell脚本，原本git.exe的bash是可以执行crlf的shell文件的。安装wsl后，bash被替换为了Debian的bash，不能处理crlf的shell文件。——我需要shell脚本是lf的。根本原因，换行符的问题是一个历史遗留问题，是操作系统之间的壁垒。现代的ide或者文本编辑器都是跨平台使用的，他们能处理换行符的问题，那么用vscode，idea就行了，不要用windows的老版文本编辑器了。我已经比较习惯在linux处理文本了，vim、grep、awk、sed等等很爽，wsl的最大好处就是在windows上能用上原生的bash，那就文本全部linux化好了。</p>
-<h3 id="安装ca证书">安装ca证书</h3>
+<p>git 文档推荐，linux 和 macos 使用 input，windows 使用 true。这样保证 index、linux、macos 中永远是 lf，windows 中是 crlf。</p>
+<p><strong>但是</strong>我的设置成了 windows 上也是 input。</p>
+<p>直接原因是我有很多 shell 脚本，原本 git.exe 的 bash 是可以执行 crlf 的 shell 文件的。安装 wsl 后，bash 被替换为了 Debian 的 bash，不能处理 crlf 的 shell 文件。——我需要 shell 脚本是 lf 的。根本原因，换行符的问题是一个历史遗留问题，是操作系统之间的壁垒。现代的 ide 或者文本编辑器都是跨平台使用的，他们能处理换行符的问题，那么用 vscode，idea 就行了，不要用 windows 的老版文本编辑器了。我已经比较习惯在 linux 处理文本了，vim、grep、awk、sed 等等很爽，wsl 的最大好处就是在 windows 上能用上原生的 bash，那就文本全部 linux 化好了。</p>
+<h3 id="安装-ca-证书">安装 ca 证书</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo cp your-certificate.crt /usr/local/share/ca-certificates/
 </span></span><span style="display:flex;"><span>sudo update-ca-certificates
-</span></span></code></pre></div><h2 id="docker和podman">docker和podman</h2>
+</span></span></code></pre></div><h2 id="docker-和-podman">docker 和 podman</h2>
 <ul>
-<li>如果你遇到 docker 无法从 Windows 访问的问题。首先确保docker版本在27.3.0以上，这个版本修复了这个问题，见<a href="https://github.com/moby/moby/pull/48514/files#diff-aa946998315144e84ceffe7bd84918fd8d34183af1cae444ce90e2b620ec8371">[27.x backport] Do not DNAT packets from WSL2&rsquo;s loopback0</a>。如果不能升级docker的话，可以在 /etc/docker/daemon.json 里添加一句 &ldquo;iptables&rdquo;: false，然后重启docker daemon</li>
+<li>如果你遇到 docker 无法从 Windows 访问的问题。首先确保 docker 版本在 27.3.0 以上，这个版本修复了这个问题，见<a href="https://github.com/moby/moby/pull/48514/files#diff-aa946998315144e84ceffe7bd84918fd8d34183af1cae444ce90e2b620ec8371">[27.x backport] Do not DNAT packets from WSL2&rsquo;s loopback0</a>。如果不能升级 docker 的话，可以在 /etc/docker/daemon.json 里添加一句 &ldquo;iptables&rdquo;: false，然后重启 docker daemon</li>
 </ul>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span><span style="color:#f92672">&#34;iptables&#34;</span>: <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;iptables&#34;</span>: <span style="color:#66d9ef">false</span>
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><ul>
-<li>podman容器需要设置 <code>--network host</code>，否则其他容器访问会报错 no route to host。</li>
+<li>podman 容器需要设置 <code>--network host</code>，否则其他容器访问会报错 no route to host。</li>
 </ul>
 <h2 id="参考文档">参考文档</h2>
 <ul>
-<li><a href="https://www.ryanshang.com/2024/01/06/WSL2%E8%AE%BE%E7%BD%AE%E9%95%9C%E5%83%8F%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%BC%8F/">WSL2设置镜像网络模式</a></li>
+<li><a href="https://www.ryanshang.com/2024/01/06/WSL2%E8%AE%BE%E7%BD%AE%E9%95%9C%E5%83%8F%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%BC%8F/">WSL2 设置镜像网络模式</a></li>
 <li><a href="https://learn.microsoft.com/zh-cn/windows/wsl/wsl-config">WSL 中的高级设置配置</a></li>
 </ul>
 <h2 id="内存释放太慢最不满意的一点">内存释放太慢，最不满意的一点</h2>
-<p>即使有了<code>autoMemoryReclaim</code>，任务管理器里看到的 <code>VmmemWSL</code> 还是远大于 wsl 里top看到的res + buffer/cache。即使<code>wsl -t Debian</code> 也不会释放内存，只有<code>wsl --shutdown</code>才可以释放内存。观察到断开所有wsl的terminal和所有由用户启动的后台进程（不包含systemd启动的）都结束后，wsl会在一段时间后自动shutdown，此时VmmemWSL也会降为0。但如果有后台进程常驻的话，就不会自动关闭了，这就建议放个bat文件在桌面，不用wsl的时候就shutdown掉吧。</p>
+<p>即使有了<code>autoMemoryReclaim</code>，任务管理器里看到的 <code>VmmemWSL</code> 还是远大于 wsl 里 top 看到的 res + buffer/cache。即使<code>wsl -t Debian</code> 也不会释放内存，只有<code>wsl --shutdown</code>才可以释放内存。观察到断开所有 wsl 的 terminal 和所有由用户启动的后台进程（不包含 systemd 启动的）都结束后，wsl 会在一段时间后自动 shutdown，此时 VmmemWSL 也会降为 0。但如果有后台进程常驻的话，就不会自动关闭了，这就建议放个 bat 文件在桌面，不用 wsl 的时候就 shutdown 掉吧。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>@echo off
 </span></span><span style="display:flex;"><span>wsl --shutdown
-</span></span></code></pre></div><p>相关issue: <a href="https://github.com/microsoft/WSL/issues/4166">WSL 2 consumes massive amounts of RAM and doesn&rsquo;t return it</a></p>
+</span></span></code></pre></div><p>相关 issue: <a href="https://github.com/microsoft/WSL/issues/4166">WSL 2 consumes massive amounts of RAM and doesn&rsquo;t return it</a></p>
 <p>关于内存回收的问题，找到两个文章：</p>
 <table>
   <thead>
@@ -506,22 +509,22 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
       <tr>
           <td><a href="https://devblogs.microsoft.com/commandline/memory-reclaim-in-the-windows-subsystem-for-linux-2/">Memory Reclaim in the Windows Subsystem for Linux 2</a></td>
           <td>October 30th, 2019</td>
-          <td>基于某kernel patch的pageReporting，将虚拟机闲置的连续的内存返还给宿主机。WSL会在cpu Idle的时候进行内存的compaction，然后进行返还。也可以手动执行<code>echo 1 &gt; /proc/sys/vm/compact_memory</code>触发</td>
+          <td>基于某 kernel patch 的 pageReporting，将虚拟机闲置的连续的内存返还给宿主机。WSL 会在 cpu Idle 的时候进行内存的 compaction，然后进行返还。也可以手动执行<code>echo 1 &gt; /proc/sys/vm/compact_memory</code>触发</td>
       </tr>
       <tr>
           <td><a href="https://devblogs.microsoft.com/commandline/windows-subsystem-for-linux-september-2023-update/#automatic-memory-reclaim">Automatic memory reclaim</a></td>
           <td>September 18th, 2023</td>
-          <td>“逐渐释放”：基于CgroupV2的memory.reclaim特性逐渐释放page cache，与docker使用的CgroupV1冲突。“idle时立即释放”：不依赖CgroupV2的特性，可与docker共存</td>
+          <td>“逐渐释放”：基于 CgroupV2 的 memory.reclaim 特性逐渐释放 page cache，与 docker 使用的 CgroupV1 冲突。“idle 时立即释放”：不依赖 CgroupV2 的特性，可与 docker 共存</td>
       </tr>
   </tbody>
 </table>
-<h2 id="让wsl一直在后台运行">让wsl一直在后台运行</h2>
+<h2 id="让-wsl-一直在后台运行">让 wsl 一直在后台运行</h2>
 <p><a href="https://www.cnblogs.com/wswind/p/17201979.html">https://www.cnblogs.com/wswind/p/17201979.html</a></p>
-<p><strong>简单方案：</strong> 写个VBS脚本，启动wsl的terminal在后台一直等待输入：</p>
+<p><strong>简单方案：</strong> 写个 VBS 脚本，启动 wsl 的 terminal 在后台一直等待输入：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>set ws<span style="color:#f92672">=</span>wscript.CreateObject<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;wscript.shell&#34;</span><span style="color:#f92672">)</span>
 </span></span><span style="display:flex;"><span>ws.run <span style="color:#e6db74">&#34;wsl -d Debian&#34;</span>, <span style="color:#ae81ff">0</span>
-</span></span></code></pre></div><p><strong>进阶方案：</strong> 只启动一个后台进程，即使多次运行该VBS脚本：</p>
-<p>keepalive命令：</p>
+</span></span></code></pre></div><p><strong>进阶方案：</strong> 只启动一个后台进程，即使多次运行该 VBS 脚本：</p>
+<p>keepalive 命令：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; /usr/local/bin/keepalive <span style="color:#e6db74">&lt;&lt;&#39;EOF&#39;
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">command=&#34;watch -n 30 &#39;uptime |head -n 3 | tee /tmp/uptime&#39;&#34;
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">ps -ef|grep &#34;${command}&#34;|grep -v grep
@@ -533,19 +536,19 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">fi
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
 </span></span><span style="display:flex;"><span>chmod +x /usr/local/bin/keepalive
-</span></span></code></pre></div><p>写个VBS脚本：</p>
+</span></span></code></pre></div><p>写个 VBS 脚本：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>set ws<span style="color:#f92672">=</span>wscript.CreateObject<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;wscript.shell&#34;</span><span style="color:#f92672">)</span>
 </span></span><span style="display:flex;"><span>ws.run <span style="color:#e6db74">&#34;wsl -d Debian /usr/local/bin/keepalive&#34;</span>, <span style="color:#ae81ff">0</span>
-</span></span></code></pre></div><p>将这个VBS脚本的快捷方式放到启动文件夹，这样就可以在开机时自动运行了。启动文件夹在：</p>
+</span></span></code></pre></div><p>将这个 VBS 脚本的快捷方式放到启动文件夹，这样就可以在开机时自动运行了。启动文件夹在：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>%userprofile%<span style="color:#ae81ff">\A</span>ppData<span style="color:#ae81ff">\R</span>oaming<span style="color:#ae81ff">\M</span>icrosoft<span style="color:#ae81ff">\W</span>indows<span style="color:#ae81ff">\S</span>tart Menu<span style="color:#ae81ff">\P</span>rograms<span style="color:#ae81ff">\S</span>tartup
-</span></span></code></pre></div><p>或者使用windows的任务计划程序设置为用户登录时自动运行，参考<a href="https://www.sjdhome.com/blog/post/wsl2-auto-start/">实现 WSL 2 开机免登录自动启动</a>：</p>
+</span></span></code></pre></div><p>或者使用 windows 的任务计划程序设置为用户登录时自动运行，参考<a href="https://www.sjdhome.com/blog/post/wsl2-auto-start/">实现 WSL 2 开机免登录自动启动</a>：</p>
 <p><img src="/img/task-scheduler-keep-wsl-1.png" alt="alt text">
 <img src="/img/task-scheduler-keep-wsl-2.png" alt="alt text">
 <img src="/img/task-scheduler-keep-wsl-3.png" alt="alt text"></p>
 <h2 id="卸载发行版">卸载发行版</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bat" data-lang="bat"><span style="display:flex;"><span>wsl --terminate Debian # 停止
 </span></span><span style="display:flex;"><span>wsl --unregister Debian # 卸载
-</span></span></code></pre></div><h2 id="wsl2-debian12-安装docker并配置daemonjson">WSL2 debian12 安装docker并配置daemon.json</h2>
+</span></span></code></pre></div><h2 id="wsl2-debian12-安装-docker-并配置-daemonjson">WSL2 debian12 安装 docker 并配置 daemon.json</h2>
 <ul>
 <li><a href="https://docs.docker.com/engine/install/debian/#install-from-a-package">debian/#install-from-a-package</a></li>
 <li><a href="https://docs.docker.com/engine/install/rhel/#install-using-the-repository">rhel/#install-using-the-repository</a></li>
@@ -584,7 +587,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p><code>--iptables=false</code> prevents the Docker daemon from adding iptables rules. If multiple daemons manage iptables rules, they may overwrite rules set by another daemon. <strong>Be aware that disabling this option requires you to manually add iptables rules to expose container ports.</strong> If you prevent Docker from adding iptables rules, Docker also doesn&rsquo;t add IP masquerading rules, even if you set <code>--ip-masq</code> to <code>true</code>. Without IP masquerading rules, Docker containers can&rsquo;t connect to external hosts or the internet when using network other than default bridge.</p>
 </li>
 <li>
-<p>设置了使用windows clash的代理。</p>
+<p>设置了使用 windows clash 的代理。</p>
 </li>
 </ul>
 <p>设置代理的另一种方式：<a href="https://docs.docker.com/engine/daemon/proxy/#daemon-configuration">proxy/#daemon-configuration</a></p>
@@ -603,7 +606,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>sudo systemctl restart docker
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#Verify that the configuration has been loaded:</span>
 </span></span><span style="display:flex;"><span>sudo systemctl show --property<span style="color:#f92672">=</span>Environment docker
-</span></span></code></pre></div><h2 id="wsl2-debian12-安装openssh-server">WSL2 debian12 安装openssh-server</h2>
+</span></span></code></pre></div><h2 id="wsl2-debian12-安装-openssh-server">WSL2 debian12 安装 openssh-server</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>apt remove -y openssh-server
 </span></span><span style="display:flex;"><span>apt install -y openssh-server
 </span></span><span style="display:flex;"><span>mkdir -p /root/.ssh
@@ -614,22 +617,22 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>sed -i <span style="color:#e6db74">&#39;s/\(#\)\?UseDNS.*/UseDNS no/g&#39;</span> /etc/ssh/sshd_config
 </span></span><span style="display:flex;"><span>systemctl restart sshd
 </span></span><span style="display:flex;"><span>systemctl enable ssh.service
-</span></span></code></pre></div><p>放通windows防火墙：</p>
+</span></span></code></pre></div><p>放通 windows 防火墙：</p>
 <p><img src="/img/winodws11-firewall-setup-port.png" alt="alt text"></p>
 <p><img src="/img/winodws11-firewall-setup-222-port.png" alt="alt text"></p>
 <p>然后一路下一步即可。</p>
-<p>或者直接在管理员权限的powershell执行：</p>
+<p>或者直接在管理员权限的 powershell 执行：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ps1" data-lang="ps1"><span style="display:flex;"><span>New-NetFirewallRule -DisplayName <span style="color:#e6db74">&#39;&#34;Allow SSH on Port xxxxx&#34;&#39;</span> -Direction Inbound -Protocol TCP -LocalPort xxxxx -Action Allow
-</span></span></code></pre></div><p>之后就可以使用vscode remote-ssh到WSL2上来开发了。具体的ssh config如下：</p>
+</span></span></code></pre></div><p>之后就可以使用 vscode remote-ssh 到 WSL2 上来开发了。具体的 ssh config 如下：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Host wsl
 </span></span><span style="display:flex;"><span>  HostName 192.168.xx.xx
 </span></span><span style="display:flex;"><span>  Port <span style="color:#ae81ff">222</span>
 </span></span><span style="display:flex;"><span>  User root
-</span></span></code></pre></div><p>不过因为wsl2有idle自动关闭的特性，所以从外部remote-ssh进来时，需要从外部保活WSL2。思路是ssh到windows上（参考<a href="/posts/mac-wakeonlan-windows-11-msi-motherboard/#windows11-%E5%90%AF%E7%94%A8openssh">widnows11启用openssh-server</a>），然后执行一个前台命令一直运行，具体命令是：</p>
+</span></span></code></pre></div><p>不过因为 wsl2 有 idle 自动关闭的特性，所以从外部 remote-ssh 进来时，需要从外部保活 WSL2。思路是 ssh 到 windows 上（参考<a href="/posts/mac-wakeonlan-windows-11-msi-motherboard/#windows11-%E5%90%AF%E7%94%A8openssh">widnows11 启用 openssh-server</a>），然后执行一个前台命令一直运行，具体命令是：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh windows_user@windows -t wsl
 </span></span></code></pre></div><blockquote>
 <p>以下经过测试无用：</p></blockquote>
-<p>或者设置powershell的profile</p>
+<p>或者设置 powershell 的 profile</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ps1" data-lang="ps1"><span style="display:flex;"><span>$ShortName = @{
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;s&#39;</span> = <span style="color:#e6db74">&#39;Select-Object&#39;</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;g&#39;</span> = <span style="color:#e6db74">&#39;Get-Content&#39;</span>
@@ -637,7 +640,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>        Start-Process <span style="color:#e6db74">&#34;C:\Windows\System32\cscript.exe&#34;</span> -ArgumentList <span style="color:#e6db74">&#34;C:\Users\arloor\Desktop\keep_wsl.vbs&#34;</span>
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;keep2&#39;</span> = {
-</span></span><span style="display:flex;"><span>        Start-Process -FilePath <span style="color:#e6db74">&#34;wsl.exe&#34;</span> -ArgumentList <span style="color:#e6db74">&#34;-d Debian /usr/local/bin/keepalive&#34;</span> 
+</span></span><span style="display:flex;"><span>        Start-Process -FilePath <span style="color:#e6db74">&#34;wsl.exe&#34;</span> -ArgumentList <span style="color:#e6db74">&#34;-d Debian /usr/local/bin/keepalive&#34;</span>
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#  ...</span>
 </span></span><span style="display:flex;"><span>}
@@ -646,14 +649,27 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>$ShortName.Keys | ForEach-Object {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> ($_ <span style="color:#f92672">-eq</span> <span style="color:#e6db74">&#39;keep&#39;</span> <span style="color:#f92672">-or</span> $_ <span style="color:#f92672">-eq</span> <span style="color:#e6db74">&#39;keep2&#39;</span>) {
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 对 &#39;keep&#39; 使用函数</span>
-</span></span><span style="display:flex;"><span>        Set-Item -Path <span style="color:#e6db74">&#34;function:</span>$($_)<span style="color:#e6db74">&#34;</span> -Value $ShortName.$_ 
+</span></span><span style="display:flex;"><span>        Set-Item -Path <span style="color:#e6db74">&#34;function:</span>$($_)<span style="color:#e6db74">&#34;</span> -Value $ShortName.$_
 </span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 对其他命令设置别名</span>
 </span></span><span style="display:flex;"><span>        Set-Alias $_ $ShortName.$_
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>之后ssh上去后执行<code>keep</code>即可。尝试了<code>ssh xxx -t keep</code>是没这个效果的，得先ssh进去，再执行keep，后面就能退出这个ssh的窗口了。</p>
-<h2 id="将-vhdx-文件移动到d盘">将 vhdx 文件移动到D盘</h2>
+</span></span></code></pre></div><p>之后 ssh 上去后执行<code>keep</code>即可。尝试了<code>ssh xxx -t keep</code>是没这个效果的，得先 ssh 进去，再执行 keep，后面就能退出这个 ssh 的窗口了。</p>
+<h2 id="将-wsl-的-debian12-升级到-debian13">将 WSL 的 Debian12 升级到 Debian13</h2>
+<ul>
+<li><a href="https://gist.github.com/yorickdowne/3cecc7b424ce241b173510e36754af47">升级到Debian13</a></li>
+<li><a href="https://www.debian.org/releases/testing/release-notes/upgrading.zh_CN.html">从 Debian 12 （bookworm）升级</a></li>
+<li><a href="https://gist.github.com/bramtechs/50d724a33d37278d7ca003c6119c8fea">Upgrade Debian 9 (current WSL) to Debian 12 (bookworm testing)</a></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt-get update <span style="color:#f92672">&amp;&amp;</span> sudo apt-get dist-upgrade --autoremove -y
+</span></span><span style="display:flex;"><span>sudo sed -i <span style="color:#e6db74">&#39;s/bookworm/trixie/g&#39;</span> /etc/apt/sources.list
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 假设所有的repo都有了trixie版本，再运行下面的命令。可以通过apt-get update检测是否有trixie版本，如果没有的话，可以改回bookworm版本</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># sudo find /etc/apt/sources.list.d -type f -exec sed -i &#39;s/bookworm/trixie/g&#39; {} \;</span>
+</span></span><span style="display:flex;"><span>sudo apt-get update <span style="color:#f92672">&amp;&amp;</span> sudo apt-get dist-upgrade --autoremove -y
+</span></span><span style="display:flex;"><span>sudo apt modernize-sources
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># sudo reboot</span>
+</span></span></code></pre></div><h2 id="将-vhdx-文件移动到-d-盘">将 vhdx 文件移动到 D 盘</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>(Get-ChildItem -Path HKCU<span style="color:#960050;background-color:#1e0010">:</span>\Software\Microsoft\Windows\CurrentVersion\Lxss | Where-Object { $_.GetValue(<span style="color:#e6db74">&#34;DistributionName&#34;</span>) <span style="color:#f92672">-eq</span> <span style="color:#e6db74">&#39;Debian&#39;</span> }).GetValue(<span style="color:#e6db74">&#34;BasePath&#34;</span>) + <span style="color:#e6db74">&#34;\ext4.vhdx&#34;</span>
 </span></span><span style="display:flex;"><span>wsl -l
 </span></span><span style="display:flex;"><span>wsl --export Debian d://Debian.tar  <span style="color:#75715e"># 导出成tar文件</span>
@@ -662,13 +678,13 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>wsl --import Debian d:\wsl D:\Debian.tar  --version <span style="color:#ae81ff">2</span><span style="color:#75715e"># 导入到D盘</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 确认vhdx文件位置</span>
 </span></span><span style="display:flex;"><span>(Get-ChildItem -Path HKCU<span style="color:#960050;background-color:#1e0010">:</span>\Software\Microsoft\Windows\CurrentVersion\Lxss | Where-Object { $_.GetValue(<span style="color:#e6db74">&#34;DistributionName&#34;</span>) <span style="color:#f92672">-eq</span> <span style="color:#e6db74">&#39;Debian&#39;</span> }).GetValue(<span style="color:#e6db74">&#34;BasePath&#34;</span>) + <span style="color:#e6db74">&#34;\ext4.vhdx&#34;</span>
-</span></span></code></pre></div><h2 id="安装-rhel10-作为wsl">安装 rhel10 作为WSL</h2>
+</span></span></code></pre></div><h2 id="安装-rhel10-作为-wsl">安装 rhel10 作为 WSL</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>mkdir D:\redhat
 </span></span><span style="display:flex;"><span>wsl --import rhel D:\redhat C:\Users\arloor\Downloads\composer-api-8d21250f-6d7f-<span style="color:#ae81ff">4483</span>-8a1e-c79c51929d45-disk.tar.gz
 </span></span><span style="display:flex;"><span>wsl.exe --shutdown
 </span></span><span style="display:flex;"><span>wsl.exe --manage rhel --set-sparse true --allow-unsafe
 </span></span></code></pre></div><h2 id="常见报错解决">常见报错解决</h2>
-<h3 id="0x80070422-wslservice服务未启动">0x80070422 wslservice服务未启动</h3>
+<h3 id="0x80070422-wslservice-服务未启动">0x80070422 wslservice 服务未启动</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>无法启动服务，原因可能是已被禁用或与其相关联的设备没有启动。
 </span></span><span style="display:flex;"><span>Error code: Wsl/0x80070422
 </span></span></code></pre></div><p>解决方案：</p>
@@ -676,7 +692,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><h3 id="0x8004032d-虚拟机平台功能未启用">0x8004032d 虚拟机平台功能未启用</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bat" data-lang="bat"><span style="display:flex;"><span>WslRegisterDistribution failed with error: 0x8004032d
 </span></span><span style="display:flex;"><span>Error: 0x8004032d (null)
-</span></span></code></pre></div><p>解决方案：在启用和关闭windows功能中打开“虚拟机平台”或使用下面的cmd命令并重启</p>
+</span></span></code></pre></div><p>解决方案：在启用和关闭 windows 功能中打开“虚拟机平台”或使用下面的 cmd 命令并重启</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bat" data-lang="bat"><span style="display:flex;"><span>dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
 </span></span></code></pre></div><h3 id="端口被占用问题解决">端口被占用问题解决</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bat" data-lang="bat"><span style="display:flex;"><span># 查看当前动态端口范围
