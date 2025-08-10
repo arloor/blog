@@ -1,5 +1,5 @@
 ---
-title: "ultra 265k BIOS/风扇设置"
+title: "Ultra 265k BIOS/风扇设置"
 subtitle:
 tags:
   - undefined
