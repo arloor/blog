@@ -2,27 +2,30 @@
 title: "MacOS和windows开机自启动"
 date: 2020-07-17T19:59:39+08:00
 draft: false
-categories: [ "undefined"]
+categories: ["undefined"]
 tags: ["undefined"]
 weight: 10
 subtitle: ""
-description : ""
+description: ""
 keywords:
-- 刘港欢 arloor moontell
+  - 刘港欢 arloor moontell
+highlightjslanguages:
+  - powershell
 ---
 
-linux上的开机自启动很简单，通过systemd就能搞定。对于macos和windows的开机自启动则没有记录过，这里记录下。
+linux 上的开机自启动很简单，通过 systemd 就能搞定。对于 macos 和 windows 的开机自启动则没有记录过，这里记录下。
+
 <!--more-->
 
-## MacOS开机自启动
+## MacOS 开机自启动
 
-Macos提供三种开机自启动的方式，详情可以看这里[三种方式配置Mac OS X的启动项](https://blog.csdn.net/abby_sheen/article/details/7817198)。这是一篇12年的老文章了。
+Macos 提供三种开机自启动的方式，详情可以看这里[三种方式配置 Mac OS X 的启动项](https://blog.csdn.net/abby_sheen/article/details/7817198)。这是一篇 12 年的老文章了。
 
-这里挑选一种和linux上的systemd很像的方式，使用launchd来进行开机自启动。和systemd一样，launchd也是MacOS上的第一个进程，并且提供和systemctl很类似的launchctl工具。
+这里挑选一种和 linux 上的 systemd 很像的方式，使用 launchd 来进行开机自启动。和 systemd 一样，launchd 也是 MacOS 上的第一个进程，并且提供和 systemctl 很类似的 launchctl 工具。
 
-### plist文件
+### plist 文件
 
-使用Launchd设置开机自启动，仅仅需要编写一个`plist`文件并将其放到`~/Library/LaunchAgents/`。以下是一个应用开机自启的plist文件。
+使用 Launchd 设置开机自启动，仅仅需要编写一个`plist`文件并将其放到`~/Library/LaunchAgents/`。以下是一个应用开机自启的 plist 文件。
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -79,7 +82,7 @@ Macos提供三种开机自启动的方式，详情可以看这里[三种方式�
 </plist>
 ```
 
-如果需要其他字段来自定义能力，可以参考 `man launchd.plist`，或者看[launchd.info](https://www.launchd.info/) 
+如果需要其他字段来自定义能力，可以参考 `man launchd.plist`，或者看[launchd.info](https://www.launchd.info/)
 
 ### 启动和停止
 
@@ -135,20 +138,21 @@ systemctl start com.arloor.sslocal
 systemctl stop com.arloor.sslocal
 ```
 
-service是否被disable的db文件地址如下。MacOS不会自动删除db文件中无效的service，这导致执行`launchctl print-disabled gui/$(id -u)`时会看到一些无效的service。如果想手动删除这些无效的service，需要先在恢复模式关闭安全模式，然后才能通过vim修改。
+service 是否被 disable 的 db 文件地址如下。MacOS 不会自动删除 db 文件中无效的 service，这导致执行`launchctl print-disabled gui/$(id -u)`时会看到一些无效的 service。如果想手动删除这些无效的 service，需要先在恢复模式关闭安全模式，然后才能通过 vim 修改。
 
 ```bash
-/private/var/db/com.apple.xpc.launchd/disabled.$(id -u).plist 
+/private/var/db/com.apple.xpc.launchd/disabled.$(id -u).plist
 ```
 
 #### 老命令
 
-unload和load是老旧的launchctl命令，`man launchctl`能看到，官方推荐我们使用 bootstrap | bootout | enable | disable
+unload 和 load 是老旧的 launchctl 命令，`man launchctl`能看到，官方推荐我们使用 bootstrap | bootout | enable | disable
+
 > - `unload -w` 等同于 `bootout + disable`，停止进程并禁用开机自启动。
-> - `load -w` 等同于 `enable + bootstrap`，启动进程并设置开机自启动。 
-> - `bootstrap` 和 `bootout` 只有在service是enable的状态下才有效。所以下面的脚本中，bootout在disable之前，bootstrap后enable之后。
-> - `bootstrap` 需要使用plist的路径，而不是service-name
-> - `launchctl kickstart -p` 用于打印当前进程的pid
+> - `load -w` 等同于 `enable + bootstrap`，启动进程并设置开机自启动。
+> - `bootstrap` 和 `bootout` 只有在 service 是 enable 的状态下才有效。所以下面的脚本中，bootout 在 disable 之前，bootstrap 后 enable 之后。
+> - `bootstrap` 需要使用 plist 的路径，而不是 service-name
+> - `launchctl kickstart -p` 用于打印当前进程的 pid
 
 ```bash
 #! /bin/sh
@@ -176,15 +180,15 @@ fi
 
 ### 全局资源限制
 
-unix系统都限制了可打开文件数，上面的plist修改了单个进程的文件描述符数量限制。如何修改全局资源限制呢？
+unix 系统都限制了可打开文件数，上面的 plist 修改了单个进程的文件描述符数量限制。如何修改全局资源限制呢？
 
-1. 新建/Library/LaunchDaemons/limit.maxfiles.plist文件，写入
+1. 新建/Library/LaunchDaemons/limit.maxfiles.plist 文件，写入
 
 ```xml
-<?xml version="1.0" encoding="UTF-8"?>  
- <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"  
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
          "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
- <plist version="1.0">  
+ <plist version="1.0">
    <dict>
      <key>Label</key>
      <string>limit.maxfiles</string>
@@ -211,7 +215,7 @@ unix系统都限制了可打开文件数，上面的plist修改了单个进程�
  sudo chmod 644 /Library/LaunchDaemons/limit.maxfiles.plist
 ```
 
-3. 加载plist文件(或重启系统后生效 launchd在启动时会自动加载该目录的plist)
+3. 加载 plist 文件(或重启系统后生效 launchd 在启动时会自动加载该目录的 plist)
 
 ```bash
 sudo launchctl load -w /Library/LaunchDaemons/limit.maxfiles.plist
@@ -223,9 +227,9 @@ sudo launchctl load -w /Library/LaunchDaemons/limit.maxfiles.plist
 launchctl limit maxfiles
 ```
 
-详见[Mac OS X下的资源限制](https://zidongwudaijun.com/2017/02/max-osx-ulimit/)
+详见[Mac OS X 下的资源限制](https://zidongwudaijun.com/2017/02/max-osx-ulimit/)
 
-## macOS定时任务
+## macOS 定时任务
 
 参考[Scheduling Timed Jobs](https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/ScheduledJobs.html)
 
@@ -260,30 +264,28 @@ launchctl limit maxfiles
 </plist>
 ```
 
-1. 这样设置后，每天10点会执行一次。
-2. 如果10点刚好mac在待机，则唤醒后会执行一次。
-3. 如果10点是关机的，则开机后不会执行。
-4. 还有个StartInterval的参数，每多少秒执行一次。这个参数因睡眠导致的错过在唤醒时不会执行的。
+1. 这样设置后，每天 10 点会执行一次。
+2. 如果 10 点刚好 mac 在待机，则唤醒后会执行一次。
+3. 如果 10 点是关机的，则开机后不会执行。
+4. 还有个 StartInterval 的参数，每多少秒执行一次。这个参数因睡眠导致的错过在唤醒时不会执行的。
 
-## windows开机自启动
+## windows 开机自启动
 
-编写`startup.vbs`，放到
+编写`startup.vbs`，放到这个文件夹下（可以使用 `win+r` 输入`shell:Startup`）：
 
-```
+```bash
 %userprofile%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
 ```
 
-文件夹下
-
 `startup.vbs`内容如下：
 
-```
+```powershell
 set forward=WScript.CreateObject("WScript.Shell")
 forward.Run "taskkill /f /im forward.exe",0,True
 forward.Run "C:\Users\arloor\go\bin\forward.exe -conf D:\bin\caddyfile -log E:\data\var\log\forward.log -socks5conf=D:\bin\socks5.yaml",0
 ```
 
-1. 先关闭forward.exe，末尾的`0,True`表示不开启窗口，等待该命令结束再执行下一行
-2. 再启动forward.exe，末尾的`0`表示不开启窗口
+1. 先关闭 forward.exe，末尾的`0,True`表示不开启窗口，等待该命令结束再执行下一行
+2. 再启动 forward.exe，末尾的`0`表示不开启窗口
 
-具体Run命令见[www.vbsedit.com](https://www.vbsedit.com/html/6f28899c-d653-4555-8a59-49640b0e32ea.asp)
+具体 Run 命令见[www.vbsedit.com](https://www.vbsedit.com/html/6f28899c-d653-4555-8a59-49640b0e32ea.asp)
