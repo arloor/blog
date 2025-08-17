@@ -832,7 +832,7 @@
       <link>https://www.arloor.com/posts/other/start-onboot-windows-macos/</link>
       <pubDate>Fri, 17 Jul 2020 19:59:39 +0800</pubDate>
       <guid>https://www.arloor.com/posts/other/start-onboot-windows-macos/</guid>
-      <description>&lt;p&gt;linux上的开机自启动很简单，通过systemd就能搞定。对于macos和windows的开机自启动则没有记录过，这里记录下。&lt;/p&gt;</description>
+      <description>&lt;p&gt;linux 上的开机自启动很简单，通过 systemd 就能搞定。对于 macos 和 windows 的开机自启动则没有记录过，这里记录下。&lt;/p&gt;</description>
     </item>
     <item>
       <title>Jaeger学习</title>

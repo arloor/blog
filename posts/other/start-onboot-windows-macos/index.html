@@ -25,13 +25,13 @@
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="MacOS和windows开机自启动">
-  <meta name="twitter:description" content="linux上的开机自启动很简单，通过systemd就能搞定。对于macos和windows的开机自启动则没有记录过，这里记录下。">
+  <meta name="twitter:description" content="linux 上的开机自启动很简单，通过 systemd 就能搞定。对于 macos 和 windows 的开机自启动则没有记录过，这里记录下。">
       <meta name="twitter:site" content="@njulgh">
 
 <meta property="og:url" content="https://www.arloor.com/posts/other/start-onboot-windows-macos/">
   <meta property="og:site_name" content="ARLOOR">
   <meta property="og:title" content="MacOS和windows开机自启动">
-  <meta property="og:description" content="linux上的开机自启动很简单，通过systemd就能搞定。对于macos和windows的开机自启动则没有记录过，这里记录下。">
+  <meta property="og:description" content="linux 上的开机自启动很简单，通过 systemd 就能搞定。对于 macos 和 windows 的开机自启动则没有记录过，这里记录下。">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
@@ -265,15 +265,15 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
       
           <nav id="TableOfContents">
   <ul>
-    <li><a href="#macos开机自启动">MacOS开机自启动</a>
+    <li><a href="#macos-开机自启动">MacOS 开机自启动</a>
       <ul>
-        <li><a href="#plist文件">plist文件</a></li>
+        <li><a href="#plist-文件">plist 文件</a></li>
         <li><a href="#启动和停止">启动和停止</a></li>
         <li><a href="#全局资源限制">全局资源限制</a></li>
       </ul>
     </li>
-    <li><a href="#macos定时任务">macOS定时任务</a></li>
-    <li><a href="#windows开机自启动">windows开机自启动</a></li>
+    <li><a href="#macos-定时任务">macOS 定时任务</a></li>
+    <li><a href="#windows-开机自启动">windows 开机自启动</a></li>
   </ul>
 </nav>
       
@@ -281,12 +281,12 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   
   <div class="post">
-    <p>linux上的开机自启动很简单，通过systemd就能搞定。对于macos和windows的开机自启动则没有记录过，这里记录下。</p>
-<h2 id="macos开机自启动">MacOS开机自启动</h2>
-<p>Macos提供三种开机自启动的方式，详情可以看这里<a href="https://blog.csdn.net/abby_sheen/article/details/7817198">三种方式配置Mac OS X的启动项</a>。这是一篇12年的老文章了。</p>
-<p>这里挑选一种和linux上的systemd很像的方式，使用launchd来进行开机自启动。和systemd一样，launchd也是MacOS上的第一个进程，并且提供和systemctl很类似的launchctl工具。</p>
-<h3 id="plist文件">plist文件</h3>
-<p>使用Launchd设置开机自启动，仅仅需要编写一个<code>plist</code>文件并将其放到<code>~/Library/LaunchAgents/</code>。以下是一个应用开机自启的plist文件。</p>
+    <p>linux 上的开机自启动很简单，通过 systemd 就能搞定。对于 macos 和 windows 的开机自启动则没有记录过，这里记录下。</p>
+<h2 id="macos-开机自启动">MacOS 开机自启动</h2>
+<p>Macos 提供三种开机自启动的方式，详情可以看这里<a href="https://blog.csdn.net/abby_sheen/article/details/7817198">三种方式配置 Mac OS X 的启动项</a>。这是一篇 12 年的老文章了。</p>
+<p>这里挑选一种和 linux 上的 systemd 很像的方式，使用 launchd 来进行开机自启动。和 systemd 一样，launchd 也是 MacOS 上的第一个进程，并且提供和 systemctl 很类似的 launchctl 工具。</p>
+<h3 id="plist-文件">plist 文件</h3>
+<p>使用 Launchd 设置开机自启动，仅仅需要编写一个<code>plist</code>文件并将其放到<code>~/Library/LaunchAgents/</code>。以下是一个应用开机自启的 plist 文件。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">&lt;!DOCTYPE plist PUBLIC &#34;-//Apple//DTD PLIST 1.0//EN&#34; &#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&#34;&gt;</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;plist</span> <span style="color:#a6e22e">version=</span><span style="color:#e6db74">&#34;1.0&#34;</span><span style="color:#f92672">&gt;</span>
@@ -385,17 +385,17 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><p>把这个脚本命名成 <code>systemctl</code>，那你就可以：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl start com.arloor.sslocal
 </span></span><span style="display:flex;"><span>systemctl stop com.arloor.sslocal
-</span></span></code></pre></div><p>service是否被disable的db文件地址如下。MacOS不会自动删除db文件中无效的service，这导致执行<code>launchctl print-disabled gui/$(id -u)</code>时会看到一些无效的service。如果想手动删除这些无效的service，需要先在恢复模式关闭安全模式，然后才能通过vim修改。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/private/var/db/com.apple.xpc.launchd/disabled.<span style="color:#66d9ef">$(</span>id -u<span style="color:#66d9ef">)</span>.plist 
+</span></span></code></pre></div><p>service 是否被 disable 的 db 文件地址如下。MacOS 不会自动删除 db 文件中无效的 service，这导致执行<code>launchctl print-disabled gui/$(id -u)</code>时会看到一些无效的 service。如果想手动删除这些无效的 service，需要先在恢复模式关闭安全模式，然后才能通过 vim 修改。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/private/var/db/com.apple.xpc.launchd/disabled.<span style="color:#66d9ef">$(</span>id -u<span style="color:#66d9ef">)</span>.plist
 </span></span></code></pre></div><h4 id="老命令">老命令</h4>
-<p>unload和load是老旧的launchctl命令，<code>man launchctl</code>能看到，官方推荐我们使用 bootstrap | bootout | enable | disable</p>
+<p>unload 和 load 是老旧的 launchctl 命令，<code>man launchctl</code>能看到，官方推荐我们使用 bootstrap | bootout | enable | disable</p>
 <blockquote>
 <ul>
 <li><code>unload -w</code> 等同于 <code>bootout + disable</code>，停止进程并禁用开机自启动。</li>
 <li><code>load -w</code> 等同于 <code>enable + bootstrap</code>，启动进程并设置开机自启动。</li>
-<li><code>bootstrap</code> 和 <code>bootout</code> 只有在service是enable的状态下才有效。所以下面的脚本中，bootout在disable之前，bootstrap后enable之后。</li>
-<li><code>bootstrap</code> 需要使用plist的路径，而不是service-name</li>
-<li><code>launchctl kickstart -p</code> 用于打印当前进程的pid</li>
+<li><code>bootstrap</code> 和 <code>bootout</code> 只有在 service 是 enable 的状态下才有效。所以下面的脚本中，bootout 在 disable 之前，bootstrap 后 enable 之后。</li>
+<li><code>bootstrap</code> 需要使用 plist 的路径，而不是 service-name</li>
+<li><code>launchctl kickstart -p</code> 用于打印当前进程的 pid</li>
 </ul></blockquote>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#! /bin/sh
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>service_name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;com.arloor.sslocal&#34;</span>
@@ -419,14 +419,14 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fi</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
 </span></span></code></pre></div><h3 id="全局资源限制">全局资源限制</h3>
-<p>unix系统都限制了可打开文件数，上面的plist修改了单个进程的文件描述符数量限制。如何修改全局资源限制呢？</p>
+<p>unix 系统都限制了可打开文件数，上面的 plist 修改了单个进程的文件描述符数量限制。如何修改全局资源限制呢？</p>
 <ol>
-<li>新建/Library/LaunchDaemons/limit.maxfiles.plist文件，写入</li>
+<li>新建/Library/LaunchDaemons/limit.maxfiles.plist 文件，写入</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>  
-</span></span><span style="display:flex;"><span> <span style="color:#75715e">&lt;!DOCTYPE plist PUBLIC &#34;-//Apple//DTD PLIST 1.0//EN&#34;  
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#75715e">&lt;!DOCTYPE plist PUBLIC &#34;-//Apple//DTD PLIST 1.0//EN&#34;
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">         &#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&#34;&gt;</span>
-</span></span><span style="display:flex;"><span> <span style="color:#f92672">&lt;plist</span> <span style="color:#a6e22e">version=</span><span style="color:#e6db74">&#34;1.0&#34;</span><span style="color:#f92672">&gt;</span>  
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">&lt;plist</span> <span style="color:#a6e22e">version=</span><span style="color:#e6db74">&#34;1.0&#34;</span><span style="color:#f92672">&gt;</span>
 </span></span><span style="display:flex;"><span>   <span style="color:#f92672">&lt;dict&gt;</span>
 </span></span><span style="display:flex;"><span>     <span style="color:#f92672">&lt;key&gt;</span>Label<span style="color:#f92672">&lt;/key&gt;</span>
 </span></span><span style="display:flex;"><span>     <span style="color:#f92672">&lt;string&gt;</span>limit.maxfiles<span style="color:#f92672">&lt;/string&gt;</span>
@@ -450,15 +450,15 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span> sudo chown root:wheel /Library/LaunchDaemons/limit.maxfiles.plist
 </span></span><span style="display:flex;"><span> sudo chmod <span style="color:#ae81ff">644</span> /Library/LaunchDaemons/limit.maxfiles.plist
 </span></span></code></pre></div><ol start="3">
-<li>加载plist文件(或重启系统后生效 launchd在启动时会自动加载该目录的plist)</li>
+<li>加载 plist 文件(或重启系统后生效 launchd 在启动时会自动加载该目录的 plist)</li>
 </ol>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo launchctl load -w /Library/LaunchDaemons/limit.maxfiles.plist
 </span></span></code></pre></div><ol start="4">
 <li>确认更改后的限制</li>
 </ol>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>launchctl limit maxfiles
-</span></span></code></pre></div><p>详见<a href="https://zidongwudaijun.com/2017/02/max-osx-ulimit/">Mac OS X下的资源限制</a></p>
-<h2 id="macos定时任务">macOS定时任务</h2>
+</span></span></code></pre></div><p>详见<a href="https://zidongwudaijun.com/2017/02/max-osx-ulimit/">Mac OS X 下的资源限制</a></p>
+<h2 id="macos-定时任务">macOS 定时任务</h2>
 <p>参考<a href="https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/ScheduledJobs.html">Scheduling Timed Jobs</a></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">&lt;!DOCTYPE plist PUBLIC &#34;-//Apple//DTD PLIST 1.0//EN&#34; &#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&#34;&gt;</span>
@@ -489,24 +489,23 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;/dict&gt;</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/plist&gt;</span>
 </span></span></code></pre></div><ol>
-<li>这样设置后，每天10点会执行一次。</li>
-<li>如果10点刚好mac在待机，则唤醒后会执行一次。</li>
-<li>如果10点是关机的，则开机后不会执行。</li>
-<li>还有个StartInterval的参数，每多少秒执行一次。这个参数因睡眠导致的错过在唤醒时不会执行的。</li>
+<li>这样设置后，每天 10 点会执行一次。</li>
+<li>如果 10 点刚好 mac 在待机，则唤醒后会执行一次。</li>
+<li>如果 10 点是关机的，则开机后不会执行。</li>
+<li>还有个 StartInterval 的参数，每多少秒执行一次。这个参数因睡眠导致的错过在唤醒时不会执行的。</li>
 </ol>
-<h2 id="windows开机自启动">windows开机自启动</h2>
-<p>编写<code>startup.vbs</code>，放到</p>
-<pre tabindex="0"><code>%userprofile%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
-</code></pre><p>文件夹下</p>
-<p><code>startup.vbs</code>内容如下：</p>
-<pre tabindex="0"><code>set forward=WScript.CreateObject(&#34;WScript.Shell&#34;)
-forward.Run &#34;taskkill /f /im forward.exe&#34;,0,True
-forward.Run &#34;C:\Users\arloor\go\bin\forward.exe -conf D:\bin\caddyfile -log E:\data\var\log\forward.log -socks5conf=D:\bin\socks5.yaml&#34;,0
-</code></pre><ol>
-<li>先关闭forward.exe，末尾的<code>0,True</code>表示不开启窗口，等待该命令结束再执行下一行</li>
-<li>再启动forward.exe，末尾的<code>0</code>表示不开启窗口</li>
+<h2 id="windows-开机自启动">windows 开机自启动</h2>
+<p>编写<code>startup.vbs</code>，放到这个文件夹下（可以使用 <code>win+r</code> 输入<code>shell:Startup</code>）：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>%userprofile%<span style="color:#ae81ff">\A</span>ppData<span style="color:#ae81ff">\R</span>oaming<span style="color:#ae81ff">\M</span>icrosoft<span style="color:#ae81ff">\W</span>indows<span style="color:#ae81ff">\S</span>tart Menu<span style="color:#ae81ff">\P</span>rograms<span style="color:#ae81ff">\S</span>tartup
+</span></span></code></pre></div><p><code>startup.vbs</code>内容如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>set forward=WScript.CreateObject(<span style="color:#e6db74">&#34;WScript.Shell&#34;</span>)
+</span></span><span style="display:flex;"><span>forward.Run <span style="color:#e6db74">&#34;taskkill /f /im forward.exe&#34;</span>,<span style="color:#ae81ff">0</span>,True
+</span></span><span style="display:flex;"><span>forward.Run <span style="color:#e6db74">&#34;C:\Users\arloor\go\bin\forward.exe -conf D:\bin\caddyfile -log E:\data\var\log\forward.log -socks5conf=D:\bin\socks5.yaml&#34;</span>,<span style="color:#ae81ff">0</span>
+</span></span></code></pre></div><ol>
+<li>先关闭 forward.exe，末尾的<code>0,True</code>表示不开启窗口，等待该命令结束再执行下一行</li>
+<li>再启动 forward.exe，末尾的<code>0</code>表示不开启窗口</li>
 </ol>
-<p>具体Run命令见<a href="https://www.vbsedit.com/html/6f28899c-d653-4555-8a59-49640b0e32ea.asp">www.vbsedit.com</a></p>
+<p>具体 Run 命令见<a href="https://www.vbsedit.com/html/6f28899c-d653-4555-8a59-49640b0e32ea.asp">www.vbsedit.com</a></p>
   </div>
   
 
@@ -547,7 +546,14 @@ forward.Run &#34;C:\Users\arloor\go\bin\forward.exe -conf D:\bin\caddyfile -log 
     <script src="/js/highlight.min.js"></script>
     <script src="/js/languages/dos.min.js"></script>
         
+            
+                <script src="https://us.arloor.dev/https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/powershell.min.js"></script>
+                
+            
+        
     <script type="text/javascript">
+        
+        hljs.configure({languages: ["powershell"]});
         
         hljs.highlightAll();
     </script>
