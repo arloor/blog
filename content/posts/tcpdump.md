@@ -31,6 +31,14 @@ tcpdump  -A -nn -s 0 'tcp port 80 and (((ip[2:2] - ((ip[0]&0xf)<<2)) - ((tcp[12]
 
 只适用于IPv4的原因是上面的表达式中用到IPv4协议头部字段中的长度，换成IPv6的包，就不对了。IPv6版本的就没这么容易了，因为IPv6的payload length(ip6[4:2])包含了`Extension header`和TCP数据，而`Extension header`长度计算比较复杂，也没看到网上有正确的写法，鉴于这是一个老软件了，我倾向于相信网上没有资料就是没有解法。
 
+### 抓包容器中的流量
+
+需要使用nsenter进入容器的网络命名空间。
+
+```bash
+sudo nsenter -t <pid> -n tcpdump -i eth0 -w capture.pcap
+```
+
 ### 查看localhost的包
 
 > 来自ChatGPT-4
