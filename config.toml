@@ -89,6 +89,11 @@ identifier = "关于我"
 weight = 4
 url = "/about/"
 [[menu.main]]
+name = "Grafana"
+identifier = "Grafana"
+weight = 5
+url = "/grafana/"
+[[menu.main]]
 name = "沪ICP备2025110448号"
 weight = 6
 identifier = "沪ICP备2025110448号"
