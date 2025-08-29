@@ -34,8 +34,8 @@ wsl 全称是 windows 的 linux 子系统，可以理解为在你的 windows 电
 
 ```powershell
 dism.exe /online /disable-feature /featurename:VirtualMachinePlatform /norestart
-DISM /Online /Disable-Feature /FeatureName:Microsoft-Hyper-V-All /NoRestart
 # 其实只要关闭 Microsoft-Hyper-V-Hypervisor 就行了
+DISM /Online /Disable-Feature /FeatureName:Microsoft-Hyper-V-All /NoRestart
 sc.exe config wslservice start= disabled
 ```
 
@@ -44,6 +44,7 @@ sc.exe config wslservice start= disabled
 ```powershell
 dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
 DISM /Online /Enable-Feature /All /FeatureName:Microsoft-Hyper-V-All /NoRestart
+sc.exe config wslservice start= demand
 ```
 
 **查看所有 windows 功能**
