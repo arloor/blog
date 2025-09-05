@@ -73,7 +73,7 @@ echo ssh-rsa xxxxxxxx not@home > ~/.ssh/authorized_keys
 
 ## 隐私与安全中的开发者工具 
 
-[gatekeeper](https://nexte.st/docs/installation/macos/#gatekeeper)
+[gatekeeper](https://nexte.st/docs/installation/macos/#gatekeeper) 据说能加快启动速度
 
 将终端加到开发者工具 `sudo spctl developer-mode enable-terminal`
 
