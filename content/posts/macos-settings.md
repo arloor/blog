@@ -70,3 +70,13 @@ sudo security authorizationdb read system.privilege.taskport.debug
 ```bash
 echo ssh-rsa xxxxxxxx not@home > ~/.ssh/authorized_keys
 ```
+
+## 隐私与安全中的开发者工具 
+
+[gatekeeper](https://nexte.st/docs/installation/macos/#gatekeeper)
+
+将终端加到开发者工具 `sudo spctl developer-mode enable-terminal`
+
+{{< img img_v3_02pr_5877f420-a7fb-468a-b680-3100f183279g.jpg 600 >}}
+
+{{< img img_v3_02pr_7007b65b-1cfa-4a31-a7e0-9679699bb86g.jpg 400 >}}
