@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.150.0">
+<meta name="generator" content="Hugo 0.151.0">
 
     
     
@@ -676,7 +676,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 假设所有的repo都有了trixie版本，再运行下面的命令。可以通过apt-get update检测是否有trixie版本，如果没有的话，可以改回bookworm版本</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># sudo find /etc/apt/sources.list.d -type f -exec sed -i &#39;s/bookworm/trixie/g&#39; {} \;</span>
 </span></span><span style="display:flex;"><span>sudo apt-get update <span style="color:#f92672">&amp;&amp;</span> sudo apt-get dist-upgrade --autoremove -y
-</span></span><span style="display:flex;"><span>sudo apt modernize-sources
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># sudo apt modernize-sources # 不建议执行</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># sudo reboot</span>
 </span></span></code></pre></div><h2 id="将-vhdx-文件移动到-d-盘">将 vhdx 文件移动到 D 盘</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>(Get-ChildItem -Path HKCU<span style="color:#960050;background-color:#1e0010">:</span>\Software\Microsoft\Windows\CurrentVersion\Lxss | Where-Object { $_.GetValue(<span style="color:#e6db74">&#34;DistributionName&#34;</span>) <span style="color:#f92672">-eq</span> <span style="color:#e6db74">&#39;Debian&#39;</span> }).GetValue(<span style="color:#e6db74">&#34;BasePath&#34;</span>) + <span style="color:#e6db74">&#34;\ext4.vhdx&#34;</span>
