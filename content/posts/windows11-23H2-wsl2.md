@@ -461,7 +461,7 @@ sudo sed -i 's/bookworm/trixie/g' /etc/apt/sources.list
 # 假设所有的repo都有了trixie版本，再运行下面的命令。可以通过apt-get update检测是否有trixie版本，如果没有的话，可以改回bookworm版本
 # sudo find /etc/apt/sources.list.d -type f -exec sed -i 's/bookworm/trixie/g' {} \;
 sudo apt-get update && sudo apt-get dist-upgrade --autoremove -y
-sudo apt modernize-sources
+# sudo apt modernize-sources # 不建议执行
 # sudo reboot
 ```
 
