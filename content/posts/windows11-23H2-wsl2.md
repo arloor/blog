@@ -112,7 +112,7 @@ debian config --default-user root
 
 ```bash
 if ! grep -q "systemd=true" /etc/wsl.conf; then
-    cat <<EOF | sudo tee /etc/wsl.conf
+    cat <<EOF | tee /etc/wsl.conf
 [boot]
 systemd = true
 
@@ -133,7 +133,7 @@ fi
 
 ```bash
 if ! grep -q Acquire::http::Proxy /etc/apt/apt.conf.d/proxy.conf;then
-    cat <<EOF | sudo tee /etc/apt/apt.conf.d/proxy.conf
+    cat <<EOF | tee /etc/apt/apt.conf.d/proxy.conf
 Acquire::http::Proxy "https://user:passwd@server:port/";
 Acquire::https::Proxy "https://user:passwd@server:port/";
 # 否则报错没有ca-certificates
@@ -156,13 +156,13 @@ apt-mark showauto – 列出所有自动安装的软件包
 apt-mark showmanual – 列出所有手动安装的软件包
 apt-mark showhold – 列出设为保留的软件包
 
-比如保留某个软件不更新可以使用hold标记,如docker
-sudo apt-mark hold docker*
+# 比如保留某个软件不更新可以使用hold标记,如docker
+apt-mark hold docker*
 
-sudo apt-mark showhold
+apt-mark showhold
 
-如果要解除保留可以使用unhold
-sudo apt-mark unhold docker*
+# 如果要解除保留可以使用unhold
+apt-mark unhold docker*
 ```
 
 ### git 设置
@@ -215,8 +215,8 @@ git 文档推荐，linux 和 macos 使用 input，windows 使用 true。这样�
 ### 安装 ca 证书
 
 ```bash
-sudo cp your-certificate.crt /usr/local/share/ca-certificates/
-sudo update-ca-certificates
+cp your-certificate.crt /usr/local/share/ca-certificates/
+update-ca-certificates
 ```
 
 ## docker 和 podman
@@ -317,19 +317,19 @@ wsl --unregister Debian # 卸载
 
 ```bash
 # Add Docker's official GPG key:
-sudo apt-get update
-sudo apt-get install ca-certificates curl
-sudo install -m 0755 -d /etc/apt/keyrings
-sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
-sudo chmod a+r /etc/apt/keyrings/docker.asc
+apt-get update
+apt-get install ca-certificates curl
+install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+chmod a+r /etc/apt/keyrings/docker.asc
 
 # Add the repository to Apt sources:
 echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
   $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-sudo apt-get update
-sudo apt-get install -y  docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+  tee /etc/apt/sources.list.d/docker.list > /dev/null
+apt-get update
+apt-get install -y  docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 ```
 
 ```bash
@@ -345,7 +345,7 @@ cat > /etc/docker/daemon.json <<EOF
 }
 EOF
 
-sudo systemctl restart docker
+systemctl restart docker
 ```
 
 该脚本修改了 `daemon.json` 文件，具体作用如下：
@@ -357,8 +357,8 @@ sudo systemctl restart docker
 设置代理的另一种方式：[proxy/#daemon-configuration](https://docs.docker.com/engine/daemon/proxy/#daemon-configuration)
 
 ```bash
-sudo mkdir -p /etc/systemd/system/docker.service.d
-sudo touch /etc/systemd/system/docker.service.d/http-proxy.conf
+mkdir -p /etc/systemd/system/docker.service.d
+touch /etc/systemd/system/docker.service.d/http-proxy.conf
 if ! grep HTTP_PROXY /etc/systemd/system/docker.service.d/http-proxy.conf;
 then
 cat >> /etc/systemd/system/docker.service.d/http-proxy.conf <<EOF
@@ -367,11 +367,11 @@ Environment="HTTP_PROXY=http://127.0.0.1:7890" "HTTPS_PROXY=http://127.0.0.1:789
 EOF
 fi
 # Flush changes:
-sudo systemctl daemon-reload
+systemctl daemon-reload
 #Restart Docker:
-sudo systemctl restart docker
+systemctl restart docker
 #Verify that the configuration has been loaded:
-sudo systemctl show --property=Environment docker
+systemctl show --property=Environment docker
 ```
 
 ## WSL2 debian12 安装 openssh-server
@@ -456,13 +456,13 @@ $ShortName.Keys | ForEach-Object {
 - [Upgrade Debian 9 (current WSL) to Debian 12 (bookworm testing)](https://gist.github.com/bramtechs/50d724a33d37278d7ca003c6119c8fea)
 
 ```bash
-sudo apt-get update && sudo apt-get dist-upgrade --autoremove -y
-sudo sed -i 's/bookworm/trixie/g' /etc/apt/sources.list
+apt-get update && apt-get dist-upgrade --autoremove -y
+sed -i 's/bookworm/trixie/g' /etc/apt/sources.list
 # 假设所有的repo都有了trixie版本，再运行下面的命令。可以通过apt-get update检测是否有trixie版本，如果没有的话，可以改回bookworm版本
-# sudo find /etc/apt/sources.list.d -type f -exec sed -i 's/bookworm/trixie/g' {} \;
-sudo apt-get update && sudo apt-get dist-upgrade --autoremove -y
-# sudo apt modernize-sources # 不建议执行
-# sudo reboot
+find /etc/apt/sources.list.d -type f -exec sed -i 's/bookworm/trixie/g' {} \;
+apt-get update && apt-get dist-upgrade --autoremove -y
+# apt modernize-sources # 不建议执行
+# reboot
 ```
 
 ## 将 vhdx 文件移动到 D 盘
