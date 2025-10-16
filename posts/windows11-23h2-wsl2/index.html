@@ -411,7 +411,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p><img src="/img/Snipaste_2024-09-21_16-56-02.png" alt=""></p>
 <p>启用 systemd：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ! grep -q <span style="color:#e6db74">&#34;systemd=true&#34;</span> /etc/wsl.conf; <span style="color:#66d9ef">then</span>
-</span></span><span style="display:flex;"><span>    cat <span style="color:#e6db74">&lt;&lt;EOF | sudo tee /etc/wsl.conf
+</span></span><span style="display:flex;"><span>    cat <span style="color:#e6db74">&lt;&lt;EOF | tee /etc/wsl.conf
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[boot]
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">systemd = true
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
@@ -425,7 +425,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <h3 id="apt-设置代理">apt 设置代理</h3>
 <p>默认安装的 Debian 的默认源是官方源，国内比较慢，直接配置 apt 代理。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ! grep -q Acquire::http::Proxy /etc/apt/apt.conf.d/proxy.conf;<span style="color:#66d9ef">then</span>
-</span></span><span style="display:flex;"><span>    cat <span style="color:#e6db74">&lt;&lt;EOF | sudo tee /etc/apt/apt.conf.d/proxy.conf
+</span></span><span style="display:flex;"><span>    cat <span style="color:#e6db74">&lt;&lt;EOF | tee /etc/apt/apt.conf.d/proxy.conf
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Acquire::http::Proxy &#34;https://user:passwd@server:port/&#34;;
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Acquire::https::Proxy &#34;https://user:passwd@server:port/&#34;;
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74"># 否则报错没有ca-certificates
@@ -443,13 +443,13 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>apt-mark showmanual – 列出所有手动安装的软件包
 </span></span><span style="display:flex;"><span>apt-mark showhold – 列出设为保留的软件包
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>比如保留某个软件不更新可以使用hold标记,如docker
-</span></span><span style="display:flex;"><span>sudo apt-mark hold docker*
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 比如保留某个软件不更新可以使用hold标记,如docker</span>
+</span></span><span style="display:flex;"><span>apt-mark hold docker*
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>sudo apt-mark showhold
+</span></span><span style="display:flex;"><span>apt-mark showhold
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>如果要解除保留可以使用unhold
-</span></span><span style="display:flex;"><span>sudo apt-mark unhold docker*
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 如果要解除保留可以使用unhold</span>
+</span></span><span style="display:flex;"><span>apt-mark unhold docker*
 </span></span></code></pre></div><h3 id="git-设置">git 设置</h3>
 <p>由于 wsl 支持 windows 和 linux 的命令互操作，你实际上会有两个 git，一个 wsl 的 git，一个 windows 的 git.exe。</p>
 <p><strong>WSL git 配置</strong></p>
@@ -483,8 +483,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p><strong>但是</strong>我的设置成了 windows 上也是 input。</p>
 <p>直接原因是我有很多 shell 脚本，原本 git.exe 的 bash 是可以执行 crlf 的 shell 文件的。安装 wsl 后，bash 被替换为了 Debian 的 bash，不能处理 crlf 的 shell 文件。——我需要 shell 脚本是 lf 的。根本原因，换行符的问题是一个历史遗留问题，是操作系统之间的壁垒。现代的 ide 或者文本编辑器都是跨平台使用的，他们能处理换行符的问题，那么用 vscode，idea 就行了，不要用 windows 的老版文本编辑器了。我已经比较习惯在 linux 处理文本了，vim、grep、awk、sed 等等很爽，wsl 的最大好处就是在 windows 上能用上原生的 bash，那就文本全部 linux 化好了。</p>
 <h3 id="安装-ca-证书">安装 ca 证书</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo cp your-certificate.crt /usr/local/share/ca-certificates/
-</span></span><span style="display:flex;"><span>sudo update-ca-certificates
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cp your-certificate.crt /usr/local/share/ca-certificates/
+</span></span><span style="display:flex;"><span>update-ca-certificates
 </span></span></code></pre></div><h2 id="docker-和-podman">docker 和 podman</h2>
 <ul>
 <li>如果你遇到 docker 无法从 Windows 访问的问题。首先确保 docker 版本在 27.3.0 以上，这个版本修复了这个问题，见<a href="https://github.com/moby/moby/pull/48514/files#diff-aa946998315144e84ceffe7bd84918fd8d34183af1cae444ce90e2b620ec8371">[27.x backport] Do not DNAT packets from WSL2&rsquo;s loopback0</a>。如果不能升级 docker 的话，可以在 /etc/docker/daemon.json 里添加一句 &ldquo;iptables&rdquo;: false，然后重启 docker daemon</li>
@@ -564,19 +564,19 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li><a href="https://docs.docker.com/reference/cli/dockerd/#daemon-configuration-file">#daemon-configuration-file</a></li>
 </ul>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Add Docker&#39;s official GPG key:</span>
-</span></span><span style="display:flex;"><span>sudo apt-get update
-</span></span><span style="display:flex;"><span>sudo apt-get install ca-certificates curl
-</span></span><span style="display:flex;"><span>sudo install -m <span style="color:#ae81ff">0755</span> -d /etc/apt/keyrings
-</span></span><span style="display:flex;"><span>sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
-</span></span><span style="display:flex;"><span>sudo chmod a+r /etc/apt/keyrings/docker.asc
+</span></span><span style="display:flex;"><span>apt-get update
+</span></span><span style="display:flex;"><span>apt-get install ca-certificates curl
+</span></span><span style="display:flex;"><span>install -m <span style="color:#ae81ff">0755</span> -d /etc/apt/keyrings
+</span></span><span style="display:flex;"><span>curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+</span></span><span style="display:flex;"><span>chmod a+r /etc/apt/keyrings/docker.asc
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Add the repository to Apt sources:</span>
 </span></span><span style="display:flex;"><span>echo <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  <span style="color:#e6db74">&#34;deb [arch=</span><span style="color:#66d9ef">$(</span>dpkg --print-architecture<span style="color:#66d9ef">)</span><span style="color:#e6db74"> signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  </span><span style="color:#66d9ef">$(</span>. /etc/os-release <span style="color:#f92672">&amp;&amp;</span> echo <span style="color:#e6db74">&#34;</span>$VERSION_CODENAME<span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">)</span><span style="color:#e6db74"> stable&#34;</span> | <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  sudo tee /etc/apt/sources.list.d/docker.list &gt; /dev/null
-</span></span><span style="display:flex;"><span>sudo apt-get update
-</span></span><span style="display:flex;"><span>sudo apt-get install -y  docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  tee /etc/apt/sources.list.d/docker.list &gt; /dev/null
+</span></span><span style="display:flex;"><span>apt-get update
+</span></span><span style="display:flex;"><span>apt-get install -y  docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p /etc/docker
 </span></span><span style="display:flex;"><span>cat &gt; /etc/docker/daemon.json <span style="color:#e6db74">&lt;&lt;EOF
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">{
@@ -589,7 +589,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">}
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>sudo systemctl restart docker
+</span></span><span style="display:flex;"><span>systemctl restart docker
 </span></span></code></pre></div><p>该脚本修改了 <code>daemon.json</code> 文件，具体作用如下：</p>
 <ul>
 <li>
@@ -600,8 +600,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </li>
 </ul>
 <p>设置代理的另一种方式：<a href="https://docs.docker.com/engine/daemon/proxy/#daemon-configuration">proxy/#daemon-configuration</a></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo mkdir -p /etc/systemd/system/docker.service.d
-</span></span><span style="display:flex;"><span>sudo touch /etc/systemd/system/docker.service.d/http-proxy.conf
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p /etc/systemd/system/docker.service.d
+</span></span><span style="display:flex;"><span>touch /etc/systemd/system/docker.service.d/http-proxy.conf
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ! grep HTTP_PROXY /etc/systemd/system/docker.service.d/http-proxy.conf;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">then</span>
 </span></span><span style="display:flex;"><span>cat &gt;&gt; /etc/systemd/system/docker.service.d/http-proxy.conf <span style="color:#e6db74">&lt;&lt;EOF
@@ -610,11 +610,11 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Flush changes:</span>
-</span></span><span style="display:flex;"><span>sudo systemctl daemon-reload
+</span></span><span style="display:flex;"><span>systemctl daemon-reload
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#Restart Docker:</span>
-</span></span><span style="display:flex;"><span>sudo systemctl restart docker
+</span></span><span style="display:flex;"><span>systemctl restart docker
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#Verify that the configuration has been loaded:</span>
-</span></span><span style="display:flex;"><span>sudo systemctl show --property<span style="color:#f92672">=</span>Environment docker
+</span></span><span style="display:flex;"><span>systemctl show --property<span style="color:#f92672">=</span>Environment docker
 </span></span></code></pre></div><h2 id="wsl2-debian12-安装-openssh-server">WSL2 debian12 安装 openssh-server</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>apt remove -y openssh-server
 </span></span><span style="display:flex;"><span>apt install -y openssh-server
@@ -671,13 +671,13 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li><a href="https://www.debian.org/releases/testing/release-notes/upgrading.zh_CN.html">从 Debian 12 （bookworm）升级 </a></li>
 <li><a href="https://gist.github.com/bramtechs/50d724a33d37278d7ca003c6119c8fea">Upgrade Debian 9 (current WSL) to Debian 12 (bookworm testing)</a></li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt-get update <span style="color:#f92672">&amp;&amp;</span> sudo apt-get dist-upgrade --autoremove -y
-</span></span><span style="display:flex;"><span>sudo sed -i <span style="color:#e6db74">&#39;s/bookworm/trixie/g&#39;</span> /etc/apt/sources.list
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>apt-get update <span style="color:#f92672">&amp;&amp;</span> apt-get dist-upgrade --autoremove -y
+</span></span><span style="display:flex;"><span>sed -i <span style="color:#e6db74">&#39;s/bookworm/trixie/g&#39;</span> /etc/apt/sources.list
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 假设所有的repo都有了trixie版本，再运行下面的命令。可以通过apt-get update检测是否有trixie版本，如果没有的话，可以改回bookworm版本</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># sudo find /etc/apt/sources.list.d -type f -exec sed -i &#39;s/bookworm/trixie/g&#39; {} \;</span>
-</span></span><span style="display:flex;"><span>sudo apt-get update <span style="color:#f92672">&amp;&amp;</span> sudo apt-get dist-upgrade --autoremove -y
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># sudo apt modernize-sources # 不建议执行</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># sudo reboot</span>
+</span></span><span style="display:flex;"><span>find /etc/apt/sources.list.d -type f -exec sed -i <span style="color:#e6db74">&#39;s/bookworm/trixie/g&#39;</span> <span style="color:#f92672">{}</span> <span style="color:#ae81ff">\;</span>
+</span></span><span style="display:flex;"><span>apt-get update <span style="color:#f92672">&amp;&amp;</span> apt-get dist-upgrade --autoremove -y
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># apt modernize-sources # 不建议执行</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># reboot</span>
 </span></span></code></pre></div><h2 id="将-vhdx-文件移动到-d-盘">将 vhdx 文件移动到 D 盘</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>(Get-ChildItem -Path HKCU<span style="color:#960050;background-color:#1e0010">:</span>\Software\Microsoft\Windows\CurrentVersion\Lxss | Where-Object { $_.GetValue(<span style="color:#e6db74">&#34;DistributionName&#34;</span>) <span style="color:#f92672">-eq</span> <span style="color:#e6db74">&#39;Debian&#39;</span> }).GetValue(<span style="color:#e6db74">&#34;BasePath&#34;</span>) + <span style="color:#e6db74">&#34;\ext4.vhdx&#34;</span>
 </span></span><span style="display:flex;"><span>wsl -l
