@@ -224,6 +224,31 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   <div class="post-list__item">
     <span class="item__title--big">
+      <a href="/posts/14th-intel-cpu-down-voltage/" >14600KF降压（123微码）以及风扇调教</a>
+    </span>
+    <span class="item__date">
+      May 12, 2024
+    </span>
+    <span >
+      
+      <p>现在用的电脑CPU是14600kf，记录下CPU降压操作和对风扇的调教。整体调教方向是日常无声音+游戏时散热够用即可。最终效果是</p>
+<ol>
+<li>水泵风扇（3pin接口，只能DC调速），常态下4.0v电压，1100转，有轻微声音</li>
+<li>冷排风扇轻负载下650转以下，基本听不到声音</li>
+</ol>
+      
+    </span>
+    
+    ... <a class="read-more-symbol" href="/posts/14th-intel-cpu-down-voltage/">➦</a>
+    
+  </div>
+  
+  
+  
+  
+  
+  <div class="post-list__item">
+    <span class="item__title--big">
       <a href="/posts/nvidia-fan-speed-control/" >Nvidia显卡风扇为什么不转？如何手动设置转速</a>
     </span>
     <span class="item__date">
@@ -430,36 +455,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   </div>
   
   
-  
-  
-  
-  <div class="post-list__item">
-    <span class="item__title--big">
-      <a href="/posts/windows11-settings/" >windows11设置、性能优化</a>
-    </span>
-    <span class="item__date">
-      Dec 4, 2023
-    </span>
-    <span >
-      
-      <h2 id="开启无需密码自动登录">开启无需密码自动登录</h2>
-<ol>
-<li>以管理员运行 cmd，输入：</li>
-</ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>reg ADD <span style="color:#e6db74">&#34;HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\PasswordLess\Device&#34;</span> /v DevicePasswordLessBuildVersion /t REG_DWORD /d <span style="color:#ae81ff">0</span> /f
-</span></span></code></pre></div><ol start="2">
-<li>重启电脑，让新注册表生效</li>
-<li>在开始菜单输入：<code>netplwiz</code> ，并取消勾选</li>
-</ol>
-<p><img src="/img/cancel-password-login-for-windows11.png" alt="Alt text"></p>
-      
-    </span>
-    
-    ... <a class="read-more-symbol" href="/posts/windows11-settings/">➦</a>
-    
-  </div>
-  
-  
 </div>
 
 
@@ -647,7 +642,16 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
         
     
     
-    <li class="page-item"><a class="page-link" href="/page/18/">18</a></li>
+    
+    
+    
+    
+    
+        
+        
+    
+    
+    <li class="page-item"><a class="page-link" href="/page/19/">19</a></li>
     
     
     <li class="page-item">
@@ -655,7 +659,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     </li>
     
     <li class="page-item">
-        <a href="/page/18/" class="page-link" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
+        <a href="/page/19/" class="page-link" aria-label="Last"><span aria-hidden="true">&raquo;&raquo;</span></a>
     </li>
     
 </ul>

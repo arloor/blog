@@ -35,8 +35,8 @@
   <meta property="og:locale" content="zh_CN">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
-    <meta property="article:published_time" content="2021-02-02T20:05:02+08:00">
-    <meta property="article:modified_time" content="2021-02-02T20:05:02+08:00">
+    <meta property="article:published_time" content="2025-10-22T13:05:02+08:00">
+    <meta property="article:modified_time" content="2025-10-22T13:05:02+08:00">
     <meta property="article:tag" content="Undefined">
 
 
@@ -232,7 +232,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <div class="post__meta">
     
     
-      <i class="fas fa-calendar-alt"></i> Feb 2, 2021
+      <i class="fas fa-calendar-alt"></i> Oct 22, 2025
     
     
     
@@ -259,7 +259,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     
     
     <br/>
-    <i class="fas fa-clock"></i> 11 min read
+    <i class="fas fa-clock"></i> 13 min read
 </div>
 
 
@@ -310,6 +310,14 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
         <li><a href="#53-tcp-如何感知-icmp">5.3 TCP 如何感知 ICMP</a></li>
         <li><a href="#54-实际抓包验证">5.4 实际抓包验证</a></li>
         <li><a href="#55-mss-协商的局限性">5.5 MSS 协商的局限性</a></li>
+        <li><a href="#问题场景">问题场景</a></li>
+        <li><a href="#为什么-mss-无法发现中间瓶颈">为什么 MSS 无法发现中间瓶颈？</a></li>
+        <li><a href="#实际案例">实际案例</a></li>
+        <li><a href="#path-mtu-discovery-如何解决">Path MTU Discovery 如何解决</a></li>
+        <li><a href="#完整的流程对比">完整的流程对比</a></li>
+        <li><a href="#现实中的例子">现实中的例子</a></li>
+        <li><a href="#关键要点">关键要点</a></li>
+        <li><a href="#类比理解">类比理解</a></li>
         <li><a href="#56-现代改进plpmtud">5.6 现代改进：PLPMTUD</a></li>
         <li><a href="#57-pppoe-场景下的-pmtud-实际效果">5.7 PPPoE 场景下的 PMTUD 实际效果</a></li>
         <li><a href="#58-pmtud-对不同协议的作用">5.8 PMTUD 对不同协议的作用</a></li>
@@ -708,16 +716,190 @@ ICMP ← 传递 MTU 信息
    Flags [.], seq 1:1453, ack 1, win 65535, length 1452
    # TCP 重传，大小已调整为 1452
 </code></pre><h3 id="55-mss-协商的局限性">5.5 MSS 协商的局限性</h3>
-<p>MSS 只解决<strong>端到端的声明</strong>，无法发现<strong>路径中间的瓶颈</strong>：</p>
-<pre tabindex="0"><code>客户端 --- 路由器A(MTU=1500) --- 路由器B(MTU=1492) --- 服务器
+<p>MSS 只解决<strong>端到端的声明</strong>，无法发现<strong>路径中间的瓶颈</strong>。由于TCP通常设置ip不分片，中间路径有瓶颈时，通常数据会被丢弃。</p>
+<pre tabindex="0"><code>客户端 服务器
+| |
+|-------- SYN (MSS=1460) ---------------&gt;|
+| |
+|&lt;------- SYN-ACK (MSS=1460) ------------|
+| |
+|-------- ACK --------------------------&gt;|
 
-1. 三次握手时：
-   客户端 &lt;--&gt; 服务器 协商 MSS=1460
-   此时双方都不知道中间有 MTU=1492 的瓶颈
+协商结果: 双方都知道对方能接收的最大段大小
+</code></pre><p><strong>MSS 只反映</strong>:</p>
+<ul>
+<li>客户端本地接口的 MTU</li>
+<li>服务器本地接口的 MTU</li>
+<li><strong>仅仅是两端的声明</strong>：&ldquo;我的接口能接收这么大的包&rdquo;（我的门有这么大）</li>
+</ul>
+<h3 id="问题场景">问题场景</h3>
+<pre tabindex="0"><code>
+客户端 (MTU 1500) → 路由器 A (MTU 1500) → 路由器 B (MTU 1400) → 服务器 (MTU 1500)
+                                             ↑
+                                             路径瓶颈！
+</code></pre><p><strong>TCP 握手时</strong>:</p>
+<pre tabindex="0"><code>
+客户端: &#34;我的 MSS = 1460&#34; (基于本地 MTU 1500)
+服务器: &#34;我的 MSS = 1460&#34; (基于本地 MTU 1500)
+双方协商: 使用 MSS = 1460
+</code></pre><p><strong>实际发送数据时</strong>:</p>
+<pre tabindex="0"><code>
+客户端发送: 1460 (数据) + 20 (TCP 头) + 20 (IP 头) = 1500 字节包
+↓
+路由器 A: 转发 (MTU 1500, OK)
+↓
+路由器 B: MTU 只有 1400！ - 如果 DF=1: 丢弃 + 返回 ICMP &#34;需要分片&#34; - 如果 DF=0: 分片 (IPv4)
+</code></pre><h3 id="为什么-mss-无法发现中间瓶颈">为什么 MSS 无法发现中间瓶颈？</h3>
+<p><strong>核心原因</strong>: MSS 是 <strong>声明式的</strong>，不是 <strong>探测式的</strong></p>
+<table>
+  <thead>
+      <tr>
+          <th>特性</th>
+          <th>MSS</th>
+          <th>Path MTU Discovery</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>时机</td>
+          <td>TCP 握手时协商</td>
+          <td>数据传输时动态发现</td>
+      </tr>
+      <tr>
+          <td>信息来源</td>
+          <td>两端主机声明</td>
+          <td>路径中所有路由器反馈</td>
+      </tr>
+      <tr>
+          <td>是否探测路径</td>
+          <td>❌ 否</td>
+          <td>✅ 是</td>
+      </tr>
+      <tr>
+          <td>能否发现中间瓶颈</td>
+          <td>❌ 不能</td>
+          <td>✅ 能</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="实际案例">实际案例</h3>
+<p><strong>场景 1: VPN 隧道</strong></p>
+<pre tabindex="0"><code>
+你的电脑 (MSS=1460, MTU=1500)
+↓
+本地路由器 (MTU=1500)
+↓
+VPN 网关 (MTU=1400, 因为 VPN 封装开销)
+↓
+远程服务器 (MSS=1460, MTU=1500)
+</code></pre><p><strong>问题</strong>:</p>
+<pre tabindex="0"><code>
+1. TCP 握手: MSS 协商为 1460 ✓
+2. 发送数据: 1500 字节包到达 VPN 网关
+3. VPN 网关: &#34;这个包太大了！&#34;
+   - 需要加 VPN 头部，总共会超过 1500
+   - 丢弃包 + 返回 ICMP
+4. 你的电脑: 收到 ICMP，降低 Path MTU 到 1400
+5. 重新发送: 使用更小的包 (1360 数据 + 40 头部 = 1400)
+</code></pre><p><strong>MSS 看不到这个问题</strong>: 因为 VPN 网关不参与 TCP 握手！</p>
+<h3 id="path-mtu-discovery-如何解决">Path MTU Discovery 如何解决</h3>
+<pre tabindex="0"><code>
+初始状态:
+客户端认为 Path MTU = 1500 (基于本地接口)
 
-2. 传输数据时：
-   客户端发送 1500 字节 IP 包 → 到达路由器 B 时超限
-   必须通过 ICMP 反馈才能发现路径 MTU
+发送阶段:
+[1500 字节包, DF=1] → 路由器 B (MTU 1400)
+↓
+丢弃 + ICMP Type 3 Code 4
+&#34;MTU = 1400&#34;
+↓
+客户端更新: Path MTU = 1400
+MSS 调整为 = 1400 - 40 = 1360
+
+后续传输:
+[1400 字节包] → 路由器 B → 成功通过！ ✓
+</code></pre><h3 id="完整的流程对比">完整的流程对比</h3>
+<p><strong>仅使用 MSS</strong>:</p>
+<pre tabindex="0"><code>
+1. 握手: MSS = min(本地 MTU, 对端 MTU) - 40
+2. 发送: 按 MSS 发送
+3. 遇到瓶颈:
+   - DF=1: 黑洞 (ICMP 被屏蔽时)
+   - DF=0: 分片 (性能差)
+</code></pre><p><strong>MSS + Path MTU Discovery</strong>:</p>
+<pre tabindex="0"><code>
+1. 握手: MSS = min(本地 MTU, 对端 MTU) - 40
+2. 发送: 按 MSS 发送, DF=1
+3. 遇到瓶颈:
+   - 收到 ICMP
+   - 动态调整 Path MTU
+   - 自动降低 MSS
+4. 后续: 使用优化的 MSS，避免分片和丢包
+</code></pre><h3 id="现实中的例子">现实中的例子</h3>
+<p><strong>场景</strong>: 你访问公司内网</p>
+<pre tabindex="0"><code>
+家里 (光猫 PPPoE, MTU=1492)
+↓
+ISP 骨干网 (MTU=1500)
+↓
+公司边界路由器 (MTU=1500)
+↓
+公司内部 (某个老交换机 MTU=1400)
+↓
+内网服务器 (MTU=1500)
+</code></pre><p><strong>TCP 握手时</strong>:</p>
+<ul>
+<li>你: MSS = 1460 (基于家里 1500)</li>
+<li>服务器: MSS = 1460</li>
+<li>协商: MSS = 1460</li>
+</ul>
+<p><strong>实际数据传输</strong>:</p>
+<ul>
+<li>第一个包: 1500 字节 (1460+40)</li>
+<li>到达公司内部交换机: <strong>失败！MTU 1400</strong></li>
+<li>ICMP 返回: &ldquo;Path MTU = 1400&rdquo;</li>
+<li>你的系统: 调整实际使用的 MSS = 1360</li>
+</ul>
+<h3 id="关键要点">关键要点</h3>
+<ol>
+<li>
+<p><strong>MSS 是声明，不是探测</strong></p>
+<ul>
+<li>只知道两端的情况</li>
+<li>不知道中间路径</li>
+</ul>
+</li>
+<li>
+<p><strong>Path MTU Discovery 是探测</strong></p>
+<ul>
+<li>通过实际发包 + ICMP 反馈</li>
+<li>发现整条路径的最小 MTU</li>
+</ul>
+</li>
+<li>
+<p><strong>两者配合使用</strong></p>
+</li>
+</ol>
+<pre tabindex="0"><code>
+MSS: 提供初始值
+PMTUD: 动态优化
+最终 MSS = min(协商 MSS, Path MTU - 40)
+</code></pre><ol start="4">
+<li><strong>为什么需要 DF 标志</strong>
+<ul>
+<li>DF=1: 强制 PMTUD，避免分片</li>
+<li>DF=0: 允许分片，但性能差</li>
+</ul>
+</li>
+</ol>
+<h3 id="类比理解">类比理解</h3>
+<pre tabindex="0"><code>
+MSS 就像:
+两个人在电话里说 &#34;我家门有多宽&#34;
+
+Path MTU Discovery 就像:
+实际搬家具时，发现中间某个楼梯太窄
+然后换小一点的家具
 </code></pre><h3 id="56-现代改进plpmtud">5.6 现代改进：PLPMTUD</h3>
 <p>TCP 还支持 <strong>Packetization Layer PMTUD (RFC 4821)</strong>：</p>
 <ul>
@@ -1075,16 +1257,11 @@ macOS/BSD:
 
 <div class="navigation navigation-single">
     
-    <a href="/posts/jmx-use/" class="navigation-prev">
+    <a href="/posts/intel-ultra-265ks-bios/" class="navigation-prev">
       <i aria-hidden="true" class="fa fa-chevron-left"></i>
-      <span class="navigation-tittle">Java管理扩展：通过MBean获取jvm运行情况</span>
+      <span class="navigation-tittle">Ultra 265k BIOS/风扇设置</span>
     </a>
     
-    
-    <a href="/posts/maven-central/" class="navigation-next">
-      <span class="navigation-tittle">Maven发布到中央仓库</span>
-      <i aria-hidden="true" class="fa fa-chevron-right"></i>
-    </a>
     
 </div>
 

@@ -6,8 +6,15 @@
     <description>Recent content on ARLOOR</description>
     <generator>Hugo</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Sun, 27 Jul 2025 14:41:54 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 22 Oct 2025 13:05:02 +0800</lastBuildDate>
     <atom:link href="https://www.arloor.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>MTU详解</title>
+      <link>https://www.arloor.com/posts/mtu/</link>
+      <pubDate>Wed, 22 Oct 2025 13:05:02 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/mtu/</guid>
+      <description>&lt;p&gt;MTU (Maximum Transmission Unit) 是网络通信中的一个关键参数。本文将通过实际案例，深入探讨 MTU 的工作机制、Path MTU Discovery (PMTUD) 协议，以及在 PPPoE 家庭网络环境下的实际应用。&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Ultra 265k BIOS/风扇设置</title>
       <link>https://www.arloor.com/posts/intel-ultra-265ks-bios/</link>
