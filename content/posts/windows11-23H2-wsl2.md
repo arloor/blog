@@ -452,7 +452,7 @@ $ShortName.Keys | ForEach-Object {
 ## 将 WSL 的 Debian12 升级到 Debian13
 
 - [升级到 Debian13](https://gist.github.com/yorickdowne/3cecc7b424ce241b173510e36754af47)
-- [从 Debian 12 （bookworm）升级 ](https://www.debian.org/releases/testing/release-notes/upgrading.zh_CN.html)
+- [从 Debian 12 （bookworm）升级 ](https://www.debian.org/releases/trixie/release-notes/upgrading.zh_CN.html)
 - [Upgrade Debian 9 (current WSL) to Debian 12 (bookworm testing)](https://gist.github.com/bramtechs/50d724a33d37278d7ca003c6119c8fea)
 
 ```bash
