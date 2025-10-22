@@ -6,6 +6,13 @@
 
 ## 安装[hugo 0.121.1 extended](https://github.com/gohugoio/hugo/releases/tag/v0.121.1) （需要支持 scss）
 
+```bash
+cd /tmp
+curl https://github.com/gohugoio/hugo/releases/download/v0.152.0/hugo_extended_0.152.0_Linux-64bit.tar.gz -L |tar -zxv
+install hugo /usr/local/bin
+cd -
+```
+
 ## 部署
 
 ```
