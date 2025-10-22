@@ -1,6 +1,5 @@
 ---
 title: "MySQL9 docker容器配置SSL"
-subtitle:
 date: 2024-11-10T15:05:05+08:00
 draft: false
 categories: 
@@ -8,7 +7,6 @@ categories:
 tags: 
 - notion
 weight: 10
-subtitle: ""
 description : ""
 ---
 
