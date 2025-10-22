@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.151.0">
+<meta name="generator" content="Hugo 0.152.0">
 
     
     
@@ -297,7 +297,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>ssh到nas上，执行<code>lxc exec ${容器名} -- /bin/bash</code></li>
 </ol>
 <blockquote>
-<p>ssh到某机器并且一键登入容器可以:<code>ssh xxx@xxx.com  -p ${ssh_port} -t 'lxc exec ${容器名} -- /bin/bash'</code></p></blockquote>
+<p>ssh到某机器并且一键登入容器可以:<code>ssh xxx@xxx.com  -p ${ssh_port} -t 'lxc exec ${容器名} -- /bin/bash'</code></p>
+</blockquote>
 <p>lxd的容器完全可以当成富容器来用，除了不能ssh，也是有systemd的，可以运行daemon程序，这点很重要。</p>
 <h2 id="使用rsync备份文件到威联通">使用Rsync备份文件到威联通</h2>
 <h3 id="威联通rsync服务配置">威联通Rsync服务配置</h3>

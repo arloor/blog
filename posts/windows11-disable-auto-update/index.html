@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.151.0">
+<meta name="generator" content="Hugo 0.152.0">
 
     
     
@@ -316,7 +316,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>更改完组策略后，需要重启机器或执行 <code>gpupdate /force</code> 来让组策略生效。</p>
 <p><strong>关闭自动更新</strong></p>
 <blockquote>
-<p>理论上，做了这一步之后就不需要后面的组策略配置了，因为已经完全关闭了</p></blockquote>
+<p>理论上，做了这一步之后就不需要后面的组策略配置了，因为已经完全关闭了</p>
+</blockquote>
 <p>组合键 <code>Win + R</code> 输入 <code>gpedit.msc</code> 回车 打开组策略编辑器。导航到<strong>计算机配置 &gt; 管理模板 &gt; Windows组件 &gt; Windows 更新 &gt; 管理最终用户体验</strong>，双击进入。然后修改两个选项：</p>
 <table>
   <thead>
@@ -343,12 +344,14 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p><img src="/img/windows11-gpedit-close-update.png" alt="alt text"></p>
 <p><strong>配置target version</strong></p>
 <blockquote>
-<p>比如想停留在23H2，不想升级24H2</p></blockquote>
+<p>比如想停留在23H2，不想升级24H2</p>
+</blockquote>
 <p>组合键 <code>Win + R</code> 输入 <code>gpedit.msc</code> 回车 打开组策略编辑器。导航到<strong>计算机配置 &gt; 管理模板 &gt; Windows组件 &gt; Windows 更新 &gt; 管理从Windows更新提供的更新</strong>，双击进入。点击“选择目标功能更新版本”，将其配置为“已启用”，然后在下方填入你想停留的版本，比如“23H2”，然后点击应用。重启电脑后就生效了。</p>
 <p><img src="/img/windows11-gpedit-target-version.png" alt="alt text"></p>
 <p><strong>关闭自动更新驱动程序</strong></p>
 <blockquote>
-<p>有人反馈自动更新amd显卡驱动导致蓝屏，整体来说专业的事还是找驱动大师这种软件搞把。</p></blockquote>
+<p>有人反馈自动更新amd显卡驱动导致蓝屏，整体来说专业的事还是找驱动大师这种软件搞把。</p>
+</blockquote>
 <p>组合键 <code>Win + R</code> 输入 <code>gpedit.msc</code> 回车 打开组策略编辑器。导航到<strong>计算机配置 &gt; 管理模板 &gt; Windows组件 &gt; Windows 更新 &gt; Windows更新不包含驱动程序</strong>，双击进入，设置为已启用。重启电脑后就生效了。</p>
 <p><img src="/img/windows11-gpedit-disable-driver-update.png" alt="alt text"></p>
 <h2 id="注册表">注册表</h2>

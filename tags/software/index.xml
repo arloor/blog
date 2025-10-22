@@ -34,7 +34,7 @@
       <link>https://www.arloor.com/posts/github-codespace-use/</link>
       <pubDate>Thu, 21 Dec 2023 16:14:54 +0800</pubDate>
       <guid>https://www.arloor.com/posts/github-codespace-use/</guid>
-      <description>&lt;p&gt;前几天Github告诉我说&lt;code&gt;You&#39;re now in the CodeSpaces beta&lt;/code&gt;，今天体验了下，又发现了一个白嫖计算资源的机会啊。&lt;/p&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;2023-12-11更新：目前Codespaces已经正式发布，我个人将Rust开发全部移到了Codespaces上，下文有我的详细配置，欢迎阅读。收费策略上，目前个人免费账户每月有120小时的Core hours per month额度，这就意味着每月可以白嫖2C8G的机器60小时，或4C16G机器30小时。&lt;/p&gt;&lt;/blockquote&gt;</description>
+      <description>&lt;p&gt;前几天Github告诉我说&lt;code&gt;You&#39;re now in the CodeSpaces beta&lt;/code&gt;，今天体验了下，又发现了一个白嫖计算资源的机会啊。&lt;/p&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;2023-12-11更新：目前Codespaces已经正式发布，我个人将Rust开发全部移到了Codespaces上，下文有我的详细配置，欢迎阅读。收费策略上，目前个人免费账户每月有120小时的Core hours per month额度，这就意味着每月可以白嫖2C8G的机器60小时，或4C16G机器30小时。&lt;/p&gt;&#xA;&lt;/blockquote&gt;</description>
     </item>
     <item>
       <title>Async Profiler使用</title>

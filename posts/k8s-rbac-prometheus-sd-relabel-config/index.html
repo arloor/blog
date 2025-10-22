@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.151.0">
+<meta name="generator" content="Hugo 0.152.0">
 
     
     
@@ -352,7 +352,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>创建一个curl的pod，并在pod中执行curl访问ApiServer。注意我们携带了token，并且通过 <code>-k</code> 跳过了证书验证。</li>
 </ol>
 <blockquote>
-<p>PS：如果需要长期存在的可以参考:<a href="https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#manually-create-a-long-lived-api-token-for-a-serviceaccount">manually-create-a-long-lived-api-token-for-a-serviceaccount</a>。也可以按照文末附录的<a href="#%E5%88%9B%E5%BB%BA%E9%95%BF%E6%9C%9F%E5%AD%98%E5%9C%A8%E7%9A%84token">#创建长期存在的token</a>流程实验一下。</p></blockquote>
+<p>PS：如果需要长期存在的可以参考:<a href="https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#manually-create-a-long-lived-api-token-for-a-serviceaccount">manually-create-a-long-lived-api-token-for-a-serviceaccount</a>。也可以按照文末附录的<a href="#%E5%88%9B%E5%BB%BA%E9%95%BF%E6%9C%9F%E5%AD%98%E5%9C%A8%E7%9A%84token">#创建长期存在的token</a>流程实验一下。</p>
+</blockquote>
 <p>接下来我们会实施一下，我们直接使用了cluster-admin的角色，免得创建细粒度的ClusterRole，当然这在生产中是不推荐的。我们在最后也清理掉了这个ServiceAccount。shell脚本如下：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 创建具有cluster-admin角色的test-admin-user</span>
 </span></span><span style="display:flex;"><span>kubectl apply -f - <span style="color:#e6db74">&lt;&lt;EOF
@@ -402,7 +403,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </ol>
 <p>Github项目<a href="https://github.com/arloor/kubernetes-prometheus-grafana">kubernetes-prometheus-grafana</a>中 <code>prometheus.yaml</code> 的 <code>ConfigMap</code> 是 kubernetes_sd_config 和 relabel_config 的实际例子，可以对照查看。</p>
 <blockquote>
-<p>PS: Prometheus部署在K8S集群外也可以监控K8S集群，此时需要指定apiserver地址，token和ca_cert（或设置不验证证书）。参考文档中的这段描述：</p></blockquote>
+<p>PS: Prometheus部署在K8S集群外也可以监控K8S集群，此时需要指定apiserver地址，token和ca_cert（或设置不验证证书）。参考文档中的这段描述：</p>
+</blockquote>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># The API server addresses. If left empty, Prometheus is assumed to run inside</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># of the cluster and will discover API servers automatically and use the pod&#39;s</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># CA certificate and bearer token file at /var/run/secrets/kubernetes.io/serviceaccount/.</span>

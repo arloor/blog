@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.151.0">
+<meta name="generator" content="Hugo 0.152.0">
 
     
     
@@ -511,7 +511,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>先修改<code>ProxyAddr</code>为服务端安装的地址即可。其他配置项是高级功能，例如多服务器管理，多用户管理（用户认证）等等。</p>
 <blockquote>
-<p>shadowsocks是没有多用户管理的，ss每个端口对应一个用户。sogo则使用用户名+密码认证，使多个用户使用同一个服务器端口。</p></blockquote>
+<p>shadowsocks是没有多用户管理的，ss每个端口对应一个用户。sogo则使用用户名+密码认证，使多个用户使用同一个服务器端口。</p>
+</blockquote>
 <p>修改好之后，双击<code>sogo.exe</code>，这时会发现该目录下多了一个 sogo_8888.log 的文件，这就说明，在本地的8888端口启动好了这个sock5代理。（没有界面哦。</p>
 <h2 id="写sogo有感">写Sogo有感</h2>
 <p>sogo代码不多，对go语言、网络编程感兴趣的人可以看看。这篇博客梳理了一下sogo的实现原理，总之，sogo是一个优雅的代理。</p>
@@ -644,7 +645,8 @@ ps状态列提供了进程当前的状态，以下从man ps上获取的进程sta
 </span></span></code></pre></div><p>问题定位到这个limit过低，解决自然就是增加这个limit。最最简单的方法是执行以下脚本，增加当前shell和它的子进程的limit，然后重启进程。</p>
 <pre tabindex="0"><code>ulimit -n 65536
 </code></pre><blockquote>
-<p>作为临时限制，ulimit 可以作用于通过使用其命令登录的 shell 会话，在会话终止时便结束限制，并不影响于其他 shell 会话。而对于长期的固定限制，ulimit 命令语句又可以被添加到由登录 shell 读取的文件中，作用于特定的 shell 用户。前面多次提到shell会话，ulimit的影响范围是，输入ulimit命令之后的命令，也就是对当前shell和当前shell的子进程生效，对其它shell不产生影响。</p></blockquote>
+<p>作为临时限制，ulimit 可以作用于通过使用其命令登录的 shell 会话，在会话终止时便结束限制，并不影响于其他 shell 会话。而对于长期的固定限制，ulimit 命令语句又可以被添加到由登录 shell 读取的文件中，作用于特定的 shell 用户。前面多次提到shell会话，ulimit的影响范围是，输入ulimit命令之后的命令，也就是对当前shell和当前shell的子进程生效，对其它shell不产生影响。</p>
+</blockquote>
 <p>重启进程后，可以执行以下命令，查看新的limit是否对新进程生效</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat /proc/$pid/limits|grep open
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Max open files            65536                65536                files</span>

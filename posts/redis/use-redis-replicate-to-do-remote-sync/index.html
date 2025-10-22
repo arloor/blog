@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.151.0">
+<meta name="generator" content="Hugo 0.152.0">
 
     
     
@@ -450,7 +450,8 @@ psync_offset &gt; server.second_replid_offset)
 </li>
 </ol>
 <blockquote>
-<p>PS: BGSAVE是后台执行rdb文件导出的过程</p></blockquote>
+<p>PS: BGSAVE是后台执行rdb文件导出的过程</p>
+</blockquote>
 <p>是否使用diskless，由redis的配置项<code>repl-diskless-sync yes</code>、<code>repl-diskless-sync-delay 5</code>与伪slave是否发送<code>REPLCONF capa eof</code>控制。在这三个条件都满足时，用于全量同步的RDB不会暂存在磁盘，而是直接网络传输。其tcp传输的结束标志也不再是长度标志(实验中的<code>$272</code>)，而是<code>$EOF:&lt;40 bytes delimiter&gt;</code>（<code>rdbSaveRioWithEOFMark</code>函数中有体现）。</p>
 <p>在完成全量同步后，该条tcp连接用于传输增量同步的redis命令报文。</p>
 <h2 id="参考文档">参考文档：</h2>

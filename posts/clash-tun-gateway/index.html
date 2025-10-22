@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.151.0">
+<meta name="generator" content="Hugo 0.152.0">
 
     
     
@@ -308,14 +308,18 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>RedHat 9系统，内核版本5.14，其他linux系统也都行。</li>
 </ol>
 <blockquote>
-<p>注意，很多Intel N100 CPU的机器只支持PCIE3.0的固态。</p></blockquote>
+<p>注意，很多Intel N100 CPU的机器只支持PCIE3.0的固态。</p>
+</blockquote>
 <blockquote>
-<p>另外有人反馈Redhat8/Centos8的内核版本4.18开启不了clash tun的auto-route功能</p></blockquote>
+<p>另外有人反馈Redhat8/Centos8的内核版本4.18开启不了clash tun的auto-route功能</p>
+</blockquote>
 <blockquote>
-<p>还看到一些关于畅网N100的负面消息，这里贴一下<a href="https://tieba.baidu.com/p/8518096633?share=9105&amp;fr=sharewise&amp;see_lz=0&amp;share_from=post&amp;sfc=copy&amp;client_type=2&amp;client_version=12.45.7.0&amp;st=1692451415&amp;is_video=false&amp;unique=C11CFEB8D10A93F3B2A32491CD528A31">畅网N100 四网精英版 踩雷了【软路由吧】_百度贴吧</a></p></blockquote>
+<p>还看到一些关于畅网N100的负面消息，这里贴一下<a href="https://tieba.baidu.com/p/8518096633?share=9105&amp;fr=sharewise&amp;see_lz=0&amp;share_from=post&amp;sfc=copy&amp;client_type=2&amp;client_version=12.45.7.0&amp;st=1692451415&amp;is_video=false&amp;unique=C11CFEB8D10A93F3B2A32491CD528A31">畅网N100 四网精英版 踩雷了【软路由吧】_百度贴吧</a></p>
+</blockquote>
 <h2 id="下载clash-premium内核">下载Clash premium内核</h2>
 <blockquote>
-<p>2023-12-25更新：Clash core项目已经删除，有大佬fork了Release文件，保存在了MEGA网盘，地址：<a href="https://mega.nz/folder/orkzRYbR#bHhSjy9r_9AJayIgqtZTag">https://mega.nz/folder/orkzRYbR#bHhSjy9r_9AJayIgqtZTag</a>，请自行下载，自行备份。</p></blockquote>
+<p>2023-12-25更新：Clash core项目已经删除，有大佬fork了Release文件，保存在了MEGA网盘，地址：<a href="https://mega.nz/folder/orkzRYbR#bHhSjy9r_9AJayIgqtZTag">https://mega.nz/folder/orkzRYbR#bHhSjy9r_9AJayIgqtZTag</a>，请自行下载，自行备份。</p>
+</blockquote>
 <p>下载链接<a href="https://github.com/Dreamacro/clash/releases/tag/premium">https://github.com/Dreamacro/clash/releases/tag/premium</a>，到页面下方选择clash-linux-amd64开头的文件下载。也可以选择clash-linux-amd64-v3的版本，有一些性能提升，但是老机器上可能有兼容性问题。</p>
 <p>写此文时clash premium版本是clash-linux-amd64-2023.07.22，我的下载命令如下。大家可以自行修改version字段为最新版本。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>version<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;2023.07.22&#34;</span> <span style="color:#75715e"># 自行修改为当前的最新版本</span>
@@ -331,13 +335,15 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p><img src="/img/clash-yacd-ui.png" alt="Alt text"></p>
 <h2 id="clash配置文件">Clash配置文件</h2>
 <blockquote>
-<p>为了“以Systemd服务运行”成功，配置文件请放置在 /data/clash/config.yaml</p></blockquote>
+<p>为了“以Systemd服务运行”成功，配置文件请放置在 /data/clash/config.yaml</p>
+</blockquote>
 <blockquote>
 <p>这里是Clash tun旁路由的关键，包括tun配置、dns劫持、dns fallback等配置，想了解这些可以参考：</p>
 <ul>
 <li><a href="https://dreamacro.github.io/clash/configuration/configuration-reference.html">configuration-reference</a></li>
 <li><a href="https://dreamacro.github.io/clash/premium/tun-device.html">Feature: tun-device</a></li>
-</ul></blockquote>
+</ul>
+</blockquote>
 <p>在你原有的clash配置文件中增加以下内容：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">experimental</span>:
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">sniff-tls-sni</span>: <span style="color:#66d9ef">true</span>
@@ -385,7 +391,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>Clash会使用Country.mmdb文件识别ip地址所属的国家，GEOIP的规则会用到这个文件。在clash启动时，如果运行目录下没有这个文件会自动下载，由于国内网络的问题，通常会耗时很久，所以我们自行到<a href="https://github.com/Dreamacro/maxmind-geoip/releases">maxmind-geoip releases</a>下载，并ftp/scp到软路由的 <code>/data/clash</code> 目录下。</p>
 <h2 id="以systemd服务运行">以Systemd服务运行</h2>
 <blockquote>
-<p>如果53端口被占用，请自行关闭相关进程</p></blockquote>
+<p>如果53端口被占用，请自行关闭相关进程</p>
+</blockquote>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; /lib/systemd/system/clash.service <span style="color:#e6db74">&lt;&lt;\EOF
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[Unit]
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Description=rust_http_proxy
@@ -446,7 +453,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <ul>
 <li>Use a non-private DNS server as your system DNS like <code>1.1.1.1</code></li>
 <li>Or manually set up your system DNS to the Clash DNS (by default, <code>198.18.0.1</code>)</li>
-</ul></blockquote>
+</ul>
+</blockquote>
   </div>
   
 

@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.151.0">
+<meta name="generator" content="Hugo 0.152.0">
 
     
     
@@ -309,7 +309,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>高性能：Rust 速度惊人且内存利用率极高。由于没有运行时和垃圾回收，它能够胜任对性能要求特别高的服务，可以在嵌入式设备上运行，还能轻松和其他语言集成。</li>
 <li>可靠性：Rust 丰富的类型系统和所有权模型保证了内存安全和线程安全，让您在编译期就能够消除各种各样的错误。</li>
 <li>生产力：Rust 拥有出色的文档、友好的编译器和清晰的错误提示信息， 还集成了一流的工具——包管理器和构建工具， 智能地自动补全和类型检验的多编辑器支持， 以及自动格式化代码等等。</li>
-</ul></blockquote>
+</ul>
+</blockquote>
 <h2 id="入门路径">入门路径</h2>
 <p>rust的网站这样描述自己：我们喜欢写document。rust确实提供了很多不错的文档（go的文档也很好</p>
 <ul>
@@ -394,14 +395,17 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>Rust 中的每一个值都有一个被称为其 所有者（owner）的变量。</li>
 <li>值在任一时刻有且只有一个所有者。</li>
 <li>当所有者（变量）离开作用域，这个值将被丢弃。</li>
-</ol></blockquote>
+</ol>
+</blockquote>
 <p>owner可以简单理解为指向堆上数据的指针，指针是存放在栈上的。那么，所有权系统的思想就是“当指针离开作用域时，释放该指针指向的堆上空间”，简单来说就是<strong>堆上数据随栈上指针的出栈而释放</strong>，或者说<strong>堆内存受栈内存生命周期的控制</strong>。但是这件事没有这么简单，否则为什么C不去实现“当指针离开作用域时，释放该指针指向的堆上空间”。</p>
 <p>在实现上，rust提供了Move、Copy、Drop、和生命周期注解参数。</p>
 <p>在C中，经常讨论传参是值传递的还是引用传递的，java中也有java只使用值传递的说法。在rust中没有值传递还是引用传递的说法，rust说的是Move和Copy。<strong>Move通常用于堆上数据</strong>，是指不进行拷贝，直接把指针/引用传递过去，“所有权”也相应地移动到了目标作用域里——适用于堆上数据，因为堆上数据拷贝成本高，同时堆上数据需要进行释放。<strong>Copy通常用于栈</strong>，主要用于基础数据类型（size编译器确定，可以放在栈上的数据）。Move和Copy其实是想保证规则“2. 值在任一时刻有且只有一个所有者”。</p>
 <blockquote>
-<p>栈上的数据（Copy）是可以自动回收的。Move语义保证堆上的数据只能有一个所有者，所有者负责回收资源。</p></blockquote>
+<p>栈上的数据（Copy）是可以自动回收的。Move语义保证堆上的数据只能有一个所有者，所有者负责回收资源。</p>
+</blockquote>
 <blockquote>
-<p>对于Move trait的类型，可以使用借用，也可以使用<code>.clone</code>深拷贝出一个对象，进行传参。但是深拷贝是开销很大的，也可以选择使用Rc智能指针包裹（见下文）。</p></blockquote>
+<p>对于Move trait的类型，可以使用借用，也可以使用<code>.clone</code>深拷贝出一个对象，进行传参。但是深拷贝是开销很大的，也可以选择使用Rc智能指针包裹（见下文）。</p>
+</blockquote>
 <p>那什么是Drop呢？回忆一下java8的try-with-resource语法：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>        <span style="color:#66d9ef">try</span>(InputStream in<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> ByteArrayInputStream(<span style="color:#e6db74">&#34;aaaa&#34;</span>.<span style="color:#a6e22e">getBytes</span>(StandardCharsets.<span style="color:#a6e22e">UTF_8</span>))){
 </span></span><span style="display:flex;"><span>            <span style="color:#75715e">// doSomeThing...</span>
@@ -498,7 +502,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <ol>
 <li>在任意给定时间，要么 只能有一个可变引用，要么 只能有多个不可变引用。</li>
 <li>引用必须总是有效的。</li>
-</ol></blockquote>
+</ol>
+</blockquote>
 <p>为什么“引用必须总是有效的”？因为引用所指向的数据如果已经被释放，那么就会导致一些错误，这就是“悬垂指针”。“悬垂指针”也是内存安全问题的一种，rust也致力于在编译器暴露这种问题，他的解决方案就是“生命周期注解参数”：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> s <span style="color:#f92672">=</span> String::from(<span style="color:#e6db74">&#34;string&#34;</span>);
@@ -517,7 +522,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>rust的编译器能自动地判断一些引用的生命周期，所以不是所有情况都需要显式使用生命周期注解参数。不要畏惧生命周期注解参数，你只需要在编译器提醒你的时候加上他们。生命周期注解参数不会改变生命周期。</p>
 <h2 id="staitic作为trait-bound">&lsquo;staitic作为trait bound</h2>
 <blockquote>
-<p><a href="https://doc.rust-lang.org/rust-by-example/scope/lifetime/static_lifetime.html">rust-by-example</a>中说这意味着所有权被move到这个scope里。也就是说，不能传引用</p></blockquote>
+<p><a href="https://doc.rust-lang.org/rust-by-example/scope/lifetime/static_lifetime.html">rust-by-example</a>中说这意味着所有权被move到这个scope里。也就是说，不能传引用</p>
+</blockquote>
 <p><img src="/img/static_trait_bound.png" alt="Alt text"></p>
 <h2 id="静态链接可执行文件">静态链接可执行文件</h2>
 <p>链接Linkage更多的是编译器的概念而不是语言的概念，Rust直接使用了gcc或msvc等现成编译器的链接器。因此我们先拿gcc的命令来解释下静态链接：</p>
@@ -561,7 +567,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><h3 id="x86_64-unknown-linux-musl">x86_64-unknown-linux-musl</h3>
 <p>因为musl默认使用静态链接，所以只需要编译安装musl和增加musl toolchain即可，不需要增加 <code>RUSTFLAGS</code>。建议是编译安装musl而不是使用发行版提供的musl-dev，因为发行版提供的musl-dev版本可能比较老，还是用32位的类型，可能导致编译不通过。参考<a href="https://github.com/rust-lang/libc/issues/1848">musl: Change time_t definition on 32-bit targets according to &ldquo;time64&rdquo;</a></p>
 <blockquote>
-<p>musl 1.2 is now available and changes time_t for 32-bit archs to a 64-bit type。 PS: 具体而言，好像是从1.2.4开始支持64位的time_t</p></blockquote>
+<p>musl 1.2 is now available and changes time_t for 32-bit archs to a 64-bit type。 PS: 具体而言，好像是从1.2.4开始支持64位的time_t</p>
+</blockquote>
 <ol>
 <li>安装musl</li>
 </ol>

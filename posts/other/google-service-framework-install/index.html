@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.151.0">
+<meta name="generator" content="Hugo 0.152.0">
 
     
     
@@ -321,7 +321,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>在国内环境下，有些手机厂商在手机出厂时会删除安卓内置的google service framework，而有些则不会删除。因此，有些手机不需要自行安装google service framework。</p>
 <h2 id="下载apk格式而不是bundle格式">下载apk格式，而不是bundle格式</h2>
 <blockquote>
-<p>2023.12.13更新</p></blockquote>
+<p>2023.12.13更新</p>
+</blockquote>
 <p>现在apkmirror上有两种格式的安装包，一种是传统的apk，一种是新的bundle。我们认准apk格式安装包，不要下载bundle格式的安装包，因为bundle格式的安装包不能直接安装，需要通过APKMirror Installer (Official) 这个app来安装。</p>
 <p><img src="/img/apk-yes-apkm-no.png" alt="Alt text"></p>
 <h2 id="安装google-service-framework">安装google service framework</h2>
@@ -377,7 +378,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>原因参见<a href="https://www.ohyee.cc/post/note_google_play_store">Google Play 商店能访问无限等待下载
 </a>：</p>
 <blockquote>
-<p>尽管很多国行手机支持直接安装谷歌框架，但往往安装的是国行谷歌框架，其对应的地址是 services.googleapis.cn，在国内该地址会被解析到不支持 Play 商店的 IP 上（因为域名以 .cn 结尾，因此大部分规则都会让该地址走直连</p></blockquote>
+<p>尽管很多国行手机支持直接安装谷歌框架，但往往安装的是国行谷歌框架，其对应的地址是 services.googleapis.cn，在国内该地址会被解析到不支持 Play 商店的 IP 上（因为域名以 .cn 结尾，因此大部分规则都会让该地址走直连</p>
+</blockquote>
 <p>解决方案也比较简单，让<code>services.googleapis.cn</code>走代理即可，比如clash规则中添加：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span>- <span style="color:#ae81ff">DOMAIN-SUFFIX,services.googleapis.cn</span>
 </span></span></code></pre></div><h2 id="鸿蒙420版本安装google三件套">鸿蒙4.20版本安装google三件套</h2>

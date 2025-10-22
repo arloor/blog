@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.151.0">
+<meta name="generator" content="Hugo 0.152.0">
 
     
     
@@ -450,7 +450,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>先介绍两种安装方式，首先是通过 manifest yaml 文件安装，另一种是通过 helm chart 安装。再介绍 token 生成，以及使用 token 登陆 kubernetes-dashboard。</p>
 <h3 id="使用-manifest-安装">使用 manifest 安装</h3>
 <blockquote>
-<p>这里还是使用 v2.7.0 版本，因为 v3.0.0 版本需要 ingress-nginx-controller，而我不想用 ingress-controller。</p></blockquote>
+<p>这里还是使用 v2.7.0 版本，因为 v3.0.0 版本需要 ingress-nginx-controller，而我不想用 ingress-controller。</p>
+</blockquote>
 <p>下载 k8s dashboard 的 manifest，并预先下载镜像</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>. pass
 </span></span><span style="display:flex;"><span>wget https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml -O recommended.yaml
@@ -483,7 +484,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>mv /tmp/linux-amd64/helm  /usr/local/bin/
 </span></span></code></pre></div><p>安装 dashboard 的 helm chart</p>
 <blockquote>
-<p>需要先参考<a href="#%E8%AE%BF%E9%97%AE%E9%9B%86%E7%BE%A4">访问集群</a>设置 kubeconfig，从而让 helm 与集群交互</p></blockquote>
+<p>需要先参考<a href="#%E8%AE%BF%E9%97%AE%E9%9B%86%E7%BE%A4">访问集群</a>设置 kubeconfig，从而让 helm 与集群交互</p>
+</blockquote>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
 </span></span><span style="display:flex;"><span>helm repo update
 </span></span><span style="display:flex;"><span>helm search repo kubernetes-dashboard -l <span style="color:#75715e">#找到 app version 2.7.0对应的version为6.0.8</span>

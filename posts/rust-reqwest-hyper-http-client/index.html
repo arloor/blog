@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.151.0">
+<meta name="generator" content="Hugo 0.152.0">
 
     
     
@@ -500,7 +500,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>Send a constructed Request using this Client.
 </span></span></code></pre></div><p>值得说明的是 <code>legacy client</code> 并不是“过时”的意思，而是 <code>hyper</code> 库从 <code>0.14</code> 升级到 <code>1.0</code> 时，将其从 <code>hyper</code> 移动到了 <code>hyper-util</code>。可以理解为从hyper体系的核心库移动到了外围实用组件。见下面引用自<a href="https://hyper.rs/guides/1/upgrading/">Upgrade from v0.14 to v1</a>的描述</p>
 <blockquote>
-<p>The higher-level pooling Client was removed from <code>hyper 1.0</code>. A similar type was added to <code>hyper-util</code>, called <code>client::legacy::Client</code>. It’s mostly a drop-in replacement.</p></blockquote>
+<p>The higher-level pooling Client was removed from <code>hyper 1.0</code>. A similar type was added to <code>hyper-util</code>, called <code>client::legacy::Client</code>. It’s mostly a drop-in replacement.</p>
+</blockquote>
 <h3 id="legacy-client中池化的实现">legacy client中池化的实现</h3>
 <p><code>legacy client</code> 的核心实现都在 <code>impl&lt;C, B&gt; Client&lt;C, B&gt;</code> 中，核心方法有：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span><span style="color:#75715e">// 发送请求

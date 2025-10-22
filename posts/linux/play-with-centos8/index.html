@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.151.0">
+<meta name="generator" content="Hugo 0.152.0">
 
     
     
@@ -587,7 +587,8 @@ DNS2=&#34;223.5.5.5&#34;
 </code></pre><p>而且最后应该执行<code>service NetworkManager restart</code>，使生效。</p>
 <p>关于PEERDNS的解释，可以看<code>service network restart</code>的一段解释：</p>
 <blockquote>
-<p>PEERDNS=no to mean &ldquo;never touch resolv.conf&rdquo;. NetworkManager interprets it to say &ldquo;never add automatic (DHCP, PPP, VPN, etc.) nameservers to resolv.conf&rdquo;.</p></blockquote>
+<p>PEERDNS=no to mean &ldquo;never touch resolv.conf&rdquo;. NetworkManager interprets it to say &ldquo;never add automatic (DHCP, PPP, VPN, etc.) nameservers to resolv.conf&rdquo;.</p>
+</blockquote>
 <p>另一种方案： 让NetWorkManager不管理DNS，由用户自己管理<code>/etc/resolv.conf</code></p>
 <pre tabindex="0"><code>cat &gt; /etc/NetworkManager/conf.d/90-dns-none.conf &lt;&lt;EOF
 [main]

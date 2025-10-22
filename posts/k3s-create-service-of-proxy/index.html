@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.151.0">
+<meta name="generator" content="Hugo 0.152.0">
 
     
     
@@ -426,7 +426,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><p>另外在过程中遇到一点问题是Service写的不对，没有和deployment成功关联，主要是.spec.selector那里没写对，后面直接用expose来创建service了。而且刚好只需要ClusterIp类型的Service即可，expose刚刚好。</p>
 <blockquote>
 <p>后面又学习了下，Deployment的 spec.selector.matchLabels 下的labels要和Service的.spec.selector下的labels一致。
-这也可以形成个最佳实践：如无必要，勿增实体，Service和Deployment的Name<strong>保持一致</strong>，然后给Deployment增加一个label：固定为 <strong>k8s-app: ${name}</strong>，然后Service的selector就填这个<strong>k8s-app: ${name}</strong></p></blockquote>
+这也可以形成个最佳实践：如无必要，勿增实体，Service和Deployment的Name<strong>保持一致</strong>，然后给Deployment增加一个label：固定为 <strong>k8s-app: ${name}</strong>，然后Service的selector就填这个<strong>k8s-app: ${name}</strong></p>
+</blockquote>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl expose deployment/clash
 </span></span></code></pre></div><h2 id="测试">测试</h2>
 <p>我们开一个curl的pod来测试下</p>

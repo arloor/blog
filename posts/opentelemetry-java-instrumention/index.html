@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.151.0">
+<meta name="generator" content="Hugo 0.152.0">
 
     
     
@@ -311,7 +311,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <h2 id="agentinitializer类">AgentInitializer类</h2>
 <p>还是先看注释：这个类被OpenTelemetryAgent调用，因此由bootstrapClassLoader加载，因此可以<strong>畅通地使用</strong>agent的其他类（因为其他类同样被bootstrapClassLoader加载）</p>
 <blockquote>
-<p>这也符合在上面提到的，在premain和agentmain的类中做尽可能少的事</p></blockquote>
+<p>这也符合在上面提到的，在premain和agentmain的类中做尽可能少的事</p>
+</blockquote>
 <p>这个类实际上做了三件事：</p>
 <ol>
 <li>创建AgentClassloader</li>

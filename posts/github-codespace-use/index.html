@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.151.0">
+<meta name="generator" content="Hugo 0.152.0">
 
     
     
@@ -300,7 +300,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   <div class="post">
     <p>前几天Github告诉我说<code>You're now in the CodeSpaces beta</code>，今天体验了下，又发现了一个白嫖计算资源的机会啊。</p>
 <blockquote>
-<p>2023-12-11更新：目前Codespaces已经正式发布，我个人将Rust开发全部移到了Codespaces上，下文有我的详细配置，欢迎阅读。收费策略上，目前个人免费账户每月有120小时的Core hours per month额度，这就意味着每月可以白嫖2C8G的机器60小时，或4C16G机器30小时。</p></blockquote>
+<p>2023-12-11更新：目前Codespaces已经正式发布，我个人将Rust开发全部移到了Codespaces上，下文有我的详细配置，欢迎阅读。收费策略上，目前个人免费账户每月有120小时的Core hours per month额度，这就意味着每月可以白嫖2C8G的机器60小时，或4C16G机器30小时。</p>
+</blockquote>
 <h2 id="codespaces能做什么">Codespaces能做什么</h2>
 <p>现在各行各业都在卷，ide这行也都卷到了远程开发这个领域，Codespaces也是远程开发的一个解决方案。可以认为Github给你开了一个docker容器，里面运行着一个vscode，vscode打开着你的项目文件，你可以进行代码编辑，并依托vscode进行调试等等。</p>
 <p>在更早的时候<a href="https://github.dev/">github.dev</a>就实现了在线编辑的功能，在你的github项目里按下<code>.</code>键，就会自动地跳转到Github提供的网页版VS code，参见<a href="https://github.dev/github/dev">https://github.dev/github/dev</a>。</p>
@@ -327,7 +328,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>ws.Run <span style="color:#e6db74">&#34;chrome.exe --app=https://</span><span style="color:#e6db74">${</span>user<span style="color:#e6db74">}</span><span style="color:#e6db74">-</span><span style="color:#e6db74">${</span>repo<span style="color:#e6db74">}</span><span style="color:#e6db74">-</span><span style="color:#e6db74">${</span>id<span style="color:#e6db74">}</span><span style="color:#e6db74">.github.dev/ --start-maximized&#34;</span>,0
 </span></span></code></pre></div><h2 id="配置codespaces">配置Codespaces</h2>
 <blockquote>
-<p>更改配置后需要rebuild codespace或者删除重建Codespaces才会生效</p></blockquote>
+<p>更改配置后需要rebuild codespace或者删除重建Codespaces才会生效</p>
+</blockquote>
 <h3 id="个人账号级别">个人账号级别</h3>
 <p><strong>1. 环境变量配置</strong></p>
 <p>配置地址：<a href="https://github.com/settings/codespaces">settings/codespaces</a></p>
@@ -389,14 +391,16 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plaintext" data-lang="plaintext"><span style="display:flex;"><span>*.servicebus.windows.net:443
 </span></span></code></pre></div><p>这个应该是关乎延迟、决定体验最重要的一个域名，建议一定要配置代理</p>
 <blockquote>
-<p>vsls-prod-ins-asse-private-relay.servicebus.windows.net</p></blockquote>
+<p>vsls-prod-ins-asse-private-relay.servicebus.windows.net</p>
+</blockquote>
 <ol start="2">
 <li>用于端口转发的websocket地址</li>
 </ol>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>*.rel.tunnels.api.visualstudio.com
 </span></span></code></pre></div><blockquote>
 <p>inc1.rel.tunnels.api.visualstudio.com
-inc1-data.rel.tunnels.api.visualstudio.com</p></blockquote>
+inc1-data.rel.tunnels.api.visualstudio.com</p>
+</blockquote>
 <ol start="3">
 <li>vscode涉及的资源或静态文件地址</li>
 </ol>

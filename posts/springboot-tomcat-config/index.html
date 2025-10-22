@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.151.0">
+<meta name="generator" content="Hugo 0.152.0">
 
     
     
@@ -317,7 +317,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>protocol.<span style="color:#a6e22e">setMaxKeepAliveRequests</span>(600); <span style="color:#75715e">// 表示一个socket连接处理600次请求后主动断开</span>
 </span></span></code></pre></div><p>剩下的三个参数主要控制 tomcat的连接池、线程池和accept queue大小。引用<a href="https://tomcat.apache.org/tomcat-9.0-doc/config/http.html#Standard_Implementation">tomcat的配置文档</a>的一句话介绍：</p>
 <blockquote>
-<p>Each incoming, non-asynchronous request requires a thread for the duration of that request. If more simultaneous requests are received than can be handled by the currently available request processing threads, additional threads will be created up to the configured maximum (the value of the maxThreads attribute). If still more simultaneous requests are received, Tomcat will accept new connections until the current number of connections reaches maxConnections. Connections are queued inside the server socket created by the Connector until a thread becomes avaialble to process the connection. Once maxConnections has been reached the operating system will queue further connections. The size of the operating system provided connection queue may be controlled by the acceptCount attribute. If the operating system queue fills, further connection requests may be refused or may time out.</p></blockquote>
+<p>Each incoming, non-asynchronous request requires a thread for the duration of that request. If more simultaneous requests are received than can be handled by the currently available request processing threads, additional threads will be created up to the configured maximum (the value of the maxThreads attribute). If still more simultaneous requests are received, Tomcat will accept new connections until the current number of connections reaches maxConnections. Connections are queued inside the server socket created by the Connector until a thread becomes avaialble to process the connection. Once maxConnections has been reached the operating system will queue further connections. The size of the operating system provided connection queue may be controlled by the acceptCount attribute. If the operating system queue fills, further connection requests may be refused or may time out.</p>
+</blockquote>
 <p>大意就是：最多<code>maxThreads</code>个线程并行处理<code>maxConnections</code>个socket连接。操作系统最多接受<code>acceptCount</code>个连接。这三个参数控制了一个tomcat应用在一个时刻能处理多少请求(<code>maxThreads</code>),tomcat能监听多少个连接（<code>maxConnections</code>），和操作系统能同时queue多少个已完成三次握手的连接等待应用处理（<code>acceptCount</code>）。</p>
 <h2 id="acceptcount是个啥玩意">acceptCount是个啥玩意</h2>
 <p>用于控制全连接队列的长度，详见<a href="https://cloud.tencent.com/developer/article/1638042">TCP 半连接队列和全连接队列满了会发生什么？又该如何应对？</a>

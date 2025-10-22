@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.151.0">
+<meta name="generator" content="Hugo 0.152.0">
 
     
     
@@ -320,7 +320,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 250 指的是持续观测 250秒，可以根据服务实际启动时长修改，1 指的是进程号⁢</span>
 </span></span><span style="display:flex;"><span>./profiler.sh -e wall -t -I <span style="color:#e6db74">&#39;org/springframework/boot/loader/JarLauncher.main&#39;</span> -f a.html -d <span style="color:#ae81ff">250</span> <span style="color:#ae81ff">1</span>
 </span></span></code></pre></div><blockquote>
-<p>我们往往会使用 Async Profiler 工具 Attach 到 JVM 来诊断 CPU利用率问题，采样堆栈并生成火焰图，这类火焰图只会记录 on-CPU 状态的线程，即 R 和 D 状态的线程。但进程启动时可能有很多等待 IO 或锁的操作，此时线程已让出CPU，所以应该改用时钟模式（Wall-Clock）采样 on-CPU 和 off-CPU 的堆栈。此外 Spring 初始化时会创建一些中间件客户端并关联生成一些线程，为了避免无关堆栈的干扰，应该只保留 Spring Boot 启动的 main 线程</p></blockquote>
+<p>我们往往会使用 Async Profiler 工具 Attach 到 JVM 来诊断 CPU利用率问题，采样堆栈并生成火焰图，这类火焰图只会记录 on-CPU 状态的线程，即 R 和 D 状态的线程。但进程启动时可能有很多等待 IO 或锁的操作，此时线程已让出CPU，所以应该改用时钟模式（Wall-Clock）采样 on-CPU 和 off-CPU 的堆栈。此外 Spring 初始化时会创建一些中间件客户端并关联生成一些线程，为了避免无关堆栈的干扰，应该只保留 Spring Boot 启动的 main 线程</p>
+</blockquote>
 <h2 id="可视化">可视化</h2>
 <h3 id="浏览器打开火焰图的html">浏览器打开火焰图的html</h3>
 <p><img src="/img/async-profiler-alloc-flamescope.png" alt="Alt text"></p>

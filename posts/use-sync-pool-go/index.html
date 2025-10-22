@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.151.0">
+<meta name="generator" content="Hugo 0.152.0">
 
     
     
@@ -327,7 +327,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>func <span style="color:#a6e22e">runtime_registerPoolCleanup</span>(cleanup <span style="color:#a6e22e">func</span>())
 </span></span></code></pre></div><p>在src/sync/pool.go的代码的开头，一大段注释中写道：</p>
 <blockquote>
-<p>// On the other hand, a free list maintained as part of a short-lived object is not a suitable use for a Pool, since the overhead does not amortize well in that scenario. It is more efficient to have such objects implement their own free list.</p></blockquote>
+<p>// On the other hand, a free list maintained as part of a short-lived object is not a suitable use for a Pool, since the overhead does not amortize well in that scenario. It is more efficient to have such objects implement their own free list.</p>
+</blockquote>
 <p>意思应该是，持有sync.pool的对象不能是短命的对象（一个<a href="https://segmentfault.com/a/1190000016987629">博客</a>有不一样的理解：sync.pool中的对象不能是短命对象，我不认可这个）。我们的内存池是一个全局的资源池，“全局”这个东西的生命周期就是一个进程的开始到消亡，应该是最长的了，使用sync.pool作为我们的内存池，应该是可以的，但我始终不怎么满意GC时，仍然会被回收这个。</p>
 <h2 id="2使用channel机制实现的pool">2.使用channel机制实现的pool</h2>
 <p>我看到好几个使用channel实现的pool，大体如下:</p>
@@ -418,9 +419,11 @@ i := a[0]
 }
 </code></pre><p>好了，看slice的东西，其实只是为了弄清一句话：</p>
 <blockquote>
-<p>append 的结果是一个包含原 slice 所有元素加上新添加的元素的 slice。</p></blockquote>
+<p>append 的结果是一个包含原 slice 所有元素加上新添加的元素的 slice。</p>
+</blockquote>
 <blockquote>
-<p>如果 s 的底层数组太小，而不能容纳所有值时，会分配一个更大的数组。 返回的 slice 会指向这个新分配的数组。</p></blockquote>
+<p>如果 s 的底层数组太小，而不能容纳所有值时，会分配一个更大的数组。 返回的 slice 会指向这个新分配的数组。</p>
+</blockquote>
 <p>我的问题是这样的，socket编程处理数据秒不了要append两个slice，旧slice和新slice是不是都要放回池中。</p>
 <p>好好看看slice之后，我有了这样的认识：slice其实只是指针，我们的pool其实要保留的就是slice所指向的数组。&ldquo;如果 s 的底层数组太小，而不能容纳所有值时，会分配一个更大的数组。&ldquo;如果旧slice的底层数组不够大，那么append操作会让这个旧的底层数组失去引用，面临回收。所以需要为了避免旧的底层数组被回收，让旧的slice的cap大一点吗？</p>
 <p>我们细细想一下：</p>

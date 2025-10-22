@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.151.0">
+<meta name="generator" content="Hugo 0.152.0">
 
     
     
@@ -338,11 +338,14 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>在这里展开来讲一下。如果我们开新的线程，进行快照是要对整块内存数据加锁的，开新线程并不能并行地备份+提供服务。而fork机制新建的子进程，在一开始与父进程共享内存空间，只有当父子进程的内存出现不一致时，父子才使用不同的内存空间去承载这不同的部分——这就是copyonwirte机制，可以理解为一种“懒”的机制。fork出的子进程拥有父进程（redis主进程）的全部内存数据，子进程将自己的内存数据快照，即将本节点当时的内存快照下来，而redis主进程继续向客户端提供服务。利用fork机制，可以实现不暂停服务进行快照。——这可能是为数不多的进程优于线程的情况。</p>
 <p>在进行BGSAVE时，redis会产生一条日志：<code>RDB: %zu MB of memory used by copy-on-write</code>，记录在rdb过程中，父子进程产生了多少内存的差异。redis对统计<code>/proc/self/smaps</code>文件下的<code>Private_dirty</code>的总和来计算copy-on-write内存。可以使用一下命令自己看看Private_dirty的情况：<code>cat /proc/self/smaps | grep Private_Dirty</code>。linux的哲学是一切皆文件，/proc目录就是一个虚拟文件，用于保存系统运行时的状态。而/proc/self文件夹下永远呈现查看该目录内容的进程的情况——rdb子进程看到的是自己的情况，我们cat /proc/self/smaps则看到的是cat进程的信息。</p>
 <blockquote>
-<p>PS:因为copyonwrite机制，在进行rdb时，redis的内存占用会出现膨胀的状况。例如原来只占用8GB，进行rdb时可能会膨胀到10GB。。。</p></blockquote>
+<p>PS:因为copyonwrite机制，在进行rdb时，redis的内存占用会出现膨胀的状况。例如原来只占用8GB，进行rdb时可能会膨胀到10GB。。。</p>
+</blockquote>
 <blockquote>
-<p>PS:如果内存膨胀超过机器内存，此时rdb会失败。</p></blockquote>
+<p>PS:如果内存膨胀超过机器内存，此时rdb会失败。</p>
+</blockquote>
 <blockquote>
-<p>考虑从节点要获取全量同步的情况，如果主节点因内存不足导致rdb失败，从节点会重试请求全量同步，主节点仍然会rdb失败。这会循环。。</p></blockquote>
+<p>考虑从节点要获取全量同步的情况，如果主节点因内存不足导致rdb失败，从节点会重试请求全量同步，主节点仍然会rdb失败。这会循环。。</p>
+</blockquote>
 <p><strong>rdbSaveRio</strong></p>
 <p>rdb的核心实现是rdbSaveRio。其函数声明如下：</p>
 <pre tabindex="0"><code>int rdbSaveRio(rio *rdb, int *error, int flags, rdbSaveInfo *rsi)
