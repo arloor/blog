@@ -716,13 +716,6 @@
       <description>&lt;p&gt;记录下如何把自己的项目发不到maven中央仓库&lt;/p&gt;</description>
     </item>
     <item>
-      <title>MTU详解</title>
-      <link>https://www.arloor.com/posts/mtu/</link>
-      <pubDate>Tue, 02 Feb 2021 20:05:02 +0800</pubDate>
-      <guid>https://www.arloor.com/posts/mtu/</guid>
-      <description>&lt;p&gt;MTU (Maximum Transmission Unit) 是网络通信中的一个关键参数。本文将通过实际案例，深入探讨 MTU 的工作机制、Path MTU Discovery (PMTUD) 协议，以及在 PPPoE 家庭网络环境下的实际应用。&lt;/p&gt;</description>
-    </item>
-    <item>
       <title>Java管理扩展：通过MBean获取jvm运行情况</title>
       <link>https://www.arloor.com/posts/jmx-use/</link>
       <pubDate>Sat, 30 Jan 2021 23:11:48 +0800</pubDate>
