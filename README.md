@@ -20,6 +20,8 @@ git clone https://github.com/arloor/blog
 git submodule update --init --recursive
 ```
 
+没有submodile中的主题那么构建出来public文件中只有xml文件，没有网站html文件
+
 ## nginx配置（ubuntu20.04下）
 
 ```bash
