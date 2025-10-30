@@ -1,14 +1,17 @@
 [![](https://img.shields.io/github/last-commit/arloor/blog.svg?style=flat)](https://github.com/arloor/blog/commit/master)
 ![](https://img.shields.io/github/languages/code-size/arloor/blog.svg?style=flat)
 
-# 访问[arloor博客](http://www.arloor.com)
-使用hugo生成静态博客
+# 访问[arloor 博客](http://www.arloor.com)
+
+使用 hugo 生成静态博客
 
 ## 安装[hugo 0.121.1 extended](https://github.com/gohugoio/hugo/releases/tag/v0.121.1) （需要支持 scss）
 
 ```bash
 cd /tmp
-curl https://github.com/gohugoio/hugo/releases/download/v0.152.0/hugo_extended_0.152.0_Linux-64bit.tar.gz -L |tar -zxv
+HUGO_VERSION=$(curl -s https://api.github.com/repos/gohugoio/hugo/releases/latest | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/')
+echo "install hugo extended ${HUGO_VERSION}"
+curl https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_Linux-64bit.tar.gz -L | tar -zxv
 install hugo /usr/local/bin
 cd -
 ```
@@ -20,9 +23,9 @@ git clone https://github.com/arloor/blog
 git submodule update --init --recursive
 ```
 
-没有submodile中的主题那么构建出来public文件中只有xml文件，没有网站html文件
+没有 submodile 中的主题那么构建出来 public 文件中只有 xml 文件，没有网站 html 文件
 
-## nginx配置（ubuntu20.04下）
+## nginx 配置（ubuntu20.04 下）
 
 ```bash
 cat > /etc/nginx/sites-enabled/default <<\EOF
@@ -66,7 +69,7 @@ EOF
 service nginx restart
 ```
 
-## nginx配置(rhel8下)
+## nginx 配置(rhel8 下)
 
 ```bash
 cat > /etc/nginx/conf.d/arloor.conf <<\EOF
@@ -110,9 +113,9 @@ EOF
 service nginx restart
 ```
 
-## 查看nginx访问日志
+## 查看 nginx 访问日志
 
-基于以上log_format，提供一个查看本博客访问日志的脚本：
+基于以上 log_format，提供一个查看本博客访问日志的脚本：
 
 ```bash
 cat >/usr/local/bin/arloor <<\EOF
@@ -132,37 +135,37 @@ arloor
 110.53.xx.xx    [2022-05-09T11:04:01+08:00] "/posts/shell-tricks/"
 ```
 
-## Windows的特别说明
+## Windows 的特别说明
 
-为了在vscode的markdown预览中展示图片，本仓库设置了下面的软链接。
+为了在 vscode 的 markdown 预览中展示图片，本仓库设置了下面的软链接。
 
 ```bash
 ln -fs static/img img
 lrwxr-xr-x  1 arloor  staff  10  5 19 19:31 img -> static/img
 ```
 
-在MacOS和Linux上没有任何问题，但是因为Windows的快捷方式不同于软链接，所以Windows需要做特殊处理。
+在 MacOS 和 Linux 上没有任何问题，但是因为 Windows 的快捷方式不同于软链接，所以 Windows 需要做特殊处理。
 
-1. 在管理员权限的终端下进行clone，因为创建快捷方式需要管理员权限
-2. clone时的命令增加 `-c core.symlinks=true` 选项，这样在clone时会将软链接创建快捷方式。
+1. 在管理员权限的终端下进行 clone，因为创建快捷方式需要管理员权限
+2. clone 时的命令增加 `-c core.symlinks=true` 选项，这样在 clone 时会将软链接创建快捷方式。
 
 参考文档：[Git 不同平台下软链接问题](https://murphypei.github.io/blog/2021/03/git-symlink)
 
-> 【ChatGPT】我使用Mac在git仓库中创建了一个软连接，然后push到远程仓库了。其他的系统例如linux、windows git pull下来时能正常使用这个软连接吗
+> 【ChatGPT】我使用 Mac 在 git 仓库中创建了一个软连接，然后 push 到远程仓库了。其他的系统例如 linux、windows git pull 下来时能正常使用这个软连接吗
 
-Git在各个操作系统中的行为可能会略有不同。在一些情况下，可能会遇到跨平台使用符号链接（软链接）的问题。
+Git 在各个操作系统中的行为可能会略有不同。在一些情况下，可能会遇到跨平台使用符号链接（软链接）的问题。
 
-1. **在Linux上**：Linux系统中支持软链接，因此如果你在Mac上创建的软链接，然后push到远程仓库，在Linux上应该可以正常使用。
+1. **在 Linux 上**：Linux 系统中支持软链接，因此如果你在 Mac 上创建的软链接，然后 push 到远程仓库，在 Linux 上应该可以正常使用。
 
-2. **在Windows上**：在Windows系统中，虽然Git支持软链接，但是默认情况下可能不会创建软链接，取而代之的可能是一个文本文件，其内容是链接到的路径。为了在Windows上创建软链接，需要有管理员权限，并且Git需要在启用了`core.symlinks`选项的情况下运行。但即使如此，Windows的符号链接机制与Unix（包括Mac）系统的机制有所不同，可能并不完全兼容。
+2. **在 Windows 上**：在 Windows 系统中，虽然 Git 支持软链接，但是默认情况下可能不会创建软链接，取而代之的可能是一个文本文件，其内容是链接到的路径。为了在 Windows 上创建软链接，需要有管理员权限，并且 Git 需要在启用了`core.symlinks`选项的情况下运行。但即使如此，Windows 的符号链接机制与 Unix（包括 Mac）系统的机制有所不同，可能并不完全兼容。
 
 请注意，使用软链接可能会引入复杂性，并且可能导致跨平台兼容性问题。如果你的项目需要跨平台，那么可能需要避免使用软链接，或者确保所有用户都理解并可以处理软链接。
 
-> 【ChatGPT】core.symlinks需要在mac上显式指定吗
+> 【ChatGPT】core.symlinks 需要在 mac 上显式指定吗
 
-对于Unix-based系统，如Mac或Linux，git默认会支持软链接（symbolic links），所以在这些系统上你通常不需要显式设置`core.symlinks`。
+对于 Unix-based 系统，如 Mac 或 Linux，git 默认会支持软链接（symbolic links），所以在这些系统上你通常不需要显式设置`core.symlinks`。
 
-但是，如果你发现在你的系统上git不支持软链接，你可以尝试显式设置这个选项。你可以在你的仓库目录中运行以下命令来启用它：
+但是，如果你发现在你的系统上 git 不支持软链接，你可以尝试显式设置这个选项。你可以在你的仓库目录中运行以下命令来启用它：
 
 ```
 git config core.symlinks true
@@ -174,7 +177,7 @@ git config core.symlinks true
 git config --global core.symlinks true
 ```
 
-但是在大多数情况下，你在Mac上不需要这么做。
+但是在大多数情况下，你在 Mac 上不需要这么做。
 
 ## 占位符
 
@@ -184,7 +187,7 @@ git config --global core.symlinks true
 {{< imgx src="/img/xxx.png" alt="" width="700px" style="max-width: 100%;">}}
 ```
 
-2. bilibili占位符：
+2. bilibili 占位符：
 
 ```json
 {{< bilibili BV1YK4y1s7ZU >}}
