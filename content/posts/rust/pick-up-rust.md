@@ -332,6 +332,45 @@ rust 的编译器能自动地判断一些引用的生命周期，所以不是所
 
 `Pin<P<T>>` 是常见的结构，其中 P 是 T 的指针，比如 `Pin<&String>` 或 `Pin<Box<T>>`。Pin 的主要目的是确保 T:!Unpin（**没有实现 Unpin**） 在内存中的位置不会改变，这在自引用结构中非常重要，异步 rust 的 async/await 基于的 generaotr、状态机就包含子引用结构。
 
+自引用结构：
+
+```rust
+// 这是一个自引用结构（self-referential struct）
+struct SelfReferential {
+    data: String,
+    pointer: *const String, // 指向自己的data字段
+}
+
+impl SelfReferential {
+    fn new(text: &str) -> Self {
+        let mut s = SelfReferential {
+            data: String::from(text),
+            pointer: std::ptr::null(),
+        };
+        // 让pointer指向data
+        s.pointer = &s.data as *const String;
+        s
+    }
+    
+    fn get_data(&self) -> &str {
+        unsafe { &*self.pointer }
+    }
+}
+
+fn demonstrate_problem() {
+    let mut s1 = SelfReferential::new("hello");
+    println!("{}", s1.get_data()); // OK: "hello"
+    
+    // 问题：移动后指针失效！
+    let s2 = s1; // s1被移动到s2
+    
+    // s2.pointer仍然指向s1的旧地址！
+    // println!("{}", s2.get_data()); // 未定义行为！悬垂指针！
+}
+```
+
+**核心问题**：当结构体被移动（move）时，内部的指针不会自动更新，导致悬垂指针。
+
 Rust 有两种方式移动内存：
 
 1. 变量声明
@@ -344,7 +383,7 @@ fn main() {
 }
 ```
 
-2. 使用 `std::mem::swap` 传入可变引用
+2. 使用 `std::mem::swap`等api 传入可变引用
 
 ```rust
 fn main() {
