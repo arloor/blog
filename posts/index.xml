@@ -6,8 +6,15 @@
     <description>Recent content in Posts on ARLOOR</description>
     <generator>Hugo</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Wed, 22 Oct 2025 13:05:02 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 06 Nov 2025 13:45:23 +0800</lastBuildDate>
     <atom:link href="https://www.arloor.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>BBR 算法的流量控制与拥塞控制</title>
+      <link>https://www.arloor.com/posts/bbr-algorithm-analysis/</link>
+      <pubDate>Thu, 06 Nov 2025 13:45:23 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/bbr-algorithm-analysis/</guid>
+      <description>&lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;&#xA;&lt;p&gt;BBR (Bottleneck Bandwidth and Round-trip propagation time) 是 Google 开发的拥塞控制算法，于 2016 年发布并集成到 Linux 内核 4.9 版本中。与传统的基于丢包的拥塞控制算法（如 Cubic）不同，BBR 采用了一种全新的思路：通过测量瓶颈带宽和往返时延来主动控制发送速率，从而达到高吞吐、低延迟的目标。&lt;/p&gt;</description>
+    </item>
     <item>
       <title>MTU详解</title>
       <link>https://www.arloor.com/posts/mtu/</link>

@@ -224,6 +224,27 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   <div class="post-list__item">
     <span class="item__title--big">
+      <a href="/posts/use-sync-pool-go/" >go使用sync.pool实现复用[]byte——降低IO密集应用的GC频率</a>
+    </span>
+    <span class="item__date">
+      Apr 14, 2019
+    </span>
+    <span >
+      
+      <p>前一篇文章介绍了<code>sogo</code>这个socks5代理的实现，在原始的sogo实现中，有一个重大的问题是：没有复用内存，导致频繁GC，导致cpu占用很高。对于socket通信这种io密集的应用，复用<code>[]byte</code>还是很重要的，不然每次去make新的<code>[]byte</code>，这些<code>[]byte</code>迟早要被GC，这就导致了cpu占用高的问题。解决这个问题也很简单，就是引入内存池。</p>
+      
+    </span>
+    
+    ... <a class="read-more-symbol" href="/posts/use-sync-pool-go/">➦</a>
+    
+  </div>
+  
+  
+  
+  
+  
+  <div class="post-list__item">
+    <span class="item__title--big">
       <a href="/posts/socks-over-http/" >Sogo—使用http协议进行混淆/伪装的socks5代理</a>
     </span>
     <span class="item__date">
@@ -415,27 +436,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     </span>
     
     ... <a class="read-more-symbol" href="/posts/other/java-aes128/">➦</a>
-    
-  </div>
-  
-  
-  
-  
-  
-  <div class="post-list__item">
-    <span class="item__title--big">
-      <a href="/posts/docker/docker-first-use/" >docker使用笔记</a>
-    </span>
-    <span class="item__date">
-      Jan 2, 2019
-    </span>
-    <span >
-      
-      <p>docker 很火，所以我想入门。这篇文章是记录学习的，所以可能很乱，称为杂说</p>
-      
-    </span>
-    
-    ... <a class="read-more-symbol" href="/posts/docker/docker-first-use/">➦</a>
     
   </div>
   
