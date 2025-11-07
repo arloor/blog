@@ -663,7 +663,7 @@ data_segs_out:50579 data_segs_in:1
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 大缓冲区能够存储更多待发送数据，提高高带宽网络的利用率</span>
 </span></span><span style="display:flex;"><span>net.ipv4.tcp_wmem <span style="color:#f92672">=</span> <span style="color:#ae81ff">16384</span> <span style="color:#ae81ff">16777216</span> <span style="color:#ae81ff">536870912</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># TCP 接收缓冲区的应用层可用空间比例控制</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># TCP 接收缓冲区的应用层可用空间比例控制（计算TCP接受窗口的大小）</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 这个参数实际上控制的是：接收缓冲区中有多少空间分配给应用层数据，</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 有多少空间预留给内核的 TCP/IP 协议栈开销（如 sk_buff 结构等）</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># -2 表示应用层可用的接收窗口为实际 TCP 窗口的 1/4</span>
