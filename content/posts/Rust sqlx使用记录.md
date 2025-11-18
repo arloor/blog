@@ -2,14 +2,15 @@
 title: "Rust sqlx使用记录"
 date: 2024-12-05T22:17:05+08:00
 draft: false
-categories: 
-- undefined
-tags: 
-- rust
+categories:
+  - undefined
+tags:
+  - rust
 weight: 10
 subtitle: ""
-description : ""
+description: ""
 ---
+
 <!--more-->
 
 ## 依赖
@@ -27,14 +28,16 @@ sqlx-mysql = "0.8.2" # mysql驱动
 
 ## 查询宏
 
-sqlx支持自动生成sql查询语句对应的Rust struct，这在编译期实现，因此可以在编译期确保你的rust代码和数据库表字段类型正确对应。这又分为online代码生成和offline代码生成。online指每次cargo build都扫描一次数据库表结构，offline指第一次cargo build扫描并生成缓存文件，后续直接使用缓存文件，直到表结构发生改变该缓存失效。
+sqlx 支持自动生成 sql 查询语句对应的 Rust struct，这在编译期实现，因此可以在编译期确保你的 rust 代码和数据库表字段类型正确对应。又分为 online 代码生成和 offline 代码生成。
+
+- online 指每次 cargo build 都扫描一次数据库表结构
+- offline 指第一次 cargo build 扫描并生成缓存文件，后续直接使用缓存文件，直到表结构发生改变该缓存失效。
 
 > set `DATABASE_URL` to use query macros online, or run `cargo sqlx prepare` to update the query cache
-> 
 
-如引用文字所述，需要设置`DATABASE_URL` 以激活online的运行时代码生成或者执行`cargo sqlx prepare`来进行offline代码生成。
+如引用文字所述，需要设置`DATABASE_URL` 以激活 online 的运行时代码生成或者执行`cargo sqlx prepare`来进行 offline 代码生成。
 
-### 设置`DATABASE_URL`环境变量
+### 设置 DATABASE_URL 环境变量，进行 online 代码生成
 
 方式一：在项目根目录下创建 `.env` 文件，文件内容如下（**推荐**）：
 
@@ -46,35 +49,41 @@ DATABASE_URL=mysql://user:passwd@host:3306/test?ssl-mode=Required&timezone=%2B08
 
 ```json
 "env": {
-				"DATABASE_URL": "mysql://user:passwd@host:3306/test?ssl-mode=Required&timezone=%2B08:00"
-			}
+    "DATABASE_URL": "mysql://user:passwd@host:3306/test?ssl-mode=Required&timezone=%2B08:00"
+}
 ```
 
-### `cargo sqlx prepare`来进行offline代码生成
+### offline 代码生成
 
-首先安装sqlx-cli: 这里仅激活了rustls和mysql驱动的feature
+1. 首先安装 sqlx-cli: 这里仅激活了 rustls 和 mysql 驱动的 feature
 
 ```bash
  cargo install sqlx-cli --no-default-features --features rustls,mysql
 ```
 
-然后使用“设置`DATABASE_URL`环境变量”中的方式一设置环境变量
+2. 然后使用“设置 DATABASE_URL 环境变量”中的方式一设置环境变量
 
-最后执行下面的命令:
+3. 最后执行下面的命令:
 
 ```bash
 cargo sqlx prepare
 ```
 
-此时，会生成 `.sqlx` 文件夹，其中保存了缓存信息。这种方式的好处是，不需要将`.env`提交到代码仓库。
+此时，会生成 `.sqlx` 文件夹，其中保存了缓存信息。这种方式的好处是，不需要将 `.env` 提交到代码仓库。
 
-在既有`DATABASE_URL`环境变量又有`.sqlx` 文件夹的情况下，sqlx会优先使用`DATABASE_URL`环境变量进行online代码生成，从而确保代码是最新的。如果要强制使用`.sqlx` 文件夹的缓存，则需要在`.env` 中增加：`SQLX_OFFLINE=true`
+### 强制使用 offline 代码生成的缓存
+
+在既有`DATABASE_URL`环境变量又有`.sqlx` 文件夹的情况下，sqlx 会优先使用`DATABASE_URL`环境变量进行 online 代码生成，从而确保代码是最新的。如果要强制使用`.sqlx` 文件夹的缓存，则需要在`.env` 中增加
+
+```bash
+SQLX_OFFLINE=true
+```
 
 参考文档：[Enable building in "offline mode" with query!()](https://github.com/launchbadge/sqlx/blob/main/sqlx-cli/README.md#enable-building-in-offline-mode-with-query)
 
 ### 查询宏 `query_as!`
 
-可以自定义struct name，前提是struct需要derive FromRow
+可以自定义 struct name，前提是 struct 需要 derive FromRow
 
 ## 整体使用
 
@@ -82,7 +91,7 @@ cargo sqlx prepare
 info!("connecting to mysql...");
 let pool: sqlx::Pool<sqlx::MySql> = MySqlPoolOptions::new()
     .max_connections(20)
-    // .connect("mysql://user:passwprd@host:3306/test?ssl-mode=Required&timezone=%2B08:00") // timezone参数在url中目前无效，合码了但是未发新版
+    // .connect("mysql://user:passwprd@host:3306/test?ssl-mode=Required&timezone=%2B08:00") // 注意url部分需要urlencode
     .connect_with(
         MySqlConnectOptions::new()
             .host("host")
@@ -129,7 +138,7 @@ async fn select_variables(conn: &mut sqlx::MySqlConnection) -> Result<(), DynErr
             let result = sqlx::query!(
                     r#"
                     INSERT INTO stock_rank_changes (
-                        market, code, name, bankuai, calc_time, current_rank, ten_minute_change, 
+                        market, code, name, bankuai, calc_time, current_rank, ten_minute_change,
                         thirty_minute_change, hour_change, day_change, price, price_change_rate, trading_volume, turnover_rate, float_market_capitalization, realtime_data,
                         today_posts, today_posts_fetch_err, created_at
                     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -206,4 +215,4 @@ async fn select_variables(conn: &mut sqlx::MySqlConnection) -> Result<(), DynErr
 
 ## 参考文档
 
-1. [sqlx目前只有pg支持batch insert，mysql不支持](https://github.com/launchbadge/sqlx/blob/main/FAQ.md#how-can-i-bind-an-array-to-a-values-clause-how-can-i-do-bulk-inserts)
+1. [sqlx 目前只有 pg 支持 batch insert，mysql 不支持](https://github.com/launchbadge/sqlx/blob/main/FAQ.md#how-can-i-bind-an-array-to-a-values-clause-how-can-i-do-bulk-inserts)
