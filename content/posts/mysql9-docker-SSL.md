@@ -41,7 +41,7 @@ docker.io/library/mysql:9.1
 
 1. MySQL 数据文件在 `/var/lib/mysql`
 2. 在 `/etc/mysql/conf.d/ssl.cnf` 中指定了 acme.sh 生成的ssl证书，并强制要求客户端ssl连接
-3. 如果想让mysqld自己生成自签名的证书，不指定 `ssl_ca`、`ssl_cert`和`ssl_key`即可。参见[Automatic SSL and RSA File Generation](https://dev.mysql.com/doc/refman/9.1/en/creating-ssl-rsa-files-using-mysql.html#creating-ssl-rsa-files-using-mysql-automatic)。记得保留 `require_secure_transport=ON`
+3. **如果需要mysqld自动生成自签名的证书，不指定 `ssl_ca`、`ssl_cert`和`ssl_key`即可**。参见[Automatic SSL and RSA File Generation](https://dev.mysql.com/doc/refman/9.1/en/creating-ssl-rsa-files-using-mysql.html#creating-ssl-rsa-files-using-mysql-automatic)。记得保留 `require_secure_transport=ON`
 
 **一些坑点：**
 
