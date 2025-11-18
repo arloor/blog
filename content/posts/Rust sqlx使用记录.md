@@ -216,3 +216,4 @@ async fn select_variables(conn: &mut sqlx::MySqlConnection) -> Result<(), DynErr
 ## 参考文档
 
 1. [sqlx 目前只有 pg 支持 batch insert，mysql 不支持](https://github.com/launchbadge/sqlx/blob/main/FAQ.md#how-can-i-bind-an-array-to-a-values-clause-how-can-i-do-bulk-inserts)
+2. [容器运行mysql9+ssl配置](https://www.arloor.com/posts/mysql9-docker-ssl/)
