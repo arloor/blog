@@ -259,7 +259,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     
     
     <br/>
-    <i class="fas fa-clock"></i> 4 min read
+    <i class="fas fa-clock"></i> 5 min read
 </div>
 
 
@@ -281,7 +281,12 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
       </ul>
     </li>
     <li><a href="#macos-定时任务">macOS 定时任务</a></li>
-    <li><a href="#windows-开机自启动">windows 开机自启动</a></li>
+    <li><a href="#windows-开机自启动">windows 开机自启动</a>
+      <ul>
+        <li><a href="#放到启动文件夹">放到启动文件夹</a></li>
+        <li><a href="#使用-windows-service">使用 windows service</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
       
@@ -504,6 +509,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>还有个 StartInterval 的参数，每多少秒执行一次。这个参数因睡眠导致的错过在唤醒时不会执行的。</li>
 </ol>
 <h2 id="windows-开机自启动">windows 开机自启动</h2>
+<h3 id="放到启动文件夹">放到启动文件夹</h3>
 <p>编写<code>startup.vbs</code>，放到这个文件夹下（可以使用 <code>win+r</code> 输入<code>shell:Startup</code>）：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>%userprofile%<span style="color:#ae81ff">\A</span>ppData<span style="color:#ae81ff">\R</span>oaming<span style="color:#ae81ff">\M</span>icrosoft<span style="color:#ae81ff">\W</span>indows<span style="color:#ae81ff">\S</span>tart Menu<span style="color:#ae81ff">\P</span>rograms<span style="color:#ae81ff">\S</span>tartup
 </span></span></code></pre></div><p><code>startup.vbs</code>内容如下：</p>
@@ -515,6 +521,82 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>再启动 forward.exe，末尾的<code>0</code>表示不开启窗口</li>
 </ol>
 <p>具体 Run 命令见<a href="https://www.vbsedit.com/html/6f28899c-d653-4555-8a59-49640b0e32ea.asp">www.vbsedit.com</a></p>
+<h3 id="使用-windows-service">使用 windows service</h3>
+<p>安装 shawl：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cargo install --locked shawl
+</span></span><span style="display:flex;"><span>shawl add --help
+</span></span></code></pre></div><p>支持的选项：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>shawl add --help
+</span></span><span style="display:flex;"><span>Add a new service
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Usage: shawl.exe add <span style="color:#f92672">[</span>OPTIONS<span style="color:#f92672">]</span> --name &lt;NAME&gt; -- &lt;COMMAND&gt;...
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Arguments:
+</span></span><span style="display:flex;"><span>  &lt;COMMAND&gt;...
+</span></span><span style="display:flex;"><span>          Command to run as a service
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Options:
+</span></span><span style="display:flex;"><span>      --pass &lt;codes&gt;
+</span></span><span style="display:flex;"><span>          Exit codes that should be considered successful <span style="color:#f92672">(</span>comma-separated<span style="color:#f92672">)</span> <span style="color:#f92672">[</span>default: 0<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>      --restart
+</span></span><span style="display:flex;"><span>          Always restart the command regardless of the exit code
+</span></span><span style="display:flex;"><span>      --no-restart
+</span></span><span style="display:flex;"><span>          Never restart the command regardless of the exit code
+</span></span><span style="display:flex;"><span>      --restart-if &lt;codes&gt;
+</span></span><span style="display:flex;"><span>          Restart the command <span style="color:#66d9ef">if</span> the exit code is one of these <span style="color:#f92672">(</span>comma-separated<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>      --restart-if-not &lt;codes&gt;
+</span></span><span style="display:flex;"><span>          Restart the command <span style="color:#66d9ef">if</span> the exit code is not one of these <span style="color:#f92672">(</span>comma-separated<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>      --restart-delay &lt;ms&gt;
+</span></span><span style="display:flex;"><span>          How long to wait before restarting the wrapped process
+</span></span><span style="display:flex;"><span>      --stop-timeout &lt;ms&gt;
+</span></span><span style="display:flex;"><span>          How long to wait in milliseconds between sending the wrapped process a ctrl-C event and
+</span></span><span style="display:flex;"><span>          forcibly killing it <span style="color:#f92672">[</span>default: 3000<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>      --no-log
+</span></span><span style="display:flex;"><span>          Disable all of Shawl<span style="color:#e6db74">&#39;s logging
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      --no-log-cmd
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          Disable logging of output from the command running as a service
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      --log-dir &lt;path&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          Write log file to a custom directory. This directory will be created if it doesn&#39;</span>t exist
+</span></span><span style="display:flex;"><span>      --log-as &lt;LOG_AS&gt;
+</span></span><span style="display:flex;"><span>          Use a different name <span style="color:#66d9ef">for</span> the main log file. Set this to just the desired base name of the
+</span></span><span style="display:flex;"><span>          log file. For example, <span style="color:#e6db74">`</span>--log-as shawl<span style="color:#e6db74">`</span> would result in a log file named
+</span></span><span style="display:flex;"><span>          <span style="color:#e6db74">`</span>shawl_rCURRENT.log<span style="color:#e6db74">`</span> instead of the normal <span style="color:#e6db74">`</span>shawl_for_&lt;name&gt;_rCURRENT.log<span style="color:#e6db74">`</span> pattern
+</span></span><span style="display:flex;"><span>      --log-cmd-as &lt;LOG_CMD_AS&gt;
+</span></span><span style="display:flex;"><span>          Use a separate log file <span style="color:#66d9ef">for</span> the wrapped command<span style="color:#e6db74">&#39;s stdout and stderr. Set this to just the
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          desired base name of the log file. For example, `--log-cmd-as foo` would result in a log
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          file named `foo_rCURRENT.log`. The output will be logged as-is without any additional log
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          template
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      --log-rotate &lt;LOG_ROTATE&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          Threshold for rotating log files. Valid options: `daily`, `hourly`, `bytes=n` (every N
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          bytes) [default: bytes=2097152]
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      --log-retain &lt;LOG_RETAIN&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          How many old log files to retain [default: 2]
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      --pass-start-args
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          Append the service start arguments to the command
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      --env &lt;ENV&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          Additional environment variable in the format &#39;</span>KEY<span style="color:#f92672">=</span>value<span style="color:#960050;background-color:#1e0010">&#39;</span> <span style="color:#f92672">(</span>repeatable<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>      --path &lt;PATH&gt;
+</span></span><span style="display:flex;"><span>          Additional directory to append to the PATH environment variable <span style="color:#f92672">(</span>repeatable<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>      --path-prepend &lt;path&gt;
+</span></span><span style="display:flex;"><span>          Additional directory to prepend to the PATH environment variable <span style="color:#f92672">(</span>repeatable<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>      --priority &lt;PRIORITY&gt;
+</span></span><span style="display:flex;"><span>          Process priority of the command to run as a service <span style="color:#f92672">[</span>possible values: realtime, high,
+</span></span><span style="display:flex;"><span>          above-normal, normal, below-normal, idle<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>      --cwd &lt;path&gt;
+</span></span><span style="display:flex;"><span>          Working directory in which to run the command. You may provide a relative path, and it
+</span></span><span style="display:flex;"><span>          will be converted to an absolute one
+</span></span><span style="display:flex;"><span>      --dependencies &lt;DEPENDENCIES&gt;
+</span></span><span style="display:flex;"><span>          Other services that must be started first <span style="color:#f92672">(</span>comma-separated<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>      --name &lt;NAME&gt;
+</span></span><span style="display:flex;"><span>          Name of the service to create
+</span></span><span style="display:flex;"><span>  -h, --help
+</span></span><span style="display:flex;"><span>          Print help
+</span></span></code></pre></div><p>添加一个服务并且设置为开机自启动：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>shawl add --name mihomo -- C:\Users\arloor\mihomo\mihomo.exe -d C:\Users\arloor\mihomo <span style="color:#f92672">-f</span> C:\Users\arloor\mihomo\clash.yaml
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## 需要在管理员权限中执行，或者到服务界面自己设置</span>
+</span></span><span style="display:flex;"><span>sc.exe config mihomo start= auto
+</span></span><span style="display:flex;"><span>sc.exe start mihomo
+</span></span></code></pre></div>
   </div>
   
 
