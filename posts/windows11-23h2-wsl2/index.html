@@ -632,7 +632,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p><img src="/img/winodws11-firewall-setup-222-port.png" alt="alt text"></p>
 <p>然后一路下一步即可。</p>
 <p>或者直接在管理员权限的 powershell 执行：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ps1" data-lang="ps1"><span style="display:flex;"><span>New-NetFirewallRule -DisplayName <span style="color:#e6db74">&#39;&#34;Allow SSH on Port xxxxx&#34;&#39;</span> -Direction Inbound -Protocol TCP -LocalPort xxxxx -Action Allow
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ps1" data-lang="ps1"><span style="display:flex;"><span>$port=<span style="color:#ae81ff">2222</span>
+</span></span><span style="display:flex;"><span>New-NetFirewallRule -DisplayName <span style="color:#e6db74">&#34;Allow Port </span>$port<span style="color:#e6db74">&#34;</span> -Direction Inbound -Protocol TCP -LocalPort $port -Action Allow
 </span></span></code></pre></div><p>之后就可以使用 vscode remote-ssh 到 WSL2 上来开发了。具体的 ssh config 如下：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Host wsl
 </span></span><span style="display:flex;"><span>  HostName 192.168.xx.xx
