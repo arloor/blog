@@ -400,7 +400,8 @@ systemctl enable ssh.service
 或者直接在管理员权限的 powershell 执行：
 
 ```ps1
-New-NetFirewallRule -DisplayName '"Allow SSH on Port xxxxx"' -Direction Inbound -Protocol TCP -LocalPort xxxxx -Action Allow
+$port=2222
+New-NetFirewallRule -DisplayName "Allow Port $port" -Direction Inbound -Protocol TCP -LocalPort $port -Action Allow
 ```
 
 之后就可以使用 vscode remote-ssh 到 WSL2 上来开发了。具体的 ssh config 如下：
