@@ -91,3 +91,10 @@ MonsterHunterWildsBetatest         0.44    451.38
 Black Myth Wukong Benchmark Tool   0.04     41.16
 Steam Controller Configs              0         0
 ```
+
+## 放开某端口的防火墙
+
+```powershell
+$port=2222
+New-NetFirewallRule -DisplayName "Allow Port $port" -Direction Inbound -Protocol TCP -LocalPort $port -Action Allow
+```
