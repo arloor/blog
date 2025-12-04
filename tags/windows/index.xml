@@ -16,6 +16,13 @@
       <description></description>
     </item>
     <item>
+      <title>使用Mac mini wakeonlan windows主机（微星主板）</title>
+      <link>https://www.arloor.com/posts/mac-wakeonlan-windows-11-msi-motherboard/</link>
+      <pubDate>Mon, 16 Dec 2024 22:16:38 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/mac-wakeonlan-windows-11-msi-motherboard/</guid>
+      <description>&lt;p&gt;家里有台Mac mini是一直开机的，作为软路由使用，也作为跳板机连接到家里网络。今天试了下怎么用这个mac mini通过wake on lan唤醒windows主机。&lt;/p&gt;</description>
+    </item>
+    <item>
       <title>一键关闭WeGame和LOL客户端，避免浪费时间</title>
       <link>https://www.arloor.com/posts/shutdown-wegame-lol/</link>
       <pubDate>Tue, 01 Oct 2024 00:42:03 +0800</pubDate>

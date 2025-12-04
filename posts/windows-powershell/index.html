@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    
+    <link rel="canonical" href="https://www.arloor.com/posts/windows-powershell/">
+    
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.152.2">
+
+    
+    
+    
+
+<title>Windows Powershell常用脚本 • ARLOOR</title>
+<meta name="description" content="今天，你学习了吗">
+<meta name="keywords" content="刘港欢, arloor, moontell">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Windows Powershell常用脚本">
+  <meta name="twitter:description" content="对linux的shell脚本比较熟悉后，发现windows的powershell也挺好用的。这里记录一些常用的脚本片段，方便以后查阅。">
+      <meta name="twitter:site" content="@njulgh">
+
+<meta property="og:url" content="https://www.arloor.com/posts/windows-powershell/">
+  <meta property="og:site_name" content="ARLOOR">
+  <meta property="og:title" content="Windows Powershell常用脚本">
+  <meta property="og:description" content="对linux的shell脚本比较熟悉后，发现windows的powershell也挺好用的。这里记录一些常用的脚本片段，方便以后查阅。">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-12-04T15:37:22+08:00">
+    <meta property="article:modified_time" content="2025-12-04T15:37:22+08:00">
+    <meta property="article:tag" content="Undefined">
+
+
+    
+
+
+
+
+
+<link rel="stylesheet" href="/styles/atom-one-dark.min.css">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.484b96856b25751067d56c8c0af9dc1fd6372707029b6d56ee178da6bead45b5.css" integrity="sha256-SEuWhWsldRBn1WyMCvncH9Y3JwcCm21W7heNpr6tRbU=">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+
+<link rel="stylesheet" href="/scss/hugo-toc.0873834b0f2e9fdc9e1d0301e8ebce21fc10383882a41e9373f29b90e85a9987.css" integrity="sha256-CHODSw8un9yeHQMB6OvOIfwQODiCpB6Tc/KbkOhamYc=">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="/favicon.png">
+    
+    
+
+</head>
+
+
+    <body class=" ">
+    
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="/">
+          
+          ARLOOR
+          
+        </a>
+      </span>
+      <a href="/">
+        
+        
+        <div class="author-image">
+          <img src="/img/head.jpeg" alt="Author Image" class="img--circle img--headshot element--center">
+        </div>
+        
+        
+      </a>
+      
+      <p class="site__description">
+         都是瞎写的 
+      </p>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">ARLOOR</label>
+      <div class="menu-content">
+        <div class="show-in-small">
+          <a href="/">
+            
+            
+            <div class="author-image">
+              <img src="/img/head.jpeg" alt="Author Image"
+                class="img--circle img--headshot element--center">
+            </div>
+            
+            
+          </a>
+        </div>
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/posts/">
+						<span>文章</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/tags/">
+						<span>分类</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/about/">
+						<span>关于我</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/grafana/d/a0d0b2fe-285a-44ba-8509-a404961d6da49/rust-http-proxy">
+						<span>Grafana</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="http://beian.miit.gov.cn/">
+						<span>沪ICP备2025110448号</span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://x.com/njulgh" rel="me"><i class="fa-brands fa-x-twitter fa-lg"></i></a>
+	
+	
+	
+	
+	
+	<a href="https://github.com/arloor" rel="me"><i class="fa-brands fa-github fa-lg"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://t.me/never_contact_me" rel="me"><i class="fa-brands fa-telegram fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	<a href="mailto:admin@arloor.com" rel="me"><i class="fa-solid fa-at fa-lg"></i></a>
+	
+	
+	
+	
+</section>
+      </div>
+    </div>
+    
+<div class="copyright">
+  &copy; 2025 arloor
+  
+    <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>
+  
+</div>
+
+
+<div class="builtwith">
+Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.com/arloor/hyde-arloor">hyde-arloor</a>.
+</div>
+
+
+  </div>
+</div>
+        <div class="content container">
+            
+    
+<article>
+  <header>
+    <h1>Windows Powershell常用脚本</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> Dec 4, 2025
+    
+    
+    
+      
+      
+          in
+          
+          
+              <a class="badge badge-category" href="/categories/undefined">UNDEFINED</a>
+              
+          
+      
+    
+    
+    
+      
+      
+          <br/>
+           <i class="fas fa-tags"></i>
+          
+          <a class="badge badge-tag" href="/tags/undefined">undefined</a>
+          
+      
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 1 min read
+</div>
+
+
+  </header>
+  
+  
+  
+    <div class="toc-wrapper">
+      <input type="checkbox" id="tocToggle">
+      <label for="tocToggle">Table of Content</label>
+      
+          <nav id="TableOfContents">
+  <ul>
+    <li><a href="#windows-查看磁盘占用">windows 查看磁盘占用</a></li>
+  </ul>
+</nav>
+      
+    </div>
+  
+  
+  <div class="post">
+    <p>对linux的shell脚本比较熟悉后，发现windows的powershell也挺好用的。这里记录一些常用的脚本片段，方便以后查阅。</p>
+<h2 id="windows-查看磁盘占用">windows 查看磁盘占用</h2>
+<p>类似 <code>du -h --max-depth 1</code> 的功能，可以使用 PowerShell 脚本来查看当前目录下的文件夹大小：</p>
+<blockquote>
+<p>可以 <code>code $PROFILE</code> 打开 PowerShell 配置文件，将下面的函数添加进去，这样就可以在 PowerShell 中使用 <code>ds</code> 命令来查看当前目录下的文件夹大小。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> Get-FolderSize {
+</span></span><span style="display:flex;"><span>    Write-Host <span style="color:#e6db74">&#39;正在计算当前目录的空间占用，请稍候。。。&#39;</span> -ForegroundColor Yellow
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 统计当前目录下的文件(不在子文件夹中)</span>
+</span></span><span style="display:flex;"><span>    $currentFiles = Get-ChildItem <span style="color:#f92672">-File</span> -Force -ErrorAction SilentlyContinue
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> ($currentFiles) {
+</span></span><span style="display:flex;"><span>        $currentSize = ($currentFiles | Measure-Object -Property Length -Sum).Sum
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        $currentSize = <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 统计所有子文件夹</span>
+</span></span><span style="display:flex;"><span>    $folders = Get-ChildItem -Force | Where-Object { $_.PSIsContainer } | ForEach-Object { 
+</span></span><span style="display:flex;"><span>        $files = Get-ChildItem $_.FullName -Recurse -Force <span style="color:#f92672">-File</span> -ErrorAction SilentlyContinue
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> ($files) {
+</span></span><span style="display:flex;"><span>            $size = ($files | Measure-Object -Property Length -Sum).Sum
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            $size = <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        [<span style="color:#66d9ef">PSCustomObject</span>]@{
+</span></span><span style="display:flex;"><span>            Name = $_.Name
+</span></span><span style="display:flex;"><span>            SizeGB = [<span style="color:#66d9ef">math</span>]::Round($size / <span style="color:#ae81ff">1</span>GB, <span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>            SizeMB = [<span style="color:#66d9ef">math</span>]::Round($size / <span style="color:#ae81ff">1</span>MB, <span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 添加当前目录文件统计</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> ($currentSize <span style="color:#f92672">-gt</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>        $currentDirEntry = [<span style="color:#66d9ef">PSCustomObject</span>]@{
+</span></span><span style="display:flex;"><span>            Name = <span style="color:#e6db74">&#34;.&#34;</span>
+</span></span><span style="display:flex;"><span>            SizeGB = [<span style="color:#66d9ef">math</span>]::Round($currentSize / <span style="color:#ae81ff">1</span>GB, <span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>            SizeMB = [<span style="color:#66d9ef">math</span>]::Round($currentSize / <span style="color:#ae81ff">1</span>MB, <span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        $allEntries = @($currentDirEntry) + $folders
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        $allEntries = $folders
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 按大小排序并显示</span>
+</span></span><span style="display:flex;"><span>    $allEntries | Sort-Object SizeGB -Descending | Format-Table -AutoSize
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 创建 alias</span>
+</span></span><span style="display:flex;"><span>Set-Alias -Name ds -Value Get-FolderSize
+</span></span></code></pre></div><pre tabindex="0"><code>C:\Program Files (x86)\Steam\steamapps\common:
+
+Name                             SizeGB    SizeMB
+----                             ------    ------
+MonsterHunterWilds               154.94 158661.41
+Baldurs Gate 3                   144.74 148214.57
+BlackMythWukong                  140.48 143856.29
+Monster Hunter World              98.39  100747.9
+ForzaHorizon4                     94.58  96844.94
+Cyberpunk 2077                    91.23  93415.27
+ELDEN RING                         66.2  67786.84
+Palworld                           29.5  30207.92
+Hades                             11.08  11348.39
+Hades II                          10.17  10410.33
+wallpaper_engine                   1.32   1348.01
+Steamworks Shared                  0.56    569.12
+MonsterHunterWildsBetatest         0.44    451.38
+Black Myth Wukong Benchmark Tool   0.04     41.16
+Steam Controller Configs              0         0
+</code></pre>
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/posts/bbr-algorithm-analysis/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">BBR 算法的流量控制与拥塞控制</span>
+    </a>
+    
+    
+</div>
+
+
+  
+
+  
+
+
+</article>
+
+
+        </div>
+        
+    
+
+
+
+<script defer src="/js/all.js" crossorigin="anonymous"></script>
+
+    
+    
+    <script src="/js/highlight.min.js"></script>
+    <script src="/js/languages/dos.min.js"></script>
+        
+    <script type="text/javascript">
+        
+        hljs.highlightAll();
+    </script>
+    
+
+
+
+
+    
+
+
+
+    </body>
+</html>

@@ -224,6 +224,27 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   <div class="post-list__item">
     <span class="item__title--big">
+      <a href="/posts/k8s-pv-pvc-dynamic-provisioning-storage-class/" >K8S持久化卷、动态置备、StorageClass</a>
+    </span>
+    <span class="item__date">
+      Jul 31, 2023
+    </span>
+    <span >
+      
+      <p>在之前对K8S的使用中，已经用到了Volumes来给pod挂载文件，具体来说用到了HostPath、emptyDir、ConfigMap这几种类型的Volumes。最近在部署grafana时，遇到PersistentVolumeClaim的API类型，研究了一下，发现涉及的东西挺多的，有</p>
+      
+    </span>
+    
+    ... <a class="read-more-symbol" href="/posts/k8s-pv-pvc-dynamic-provisioning-storage-class/">➦</a>
+    
+  </div>
+  
+  
+  
+  
+  
+  <div class="post-list__item">
+    <span class="item__title--big">
       <a href="/posts/k8s-rbac-prometheus-sd-relabel-config/" >使用node-exporter &#43; prometheus &#43; grafana 监控k8s集群</a>
     </span>
     <span class="item__date">
@@ -465,41 +486,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     </span>
     
     ... <a class="read-more-symbol" href="/posts/kickstart-rhel9-from-8/">➦</a>
-    
-  </div>
-  
-  
-  
-  
-  
-  <div class="post-list__item">
-    <span class="item__title--big">
-      <a href="/posts/vscode/" >vscode</a>
-    </span>
-    <span class="item__date">
-      Jul 11, 2023
-    </span>
-    <span >
-      
-      <h2 id="字体配置使用jetbrains-mono">字体配置——使用JetBrains Mono</h2>
-<ol>
-<li>下载Jetbrians Mono字体：<a href="https://www.jetbrains.com/lp/mono/#how-to-install">how-to-install</a></li>
-<li>解压缩</li>
-<li>安装
-<ol>
-<li>Mac下将ttf文件夹下的文件全选，右击选择打开，安装所有字体</li>
-<li>Centos9下， 将ttf文件夹下的文件全部移动到 <code>/usr/share/fonts/${newdir}</code>下 , <code>yum install -y fontconfig</code> 并执行 <code>fc-cache</code> 。然后执行 <code>fc-list</code> 即可看到新的字体</li>
-</ol>
-</li>
-<li>搜索font family，改成 <code>'JetBrains Mono', Menlo, Monaco, 'Courier New', monospace</code> 。</li>
-<li>搜索font size，改成13。如果这个字体还不够大，可以 <code>command + +</code>来放大UI。</li>
-<li>搜索line height，改成1.6。</li>
-</ol>
-<p>TIPS：</p>
-      
-    </span>
-    
-    ... <a class="read-more-symbol" href="/posts/vscode/">➦</a>
     
   </div>
   

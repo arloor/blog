@@ -6,8 +6,15 @@
     <description>Recent content in Posts on ARLOOR</description>
     <generator>Hugo</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Thu, 06 Nov 2025 13:45:23 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 04 Dec 2025 15:37:22 +0800</lastBuildDate>
     <atom:link href="https://www.arloor.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Windows Powershell常用脚本</title>
+      <link>https://www.arloor.com/posts/windows-powershell/</link>
+      <pubDate>Thu, 04 Dec 2025 15:37:22 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/windows-powershell/</guid>
+      <description>&lt;p&gt;对linux的shell脚本比较熟悉后，发现windows的powershell也挺好用的。这里记录一些常用的脚本片段，方便以后查阅。&lt;/p&gt;</description>
+    </item>
     <item>
       <title>BBR 算法的流量控制与拥塞控制</title>
       <link>https://www.arloor.com/posts/bbr-algorithm-analysis/</link>

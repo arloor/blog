@@ -224,6 +224,41 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   <div class="post-list__item">
     <span class="item__title--big">
+      <a href="/posts/vscode/" >vscode</a>
+    </span>
+    <span class="item__date">
+      Jul 11, 2023
+    </span>
+    <span >
+      
+      <h2 id="字体配置使用jetbrains-mono">字体配置——使用JetBrains Mono</h2>
+<ol>
+<li>下载Jetbrians Mono字体：<a href="https://www.jetbrains.com/lp/mono/#how-to-install">how-to-install</a></li>
+<li>解压缩</li>
+<li>安装
+<ol>
+<li>Mac下将ttf文件夹下的文件全选，右击选择打开，安装所有字体</li>
+<li>Centos9下， 将ttf文件夹下的文件全部移动到 <code>/usr/share/fonts/${newdir}</code>下 , <code>yum install -y fontconfig</code> 并执行 <code>fc-cache</code> 。然后执行 <code>fc-list</code> 即可看到新的字体</li>
+</ol>
+</li>
+<li>搜索font family，改成 <code>'JetBrains Mono', Menlo, Monaco, 'Courier New', monospace</code> 。</li>
+<li>搜索font size，改成13。如果这个字体还不够大，可以 <code>command + +</code>来放大UI。</li>
+<li>搜索line height，改成1.6。</li>
+</ol>
+<p>TIPS：</p>
+      
+    </span>
+    
+    ... <a class="read-more-symbol" href="/posts/vscode/">➦</a>
+    
+  </div>
+  
+  
+  
+  
+  
+  <div class="post-list__item">
+    <span class="item__title--big">
       <a href="/posts/dunhuang/" >河西走廊：敦煌&amp;张掖</a>
     </span>
     <span class="item__date">
@@ -589,30 +624,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     </span>
     
     ... <a class="read-more-symbol" href="/posts/notion/trace%E8%AF%A6%E6%83%85%E6%90%9C%E7%B4%A2%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">➦</a>
-    
-  </div>
-  
-  
-  
-  
-  
-  <div class="post-list__item">
-    <span class="item__title--big">
-      <a href="/posts/notion/%E6%96%B0traceid%E6%A0%BC%E5%BC%8F/" >新traceId格式</a>
-    </span>
-    <span class="item__date">
-      May 10, 2023
-    </span>
-    <span >
-      
-      <h1 id="新traceid格式">新traceId格式</h1>
-<h2 id="背景"><strong>背景</strong></h2>
-<p>当前端上使用一个long值的16进制的字符串作为traceId。目前存在两个问题：</p>
-<p>1. 64位随机数的碰撞概率高，目前已经出现traceId碰撞的情况</p>
-      
-    </span>
-    
-    ... <a class="read-more-symbol" href="/posts/notion/%E6%96%B0traceid%E6%A0%BC%E5%BC%8F/">➦</a>
     
   </div>
   

@@ -224,6 +224,27 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   <div class="post-list__item">
     <span class="item__title--big">
+      <a href="/posts/spring-aop/" >Spring Aop使用</a>
+    </span>
+    <span class="item__date">
+      Nov 4, 2019
+    </span>
+    <span >
+      
+      <p>来记一下spring aop的使用</p>
+      
+    </span>
+    
+    ... <a class="read-more-symbol" href="/posts/spring-aop/">➦</a>
+    
+  </div>
+  
+  
+  
+  
+  
+  <div class="post-list__item">
+    <span class="item__title--big">
       <a href="/posts/jdk8-function/" >Jdk8的function包以及::用法</a>
     </span>
     <span class="item__date">
@@ -410,29 +431,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     </span>
     
     ... <a class="read-more-symbol" href="/posts/redis/redis-online-load-rdb/">➦</a>
-    
-  </div>
-  
-  
-  
-  
-  
-  <div class="post-list__item">
-    <span class="item__title--big">
-      <a href="/posts/redis/use-redis-replicate-to-do-remote-sync/" >Redis异步拷贝实现—replicate.c</a>
-    </span>
-    <span class="item__date">
-      Sep 3, 2019
-    </span>
-    <span >
-      
-      <p>为实现redis异地数据中心实时同步功能，存在几种方案。其中一种方案是利用redis主从节点的异步拷贝，伪装一个slave节点，获取主节点的异步拷贝信息。将该异步拷贝信息同步到异地数据中心，从而实现redis集群异地同步。</p>
-<p>本文的目的就是探究“伪装slave获取异步拷贝”的可行性与复杂度。<br>
-虽然redis文档有介绍主从以及异步拷贝，但是其实现并没有详细介绍，因此我阅读了redis中的<code>cluster.c</code>、<code>replicate.c</code>（redis版本为4.0.1），探查redis&quot;主从拷贝&quot;实现的细节，并使用netcat软件进行了一些实验。我们的最终结论是：实验结果反映“伪装slave获取异步拷贝”方案是可行的，并且复杂度可接受。</p>
-      
-    </span>
-    
-    ... <a class="read-more-symbol" href="/posts/redis/use-redis-replicate-to-do-remote-sync/">➦</a>
     
   </div>
   
