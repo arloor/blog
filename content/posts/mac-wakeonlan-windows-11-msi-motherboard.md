@@ -2,7 +2,7 @@
 title: "使用Mac mini wakeonlan windows主机（微星主板）"
 subtitle:
 tags: 
-- undefined
+- windows
 date: 2024-12-16T22:16:38+08:00
 lastmod: 2024-12-16T22:16:38+08:00
 draft: false

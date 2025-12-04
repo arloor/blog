@@ -5,7 +5,6 @@ draft: false
 categories: [ "undefined"]
 tags: 
 - windows
-- bat
 weight: 10
 subtitle: ""
 description : ""
