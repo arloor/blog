@@ -25,13 +25,13 @@
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Windows Powershell常用脚本">
-  <meta name="twitter:description" content="对linux的shell脚本比较熟悉后，发现windows的powershell也挺好用的。这里记录一些常用的脚本片段，方便以后查阅。">
+  <meta name="twitter:description" content="对 linux 的 shell 脚本比较熟悉后，发现 windows 的 powershell 也挺好用的。这里记录一些常用的脚本片段，方便以后查阅。">
       <meta name="twitter:site" content="@njulgh">
 
 <meta property="og:url" content="https://www.arloor.com/posts/windows-powershell/">
   <meta property="og:site_name" content="ARLOOR">
   <meta property="og:title" content="Windows Powershell常用脚本">
-  <meta property="og:description" content="对linux的shell脚本比较熟悉后，发现windows的powershell也挺好用的。这里记录一些常用的脚本片段，方便以后查阅。">
+  <meta property="og:description" content="对 linux 的 shell 脚本比较熟悉后，发现 windows 的 powershell 也挺好用的。这里记录一些常用的脚本片段，方便以后查阅。">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
@@ -281,9 +281,9 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   
   <div class="post">
-    <p>对linux的shell脚本比较熟悉后，发现windows的powershell也挺好用的。这里记录一些常用的脚本片段，方便以后查阅。</p>
+    <p>对 linux 的 shell 脚本比较熟悉后，发现 windows 的 powershell 也挺好用的。这里记录一些常用的脚本片段，方便以后查阅。</p>
 <h2 id="windows-查看磁盘占用">windows 查看磁盘占用</h2>
-<p>类似 <code>du -h --max-depth 1</code> 的功能，可以使用 PowerShell 脚本来查看当前目录下的文件夹大小：</p>
+<p>类似 <code>du -h --max-depth 1</code>（Linux） 或 <code>du -d1 -h</code>（MacOS） 的功能，可以使用 PowerShell 脚本来查看当前目录下的文件夹大小：</p>
 <blockquote>
 <p>可以 <code>code $PROFILE</code> 打开 PowerShell 配置文件，将下面的函数添加进去，这样就可以在 PowerShell 中使用 <code>ds</code> 命令来查看当前目录下的文件夹大小。</p>
 </blockquote>
@@ -298,7 +298,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 统计所有子文件夹</span>
-</span></span><span style="display:flex;"><span>    $folders = Get-ChildItem -Force | Where-Object { $_.PSIsContainer } | ForEach-Object { 
+</span></span><span style="display:flex;"><span>    $folders = Get-ChildItem -Force | Where-Object { $_.PSIsContainer } | ForEach-Object {
 </span></span><span style="display:flex;"><span>        $files = Get-ChildItem $_.FullName -Recurse -Force <span style="color:#f92672">-File</span> -ErrorAction SilentlyContinue
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> ($files) {
 </span></span><span style="display:flex;"><span>            $size = ($files | Measure-Object -Property Length -Sum).Sum
