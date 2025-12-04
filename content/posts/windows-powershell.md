@@ -18,7 +18,7 @@ highlightjslanguages:
 
 <!--more-->
 
-## windows 查看磁盘占用
+## 查看磁盘占用
 
 类似 `du -h --max-depth 1`（Linux） 或 `du -d1 -h`（MacOS） 的功能，可以使用 PowerShell 脚本来查看当前目录下的文件夹大小：
 
