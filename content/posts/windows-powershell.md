@@ -11,6 +11,7 @@ categories:
 weight: 10
 description:
 highlightjslanguages:
+- powershell
 ---
 
 对 linux 的 shell 脚本比较熟悉后，发现 windows 的 powershell 也挺好用的。这里记录一些常用的脚本片段，方便以后查阅。
