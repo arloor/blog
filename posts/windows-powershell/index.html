@@ -274,6 +274,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
           <nav id="TableOfContents">
   <ul>
     <li><a href="#windows-查看磁盘占用">windows 查看磁盘占用</a></li>
+    <li><a href="#放开某端口的防火墙">放开某端口的防火墙</a></li>
   </ul>
 </nav>
       
@@ -349,7 +350,10 @@ Steamworks Shared                  0.56    569.12
 MonsterHunterWildsBetatest         0.44    451.38
 Black Myth Wukong Benchmark Tool   0.04     41.16
 Steam Controller Configs              0         0
-</code></pre>
+</code></pre><h2 id="放开某端口的防火墙">放开某端口的防火墙</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>$port=<span style="color:#ae81ff">2222</span>
+</span></span><span style="display:flex;"><span>New-NetFirewallRule -DisplayName <span style="color:#e6db74">&#34;Allow Port </span>$port<span style="color:#e6db74">&#34;</span> -Direction Inbound -Protocol TCP -LocalPort $port -Action Allow
+</span></span></code></pre></div>
   </div>
   
 
