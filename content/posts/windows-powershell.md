@@ -2,7 +2,7 @@
 title: "Windows Powershell常用脚本"
 subtitle:
 tags:
-  - undefined
+  - windows
 date: 2025-12-04T15:37:22+08:00
 lastmod: 2025-12-04T15:37:22+08:00
 draft: false
