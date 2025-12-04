@@ -1,24 +1,25 @@
 ---
 title: "Windows Powershell常用脚本"
 subtitle:
-tags: 
-- undefined
+tags:
+  - undefined
 date: 2025-12-04T15:37:22+08:00
 lastmod: 2025-12-04T15:37:22+08:00
 draft: false
-categories: 
-- undefined
+categories:
+  - undefined
 weight: 10
 description:
 highlightjslanguages:
 ---
 
-对linux的shell脚本比较熟悉后，发现windows的powershell也挺好用的。这里记录一些常用的脚本片段，方便以后查阅。
+对 linux 的 shell 脚本比较熟悉后，发现 windows 的 powershell 也挺好用的。这里记录一些常用的脚本片段，方便以后查阅。
+
 <!--more-->
 
 ## windows 查看磁盘占用
 
-类似 `du -h --max-depth 1` 的功能，可以使用 PowerShell 脚本来查看当前目录下的文件夹大小：
+类似 `du -h --max-depth 1`（Linux） 或 `du -d1 -h`（MacOS） 的功能，可以使用 PowerShell 脚本来查看当前目录下的文件夹大小：
 
 > 可以 `code $PROFILE` 打开 PowerShell 配置文件，将下面的函数添加进去，这样就可以在 PowerShell 中使用 `ds` 命令来查看当前目录下的文件夹大小。
 
@@ -34,7 +35,7 @@ function Get-FolderSize {
     }
 
     # 统计所有子文件夹
-    $folders = Get-ChildItem -Force | Where-Object { $_.PSIsContainer } | ForEach-Object { 
+    $folders = Get-ChildItem -Force | Where-Object { $_.PSIsContainer } | ForEach-Object {
         $files = Get-ChildItem $_.FullName -Recurse -Force -File -ErrorAction SilentlyContinue
         if ($files) {
             $size = ($files | Measure-Object -Property Length -Sum).Sum
