@@ -66,28 +66,23 @@ v可以省略
 
 **压缩某目录下的某文件（或子目录）**
 
-```
+```bash
 tar -zcvf a.tar.gz  -C ~/test somedir
 ```
 
 这样就可以压缩`~/test`目录下的`somedir`子目录到`a.tar.gz`中
 
-**小技巧：** 你可以先输入`tar -zcvf a.tar.gz  -C ~/test/somedir`，然后把`/somedir`的反斜杠改为空格以形成上面的命令（这样可以使用tab的自动补全）
-
 **注意：** `somedir`在这种模式下是不能用通配符的
 
 **压缩时排除指定文件**
 
+```bash
+tar -zcf ~/test/public.tar.gz -C ~/test --exclude=public.tar.gz .
 ```
-cd ~/test
-tar  -zcf  public.tar.gz --exclude=public.tar.gz *
-```
-
-这样也能实现压缩目录下的所有文件
 
 **解压缩**
 
-```
+```bash
 tar -zxvf a.tar.gz -C targetDir
 ```
 
