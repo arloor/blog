@@ -65,14 +65,25 @@ bash <(curl -SsLf https://us.arloor.dev/https://gist.githubusercontent.com/arloo
 ## 腾讯云卸载内置监控
 
 ```bash
-#命令执行助手、云镜、云监控卸载命令：
-systemctl disable tat_agent --now
+#命令执行云镜、云监控卸载命令：
 /usr/local/qcloud/YunJing/uninst.sh
 /usr/local/qcloud/stargate/admin/uninstall.sh
 /usr/local/qcloud/monitor/barad/admin/uninstall.sh
 #删除云监控相关目录文件：
-rm -f /etc/systemd/system/tat_agent.service
-rm -rf /usr/local/qcloud
+# rm -rf /usr/local/qcloud
 #最后清理一下 /etc/rc.local 文件，将里面含qcloud的行全部删掉。
 sed -i '/.*qcloud.*/d' /etc/rc.local
+```
+
+## 腾讯云卸载自动化助手
+
+```bash
+systemctl disable tat_agent --now
+rm -f /etc/systemd/system/tat_agent.service
+```
+
+安装
+
+```bash
+sudo wget -qO - https://tat-1258344699.cos-internal.accelerate.tencentcos.cn/tat_agent/tat_agent_installer.sh | sudo sh
 ```
