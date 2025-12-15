@@ -74,6 +74,26 @@ TIPS：
         "key": "shift+alt+h",
         "command": "-references-view.showCallHierarchy",
         "when": "editorHasCallHierarchyProvider"
+    },
+    {
+        "key": "cmd+j",
+        "command": "workbench.action.terminal.toggleTerminal",
+        "when": "terminal.active"
+    },
+    {
+        "key": "ctrl+`",
+        "command": "-workbench.action.terminal.toggleTerminal",
+        "when": "terminal.active"
+    },
+    {
+        "key": "ctrl+shift+alt+`",
+        "command": "-workbench.action.terminal.newInNewWindow",
+        "when": "terminalHasBeenCreated || terminalProcessSupported"
+    },
+    {
+        "key": "cmd+k cmd+j",
+        "command": "workbench.action.createTerminalEditorSide",
+        "when": "terminalProcessSupported"
     }
 ]
 ```
