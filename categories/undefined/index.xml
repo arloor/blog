@@ -850,9 +850,9 @@
     </item>
     <item>
       <title>windows开机自启动</title>
-      <link>https://www.arloor.com/posts/other/start-onboot-windows/</link>
+      <link>https://www.arloor.com/posts/startup-onboot-windows/</link>
       <pubDate>Fri, 17 Jul 2020 19:59:39 +0800</pubDate>
-      <guid>https://www.arloor.com/posts/other/start-onboot-windows/</guid>
+      <guid>https://www.arloor.com/posts/startup-onboot-windows/</guid>
       <description>&lt;h2 id=&#34;放到启动文件夹&#34;&gt;放到启动文件夹&lt;/h2&gt;&#xA;&lt;p&gt;编写&lt;code&gt;startup.vbs&lt;/code&gt;，放到这个文件夹下（可以使用 &lt;code&gt;win+r&lt;/code&gt; 输入&lt;code&gt;shell:Startup&lt;/code&gt;）：&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;%userprofile%&lt;span style=&#34;color:#ae81ff&#34;&gt;\A&lt;/span&gt;ppData&lt;span style=&#34;color:#ae81ff&#34;&gt;\R&lt;/span&gt;oaming&lt;span style=&#34;color:#ae81ff&#34;&gt;\M&lt;/span&gt;icrosoft&lt;span style=&#34;color:#ae81ff&#34;&gt;\W&lt;/span&gt;indows&lt;span style=&#34;color:#ae81ff&#34;&gt;\S&lt;/span&gt;tart Menu&lt;span style=&#34;color:#ae81ff&#34;&gt;\P&lt;/span&gt;rograms&lt;span style=&#34;color:#ae81ff&#34;&gt;\S&lt;/span&gt;tartup&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;startup.vbs&lt;/code&gt;内容如下：&lt;/p&gt;</description>
     </item>
     <item>
