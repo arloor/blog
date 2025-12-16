@@ -157,3 +157,16 @@ $task = New-ScheduledTask -Action $action -Trigger $trigger -Settings $settings 
 # 注册任务
 Register-ScheduledTask -TaskName "mihomo" -InputObject $task
 ```
+
+3. （手动）启动、停止、删除任务：
+
+```powershell
+# 启动任务
+Start-ScheduledTask -TaskName "mihomo"
+# 停止任务
+Stop-ScheduledTask -TaskName "mihomo"
+# 删除任务
+Unregister-ScheduledTask -TaskName "mihomo" -Confirm:$false
+```
+
+> 起始位置下的 log 目录中存放日志文件
