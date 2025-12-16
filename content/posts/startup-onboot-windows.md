@@ -121,3 +121,37 @@ shawl add --name mihomo -- C:\Users\arloor\mihomo\mihomo.exe -d C:\Users\arloor\
 sc.exe config mihomo start= auto
 sc.exe start mihomo
 ```
+
+## 使用任务计划程序
+
+1. 安装 dumypwsh
+
+```bash
+cargo install --git https://github.com/arloor/dumy --bin dumypwsh
+```
+
+2. 使用 powershell 执行以下脚本创建一个任务计划，在每次用户登录时启动 mihomo：
+
+```powershell
+# 1. 定义触发器：当任何用户登录时触发
+$trigger = New-ScheduledTaskTrigger -AtLogOn
+
+# 2. 定义操作：要运行的程序和参数
+# 请将下面的路径替换为你实际的程序路径
+$action = New-ScheduledTaskAction -Execute "C:\Users\arloor\.cargo\bin\dumypwsh.exe" -Argument "C:\Users\arloor\mihomo\mihomo.exe -d C:\Users\arloor\mihomo -f C:\Users\arloor\mihomo\clash.yaml" -WorkingDirectory $HOME
+
+# 3. 定义设置（可选）：例如允许按需运行，或者如果任务失败则重新启动
+# -ExecutionTimeLimit (New-TimeSpan -Seconds 0) 表示取消"如果运行时间超过以下时间，停止任务"的限制
+$settings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable -ExecutionTimeLimit (New-TimeSpan -Seconds 0)
+
+
+# 4. 注册（创建）任务
+# 创建任务主体（权限）：以当前用户运行，最高权限
+$principal = New-ScheduledTaskPrincipal -UserId $env:USERNAME -RunLevel Highest
+
+# 创建任务对象
+$task = New-ScheduledTask -Action $action -Trigger $trigger -Settings $settings -Principal $principal
+
+# 注册任务
+Register-ScheduledTask -TaskName "mihomo" -InputObject $task
+```
