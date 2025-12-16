@@ -274,16 +274,11 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
           <nav id="TableOfContents">
   <ul>
     <li><a href="#前言">前言</a></li>
-    <li><a href="#编写-agentdaemon-配置文件plist-文件">编写 Agent/Daemon 配置文件（plist 文件）</a>
-      <ul>
-        <li><a href="#服务管理">服务管理</a></li>
-      </ul>
-    </li>
-    <li><a href="#服务禁用数据库清理">服务禁用数据库清理</a>
-      <ul>
-        <li><a href="#全局资源限制">全局资源限制</a></li>
-      </ul>
-    </li>
+    <li><a href="#编写-agentdaemon-配置文件plist-文件">编写 Agent/Daemon 配置文件（plist 文件）</a></li>
+    <li><a href="#服务管理脚本">服务管理脚本</a></li>
+    <li><a href="#launchctl-子命令说明">launchctl 子命令说明</a></li>
+    <li><a href="#服务禁用数据库清理">服务禁用数据库清理</a></li>
+    <li><a href="#全局资源限制">全局资源限制</a></li>
     <li><a href="#macos-定时任务">macOS 定时任务</a></li>
   </ul>
 </nav>
@@ -455,7 +450,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   </tbody>
 </table>
 <p>我们主要通过 <code>RunAtLoad = True</code> 实现开机自启，建议任何自定义 plist 都设置 <code>RunAtLoad = True</code>。</p>
-<h3 id="服务管理">服务管理</h3>
+<h2 id="服务管理脚本">服务管理脚本</h2>
 <p>这里提供一个脚本用于启动和停止 LaunchAgent/LaunchDaemon 服务，效果类似于 Linux 上的 systemctl：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#! /bin/bash
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
@@ -540,7 +535,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   </tbody>
 </table>
 <p>如果使用 <code>sudo</code> 执行 <code>systemctl</code>，则操作的是系统级的 LaunchDaemons;否则操作的是当前用户的 LaunchAgents。</p>
-<h4 id="launchctl-子命令说明">launchctl 子命令说明</h4>
+<h2 id="launchctl-子命令说明">launchctl 子命令说明</h2>
 <blockquote>
 <ul>
 <li><code>bootstrap</code> 和 <code>bootout</code>相当于老命令 load 和 unload （RunAtLoad 的那个 Load）。只有在 service 是 enable 的状态下才有效。所以上面的脚本中，bootout 在 disable 之前，bootstrap 后 enable 之后。</li>
@@ -563,7 +558,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>/usr/libexec/Plistbuddy <span style="color:#e6db74">&#34;/Volumes/{系统卷名称}/var/db/com.apple.xpc.launchd/disabled.plist&#34;</span> -c Delete:<span style="color:#f92672">{</span>Label<span style="color:#f92672">}</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 示例</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># /usr/libexec/Plistbuddy &#34;/Volumes/Macintosh HD/var/db/com.apple.xpc.launchd/disabled.502.plist&#34; -c Delete:local.job</span>
-</span></span></code></pre></div><h3 id="全局资源限制">全局资源限制</h3>
+</span></span></code></pre></div><h2 id="全局资源限制">全局资源限制</h2>
 <p>unix 系统都限制了可打开文件数，上面的 plist 修改了单个进程的文件描述符数量限制。如何修改全局资源限制呢？</p>
 <ol>
 <li>新建 <code>/Library/LaunchDaemons/limit.maxfiles.plist</code> 文件，写入</li>
