@@ -32,11 +32,11 @@ highlightjslanguages:
 
 LaunchAgents 和 LaunchDaemons 的配置文件使用 plist 格式，通常以 `.plist` 作为文件扩展名。根据不同的使用场景，plist 文件应放置在不同的目录中：
 
-| plist 目录                | domain-target | 说明                                            |
-| ------------------------- | ------------- | ----------------------------------------------- |
-| `/Library/LaunchDaemons/` | `system`      | 系统级守护进程。系统启动时加载                  |
-| `/Library/LaunchAgents/`  | `gui/<uid>`   | 所有用户的图形界面代理。任何用户 GUI 登录时加载 |
-| `~/Library/LaunchAgents/` | `gui/<uid>`   | 当前用户的图形界面代理。本用户 GUI 登录时加载   |
+| plist 目录              | domain-target | 说明                                            |
+| ----------------------- | ------------- | ----------------------------------------------- |
+| /Library/LaunchDaemons/ | system        | 系统级守护进程。系统启动时加载                  |
+| /Library/LaunchAgents/  | gui/<uid>     | 所有用户的图形界面代理。任何用户 GUI 登录时加载 |
+| ~/Library/LaunchAgents/ | gui/<uid>     | 当前用户的图形界面代理。本用户 GUI 登录时加载   |
 
 参考：
 
@@ -103,18 +103,18 @@ LaunchAgents 和 LaunchDaemons 的配置文件使用 plist 格式，通常以 `.
 
 各字段解释：
 
-| 字段名                 | 说明                   | 是否必填 |
-| ---------------------- | ---------------------- | -------- |
-| `Label`                | 服务的唯一标识符       | 是       |
-| `ProgramArguments`     | 要执行的命令及其参数   | 是       |
-| `RunAtLoad`            | 是否在加载时启动服务   | 否       |
-| `KeepAlive`            | 服务退出后是否自动重启 | 否       |
-| `WorkingDirectory`     | 服务的工作目录         | 否       |
-| `EnvironmentVariables` | 设置服务的环境变量     | 否       |
-| `SoftResourceLimits`   | 设置服务的软资源限制   | 否       |
-| `HardResourceLimits`   | 设置服务的硬资源限制   | 否       |
-| `StandardOutPath`      | 标准输出日志文件路径   | 否       |
-| `StandardErrorPath`    | 标准错误日志文件路径   | 否       |
+| 字段名               | 说明                   | 是否必填 |
+| -------------------- | ---------------------- | -------- |
+| Label                | 服务的唯一标识符       | 是       |
+| ProgramArguments     | 要执行的命令及其参数   | 是       |
+| RunAtLoad            | 是否在加载时启动服务   | 否       |
+| KeepAlive            | 服务退出后是否自动重启 | 否       |
+| WorkingDirectory     | 服务的工作目录         | 否       |
+| EnvironmentVariables | 设置服务的环境变量     | 否       |
+| SoftResourceLimits   | 设置服务的软资源限制   | 否       |
+| HardResourceLimits   | 设置服务的硬资源限制   | 否       |
+| StandardOutPath      | 标准输出日志文件路径   | 否       |
+| StandardErrorPath    | 标准错误日志文件路径   | 否       |
 
 我们主要通过 `RunAtLoad = True` 实现开机自启，建议任何自定义 plist 都设置 `RunAtLoad = True`。
 
@@ -191,16 +191,16 @@ sudo systemctl start xxxx #启动 /Library/LaunchDaemons/下的plist
 sudo systemctl stop xxxx #停止 /Library/LaunchDaemons/下的plist
 ```
 
-| 命令                  | 说明               | 实现细节                       |
-| --------------------- | ------------------ | ------------------------------ |
-| `systemctl start xxx` | 启动并设置开机自启 | `launchctl bootstrap + enable` |
-| `systemctl stop xxx`  | 停止并取消开机自启 | `launchctl bootout + disable`  |
+| 命令                | 说明               | 实现细节                     |
+| ------------------- | ------------------ | ---------------------------- |
+| systemctl start xxx | 启动并设置开机自启 | launchctl bootstrap + enable |
+| systemctl stop xxx  | 停止并取消开机自启 | launchctl bootout + disable  |
 
 如果使用 `sudo` 执行 `systemctl`，则操作的是系统级的 LaunchDaemons;否则操作的是当前用户的 LaunchAgents。
 
 #### launchctl 子命令说明
 
-> - `bootstrap` 和 `bootout`相当于老命令 load 和 unload。只有在 service 是 enable 的状态下才有效。所以上面的脚本中，bootout 在 disable 之前，bootstrap 后 enable 之后。
+> - `bootstrap` 和 `bootout`相当于老命令 load 和 unload （RunAtLoad 的那个 Load）。只有在 service 是 enable 的状态下才有效。所以上面的脚本中，bootout 在 disable 之前，bootstrap 后 enable 之后。
 > - `unload -w` 等同于 `bootout + disable`，停止进程并禁用开机自启动。已废弃。
 > - `load -w` 等同于 `enable + bootstrap`，启动进程并设置开机自启动。已废弃。
 > - `bootstrap` 需要使用 plist 的路径，而不是 service-name
