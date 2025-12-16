@@ -126,6 +126,8 @@ sc.exe start mihomo
 
 1. 安装 dumypwsh
 
+> 一个用于在后台静默执行 Windows 命令的工具程序，不显示命令行窗口。
+
 ```bash
 cargo install --git https://github.com/arloor/dumy --bin dumypwsh
 ```
