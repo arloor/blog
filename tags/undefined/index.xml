@@ -13,7 +13,7 @@
       <link>https://www.arloor.com/posts/startup-onboot-macos/</link>
       <pubDate>Tue, 16 Dec 2025 19:31:51 +0800</pubDate>
       <guid>https://www.arloor.com/posts/startup-onboot-macos/</guid>
-      <description>&lt;p&gt;本文介绍使用 MacOS 的 launchd 实现开机自启动、资源限制和定时任务的配置方法。&lt;/p&gt;</description>
+      <description>&lt;p&gt;本文介绍使用 MacOS 的 LaunchAgents 和 LaunchDaemons 实现开机自启动、资源限制和定时任务的配置方法。&lt;/p&gt;</description>
     </item>
     <item>
       <title>BBR 算法的流量控制与拥塞控制</title>
