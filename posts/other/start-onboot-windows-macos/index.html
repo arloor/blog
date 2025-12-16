@@ -410,8 +410,11 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fi</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
 </span></span></code></pre></div><p>把这个脚本命名成 <code>systemctl</code>，那你就可以：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl start com.arloor.sslocal
-</span></span><span style="display:flex;"><span>systemctl stop com.arloor.sslocal
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl start com.arloor.sslocal <span style="color:#75715e">#启动 ~/Library/LaunchAgents/下的plist</span>
+</span></span><span style="display:flex;"><span>systemctl stop com.arloor.sslocal <span style="color:#75715e">#停止 ~/Library/LaunchAgents/下的plist</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sudo systemctl start xxxx <span style="color:#75715e">#启动 /Library/LaunchDaemons/下的plist</span>
+</span></span><span style="display:flex;"><span>sudo systemctl stop xxxx <span style="color:#75715e">#停止 /Library/LaunchDaemons/下的plist</span>
 </span></span></code></pre></div><p>service 是否被 disable 的 db 文件地址如下。MacOS 不会自动删除 db 文件中无效的 service，这导致执行<code>launchctl print-disabled gui/$(id -u)</code>时会看到一些无效的 service。如果想手动删除这些无效的 service，需要先在恢复模式关闭安全模式，然后才能通过 vim 修改。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/private/var/db/com.apple.xpc.launchd/disabled.<span style="color:#66d9ef">$(</span>id -u<span style="color:#66d9ef">)</span>.plist
 </span></span></code></pre></div><h4 id="老命令">老命令</h4>
