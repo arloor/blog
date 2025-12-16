@@ -118,7 +118,7 @@ LaunchAgents 和 LaunchDaemons 的配置文件使用 plist 格式，通常以 `.
 
 我们主要通过 `RunAtLoad = True` 实现开机自启，建议任何自定义 plist 都设置 `RunAtLoad = True`。
 
-### 服务管理
+## 服务管理脚本
 
 这里提供一个脚本用于启动和停止 LaunchAgent/LaunchDaemon 服务，效果类似于 Linux 上的 systemctl：
 
@@ -198,7 +198,7 @@ sudo systemctl stop xxxx #停止 /Library/LaunchDaemons/下的plist
 
 如果使用 `sudo` 执行 `systemctl`，则操作的是系统级的 LaunchDaemons;否则操作的是当前用户的 LaunchAgents。
 
-#### launchctl 子命令说明
+## launchctl 子命令说明
 
 > - `bootstrap` 和 `bootout`相当于老命令 load 和 unload （RunAtLoad 的那个 Load）。只有在 service 是 enable 的状态下才有效。所以上面的脚本中，bootout 在 disable 之前，bootstrap 后 enable 之后。
 > - `unload -w` 等同于 `bootout + disable`，停止进程并禁用开机自启动。已废弃。
@@ -228,7 +228,7 @@ LaunchAgents/LaunchDaemons 是否被 disable 存储在单独的文件中。由�
 # /usr/libexec/Plistbuddy "/Volumes/Macintosh HD/var/db/com.apple.xpc.launchd/disabled.502.plist" -c Delete:local.job
 ```
 
-### 全局资源限制
+## 全局资源限制
 
 unix 系统都限制了可打开文件数，上面的 plist 修改了单个进程的文件描述符数量限制。如何修改全局资源限制呢？
 
