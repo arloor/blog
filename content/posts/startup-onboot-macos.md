@@ -161,32 +161,19 @@ get_cur_pid() {
     # launchctl kickstart -p ${domain_target}/${service_name}
 }
 
-old_pid=$(get_cur_pid)
-if [ "$old_pid" == "-" ]; then
-    # 服务已退出，无PID
-    old_pid=""
-fi
-
 case "$sub_command" in
     enable)
         launchctl enable ${domain_target}/${service_name}
-        if [ "$old_pid" == "" ]; then
-            launchctl bootstrap ${domain_target} ${plist_path}${service_name}.plist
-            pid=$(get_cur_pid)
-            if [ "$pid" != "" ]; then
-                echo 新进程 $pid
-            else
-                echo 启动失败
-            fi
+        launchctl bootstrap ${domain_target} ${plist_path}${service_name}.plist 2>/dev/null
+        pid=$(launchctl kickstart -p ${domain_target}/${service_name})
+        if [ "$pid" != "" ]; then
+            echo 进程ID $pid
         else
-            echo 进程已存在 $old_pid
+            echo 启动失败
         fi
         ;;
     disable)
-        if [ "$old_pid" != "" ]; then
-            echo 关闭老进程 $old_pid
-            launchctl bootout ${domain_target}/${service_name}
-        fi
+        launchctl bootout ${domain_target}/${service_name} 2>/dev/null
         launchctl disable ${domain_target}/${service_name}
         ;;
     start)
@@ -198,9 +185,14 @@ case "$sub_command" in
         fi
         ;;
     stop)
+        old_pid=$(get_cur_pid)
+        if [ "$old_pid" == "-" ]; then
+            # 服务已退出，无PID
+            old_pid=""
+        fi
         if [ "$old_pid" != "" ]; then
             echo 关闭老进程 $old_pid
-            launchctl bootout ${domain_target}/${service_name}
+            launchctl kill 9 ${domain_target}/${service_name}
         fi
         ;;
     *)
