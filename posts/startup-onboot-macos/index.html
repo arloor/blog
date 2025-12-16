@@ -259,7 +259,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     
     
     <br/>
-    <i class="fas fa-clock"></i> 4 min read
+    <i class="fas fa-clock"></i> 5 min read
 </div>
 
 
@@ -317,18 +317,18 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   </thead>
   <tbody>
       <tr>
-          <td><code>/Library/LaunchDaemons/</code></td>
-          <td><code>system</code></td>
+          <td>/Library/LaunchDaemons/</td>
+          <td>system</td>
           <td>系统级守护进程。系统启动时加载</td>
       </tr>
       <tr>
-          <td><code>/Library/LaunchAgents/</code></td>
-          <td><code>gui/&lt;uid&gt;</code></td>
+          <td>/Library/LaunchAgents/</td>
+          <td>gui/<!-- raw HTML omitted --></td>
           <td>所有用户的图形界面代理。任何用户 GUI 登录时加载</td>
       </tr>
       <tr>
-          <td><code>~/Library/LaunchAgents/</code></td>
-          <td><code>gui/&lt;uid&gt;</code></td>
+          <td>~/Library/LaunchAgents/</td>
+          <td>gui/<!-- raw HTML omitted --></td>
           <td>当前用户的图形界面代理。本用户 GUI 登录时加载</td>
       </tr>
   </tbody>
@@ -403,52 +403,52 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   </thead>
   <tbody>
       <tr>
-          <td><code>Label</code></td>
+          <td>Label</td>
           <td>服务的唯一标识符</td>
           <td>是</td>
       </tr>
       <tr>
-          <td><code>ProgramArguments</code></td>
+          <td>ProgramArguments</td>
           <td>要执行的命令及其参数</td>
           <td>是</td>
       </tr>
       <tr>
-          <td><code>RunAtLoad</code></td>
+          <td>RunAtLoad</td>
           <td>是否在加载时启动服务</td>
           <td>否</td>
       </tr>
       <tr>
-          <td><code>KeepAlive</code></td>
+          <td>KeepAlive</td>
           <td>服务退出后是否自动重启</td>
           <td>否</td>
       </tr>
       <tr>
-          <td><code>WorkingDirectory</code></td>
+          <td>WorkingDirectory</td>
           <td>服务的工作目录</td>
           <td>否</td>
       </tr>
       <tr>
-          <td><code>EnvironmentVariables</code></td>
+          <td>EnvironmentVariables</td>
           <td>设置服务的环境变量</td>
           <td>否</td>
       </tr>
       <tr>
-          <td><code>SoftResourceLimits</code></td>
+          <td>SoftResourceLimits</td>
           <td>设置服务的软资源限制</td>
           <td>否</td>
       </tr>
       <tr>
-          <td><code>HardResourceLimits</code></td>
+          <td>HardResourceLimits</td>
           <td>设置服务的硬资源限制</td>
           <td>否</td>
       </tr>
       <tr>
-          <td><code>StandardOutPath</code></td>
+          <td>StandardOutPath</td>
           <td>标准输出日志文件路径</td>
           <td>否</td>
       </tr>
       <tr>
-          <td><code>StandardErrorPath</code></td>
+          <td>StandardErrorPath</td>
           <td>标准错误日志文件路径</td>
           <td>否</td>
       </tr>
@@ -528,14 +528,14 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   </thead>
   <tbody>
       <tr>
-          <td><code>systemctl start xxx</code></td>
+          <td>systemctl start xxx</td>
           <td>启动并设置开机自启</td>
-          <td><code>launchctl bootstrap + enable</code></td>
+          <td>launchctl bootstrap + enable</td>
       </tr>
       <tr>
-          <td><code>systemctl stop xxx</code></td>
+          <td>systemctl stop xxx</td>
           <td>停止并取消开机自启</td>
-          <td><code>launchctl bootout + disable</code></td>
+          <td>launchctl bootout + disable</td>
       </tr>
   </tbody>
 </table>
@@ -543,7 +543,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <h4 id="launchctl-子命令说明">launchctl 子命令说明</h4>
 <blockquote>
 <ul>
-<li><code>bootstrap</code> 和 <code>bootout</code>相当于老命令 load 和 unload。只有在 service 是 enable 的状态下才有效。所以上面的脚本中，bootout 在 disable 之前，bootstrap 后 enable 之后。</li>
+<li><code>bootstrap</code> 和 <code>bootout</code>相当于老命令 load 和 unload （RunAtLoad 的那个 Load）。只有在 service 是 enable 的状态下才有效。所以上面的脚本中，bootout 在 disable 之前，bootstrap 后 enable 之后。</li>
 <li><code>unload -w</code> 等同于 <code>bootout + disable</code>，停止进程并禁用开机自启动。已废弃。</li>
 <li><code>load -w</code> 等同于 <code>enable + bootstrap</code>，启动进程并设置开机自启动。已废弃。</li>
 <li><code>bootstrap</code> 需要使用 plist 的路径，而不是 service-name</li>
