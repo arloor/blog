@@ -156,6 +156,11 @@ echo
 
 echo "sub_command: ${sub_command} [${service_name}]"
 
+[ -f "${plist_path}${service_name}.plist" ] || {
+    echo "ERROR: plist file not found: ${plist_path}${service_name}.plist"
+    exit 1
+}
+
 get_cur_pid() {
     launchctl list | awk -v sn="${service_name}" '$3 == sn {print $1}'
     # launchctl kickstart -p ${domain_target}/${service_name}
