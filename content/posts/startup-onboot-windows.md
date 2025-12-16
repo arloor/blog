@@ -158,7 +158,7 @@ $task = New-ScheduledTask -Action $action -Trigger $trigger -Settings $settings 
 Register-ScheduledTask -TaskName "mihomo" -InputObject $task
 ```
 
-3. （手动）启动、停止、删除任务：
+3. 启动（手动）、停止、删除任务：
 
 ```powershell
 # 启动任务
