@@ -148,8 +148,11 @@ fi
 把这个脚本命名成 `systemctl`，那你就可以：
 
 ```bash
-systemctl start com.arloor.sslocal
-systemctl stop com.arloor.sslocal
+systemctl start com.arloor.sslocal #启动 ~/Library/LaunchAgents/下的plist
+systemctl stop com.arloor.sslocal #停止 ~/Library/LaunchAgents/下的plist
+
+sudo systemctl start xxxx #启动 /Library/LaunchDaemons/下的plist
+sudo systemctl stop xxxx #停止 /Library/LaunchDaemons/下的plist
 ```
 
 service 是否被 disable 的 db 文件地址如下。MacOS 不会自动删除 db 文件中无效的 service，这导致执行`launchctl print-disabled gui/$(id -u)`时会看到一些无效的 service。如果想手动删除这些无效的 service，需要先在恢复模式关闭安全模式，然后才能通过 vim 修改。
