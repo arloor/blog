@@ -485,6 +485,11 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;sub_command: </span><span style="color:#e6db74">${</span>sub_command<span style="color:#e6db74">}</span><span style="color:#e6db74"> [</span><span style="color:#e6db74">${</span>service_name<span style="color:#e6db74">}</span><span style="color:#e6db74">]&#34;</span>
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> -f <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>plist_path<span style="color:#e6db74">}${</span>service_name<span style="color:#e6db74">}</span><span style="color:#e6db74">.plist&#34;</span> <span style="color:#f92672">]</span> <span style="color:#f92672">||</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>    echo <span style="color:#e6db74">&#34;ERROR: plist file not found: </span><span style="color:#e6db74">${</span>plist_path<span style="color:#e6db74">}${</span>service_name<span style="color:#e6db74">}</span><span style="color:#e6db74">.plist&#34;</span>
+</span></span><span style="display:flex;"><span>    exit <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>get_cur_pid<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>    launchctl list | awk -v sn<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>service_name<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#e6db74">&#39;$3 == sn {print $1}&#39;</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e"># launchctl kickstart -p ${domain_target}/${service_name}</span>
