@@ -101,8 +101,22 @@ while [ $# -gt 0 ]; do
     shift # 移除第一个参数
 done
 [ "$service_name" == "" ] && {
-    service_name="com.arloor.sslocal"
+    echo "ERROR: need service name"
+    exit 1
 }
+
+userID=$(id -u)
+[ "$userID" = "0" ] && {
+    domain_target="system"
+    plist_path="/Library/LaunchDaemons/"
+}||{
+    domain_target="gui/$(id -u)"
+    plist_path="$HOME/Library/LaunchAgents/"
+}
+echo "domain_target=${domain_target}"
+echo "plist_path=${plist_path}${service_name}.plist"
+echo
+
 [ "$stop" == "1" ] && {
     echo "stop and disable [${service_name}]"
 } || {
@@ -110,18 +124,18 @@ done
 }
 
 get_cur_pid() {
-    launchctl list | grep ${service_name} | awk '{print $1}'
+    launchctl list | awk -v sn="${service_name}" '$3 == sn {print $1}'
 }
 
 old_pid=$(get_cur_pid)
 if [ "$old_pid" != "" ]; then
     echo 关闭老进程 $old_pid
-    launchctl bootout gui/$(id -u)/${service_name}
-    launchctl disable gui/$(id -u)/${service_name}
+    launchctl bootout ${domain_target}/${service_name}
+    launchctl disable ${domain_target}/${service_name}
 fi
 if [ "$stop" != "1" ]; then
-    launchctl enable gui/$(id -u)/${service_name}
-    launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/${service_name}.plist
+    launchctl enable ${domain_target}/${service_name}
+    launchctl bootstrap ${domain_target} ${plist_path}${service_name}.plist
     pid=$(get_cur_pid)
     if [ "$pid" != "" ]; then
         echo 新进程 $pid
