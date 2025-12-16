@@ -13,7 +13,7 @@ description:
 highlightjslanguages:
 ---
 
-本文介绍使用 MacOS 的 launchd 实现开机自启动、资源限制和定时任务的配置方法。
+本文介绍使用 MacOS 的 LaunchAgents 和 LaunchDaemons 实现开机自启动、资源限制和定时任务的配置方法。
 
 <!--more-->
 
