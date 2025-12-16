@@ -224,6 +224,34 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   <div class="post-list__item">
     <span class="item__title--big">
+      <a href="/posts/notion/trace%E8%AF%A6%E6%83%85%E6%90%9C%E7%B4%A2%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" >trace详情搜索性能优化</a>
+    </span>
+    <span class="item__date">
+      May 10, 2023
+    </span>
+    <span >
+      
+      <h1 id="trace详情搜索性能优化">trace详情搜索性能优化</h1>
+<h2 id="现状">现状</h2>
+<p>当前根据traceId点查trace详情的耗时很长，有两个影响：</p>
+<ol>
+<li>点查trace详情耗时长，用户体验差。</li>
+<li>链路的未来功能演进需要一次获取多个traceId的详情。例如：通过多个trace详情的联合分析，以智能地定位慢请求根因。</li>
+</ol>
+<p>目前点查trace详情的主要耗时来源于下面的sql，用途是获取改traceId下的所有app和开始结束时间。</p>
+      
+    </span>
+    
+    ... <a class="read-more-symbol" href="/posts/notion/trace%E8%AF%A6%E6%83%85%E6%90%9C%E7%B4%A2%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">➦</a>
+    
+  </div>
+  
+  
+  
+  
+  
+  <div class="post-list__item">
+    <span class="item__title--big">
       <a href="/posts/notion/%E6%96%B0traceid%E6%A0%BC%E5%BC%8F/" >新traceId格式</a>
     </span>
     <span class="item__date">
@@ -415,27 +443,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     </span>
     
     ... <a class="read-more-symbol" href="/posts/starship-shell/">➦</a>
-    
-  </div>
-  
-  
-  
-  
-  
-  <div class="post-list__item">
-    <span class="item__title--big">
-      <a href="/posts/set/" >从异地多活到set化架构</a>
-    </span>
-    <span class="item__date">
-      Nov 28, 2022
-    </span>
-    <span >
-      
-      <p>这也是老图了</p>
-      
-    </span>
-    
-    ... <a class="read-more-symbol" href="/posts/set/">➦</a>
     
   </div>
   

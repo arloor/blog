@@ -224,6 +224,29 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   <div class="post-list__item">
     <span class="item__title--big">
+      <a href="/posts/redis/redis-online-load-rdb/" >实现redis运行时加载rdb文件</a>
+    </span>
+    <span class="item__date">
+      Sep 4, 2019
+    </span>
+    <span >
+      
+      <p>对redis比较了解的人应该知道redis提供rdb持久化机制。rdb文件其实就是redis在某一时间的一个快照，redis在重启时，可以加载这个快照，从而恢复状态。然而redis没有暴露加载rdb这个接口，因此没有办法在运行时手动地导入rdb快照。</p>
+<p>其实，在阅读replicate.c后发现，redis的从节点在接收了rdb全量同步文件后，直接调用了<code>rdbload</code>函数——这就意味着：运行时动态加载rdb文件完全可行！毕竟redis自己也是这么做的。但是redis不肯暴露这个接口给用户。</p>
+<p>我们上一篇文章要进行redis异地数据中心同步，同样需要加载rdb文件，如果只能重启redis来加载rdb文件，多少有点不舒服。因此探讨一下redis动态加载rdb文件的实现总归有好处的，事实证明我做到了。</p>
+      
+    </span>
+    
+    ... <a class="read-more-symbol" href="/posts/redis/redis-online-load-rdb/">➦</a>
+    
+  </div>
+  
+  
+  
+  
+  
+  <div class="post-list__item">
+    <span class="item__title--big">
       <a href="/posts/redis/use-redis-replicate-to-do-remote-sync/" >Redis异步拷贝实现—replicate.c</a>
     </span>
     <span class="item__date">
@@ -407,30 +430,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     </span>
     
     ... <a class="read-more-symbol" href="/posts/linux/dd-backup/">➦</a>
-    
-  </div>
-  
-  
-  
-  
-  
-  <div class="post-list__item">
-    <span class="item__title--big">
-      <a href="/posts/my-life-and-my-love/" >二十二年•纪</a>
-    </span>
-    <span class="item__date">
-      Apr 27, 2019
-    </span>
-    <span >
-      
-      <blockquote>
-<p>感谢刘港欢大学四年来1218天的陪伴</p>
-</blockquote>
-<p>这是悦悦毕业论文的致谢中的一句话。一篇论文，洋洋洒洒，突然就写到了最后的致谢，这才恍然间发现，我们也过到了大学生涯的结尾。今天4月27日，我刚满22周岁不久。20多年的生命，我从来没有好好回忆过，思考过。想了一想，总归要抖一抖胸中不多的墨水写点什么。借着这个机会，要说说我生命里遇到的那些人，那些事。</p>
-      
-    </span>
-    
-    ... <a class="read-more-symbol" href="/posts/my-life-and-my-love/">➦</a>
     
   </div>
   

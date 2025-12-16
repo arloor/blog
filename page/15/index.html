@@ -224,6 +224,27 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   <div class="post-list__item">
     <span class="item__title--big">
+      <a href="/posts/spring-use-notes/" >Spring随用随记</a>
+    </span>
+    <span class="item__date">
+      Nov 9, 2019
+    </span>
+    <span >
+      
+      <p>在工作之前大概有一年半没有写过spring的东西了，有些东西忘了，用这个记一下。</p>
+      
+    </span>
+    
+    ... <a class="read-more-symbol" href="/posts/spring-use-notes/">➦</a>
+    
+  </div>
+  
+  
+  
+  
+  
+  <div class="post-list__item">
+    <span class="item__title--big">
       <a href="/posts/spring-aop/" >Spring Aop使用</a>
     </span>
     <span class="item__date">
@@ -408,29 +429,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     </span>
     
     ... <a class="read-more-symbol" href="/posts/redis/psync2/">➦</a>
-    
-  </div>
-  
-  
-  
-  
-  
-  <div class="post-list__item">
-    <span class="item__title--big">
-      <a href="/posts/redis/redis-online-load-rdb/" >实现redis运行时加载rdb文件</a>
-    </span>
-    <span class="item__date">
-      Sep 4, 2019
-    </span>
-    <span >
-      
-      <p>对redis比较了解的人应该知道redis提供rdb持久化机制。rdb文件其实就是redis在某一时间的一个快照，redis在重启时，可以加载这个快照，从而恢复状态。然而redis没有暴露加载rdb这个接口，因此没有办法在运行时手动地导入rdb快照。</p>
-<p>其实，在阅读replicate.c后发现，redis的从节点在接收了rdb全量同步文件后，直接调用了<code>rdbload</code>函数——这就意味着：运行时动态加载rdb文件完全可行！毕竟redis自己也是这么做的。但是redis不肯暴露这个接口给用户。</p>
-<p>我们上一篇文章要进行redis异地数据中心同步，同样需要加载rdb文件，如果只能重启redis来加载rdb文件，多少有点不舒服。因此探讨一下redis动态加载rdb文件的实现总归有好处的，事实证明我做到了。</p>
-      
-    </span>
-    
-    ... <a class="read-more-symbol" href="/posts/redis/redis-online-load-rdb/">➦</a>
     
   </div>
   
