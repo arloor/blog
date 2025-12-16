@@ -125,11 +125,14 @@ LaunchAgents 和 LaunchDaemons 的配置文件使用 plist 格式，通常以 `.
 ```bash
 #! /bin/bash
 
+sub_command=
+service_name=
+
 # 使用while循环读取参数
 while [ $# -gt 0 ]; do
-    if [ "$1" == "stop" ]; then
-        stop=1
-    elif [ "$1" != "start" ]; then
+    if [ "$1" == "enable" ] || [ "$1" == "disable" ] || [ "$1" == "start" ] || [ "$1" == "stop" ]; then
+        sub_command=$1
+    else
         service_name=$1
     fi
     shift # 移除第一个参数
@@ -151,11 +154,7 @@ echo "domain_target=${domain_target}"
 echo "plist_path=${plist_path}${service_name}.plist"
 echo
 
-[ "$stop" == "1" ] && {
-    echo "stop and disable [${service_name}]"
-} || {
-    echo "start and enable [${service_name}]"
-}
+echo "sub_command: ${sub_command} [${service_name}]"
 
 get_cur_pid() {
     launchctl list | awk -v sn="${service_name}" '$3 == sn {print $1}'
@@ -163,38 +162,75 @@ get_cur_pid() {
 }
 
 old_pid=$(get_cur_pid)
-if [ "$old_pid" != "" ]; then
-    echo 关闭老进程 $old_pid
-    launchctl bootout ${domain_target}/${service_name}
-    launchctl disable ${domain_target}/${service_name}
-fi
-if [ "$stop" != "1" ]; then
-    launchctl enable ${domain_target}/${service_name}
-    launchctl bootstrap ${domain_target} ${plist_path}${service_name}.plist
-    pid=$(get_cur_pid)
-    if [ "$pid" != "" ]; then
-        echo 新进程 $pid
-    else
-        echo 启动失败
-    fi
+if [ "$old_pid" == "-" ]; then
+    # 服务已退出，无PID
+    old_pid=""
 fi
 
+case "$sub_command" in
+    enable)
+        launchctl enable ${domain_target}/${service_name}
+        if [ "$old_pid" == "" ]; then
+            launchctl bootstrap ${domain_target} ${plist_path}${service_name}.plist
+            pid=$(get_cur_pid)
+            if [ "$pid" != "" ]; then
+                echo 新进程 $pid
+            else
+                echo 启动失败
+            fi
+        else
+            echo 进程已存在 $old_pid
+        fi
+        ;;
+    disable)
+        if [ "$old_pid" != "" ]; then
+            echo 关闭老进程 $old_pid
+            launchctl bootout ${domain_target}/${service_name}
+        fi
+        launchctl disable ${domain_target}/${service_name}
+        ;;
+    start)
+        pid=$(launchctl kickstart -kp ${domain_target}/${service_name})
+        if [ "$pid" != "" ]; then
+            echo 新进程 $pid
+        else
+            echo 启动失败
+        fi
+        ;;
+    stop)
+        if [ "$old_pid" != "" ]; then
+            echo 关闭老进程 $old_pid
+            launchctl bootout ${domain_target}/${service_name}
+        fi
+        ;;
+    *)
+        echo "ERROR: unknown sub_command: $sub_command"
+        echo "Usage: $0 {enable|disable|start|stop} service_name"
+        exit 1
+        ;;
+esac
 ```
 
 把这个脚本命名成 `systemctl`，那你就可以：
 
 ```bash
-systemctl start com.arloor.sslocal #启动 ~/Library/LaunchAgents/下的plist
-systemctl stop com.arloor.sslocal #停止 ~/Library/LaunchAgents/下的plist
+systemctl enable com.arloor.sslocal  # 设置开机自启并立即启动
+systemctl disable com.arloor.sslocal # 停止进程并取消开机自启
+systemctl start com.arloor.sslocal   # 启动/重启进程（不改变开机自启设置）
+systemctl stop com.arloor.sslocal    # 停止进程（不改变开机自启设置）
 
-sudo systemctl start xxxx #启动 /Library/LaunchDaemons/下的plist
-sudo systemctl stop xxxx #停止 /Library/LaunchDaemons/下的plist
+sudo systemctl enable xxxx  # 操作 /Library/LaunchDaemons/下的plist
+sudo systemctl disable xxxx
+sudo systemctl start xxxx
+sudo systemctl stop xxxx
 ```
 
-| 命令                | 说明               | 实现细节                     |
-| ------------------- | ------------------ | ---------------------------- |
-| systemctl start xxx | 启动并设置开机自启 | launchctl bootstrap + enable |
-| systemctl stop xxx  | 停止并取消开机自启 | launchctl bootout + disable  |
+| 命令                  | 说明                              | 实现细节                     | 是否影响开机自启 |
+| --------------------- | --------------------------------- | ---------------------------- | ---------------- |
+| systemctl enable xxx  | 设置开机自启并立即启动进程        | launchctl enable + bootstrap | 是               |
+| systemctl disable xxx | 停止进程并取消开机自启            | launchctl bootout + disable  | 是               |
+| systemctl start xxx   | 启动/重启进程，不改变开机自启设置 | launchctl kickstart -kp      | 否               |
+| systemctl stop xxx    | 停止进程，不改变开机自启设置      | launchctl bootout            | 否               |
 
 如果使用 `sudo` 执行 `systemctl`，则操作的是系统级的 LaunchDaemons;否则操作的是当前用户的 LaunchAgents。
 
