@@ -130,7 +130,7 @@ service_name=
 
 # 使用while循环读取参数
 while [ $# -gt 0 ]; do
-    if [ "$1" == "enable" ] || [ "$1" == "disable" ] || [ "$1" == "start" ] || [ "$1" == "stop" ]; then
+    if [ "$1" == "enable" ] || [ "$1" == "disable" ] || [ "$1" == "start" ] || [ "$1" == "stop" ] || [ "$1" == "restart" ]; then
         sub_command=$1
     else
         service_name=$1
@@ -163,7 +163,6 @@ echo "sub_command: ${sub_command} [${service_name}]"
 
 get_cur_pid() {
     launchctl list | awk -v sn="${service_name}" '$3 == sn {print $1}'
-    # launchctl kickstart -p ${domain_target}/${service_name}
 }
 
 case "$sub_command" in
@@ -182,7 +181,7 @@ case "$sub_command" in
         launchctl disable ${domain_target}/${service_name}
         ;;
     start)
-        pid=$(launchctl kickstart -kp ${domain_target}/${service_name})
+        pid=$(launchctl kickstart -p ${domain_target}/${service_name})
         if [ "$pid" != "" ]; then
             echo 新进程 $pid
         else
@@ -200,12 +199,31 @@ case "$sub_command" in
             launchctl kill 9 ${domain_target}/${service_name}
         fi
         ;;
+    restart)
+        old_pid=$(get_cur_pid)
+        if [ "$old_pid" == "-" ]; then
+            # 服务已退出，无PID
+            old_pid=""
+        fi
+        if [ "$old_pid" != "" ]; then
+            echo 旧进程ID $old_pid
+        else
+            echo 无旧进程
+        fi
+        pid=$(launchctl kickstart -kp ${domain_target}/${service_name})
+        if [ "$pid" != "" ]; then
+            echo 新进程ID $pid
+        else
+            echo 重启失败
+        fi
+        ;;
     *)
         echo "ERROR: unknown sub_command: $sub_command"
-        echo "Usage: $0 {enable|disable|start|stop} service_name"
+        echo "Usage: $0 {enable|disable|start|stop|restart} service_name"
         exit 1
         ;;
 esac
+
 ```
 
 把这个脚本命名成 `systemctl`，那你就可以：
@@ -213,21 +231,24 @@ esac
 ```bash
 systemctl enable com.arloor.sslocal  # 设置开机自启并立即启动
 systemctl disable com.arloor.sslocal # 停止进程并取消开机自启
-systemctl start com.arloor.sslocal   # 启动/重启进程（不改变开机自启设置）
+systemctl start com.arloor.sslocal   # 启动（不改变开机自启设置）
 systemctl stop com.arloor.sslocal    # 停止进程（不改变开机自启设置）
+systemctl restart com.arloor.sslocal   # 重新启动（不改变开机自启设置）
 
 sudo systemctl enable xxxx  # 操作 /Library/LaunchDaemons/下的plist
 sudo systemctl disable xxxx
 sudo systemctl start xxxx
 sudo systemctl stop xxxx
+sudo systemctl restart xxxx
 ```
 
-| 命令                  | 说明                              | 实现细节                     | 是否影响开机自启 |
-| --------------------- | --------------------------------- | ---------------------------- | ---------------- |
-| systemctl enable xxx  | 设置开机自启并立即启动进程        | launchctl enable + bootstrap | 是               |
-| systemctl disable xxx | 停止进程并取消开机自启            | launchctl bootout + disable  | 是               |
-| systemctl start xxx   | 启动/重启进程，不改变开机自启设置 | launchctl kickstart -kp      | 否               |
-| systemctl stop xxx    | 停止进程，不改变开机自启设置      | launchctl bootout            | 否               |
+| 命令                  | 说明                         | 实现细节                     | 是否影响开机自启 |
+| --------------------- | ---------------------------- | ---------------------------- | ---------------- |
+| systemctl enable xxx  | 设置开机自启并立即启动进程   | launchctl enable + bootstrap | 是               |
+| systemctl disable xxx | 停止进程并取消开机自启       | launchctl bootout + disable  | 是               |
+| systemctl start xxx   | 启动，不改变开机自启设置     | launchctl kickstart -kp      | 否               |
+| systemctl stop xxx    | 停止进程，不改变开机自启设置 | launchctl bootout            | 否               |
+| systemctl restart xxx | 重新启动，不改变开机自启设置 | launchctl kill + kickstart   | 否               |
 
 如果使用 `sudo` 执行 `systemctl`，则操作的是系统级的 LaunchDaemons;否则操作的是当前用户的 LaunchAgents。
 
