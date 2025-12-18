@@ -20,7 +20,7 @@ highlightjslanguages:
 
 ## 查看磁盘占用
 
-类似 `du -h --max-depth 1`（Linux） 或 `du -d1 -h`（MacOS） 的功能，可以使用 PowerShell 脚本来查看当前目录下的文件夹大小：
+类似 `du -h -d 1 . | sort -hr` 的功能，可以使用 PowerShell 脚本来查看当前目录下的文件夹大小：
 
 > 可以 `code $PROFILE` 打开 PowerShell 配置文件，将下面的函数添加进去，这样就可以在 PowerShell 中使用 `ds` 命令来查看当前目录下的文件夹大小。
 
