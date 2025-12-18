@@ -337,7 +337,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   <div class="post">
     <p>对 linux 的 shell 脚本比较熟悉后，发现 windows 的 powershell 也挺好用的。这里记录一些常用的脚本片段，方便以后查阅。</p>
 <h2 id="查看磁盘占用">查看磁盘占用</h2>
-<p>类似 <code>du -h --max-depth 1</code>（Linux） 或 <code>du -d1 -h</code>（MacOS） 的功能，可以使用 PowerShell 脚本来查看当前目录下的文件夹大小：</p>
+<p>类似 <code>du -h -d 1 . | sort -hr</code> 的功能，可以使用 PowerShell 脚本来查看当前目录下的文件夹大小：</p>
 <blockquote>
 <p>可以 <code>code $PROFILE</code> 打开 PowerShell 配置文件，将下面的函数添加进去，这样就可以在 PowerShell 中使用 <code>ds</code> 命令来查看当前目录下的文件夹大小。</p>
 </blockquote>
