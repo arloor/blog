@@ -276,6 +276,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     <li><a href="#docker">Docker</a>
       <ul>
         <li><a href="#debian12-安装-docker">debian12 安装 docker</a></li>
+        <li><a href="#debian13-安装-docker">debian13 安装 docker</a></li>
         <li><a href="#centos-9-安装-docker">centos 9 安装 docker</a></li>
         <li><a href="#设置-docker-daemon-代理">设置 docker daemon 代理</a></li>
         <li><a href="#设置-docker-cli-的-http-代理">设置 docker CLI 的 HTTP 代理</a></li>
@@ -289,7 +290,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
       </ul>
     </li>
     <li><a href="#docker-hub-pull-through-cache">Docker Hub pull-through cache</a></li>
-    <li><a href="#podman保存密码">podman保存密码</a></li>
+    <li><a href="#podman-保存密码">podman 保存密码</a></li>
   </ul>
 </nav>
       
@@ -299,35 +300,58 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   <div class="post">
     <h2 id="docker">Docker</h2>
 <ul>
-<li><a href="https://docs.docker.com/engine/install/debian/#install-from-a-package">debian/#install-from-a-package</a></li>
+<li><a href="https://docs.docker.com/engine/install/debian/#install-using-the-repository">debian/#install-using-the-repository</a></li>
 <li><a href="https://docs.docker.com/engine/install/rhel/#install-using-the-repository">rhel/#install-using-the-repository</a></li>
 <li><a href="https://docs.docker.com/reference/cli/dockerd/#daemon-configuration-file">#daemon-configuration-file</a></li>
 <li><a href="https://about.gitlab.com/blog/2021/01/27/we-need-to-talk-no-proxy/">HTTP 代理环境变量的大小写说明</a></li>
 </ul>
 <h3 id="debian12-安装-docker">debian12 安装 docker</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Add Docker&#39;s official GPG key:</span>
-</span></span><span style="display:flex;"><span>sudo apt-get update
-</span></span><span style="display:flex;"><span>sudo apt-get install ca-certificates curl
-</span></span><span style="display:flex;"><span>sudo install -m <span style="color:#ae81ff">0755</span> -d /etc/apt/keyrings
-</span></span><span style="display:flex;"><span>sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
-</span></span><span style="display:flex;"><span>sudo chmod a+r /etc/apt/keyrings/docker.asc
+</span></span><span style="display:flex;"><span>apt-get update
+</span></span><span style="display:flex;"><span>apt-get install ca-certificates curl
+</span></span><span style="display:flex;"><span>install -m <span style="color:#ae81ff">0755</span> -d /etc/apt/keyrings
+</span></span><span style="display:flex;"><span>curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+</span></span><span style="display:flex;"><span>chmod a+r /etc/apt/keyrings/docker.asc
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Add the repository to Apt sources:</span>
 </span></span><span style="display:flex;"><span>echo <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  <span style="color:#e6db74">&#34;deb [arch=</span><span style="color:#66d9ef">$(</span>dpkg --print-architecture<span style="color:#66d9ef">)</span><span style="color:#e6db74"> signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  </span><span style="color:#66d9ef">$(</span>. /etc/os-release <span style="color:#f92672">&amp;&amp;</span> echo <span style="color:#e6db74">&#34;</span>$VERSION_CODENAME<span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">)</span><span style="color:#e6db74"> stable&#34;</span> | <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  sudo tee /etc/apt/sources.list.d/docker.list &gt; /dev/null
-</span></span><span style="display:flex;"><span>sudo apt-get update
-</span></span><span style="display:flex;"><span>sudo apt-get install -y  docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  tee /etc/apt/sources.list.d/docker.list &gt; /dev/null
+</span></span><span style="display:flex;"><span>apt-get update
+</span></span><span style="display:flex;"><span>apt-get install -y  docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+</span></span></code></pre></div><h3 id="debian13-安装-docker">debian13 安装 docker</h3>
+<blockquote>
+<p>相比 Debian12 的区别仅是使用 DEB822 格式的 sources.list 文件</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Add Docker&#39;s official GPG key:</span>
+</span></span><span style="display:flex;"><span>apt-get update
+</span></span><span style="display:flex;"><span>apt-get install ca-certificates curl
+</span></span><span style="display:flex;"><span>install -m <span style="color:#ae81ff">0755</span> -d /etc/apt/keyrings
+</span></span><span style="display:flex;"><span>curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+</span></span><span style="display:flex;"><span>chmod a+r /etc/apt/keyrings/docker.asc
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Add the repository to Apt sources:</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Add the repository to Apt sources:</span>
+</span></span><span style="display:flex;"><span>tee /etc/apt/sources.list.d/docker.sources <span style="color:#e6db74">&lt;&lt;EOF
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Types: deb
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">URIs: https://download.docker.com/linux/debian
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Suites: $(. /etc/os-release &amp;&amp; echo &#34;$VERSION_CODENAME&#34;)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Components: stable
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Signed-By: /etc/apt/keyrings/docker.asc
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>apt-get update
+</span></span><span style="display:flex;"><span>apt-get install -y  docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 </span></span></code></pre></div><h3 id="centos-9-安装-docker">centos 9 安装 docker</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo dnf -y install dnf-plugins-core
-</span></span><span style="display:flex;"><span>sudo dnf config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo
-</span></span><span style="display:flex;"><span>sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-</span></span><span style="display:flex;"><span>sudo systemctl enable --now docker
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>dnf -y install dnf-plugins-core
+</span></span><span style="display:flex;"><span>dnf config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo
+</span></span><span style="display:flex;"><span>dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+</span></span><span style="display:flex;"><span>systemctl enable --now docker
 </span></span></code></pre></div><h3 id="设置-docker-daemon-代理">设置 docker daemon 代理</h3>
 <p>这个是用于 pull 镜像时的代理设置。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo mkdir -p /etc/systemd/system/docker.service.d
-</span></span><span style="display:flex;"><span>sudo touch /etc/systemd/system/docker.service.d/http-proxy.conf
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p /etc/systemd/system/docker.service.d
+</span></span><span style="display:flex;"><span>touch /etc/systemd/system/docker.service.d/http-proxy.conf
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ! grep HTTP_PROXY /etc/systemd/system/docker.service.d/http-proxy.conf;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">then</span>
@@ -338,11 +362,11 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Flush changes:</span>
-</span></span><span style="display:flex;"><span>sudo systemctl daemon-reload
+</span></span><span style="display:flex;"><span>systemctl daemon-reload
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#Restart Docker:</span>
-</span></span><span style="display:flex;"><span>sudo systemctl restart docker
+</span></span><span style="display:flex;"><span>systemctl restart docker
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#Verify that the configuration has been loaded:</span>
-</span></span><span style="display:flex;"><span>sudo systemctl show --property<span style="color:#f92672">=</span>Environment docker
+</span></span><span style="display:flex;"><span>systemctl show --property<span style="color:#f92672">=</span>Environment docker
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 像这样：Environment=HTTP_PROXY=http://127.0.0.1:8081/ NO_PROXY=localhost,127.0.0.1,docker-registry.so</span>
 </span></span></code></pre></div><p>或者：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p /etc/docker
@@ -500,18 +524,18 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">location = &#34;ttl.arloor.com:6666&#34;  # 你的镜像加速地址
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">insecure = true  # 如果镜像站使用HTTP而非HTTPS，设为true
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
-</span></span></code></pre></div><h2 id="podman保存密码">podman保存密码</h2>
+</span></span></code></pre></div><h2 id="podman-保存密码">podman 保存密码</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>podman login quay.io -u arloor -p <span style="color:#e6db74">${</span>token<span style="color:#e6db74">}</span>
 </span></span><span style="display:flex;"><span>cat /run/user/0/containers/auth.json <span style="color:#75715e">#密码在此</span>
-</span></span><span style="display:flex;"><span>cp /run/user/0/containers/auth.json ~/.config/podman_auth.json 
+</span></span><span style="display:flex;"><span>cp /run/user/0/containers/auth.json ~/.config/podman_auth.json
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ! grep REGISTRY_AUTH_FILE ~/.zshrc;<span style="color:#66d9ef">then</span>
 </span></span><span style="display:flex;"><span> export REGISTRY_AUTH_FILE<span style="color:#f92672">=</span>~/.config/podman_auth.json
-</span></span><span style="display:flex;"><span> echo <span style="color:#e6db74">&#34;export REGISTRY_AUTH_FILE=~/.config/podman_auth.json&#34;</span> &gt;&gt; ~/.zshrc     
-</span></span><span style="display:flex;"><span> echo <span style="color:#e6db74">&#34; add REGISTRY_AUTH_FILE to ~/.zshrc&#34;</span>                  
+</span></span><span style="display:flex;"><span> echo <span style="color:#e6db74">&#34;export REGISTRY_AUTH_FILE=~/.config/podman_auth.json&#34;</span> &gt;&gt; ~/.zshrc
+</span></span><span style="display:flex;"><span> echo <span style="color:#e6db74">&#34; add REGISTRY_AUTH_FILE to ~/.zshrc&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>
 </span></span><span style="display:flex;"><span> echo <span style="color:#e6db74">&#34;REGISTRY_AUTH_FILE already exists in ~/.zshrc&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
-</span></span></code></pre></div><p><a href="https://github.com/containers/podman/discussions/9454">why login registry auth.json always been cleared?</a>：默认保存在 <code>/run/user/0</code> 下，在用户log out的时候会被清空。如果需要持久化保存，可以将其复制到其他位置，并设置环境变量 <code>REGISTRY_AUTH_FILE</code> 指向该文件或使用 <code>--authfile</code> 命令行参数。</p>
+</span></span></code></pre></div><p><a href="https://github.com/containers/podman/discussions/9454">why login registry auth.json always been cleared?</a>：默认保存在 <code>/run/user/0</code> 下，在用户 log out 的时候会被清空。如果需要持久化保存，可以将其复制到其他位置，并设置环境变量 <code>REGISTRY_AUTH_FILE</code> 指向该文件或使用 <code>--authfile</code> 命令行参数。</p>
   </div>
   
 
