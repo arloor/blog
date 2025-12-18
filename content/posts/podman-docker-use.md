@@ -17,7 +17,7 @@ highlightjslanguages:
 
 ## Docker
 
-- [debian/#install-from-a-package](https://docs.docker.com/engine/install/debian/#install-from-a-package)
+- [debian/#install-using-the-repository](https://docs.docker.com/engine/install/debian/#install-using-the-repository)
 - [rhel/#install-using-the-repository](https://docs.docker.com/engine/install/rhel/#install-using-the-repository)
 - [#daemon-configuration-file](https://docs.docker.com/reference/cli/dockerd/#daemon-configuration-file)
 - [HTTP 代理环境变量的大小写说明](https://about.gitlab.com/blog/2021/01/27/we-need-to-talk-no-proxy/)
@@ -26,28 +26,54 @@ highlightjslanguages:
 
 ```bash
 # Add Docker's official GPG key:
-sudo apt-get update
-sudo apt-get install ca-certificates curl
-sudo install -m 0755 -d /etc/apt/keyrings
-sudo curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
-sudo chmod a+r /etc/apt/keyrings/docker.asc
+apt-get update
+apt-get install ca-certificates curl
+install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+chmod a+r /etc/apt/keyrings/docker.asc
 
 # Add the repository to Apt sources:
 echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
   $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-sudo apt-get update
-sudo apt-get install -y  docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+  tee /etc/apt/sources.list.d/docker.list > /dev/null
+apt-get update
+apt-get install -y  docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+```
+
+### debian13 安装 docker
+
+> 相比 Debian12 的区别仅是使用 DEB822 格式的 sources.list 文件
+
+```bash
+# Add Docker's official GPG key:
+apt-get update
+apt-get install ca-certificates curl
+install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
+chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources:
+# Add the repository to Apt sources:
+tee /etc/apt/sources.list.d/docker.sources <<EOF
+Types: deb
+URIs: https://download.docker.com/linux/debian
+Suites: $(. /etc/os-release && echo "$VERSION_CODENAME")
+Components: stable
+Signed-By: /etc/apt/keyrings/docker.asc
+EOF
+
+apt-get update
+apt-get install -y  docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 ```
 
 ### centos 9 安装 docker
 
 ```bash
-sudo dnf -y install dnf-plugins-core
-sudo dnf config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo
-sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-sudo systemctl enable --now docker
+dnf -y install dnf-plugins-core
+dnf config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo
+dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+systemctl enable --now docker
 ```
 
 ### 设置 docker daemon 代理
@@ -55,8 +81,8 @@ sudo systemctl enable --now docker
 这个是用于 pull 镜像时的代理设置。
 
 ```bash
-sudo mkdir -p /etc/systemd/system/docker.service.d
-sudo touch /etc/systemd/system/docker.service.d/http-proxy.conf
+mkdir -p /etc/systemd/system/docker.service.d
+touch /etc/systemd/system/docker.service.d/http-proxy.conf
 
 if ! grep HTTP_PROXY /etc/systemd/system/docker.service.d/http-proxy.conf;
 then
@@ -67,11 +93,11 @@ EOF
 fi
 
 # Flush changes:
-sudo systemctl daemon-reload
+systemctl daemon-reload
 #Restart Docker:
-sudo systemctl restart docker
+systemctl restart docker
 #Verify that the configuration has been loaded:
-sudo systemctl show --property=Environment docker
+systemctl show --property=Environment docker
 # 像这样：Environment=HTTP_PROXY=http://127.0.0.1:8081/ NO_PROXY=localhost,127.0.0.1,docker-registry.so
 ```
 
@@ -273,19 +299,19 @@ insecure = true  # 如果镜像站使用HTTP而非HTTPS，设为true
 EOF
 ```
 
-## podman保存密码
+## podman 保存密码
 
 ```bash
 podman login quay.io -u arloor -p ${token}
 cat /run/user/0/containers/auth.json #密码在此
-cp /run/user/0/containers/auth.json ~/.config/podman_auth.json 
+cp /run/user/0/containers/auth.json ~/.config/podman_auth.json
 if ! grep REGISTRY_AUTH_FILE ~/.zshrc;then
  export REGISTRY_AUTH_FILE=~/.config/podman_auth.json
- echo "export REGISTRY_AUTH_FILE=~/.config/podman_auth.json" >> ~/.zshrc     
- echo " add REGISTRY_AUTH_FILE to ~/.zshrc"                  
+ echo "export REGISTRY_AUTH_FILE=~/.config/podman_auth.json" >> ~/.zshrc
+ echo " add REGISTRY_AUTH_FILE to ~/.zshrc"
 else
  echo "REGISTRY_AUTH_FILE already exists in ~/.zshrc"
 fi
 ```
 
-[why login registry auth.json always been cleared?](https://github.com/containers/podman/discussions/9454)：默认保存在 `/run/user/0` 下，在用户log out的时候会被清空。如果需要持久化保存，可以将其复制到其他位置，并设置环境变量 `REGISTRY_AUTH_FILE` 指向该文件或使用 `--authfile` 命令行参数。
+[why login registry auth.json always been cleared?](https://github.com/containers/podman/discussions/9454)：默认保存在 `/run/user/0` 下，在用户 log out 的时候会被清空。如果需要持久化保存，可以将其复制到其他位置，并设置环境变量 `REGISTRY_AUTH_FILE` 指向该文件或使用 `--authfile` 命令行参数。
