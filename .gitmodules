@@ -1,3 +1,4 @@
 [submodule "themes/hyde-arloor"]
 	path = themes/hyde-arloor
 	url = https://github.com/arloor/hyde-arloor
+	branch = master
