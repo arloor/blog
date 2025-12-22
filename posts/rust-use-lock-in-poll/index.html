@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.153.1">
 
     
     
@@ -300,7 +300,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">poll</span>(self: <span style="color:#a6e22e">Pin</span><span style="color:#f92672">&lt;&amp;</span><span style="color:#66d9ef">mut</span> Self<span style="color:#f92672">&gt;</span>, cx: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">mut</span> Context) <span style="color:#f92672">-</span>Poll<span style="color:#f92672">&lt;</span>(){
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Poll::Ready(inner) <span style="color:#f92672">=</span> Pin::new(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self.get_mut().inner.lock()).poll(cx) {
 </span></span><span style="display:flex;"><span>            <span style="color:#75715e">// do some stuff
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">return</span> Poll::Ready(());
+</span></span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> Poll::Ready(());
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>        Poll::Pending
 </span></span><span style="display:flex;"><span>    }

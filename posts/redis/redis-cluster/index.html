@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.153.1">
 
     
     
@@ -464,7 +464,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">struct</span> {
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e">/* Array of N clusterMsgDataGossip structures */</span>
 </span></span><span style="display:flex;"><span>        clusterMsgDataGossip gossip[<span style="color:#ae81ff">1</span>];  <span style="color:#75715e">//c语言的数组是无界的，这里长度写1，但后面使用可以自由越界到N。
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    } ping;
+</span></span></span><span style="display:flex;"><span>    } ping;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* FAIL */</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">struct</span> {
@@ -551,7 +551,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><p><strong>查漏补缺，PING长时间没有PING过的节点</strong></p>
 <p>如果超过NODE_TIMEOUT/2时长没有向一个节点发送PING，会强制向其发送PING</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>       <span style="color:#75715e">//在node的遍历中
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">/* If we have currently no active ping in this instance, and the
+</span></span></span><span style="display:flex;"><span>        <span style="color:#75715e">/* If we have currently no active ping in this instance, and the
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">         * received PONG is older than half the cluster timeout, send
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">         * a new ping now, to ensure all the nodes are pinged without
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">         * a too big delay. */</span>
@@ -566,7 +566,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>长时间没有收到PONG，要么tcp连接出现问题，要么目标节点宕机导致无法响应心跳。首先怀疑tcp连接出现问题，进行重建。</p>
 <p>如果一个超过NODE_TIMEOUT/2时长一个节点没有返回PONG，则认为到该节点的tcp连接出现问题，释放该tcp连接，在下一<code>clusterCron</code>会自动重建。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>       <span style="color:#75715e">//在node的遍历中
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">/* If we are waiting for the PONG more than half the cluster
+</span></span></span><span style="display:flex;"><span>        <span style="color:#75715e">/* If we are waiting for the PONG more than half the cluster
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">         * timeout, reconnect the link: maybe there is a connection
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">         * issue even if the node is alive. */</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (node<span style="color:#f92672">-&gt;</span>link <span style="color:#f92672">&amp;&amp;</span> <span style="color:#75715e">/* is connected */</span>
@@ -579,7 +579,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>        {
 </span></span><span style="display:flex;"><span>            <span style="color:#75715e">/* Disconnect the link, it will be reconnected automatically. */</span>
 </span></span><span style="display:flex;"><span>            <span style="color:#75715e">//此处断开连接，下个clusterCron会自动重建
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#a6e22e">freeClusterLink</span>(node<span style="color:#f92672">-&gt;</span>link);
+</span></span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">freeClusterLink</span>(node<span style="color:#f92672">-&gt;</span>link);
 </span></span><span style="display:flex;"><span>        }
 </span></span></code></pre></div><h3 id="主节点宕机检测">主节点宕机检测</h3>
 <p>原主节点宕机，从节点可以接替原主节点工作，这是redis可用性的实现机制。这首先要及时检测到主节点宕机检测。</p>
@@ -605,19 +605,19 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>   ...
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (node) {
 </span></span><span style="display:flex;"><span>            <span style="color:#75715e">//根据消息中的clusterMsgDataGossip更新节点状态
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> (sender <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">nodeIsMaster</span>(sender) <span style="color:#f92672">&amp;&amp;</span> node <span style="color:#f92672">!=</span> myself) {
+</span></span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (sender <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">nodeIsMaster</span>(sender) <span style="color:#f92672">&amp;&amp;</span> node <span style="color:#f92672">!=</span> myself) {
 </span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (flags <span style="color:#f92672">&amp;</span> (CLUSTER_NODE_FAIL<span style="color:#f92672">|</span>CLUSTER_NODE_PFAIL)) {
 </span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">clusterNodeAddFailureReport</span>(node,sender)) {<span style="color:#75715e">//在这个节点的fail_reports里加入sender
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                    }
+</span></span></span><span style="display:flex;"><span>                    }
 </span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">markNodeAsFailingIfNeeded</span>(node);<span style="color:#75715e">//判断在这个节点的fail_reports，将节点标记为fail
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                } <span style="color:#66d9ef">else</span> {
+</span></span></span><span style="display:flex;"><span>                } <span style="color:#66d9ef">else</span> {
 </span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">clusterNodeDelFailureReport</span>(node,sender)) {<span style="color:#75715e">//在这个节点的fail_reports里删除sender
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                    }
+</span></span></span><span style="display:flex;"><span>                    }
 </span></span><span style="display:flex;"><span>                }
 </span></span><span style="display:flex;"><span>            }
 </span></span><span style="display:flex;"><span>            <span style="color:#960050;background-color:#1e0010">……</span>
 </span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> {<span style="color:#75715e">//节点不存在，开始handshake(主要是接收到meet消息，与gossip中的节点进行handshake)
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> (sender <span style="color:#f92672">&amp;&amp;!</span>(flags <span style="color:#f92672">&amp;</span> CLUSTER_NODE_NOADDR) <span style="color:#f92672">&amp;&amp;!</span><span style="color:#a6e22e">clusterBlacklistExists</span>(g<span style="color:#f92672">-&gt;</span>nodename))
+</span></span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (sender <span style="color:#f92672">&amp;&amp;!</span>(flags <span style="color:#f92672">&amp;</span> CLUSTER_NODE_NOADDR) <span style="color:#f92672">&amp;&amp;!</span><span style="color:#a6e22e">clusterBlacklistExists</span>(g<span style="color:#f92672">-&gt;</span>nodename))
 </span></span><span style="display:flex;"><span>            {   
 </span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">clusterStartHandshake</span>(g<span style="color:#f92672">-&gt;</span>ip,<span style="color:#a6e22e">ntohs</span>(g<span style="color:#f92672">-&gt;</span>port),<span style="color:#a6e22e">ntohs</span>(g<span style="color:#f92672">-&gt;</span>cport));
 </span></span><span style="display:flex;"><span>            }
@@ -869,19 +869,19 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>        node <span style="color:#f92672">=</span> <span style="color:#a6e22e">clusterLookupNode</span>(g<span style="color:#f92672">-&gt;</span>nodename);
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (node) {
 </span></span><span style="display:flex;"><span>            <span style="color:#75715e">//根据消息中的clusterMsgDataGossip更新节点状态
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> (sender <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">nodeIsMaster</span>(sender) <span style="color:#f92672">&amp;&amp;</span> node <span style="color:#f92672">!=</span> myself) {
+</span></span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (sender <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">nodeIsMaster</span>(sender) <span style="color:#f92672">&amp;&amp;</span> node <span style="color:#f92672">!=</span> myself) {
 </span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (flags <span style="color:#f92672">&amp;</span> (CLUSTER_NODE_FAIL<span style="color:#f92672">|</span>CLUSTER_NODE_PFAIL)) {
 </span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">clusterNodeAddFailureReport</span>(node,sender)) {<span style="color:#75715e">//在这个节点的fail_reports里加入sender
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                    }
+</span></span></span><span style="display:flex;"><span>                    }
 </span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">markNodeAsFailingIfNeeded</span>(node);<span style="color:#75715e">//判断在这个节点的fail_reports，将节点标记为fail
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                } <span style="color:#66d9ef">else</span> {
+</span></span></span><span style="display:flex;"><span>                } <span style="color:#66d9ef">else</span> {
 </span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">clusterNodeDelFailureReport</span>(node,sender)) {<span style="color:#75715e">//在这个节点的fail_reports里删除sender
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                    }
+</span></span></span><span style="display:flex;"><span>                    }
 </span></span><span style="display:flex;"><span>                }
 </span></span><span style="display:flex;"><span>            }
 </span></span><span style="display:flex;"><span>            <span style="color:#960050;background-color:#1e0010">……</span>
 </span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> {<span style="color:#75715e">//节点不存在，开始handshake(主要是接收到meet消息，与gossip中的节点进行handshake)
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> (sender <span style="color:#f92672">&amp;&amp;!</span>(flags <span style="color:#f92672">&amp;</span> CLUSTER_NODE_NOADDR) <span style="color:#f92672">&amp;&amp;!</span><span style="color:#a6e22e">clusterBlacklistExists</span>(g<span style="color:#f92672">-&gt;</span>nodename))
+</span></span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (sender <span style="color:#f92672">&amp;&amp;!</span>(flags <span style="color:#f92672">&amp;</span> CLUSTER_NODE_NOADDR) <span style="color:#f92672">&amp;&amp;!</span><span style="color:#a6e22e">clusterBlacklistExists</span>(g<span style="color:#f92672">-&gt;</span>nodename))
 </span></span><span style="display:flex;"><span>            {   
 </span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">clusterStartHandshake</span>(g<span style="color:#f92672">-&gt;</span>ip,<span style="color:#a6e22e">ntohs</span>(g<span style="color:#f92672">-&gt;</span>port),<span style="color:#a6e22e">ntohs</span>(g<span style="color:#f92672">-&gt;</span>cport));
 </span></span><span style="display:flex;"><span>            }

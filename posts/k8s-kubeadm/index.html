@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.153.1">
 
     
     
@@ -423,7 +423,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Then you can join any number of worker nodes by running the following on each as root:
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>kubeadm join mi:6443 --token 9j2kbw.05vncqjs7bntu4wu <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>        --discovery-token-ca-cert-hash sha256:7c5d6e9360110ffb1784601a06043c9467e054283e851909d70161d36e9f08ef <span style="color:#75715e">#--ignore-preflight-errors=all</span>
+</span></span></span><span style="display:flex;"><span>        --discovery-token-ca-cert-hash sha256:7c5d6e9360110ffb1784601a06043c9467e054283e851909d70161d36e9f08ef <span style="color:#75715e">#--ignore-preflight-errors=all</span>
 </span></span></code></pre></div><h3 id="安装网络插件解决node-not-ready">安装网络插件，解决node not ready</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl get nodes
 </span></span><span style="display:flex;"><span>NAME   STATUS     ROLES           AGE   VERSION
@@ -692,7 +692,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl create deployment demo --image<span style="color:#f92672">=</span>httpd --port<span style="color:#f92672">=</span><span style="color:#ae81ff">80</span>
 </span></span><span style="display:flex;"><span>$ kubectl expose deployment demo
 </span></span><span style="display:flex;"><span>$ kubectl create ingress demo-localhost --class<span style="color:#f92672">=</span>nginx <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  --rule<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;demo.localdev.me/*=demo:80&#34;</span>
+</span></span></span><span style="display:flex;"><span>  --rule<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;demo.localdev.me/*=demo:80&#34;</span>
 </span></span><span style="display:flex;"><span>error: failed to create ingress: Internal error occurred: failed calling webhook <span style="color:#e6db74">&#34;validate.nginx.ingress.kubernetes.io&#34;</span>: failed to call webhook: Post <span style="color:#e6db74">&#34;https://ingress-nginx-controller-admission.ingress-nginx.svc:443/networking/v1/ingresses?timeout=10s&#34;</span>: EOF
 </span></span></code></pre></div><p>测试了下dns</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl run curl --image<span style="color:#f92672">=</span>radial/busyboxplus:curl -it

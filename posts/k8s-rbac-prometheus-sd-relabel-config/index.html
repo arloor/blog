@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.153.1">
 
     
     
@@ -383,8 +383,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>echo $token
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 创建一个curl pod，并使用token访问apiserver的prometheus exporter</span>
 </span></span><span style="display:flex;"><span>kubectl run curl --image<span style="color:#f92672">=</span>redhat/ubi9-minimal:9.2-717 --attach --rm --command --restart<span style="color:#f92672">=</span>Never -- <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>curl https://kubernetes.default:443/metrics -k <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>-H <span style="color:#e6db74">&#34;Authorization: Bearer </span>$token<span style="color:#e6db74">&#34;</span>
+</span></span></span><span style="display:flex;"><span>curl https://kubernetes.default:443/metrics -k <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>-H <span style="color:#e6db74">&#34;Authorization: Bearer </span>$token<span style="color:#e6db74">&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 清理</span>
 </span></span><span style="display:flex;"><span>kubectl delete ServiceAccount test-admin-user
 </span></span><span style="display:flex;"><span>kubectl delete ClusterRoleBinding test-admin-user

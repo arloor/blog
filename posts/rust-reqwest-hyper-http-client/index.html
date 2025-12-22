@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.153.1">
 
     
     
@@ -302,9 +302,9 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <h2 id="original无连接池的reverse_proxy">Original：无连接池的reverse_proxy</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">reverse_proxy</span>(
 </span></span><span style="display:flex;"><span>        req: <span style="color:#a6e22e">Request</span><span style="color:#f92672">&lt;</span>Incoming<span style="color:#f92672">&gt;</span>, <span style="color:#75715e">// 原始请求
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        plain_host: <span style="color:#66d9ef">&amp;</span><span style="color:#66d9ef">str</span>, <span style="color:#75715e">// 目标主机
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        plain_port: <span style="color:#66d9ef">u16</span>, <span style="color:#75715e">// 目标端口
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ) -&gt; Result<span style="color:#f92672">&lt;</span>Response<span style="color:#f92672">&lt;</span>BoxBody<span style="color:#f92672">&lt;</span>Bytes, io::Error<span style="color:#f92672">&gt;&gt;</span>, io::Error<span style="color:#f92672">&gt;</span> {
+</span></span></span><span style="display:flex;"><span>        plain_host: <span style="color:#66d9ef">&amp;</span><span style="color:#66d9ef">str</span>, <span style="color:#75715e">// 目标主机
+</span></span></span><span style="display:flex;"><span>        plain_port: <span style="color:#66d9ef">u16</span>, <span style="color:#75715e">// 目标端口
+</span></span></span><span style="display:flex;"><span>    ) -&gt; Result<span style="color:#f92672">&lt;</span>Response<span style="color:#f92672">&lt;</span>BoxBody<span style="color:#f92672">&lt;</span>Bytes, io::Error<span style="color:#f92672">&gt;&gt;</span>, io::Error<span style="color:#f92672">&gt;</span> {
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> stream <span style="color:#f92672">=</span> TcpStream::connect((plain_host, plain_port)).<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> io <span style="color:#f92672">=</span> TokioIo::new(stream);
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">match</span> hyper::client::conn::http1::Builder::new()
@@ -315,7 +315,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>        {
 </span></span><span style="display:flex;"><span>            Ok((<span style="color:#66d9ef">mut</span> sender, conn)) <span style="color:#f92672">=&gt;</span> {
 </span></span><span style="display:flex;"><span>                tokio::task::spawn(<span style="color:#66d9ef">async</span> <span style="color:#66d9ef">move</span> { <span style="color:#75715e">// conn是一个future，tokio::spawn来poll它，驱动它完成
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                    <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Err(err) <span style="color:#f92672">=</span> conn.<span style="color:#66d9ef">await</span> {
+</span></span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Err(err) <span style="color:#f92672">=</span> conn.<span style="color:#66d9ef">await</span> {
 </span></span><span style="display:flex;"><span>                        <span style="color:#a6e22e">warn!</span>(<span style="color:#e6db74">&#34;reverse proxy connection failed: {:?}&#34;</span>, err);
 </span></span><span style="display:flex;"><span>                    }
 </span></span><span style="display:flex;"><span>                });
@@ -340,7 +340,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>                    .map_err(<span style="color:#f92672">|</span>e<span style="color:#f92672">|</span> io::Error::new(io::ErrorKind::InvalidData, e))<span style="color:#f92672">?</span>;
 </span></span><span style="display:flex;"><span>                new_req.headers_mut().remove(http::header::<span style="color:#66d9ef">HOST</span>.to_string());
 </span></span><span style="display:flex;"><span>                <span style="color:#75715e">// 这一版一定是HTTP/1.1，一定需要Host
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                <span style="color:#66d9ef">let</span> target <span style="color:#f92672">=</span> <span style="color:#a6e22e">format!</span>(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">:</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#34;</span>, plain_host, plain_port);
+</span></span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">let</span> target <span style="color:#f92672">=</span> <span style="color:#a6e22e">format!</span>(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">:</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#34;</span>, plain_host, plain_port);
 </span></span><span style="display:flex;"><span>                new_req.headers_mut().insert(
 </span></span><span style="display:flex;"><span>                    http::header::<span style="color:#66d9ef">HOST</span>,
 </span></span><span style="display:flex;"><span>                    HeaderValue::from_str(<span style="color:#f92672">&amp;</span>target).unwrap_or(HeaderValue::from_static(<span style="color:#e6db74">&#34;unknown&#34;</span>)),
@@ -367,21 +367,21 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">use</span> hyper_util::client::legacy::client
 </span></span></code></pre></div><p>下面是 <code>reqwest</code> 发起执行请求的代码，关注用 <code>!!!</code> 标注的注释</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span>    <span style="color:#e6db74">/// Executes a `Request`.
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"></span>    <span style="color:#e6db74">///
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"></span>    <span style="color:#e6db74">/// A `Request` can be built manually with `Request::new()` or obtained
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"></span>    <span style="color:#e6db74">/// from a RequestBuilder with `RequestBuilder::build()`.
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"></span>    <span style="color:#e6db74">///
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"></span>    <span style="color:#e6db74">/// You should prefer to use the `RequestBuilder` and
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"></span>    <span style="color:#e6db74">/// `RequestBuilder::send()`.
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"></span>    <span style="color:#e6db74">///
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"></span>    <span style="color:#e6db74">/// # Errors
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"></span>    <span style="color:#e6db74">///
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"></span>    <span style="color:#e6db74">/// This method fails if there was an error while sending request,
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"></span>    <span style="color:#e6db74">/// redirect loop was detected or redirect limit was exhausted.
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"></span>    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">execute</span>(
+</span></span></span><span style="display:flex;"><span>    <span style="color:#e6db74">///
+</span></span></span><span style="display:flex;"><span>    <span style="color:#e6db74">/// A `Request` can be built manually with `Request::new()` or obtained
+</span></span></span><span style="display:flex;"><span>    <span style="color:#e6db74">/// from a RequestBuilder with `RequestBuilder::build()`.
+</span></span></span><span style="display:flex;"><span>    <span style="color:#e6db74">///
+</span></span></span><span style="display:flex;"><span>    <span style="color:#e6db74">/// You should prefer to use the `RequestBuilder` and
+</span></span></span><span style="display:flex;"><span>    <span style="color:#e6db74">/// `RequestBuilder::send()`.
+</span></span></span><span style="display:flex;"><span>    <span style="color:#e6db74">///
+</span></span></span><span style="display:flex;"><span>    <span style="color:#e6db74">/// # Errors
+</span></span></span><span style="display:flex;"><span>    <span style="color:#e6db74">///
+</span></span></span><span style="display:flex;"><span>    <span style="color:#e6db74">/// This method fails if there was an error while sending request,
+</span></span></span><span style="display:flex;"><span>    <span style="color:#e6db74">/// redirect loop was detected or redirect limit was exhausted.
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">execute</span>(
 </span></span><span style="display:flex;"><span>        <span style="color:#f92672">&amp;</span>self,
 </span></span><span style="display:flex;"><span>        request: <span style="color:#a6e22e">Request</span>, <span style="color:#75715e">// ！！！类型是 reqwest::async_impl::request，我们不能直接使用，看下面会转换成http::Reqwest
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    ) -&gt; <span style="color:#a6e22e">impl</span> Future<span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>Response, <span style="color:#66d9ef">crate</span>::Error<span style="color:#f92672">&gt;&gt;</span> {
+</span></span></span><span style="display:flex;"><span>    ) -&gt; <span style="color:#a6e22e">impl</span> Future<span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>Response, <span style="color:#66d9ef">crate</span>::Error<span style="color:#f92672">&gt;&gt;</span> {
 </span></span><span style="display:flex;"><span>        self.execute_request(request)
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
@@ -392,20 +392,20 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e">// check if we&#39;re in https_only mode and check the scheme of the current URL
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> self.inner.https_only <span style="color:#f92672">&amp;&amp;</span> url.scheme() <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;https&#34;</span> {
+</span></span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> self.inner.https_only <span style="color:#f92672">&amp;&amp;</span> url.scheme() <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;https&#34;</span> {
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> Pending::new_err(error::url_bad_scheme(url));
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e">// insert default headers in the request headers
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// without overwriting already appended headers.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span> (key, value) <span style="color:#66d9ef">in</span> <span style="color:#f92672">&amp;</span>self.inner.headers {
+</span></span></span><span style="display:flex;"><span>        <span style="color:#75715e">// without overwriting already appended headers.
+</span></span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (key, value) <span style="color:#66d9ef">in</span> <span style="color:#f92672">&amp;</span>self.inner.headers {
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Entry::Vacant(entry) <span style="color:#f92672">=</span> headers.entry(key) {
 </span></span><span style="display:flex;"><span>                entry.insert(value.clone());
 </span></span><span style="display:flex;"><span>            }
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Add cookies from the cookie store.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">#[cfg(feature = </span><span style="color:#e6db74">&#34;cookies&#34;</span><span style="color:#75715e">)]</span>
+</span></span></span><span style="display:flex;"><span>        <span style="color:#75715e">#[cfg(feature = </span><span style="color:#e6db74">&#34;cookies&#34;</span><span style="color:#75715e">)]</span>
 </span></span><span style="display:flex;"><span>        {
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Some(cookie_store) <span style="color:#f92672">=</span> self.inner.cookie_store.as_ref() {
 </span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> headers.get(<span style="color:#66d9ef">crate</span>::header::<span style="color:#66d9ef">COOKIE</span>).is_none() {
@@ -438,7 +438,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>        self.proxy_auth(<span style="color:#f92672">&amp;</span>uri, <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> headers);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> builder <span style="color:#f92672">=</span> hyper::Request::builder() <span style="color:#75715e">// ！！！转成我们可以直接使用的hyper::Request
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            .method(method.clone())
+</span></span></span><span style="display:flex;"><span>            .method(method.clone())
 </span></span><span style="display:flex;"><span>            .uri(uri)
 </span></span><span style="display:flex;"><span>            .version(version);
 </span></span><span style="display:flex;"><span>
@@ -453,7 +453,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> req <span style="color:#f92672">=</span> builder.body(body).expect(<span style="color:#e6db74">&#34;valid request parts&#34;</span>);
 </span></span><span style="display:flex;"><span>                <span style="color:#f92672">*</span>req.headers_mut() <span style="color:#f92672">=</span> headers.clone();
 </span></span><span style="display:flex;"><span>                ResponseFuture::Default(self.inner.hyper.request(req)) <span style="color:#75715e">// ！！！调用hyper_util::client::legacy::client::Client
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            }
+</span></span></span><span style="display:flex;"><span>            }
 </span></span><span style="display:flex;"><span>        };
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> total_timeout <span style="color:#f92672">=</span> timeout
@@ -493,7 +493,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">request</span>(<span style="color:#f92672">&amp;</span>self, req: <span style="color:#a6e22e">Request</span><span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;</span>) -&gt; <span style="color:#a6e22e">ResponseFuture</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">where</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Bounds from impl:
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    C: <span style="color:#a6e22e">Connect</span> <span style="color:#f92672">+</span> Clone <span style="color:#f92672">+</span> Send <span style="color:#f92672">+</span> Sync <span style="color:#f92672">+</span> &#39;static,
+</span></span></span><span style="display:flex;"><span>    C: <span style="color:#a6e22e">Connect</span> <span style="color:#f92672">+</span> Clone <span style="color:#f92672">+</span> Send <span style="color:#f92672">+</span> Sync <span style="color:#f92672">+</span> &#39;static,
 </span></span><span style="display:flex;"><span>    B: <span style="color:#a6e22e">Body</span> <span style="color:#f92672">+</span> Send <span style="color:#f92672">+</span> &#39;static <span style="color:#f92672">+</span> Unpin,
 </span></span><span style="display:flex;"><span>    B::Data: Send,
 </span></span><span style="display:flex;"><span>    B::Error: Into<span style="color:#f92672">&lt;</span>Box<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">dyn</span> StdError <span style="color:#f92672">+</span> Send <span style="color:#f92672">+</span> Sync<span style="color:#f92672">&gt;&gt;</span>,
@@ -505,11 +505,11 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <h3 id="legacy-client中池化的实现">legacy client中池化的实现</h3>
 <p><code>legacy client</code> 的核心实现都在 <code>impl&lt;C, B&gt; Client&lt;C, B&gt;</code> 中，核心方法有：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span><span style="color:#75715e">// 发送请求
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">request</span>(<span style="color:#f92672">&amp;</span>self, req: <span style="color:#a6e22e">Request</span><span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;</span>) -&gt; <span style="color:#a6e22e">ResponseFuture</span>
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">request</span>(<span style="color:#f92672">&amp;</span>self, req: <span style="color:#a6e22e">Request</span><span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;</span>) -&gt; <span style="color:#a6e22e">ResponseFuture</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">// 从pool中找一条connection，发起请求
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">try_send_request</span>(<span style="color:#f92672">&amp;</span>self, <span style="color:#66d9ef">mut</span> req: <span style="color:#a6e22e">Request</span><span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;</span>, pool_key: <span style="color:#a6e22e">PoolKey</span>) -&gt; Result<span style="color:#f92672">&lt;</span>Response<span style="color:#f92672">&lt;</span>hyper::body::Incoming<span style="color:#f92672">&gt;</span>, TrySendError<span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;&gt;</span>
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">try_send_request</span>(<span style="color:#f92672">&amp;</span>self, <span style="color:#66d9ef">mut</span> req: <span style="color:#a6e22e">Request</span><span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;</span>, pool_key: <span style="color:#a6e22e">PoolKey</span>) -&gt; Result<span style="color:#f92672">&lt;</span>Response<span style="color:#f92672">&lt;</span>hyper::body::Incoming<span style="color:#f92672">&gt;</span>, TrySendError<span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;&gt;</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">// 从pool中找一条connection
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">connection_for</span>(<span style="color:#f92672">&amp;</span>self, pool_key: <span style="color:#a6e22e">PoolKey</span>) -&gt; Result<span style="color:#f92672">&lt;</span>pool::Pooled<span style="color:#f92672">&lt;</span>PoolClient<span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;</span>, PoolKey<span style="color:#f92672">&gt;</span>, Error<span style="color:#f92672">&gt;</span>
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">connection_for</span>(<span style="color:#f92672">&amp;</span>self, pool_key: <span style="color:#a6e22e">PoolKey</span>) -&gt; Result<span style="color:#f92672">&lt;</span>pool::Pooled<span style="color:#f92672">&lt;</span>PoolClient<span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;</span>, PoolKey<span style="color:#f92672">&gt;</span>, Error<span style="color:#f92672">&gt;</span>
 </span></span></code></pre></div><p>大致流程时将scheme、host、port作为pool_key找到一个连接（PoolClient），然后使用PoolClient的 <code>try_send_request</code> 方法。 <code>try_send_request</code> 定义如下：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span><span style="color:#66d9ef">impl</span><span style="color:#f92672">&lt;</span>B: <span style="color:#a6e22e">Body</span> <span style="color:#f92672">+</span> &#39;static<span style="color:#f92672">&gt;</span> PoolClient<span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">try_send_request</span>(
@@ -571,19 +571,19 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#[cfg(feature = </span><span style="color:#e6db74">&#34;http1&#34;</span><span style="color:#75715e">)]</span> {
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> (<span style="color:#66d9ef">mut</span> tx, conn) <span style="color:#f92672">=</span>
 </span></span><span style="display:flex;"><span>    h1_builder.handshake(io).<span style="color:#66d9ef">await</span>.map_err(Error::tx)<span style="color:#f92672">?</span>; <span style="color:#75715e">// 1. 熟悉的hanshake
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">trace!</span>(
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;http1 handshake complete, spawning background dispatcher task&#34;</span>
 </span></span><span style="display:flex;"><span>);
 </span></span><span style="display:flex;"><span>executor.execute( <span style="color:#75715e">// 这里实际就是tokio::spawn，和无连接池版本一样
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    conn.with_upgrades()
+</span></span></span><span style="display:flex;"><span>    conn.with_upgrades()
 </span></span><span style="display:flex;"><span>        .map_err(<span style="color:#f92672">|</span>e<span style="color:#f92672">|</span> <span style="color:#a6e22e">debug!</span>(<span style="color:#e6db74">&#34;client connection error: {}&#34;</span>, e))
 </span></span><span style="display:flex;"><span>        .map(<span style="color:#f92672">|</span>_<span style="color:#f92672">|</span> ()),
 </span></span><span style="display:flex;"><span>);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">// Wait for &#39;conn&#39; to ready up before we
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">// declare this tx as usable
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>tx.ready().<span style="color:#66d9ef">await</span>.map_err(Error::tx)<span style="color:#f92672">?</span>;
+</span></span></span><span style="display:flex;"><span>tx.ready().<span style="color:#66d9ef">await</span>.map_err(Error::tx)<span style="color:#f92672">?</span>;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">return</span> PoolTx::Http1(tx)
 </span></span><span style="display:flex;"><span>}                            
 </span></span></code></pre></div><h3 id="hyper如何发送http1请求">hyper如何发送http1请求</h3>
@@ -594,17 +594,17 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">send_request</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, req: <span style="color:#a6e22e">Request</span><span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;</span>) -&gt; <span style="color:#a6e22e">impl</span> Future<span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> <span style="color:#66d9ef">crate</span>::Result<span style="color:#f92672">&lt;</span>Response<span style="color:#f92672">&lt;</span>IncomingBody<span style="color:#f92672">&gt;&gt;&gt;</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">where</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Bounds from impl:
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    B: <span style="color:#a6e22e">Body</span> <span style="color:#f92672">+</span> &#39;static,
+</span></span></span><span style="display:flex;"><span>    B: <span style="color:#a6e22e">Body</span> <span style="color:#f92672">+</span> &#39;static,
 </span></span><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> sent <span style="color:#f92672">=</span> self.dispatch.send(req); <span style="color:#75715e">// 返回的是respones的receiver
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">move</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">match</span> sent {
 </span></span><span style="display:flex;"><span>        Ok(rx) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">match</span> rx.<span style="color:#66d9ef">await</span> {
 </span></span><span style="display:flex;"><span>            Ok(Ok(resp)) <span style="color:#f92672">=&gt;</span> Ok(resp), <span style="color:#75715e">// 如果从receiver中拿到了response，返回
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            Ok(Err(err)) <span style="color:#f92672">=&gt;</span> Err(err),
+</span></span></span><span style="display:flex;"><span>            Ok(Err(err)) <span style="color:#f92672">=&gt;</span> Err(err),
 </span></span><span style="display:flex;"><span>            <span style="color:#75715e">// this is definite bug if it happens, but it shouldn&#39;t happen!
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            Err(_canceled) <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">panic!</span>(<span style="color:#e6db74">&#34;dispatch dropped without returning error&#34;</span>),
+</span></span></span><span style="display:flex;"><span>            Err(_canceled) <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">panic!</span>(<span style="color:#e6db74">&#34;dispatch dropped without returning error&#34;</span>),
 </span></span><span style="display:flex;"><span>        },
 </span></span><span style="display:flex;"><span>        Err(_req) <span style="color:#f92672">=&gt;</span> {
 </span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">debug!</span>(<span style="color:#e6db74">&#34;connection was not ready&#34;</span>);
@@ -615,7 +615,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span><span style="color:#f92672">........</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">// self.dispatch.send(req);的定义
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#[cfg(feature = </span><span style="color:#e6db74">&#34;http1&#34;</span><span style="color:#75715e">)]</span>
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#[cfg(feature = </span><span style="color:#e6db74">&#34;http1&#34;</span><span style="color:#75715e">)]</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">pub</span>(<span style="color:#66d9ef">crate</span>) <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">send</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, val: <span style="color:#a6e22e">T</span>) -&gt; Result<span style="color:#f92672">&lt;</span>Promise<span style="color:#f92672">&lt;</span>U<span style="color:#f92672">&gt;</span>, T<span style="color:#f92672">&gt;</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">!</span>self.can_send() {
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> Err(val);
@@ -631,7 +631,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">///
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">/// In most cases, this should just be spawned into an executor, so that it
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">/// can process incoming and outgoing messages, notice hangups, and the like.
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"></span><span style="color:#75715e">#[must_use = </span><span style="color:#e6db74">&#34;futures do nothing unless polled&#34;</span><span style="color:#75715e">]</span>
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#[must_use = </span><span style="color:#e6db74">&#34;futures do nothing unless polled&#34;</span><span style="color:#75715e">]</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Connection</span><span style="color:#f92672">&lt;</span>T, B<span style="color:#f92672">&gt;</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">where</span>
 </span></span><span style="display:flex;"><span>    T: <span style="color:#a6e22e">Read</span> <span style="color:#f92672">+</span> Write,
@@ -651,13 +651,13 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">poll</span>(<span style="color:#66d9ef">mut</span> self: <span style="color:#a6e22e">Pin</span><span style="color:#f92672">&lt;&amp;</span><span style="color:#66d9ef">mut</span> Self<span style="color:#f92672">&gt;</span>, cx: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">mut</span> Context<span style="color:#f92672">&lt;</span>&#39;_<span style="color:#f92672">&gt;</span>) -&gt; <span style="color:#a6e22e">Poll</span><span style="color:#f92672">&lt;</span>Self::Output<span style="color:#f92672">&gt;</span> {
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">match</span> <span style="color:#a6e22e">ready!</span>(Pin::new(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self.inner).poll(cx))<span style="color:#f92672">?</span> { <span style="color:#75715e">// 调用 inner: Dispatcher&lt;T, B&gt; 的poll
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            proto::Dispatched::Shutdown <span style="color:#f92672">=&gt;</span> Poll::Ready(Ok(())),
+</span></span></span><span style="display:flex;"><span>            proto::Dispatched::Shutdown <span style="color:#f92672">=&gt;</span> Poll::Ready(Ok(())),
 </span></span><span style="display:flex;"><span>            proto::Dispatched::Upgrade(pending) <span style="color:#f92672">=&gt;</span> {
 </span></span><span style="display:flex;"><span>                <span style="color:#75715e">// With no `Send` bound on `I`, we can&#39;t try to do
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                <span style="color:#75715e">// upgrades here. In case a user was trying to use
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                <span style="color:#75715e">// `upgrade` with this API, send a special
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                <span style="color:#75715e">// error letting them know about that.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                pending.manual();
+</span></span></span><span style="display:flex;"><span>                <span style="color:#75715e">// upgrades here. In case a user was trying to use
+</span></span></span><span style="display:flex;"><span>                <span style="color:#75715e">// `upgrade` with this API, send a special
+</span></span></span><span style="display:flex;"><span>                <span style="color:#75715e">// error letting them know about that.
+</span></span></span><span style="display:flex;"><span>                pending.manual();
 </span></span><span style="display:flex;"><span>                Poll::Ready(Ok(()))
 </span></span><span style="display:flex;"><span>            }
 </span></span><span style="display:flex;"><span>        }
@@ -687,31 +687,31 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><p>而后逐步走到 <code>poll_inner</code>、<code>poll_loop</code>，有经验而敏感的同学看到<code>poll_loop</code>就知道 Reacotr模式的事件循环（eventloop）他来了。这个<code>poll_loop</code>值得贴一下源码，因为涉及到其他future的饥饿问题，可能自己在做设计的时候也要考虑</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">poll_loop</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, cx: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">mut</span> Context<span style="color:#f92672">&lt;</span>&#39;_<span style="color:#f92672">&gt;</span>) -&gt; <span style="color:#a6e22e">Poll</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">crate</span>::Result<span style="color:#f92672">&lt;</span>()<span style="color:#f92672">&gt;&gt;</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Limit the looping on this connection, in case it is ready far too
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// often, so that other futures don&#39;t starve.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">//
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// 16 was chosen arbitrarily, as that is number of pipelined requests
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// benchmarks often use. Perhaps it should be a config option instead.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> _ <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">..</span><span style="color:#ae81ff">16</span> {
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">// often, so that other futures don&#39;t starve.
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 16 was chosen arbitrarily, as that is number of pipelined requests
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">// benchmarks often use. Perhaps it should be a config option instead.
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> _ <span style="color:#66d9ef">in</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">..</span><span style="color:#ae81ff">16</span> {
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> _ <span style="color:#f92672">=</span> self.poll_read(cx)<span style="color:#f92672">?</span>;
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> _ <span style="color:#f92672">=</span> self.poll_write(cx)<span style="color:#f92672">?</span>;
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> _ <span style="color:#f92672">=</span> self.poll_flush(cx)<span style="color:#f92672">?</span>;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e">// This could happen if reading paused before blocking on IO,
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// such as getting to the end of a framed message, but then
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// writing/flushing set the state back to Init. In that case,
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// if the read buffer still had bytes, we&#39;d want to try poll_read
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// again, or else we wouldn&#39;t ever be woken up again.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">//
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// Using this instead of task::current() and notify() inside
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// the Conn is noticeably faster in pipelined benchmarks.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">!</span>self.conn.wants_read_again() {
+</span></span></span><span style="display:flex;"><span>        <span style="color:#75715e">// such as getting to the end of a framed message, but then
+</span></span></span><span style="display:flex;"><span>        <span style="color:#75715e">// writing/flushing set the state back to Init. In that case,
+</span></span></span><span style="display:flex;"><span>        <span style="color:#75715e">// if the read buffer still had bytes, we&#39;d want to try poll_read
+</span></span></span><span style="display:flex;"><span>        <span style="color:#75715e">// again, or else we wouldn&#39;t ever be woken up again.
+</span></span></span><span style="display:flex;"><span>        <span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Using this instead of task::current() and notify() inside
+</span></span></span><span style="display:flex;"><span>        <span style="color:#75715e">// the Conn is noticeably faster in pipelined benchmarks.
+</span></span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">!</span>self.conn.wants_read_again() {
 </span></span><span style="display:flex;"><span>            <span style="color:#75715e">//break;
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">return</span> Poll::Ready(Ok(()));
+</span></span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> Poll::Ready(Ok(()));
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">trace!</span>(<span style="color:#e6db74">&#34;poll_loop yielding (self = {:p})&#34;</span>, self);
 </span></span><span style="display:flex;"><span>    task::yield_now(cx).map(<span style="color:#f92672">|</span>never<span style="color:#f92672">|</span> <span style="color:#66d9ef">match</span> never {}) <span style="color:#75715e">// 让出执行，避免其他饥饿
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>接着走进 <code>poll_write</code>的逻辑，就能看到具体的http请求的发送逻辑了。贴一小段代码，解密下消息从哪来</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">poll_write</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, cx: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">mut</span> Context<span style="color:#f92672">&lt;</span>&#39;_<span style="color:#f92672">&gt;</span>) -&gt; <span style="color:#a6e22e">Poll</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">crate</span>::Result<span style="color:#f92672">&lt;</span>()<span style="color:#f92672">&gt;&gt;</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">loop</span> {
@@ -722,26 +722,26 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>            <span style="color:#f92672">&amp;&amp;</span> self.dispatch.should_poll()
 </span></span><span style="display:flex;"><span>        {
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Some(msg) <span style="color:#f92672">=</span> <span style="color:#a6e22e">ready!</span>(Pin::new(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self.dispatch).poll_msg(cx)) { <span style="color:#75715e">// ！！！ 从channel中接收消息
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                <span style="color:#66d9ef">let</span> (head, body) <span style="color:#f92672">=</span> msg.map_err(<span style="color:#66d9ef">crate</span>::Error::new_user_service)<span style="color:#f92672">?</span>;
+</span></span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">let</span> (head, body) <span style="color:#f92672">=</span> msg.map_err(<span style="color:#66d9ef">crate</span>::Error::new_user_service)<span style="color:#f92672">?</span>;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">let</span> body_type <span style="color:#f92672">=</span> <span style="color:#66d9ef">if</span> body.is_end_stream() {
 </span></span><span style="display:flex;"><span>                    self.body_rx.set(None);
 </span></span><span style="display:flex;"><span>                    None <span style="color:#75715e">// 长度为空
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                } <span style="color:#66d9ef">else</span> {
+</span></span></span><span style="display:flex;"><span>                } <span style="color:#66d9ef">else</span> {
 </span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">let</span> btype <span style="color:#f92672">=</span> body
 </span></span><span style="display:flex;"><span>                        .size_hint()
 </span></span><span style="display:flex;"><span>                        .exact()
 </span></span><span style="display:flex;"><span>                        .map(BodyLength::Known)
 </span></span><span style="display:flex;"><span>                        .or(Some(BodyLength::Unknown)); <span style="color:#75715e">// 从body中知道是固定长度的还是chunked的
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                    self.body_rx.set(Some(body));
+</span></span></span><span style="display:flex;"><span>                    self.body_rx.set(Some(body));
 </span></span><span style="display:flex;"><span>                    btype
 </span></span><span style="display:flex;"><span>                };
 </span></span><span style="display:flex;"><span>                self.conn.write_head(head, body_type); <span style="color:#75715e">// 写header部分，也是我们关注的chunked部分
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">!</span>self.conn.can_buffer_body() {
+</span></span></span><span style="display:flex;"><span>            } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">!</span>self.conn.can_buffer_body() {
 </span></span><span style="display:flex;"><span>                <span style="color:#f92672">..</span>.
 </span></span><span style="display:flex;"><span>            } <span style="color:#66d9ef">else</span> {
 </span></span><span style="display:flex;"><span>                <span style="color:#75715e">// 接收body
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                <span style="color:#f92672">..</span>.
+</span></span></span><span style="display:flex;"><span>                <span style="color:#f92672">..</span>.
 </span></span><span style="display:flex;"><span>            }
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>    }
@@ -763,7 +763,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> this <span style="color:#f92672">=</span> self.as_mut();
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">debug_assert!</span>(<span style="color:#f92672">!</span>this.rx_closed);
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">match</span> this.rx.poll_recv(cx) {   <span style="color:#75715e">// ！！！ 从channel中接收消息，看下面的impl&lt;T, U&gt; Receiver&lt;T, U&gt; 
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            Poll::Ready(Some((req, <span style="color:#66d9ef">mut</span> cb))) <span style="color:#f92672">=&gt;</span> {
+</span></span></span><span style="display:flex;"><span>            Poll::Ready(Some((req, <span style="color:#66d9ef">mut</span> cb))) <span style="color:#f92672">=&gt;</span> {
 </span></span><span style="display:flex;"><span>                <span style="color:#f92672">..</span>.
 </span></span><span style="display:flex;"><span>            }
 </span></span><span style="display:flex;"><span>            Poll::Ready(None) <span style="color:#f92672">=&gt;</span> {
@@ -790,7 +790,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>            }
 </span></span><span style="display:flex;"><span>            Poll::Pending <span style="color:#f92672">=&gt;</span> {
 </span></span><span style="display:flex;"><span>                self.taker.want(); <span style="color:#75715e">// 如果没拿到，则通知生产者，详见下面的want crate解释
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                Poll::Pending
+</span></span></span><span style="display:flex;"><span>                Poll::Pending
 </span></span><span style="display:flex;"><span>            }
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>    }
@@ -812,11 +812,11 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">// 在connection drop时，通知SendRequest is_closed
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">impl</span><span style="color:#f92672">&lt;</span>T, U<span style="color:#f92672">&gt;</span> Drop <span style="color:#66d9ef">for</span> Receiver<span style="color:#f92672">&lt;</span>T, U<span style="color:#f92672">&gt;</span> {
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">impl</span><span style="color:#f92672">&lt;</span>T, U<span style="color:#f92672">&gt;</span> Drop <span style="color:#66d9ef">for</span> Receiver<span style="color:#f92672">&lt;</span>T, U<span style="color:#f92672">&gt;</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">drop</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self) {
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Notify the giver about the closure first, before dropping
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// the mpsc::Receiver.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        self.taker.cancel();
+</span></span></span><span style="display:flex;"><span>        <span style="color:#75715e">// the mpsc::Receiver.
+</span></span></span><span style="display:flex;"><span>        self.taker.cancel();
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>核心是 <code>this.rx.poll_recv(cx)</code>，这个rx就是 <code>handshake</code> 过程中创建的 <code>dispatch::channel()</code> 的接受部分，底层是 <code>mpsc::UnboundedReceiver</code>。其实看到这里，应该就明白hyper怎么实现client的了：</p>
@@ -859,7 +859,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><p>hyper-rustls中的ring或者aws-lc-rs是受自己crate的可选feature控制的，这里没有展示出来。下面是构建<code>legacy client</code>的代码，支持HTTPS：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">build_http_client</span>() -&gt; <span style="color:#a6e22e">Client</span><span style="color:#f92672">&lt;</span>hyper_rustls::HttpsConnector<span style="color:#f92672">&lt;</span>HttpConnector<span style="color:#f92672">&gt;</span>, Incoming<span style="color:#f92672">&gt;</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 创建一个 HttpConnector
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> http_connector <span style="color:#f92672">=</span> HttpConnector::new();
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> http_connector <span style="color:#f92672">=</span> HttpConnector::new();
 </span></span><span style="display:flex;"><span>    http_connector.enforce_http(<span style="color:#66d9ef">false</span>);
 </span></span><span style="display:flex;"><span>    http_connector.set_keepalive(Some(Duration::from_secs(<span style="color:#ae81ff">90</span>)));
 </span></span><span style="display:flex;"><span>
@@ -870,9 +870,9 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Ok(a) <span style="color:#f92672">=</span> rustls_native_certs::load_native_certs() {
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> cert <span style="color:#66d9ef">in</span> a {
 </span></span><span style="display:flex;"><span>            <span style="color:#75715e">// Continue on parsing errors, as native stores often include ancient or syntactically
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#75715e">// invalid certificates, like root certificates without any X509 extensions.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#75715e">// Inspiration: https://github.com/rustls/rustls/blob/633bf4ba9d9521a95f68766d04c22e2b01e68318/rustls/src/anchors.rs#L105-L112
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">match</span> root_cert_store.add(cert) {
+</span></span></span><span style="display:flex;"><span>            <span style="color:#75715e">// invalid certificates, like root certificates without any X509 extensions.
+</span></span></span><span style="display:flex;"><span>            <span style="color:#75715e">// Inspiration: https://github.com/rustls/rustls/blob/633bf4ba9d9521a95f68766d04c22e2b01e68318/rustls/src/anchors.rs#L105-L112
+</span></span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">match</span> root_cert_store.add(cert) {
 </span></span><span style="display:flex;"><span>                Ok(_) <span style="color:#f92672">=&gt;</span> valid_count <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>,
 </span></span><span style="display:flex;"><span>                Err(err) <span style="color:#f92672">=&gt;</span> {
 </span></span><span style="display:flex;"><span>                    invalid_count <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>;
@@ -892,7 +892,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>        .enable_all_versions()
 </span></span><span style="display:flex;"><span>        .wrap_connector(http_connector);
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 创建一个 HttpsConnector，使用 rustls 作为后端
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">let</span> client: <span style="color:#a6e22e">Client</span><span style="color:#f92672">&lt;</span>hyper_rustls::HttpsConnector<span style="color:#f92672">&lt;</span>HttpConnector<span style="color:#f92672">&gt;</span>, Incoming<span style="color:#f92672">&gt;</span> <span style="color:#f92672">=</span>
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> client: <span style="color:#a6e22e">Client</span><span style="color:#f92672">&lt;</span>hyper_rustls::HttpsConnector<span style="color:#f92672">&lt;</span>HttpConnector<span style="color:#f92672">&gt;</span>, Incoming<span style="color:#f92672">&gt;</span> <span style="color:#f92672">=</span>
 </span></span><span style="display:flex;"><span>        Client::builder(TokioExecutor::new())
 </span></span><span style="display:flex;"><span>            .pool_idle_timeout(Duration::from_secs(<span style="color:#ae81ff">90</span>))
 </span></span><span style="display:flex;"><span>            .pool_max_idle_per_host(<span style="color:#ae81ff">5</span>)
@@ -903,7 +903,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><h2 id="result2-使用lru-cache实现自己的连接池">Result2: 使用LRU cache实现自己的连接池</h2>
 <p>最后，我又借鉴了 <code>shadowsocks-rust</code> 的 <code>http_client.rs</code>，使用 <code>lru_time_cache</code> 实现了自己的连接池。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span><span style="color:#e6db74">//! HTTP Client
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"></span>
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">use</span> std::{
 </span></span><span style="display:flex;"><span>    collections::VecDeque,
 </span></span><span style="display:flex;"><span>    error::Error,
@@ -933,7 +933,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>    Duration::from_secs(<span style="color:#66d9ef">if</span> <span style="color:#f92672">!</span><span style="color:#a6e22e">cfg!</span>(debug_assertions) { <span style="color:#ae81ff">30</span> } <span style="color:#66d9ef">else</span> { <span style="color:#ae81ff">10</span> });
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#e6db74">/// HTTPClient, supporting HTTP/1.1 and H2, HTTPS.
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"></span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">HttpClient</span><span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;</span> {
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">HttpClient</span><span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">#[allow(clippy::type_complexity)]</span>
 </span></span><span style="display:flex;"><span>    cache_conn: <span style="color:#a6e22e">Arc</span><span style="color:#f92672">&lt;</span>Mutex<span style="color:#f92672">&lt;</span>LruCache<span style="color:#f92672">&lt;</span>AccessLabel, VecDeque<span style="color:#f92672">&lt;</span>(HttpConnection<span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;</span>, Instant)<span style="color:#f92672">&gt;&gt;&gt;&gt;</span>,
 </span></span><span style="display:flex;"><span>}
@@ -945,7 +945,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>    B::Error: Into<span style="color:#f92672">&lt;</span>Box<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">dyn</span> ::std::error::Error <span style="color:#f92672">+</span> Send <span style="color:#f92672">+</span> Sync<span style="color:#f92672">&gt;&gt;</span>,
 </span></span><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">/// Create a new HttpClient
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"></span>    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">new</span>() -&gt; <span style="color:#a6e22e">HttpClient</span><span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;</span> {
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">new</span>() -&gt; <span style="color:#a6e22e">HttpClient</span><span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;</span> {
 </span></span><span style="display:flex;"><span>        HttpClient {
 </span></span><span style="display:flex;"><span>            cache_conn: <span style="color:#a6e22e">Arc</span>::new(Mutex::new(LruCache::with_expiry_duration(
 </span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">CONNECTION_EXPIRE_DURATION</span>,
@@ -954,7 +954,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">/// Make HTTP requests
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"></span>    <span style="color:#75715e">#[inline]</span>
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">#[inline]</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">send_request</span>(
 </span></span><span style="display:flex;"><span>        <span style="color:#f92672">&amp;</span>self,
 </span></span><span style="display:flex;"><span>        req: <span style="color:#a6e22e">Request</span><span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;</span>,
@@ -965,7 +965,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>        ) -&gt; <span style="color:#a6e22e">CounterIO</span><span style="color:#f92672">&lt;</span>TcpStream, LabelImpl<span style="color:#f92672">&lt;</span>AccessLabel<span style="color:#f92672">&gt;&gt;</span>,
 </span></span><span style="display:flex;"><span>    ) -&gt; Result<span style="color:#f92672">&lt;</span>Response<span style="color:#f92672">&lt;</span>body::Incoming<span style="color:#f92672">&gt;</span>, std::io::Error<span style="color:#f92672">&gt;</span> {
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 1. Check if there is an available client
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Some(c) <span style="color:#f92672">=</span> self.get_cached_connection(access_label).<span style="color:#66d9ef">await</span> {
+</span></span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Some(c) <span style="color:#f92672">=</span> self.get_cached_connection(access_label).<span style="color:#66d9ef">await</span> {
 </span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">debug!</span>(<span style="color:#e6db74">&#34;HTTP client for host: {} taken from cache&#34;</span>, <span style="color:#f92672">&amp;</span>access_label);
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">match</span> self.send_request_conn(access_label, c, req).<span style="color:#66d9ef">await</span> {
 </span></span><span style="display:flex;"><span>                Ok(o) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">return</span> Ok(o),
@@ -974,7 +974,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 2. If no. Make a new connection
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">let</span> scheme <span style="color:#f92672">=</span> <span style="color:#66d9ef">match</span> req.uri().scheme() {
+</span></span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> scheme <span style="color:#f92672">=</span> <span style="color:#66d9ef">match</span> req.uri().scheme() {
 </span></span><span style="display:flex;"><span>            Some(s) <span style="color:#f92672">=&gt;</span> s,
 </span></span><span style="display:flex;"><span>            None <span style="color:#f92672">=&gt;</span> <span style="color:#f92672">&amp;</span>Scheme::<span style="color:#66d9ef">HTTP</span>,
 </span></span><span style="display:flex;"><span>        };
@@ -1010,7 +1010,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>                }
 </span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> c.is_closed() {
 </span></span><span style="display:flex;"><span>                    <span style="color:#75715e">// true at once after connection.await return
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                    <span style="color:#a6e22e">debug!</span>(<span style="color:#e6db74">&#34;HTTP connection for host: {} is closed&#34;</span>, access_label,);
+</span></span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">debug!</span>(<span style="color:#e6db74">&#34;HTTP connection for host: {} is closed&#34;</span>, access_label,);
 </span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">continue</span>;
 </span></span><span style="display:flex;"><span>                }
 </span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> Some(c);
@@ -1040,7 +1040,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>        );
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Check keep-alive
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> check_keep_alive(response.version(), response.headers(), <span style="color:#66d9ef">false</span>) {
+</span></span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> check_keep_alive(response.version(), response.headers(), <span style="color:#66d9ef">false</span>) {
 </span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">trace!</span>(
 </span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;HTTP connection keep-alive for host: {}, response: {:?}&#34;</span>,
 </span></span><span style="display:flex;"><span>                access_label,
@@ -1064,22 +1064,22 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>    check_proxy: <span style="color:#66d9ef">bool</span>,
 </span></span><span style="display:flex;"><span>) -&gt; <span style="color:#66d9ef">bool</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// HTTP/1.1, HTTP/2, HTTP/3 keeps alive by default
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> conn_keep_alive <span style="color:#f92672">=</span> <span style="color:#f92672">!</span><span style="color:#a6e22e">matches!</span>(version, Version::<span style="color:#66d9ef">HTTP_09</span> <span style="color:#f92672">|</span> Version::<span style="color:#66d9ef">HTTP_10</span>);
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> conn_keep_alive <span style="color:#f92672">=</span> <span style="color:#f92672">!</span><span style="color:#a6e22e">matches!</span>(version, Version::<span style="color:#66d9ef">HTTP_09</span> <span style="color:#f92672">|</span> Version::<span style="color:#66d9ef">HTTP_10</span>);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> check_proxy {
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Modern browsers will send Proxy-Connection instead of Connection
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// for HTTP/1.0 proxies which blindly forward Connection to remote
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">//
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// https://tools.ietf.org/html/rfc7230#appendix-A.1.2
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Some(b) <span style="color:#f92672">=</span> get_keep_alive_val(headers.get_all(<span style="color:#e6db74">&#34;Proxy-Connection&#34;</span>)) {
+</span></span></span><span style="display:flex;"><span>        <span style="color:#75715e">// for HTTP/1.0 proxies which blindly forward Connection to remote
+</span></span></span><span style="display:flex;"><span>        <span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span>        <span style="color:#75715e">// https://tools.ietf.org/html/rfc7230#appendix-A.1.2
+</span></span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Some(b) <span style="color:#f92672">=</span> get_keep_alive_val(headers.get_all(<span style="color:#e6db74">&#34;Proxy-Connection&#34;</span>)) {
 </span></span><span style="display:flex;"><span>            conn_keep_alive <span style="color:#f92672">=</span> b
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Connection will replace Proxy-Connection
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">//
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// But why client sent both Connection and Proxy-Connection? That&#39;s not standard!
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Some(b) <span style="color:#f92672">=</span> get_keep_alive_val(headers.get_all(<span style="color:#e6db74">&#34;Connection&#34;</span>)) {
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">//
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">// But why client sent both Connection and Proxy-Connection? That&#39;s not standard!
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Some(b) <span style="color:#f92672">=</span> get_keep_alive_val(headers.get_all(<span style="color:#e6db74">&#34;Connection&#34;</span>)) {
 </span></span><span style="display:flex;"><span>        conn_keep_alive <span style="color:#f92672">=</span> b
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
@@ -1149,7 +1149,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> stream <span style="color:#f92672">=</span> TimeoutIO::new(stream, <span style="color:#66d9ef">CONNECTION_EXPIRE_DURATION</span>);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e">// HTTP/1.x
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">let</span> (send_request, connection) <span style="color:#f92672">=</span> <span style="color:#66d9ef">match</span> http1::Builder::new()
+</span></span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> (send_request, connection) <span style="color:#f92672">=</span> <span style="color:#66d9ef">match</span> http1::Builder::new()
 </span></span><span style="display:flex;"><span>            .preserve_header_case(<span style="color:#66d9ef">true</span>)
 </span></span><span style="display:flex;"><span>            .title_case_headers(<span style="color:#66d9ef">true</span>)
 </span></span><span style="display:flex;"><span>            .handshake(Box::pin(TokioIo::new(stream)))
@@ -1190,7 +1190,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Some(io_err) <span style="color:#f92672">=</span> source.downcast_ref::<span style="color:#f92672">&lt;</span>io::Error<span style="color:#f92672">&gt;</span>() {
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> io_err.kind() <span style="color:#f92672">==</span> ErrorKind::TimedOut {
 </span></span><span style="display:flex;"><span>                <span style="color:#75715e">// 由于超时导致的连接关闭（TimeoutIO）
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                <span style="color:#a6e22e">info!</span>(
+</span></span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">info!</span>(
 </span></span><span style="display:flex;"><span>                    <span style="color:#e6db74">&#34;[legacy proxy connection io closed]: [{}] {} to {}&#34;</span>,
 </span></span><span style="display:flex;"><span>                    io_err.kind(),
 </span></span><span style="display:flex;"><span>                    io_err,

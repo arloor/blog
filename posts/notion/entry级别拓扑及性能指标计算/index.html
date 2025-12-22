@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.153.1">
 
     
     
@@ -458,7 +458,7 @@ bool error = 8; // 状态，用于还原总失败率
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;max_duration&#34;</span> SimpleAggregateFunction(<span style="color:#66d9ef">max</span>,Int64),
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;error&#34;</span>              Float64,
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;examplar&#34;</span>           String <span style="color:#75715e">---- 生成该指标的traceId
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>)
+</span></span></span><span style="display:flex;"><span>)
 </span></span><span style="display:flex;"><span>    ENGINE <span style="color:#f92672">=</span> Distributed(<span style="color:#e6db74">&#39;default_cluster&#39;</span>, <span style="color:#e6db74">&#39;cat&#39;</span>, <span style="color:#e6db74">&#39;RPC_statistics&#39;</span>, rand());
 </span></span></code></pre></div><p>核心是</p>
 <ul>
@@ -536,7 +536,7 @@ bool error = 8; // 状态，用于还原总失败率
 </span></span><span style="display:flex;"><span>SETTINGS allow_experimental_projection_optimization <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>,
 </span></span><span style="display:flex;"><span>force_index_by_date<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">union</span> <span style="color:#66d9ef">distinct</span> <span style="color:#75715e">-- 这里union两个字查询，避免使用or。使用or则只能走通用排除搜索
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">SELECT</span>
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span>
 </span></span><span style="display:flex;"><span>    downstream_app,
 </span></span><span style="display:flex;"><span>    upstream_app,
 </span></span><span style="display:flex;"><span>    downstream_service,
@@ -567,8 +567,8 @@ bool error = 8; // 状态，用于还原总失败率
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">from</span> RPC_statistics_distributed
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">where</span> downstream_app<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;jupiter-gateway-default&#39;</span>
 </span></span><span style="display:flex;"><span>            <span style="color:#75715e">-- and downstream_service=&#39;[POST]/api/store/jpd/claim&#39;
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">and</span> _partition_id<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;20230421&#39;</span> <span style="color:#75715e">---- 根据搜索条件手动指定分区
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">group</span> <span style="color:#66d9ef">BY</span> 
+</span></span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">and</span> _partition_id<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;20230421&#39;</span> <span style="color:#75715e">---- 根据搜索条件手动指定分区
+</span></span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">group</span> <span style="color:#66d9ef">BY</span> 
 </span></span><span style="display:flex;"><span>            downstream_app
 </span></span><span style="display:flex;"><span>						,downstream_service
 </span></span><span style="display:flex;"><span>        settings use_skip_indexes<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, force_optimize_projection<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>;

@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.153.1">
 
     
     
@@ -356,7 +356,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;Installing golangci-lint latest...&#34;</span>
 </span></span><span style="display:flex;"><span>curl -fsSL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    sh -s -- -b <span style="color:#e6db74">&#34;</span>$HOME<span style="color:#e6db74">/go/bin&#34;</span> | tee  -a ./init_go.log
+</span></span></span><span style="display:flex;"><span>    sh -s -- -b <span style="color:#e6db74">&#34;</span>$HOME<span style="color:#e6db74">/go/bin&#34;</span> | tee  -a ./init_go.log
 </span></span></code></pre></div><blockquote>
 <p>The extension depends on go, gopls, dlv and other optional tools. If any of the dependencies are missing, the ⚠️ Analysis Tools Missing warning is displayed. Click on the warning to download dependencies.See the <a href="https://github.com/golang/vscode-go/wiki/tools">tools documentation</a> for a complete list of tools the extension depends on.</p>
 </blockquote>
@@ -364,9 +364,9 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p><strong>注意</strong>：golang debug 不能正确处理软链接，所以最好不要把项目放在软链接的文件夹中，或者配置 <code>substitutePath</code>，见<a href="https://github.com/golang/vscode-go/wiki/debugging#debug-symlink-directories">Debug symlink directories</a>和<a href="https://github.com/golang/vscode-go/wiki/debugging#settings">go.delveConfig settings</a>(用于 CodeLens 里的 debug test 按钮)。其他高级配置可以见 <a href="https://github.com/golang/vscode-go/wiki/debugging">vscode-go debugging</a>，也可以见 <a href="https://github.com/go-delve/delve/blob/master/Documentation/cli/README.md">delve 的调试命令 ˝</a>。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 使用 IntelliSense 了解相关属性。
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// 悬停以查看现有属性的描述。
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#f92672">&#34;version&#34;</span>: <span style="color:#e6db74">&#34;0.2.0&#34;</span>,
+</span></span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 悬停以查看现有属性的描述。
+</span></span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+</span></span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;version&#34;</span>: <span style="color:#e6db74">&#34;0.2.0&#34;</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;configurations&#34;</span>: [
 </span></span><span style="display:flex;"><span>    {
 </span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Launch Package&#34;</span>,
@@ -380,24 +380,24 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>    },
 </span></span><span style="display:flex;"><span>    {
 </span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 参考 https://blog.csdn.net/passenger12234/article/details/122930124
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Test Debug&#34;</span>, <span style="color:#75715e">// debug 单测
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;go&#34;</span>,
+</span></span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Test Debug&#34;</span>, <span style="color:#75715e">// debug 单测
+</span></span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;go&#34;</span>,
 </span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;mode&#34;</span>: <span style="color:#e6db74">&#34;test&#34;</span>,
 </span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;request&#34;</span>: <span style="color:#e6db74">&#34;launch&#34;</span>,
 </span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;buildFlags&#34;</span>: [
 </span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;-a&#34;</span> <span style="color:#75715e">// force rebuilding of packages that are already up-to-date.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      ],
+</span></span></span><span style="display:flex;"><span>      ],
 </span></span><span style="display:flex;"><span>      <span style="color:#75715e">// &#34;program&#34;: &#34;${relativeFileDirname}&#34;, // 当前打开的目录
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      <span style="color:#f92672">&#34;program&#34;</span>: <span style="color:#e6db74">&#34;./internal/app&#34;</span>,
+</span></span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;program&#34;</span>: <span style="color:#e6db74">&#34;./internal/app&#34;</span>,
 </span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;output&#34;</span>: <span style="color:#e6db74">&#34;__debug_bin_test&#34;</span>,
 </span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;args&#34;</span>: [
 </span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;-test.v&#34;</span> <span style="color:#75715e">// 使t.Log()输出到console
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// &#34;-test.run&#34;,
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// &#34;^TestGetLlamAccessPoint$&#34;
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// &#34;-test.bench&#34;,
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// &#34;BenchmarkTranslateWithFallback&#34;,
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#75715e">// &#34;-test.benchmem&#34;
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>      ]
+</span></span></span><span style="display:flex;"><span>        <span style="color:#75715e">// &#34;-test.run&#34;,
+</span></span></span><span style="display:flex;"><span>        <span style="color:#75715e">// &#34;^TestGetLlamAccessPoint$&#34;
+</span></span></span><span style="display:flex;"><span>        <span style="color:#75715e">// &#34;-test.bench&#34;,
+</span></span></span><span style="display:flex;"><span>        <span style="color:#75715e">// &#34;BenchmarkTranslateWithFallback&#34;,
+</span></span></span><span style="display:flex;"><span>        <span style="color:#75715e">// &#34;-test.benchmem&#34;
+</span></span></span><span style="display:flex;"><span>      ]
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>  ]
 </span></span><span style="display:flex;"><span>}
@@ -419,9 +419,9 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>  },
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;go.testFlags&#34;</span>: [
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;-gcflags=all=-l&#34;</span>, <span style="color:#75715e">// 针对run test禁用内联优化，使gomonkey可以成功打桩。对debug test不生效，因为golang插件针对debug test自行设置了-gcflags=&#34;all=-l -N&#34;
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#e6db74">&#34;-v&#34;</span>, <span style="color:#75715e">// 使run test可以输出t.Logf的日志。对debug test不生效，只在test fail的时候才会打印t.Logf的日志
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#e6db74">&#34;--count=1&#34;</span> <span style="color:#75715e">// 不缓存go test的结果
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  ],
+</span></span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;-v&#34;</span>, <span style="color:#75715e">// 使run test可以输出t.Logf的日志。对debug test不生效，只在test fail的时候才会打印t.Logf的日志
+</span></span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;--count=1&#34;</span> <span style="color:#75715e">// 不缓存go test的结果
+</span></span></span><span style="display:flex;"><span>  ],
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;go.formatFlags&#34;</span>: [<span style="color:#e6db74">&#34;-w&#34;</span>]
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>这样的配置下仍有一个棘手的问题难以解决：CodeLens 的 debug test 难以打印 <code>t.Logf</code> 的日志，除非 test fail，万般尝试都失败，最终放弃吧。</p>

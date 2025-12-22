@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.153.1">
 
     
     
@@ -440,9 +440,9 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>仔细看这段代码：首先 a 是 Rc::new(1) 的所有者，这毋庸置疑；然后 b 和 c 都调用了 a.clone()，分别得到了一个新的 Rc，所以从编译器的角度，abc 都各自拥有一个 Rc。如果文字你觉得稍微有点绕，看看 Rc 的 clone() 函数的实现，就很清楚了（源代码）：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">clone</span>(<span style="color:#f92672">&amp;</span>self) -&gt; <span style="color:#a6e22e">Rc</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 增加引用计数
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    self.inner().inc_strong();
+</span></span></span><span style="display:flex;"><span>    self.inner().inc_strong();
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 通过 self.ptr 生成一个新的 Rc 结构
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    Self::from_inner(self.ptr)
+</span></span></span><span style="display:flex;"><span>    Self::from_inner(self.ptr)
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>所以，Rc 的 clone() 正如我们刚才说的，不复制实际的数据，只是一个引用计数的增加。</p>
 <p>你可能继续会疑惑：Rc 是怎么产生在堆上的？并且为什么这段堆内存不受栈内存生命周期的控制呢？</p>
@@ -470,12 +470,12 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> s <span style="color:#f92672">=</span> String::from(<span style="color:#e6db74">&#34;string&#34;</span>);
 </span></span><span style="display:flex;"><span>    useString(s);
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">println!</span>{<span style="color:#e6db74">&#34;{}&#34;</span>,s}; <span style="color:#75715e">//这里将报错
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">useString</span>(s: String){
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// s的所有权移动到这里
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>上面的代码报错是符合所有权系统的原则的。如果我们还想使用<code>s</code>,需要改成这样：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>(){
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> s <span style="color:#f92672">=</span> String::from(<span style="color:#e6db74">&#34;string&#34;</span>);
@@ -486,7 +486,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">useString</span>(s: String) -&gt; String{
 </span></span><span style="display:flex;"><span>    s <span style="color:#75715e">// = return s;
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>也即是再把 s 的所有权返回回去。这种代码很傻逼，于是借用的概念就出来了，用引用（&amp;）来表达借用。</p>
 <p>借用允许不获取所有权的情况下使用变量。我们可以这样改造代码：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
@@ -530,10 +530,10 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p><code>Pin&lt;P&lt;T&gt;&gt;</code> 是常见的结构，其中 P 是 T 的指针，比如 <code>Pin&lt;&amp;String&gt;</code> 或 <code>Pin&lt;Box&lt;T&gt;&gt;</code>。Pin 的主要目的是确保 T:!Unpin（<strong>没有实现 Unpin</strong>） 在内存中的位置不会改变，这在自引用结构中非常重要，异步 rust 的 async/await 基于的 generaotr、状态机就包含子引用结构。</p>
 <p>自引用结构：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#75715e">// 这是一个自引用结构（self-referential struct）
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">SelfReferential</span> {
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">SelfReferential</span> {
 </span></span><span style="display:flex;"><span>    data: String,
 </span></span><span style="display:flex;"><span>    pointer: <span style="color:#f92672">*</span><span style="color:#66d9ef">const</span> String, <span style="color:#75715e">// 指向自己的data字段
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">impl</span> SelfReferential {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">new</span>(text: <span style="color:#66d9ef">&amp;</span><span style="color:#66d9ef">str</span>) -&gt; <span style="color:#a6e22e">Self</span> {
@@ -542,7 +542,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>            pointer: <span style="color:#a6e22e">std</span>::ptr::null(),
 </span></span><span style="display:flex;"><span>        };
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 让pointer指向data
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        s.pointer <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>s.data <span style="color:#66d9ef">as</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">const</span> String;
+</span></span></span><span style="display:flex;"><span>        s.pointer <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>s.data <span style="color:#66d9ef">as</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">const</span> String;
 </span></span><span style="display:flex;"><span>        s
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    
@@ -554,13 +554,13 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">demonstrate_problem</span>() {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> s1 <span style="color:#f92672">=</span> SelfReferential::new(<span style="color:#e6db74">&#34;hello&#34;</span>);
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">println!</span>(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#34;</span>, s1.get_data()); <span style="color:#75715e">// OK: &#34;hello&#34;
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    
+</span></span></span><span style="display:flex;"><span>    
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 问题：移动后指针失效！
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">let</span> s2 <span style="color:#f92672">=</span> s1; <span style="color:#75715e">// s1被移动到s2
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> s2 <span style="color:#f92672">=</span> s1; <span style="color:#75715e">// s1被移动到s2
+</span></span></span><span style="display:flex;"><span>    
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// s2.pointer仍然指向s1的旧地址！
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// println!(&#34;{}&#34;, s2.get_data()); // 未定义行为！悬垂指针！
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">// println!(&#34;{}&#34;, s2.get_data()); // 未定义行为！悬垂指针！
+</span></span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p><strong>核心问题</strong>：当结构体被移动（move）时，内部的指针不会自动更新，导致悬垂指针。</p>
 <p>Rust 有两种方式移动内存：</p>
 <ol>
@@ -569,8 +569,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> s1 <span style="color:#f92672">=</span> String::from(<span style="color:#e6db74">&#34;Hello&#34;</span>);
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">let</span> s2 <span style="color:#f92672">=</span> s1; <span style="color:#75715e">// s1的所有权转移给了s2，这里发生了move
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// let s3 = s1; // s1的所有权以及转移走了，不能再move，否则会报错：error[E0382]: use of moved value: `s1`
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></span><span style="display:flex;"><span>  <span style="color:#75715e">// let s3 = s1; // s1的所有权以及转移走了，不能再move，否则会报错：error[E0382]: use of moved value: `s1`
+</span></span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><ol start="2">
 <li>使用 <code>std::mem::swap</code>等api 传入可变引用</li>
 </ol>
@@ -593,7 +593,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">/// This is a wrapper around a kind of pointer which makes that pointer &#34;pin&#34; its
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">/// value in place, preventing the value referenced by that pointer from being moved
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">/// unless it implements [`Unpin`].
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"></span><span style="color:#75715e">#[stable(feature = </span><span style="color:#e6db74">&#34;pin&#34;</span><span style="color:#75715e">, since = </span><span style="color:#e6db74">&#34;1.33.0&#34;</span><span style="color:#75715e">)]</span>
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#[stable(feature = </span><span style="color:#e6db74">&#34;pin&#34;</span><span style="color:#75715e">, since = </span><span style="color:#e6db74">&#34;1.33.0&#34;</span><span style="color:#75715e">)]</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#[lang = </span><span style="color:#e6db74">&#34;pin&#34;</span><span style="color:#75715e">]</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#[fundamental]</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#[repr(transparent)]</span>
@@ -604,7 +604,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">// 如果T: !Unpin，那么只能拿到不可变引用
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#[stable(feature = </span><span style="color:#e6db74">&#34;pin&#34;</span><span style="color:#75715e">, since = </span><span style="color:#e6db74">&#34;1.33.0&#34;</span><span style="color:#75715e">)]</span>
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#[stable(feature = </span><span style="color:#e6db74">&#34;pin&#34;</span><span style="color:#75715e">, since = </span><span style="color:#e6db74">&#34;1.33.0&#34;</span><span style="color:#75715e">)]</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">impl</span><span style="color:#f92672">&lt;</span>P: <span style="color:#a6e22e">Deref</span><span style="color:#f92672">&gt;</span> Deref <span style="color:#66d9ef">for</span> Pin<span style="color:#f92672">&lt;</span>P<span style="color:#f92672">&gt;</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Target</span> <span style="color:#f92672">=</span> P::Target;
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">deref</span>(<span style="color:#f92672">&amp;</span>self) -&gt; <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">P</span>::Target {
@@ -613,7 +613,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">// 这里给 T: Unpin 的类型放开了 Pin 的限制，因为可以拿到可变引用，然后用在std::mem::swap 中
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#[stable(feature = </span><span style="color:#e6db74">&#34;pin&#34;</span><span style="color:#75715e">, since = </span><span style="color:#e6db74">&#34;1.33.0&#34;</span><span style="color:#75715e">)]</span>
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#[stable(feature = </span><span style="color:#e6db74">&#34;pin&#34;</span><span style="color:#75715e">, since = </span><span style="color:#e6db74">&#34;1.33.0&#34;</span><span style="color:#75715e">)]</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">impl</span><span style="color:#f92672">&lt;</span>P: <span style="color:#a6e22e">DerefMut</span><span style="color:#f92672">&lt;</span>Target: Unpin<span style="color:#f92672">&gt;&gt;</span> DerefMut <span style="color:#66d9ef">for</span> Pin<span style="color:#f92672">&lt;</span>P<span style="color:#f92672">&gt;</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">deref_mut</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self) -&gt; <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">mut</span> P::Target {
 </span></span><span style="display:flex;"><span>        Pin::get_mut(Pin::as_mut(self))

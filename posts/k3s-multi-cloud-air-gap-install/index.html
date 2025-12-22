@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.153.1">
 
     
     
@@ -365,15 +365,15 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>chmod +x install.sh
 </span></span><span style="display:flex;"><span>. unpass <span style="color:#75715e">#取消我的http_proxy环境变量</span>
 </span></span><span style="display:flex;"><span>CONTAINERD_HTTP_PROXY<span style="color:#f92672">=</span>http://127.0.0.1:3128 <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>CONTAINERD_HTTPS_PROXY<span style="color:#f92672">=</span>http://127.0.0.1:3128 <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>CONTAINERD_NO_PROXY<span style="color:#f92672">=</span>127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16 <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>K3S_TOKEN<span style="color:#f92672">=</span><span style="color:#ae81ff">12345</span> <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>INSTALL_K3S_SKIP_DOWNLOAD<span style="color:#f92672">=</span>true <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>./install.sh <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--node-external-ip<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;`curl https://bwg.arloor.dev:444/ip -k`&#34;</span> <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--flannel-backend<span style="color:#f92672">=</span>wireguard-native <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--flannel-external-ip <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--disable<span style="color:#f92672">=</span>traefik <span style="color:#75715e"># 禁用traefik ingress controller</span>
+</span></span></span><span style="display:flex;"><span>CONTAINERD_HTTPS_PROXY<span style="color:#f92672">=</span>http://127.0.0.1:3128 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>CONTAINERD_NO_PROXY<span style="color:#f92672">=</span>127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>K3S_TOKEN<span style="color:#f92672">=</span><span style="color:#ae81ff">12345</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>INSTALL_K3S_SKIP_DOWNLOAD<span style="color:#f92672">=</span>true <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>./install.sh <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>--node-external-ip<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;`curl https://bwg.arloor.dev:444/ip -k`&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>--flannel-backend<span style="color:#f92672">=</span>wireguard-native <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>--flannel-external-ip <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>--disable<span style="color:#f92672">=</span>traefik <span style="color:#75715e"># 禁用traefik ingress controller</span>
 </span></span><span style="display:flex;"><span>watch kubectl get pod -A
 </span></span></code></pre></div><p>安装好 server 后，在 server node 上执行以下命令来得到 agent 加入集群的 token：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat /var/lib/rancher/k3s/server/token
@@ -391,18 +391,18 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># server上 cat /var/lib/rancher/k3s/server/token  的到token</span>
 </span></span><span style="display:flex;"><span>K3S_TOKEN<span style="color:#f92672">=</span>K10098693af78777497406169383c59586da0916a6fc63bd293d9881f48b4789e0f::server:12345 <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>INSTALL_K3S_SKIP_DOWNLOAD<span style="color:#f92672">=</span>true <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>K3S_URL<span style="color:#f92672">=</span>https://118.25.142.222:6443  <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>bash install.sh <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--node-external-ip<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;`curl https://bwg.arloor.dev:444/ip -k`&#34;</span>
+</span></span></span><span style="display:flex;"><span>INSTALL_K3S_SKIP_DOWNLOAD<span style="color:#f92672">=</span>true <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>K3S_URL<span style="color:#f92672">=</span>https://118.25.142.222:6443  <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>bash install.sh <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>--node-external-ip<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;`curl https://bwg.arloor.dev:444/ip -k`&#34;</span>
 </span></span></code></pre></div><p>如果 Agent 节点能自由访问 Internet，也可以用下面的命令：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://get.k3s.io/ -O install.sh <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span><span style="color:#f92672">&amp;&amp;</span> chmod +x install.sh
+</span></span></span><span style="display:flex;"><span><span style="color:#f92672">&amp;&amp;</span> chmod +x install.sh
 </span></span><span style="display:flex;"><span>INSTALL_K3S_VERSION<span style="color:#f92672">=</span>v1.27.3+k3s1 <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>K3S_TOKEN<span style="color:#f92672">=</span>K10098693af78777497406169383c59586da0916a6fc63bd293d9881f48b4789e0f::server:12345 <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>K3S_URL<span style="color:#f92672">=</span>https://118.25.142.222:6443  <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>./install.sh <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>--node-external-ip<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;`curl https://bwg.arloor.dev:444/ip -k`&#34;</span>
+</span></span></span><span style="display:flex;"><span>K3S_TOKEN<span style="color:#f92672">=</span>K10098693af78777497406169383c59586da0916a6fc63bd293d9881f48b4789e0f::server:12345 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>K3S_URL<span style="color:#f92672">=</span>https://118.25.142.222:6443  <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>./install.sh <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>--node-external-ip<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;`curl https://bwg.arloor.dev:444/ip -k`&#34;</span>
 </span></span></code></pre></div><h3 id="卸载-server-和-agent">卸载 Server 和 Agent</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/usr/local/bin/k3s-uninstall.sh
 </span></span><span style="display:flex;"><span>/usr/local/bin/k3s-agent-uninstall.sh
@@ -411,15 +411,15 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh -o install.sh
 </span></span><span style="display:flex;"><span>chmod +x install.sh
 </span></span><span style="display:flex;"><span>INSTALL_K3S_MIRROR<span style="color:#f92672">=</span>cn  INSTALL_K3S_VERSION<span style="color:#f92672">=</span>v1.27.3+k3s1 K3S_TOKEN<span style="color:#f92672">=</span><span style="color:#ae81ff">12345</span> ./install.sh <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>		--node-external-ip<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;`curl https://bwg.arloor.dev:444/ip -k`&#34;</span> <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --flannel-backend<span style="color:#f92672">=</span>wireguard-native <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>    --flannel-external-ip <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>		--disable<span style="color:#f92672">=</span>traefik
+</span></span></span><span style="display:flex;"><span>		--node-external-ip<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;`curl https://bwg.arloor.dev:444/ip -k`&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>    --flannel-backend<span style="color:#f92672">=</span>wireguard-native <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>    --flannel-external-ip <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>		--disable<span style="color:#f92672">=</span>traefik
 </span></span><span style="display:flex;"><span>watch kubectl get pod -A
 </span></span></code></pre></div><p>虽然 rancher 中国的文档不咋样，但是这个加速镜像还是要点赞的， <code>INSTALL_K3S_MIRROR=cn</code> 环境变量就是来使用加速镜像的。此方式也不需要使用代理。我是在<a href="https://docs.rancher.cn/docs/k3s/installation/install-options/_index/#%E4%BD%BF%E7%94%A8%E8%84%9A%E6%9C%AC%E5%AE%89%E8%A3%85%E7%9A%84%E9%80%89%E9%A1%B9">Rancher 中国的安装选项介绍</a>找到这个镜像的。建议配合 <code>INSTALL_K3S_VERSION=v1.27.3+k3s1</code>环境变量指定 k3s 版本为 v1.27.3+k3s1(我离线安装的版本)</p>
 <h2 id="测试-dns-正常工作">测试 dns 正常工作</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl run curl --image<span style="color:#f92672">=</span>redhat/ubi9-minimal --attach --command --rm --restart<span style="color:#f92672">=</span>Never -- <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>sh -c <span style="color:#e6db74">&#39;curl https://kubernetes.default:443 -k -v; echo $?&#39;</span>
+</span></span></span><span style="display:flex;"><span>sh -c <span style="color:#e6db74">&#39;curl https://kubernetes.default:443 -k -v; echo $?&#39;</span>
 </span></span></code></pre></div><table>
   <thead>
       <tr>
@@ -511,8 +511,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
 </span></span><span style="display:flex;"><span>kubectl create namespace kubernetes-dashboard
 </span></span><span style="display:flex;"><span>helm install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard  --version 6.0.8  <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>-n kubernetes-dashboard <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>-f /tmp/values.yaml
+</span></span></span><span style="display:flex;"><span>-n kubernetes-dashboard <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>-f /tmp/values.yaml
 </span></span><span style="display:flex;"><span>watch kubectl get pod -n kubernetes-dashboard
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 卸载</span>
@@ -659,11 +659,11 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>chmod +x k3s_init.sh
 </span></span><span style="display:flex;"><span>. unpass <span style="color:#75715e">#取消我的http_proxy环境变量</span>
 </span></span><span style="display:flex;"><span>CONTAINERD_HTTP_PROXY<span style="color:#f92672">=</span>http://127.0.0.1:3128 <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>CONTAINERD_HTTPS_PROXY<span style="color:#f92672">=</span>http://127.0.0.1:3128 <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>CONTAINERD_NO_PROXY<span style="color:#f92672">=</span>127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16 <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>K3S_TOKEN<span style="color:#f92672">=</span><span style="color:#ae81ff">12345</span> <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>INSTALL_K3S_SKIP_DOWNLOAD<span style="color:#f92672">=</span>true <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>./k3s_init.sh
+</span></span></span><span style="display:flex;"><span>CONTAINERD_HTTPS_PROXY<span style="color:#f92672">=</span>http://127.0.0.1:3128 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>CONTAINERD_NO_PROXY<span style="color:#f92672">=</span>127.0.0.0/8,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>K3S_TOKEN<span style="color:#f92672">=</span><span style="color:#ae81ff">12345</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>INSTALL_K3S_SKIP_DOWNLOAD<span style="color:#f92672">=</span>true <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>./k3s_init.sh
 </span></span><span style="display:flex;"><span>cp -f /etc/rancher/k3s/k3s.yaml ~/.kube/config <span style="color:#75715e"># 复制 kubeconfig 到默认位置</span>
 </span></span><span style="display:flex;"><span>kubectl get pod -A --watch --output wide
 </span></span></code></pre></div><h2 id="安装helm">安装helm</h2>

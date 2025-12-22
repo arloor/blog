@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.153.1">
 
     
     
@@ -432,7 +432,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><h2 id="测试">测试</h2>
 <p>我们开一个curl的pod来测试下</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl run curl --image<span style="color:#f92672">=</span>redhat/ubi9-minimal:9.2-717 --command --attach --rm -- <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>curl https://google.com --proxy http://clash.default:3128
+</span></span></span><span style="display:flex;"><span>curl https://google.com --proxy http://clash.default:3128
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 也可以 kubectl run curl --image=radial/busyboxplus:curl -it --rm来创建pod，然后在pod的bash中执行curl命令</span>
 </span></span></code></pre></div>
   </div>

@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.153.1">
 
     
     
@@ -599,11 +599,11 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <h4 id="方案-2路由器启用-mss-clamping推荐">方案 2：路由器启用 MSS Clamping（推荐）</h4>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 使用 iptables</span>
 </span></span><span style="display:flex;"><span>iptables -t mangle -A FORWARD -p tcp --tcp-flags SYN,RST SYN <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  -j TCPMSS --clamp-mss-to-pmtu
+</span></span></span><span style="display:flex;"><span>  -j TCPMSS --clamp-mss-to-pmtu
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 或直接指定 MSS 值</span>
 </span></span><span style="display:flex;"><span>iptables -t mangle -A FORWARD -p tcp --tcp-flags SYN,RST SYN <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span><span style="color:#ae81ff"></span>  -j TCPMSS --set-mss <span style="color:#ae81ff">1452</span>
+</span></span></span><span style="display:flex;"><span>  -j TCPMSS --set-mss <span style="color:#ae81ff">1452</span>
 </span></span></code></pre></div><p><strong>优点</strong>：对内网设备透明，自动处理 TCP 连接
 <strong>缺点</strong>：只对 TCP 有效，UDP 仍可能有问题</p>
 <h4 id="方案-3启用-pmtud-并确保-icmp-畅通">方案 3：启用 PMTUD 并确保 ICMP 畅通</h4>
@@ -683,13 +683,13 @@ ICMP ← 传递 MTU 信息
 </span></span><span style="display:flex;"><span>        u32 new_mtu <span style="color:#f92672">=</span> icmp<span style="color:#f92672">-&gt;</span>un.frag.mtu;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 从 ICMP 载荷中提取原始 IP 头
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">struct</span> iphdr <span style="color:#f92672">*</span>orig_ip <span style="color:#f92672">=</span> (<span style="color:#66d9ef">struct</span> iphdr <span style="color:#f92672">*</span>)icmp<span style="color:#f92672">-&gt;</span>data;
+</span></span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">struct</span> iphdr <span style="color:#f92672">*</span>orig_ip <span style="color:#f92672">=</span> (<span style="color:#66d9ef">struct</span> iphdr <span style="color:#f92672">*</span>)icmp<span style="color:#f92672">-&gt;</span>data;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 找到对应的 TCP 连接
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">struct</span> sock <span style="color:#f92672">*</span>sk <span style="color:#f92672">=</span> <span style="color:#a6e22e">find_socket</span>(orig_ip);
+</span></span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">struct</span> sock <span style="color:#f92672">*</span>sk <span style="color:#f92672">=</span> <span style="color:#a6e22e">find_socket</span>(orig_ip);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 更新该连接的 PMTU
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (sk <span style="color:#f92672">&amp;&amp;</span> sk<span style="color:#f92672">-&gt;</span>sk_protocol <span style="color:#f92672">==</span> IPPROTO_TCP) {
+</span></span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (sk <span style="color:#f92672">&amp;&amp;</span> sk<span style="color:#f92672">-&gt;</span>sk_protocol <span style="color:#f92672">==</span> IPPROTO_TCP) {
 </span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">tcp_update_mtu</span>(sk, new_mtu);
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>    }
@@ -966,17 +966,17 @@ macOS/BSD:
 </code></pre><h4 id="因素-2应用层控制">因素 2：应用层控制</h4>
 <p>应用程序可以通过 socket 选项控制 DF 标志：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">// Linux
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> val <span style="color:#f92672">=</span> IP_PMTUDISC_DO;  <span style="color:#75715e">// 强制设置 DF=1
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">setsockopt</span>(sock, IPPROTO_IP, IP_MTU_DISCOVER, <span style="color:#f92672">&amp;</span>val, <span style="color:#66d9ef">sizeof</span>(val));
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> val <span style="color:#f92672">=</span> IP_PMTUDISC_DO;  <span style="color:#75715e">// 强制设置 DF=1
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">setsockopt</span>(sock, IPPROTO_IP, IP_MTU_DISCOVER, <span style="color:#f92672">&amp;</span>val, <span style="color:#66d9ef">sizeof</span>(val));
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">// 可选值
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>IP_PMTUDISC_DONT  <span style="color:#75715e">// DF=0，允许分片
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>IP_PMTUDISC_WANT  <span style="color:#75715e">// 尽量设置 DF=1，但不强制
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>IP_PMTUDISC_DO    <span style="color:#75715e">// 强制 DF=1
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>IP_PMTUDISC_PROBE <span style="color:#75715e">// 用于 MTU 探测
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span></span><span style="display:flex;"><span>IP_PMTUDISC_DONT  <span style="color:#75715e">// DF=0，允许分片
+</span></span></span><span style="display:flex;"><span>IP_PMTUDISC_WANT  <span style="color:#75715e">// 尽量设置 DF=1，但不强制
+</span></span></span><span style="display:flex;"><span>IP_PMTUDISC_DO    <span style="color:#75715e">// 强制 DF=1
+</span></span></span><span style="display:flex;"><span>IP_PMTUDISC_PROBE <span style="color:#75715e">// 用于 MTU 探测
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">// Windows
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>DWORD val <span style="color:#f92672">=</span> IP_PMTUDISC_DO;
+</span></span></span><span style="display:flex;"><span>DWORD val <span style="color:#f92672">=</span> IP_PMTUDISC_DO;
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">setsockopt</span>(sock, IPPROTO_IP, IP_DONTFRAGMENT, (<span style="color:#66d9ef">char</span><span style="color:#f92672">*</span>)<span style="color:#f92672">&amp;</span>val, <span style="color:#66d9ef">sizeof</span>(val));
 </span></span></code></pre></div><h4 id="因素-3具体协议实现">因素 3：具体协议实现</h4>
 <table>
@@ -1061,25 +1061,25 @@ macOS/BSD:
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> sock <span style="color:#f92672">=</span> <span style="color:#a6e22e">socket</span>(AF_INET, SOCK_DGRAM, <span style="color:#ae81ff">0</span>);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">// 启用 PMTUD
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> val <span style="color:#f92672">=</span> IP_PMTUDISC_DO;
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> val <span style="color:#f92672">=</span> IP_PMTUDISC_DO;
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">setsockopt</span>(sock, IPPROTO_IP, IP_MTU_DISCOVER, <span style="color:#f92672">&amp;</span>val, <span style="color:#66d9ef">sizeof</span>(val));
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">// 发送数据
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">sendto</span>(sock, data, len, <span style="color:#ae81ff">0</span>, ...);
+</span></span></span><span style="display:flex;"><span><span style="color:#a6e22e">sendto</span>(sock, data, len, <span style="color:#ae81ff">0</span>, ...);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">// 如果 sendto 返回 EMSGSIZE 错误，查询 MTU
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> mtu;
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> mtu;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">socklen_t</span> mtu_len <span style="color:#f92672">=</span> <span style="color:#66d9ef">sizeof</span>(mtu);
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">getsockopt</span>(sock, IPPROTO_IP, IP_MTU, <span style="color:#f92672">&amp;</span>mtu, <span style="color:#f92672">&amp;</span>mtu_len);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">// 根据 mtu 调整包大小
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> udp_payload <span style="color:#f92672">=</span> mtu <span style="color:#f92672">-</span> <span style="color:#ae81ff">20</span>(IP) <span style="color:#f92672">-</span> <span style="color:#ae81ff">8</span>(UDP);
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> udp_payload <span style="color:#f92672">=</span> mtu <span style="color:#f92672">-</span> <span style="color:#ae81ff">20</span>(IP) <span style="color:#f92672">-</span> <span style="color:#ae81ff">8</span>(UDP);
 </span></span></code></pre></div><h4 id="方法-2保守策略避免分片">方法 2：保守策略（避免分片）</h4>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">// 直接使用安全的包大小
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#define SAFE_UDP_PAYLOAD 1200  </span><span style="color:#75715e">// 适用于绝大多数网络
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define SAFE_UDP_PAYLOAD 1200  </span><span style="color:#75715e">// 适用于绝大多数网络
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">// 或使用最小 MTU
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#define MIN_MTU_PAYLOAD (576 - 20 - 8)  </span><span style="color:#75715e">// IPv4 最小 MTU
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define MIN_MTU_PAYLOAD (576 - 20 - 8)  </span><span style="color:#75715e">// IPv4 最小 MTU
 </span></span></span></code></pre></div><h4 id="方法-3quic-的做法推荐">方法 3：QUIC 的做法（推荐）</h4>
 <pre tabindex="0"><code>QUIC 协议在 UDP 上实现了完整的 PMTUD：
 1. 初始使用 1200 字节包（保守）
@@ -1107,7 +1107,7 @@ macOS/BSD:
 <h4 id="对于-pppoe-环境">对于 PPPoE 环境</h4>
 <p><strong>应用开发者：</strong></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">// 推荐做法
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#define MAX_UDP_PAYLOAD 1400  </span><span style="color:#75715e">// 留足够余量
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define MAX_UDP_PAYLOAD 1400  </span><span style="color:#75715e">// 留足够余量
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">// 1400 + 8(UDP) + 20(IP) = 1428 &lt; 1492，安全
 </span></span></span></code></pre></div><p><strong>网络管理员：</strong></p>
 <ul>

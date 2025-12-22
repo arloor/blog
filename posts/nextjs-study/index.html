@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.153.1">
 
     
     
@@ -422,8 +422,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">amount</span>: <span style="color:#66d9ef">number</span>;
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">date</span>: <span style="color:#66d9ef">string</span>;
 </span></span><span style="display:flex;"><span>  <span style="color:#75715e">// In TypeScript, this is called a string union type.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// It means that the &#34;status&#34; property can only be one of the two strings: &#39;pending&#39; or &#39;paid&#39;.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#a6e22e">status</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;pending&#39;</span> <span style="color:#f92672">|</span> <span style="color:#e6db74">&#39;paid&#39;</span>;
+</span></span></span><span style="display:flex;"><span>  <span style="color:#75715e">// It means that the &#34;status&#34; property can only be one of the two strings: &#39;pending&#39; or &#39;paid&#39;.
+</span></span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">status</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#39;pending&#39;</span> <span style="color:#f92672">|</span> <span style="color:#e6db74">&#39;paid&#39;</span>;
 </span></span><span style="display:flex;"><span>};
 </span></span></code></pre></div><ul>
 <li>可以使用Prisma or Drizzle来生成database scheme对应的TS类型。</li>
@@ -434,7 +434,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>可以使用 <code>/app/ui/global.css</code> 文件将 CSS 规则添加到应用程序中的所有页面 —— 例如 CSS 重置规则（用来消除浏览器默认样式的差异）、链接等 HTML 元素的全栈范围样式等。（接受者是标签选择器，例如body、h1、p等。</p>
 <p>您可以在应用程序的任何组件中导入 <code>global.css</code>，但通常最好将其添加到顶级组件中。在 <code>Next.js</code> 中，这是根布局（稍后会详细介绍）。通过导航到 <code>/app/layout.tsx</code> 并导入 <code>global.css</code> 文件，将全局样式添加到您的应用程序：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-tsx" data-lang="tsx"><span style="display:flex;"><span><span style="color:#75715e">// /app/layout.tsx
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;@/app/ui/global.css&#39;</span>;
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;@/app/ui/global.css&#39;</span>;
 </span></span></code></pre></div><p>golbal.css中的内容如下，主要包含 <code>@tailwind</code> 的三个指令，用于引入 <code>tailwindcss</code> 的基础样式、组件和工具类。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-css" data-lang="css"><span style="display:flex;"><span><span style="color:#75715e">/* /app/ui/global.css */</span>
 </span></span><span style="display:flex;"><span>@<span style="color:#66d9ef">tailwind</span> <span style="color:#f92672">base</span>;
@@ -459,17 +459,17 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>当您使用<code>create-next-app</code>启动新项目时，<code>Next.js</code> 会询问您是否要使用 <code>Tailwind</code>。如果您选择yes ，<code>Next.js</code> 将自动安装必要的软件包并在您的应用程序中配置 <code>Tailwind</code>。</p>
 <p>尽管 CSS 样式是全局共享的，但每个类都单独应用于每个元素。例如 <code>/app/page.tsx</code>，就使用了<code>Tailwind</code>的类名：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-tsx" data-lang="tsx"><span style="display:flex;"><span><span style="color:#75715e">// /app/page.tsx
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">AcmeLogo</span> <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;@/app/ui/acme-logo&#39;</span>;
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">AcmeLogo</span> <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;@/app/ui/acme-logo&#39;</span>;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">ArrowRightIcon</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;@heroicons/react/24/outline&#39;</span>;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">Link</span> <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;next/link&#39;</span>;
 </span></span><span style="display:flex;"><span> 
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">Page() {</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> (
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// These are Tailwind classes:
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    &lt;<span style="color:#f92672">main</span> <span style="color:#a6e22e">className</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;flex min-h-screen flex-col p-6&#34;</span>&gt;
+</span></span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">main</span> <span style="color:#a6e22e">className</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;flex min-h-screen flex-col p-6&#34;</span>&gt;
 </span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">className</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;flex h-20 shrink-0 items-end rounded-lg bg-blue-500 p-4 md:h-52&#34;</span>&gt;
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ...
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  )
+</span></span></span><span style="display:flex;"><span>  )
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="css-modules">CSS Modules</h3>
 <p><code>CSS Modules</code> 是一种允许您在组件级别上使用 CSS 的技术，他使 CSS 类默认作用于组件的本地范围，从而降低样式冲突的风险。。Tailwind 和 CSS 模块是设计 Next.js 应用程序样式的两种最常见的方法。使用其中之一取决于您的偏好 - 您甚至可以在同一个应用程序中使用两者！</p>
@@ -491,12 +491,12 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">main</span> <span style="color:#a6e22e">className</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;flex min-h-screen flex-col p-6&#34;</span>&gt;
 </span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">className</span><span style="color:#f92672">=</span>{<span style="color:#a6e22e">styles</span>.<span style="color:#a6e22e">shape</span>} /&gt;
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ...
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  )
+</span></span></span><span style="display:flex;"><span>  )
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="使用-clsx-库切换类名">使用 <code>clsx</code> 库切换类名</h3>
 <p><code>clsx</code> 是一个小型库，用于在 TSX 中动态切换类名。它允许您在组件中使用条件逻辑来决定是否应该添加或删除类名。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-tsx" data-lang="tsx"><span style="display:flex;"><span><span style="color:#75715e">// /app/ui/invoices/status.tsx
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">clsx</span> <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;clsx&#39;</span>;
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">clsx</span> <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;clsx&#39;</span>;
 </span></span><span style="display:flex;"><span> 
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">InvoiceStatus</span>({ <span style="color:#a6e22e">status</span> }<span style="color:#f92672">:</span> { <span style="color:#a6e22e">status</span>: <span style="color:#66d9ef">string</span> }) {
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> (
@@ -510,14 +510,14 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>      )}
 </span></span><span style="display:flex;"><span>    &gt;
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ...
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>)}
+</span></span></span><span style="display:flex;"><span>)}
 </span></span></code></pre></div><h2 id="优化字体和图像">优化字体和图像</h2>
 <p>字体在网站设计中发挥着重要作用，但如果需要获取和加载字体文件，在项目中使用自定义字体可能会影响性能。<a href="https://vercel.com/blog/how-core-web-vitals-affect-seo">累积布局偏移</a>是 Google 用于评估网站性能和用户体验的指标。对于字体，当浏览器最初以后备字体或系统字体呈现文本，然后在加载后将其交换为自定义字体时，就会发生布局转换。这种交换可能会导致文本大小、间距或布局发生变化，从而移动其周围的元素。</p>
 <p>当您使用<code>next/font</code>模块时，<code>Next.js</code> 会自动优化应用程序中的字体。它在构建时下载字体文件并将它们与其他静态资产一起托管。这意味着当用户访问您的应用程序时，不会出现会影响性能的额外网络请求字体。</p>
 <h3 id="添加字体">添加字体</h3>
 <p>让我们向您的应用程序添加自定义 <code>Google</code> 字体，看看它是如何工作的！在 <code>/app/ui</code> 文件夹中，创建一个名为 <code>fonts.ts</code> 的新文件。您将使用此文件来保留将在整个应用程序中使用的字体。从 <code>next/font/google</code> 模块导入 <code>Inter</code> 字体 - 这将是您的主要字体。然后，指定您要加载的子集。在这种情况下，&ldquo;拉丁语&rdquo;：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-tsx" data-lang="tsx"><span style="display:flex;"><span><span style="color:#75715e">// /app/ui/fonts.ts
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">Inter</span>, <span style="color:#a6e22e">Lusitana</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;next/font/google&#39;</span>;
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">Inter</span>, <span style="color:#a6e22e">Lusitana</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;next/font/google&#39;</span>;
 </span></span><span style="display:flex;"><span> 
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">inter</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">Inter</span>({ <span style="color:#a6e22e">subsets</span><span style="color:#f92672">:</span> [<span style="color:#e6db74">&#39;latin&#39;</span>] });
 </span></span><span style="display:flex;"><span> 
@@ -527,7 +527,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>});
 </span></span></code></pre></div><p>最后将字体添加到 <code>/app/layout.tsx</code> 中的元素：看第二行import和body标签的<code>inter.className</code>。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-tsx" data-lang="tsx"><span style="display:flex;"><span><span style="color:#75715e">// /app/layout.tsx
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;@/app/ui/global.css&#39;</span>;
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#e6db74">&#39;@/app/ui/global.css&#39;</span>;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">inter</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;@/app/ui/fonts&#39;</span>;
 </span></span><span style="display:flex;"><span> 
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">RootLayout</span>({
@@ -565,7 +565,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </ul>
 <p>在 <code>/app/page.tsx</code> 文件中，从 <code>next/image</code> 导入组件。然后，在注释下添加图片:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-tsx" data-lang="tsx"><span style="display:flex;"><span><span style="color:#75715e">// /app/page.tsx
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">AcmeLogo</span> <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;@/app/ui/acme-logo&#39;</span>;
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">AcmeLogo</span> <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;@/app/ui/acme-logo&#39;</span>;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">ArrowRightIcon</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;@heroicons/react/24/outline&#39;</span>;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">Link</span> <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;next/link&#39;</span>;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">lusitana</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;@/app/ui/fonts&#39;</span>;
@@ -574,7 +574,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">Page() {</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> (
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ...
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">className</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;flex items-center justify-center p-6 md:w-3/5 md:px-28 md:py-12&#34;</span>&gt;
+</span></span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">className</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;flex items-center justify-center p-6 md:w-3/5 md:px-28 md:py-12&#34;</span>&gt;
 </span></span><span style="display:flex;"><span>      {<span style="color:#75715e">/* Add Hero Images Here */</span>}
 </span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">Image</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/hero-desktop.png&#34;</span>
@@ -592,7 +592,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>      /&gt;
 </span></span><span style="display:flex;"><span>    &lt;/<span style="color:#f92672">div</span>&gt;
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">//...
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  );
+</span></span></span><span style="display:flex;"><span>  );
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>在这里，您将width设置为1000 ， height设置为760像素。<strong>最好设置图像的width和height以避免布局移位，这些宽高比应该与源图像相同</strong>。您还会注意到 <code>hidden</code> 类用于从移动屏幕上的 DOM 中删除图像，以及 <code>md:block</code> 用于在桌面屏幕上显示图像。类似的 <code>block md:hidden</code> 用于在移动屏幕上显示图像，而在平板上隐藏图像。</p>
 <h2 id="布局和页面">布局和页面</h2>
@@ -607,7 +607,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <h3 id="创建布局">创建布局</h3>
 <p>仪表板具有某种跨多个页面共享的导航。在 Next.js 中，您可以使用特殊的layout.tsx文件来创建在多个页面之间共享的 UI。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-tsx" data-lang="tsx"><span style="display:flex;"><span><span style="color:#75715e">// /app/dashboard/layout.tsx
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">SideNav</span> <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;@/app/ui/dashboard/sidenav&#39;</span>;
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">SideNav</span> <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;@/app/ui/dashboard/sidenav&#39;</span>;
 </span></span><span style="display:flex;"><span> 
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">Layout</span>({ <span style="color:#a6e22e">children</span> }<span style="color:#f92672">:</span> { <span style="color:#a6e22e">children</span>: <span style="color:#66d9ef">React.ReactNode</span> }) {
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> (
@@ -630,7 +630,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">Link</span> <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;next/link&#39;</span>;
 </span></span><span style="display:flex;"><span> 
 </span></span><span style="display:flex;"><span><span style="color:#75715e">// ...
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> 
+</span></span></span><span style="display:flex;"><span> 
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">NavLinks() {</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> (
 </span></span><span style="display:flex;"><span>    &lt;&gt;
@@ -666,7 +666,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">clsx</span> <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;clsx&#39;</span>;
 </span></span><span style="display:flex;"><span> 
 </span></span><span style="display:flex;"><span><span style="color:#75715e">// ...
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> 
+</span></span></span><span style="display:flex;"><span> 
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">NavLinks() {</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">pathname</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">usePathname</span>();
 </span></span><span style="display:flex;"><span> 
@@ -702,7 +702,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </ul>
 <p>NextJS的教程主要是如何使用SQL查询数据，但我想用API来获取数据。这里整理下通用的一些东西。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-tsx" data-lang="tsx"><span style="display:flex;"><span><span style="color:#75715e">// /app/dashboard/page.tsx
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">Card</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;@/app/ui/dashboard/cards&#39;</span>;
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">Card</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;@/app/ui/dashboard/cards&#39;</span>;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">RevenueChart</span> <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;@/app/ui/dashboard/revenue-chart&#39;</span>;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">LatestInvoices</span> <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;@/app/ui/dashboard/latest-invoices&#39;</span>;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">lusitana</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;@/app/ui/fonts&#39;</span>;
@@ -713,7 +713,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;@/app/lib/data&#39;</span>;
 </span></span><span style="display:flex;"><span> 
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">Page() {</span> <span style="color:#75715e">// async方法，从而可以使用async/await语法
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">revenue</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">fetchRevenue</span>();
+</span></span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">revenue</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">fetchRevenue</span>();
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">latestInvoices</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">fetchLatestInvoices</span>();
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">numberOfInvoices</span>,
@@ -746,18 +746,18 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">// 获取数据的一个例子，主要关注如何使用Promise和setTimeout
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">fetchRevenue() {</span>
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">fetchRevenue() {</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">try</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Artificially delay a response for demo purposes.
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// Don&#39;t do this in production :)
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Don&#39;t do this in production :)
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// console.log(&#39;Fetching revenue data...&#39;);
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// await new Promise((resolve) =&gt; setTimeout(resolve, 3000));
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">// await new Promise((resolve) =&gt; setTimeout(resolve, 3000));
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">data</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">sql</span>&lt;<span style="color:#f92672">Revenue</span>&gt;<span style="color:#e6db74">`SELECT * FROM revenue`</span>;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// console.log(&#39;Data fetch completed after 3 seconds.&#39;);
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">rows</span>;
 </span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">catch</span> (<span style="color:#a6e22e">error</span>) {
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">error</span>(<span style="color:#e6db74">&#39;Database Error:&#39;</span>, <span style="color:#a6e22e">error</span>);
@@ -780,7 +780,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">invoiceStatusPromise</span>,
 </span></span><span style="display:flex;"><span>    ]);
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ...
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  }
+</span></span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h2 id="静态渲染和动态渲染">静态渲染和动态渲染</h2>
 <h3 id="什么是静态渲染">什么是静态渲染？</h3>
@@ -807,12 +807,12 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p><code>loading.tsx</code> 是一个基于 <code>Suspense</code> 构建的特殊 <code>Next.js</code> 文件，它允许您创建后备 UI 以在页面内容加载时显示为替换。</p>
 <p>最基本的：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-tsx" data-lang="tsx"><span style="display:flex;"><span><span style="color:#75715e">// /app/dashboard/loading.tsx
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">Loading() {</span>
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">Loading() {</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> &lt;<span style="color:#f92672">div</span>&gt;<span style="color:#a6e22e">Loading</span>...&lt;/<span style="color:#f92672">div</span>&gt;;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>添加加载骨架：加载骨架是 UI 的简化版本。许多网站使用它们作为占位符（或后备）来向用户指示内容正在加载。您在loading.tsx中添加的任何UI都将作为静态文件的一部分嵌入，并首先发送。然后，其余的动态内容将从服务器流式传输到客户端。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-tsx" data-lang="tsx"><span style="display:flex;"><span><span style="color:#75715e">// /app/dashboard/loading.tsx
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">DashboardSkeleton</span> <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;@/app/ui/skeletons&#39;</span>;
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">DashboardSkeleton</span> <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;@/app/ui/skeletons&#39;</span>;
 </span></span><span style="display:flex;"><span> 
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">Loading() {</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> &lt;<span style="color:#f92672">DashboardSkeleton</span> /&gt;;
@@ -820,7 +820,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">// /app/ui/skeletons.tsx
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">DashboardSkeleton() {</span>
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">default</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">DashboardSkeleton() {</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> (
 </span></span><span style="display:flex;"><span>    &lt;&gt;
 </span></span><span style="display:flex;"><span>      &lt;<span style="color:#f92672">div</span>
@@ -898,7 +898,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>将组件包装在 Suspense 中并不会使组件本身变得动态，而是 Suspense 被用作静态和动态代码之间的边界。</p>
 <h3 id="启用部分预渲染">启用部分预渲染</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-tsx" data-lang="tsx"><span style="display:flex;"><span><span style="color:#75715e">// next.config.ts
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">import</span> <span style="color:#66d9ef">type</span> { <span style="color:#a6e22e">NextConfig</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;next&#39;</span>;
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#66d9ef">type</span> { <span style="color:#a6e22e">NextConfig</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#39;next&#39;</span>;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">nextConfig</span>: <span style="color:#66d9ef">NextConfig</span> <span style="color:#f92672">=</span> {
 </span></span><span style="display:flex;"><span>  <span style="color:#75715e">/* config options here */</span>

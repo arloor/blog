@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.153.1">
 
     
     
@@ -474,10 +474,10 @@ master_name,master_ip,master_port,master_config_epoch
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* Only masters */</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (ri<span style="color:#f92672">-&gt;</span>flags <span style="color:#f92672">&amp;</span> SRI_MASTER) {
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e">//主观下线状态更新
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#a6e22e">sentinelCheckObjectivelyDown</span>(ri);
+</span></span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">sentinelCheckObjectivelyDown</span>(ri);
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">sentinelStartFailoverIfNeeded</span>(ri))
 </span></span><span style="display:flex;"><span>            <span style="color:#75715e">//询问其他sentinel该master是否为sdown，并可能伴随选举leader
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#a6e22e">sentinelAskMasterStateToOtherSentinels</span>(ri,SENTINEL_ASK_FORCED);
+</span></span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">sentinelAskMasterStateToOtherSentinels</span>(ri,SENTINEL_ASK_FORCED);
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">sentinelFailoverStateMachine</span>(ri);
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">sentinelAskMasterStateToOtherSentinels</span>(ri,SENTINEL_NO_FLAGS);
 </span></span><span style="display:flex;"><span>    }
@@ -566,7 +566,7 @@ master_name,master_ip,master_port,master_config_epoch
 </span></span><span style="display:flex;"><span>            (<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span>) sentinel.current_epoch);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">//决定是否投给他
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (master<span style="color:#f92672">-&gt;</span>leader_epoch <span style="color:#f92672">&lt;</span> req_epoch <span style="color:#f92672">&amp;&amp;</span> sentinel.current_epoch <span style="color:#f92672">&lt;=</span> req_epoch)
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (master<span style="color:#f92672">-&gt;</span>leader_epoch <span style="color:#f92672">&lt;</span> req_epoch <span style="color:#f92672">&amp;&amp;</span> sentinel.current_epoch <span style="color:#f92672">&lt;=</span> req_epoch)
 </span></span><span style="display:flex;"><span>    {
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">sdsfree</span>(master<span style="color:#f92672">-&gt;</span>leader);
 </span></span><span style="display:flex;"><span>        master<span style="color:#f92672">-&gt;</span>leader <span style="color:#f92672">=</span> <span style="color:#a6e22e">sdsnew</span>(req_runid);

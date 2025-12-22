@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.153.1">
 
     
     
@@ -344,7 +344,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>The following code snippet shows how to read the parent field of a kernel task_struct using BPF CO-RE and libbf. The basic helper to read a field in a CO-RE relocatable manner is bpf_core_read(dst, sz, src), which will read sz bytes from the field referenced by src into the memory pointed to by dst.</p>
 <p>下面的代码片段显示了如何使用BPF CO-RE和libbf读取内核task_struct的parent字段。以可重定位方式读取struct的field的基础BPF helper是bpf_core_read(dst, sz, src)，它将从src引用的字段中读取sz字节到dst指向的内存中。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">//...
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> <span style="color:#66d9ef">struct</span> task_struct <span style="color:#f92672">*</span>task <span style="color:#f92672">=</span> (<span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>)<span style="color:#a6e22e">bpf_get_current_task</span>();
+</span></span></span><span style="display:flex;"><span> <span style="color:#66d9ef">struct</span> task_struct <span style="color:#f92672">*</span>task <span style="color:#f92672">=</span> (<span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>)<span style="color:#a6e22e">bpf_get_current_task</span>();
 </span></span><span style="display:flex;"><span> <span style="color:#66d9ef">struct</span> task_struct <span style="color:#f92672">*</span>parent_task;
 </span></span><span style="display:flex;"><span> <span style="color:#66d9ef">int</span> err;
 </span></span><span style="display:flex;"><span>

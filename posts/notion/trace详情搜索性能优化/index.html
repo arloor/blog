@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.153.1">
 
     
     
@@ -369,7 +369,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>补充一点，如果建表语句中 <code>partition by</code> 包含date类型的字段，则也会创建该字段的MinMax索引。</p>
 <p>sql查询中有两个相关的settings刚好对应上面两个condition。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>force_index_by_date<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, <span style="color:#75715e">---- 强制使用date的MinMax索引，否则报错
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>force_primary_key<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>;   <span style="color:#75715e">---- 强制使用primary key索引，否则报错
+</span></span></span><span style="display:flex;"><span>force_primary_key<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>;   <span style="color:#75715e">---- 强制使用primary key索引，否则报错
 </span></span></span></code></pre></div><p>在explain中也能看到<code>key condition</code> 和 <code>MinMax index condition</code>工作的身影，下面会涉及。日志显示这个查询使用了projection中的主键，但无minmax索引可用。这导致扫描了所有的data part，所以耗时很长。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span>Selected <span style="color:#ae81ff">848</span><span style="color:#f92672">/</span><span style="color:#ae81ff">848</span> parts <span style="color:#66d9ef">by</span> partition <span style="color:#66d9ef">key</span>, <span style="color:#ae81ff">841</span> parts <span style="color:#66d9ef">by</span> <span style="color:#66d9ef">primary</span> <span style="color:#66d9ef">key</span>, <span style="color:#ae81ff">841</span><span style="color:#f92672">/</span><span style="color:#ae81ff">11545564</span> marks <span style="color:#66d9ef">by</span> <span style="color:#66d9ef">primary</span> <span style="color:#66d9ef">key</span>, <span style="color:#ae81ff">841</span> marks <span style="color:#66d9ef">to</span> <span style="color:#66d9ef">read</span> <span style="color:#66d9ef">from</span> <span style="color:#ae81ff">841</span> ranges
 </span></span></code></pre></div><h2 id="有价值的尝试">有价值的尝试</h2>
@@ -469,7 +469,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>(
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">`</span>trace_id<span style="color:#f92672">`</span>      String,
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">`</span>trace_id_time<span style="color:#f92672">`</span> DateTime, <span style="color:#75715e">--- 新增的重要字段，用于走MinMax索引
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#f92672">`</span>apps<span style="color:#f92672">`</span> SimpleAggregateFunction(groupUniqArrayArray,Array(String)),
+</span></span></span><span style="display:flex;"><span>    <span style="color:#f92672">`</span>apps<span style="color:#f92672">`</span> SimpleAggregateFunction(groupUniqArrayArray,Array(String)),
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">`</span>min_start_timestamp_micros<span style="color:#f92672">`</span> SimpleAggregateFunction(<span style="color:#66d9ef">min</span>,DateTime64(<span style="color:#ae81ff">6</span>)),
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">`</span>max_start_timestamp_micros<span style="color:#f92672">`</span> SimpleAggregateFunction(<span style="color:#66d9ef">max</span>,DateTime64(<span style="color:#ae81ff">6</span>)),
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">`</span>errors<span style="color:#f92672">`</span>        Int32
@@ -483,7 +483,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>(
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">`</span>trace_id<span style="color:#f92672">`</span>      String,
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">`</span>trace_id_time<span style="color:#f92672">`</span> DateTime, <span style="color:#75715e">--- 新增的重要字段，用于走MinMax索引
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#f92672">`</span>apps<span style="color:#f92672">`</span> SimpleAggregateFunction(groupUniqArrayArray,Array(String)),
+</span></span></span><span style="display:flex;"><span>    <span style="color:#f92672">`</span>apps<span style="color:#f92672">`</span> SimpleAggregateFunction(groupUniqArrayArray,Array(String)),
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">`</span>min_start_timestamp_micros<span style="color:#f92672">`</span> SimpleAggregateFunction(<span style="color:#66d9ef">min</span>,DateTime64(<span style="color:#ae81ff">6</span>)),
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">`</span>max_start_timestamp_micros<span style="color:#f92672">`</span> SimpleAggregateFunction(<span style="color:#66d9ef">max</span>,DateTime64(<span style="color:#ae81ff">6</span>)),
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">`</span>errors<span style="color:#f92672">`</span>        Int32
@@ -510,7 +510,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">where</span> 
 </span></span><span style="display:flex;"><span><span style="color:#75715e">/*对于老traceId，范围查询，加减一小时*/</span>trace_id_time <span style="color:#66d9ef">between</span> <span style="color:#f92672">#</span><span style="color:#960050;background-color:#1e0010">{</span>traceIdTime<span style="color:#960050;background-color:#1e0010">}</span> <span style="color:#f92672">-</span> toIntervalHour(<span style="color:#ae81ff">1</span>)) <span style="color:#66d9ef">and</span> <span style="color:#f92672">#</span><span style="color:#960050;background-color:#1e0010">{</span>traceIdTime<span style="color:#960050;background-color:#1e0010">}</span> <span style="color:#f92672">+</span> toIntervalHour(<span style="color:#ae81ff">1</span>))
 </span></span><span style="display:flex;"><span><span style="color:#75715e">/*对于新traceId，时间点查*/</span> <span style="color:#75715e">---trace_id_time =#{traceIdTime}
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">and</span> trace_id <span style="color:#f92672">=</span> <span style="color:#f92672">#</span><span style="color:#960050;background-color:#1e0010">{</span>traceId<span style="color:#960050;background-color:#1e0010">}</span>
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">and</span> trace_id <span style="color:#f92672">=</span> <span style="color:#f92672">#</span><span style="color:#960050;background-color:#1e0010">{</span>traceId<span style="color:#960050;background-color:#1e0010">}</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">group</span> <span style="color:#66d9ef">by</span> trace_id, trace_id_time;
 </span></span></code></pre></div><p>查询日志：</p>
 <p>可以看到即用到了 <code>key condition</code> 又用到了 <code>MinMax index condition</code> 并且最后执行的是二分查找，可以说是最佳的情况了。</p>

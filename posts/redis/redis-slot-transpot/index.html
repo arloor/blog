@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.153.1">
 
     
     
@@ -434,7 +434,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <h2 id="附录仅备忘防止重复工作">附录——仅备忘，防止重复工作</h2>
 <p>快速执行redis-trib的脚本</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#! /bin/bash
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e"># 用于快速迁移一个槽点</span>
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"># 用于快速迁移一个槽点</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#一般还是不能直接用的，需要保证需要迁移的slot迁移前后都在节点slots的最前面；并自己修改一些a和b中的一些参数</span>
 </span></span><span style="display:flex;"><span>a<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;redis-trib.rb reshard --yes --from   34a5f5f4f6f2cf0da57ef51d2902feb3103c161b  --to  004c9d0adad075161658c3a2f972591a265ec83c   --slots 1  --timeout 10000   --pipeline 50 99.47.149.25:6419&#34;</span>
 </span></span><span style="display:flex;"><span>b<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;redis-trib.rb reshard --yes  --from   004c9d0adad075161658c3a2f972591a265ec83c --to   34a5f5f4f6f2cf0da57ef51d2902feb3103c161b  --slots 1  --timeout 10000   --pipeline 50 99.47.149.25:6419&#34;</span>

@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.152.2">
+<meta name="generator" content="Hugo 0.153.1">
 
     
     
@@ -349,15 +349,15 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bpf/bpf_helpers.h&gt;</span><span style="color:#75715e">
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bpf/bpf_core_read.h&gt;</span><span style="color:#75715e">
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bpf/bpf_tracing.h&gt;</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">// copy from #include &lt;linux/if_ether.h&gt;
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#define ETH_HLEN	14		</span><span style="color:#75715e">/* Total octets in header.	 */</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">// copy from  &lt;linux/if_packet.h&gt;
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#define PACKET_OUTGOING		4		</span><span style="color:#75715e">/* Outgoing of any type */</span><span style="color:#75715e">
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define ETH_HLEN	14		</span><span style="color:#75715e">/* Total octets in header.	 */</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// copy from  &lt;linux/if_packet.h&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define PACKET_OUTGOING		4		</span><span style="color:#75715e">/* Outgoing of any type */</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#define IP_PROTO_OFF offsetof(struct iphdr, protocol)
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">#define IP_DEST_OFF offsetof(struct iphdr, daddr)
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> {
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">__uint</span>(type, BPF_MAP_TYPE_ARRAY);
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">__uint</span>(max_entries, <span style="color:#ae81ff">1</span>);
@@ -371,7 +371,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">SEC</span>(<span style="color:#e6db74">&#34;socket&#34;</span>)
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">bpf_program</span>(<span style="color:#66d9ef">struct</span> __sk_buff <span style="color:#f92672">*</span>skb) {
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Only outgoing packets
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (skb<span style="color:#f92672">-&gt;</span>pkt_type <span style="color:#f92672">!=</span> PACKET_OUTGOING) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (skb<span style="color:#f92672">-&gt;</span>pkt_type <span style="color:#f92672">!=</span> PACKET_OUTGOING) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    __u32 proto <span style="color:#f92672">=</span> IPPROTO_IP;
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">long</span> <span style="color:#f92672">*</span>value <span style="color:#f92672">=</span> <span style="color:#a6e22e">bpf_map_lookup_elem</span>(<span style="color:#f92672">&amp;</span>map, <span style="color:#f92672">&amp;</span>proto);
@@ -425,8 +425,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> builder <span style="color:#f92672">=</span> SkeletonBuilder::new();
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> builder <span style="color:#f92672">=</span> builder.source(<span style="color:#66d9ef">SRC</span>);
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 不依赖本地的vmlinux.h，而是使用libbpf-bootstrap项目提供的vmlinux.h，详见build-dependencies
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// builder.clang_args([&#34;-I.&#34;]);
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    {
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">// builder.clang_args([&#34;-I.&#34;]);
+</span></span></span><span style="display:flex;"><span>    {
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">use</span> std::ffi::OsStr;
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> arch <span style="color:#f92672">=</span> env::var(<span style="color:#e6db74">&#34;CARGO_CFG_TARGET_ARCH&#34;</span>)
 </span></span><span style="display:flex;"><span>        .expect(<span style="color:#e6db74">&#34;CARGO_CFG_TARGET_ARCH must be set in build script&#34;</span>);
@@ -474,7 +474,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> skel <span style="color:#f92672">=</span> open_and_load_socket_filter_prog();
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> all_interfaces <span style="color:#f92672">=</span> datalink::interfaces();
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 遍历接口列表
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">for</span> iface <span style="color:#66d9ef">in</span> all_interfaces {
+</span></span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> iface <span style="color:#66d9ef">in</span> all_interfaces {
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> iface.name.starts_with(<span style="color:#e6db74">&#34;lo&#34;</span>)<span style="color:#f92672">||</span>iface.name.starts_with(<span style="color:#e6db74">&#34;podman&#34;</span>)<span style="color:#f92672">||</span>iface.name.starts_with(<span style="color:#e6db74">&#34;veth&#34;</span>)<span style="color:#f92672">||</span>iface.name.starts_with(<span style="color:#e6db74">&#34;flannel&#34;</span>)<span style="color:#f92672">||</span>iface.name.starts_with(<span style="color:#e6db74">&#34;cni0&#34;</span>)<span style="color:#f92672">||</span>iface.name.starts_with(<span style="color:#e6db74">&#34;utun&#34;</span>) {
 </span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">continue</span>;
 </span></span><span style="display:flex;"><span>            }
