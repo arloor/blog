@@ -26,42 +26,37 @@ sqlx = { version = "0.8.2", features = [
 sqlx-mysql = "0.8.2" # mysql驱动
 ```
 
-## 查询宏
+## 代码生成
 
-sqlx 支持自动生成 sql 查询语句对应的 Rust struct，这在编译期实现，因此可以在编译期确保你的 rust 代码和数据库表字段类型正确对应。又分为 online 代码生成和 offline 代码生成。
-
-- online 指每次 cargo build 都扫描一次数据库表结构
-- offline 指第一次 cargo build 扫描并生成缓存文件，后续直接使用缓存文件，直到表结构发生改变该缓存失效。
-
-> set `DATABASE_URL` to use query macros online, or run `cargo sqlx prepare` to update the query cache
-
-如引用文字所述，需要设置`DATABASE_URL` 以激活 online 的运行时代码生成或者执行`cargo sqlx prepare`来进行 offline 代码生成。
-
-### 设置 DATABASE_URL 环境变量，进行 online 代码生成
-
-方式一：在项目根目录下创建 `.env` 文件，文件内容如下（**推荐**）：
-
-```bash
-DATABASE_URL=mysql://user:passwd@host:3306/test?ssl-mode=Required&timezone=%2B08:00
+```rust
+let rows = sqlx::query!(r"show variables like '%time_zone%';")
+    .fetch_all(&pool)
+    .await?;
 ```
 
-方式二：在 vscode 的`tasks.json`的 `cargo build` 任务中设置该环境变量
+上面的 `sqlx::query!` 查询宏自动生成了 sql 结果集对应的 `Rust struct`。这在编译期实现，因此可以在编译期确保你的 rust 代码和数据库表字段类型正确对应。又分为 `online` 代码生成和 `offline` 代码生成。
 
-```json
-"env": {
-    "DATABASE_URL": "mysql://user:passwd@host:3306/test?ssl-mode=Required&timezone=%2B08:00"
-}
-```
+- **online：** 指每次 cargo build 都扫描一次数据库表结构
+- **offline：** 指第一次 cargo build 扫描并生成缓存文件，后续直接使用缓存文件，直到表结构发生改变该缓存失效。
+
+### online 代码生成
+
+设置 `DATABASE_URL` 环境变量即可
+
+| 方式   | 说明                                                          | 配置示例                                                                                              | 推荐 |
+| ------ | ------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- | ---- |
+| 方式一 | 在项目根目录下创建 `.env` 文件                                | `DATABASE_URL=mysql://user:passwd@host:3306/test?ssl-mode=Required&timezone=%2B08:00`                 | ✅   |
+| 方式二 | 在 VSCode 的 `tasks.json` 的 `cargo build` 任务中设置环境变量 | `"env": { "DATABASE_URL": "mysql://user:passwd@host:3306/test?ssl-mode=Required&timezone=%2B08:00" }` |      |
 
 ### offline 代码生成
 
 1. 首先安装 sqlx-cli: 这里仅激活了 rustls 和 mysql 驱动的 feature
 
 ```bash
- cargo install sqlx-cli --no-default-features --features rustls,mysql
+cargo install sqlx-cli --no-default-features --features rustls,mysql
 ```
 
-2. 然后使用“设置 DATABASE_URL 环境变量”中的方式一设置环境变量
+2. 设置 `DATABASE_URL` 环境变量，方式同上
 
 3. 最后执行下面的命令:
 
@@ -208,10 +203,6 @@ match result {
     }
 }
 ```
-
-### 方式三：手动管理连接生命周期
-
-适合需要精确控制连接获取和释放的场景。
 
 ### 方式三：手动管理连接生命周期
 
