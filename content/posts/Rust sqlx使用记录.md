@@ -66,19 +66,38 @@ cargo sqlx prepare
 
 此时，会生成 `.sqlx` 文件夹，其中保存了缓存信息。这种方式的好处是，不需要将 `.env` 提交到代码仓库。
 
-### 强制使用 offline 代码生成的缓存
+#### 强制使用 offline 缓存
 
-在既有`DATABASE_URL`环境变量又有`.sqlx` 文件夹的情况下，sqlx 会优先使用`DATABASE_URL`环境变量进行 online 代码生成，从而确保代码是最新的。如果要强制使用`.sqlx` 文件夹的缓存，则需要在`.env` 中增加
+在既有 `DATABASE_URL` 环境变量又有 `.sqlx` 文件夹的情况下，sqlx 会优先使用 `DATABASE_URL` 环境变量进行 online 代码生成，从而确保代码是最新的。
+
+如果要强制使用`.sqlx` 文件夹的缓存，则需要在`.env` 中增加
 
 ```bash
 SQLX_OFFLINE=true
 ```
 
-参考文档：[Enable building in "offline mode" with query!()](https://github.com/launchbadge/sqlx/blob/main/sqlx-cli/README.md#enable-building-in-offline-mode-with-query)
-
 ### 查询宏 `query_as!`
 
-可以自定义 struct name，前提是 struct 需要 derive FromRow
+可以自定义 struct ，前提是 struct 需要 `derive FromRow`
+
+```rust
+#[derive(sqlx::FromRow)]
+struct StockRankChangeDB {
+    market: String,
+    code: String,
+    name: String,
+    calc_time: Option<NaiveDateTime>,
+    current_rank: i32,
+    ten_minute_change: Option<i32>,
+    thirty_minute_change: Option<i32>,
+    hour_change: i32,
+    day_change: i32,
+    realtime_data: Option<String>,
+    today_posts: Option<String>,
+    today_posts_fetch_err: Option<String>,
+    created_at: Option<NaiveDateTime>,
+}
+```
 
 ## 连接池初始化
 
@@ -94,7 +113,7 @@ let pool: sqlx::Pool<sqlx::MySql> = MySqlPoolOptions::new()
     .await?;
 ```
 
-### 方式二：使用配置选项（推荐）
+### 方式二：使用配置选项
 
 ```rust
 info!("connecting to mysql...");
@@ -260,3 +279,4 @@ match self.mysql_pool.acquire().await {
 
 1. [sqlx 目前只有 pg 支持 batch insert，mysql 不支持](https://github.com/launchbadge/sqlx/blob/main/FAQ.md#how-can-i-bind-an-array-to-a-values-clause-how-can-i-do-bulk-inserts)
 2. [容器运行 mysql9+ssl 配置](https://www.arloor.com/posts/mysql9-docker-ssl/)
+3. [Enable building in "offline mode" with query!()](https://github.com/launchbadge/sqlx/blob/main/sqlx-cli/README.md#enable-building-in-offline-mode-with-query)
