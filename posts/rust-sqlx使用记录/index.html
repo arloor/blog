@@ -282,7 +282,21 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
         <li><a href="#查询宏-query_as">查询宏 <code>query_as!</code></a></li>
       </ul>
     </li>
-    <li><a href="#整体使用">整体使用</a></li>
+    <li><a href="#连接池初始化">连接池初始化</a>
+      <ul>
+        <li><a href="#方式一使用连接字符串">方式一：使用连接字符串</a></li>
+        <li><a href="#方式二使用配置选项推荐">方式二：使用配置选项（推荐）</a></li>
+      </ul>
+    </li>
+    <li><a href="#查询执行方式">查询执行方式</a>
+      <ul>
+        <li><a href="#方式一使用连接池中的单个连接">方式一：使用连接池中的单个连接</a></li>
+        <li><a href="#方式二直接使用连接池">方式二：直接使用连接池</a></li>
+        <li><a href="#方式三手动管理连接生命周期">方式三：手动管理连接生命周期</a></li>
+        <li><a href="#方式三手动管理连接生命周期-1">方式三：手动管理连接生命周期</a></li>
+      </ul>
+    </li>
+    <li><a href="#注意事项">注意事项</a></li>
     <li><a href="#参考文档">参考文档</a></li>
   </ul>
 </nav>
@@ -312,7 +326,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>如引用文字所述，需要设置<code>DATABASE_URL</code> 以激活 online 的运行时代码生成或者执行<code>cargo sqlx prepare</code>来进行 offline 代码生成。</p>
 <h3 id="设置-database_url-环境变量进行-online-代码生成">设置 DATABASE_URL 环境变量，进行 online 代码生成</h3>
 <p>方式一：在项目根目录下创建 <code>.env</code> 文件，文件内容如下（<strong>推荐</strong>）：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span><span style="color:#a6e22e">DATABASE_URL</span>=<span style="color:#a6e22e">mysql</span><span style="color:#960050;background-color:#1e0010">://</span><span style="color:#a6e22e">user</span><span style="color:#960050;background-color:#1e0010">:</span><span style="color:#a6e22e">passwd</span><span style="color:#960050;background-color:#1e0010">@</span><span style="color:#a6e22e">host</span><span style="color:#960050;background-color:#1e0010">:</span><span style="color:#ae81ff">3306</span><span style="color:#960050;background-color:#1e0010">/</span><span style="color:#a6e22e">test</span><span style="color:#960050;background-color:#1e0010">?</span><span style="color:#a6e22e">ssl-mode</span>=<span style="color:#a6e22e">Required</span><span style="color:#960050;background-color:#1e0010">&amp;</span><span style="color:#a6e22e">timezone</span>=<span style="color:#960050;background-color:#1e0010">%</span><span style="color:#ae81ff">2</span><span style="color:#a6e22e">B08</span><span style="color:#960050;background-color:#1e0010">:</span><span style="color:#ae81ff">00</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>DATABASE_URL<span style="color:#f92672">=</span>mysql://user:passwd@host:3306/test?ssl-mode<span style="color:#f92672">=</span>Required&amp;timezone<span style="color:#f92672">=</span>%2B08:00
 </span></span></code></pre></div><p>方式二：在 vscode 的<code>tasks.json</code>的 <code>cargo build</code> 任务中设置该环境变量</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span><span style="color:#e6db74">&#34;env&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;DATABASE_URL&#34;</span>: <span style="color:#e6db74">&#34;mysql://user:passwd@host:3306/test?ssl-mode=Required&amp;timezone=%2B08:00&#34;</span>
@@ -338,44 +352,57 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><p>参考文档：<a href="https://github.com/launchbadge/sqlx/blob/main/sqlx-cli/README.md#enable-building-in-offline-mode-with-query">Enable building in &ldquo;offline mode&rdquo; with query!()</a></p>
 <h3 id="查询宏-query_as">查询宏 <code>query_as!</code></h3>
 <p>可以自定义 struct name，前提是 struct 需要 derive FromRow</p>
-<h2 id="整体使用">整体使用</h2>
+<h2 id="连接池初始化">连接池初始化</h2>
+<p>创建 MySQL 连接池有两种方式：</p>
+<h3 id="方式一使用连接字符串">方式一：使用连接字符串</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#a6e22e">info!</span>(<span style="color:#e6db74">&#34;connecting to mysql...&#34;</span>);
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> pool: <span style="color:#a6e22e">sqlx</span>::Pool<span style="color:#f92672">&lt;</span>sqlx::MySql<span style="color:#f92672">&gt;</span> <span style="color:#f92672">=</span> MySqlPoolOptions::new()
 </span></span><span style="display:flex;"><span>    .max_connections(<span style="color:#ae81ff">20</span>)
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// .connect(&#34;mysql://user:passwprd@host:3306/test?ssl-mode=Required&amp;timezone=%2B08:00&#34;) // 注意url部分需要urlencode
-</span></span></span><span style="display:flex;"><span>    .connect_with(
+</span></span><span style="display:flex;"><span>    .connect(<span style="color:#e6db74">&#34;mysql://user:password@host:3306/test?ssl-mode=Required&amp;timezone=%2B08:00&#34;</span>) <span style="color:#75715e">// URL 需要 urlencode
+</span></span></span><span style="display:flex;"><span>    .<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
+</span></span></code></pre></div><h3 id="方式二使用配置选项推荐">方式二：使用配置选项（推荐）</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#a6e22e">info!</span>(<span style="color:#e6db74">&#34;connecting to mysql...&#34;</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> pool: <span style="color:#a6e22e">sqlx</span>::Pool<span style="color:#f92672">&lt;</span>sqlx::MySql<span style="color:#f92672">&gt;</span> <span style="color:#f92672">=</span> MySqlPoolOptions::new()
+</span></span><span style="display:flex;"><span>    .max_connections(<span style="color:#ae81ff">20</span>)
+</span></span><span style="display:flex;"><span>    .connect_with(
 </span></span><span style="display:flex;"><span>        MySqlConnectOptions::new()
 </span></span><span style="display:flex;"><span>            .host(<span style="color:#e6db74">&#34;host&#34;</span>)
 </span></span><span style="display:flex;"><span>            .username(<span style="color:#e6db74">&#34;user&#34;</span>)
-</span></span><span style="display:flex;"><span>            .password(<span style="color:#e6db74">&#34;passwrod&#34;</span>)
+</span></span><span style="display:flex;"><span>            .password(<span style="color:#e6db74">&#34;password&#34;</span>)
 </span></span><span style="display:flex;"><span>            .database(<span style="color:#e6db74">&#34;test&#34;</span>)
 </span></span><span style="display:flex;"><span>            .ssl_mode(MySqlSslMode::Required)
 </span></span><span style="display:flex;"><span>            .timezone(Some(String::from(<span style="color:#e6db74">&#34;+08:00&#34;</span>))),
 </span></span><span style="display:flex;"><span>    )
 </span></span><span style="display:flex;"><span>    .<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// 获取connection
+</span></span></code></pre></div><h2 id="查询执行方式">查询执行方式</h2>
+<h3 id="方式一使用连接池中的单个连接">方式一：使用连接池中的单个连接</h3>
+<p>适合需要在同一连接上执行多次查询的场景。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#75715e">// 从连接池获取连接
 </span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> conn <span style="color:#f92672">=</span> pool.acquire().<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// 查询
-</span></span></span><span style="display:flex;"><span>select_variables(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> conn).<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>; <span style="color:#75715e">//此处有一个deref_mut()，从PoolConnection&lt;sqlx::MySql&gt; 转成 sqlx::MySqlConnection
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 执行查询函数
+</span></span></span><span style="display:flex;"><span>select_variables(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> conn).<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>; <span style="color:#75715e">// 发生 deref_mut()，从 PoolConnection&lt;MySql&gt; 转为 &amp;mut MySqlConnection
 </span></span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// ===============使用MySqlConnection========================
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 查询函数示例
 </span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">select_variables</span>(conn: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">mut</span> sqlx::MySqlConnection) -&gt; Result<span style="color:#f92672">&lt;</span>(), DynError<span style="color:#f92672">&gt;</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> rows <span style="color:#f92672">=</span> sqlx::<span style="color:#a6e22e">query!</span>(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#34;show variables like &#39;%time_zone%&#39;;&#34;</span>)
-</span></span><span style="display:flex;"><span>        .fetch_all(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> <span style="color:#f92672">*</span>conn)<span style="color:#75715e">// 触发copy，从而复用connection
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 查询系统变量
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> rows <span style="color:#f92672">=</span> sqlx::<span style="color:#a6e22e">query!</span>(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#34;show variables like &#39;%time_zone%&#39;;&#34;</span>)
+</span></span><span style="display:flex;"><span>        .fetch_all(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> <span style="color:#f92672">*</span>conn) <span style="color:#75715e">// 触发 copy，从而复用 connection
 </span></span></span><span style="display:flex;"><span>        .<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> row <span style="color:#66d9ef">in</span> rows {
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">info!</span>(<span style="color:#e6db74">&#34;mysql variable: {:?}&#34;</span>, row);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> rows <span style="color:#f92672">=</span> sqlx::<span style="color:#a6e22e">query!</span>(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#34;select now() as now_local, now() as now_naive, now() as now_utc;&#34;</span>)
-</span></span><span style="display:flex;"><span>        .fetch_all(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> <span style="color:#f92672">*</span>conn)<span style="color:#75715e">// 触发copy，从而复用connection
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 查询当前时间
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> rows <span style="color:#f92672">=</span> sqlx::<span style="color:#a6e22e">query!</span>(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#34;select now() as now_local, now() as now_naive, now() as now_utc;&#34;</span>)
+</span></span><span style="display:flex;"><span>        .fetch_all(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> <span style="color:#f92672">*</span>conn) <span style="color:#75715e">// 触发 copy，从而复用 connection
 </span></span></span><span style="display:flex;"><span>        .<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> row <span style="color:#66d9ef">in</span> rows {
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">info!</span>(<span style="color:#e6db74">&#34;select now(): {:?}&#34;</span>, row);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> rows <span style="color:#f92672">=</span> sqlx::<span style="color:#a6e22e">query!</span>(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#34;SHOW SESSION STATUS WHERE Variable_name = &#39;Ssl_cipher&#39;;&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 查询 SSL 配置
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> rows <span style="color:#f92672">=</span> sqlx::<span style="color:#a6e22e">query!</span>(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#34;SHOW SESSION STATUS WHERE Variable_name = &#39;Ssl_cipher&#39;;&#34;</span>)
 </span></span><span style="display:flex;"><span>        .fetch_all(conn)
 </span></span><span style="display:flex;"><span>        .<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> row <span style="color:#66d9ef">in</span> rows {
@@ -384,87 +411,107 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    Ok(())
 </span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="方式二直接使用连接池">方式二：直接使用连接池</h3>
+<p>适合单次查询，无需保持连接的场景。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> result <span style="color:#f92672">=</span> sqlx::<span style="color:#a6e22e">query!</span>(
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">r</span><span style="color:#e6db74">#&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        INSERT INTO stock_rank_changes (
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            market, code, name, bankuai, calc_time, current_rank, ten_minute_change,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            thirty_minute_change, hour_change, day_change, price, price_change_rate,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            trading_volume, turnover_rate, float_market_capitalization, realtime_data,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            today_posts, today_posts_fetch_err, created_at
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        ON DUPLICATE KEY UPDATE created_at = VALUES(created_at)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;#</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&amp;</span>stock_rank_change.market,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&amp;</span>stock_rank_change.code,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&amp;</span>stock_rank_change.name,
+</span></span><span style="display:flex;"><span>        rt.map(<span style="color:#f92672">|</span>rt<span style="color:#f92672">|</span> rt.bankuai.clone()),
+</span></span><span style="display:flex;"><span>        stock_rank_change.calc_time,
+</span></span><span style="display:flex;"><span>        stock_rank_change.current_rank,
+</span></span><span style="display:flex;"><span>        stock_rank_change.ten_minute_change,
+</span></span><span style="display:flex;"><span>        stock_rank_change.thirty_minute_change,
+</span></span><span style="display:flex;"><span>        stock_rank_change.hour_change,
+</span></span><span style="display:flex;"><span>        stock_rank_change.day_change,
+</span></span><span style="display:flex;"><span>        rt.map(<span style="color:#f92672">|</span>rt<span style="color:#f92672">|</span> rt.price),
+</span></span><span style="display:flex;"><span>        rt.map(<span style="color:#f92672">|</span>rt<span style="color:#f92672">|</span> rt.price_change_rate),
+</span></span><span style="display:flex;"><span>        rt.map(<span style="color:#f92672">|</span>rt<span style="color:#f92672">|</span> rt.trading_volume),
+</span></span><span style="display:flex;"><span>        rt.map(<span style="color:#f92672">|</span>rt<span style="color:#f92672">|</span> rt.turnover_rate),
+</span></span><span style="display:flex;"><span>        rt.map(<span style="color:#f92672">|</span>rt<span style="color:#f92672">|</span> rt.float_market_capitalization),
+</span></span><span style="display:flex;"><span>        rt.map(<span style="color:#f92672">|</span>rt<span style="color:#f92672">|</span> serde_json::to_string(rt).unwrap_or(<span style="color:#e6db74">&#34;{}&#34;</span>.to_string())),
+</span></span><span style="display:flex;"><span>        serde_json::to_string(<span style="color:#f92672">&amp;</span>stock_rank_change.today_posts)
+</span></span><span style="display:flex;"><span>            .unwrap_or(<span style="color:#e6db74">&#34;[]&#34;</span>.to_string()),
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&amp;</span>stock_rank_change.today_posts_fetch_err,
+</span></span><span style="display:flex;"><span>        Local::now().naive_local(),
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>    .execute(<span style="color:#f92672">&amp;</span>self.mysql_pool) <span style="color:#75715e">// 直接使用 pool 作为 executor
+</span></span></span><span style="display:flex;"><span>    .<span style="color:#66d9ef">await</span>;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// ===============直接使用mysql pool======================
-</span></span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">let</span> result <span style="color:#f92672">=</span> sqlx::<span style="color:#a6e22e">query!</span>(
-</span></span><span style="display:flex;"><span>                    <span style="color:#e6db74">r</span><span style="color:#e6db74">#&#34;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                    INSERT INTO stock_rank_changes (
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                        market, code, name, bankuai, calc_time, current_rank, ten_minute_change,
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                        thirty_minute_change, hour_change, day_change, price, price_change_rate, trading_volume, turnover_rate, float_market_capitalization, realtime_data,
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                        today_posts, today_posts_fetch_err, created_at
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                    ON DUPLICATE KEY UPDATE created_at = VALUES(created_at)
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                    &#34;#</span>,
-</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">&amp;</span>stock_rank_change.market,
-</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">&amp;</span>stock_rank_change.code,
-</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">&amp;</span>stock_rank_change.name,
-</span></span><span style="display:flex;"><span>                    rt.map(<span style="color:#f92672">|</span>rt<span style="color:#f92672">|</span> rt.bankuai.clone()),
-</span></span><span style="display:flex;"><span>                    stock_rank_change.calc_time,
-</span></span><span style="display:flex;"><span>                    stock_rank_change.current_rank,
-</span></span><span style="display:flex;"><span>                    stock_rank_change.ten_minute_change,
-</span></span><span style="display:flex;"><span>                    stock_rank_change.thirty_minute_change,
-</span></span><span style="display:flex;"><span>                    stock_rank_change.hour_change,
-</span></span><span style="display:flex;"><span>                    stock_rank_change.day_change,
-</span></span><span style="display:flex;"><span>                    rt.map(<span style="color:#f92672">|</span>rt<span style="color:#f92672">|</span> rt.price),
-</span></span><span style="display:flex;"><span>                    rt.map(<span style="color:#f92672">|</span>rt<span style="color:#f92672">|</span> rt.price_change_rate),
-</span></span><span style="display:flex;"><span>                    rt.map(<span style="color:#f92672">|</span>rt<span style="color:#f92672">|</span> rt.trading_volume),
-</span></span><span style="display:flex;"><span>                    rt.map(<span style="color:#f92672">|</span>rt<span style="color:#f92672">|</span> rt.turnover_rate),
-</span></span><span style="display:flex;"><span>                    rt.map(<span style="color:#f92672">|</span>rt<span style="color:#f92672">|</span> rt.float_market_capitalization),
-</span></span><span style="display:flex;"><span>                    rt.map(<span style="color:#f92672">|</span>rt<span style="color:#f92672">|</span> serde_json::to_string(rt).unwrap_or(<span style="color:#e6db74">&#34;{}&#34;</span>.to_string())),
-</span></span><span style="display:flex;"><span>                    serde_json::to_string(<span style="color:#f92672">&amp;</span>stock_rank_change.today_posts)
-</span></span><span style="display:flex;"><span>                        .unwrap_or(<span style="color:#e6db74">&#34;[]&#34;</span>.to_string()),
-</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">&amp;</span>stock_rank_change.today_posts_fetch_err,
-</span></span><span style="display:flex;"><span>                    Local::now().naive_local(),
-</span></span><span style="display:flex;"><span>                )
-</span></span><span style="display:flex;"><span>                .execute(<span style="color:#f92672">&amp;</span>self.mysql_pool) <span style="color:#75715e">//直接使用pool作为executor
-</span></span></span><span style="display:flex;"><span>                .<span style="color:#66d9ef">await</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">match</span> result {
+</span></span><span style="display:flex;"><span>    Ok(_) <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">debug!</span>(<span style="color:#e6db74">&#34;插入 stock_rank_changes 成功&#34;</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    Err(e) <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">warn!</span>(<span style="color:#e6db74">&#34;插入 stock_rank_changes 失败： {}&#34;</span>, e);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="方式三手动管理连接生命周期">方式三：手动管理连接生命周期</h3>
+<p>适合需要精确控制连接获取和释放的场景。</p>
+<h3 id="方式三手动管理连接生命周期-1">方式三：手动管理连接生命周期</h3>
+<p>适合需要精确控制连接获取和释放的场景。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">match</span> self.mysql_pool.acquire().<span style="color:#66d9ef">await</span> {
+</span></span><span style="display:flex;"><span>    Ok(<span style="color:#66d9ef">mut</span> conn) <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> result <span style="color:#f92672">=</span> sqlx::<span style="color:#a6e22e">query!</span>(
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">r</span><span style="color:#e6db74">#&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            INSERT INTO rank_record (
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                hot_rank_score, inner_code, his_rank_change_rank, market_all_count,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                calc_time, his_rank_change, src_security_code, `rank`,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                hour_rank_change, rank_change
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            )
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            ON DUPLICATE KEY UPDATE update_time = now()
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            &#34;#</span>,
+</span></span><span style="display:flex;"><span>            record.hot_rank_score,
+</span></span><span style="display:flex;"><span>            record.inner_code,
+</span></span><span style="display:flex;"><span>            record.his_rank_change_rank,
+</span></span><span style="display:flex;"><span>            record.market_all_count,
+</span></span><span style="display:flex;"><span>            record.calc_time,
+</span></span><span style="display:flex;"><span>            record.his_rank_change,
+</span></span><span style="display:flex;"><span>            record.src_security_code <span style="color:#f92672">+</span> <span style="color:#f92672">&amp;</span>self.name,
+</span></span><span style="display:flex;"><span>            record.rank,
+</span></span><span style="display:flex;"><span>            record.hour_rank_change,
+</span></span><span style="display:flex;"><span>            record.rank_change
+</span></span><span style="display:flex;"><span>        )
+</span></span><span style="display:flex;"><span>        .execute(conn.deref_mut()) <span style="color:#75715e">// 手动调用 deref_mut()，转成非池化的 connection
+</span></span></span><span style="display:flex;"><span>        .<span style="color:#66d9ef">await</span>;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">match</span> result {
 </span></span><span style="display:flex;"><span>            Ok(_) <span style="color:#f92672">=&gt;</span> {
-</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">debug!</span>(<span style="color:#e6db74">&#34;插入 stock_rank_changes 成功&#34;</span>);
+</span></span><span style="display:flex;"><span>                self.insert_history.insert(history_key, record.calc_time);
 </span></span><span style="display:flex;"><span>            }
 </span></span><span style="display:flex;"><span>            Err(e) <span style="color:#f92672">=&gt;</span> {
-</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">warn!</span>(<span style="color:#e6db74">&#34;插入 stock_rank_changes 失败： {}&#34;</span>, e);
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">warn!</span>(<span style="color:#e6db74">&#34;插入失败： {}&#34;</span>, e);
 </span></span><span style="display:flex;"><span>            }
 </span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// =================	match self.mysql_pool.acquire()=================================
-</span></span></span><span style="display:flex;"><span>						<span style="color:#66d9ef">match</span> self.mysql_pool.acquire().<span style="color:#66d9ef">await</span> {
-</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// 将data根据时间排序
-</span></span></span><span style="display:flex;"><span>                Ok(<span style="color:#66d9ef">mut</span> conn) <span style="color:#f92672">=&gt;</span> {
-</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">let</span> result<span style="color:#f92672">=</span> sqlx::<span style="color:#a6e22e">query!</span>(
-</span></span><span style="display:flex;"><span>                        <span style="color:#e6db74">r</span><span style="color:#e6db74">#&#34;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                        INSERT INTO rank_record (hot_rank_score, inner_code, his_rank_change_rank, market_all_count, calc_time, his_rank_change, src_security_code, `rank`, hour_rank_change, rank_change)
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                        on duplicate key update update_time = now()
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                    &#34;#</span>,
-</span></span><span style="display:flex;"><span>                        record.hot_rank_score,
-</span></span><span style="display:flex;"><span>                        record.inner_code,
-</span></span><span style="display:flex;"><span>                        record.his_rank_change_rank,
-</span></span><span style="display:flex;"><span>                        record.market_all_count,
-</span></span><span style="display:flex;"><span>                        record.calc_time,
-</span></span><span style="display:flex;"><span>                        record.his_rank_change,
-</span></span><span style="display:flex;"><span>                        record.src_security_code<span style="color:#f92672">+&amp;</span>self.name,
-</span></span><span style="display:flex;"><span>                        record.rank,
-</span></span><span style="display:flex;"><span>                        record.hour_rank_change,
-</span></span><span style="display:flex;"><span>                        record.rank_change
-</span></span><span style="display:flex;"><span>                    )
-</span></span><span style="display:flex;"><span>                    .execute(conn.deref_mut()).<span style="color:#66d9ef">await</span>; <span style="color:#75715e">// 手动调用deref_mut()，转成非池化的connection
-</span></span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">match</span> result {
-</span></span><span style="display:flex;"><span>                        Ok(_) <span style="color:#f92672">=&gt;</span> {
-</span></span><span style="display:flex;"><span>                            self.insert_history.insert(history_key, record.calc_time);
-</span></span><span style="display:flex;"><span>                        }
-</span></span><span style="display:flex;"><span>                        Err(e) <span style="color:#f92672">=&gt;</span> {
-</span></span><span style="display:flex;"><span>                            <span style="color:#a6e22e">warn!</span>(<span style="color:#e6db74">&#34;插入失败： {}&#34;</span>, e);
-</span></span><span style="display:flex;"><span>                        }
-</span></span><span style="display:flex;"><span>                    }
-</span></span><span style="display:flex;"><span>                }
-</span></span><span style="display:flex;"><span>                Err(e) <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">warn!</span>(<span style="color:#e6db74">&#34;获取连接失败 {}&#34;</span>, e),
-</span></span><span style="display:flex;"><span>            }
-</span></span></code></pre></div><h2 id="参考文档">参考文档</h2>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    Err(e) <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">warn!</span>(<span style="color:#e6db74">&#34;获取连接失败 {}&#34;</span>, e),
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="注意事项">注意事项</h2>
+<ol>
+<li>
+<p><strong>批量插入限制</strong>：sqlx 目前只有 PostgreSQL 支持 batch insert，MySQL 不支持。参考：<a href="https://github.com/launchbadge/sqlx/blob/main/FAQ.md#how-can-i-bind-an-array-to-a-values-clause-how-can-i-do-bulk-inserts">sqlx FAQ</a></p>
+</li>
+<li>
+<p><strong>URL 编码</strong>：使用连接字符串时，注意对特殊字符进行 urlencode</p>
+</li>
+<li>
+<p><strong>连接复用</strong>：使用 <code>&amp;mut *conn</code> 可以触发 copy trait，从而在多次查询间复用同一连接</p>
+</li>
+</ol>
+<h2 id="参考文档">参考文档</h2>
 <ol>
 <li><a href="https://github.com/launchbadge/sqlx/blob/main/FAQ.md#how-can-i-bind-an-array-to-a-values-clause-how-can-i-do-bulk-inserts">sqlx 目前只有 pg 支持 batch insert，mysql 不支持</a></li>
-<li><a href="https://www.arloor.com/posts/mysql9-docker-ssl/">容器运行mysql9+ssl配置</a></li>
+<li><a href="https://www.arloor.com/posts/mysql9-docker-ssl/">容器运行 mysql9+ssl 配置</a></li>
 </ol>
   </div>
   
