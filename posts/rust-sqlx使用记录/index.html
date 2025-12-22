@@ -274,9 +274,9 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
           <nav id="TableOfContents">
   <ul>
     <li><a href="#依赖">依赖</a></li>
-    <li><a href="#查询宏">查询宏</a>
+    <li><a href="#代码生成">代码生成</a>
       <ul>
-        <li><a href="#设置-database_url-环境变量进行-online-代码生成">设置 DATABASE_URL 环境变量，进行 online 代码生成</a></li>
+        <li><a href="#online-代码生成">online 代码生成</a></li>
         <li><a href="#offline-代码生成">offline 代码生成</a></li>
         <li><a href="#强制使用-offline-代码生成的缓存">强制使用 offline 代码生成的缓存</a></li>
         <li><a href="#查询宏-query_as">查询宏 <code>query_as!</code></a></li>
@@ -293,7 +293,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
         <li><a href="#方式一使用连接池中的单个连接">方式一：使用连接池中的单个连接</a></li>
         <li><a href="#方式二直接使用连接池">方式二：直接使用连接池</a></li>
         <li><a href="#方式三手动管理连接生命周期">方式三：手动管理连接生命周期</a></li>
-        <li><a href="#方式三手动管理连接生命周期-1">方式三：手动管理连接生命周期</a></li>
       </ul>
     </li>
     <li><a href="#注意事项">注意事项</a></li>
@@ -314,31 +313,49 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e"># &#34;time&#34;,</span>
 </span></span><span style="display:flex;"><span>] }
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">sqlx-mysql</span> = <span style="color:#e6db74">&#34;0.8.2&#34;</span> <span style="color:#75715e"># mysql驱动</span>
-</span></span></code></pre></div><h2 id="查询宏">查询宏</h2>
-<p>sqlx 支持自动生成 sql 查询语句对应的 Rust struct，这在编译期实现，因此可以在编译期确保你的 rust 代码和数据库表字段类型正确对应。又分为 online 代码生成和 offline 代码生成。</p>
+</span></span></code></pre></div><h2 id="代码生成">代码生成</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> rows <span style="color:#f92672">=</span> sqlx::<span style="color:#a6e22e">query!</span>(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#34;show variables like &#39;%time_zone%&#39;;&#34;</span>)
+</span></span><span style="display:flex;"><span>    .fetch_all(<span style="color:#f92672">&amp;</span>pool)
+</span></span><span style="display:flex;"><span>    .<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
+</span></span></code></pre></div><p>上面的 <code>sqlx::query!</code> 查询宏自动生成了 sql 结果集对应的 <code>Rust struct</code>。这在编译期实现，因此可以在编译期确保你的 rust 代码和数据库表字段类型正确对应。又分为 <code>online</code> 代码生成和 <code>offline</code> 代码生成。</p>
 <ul>
-<li>online 指每次 cargo build 都扫描一次数据库表结构</li>
-<li>offline 指第一次 cargo build 扫描并生成缓存文件，后续直接使用缓存文件，直到表结构发生改变该缓存失效。</li>
+<li><strong>online：</strong> 指每次 cargo build 都扫描一次数据库表结构</li>
+<li><strong>offline：</strong> 指第一次 cargo build 扫描并生成缓存文件，后续直接使用缓存文件，直到表结构发生改变该缓存失效。</li>
 </ul>
-<blockquote>
-<p>set <code>DATABASE_URL</code> to use query macros online, or run <code>cargo sqlx prepare</code> to update the query cache</p>
-</blockquote>
-<p>如引用文字所述，需要设置<code>DATABASE_URL</code> 以激活 online 的运行时代码生成或者执行<code>cargo sqlx prepare</code>来进行 offline 代码生成。</p>
-<h3 id="设置-database_url-环境变量进行-online-代码生成">设置 DATABASE_URL 环境变量，进行 online 代码生成</h3>
-<p>方式一：在项目根目录下创建 <code>.env</code> 文件，文件内容如下（<strong>推荐</strong>）：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>DATABASE_URL<span style="color:#f92672">=</span>mysql://user:passwd@host:3306/test?ssl-mode<span style="color:#f92672">=</span>Required&amp;timezone<span style="color:#f92672">=</span>%2B08:00
-</span></span></code></pre></div><p>方式二：在 vscode 的<code>tasks.json</code>的 <code>cargo build</code> 任务中设置该环境变量</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span><span style="color:#e6db74">&#34;env&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> {
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;DATABASE_URL&#34;</span>: <span style="color:#e6db74">&#34;mysql://user:passwd@host:3306/test?ssl-mode=Required&amp;timezone=%2B08:00&#34;</span>
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h3 id="offline-代码生成">offline 代码生成</h3>
+<h3 id="online-代码生成">online 代码生成</h3>
+<p>设置 <code>DATABASE_URL</code> 环境变量即可</p>
+<table>
+  <thead>
+      <tr>
+          <th>方式</th>
+          <th>说明</th>
+          <th>配置示例</th>
+          <th>推荐</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>方式一</td>
+          <td>在项目根目录下创建 <code>.env</code> 文件</td>
+          <td><code>DATABASE_URL=mysql://user:passwd@host:3306/test?ssl-mode=Required&amp;timezone=%2B08:00</code></td>
+          <td>✅</td>
+      </tr>
+      <tr>
+          <td>方式二</td>
+          <td>在 VSCode 的 <code>tasks.json</code> 的 <code>cargo build</code> 任务中设置环境变量</td>
+          <td><code>&quot;env&quot;: { &quot;DATABASE_URL&quot;: &quot;mysql://user:passwd@host:3306/test?ssl-mode=Required&amp;timezone=%2B08:00&quot; }</code></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="offline-代码生成">offline 代码生成</h3>
 <ol>
 <li>首先安装 sqlx-cli: 这里仅激活了 rustls 和 mysql 驱动的 feature</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span> cargo install sqlx-cli --no-default-features --features rustls,mysql
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cargo install sqlx-cli --no-default-features --features rustls,mysql
 </span></span></code></pre></div><ol start="2">
 <li>
-<p>然后使用“设置 DATABASE_URL 环境变量”中的方式一设置环境变量</p>
+<p>设置 <code>DATABASE_URL</code> 环境变量，方式同上</p>
 </li>
 <li>
 <p>最后执行下面的命令:</p>
@@ -456,8 +473,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="方式三手动管理连接生命周期">方式三：手动管理连接生命周期</h3>
-<p>适合需要精确控制连接获取和释放的场景。</p>
-<h3 id="方式三手动管理连接生命周期-1">方式三：手动管理连接生命周期</h3>
 <p>适合需要精确控制连接获取和释放的场景。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">match</span> self.mysql_pool.acquire().<span style="color:#66d9ef">await</span> {
 </span></span><span style="display:flex;"><span>    Ok(<span style="color:#66d9ef">mut</span> conn) <span style="color:#f92672">=&gt;</span> {
