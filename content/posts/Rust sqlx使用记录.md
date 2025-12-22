@@ -41,7 +41,7 @@ sqlx 支持自动生成 sql 查询语句对应的 Rust struct，这在编译期�
 
 方式一：在项目根目录下创建 `.env` 文件，文件内容如下（**推荐**）：
 
-```toml
+```bash
 DATABASE_URL=mysql://user:passwd@host:3306/test?ssl-mode=Required&timezone=%2B08:00
 ```
 
@@ -85,45 +85,70 @@ SQLX_OFFLINE=true
 
 可以自定义 struct name，前提是 struct 需要 derive FromRow
 
-## 整体使用
+## 连接池初始化
+
+创建 MySQL 连接池有两种方式：
+
+### 方式一：使用连接字符串
 
 ```rust
 info!("connecting to mysql...");
 let pool: sqlx::Pool<sqlx::MySql> = MySqlPoolOptions::new()
     .max_connections(20)
-    // .connect("mysql://user:passwprd@host:3306/test?ssl-mode=Required&timezone=%2B08:00") // 注意url部分需要urlencode
+    .connect("mysql://user:password@host:3306/test?ssl-mode=Required&timezone=%2B08:00") // URL 需要 urlencode
+    .await?;
+```
+
+### 方式二：使用配置选项（推荐）
+
+```rust
+info!("connecting to mysql...");
+let pool: sqlx::Pool<sqlx::MySql> = MySqlPoolOptions::new()
+    .max_connections(20)
     .connect_with(
         MySqlConnectOptions::new()
             .host("host")
             .username("user")
-            .password("passwrod")
+            .password("password")
             .database("test")
             .ssl_mode(MySqlSslMode::Required)
             .timezone(Some(String::from("+08:00"))),
     )
     .await?;
+```
 
-// 获取connection
+## 查询执行方式
+
+### 方式一：使用连接池中的单个连接
+
+适合需要在同一连接上执行多次查询的场景。
+
+```rust
+// 从连接池获取连接
 let mut conn = pool.acquire().await?;
-// 查询
-select_variables(&mut conn).await?; //此处有一个deref_mut()，从PoolConnection<sqlx::MySql> 转成 sqlx::MySqlConnection
 
-// ===============使用MySqlConnection========================
+// 执行查询函数
+select_variables(&mut conn).await?; // 发生 deref_mut()，从 PoolConnection<MySql> 转为 &mut MySqlConnection
+
+// 查询函数示例
 async fn select_variables(conn: &mut sqlx::MySqlConnection) -> Result<(), DynError> {
+    // 查询系统变量
     let rows = sqlx::query!(r"show variables like '%time_zone%';")
-        .fetch_all(&mut *conn)// 触发copy，从而复用connection
+        .fetch_all(&mut *conn) // 触发 copy，从而复用 connection
         .await?;
     for row in rows {
         info!("mysql variable: {:?}", row);
     }
 
+    // 查询当前时间
     let rows = sqlx::query!(r"select now() as now_local, now() as now_naive, now() as now_utc;")
-        .fetch_all(&mut *conn)// 触发copy，从而复用connection
+        .fetch_all(&mut *conn) // 触发 copy，从而复用 connection
         .await?;
     for row in rows {
         info!("select now(): {:?}", row);
     }
 
+    // 查询 SSL 配置
     let rows = sqlx::query!(r"SHOW SESSION STATUS WHERE Variable_name = 'Ssl_cipher';")
         .fetch_all(conn)
         .await?;
@@ -133,87 +158,114 @@ async fn select_variables(conn: &mut sqlx::MySqlConnection) -> Result<(), DynErr
 
     Ok(())
 }
+```
 
-// ===============直接使用mysql pool======================
-            let result = sqlx::query!(
-                    r#"
-                    INSERT INTO stock_rank_changes (
-                        market, code, name, bankuai, calc_time, current_rank, ten_minute_change,
-                        thirty_minute_change, hour_change, day_change, price, price_change_rate, trading_volume, turnover_rate, float_market_capitalization, realtime_data,
-                        today_posts, today_posts_fetch_err, created_at
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                    ON DUPLICATE KEY UPDATE created_at = VALUES(created_at)
-                    "#,
-                    &stock_rank_change.market,
-                    &stock_rank_change.code,
-                    &stock_rank_change.name,
-                    rt.map(|rt| rt.bankuai.clone()),
-                    stock_rank_change.calc_time,
-                    stock_rank_change.current_rank,
-                    stock_rank_change.ten_minute_change,
-                    stock_rank_change.thirty_minute_change,
-                    stock_rank_change.hour_change,
-                    stock_rank_change.day_change,
-                    rt.map(|rt| rt.price),
-                    rt.map(|rt| rt.price_change_rate),
-                    rt.map(|rt| rt.trading_volume),
-                    rt.map(|rt| rt.turnover_rate),
-                    rt.map(|rt| rt.float_market_capitalization),
-                    rt.map(|rt| serde_json::to_string(rt).unwrap_or("{}".to_string())),
-                    serde_json::to_string(&stock_rank_change.today_posts)
-                        .unwrap_or("[]".to_string()),
-                    &stock_rank_change.today_posts_fetch_err,
-                    Local::now().naive_local(),
-                )
-                .execute(&self.mysql_pool) //直接使用pool作为executor
-                .await;
+### 方式二：直接使用连接池
+
+适合单次查询，无需保持连接的场景。
+
+```rust
+let result = sqlx::query!(
+        r#"
+        INSERT INTO stock_rank_changes (
+            market, code, name, bankuai, calc_time, current_rank, ten_minute_change,
+            thirty_minute_change, hour_change, day_change, price, price_change_rate,
+            trading_volume, turnover_rate, float_market_capitalization, realtime_data,
+            today_posts, today_posts_fetch_err, created_at
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ON DUPLICATE KEY UPDATE created_at = VALUES(created_at)
+        "#,
+        &stock_rank_change.market,
+        &stock_rank_change.code,
+        &stock_rank_change.name,
+        rt.map(|rt| rt.bankuai.clone()),
+        stock_rank_change.calc_time,
+        stock_rank_change.current_rank,
+        stock_rank_change.ten_minute_change,
+        stock_rank_change.thirty_minute_change,
+        stock_rank_change.hour_change,
+        stock_rank_change.day_change,
+        rt.map(|rt| rt.price),
+        rt.map(|rt| rt.price_change_rate),
+        rt.map(|rt| rt.trading_volume),
+        rt.map(|rt| rt.turnover_rate),
+        rt.map(|rt| rt.float_market_capitalization),
+        rt.map(|rt| serde_json::to_string(rt).unwrap_or("{}".to_string())),
+        serde_json::to_string(&stock_rank_change.today_posts)
+            .unwrap_or("[]".to_string()),
+        &stock_rank_change.today_posts_fetch_err,
+        Local::now().naive_local(),
+    )
+    .execute(&self.mysql_pool) // 直接使用 pool 作为 executor
+    .await;
+
+match result {
+    Ok(_) => {
+        debug!("插入 stock_rank_changes 成功");
+    }
+    Err(e) => {
+        warn!("插入 stock_rank_changes 失败： {}", e);
+    }
+}
+```
+
+### 方式三：手动管理连接生命周期
+
+适合需要精确控制连接获取和释放的场景。
+
+### 方式三：手动管理连接生命周期
+
+适合需要精确控制连接获取和释放的场景。
+
+```rust
+match self.mysql_pool.acquire().await {
+    Ok(mut conn) => {
+        let result = sqlx::query!(
+            r#"
+            INSERT INTO rank_record (
+                hot_rank_score, inner_code, his_rank_change_rank, market_all_count,
+                calc_time, his_rank_change, src_security_code, `rank`,
+                hour_rank_change, rank_change
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ON DUPLICATE KEY UPDATE update_time = now()
+            "#,
+            record.hot_rank_score,
+            record.inner_code,
+            record.his_rank_change_rank,
+            record.market_all_count,
+            record.calc_time,
+            record.his_rank_change,
+            record.src_security_code + &self.name,
+            record.rank,
+            record.hour_rank_change,
+            record.rank_change
+        )
+        .execute(conn.deref_mut()) // 手动调用 deref_mut()，转成非池化的 connection
+        .await;
 
         match result {
             Ok(_) => {
-                debug!("插入 stock_rank_changes 成功");
+                self.insert_history.insert(history_key, record.calc_time);
             }
             Err(e) => {
-                warn!("插入 stock_rank_changes 失败： {}", e);
+                warn!("插入失败： {}", e);
             }
         }
-
-// =================	match self.mysql_pool.acquire()=================================
-						match self.mysql_pool.acquire().await {
-                // 将data根据时间排序
-                Ok(mut conn) => {
-                    let result= sqlx::query!(
-                        r#"
-                        INSERT INTO rank_record (hot_rank_score, inner_code, his_rank_change_rank, market_all_count, calc_time, his_rank_change, src_security_code, `rank`, hour_rank_change, rank_change)
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                        on duplicate key update update_time = now()
-                    "#,
-                        record.hot_rank_score,
-                        record.inner_code,
-                        record.his_rank_change_rank,
-                        record.market_all_count,
-                        record.calc_time,
-                        record.his_rank_change,
-                        record.src_security_code+&self.name,
-                        record.rank,
-                        record.hour_rank_change,
-                        record.rank_change
-                    )
-                    .execute(conn.deref_mut()).await; // 手动调用deref_mut()，转成非池化的connection
-                    match result {
-                        Ok(_) => {
-                            self.insert_history.insert(history_key, record.calc_time);
-                        }
-                        Err(e) => {
-                            warn!("插入失败： {}", e);
-                        }
-                    }
-                }
-                Err(e) => warn!("获取连接失败 {}", e),
-            }
-
+    }
+    Err(e) => warn!("获取连接失败 {}", e),
+}
 ```
+
+## 注意事项
+
+1. **批量插入限制**：sqlx 目前只有 PostgreSQL 支持 batch insert，MySQL 不支持。参考：[sqlx FAQ](https://github.com/launchbadge/sqlx/blob/main/FAQ.md#how-can-i-bind-an-array-to-a-values-clause-how-can-i-do-bulk-inserts)
+
+2. **URL 编码**：使用连接字符串时，注意对特殊字符进行 urlencode
+
+3. **连接复用**：使用 `&mut *conn` 可以触发 copy trait，从而在多次查询间复用同一连接
 
 ## 参考文档
 
 1. [sqlx 目前只有 pg 支持 batch insert，mysql 不支持](https://github.com/launchbadge/sqlx/blob/main/FAQ.md#how-can-i-bind-an-array-to-a-values-clause-how-can-i-do-bulk-inserts)
-2. [容器运行mysql9+ssl配置](https://www.arloor.com/posts/mysql9-docker-ssl/)
+2. [容器运行 mysql9+ssl 配置](https://www.arloor.com/posts/mysql9-docker-ssl/)
