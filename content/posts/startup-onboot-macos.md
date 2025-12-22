@@ -320,7 +320,7 @@ sudo chmod 644 /Library/LaunchDaemons/limit.maxfiles.plist
 3. 加载 plist 文件(或重启系统后生效 launchd 在启动时会自动加载该目录的 plist)
 
 ```bash
-sudo systemctl start limit.maxfiles
+sudo systemctl enable limit.maxfiles
 ```
 
 4. 确认更改后的限制
