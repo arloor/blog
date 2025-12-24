@@ -323,10 +323,13 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>关闭虚拟机平台和 Hyper-V 虚拟机监控程序：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>dism.exe /online /disable-feature /featurename:VirtualMachinePlatform /norestart
 </span></span><span style="display:flex;"><span>DISM /Online /Disable-Feature /FeatureName:Microsoft-Hyper-V-All /NoRestart
-</span></span><span style="display:flex;"><span>@REM 其实只要关闭 Microsoft-Hyper-V-Hypervisor 就行了
 </span></span></code></pre></div><p>开启虚拟机平台和 Hyper-V 虚拟机监控程序：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
 </span></span><span style="display:flex;"><span>DISM /Online /Enable-Feature /All /FeatureName:Microsoft-Hyper-V-All /NoRestart
+</span></span></code></pre></div><p>或者使用bcedit命令关闭 hyper-v：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bcdedit /set hypervisorlaunchtype off
+</span></span></code></pre></div><p>启用 hyper-v：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bcdedit /set hypervisorlaunchtype auto
 </span></span></code></pre></div><h3 id="使用-intel-大小核的-cpu-时控制面板选择电源计划选择平衡或者高性能更推荐平衡千万不要选卓越性能">使用 intel 大小核的 CPU 时，控制面板“选择电源计划”选择平衡或者高性能（更推荐平衡），千万不要选卓越性能</h3>
 <p>这涉及到大小核的调度策略，更多请搜索异构调度策略。参考：</p>
 <ul>
