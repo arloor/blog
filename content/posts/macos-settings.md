@@ -73,13 +73,23 @@ echo ssh-rsa xxxxxxxx not@home > ~/.ssh/authorized_keys
 
 ## 隐私与安全中的开发者工具 
 
-[gatekeeper](https://nexte.st/docs/installation/macos/#gatekeeper) 据说能加快启动速度
+[gatekeeper](https://nexte.st/docs/installation/macos/#gatekeeper) 会联网判断是不是恶意软件，据说会影响启动速度。将软件设置为开发者工具，可以避免该工具及子进程的启动被gatekeeper检查，从而提升启动速度。
 
-将终端加到开发者工具 `sudo spctl developer-mode enable-terminal`
+1. 将终端加到开发者工具 `sudo spctl developer-mode enable-terminal`
+
+2. 勾选 终端
 
 {{< img img_v3_02pr_5877f420-a7fb-468a-b680-3100f183279g.jpg 600 >}}
 
 {{< img img_v3_02pr_7007b65b-1cfa-4a31-a7e0-9679699bb86g.jpg 400 >}}
+
+gatekeeper：
+
+1. 系统自带程序不会被扫描 - 像 ps、grep 这样的系统工具会被排除
+2. 已检查过的程序不会重复扫描 - 第一次验证后会缓存结果
+3. 离线时会跳过检查 - 如果连接立即失败，会直接跳过恶意软件检查
+4. Xcode 编译的程序自动排除 - 用户明确构建的代码不会被扫描
+5. Developer Tool 权限可以豁免子进程 - 通过命令 sudo spctl developer-mode enable-terminal 可以将 Terminal 等工具加入开发者工具列表，这样它们启动的所有子进程都不会被 GateKeeper 扫描
 
 ## 关闭 轻扫切换页面
 
