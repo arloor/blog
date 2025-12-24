@@ -80,3 +80,9 @@ echo ssh-rsa xxxxxxxx not@home > ~/.ssh/authorized_keys
 {{< img img_v3_02pr_5877f420-a7fb-468a-b680-3100f183279g.jpg 600 >}}
 
 {{< img img_v3_02pr_7007b65b-1cfa-4a31-a7e0-9679699bb86g.jpg 400 >}}
+
+## 关闭 轻扫切换页面
+
+会不小心就把浏览器页面返回了
+
+{{< img close-swipe-to-go-back-forward.png 700 >}}
