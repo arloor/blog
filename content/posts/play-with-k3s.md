@@ -5,7 +5,7 @@ tags:
   - k8s
 date: 2025-12-24T22:12:47+08:00
 lastmod: 2025-12-24T22:12:47+08:00
-draft: true
+draft: false
 categories:
   - undefined
 weight: 10
