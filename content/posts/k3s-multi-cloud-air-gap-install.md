@@ -15,8 +15,10 @@ keywords:
 
 1. 类似 springboot 的“约定优于配置”，就是默认给你一个开箱即用的东西，如果需要，再进行修改。而不是 k8s 那样样样要你配置
 2. 内置[LoadBalancer 实现](https://docs.k3s.io/networking/networking-services?_highlight=servicelb#service-load-balancer)，而不是像 k8s 那样没有 LoadBalancer 实现，导致裸机安装情况下得用 NodePort、HostPort、HostNetwork 来暴露服务，或者安装 Metallb。
-  - 使用Node的ip作为 LoadBalancer 的 ip。——需要保证多个LoaderBalancer Service的端口不冲突
-  - 具体实现见 [klipper-lb](https://github.com/k3s-io/klipper-lb)，比较简单。是通过NAT将流量转发到Service的Cluster IP上，然后kube-proxy再将流量转发到Pod上（这一步包含负载均衡和故障迁移能力）
+
+- 使用 Node 的 ip 作为 LoadBalancer 的 ip。——需要保证多个 LoaderBalancer Service 的端口不冲突
+- 具体实现见 [klipper-lb](https://github.com/k3s-io/klipper-lb)，比较简单。是通过 NAT 将流量转发到 Service 的 Cluster IP 上，然后 kube-proxy 再将流量转发到 Pod 上（这一步包含负载均衡和故障迁移能力）
+
 3. 可以轻松的支持多云环境，对我这种有多个云厂商 vps 的玩家很友好
 4. 资源消耗较少。虽然节点增加后，控制面的内存压力也不小
 5. 文档[docs.k3s.io](https://docs.k3s.io/)很清晰。PS：不要看中文版的文档，也不要看 rancher 中国的文档，垃圾
@@ -31,7 +33,7 @@ keywords:
 - 安装 v1.27.3+k3s1 版本 k3s
 - 安装 v2.7.0 版本 kubernetes-dashboard
 
-## 离线安装
+## 离线安装 & 多云部署
 
 步骤说明：
 
@@ -124,6 +126,14 @@ K3S_URL=https://118.25.142.222:6443  \
 /usr/local/bin/k3s-uninstall.sh
 /usr/local/bin/k3s-agent-uninstall.sh
 ```
+
+### 从多云架构回退到普通架构
+
+1. 删除 node 的 annotations 中所有关于 publicIp 的部分；
+2. 去除 server/agent 服务多云相关的参数：--node-external-ip 、 --flannel-external-ip 、--flannel-backend=wireguard-native 等；
+3. 最后重启 server/agent 服务即可
+
+但是 wireguard-native 的后端貌似无法回退到 host-gw
 
 ### 另一个选择：使用 Rancher 的中国加速镜像安装
 
@@ -426,7 +436,7 @@ systemctl restart k3s-agent.service
 
 在家用小主机上使用
 
-## 安装k3s
+## 安装 k3s
 
 ```bash
 version=$(curl -s https://api.github.com/repos/k3s-io/k3s/releases/latest | jq -r '.tag_name')
@@ -451,7 +461,7 @@ cp -f /etc/rancher/k3s/k3s.yaml ~/.kube/config # 复制 kubeconfig 到默认位�
 kubectl get pod -A --watch --output wide
 ```
 
-## 安装helm
+## 安装 helm
 
 [Installing Helm](https://helm.sh/docs/intro/install/)
 
@@ -464,7 +474,7 @@ curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 ```bash
 helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
 helm repo update
-helm search repo kubernetes-dashboard -l 
+helm search repo kubernetes-dashboard -l
 helm show values kubernetes-dashboard/kubernetes-dashboard --version 7.13.0 > /tmp/values.yaml
 helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --create-namespace --namespace kubernetes-dashboard --set kong.enabled=false
 # 临时访问
@@ -591,7 +601,7 @@ spec:
 EOF
 ```
 
-## 配置私有镜像仓库 使用pull-through cache
+## 配置私有镜像仓库 使用 pull-through cache
 
 https://docs.k3s.io/installation/private-registry#with-tls
 
@@ -604,4 +614,4 @@ mirrors:
 EOF
 ```
 
-重启k3s服务生效
+重启 k3s 服务生效
