@@ -26,14 +26,14 @@
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="K3S多云环境下的离线部署">
   <meta name="twitter:description" content="这几天把 k8s 折腾了个遍，个人觉得 k3s 更适合我，主要有五个优势
-类似 springboot 的“约定优于配置”，就是默认给你一个开箱即用的东西，如果需要，再进行修改。而不是 k8s 那样样样要你配置 内置LoadBalancer 实现，而不是像 k8s 那样没有 LoadBalancer 实现，导致裸机安装情况下得用 NodePort、HostPort、HostNetwork 来暴露服务，或者安装 Metallb。 使用Node的ip作为 LoadBalancer 的 ip。——需要保证多个LoaderBalancer Service的端口不冲突 具体实现见 klipper-lb，比较简单。是通过NAT将流量转发到Service的Cluster IP上，然后kube-proxy再将流量转发到Pod上（这一步包含负载均衡和故障迁移能力） 可以轻松的支持多云环境，对我这种有多个云厂商 vps 的玩家很友好 资源消耗较少。虽然节点增加后，控制面的内存压力也不小 文档docs.k3s.io很清晰。PS：不要看中文版的文档，也不要看 rancher 中国的文档，垃圾">
+类似 springboot 的“约定优于配置”，就是默认给你一个开箱即用的东西，如果需要，再进行修改。而不是 k8s 那样样样要你配置 内置LoadBalancer 实现，而不是像 k8s 那样没有 LoadBalancer 实现，导致裸机安装情况下得用 NodePort、HostPort、HostNetwork 来暴露服务，或者安装 Metallb。 使用 Node 的 ip 作为 LoadBalancer 的 ip。——需要保证多个 LoaderBalancer Service 的端口不冲突 具体实现见 klipper-lb，比较简单。是通过 NAT 将流量转发到 Service 的 Cluster IP 上，然后 kube-proxy 再将流量转发到 Pod 上（这一步包含负载均衡和故障迁移能力） 可以轻松的支持多云环境，对我这种有多个云厂商 vps 的玩家很友好 资源消耗较少。虽然节点增加后，控制面的内存压力也不小 文档docs.k3s.io很清晰。PS：不要看中文版的文档，也不要看 rancher 中国的文档，垃圾">
       <meta name="twitter:site" content="@njulgh">
 
 <meta property="og:url" content="https://www.arloor.com/posts/k3s-multi-cloud-air-gap-install/">
   <meta property="og:site_name" content="ARLOOR">
   <meta property="og:title" content="K3S多云环境下的离线部署">
   <meta property="og:description" content="这几天把 k8s 折腾了个遍，个人觉得 k3s 更适合我，主要有五个优势
-类似 springboot 的“约定优于配置”，就是默认给你一个开箱即用的东西，如果需要，再进行修改。而不是 k8s 那样样样要你配置 内置LoadBalancer 实现，而不是像 k8s 那样没有 LoadBalancer 实现，导致裸机安装情况下得用 NodePort、HostPort、HostNetwork 来暴露服务，或者安装 Metallb。 使用Node的ip作为 LoadBalancer 的 ip。——需要保证多个LoaderBalancer Service的端口不冲突 具体实现见 klipper-lb，比较简单。是通过NAT将流量转发到Service的Cluster IP上，然后kube-proxy再将流量转发到Pod上（这一步包含负载均衡和故障迁移能力） 可以轻松的支持多云环境，对我这种有多个云厂商 vps 的玩家很友好 资源消耗较少。虽然节点增加后，控制面的内存压力也不小 文档docs.k3s.io很清晰。PS：不要看中文版的文档，也不要看 rancher 中国的文档，垃圾">
+类似 springboot 的“约定优于配置”，就是默认给你一个开箱即用的东西，如果需要，再进行修改。而不是 k8s 那样样样要你配置 内置LoadBalancer 实现，而不是像 k8s 那样没有 LoadBalancer 实现，导致裸机安装情况下得用 NodePort、HostPort、HostNetwork 来暴露服务，或者安装 Metallb。 使用 Node 的 ip 作为 LoadBalancer 的 ip。——需要保证多个 LoaderBalancer Service 的端口不冲突 具体实现见 klipper-lb，比较简单。是通过 NAT 将流量转发到 Service 的 Cluster IP 上，然后 kube-proxy 再将流量转发到 Pod 上（这一步包含负载均衡和故障迁移能力） 可以轻松的支持多云环境，对我这种有多个云厂商 vps 的玩家很友好 资源消耗较少。虽然节点增加后，控制面的内存压力也不小 文档docs.k3s.io很清晰。PS：不要看中文版的文档，也不要看 rancher 中国的文档，垃圾">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
@@ -276,11 +276,12 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
           <nav id="TableOfContents">
   <ul>
     <li><a href="#环境说明">环境说明</a></li>
-    <li><a href="#离线安装">离线安装</a>
+    <li><a href="#离线安装--多云部署">离线安装 &amp; 多云部署</a>
       <ul>
         <li><a href="#创建控制面-server-节点">创建控制面 Server 节点</a></li>
         <li><a href="#agent-节点加入集群">Agent 节点加入集群</a></li>
         <li><a href="#卸载-server-和-agent">卸载 Server 和 Agent</a></li>
+        <li><a href="#从多云架构回退到普通架构">从多云架构回退到普通架构</a></li>
         <li><a href="#另一个选择使用-rancher-的中国加速镜像安装">另一个选择：使用 Rancher 的中国加速镜像安装</a></li>
       </ul>
     </li>
@@ -299,11 +300,11 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     </li>
     <li><a href="#server-或-agent-ip-改变时的操作">Server 或 Agent IP 改变时的操作</a></li>
     <li><a href="#2025-重新折腾">2025 重新折腾</a></li>
-    <li><a href="#安装k3s">安装k3s</a></li>
-    <li><a href="#安装helm">安装helm</a></li>
+    <li><a href="#安装-k3s">安装 k3s</a></li>
+    <li><a href="#安装-helm">安装 helm</a></li>
     <li><a href="#安装-kubernetes-dashboard">安装 kubernetes-dashboard</a></li>
     <li><a href="#配置-kubernetes-dashboard-的-traefik-ingress">配置 kubernetes-dashboard 的 traefik ingress</a></li>
-    <li><a href="#配置私有镜像仓库-使用pull-through-cache">配置私有镜像仓库 使用pull-through cache</a></li>
+    <li><a href="#配置私有镜像仓库-使用-pull-through-cache">配置私有镜像仓库 使用 pull-through cache</a></li>
   </ul>
 </nav>
       
@@ -317,8 +318,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>内置<a href="https://docs.k3s.io/networking/networking-services?_highlight=servicelb#service-load-balancer">LoadBalancer 实现</a>，而不是像 k8s 那样没有 LoadBalancer 实现，导致裸机安装情况下得用 NodePort、HostPort、HostNetwork 来暴露服务，或者安装 Metallb。</li>
 </ol>
 <ul>
-<li>使用Node的ip作为 LoadBalancer 的 ip。——需要保证多个LoaderBalancer Service的端口不冲突</li>
-<li>具体实现见 <a href="https://github.com/k3s-io/klipper-lb">klipper-lb</a>，比较简单。是通过NAT将流量转发到Service的Cluster IP上，然后kube-proxy再将流量转发到Pod上（这一步包含负载均衡和故障迁移能力）</li>
+<li>使用 Node 的 ip 作为 LoadBalancer 的 ip。——需要保证多个 LoaderBalancer Service 的端口不冲突</li>
+<li>具体实现见 <a href="https://github.com/k3s-io/klipper-lb">klipper-lb</a>，比较简单。是通过 NAT 将流量转发到 Service 的 Cluster IP 上，然后 kube-proxy 再将流量转发到 Pod 上（这一步包含负载均衡和故障迁移能力）</li>
 </ul>
 <ol start="3">
 <li>可以轻松的支持多云环境，对我这种有多个云厂商 vps 的玩家很友好</li>
@@ -333,7 +334,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>安装 v1.27.3+k3s1 版本 k3s</li>
 <li>安装 v2.7.0 版本 kubernetes-dashboard</li>
 </ul>
-<h2 id="离线安装">离线安装</h2>
+<h2 id="离线安装--多云部署">离线安装 &amp; 多云部署</h2>
 <p>步骤说明：</p>
 <ol>
 <li>下载离线安装包</li>
@@ -406,7 +407,14 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><h3 id="卸载-server-和-agent">卸载 Server 和 Agent</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/usr/local/bin/k3s-uninstall.sh
 </span></span><span style="display:flex;"><span>/usr/local/bin/k3s-agent-uninstall.sh
-</span></span></code></pre></div><h3 id="另一个选择使用-rancher-的中国加速镜像安装">另一个选择：使用 Rancher 的中国加速镜像安装</h3>
+</span></span></code></pre></div><h3 id="从多云架构回退到普通架构">从多云架构回退到普通架构</h3>
+<ol>
+<li>删除 node 的 annotations 中所有关于 publicIp 的部分；</li>
+<li>去除 server/agent 服务多云相关的参数：&ndash;node-external-ip 、 &ndash;flannel-external-ip 、&ndash;flannel-backend=wireguard-native 等；</li>
+<li>最后重启 server/agent 服务即可</li>
+</ol>
+<p>但是 wireguard-native 的后端貌似无法回退到 host-gw</p>
+<h3 id="另一个选择使用-rancher-的中国加速镜像安装">另一个选择：使用 Rancher 的中国加速镜像安装</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>. unpass
 </span></span><span style="display:flex;"><span>curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh -o install.sh
 </span></span><span style="display:flex;"><span>chmod +x install.sh
@@ -645,7 +653,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>systemctl restart k3s-agent.service
 </span></span></code></pre></div><h2 id="2025-重新折腾">2025 重新折腾</h2>
 <p>在家用小主机上使用</p>
-<h2 id="安装k3s">安装k3s</h2>
+<h2 id="安装-k3s">安装 k3s</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>version<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>curl -s https://api.github.com/repos/k3s-io/k3s/releases/latest | jq -r <span style="color:#e6db74">&#39;.tag_name&#39;</span><span style="color:#66d9ef">)</span>
 </span></span><span style="display:flex;"><span>version_url_encoded<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>echo $version | sed <span style="color:#e6db74">&#39;s/+/%2B/g&#39;</span> | sed <span style="color:#e6db74">&#39;s/\//\\\//g&#39;</span><span style="color:#66d9ef">)</span>
 </span></span><span style="display:flex;"><span>echo 安装 k3s 版本 $version
@@ -666,13 +674,13 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span>./k3s_init.sh
 </span></span><span style="display:flex;"><span>cp -f /etc/rancher/k3s/k3s.yaml ~/.kube/config <span style="color:#75715e"># 复制 kubeconfig 到默认位置</span>
 </span></span><span style="display:flex;"><span>kubectl get pod -A --watch --output wide
-</span></span></code></pre></div><h2 id="安装helm">安装helm</h2>
+</span></span></code></pre></div><h2 id="安装-helm">安装 helm</h2>
 <p><a href="https://helm.sh/docs/intro/install/">Installing Helm</a></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 </span></span></code></pre></div><h2 id="安装-kubernetes-dashboard">安装 kubernetes-dashboard</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
 </span></span><span style="display:flex;"><span>helm repo update
-</span></span><span style="display:flex;"><span>helm search repo kubernetes-dashboard -l 
+</span></span><span style="display:flex;"><span>helm search repo kubernetes-dashboard -l
 </span></span><span style="display:flex;"><span>helm show values kubernetes-dashboard/kubernetes-dashboard --version 7.13.0 &gt; /tmp/values.yaml
 </span></span><span style="display:flex;"><span>helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --create-namespace --namespace kubernetes-dashboard --set kong.enabled<span style="color:#f92672">=</span>false
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 临时访问</span>
@@ -795,7 +803,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                port:
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                  number: 8000
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
-</span></span></code></pre></div><h2 id="配置私有镜像仓库-使用pull-through-cache">配置私有镜像仓库 使用pull-through cache</h2>
+</span></span></code></pre></div><h2 id="配置私有镜像仓库-使用-pull-through-cache">配置私有镜像仓库 使用 pull-through cache</h2>
 <p><a href="https://docs.k3s.io/installation/private-registry#with-tls">https://docs.k3s.io/installation/private-registry#with-tls</a></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; /etc/rancher/k3s/registries.yaml <span style="color:#e6db74">&lt;&lt;EOF
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">mirrors:
@@ -803,7 +811,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    endpoint:
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      - &#34;http://ttl.arloor.com:6666&#34;
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
-</span></span></code></pre></div><p>重启k3s服务生效</p>
+</span></span></code></pre></div><p>重启 k3s 服务生效</p>
   </div>
   
 

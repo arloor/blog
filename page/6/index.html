@@ -383,8 +383,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>内置<a href="https://docs.k3s.io/networking/networking-services?_highlight=servicelb#service-load-balancer">LoadBalancer 实现</a>，而不是像 k8s 那样没有 LoadBalancer 实现，导致裸机安装情况下得用 NodePort、HostPort、HostNetwork 来暴露服务，或者安装 Metallb。</li>
 </ol>
 <ul>
-<li>使用Node的ip作为 LoadBalancer 的 ip。——需要保证多个LoaderBalancer Service的端口不冲突</li>
-<li>具体实现见 <a href="https://github.com/k3s-io/klipper-lb">klipper-lb</a>，比较简单。是通过NAT将流量转发到Service的Cluster IP上，然后kube-proxy再将流量转发到Pod上（这一步包含负载均衡和故障迁移能力）</li>
+<li>使用 Node 的 ip 作为 LoadBalancer 的 ip。——需要保证多个 LoaderBalancer Service 的端口不冲突</li>
+<li>具体实现见 <a href="https://github.com/k3s-io/klipper-lb">klipper-lb</a>，比较简单。是通过 NAT 将流量转发到 Service 的 Cluster IP 上，然后 kube-proxy 再将流量转发到 Pod 上（这一步包含负载均衡和故障迁移能力）</li>
 </ul>
 <ol start="3">
 <li>可以轻松的支持多云环境，对我这种有多个云厂商 vps 的玩家很友好</li>
