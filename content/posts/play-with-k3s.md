@@ -304,6 +304,8 @@ spec:
 EOF
 ```
 
+![alt text](/img/k3s-dashboard-pod.png)
+
 ## 修改 traefik 的 websecure 端口
 
 [Traefik Ingress Controller](https://docs.k3s.io/networking/networking-services#traefik-ingress-controller)
@@ -323,6 +325,119 @@ spec:
         exposedPort: 8443
 EOF
 kubectl apply -f /var/lib/rancher/k3s/server/manifests/traefik-mine.yaml
+```
+
+## Argo CD
+
+```bash
+kubectl create namespace argocd
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+# kubectl get pods -n argocd -w
+# 修改argocd-server的service类型为NodePort或者LoadBalancer，方便外部访问
+kubectl -n argocd get svc argocd-server -o yaml | sed 's/type: ClusterIP/type: NodePort/' | kubectl apply -f -
+# 获取初始密码
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
+# kubectl port-forward service/argocd-server  8080:80 -n argocd
+
+# argocd-server不再使用tls
+kubectl patch configmap argocd-cmd-params-cm -n argocd --type merge -p '{"data":{"server.insecure":"true"}}'
+kubectl rollout restart deployment argocd-server -n argocd
+
+# 为argocd-repo-server配置git HTTP代理
+kubectl set env deployment/argocd-repo-server -n argocd HTTP_PROXY=http://mihomo.default.svc.cluster.local:7890 HTTPS_PROXY=http://mihomo.default.svc.cluster.local:7890 NO_PROXY=localhost,127.0.0.1,10.0.0.0/8,.svc,.cluster.local
+kubectl rollout restart deploy argocd-repo-server -n argocd;
+
+
+kubectl apply -f - <<EOF
+apiVersion: v1
+kind: Secret
+metadata:
+  name: k3s-arloor-tls
+  namespace: argocd
+type: kubernetes.io/tls
+data:
+  tls.crt: $(cat /root/.acme.sh/arloor.dev/fullchain.cer | base64 -w 0)
+  tls.key: $(cat /root/.acme.sh/arloor.dev/arloor.dev.key| base64 -w 0)
+EOF
+
+# 配置 argocd 的 ingressroute
+kubectl apply -f - <<'EOF'
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: argocd-server
+  namespace: argocd
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`argocd.arloor.com`)
+      priority: 10
+      services:
+        - name: argocd-server
+          port: 80
+    - kind: Rule
+      match: Host(`argocd.arloor.com`) && Headers(`Content-Type`, `application/grpc`)
+      priority: 11
+      services:
+        - name: argocd-server
+          port: 80
+          scheme: h2c
+  tls:
+    secretName: k3s-arloor-tls
+EOF
+```
+
+![alt text](image.png)
+
+删除 argocd
+
+```bash
+kubectl delete namespace argocd
+```
+
+此时还剩下 argocd 相关的 CRD 资源，可以通过下面命令删除
+
+```bash
+kubectl get crd | grep argoproj.io | awk '{print $1}' | xargs kubectl delete crd
+```
+
+还有一些 ClusterRole 和 ClusterRoleBinding 资源，可以通过下面命令删除
+
+```bash
+kubectl get clusterrole | grep argocd | awk '{print $1}' | xargs kubectl delete clusterrole
+kubectl get clusterrolebinding | grep argocd | awk '{print $1}' | xargs kubectl delete clusterrolebinding
+```
+
+## 使用 Reloader 监听 cm 和 scr 的变化并重启工作负载
+
+```bash
+kubectl apply -f https://raw.githubusercontent.com/stakater/Reloader/master/deployments/kubernetes/reloader.yaml
+```
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app
+  annotations:
+    # 监听所有关联的 ConfigMap 和 Secret
+    reloader.stakater.com/auto: "true"
+
+    # 或者指定具体的 ConfigMap/Secret
+    configmap.reloader.stakater.com/reload: "my-config,another-config"
+    secret.reloader.stakater.com/reload: "my-secret"
+spec:
+  # ... deployment spec
+```
+
+支持 Deployment、DaemonSet、StatefulSet、ReplicaSet、CronJob
+
+查看日志
+
+```bash
+kubectl logs -f deployment/reloader-reloader --tail 100
 ```
 
 ## 导入 ACME 的 TLS 证书
@@ -460,116 +575,3 @@ systemctl restart k3s # k3s-agent
 ## 回滚 k3s
 
 恢复 sqllite 数据和 server token 到升级前的备份状态，然后替换回旧版本的 k3s 二进制文件
-
-## argocd
-
-```bash
-kubectl create namespace argocd
-kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-# kubectl get pods -n argocd -w
-# 修改argocd-server的service类型为NodePort或者LoadBalancer，方便外部访问
-kubectl -n argocd get svc argocd-server -o yaml | sed 's/type: ClusterIP/type: NodePort/' | kubectl apply -f -
-# 获取初始密码
-kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
-# kubectl port-forward service/argocd-server  8080:80 -n argocd
-
-# argocd-server不再使用tls
-kubectl patch configmap argocd-cmd-params-cm -n argocd --type merge -p '{"data":{"server.insecure":"true"}}'
-kubectl rollout restart deployment argocd-server -n argocd
-
-# 为argocd-repo-server配置git HTTP代理
-kubectl set env deployment/argocd-repo-server -n argocd HTTP_PROXY=http://mihomo.default.svc.cluster.local:7890 HTTPS_PROXY=http://mihomo.default.svc.cluster.local:7890 NO_PROXY=localhost,127.0.0.1,10.0.0.0/8,.svc,.cluster.local
-kubectl rollout restart deploy argocd-repo-server -n argocd;
-
-
-kubectl apply -f - <<EOF
-apiVersion: v1
-kind: Secret
-metadata:
-  name: k3s-arloor-tls
-  namespace: argocd
-type: kubernetes.io/tls
-data:
-  tls.crt: $(cat /root/.acme.sh/arloor.dev/fullchain.cer | base64 -w 0)
-  tls.key: $(cat /root/.acme.sh/arloor.dev/arloor.dev.key| base64 -w 0)
-EOF
-
-# 配置 argocd 的 ingressroute
-kubectl apply -f - <<'EOF'
-apiVersion: traefik.io/v1alpha1
-kind: IngressRoute
-metadata:
-  name: argocd-server
-  namespace: argocd
-spec:
-  entryPoints:
-    - websecure
-  routes:
-    - kind: Rule
-      match: Host(`argocd.arloor.com`)
-      priority: 10
-      services:
-        - name: argocd-server
-          port: 80
-    - kind: Rule
-      match: Host(`argocd.arloor.com`) && Headers(`Content-Type`, `application/grpc`)
-      priority: 11
-      services:
-        - name: argocd-server
-          port: 80
-          scheme: h2c
-  tls:
-    secretName: k3s-arloor-tls
-EOF
-```
-
-![alt text](image.png)
-
-删除 argocd
-
-```bash
-kubectl delete namespace argocd
-```
-
-此时还剩下 argocd 相关的 CRD 资源，可以通过下面命令删除
-
-```bash
-kubectl get crd | grep argoproj.io | awk '{print $1}' | xargs kubectl delete crd
-```
-
-还有一些 ClusterRole 和 ClusterRoleBinding 资源，可以通过下面命令删除
-
-```bash
-kubectl get clusterrole | grep argocd | awk '{print $1}' | xargs kubectl delete clusterrole
-kubectl get clusterrolebinding | grep argocd | awk '{print $1}' | xargs kubectl delete clusterrolebinding
-```
-
-## 使用 reloader 监听 cm 和 scr 的变化并重启工作负载
-
-```bash
-kubectl apply -f https://raw.githubusercontent.com/stakater/Reloader/master/deployments/kubernetes/reloader.yaml
-```
-
-```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: my-app
-  annotations:
-    # 监听所有关联的 ConfigMap 和 Secret
-    reloader.stakater.com/auto: "true"
-
-    # 或者指定具体的 ConfigMap/Secret
-    configmap.reloader.stakater.com/reload: "my-config,another-config"
-    secret.reloader.stakater.com/reload: "my-secret"
-spec:
-  # ... deployment spec
-```
-
-支持 Deployment、DaemonSet、StatefulSet、ReplicaSet、CronJob
-
-查看日志
-
-```bash
-kubectl logs -f deployment/reloader-reloader --tail 100
-```
