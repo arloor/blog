@@ -112,7 +112,7 @@ K3S_URL=${k3s_server} \
 
 ## 创建 ServiceAccount 和 ClusterRoleBinding
 
-```bash
+```yaml
 kubectl apply -f - <<EOF
 apiVersion: v1
 kind: ServiceAccount
@@ -196,7 +196,7 @@ helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dash
 
 ## 配置 kubernetes-dashboard 的 ingress
 
-```bash
+```yaml
 host="dash.arloor.com" # host="*.arloor.com"支持通配符
 kubectl apply -f - <<EOF
 # 创建k3s-arloor-tls secret
@@ -310,7 +310,7 @@ EOF
 
 [Traefik Ingress Controller](https://docs.k3s.io/networking/networking-services#traefik-ingress-controller)
 
-```bash
+```yaml
 cat > /var/lib/rancher/k3s/server/manifests/traefik-mine.yaml << EOF
 apiVersion: helm.cattle.io/v1
 kind: HelmChartConfig
@@ -346,8 +346,10 @@ kubectl rollout restart deployment argocd-server -n argocd
 # 为argocd-repo-server配置git HTTP代理
 kubectl set env deployment/argocd-repo-server -n argocd HTTP_PROXY=http://mihomo.default.svc.cluster.local:7890 HTTPS_PROXY=http://mihomo.default.svc.cluster.local:7890 NO_PROXY=localhost,127.0.0.1,10.0.0.0/8,.svc,.cluster.local
 kubectl rollout restart deploy argocd-repo-server -n argocd;
+```
 
-
+```yaml
+# 创建 argocd 的 TLS secret
 kubectl apply -f - <<EOF
 apiVersion: v1
 kind: Secret
@@ -442,7 +444,7 @@ kubectl logs -f deployment/reloader-reloader --tail 100
 
 ## 导入 ACME 的 TLS 证书
 
-```bash
+```yaml
 #! /bin/bash
 
 namespace="default monitoring kubernetes-dashboard"
