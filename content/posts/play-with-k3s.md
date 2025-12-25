@@ -450,6 +450,11 @@ kubectl logs -f deployment/reloader-reloader --tail 100
 
 ## Cert-Manager 部署
 
+- [kubectl apply 安装](https://cert-manager.io/docs/installation/kubectl/#steps)
+- [acme 配置](https://cert-manager.io/docs/configuration/acme/#all-together)
+- [使用 Cloudflare DNS-01 Issuer](https://cert-manager.io/docs/configuration/acme/dns01/cloudflare/)
+- [创建 Certificate 资源](https://cert-manager.io/docs/usage/certificate/)
+
 安装：
 
 ```bash
@@ -477,7 +482,7 @@ metadata:
   namespace: cert-manager
 type: Opaque
 stringData:
-  api-token: 'your-cloudflare-api-token-here'
+  api-token: "your-cloudflare-api-token-here"
 ---
 apiVersion: v1
 kind: Secret
@@ -486,9 +491,8 @@ metadata:
   namespace: default
 type: Opaque
 stringData:
-  password: '123456'
+  password: "123456"
 ---
-
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
@@ -514,25 +518,24 @@ spec:
       # previous account.
       name: default-issuer-account-key
     solvers:
-    # - http01:
-    #     ingress:
-    #       ingressClassName: nginx
-    #   selector:
-    #     matchLabels:
-    #       "use-http01-solver": "true"
-    - dns01:
-        cloudflare:
-          apiTokenSecretRef:
-            name: cloudflare-api-token-secret
-            key: api-token
-      selector:
-        dnsNames:
-        - 'arloor.com'
-        - '*.arloor.com'
-        - 'arloor.dev'
-        - '*.arloor.dev'
+      # - http01:
+      #     ingress:
+      #       ingressClassName: nginx
+      #   selector:
+      #     matchLabels:
+      #       "use-http01-solver": "true"
+      - dns01:
+          cloudflare:
+            apiTokenSecretRef:
+              name: cloudflare-api-token-secret
+              key: api-token
+        selector:
+          dnsNames:
+            - "arloor.com"
+            - "*.arloor.com"
+            - "arloor.dev"
+            - "*.arloor.dev"
 ---
-
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
@@ -543,7 +546,7 @@ spec:
     algorithm: RSA
     encoding: PKCS1 #PKCS8
     size: 2048
-    rotationPolicy: Never       # 或 Always
+    rotationPolicy: Never # 或 Always
 
   # keystores allows adding additional output formats. This is an example for reference only.
   keystores:
@@ -559,10 +562,10 @@ spec:
     name: letsencrypt-cluser-issuer
     kind: ClusterIssuer
   dnsNames:
-  - arloor.dev
-  - "*.arloor.dev"
-  - arloor.com
-  - "*.arloor.com"
+    - arloor.dev
+    - "*.arloor.dev"
+    - arloor.com
+    - "*.arloor.com"
 # # 查看证书状态
 # kubectl describe certificate arloor-combined-cert -n default
 # # 查看生成的证书 secret
