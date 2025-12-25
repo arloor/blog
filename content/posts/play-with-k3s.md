@@ -192,6 +192,8 @@ helm show values kubernetes-dashboard/kubernetes-dashboard --version 7.14.0 > /t
 helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --create-namespace --namespace kubernetes-dashboard --set kong.enabled=false
 ```
 
+![alt text](/img/k3s-dashboard-pod.png)
+
 ## 配置 kubernetes-dashboard 的 ingress
 
 ```bash
@@ -304,8 +306,6 @@ spec:
 EOF
 ```
 
-![alt text](/img/k3s-dashboard-pod.png)
-
 ## 修改 traefik 的 websecure 端口
 
 [Traefik Ingress Controller](https://docs.k3s.io/networking/networking-services#traefik-ingress-controller)
@@ -389,7 +389,7 @@ spec:
 EOF
 ```
 
-![alt text](image.png)
+![alt text](/img/k3s-argocd-workload.png)
 
 删除 argocd
 
