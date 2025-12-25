@@ -224,6 +224,30 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   <div class="post-list__item">
     <span class="item__title--big">
+      <a href="/posts/caddy-code-study/" >Caddy源码阅读</a>
+    </span>
+    <span class="item__date">
+      Jun 14, 2022
+    </span>
+    <span >
+      
+      <p>之前我们用了caddy的forwardproxy插件，来看看他是怎么做的</p>
+<h2 id="go内置的http服务器实现">go内置的http服务器实现</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">http</span>.<span style="color:#a6e22e">ListenAndServe</span>(<span style="color:#e6db74">&#34;:8080&#34;</span>, <span style="color:#66d9ef">nil</span>)
+</span></span></code></pre></div><p>如上即可启动go内置的http服务器，第二个参数是nil，于是go会使用内置的handler，代码如下</p>
+      
+    </span>
+    
+    ... <a class="read-more-symbol" href="/posts/caddy-code-study/">➦</a>
+    
+  </div>
+  
+  
+  
+  
+  
+  <div class="post-list__item">
+    <span class="item__title--big">
       <a href="/posts/go-pprof/" >GO PProf使用</a>
     </span>
     <span class="item__date">
@@ -408,27 +432,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     </span>
     
     ... <a class="read-more-symbol" href="/posts/java-diy-classloader/">➦</a>
-    
-  </div>
-  
-  
-  
-  
-  
-  <div class="post-list__item">
-    <span class="item__title--big">
-      <a href="/posts/java-agent/" >Java Agent实现指南</a>
-    </span>
-    <span class="item__date">
-      Mar 7, 2022
-    </span>
-    <span >
-      
-      <p>Java Agent是字节码修改技术，Mtrace使用Java Agent修改字节码来实现trace的跨线程传递，opentelemetry也通过Java Agent来实现该需求。</p>
-      
-    </span>
-    
-    ... <a class="read-more-symbol" href="/posts/java-agent/">➦</a>
     
   </div>
   

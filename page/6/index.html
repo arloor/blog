@@ -224,6 +224,33 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   <div class="post-list__item">
     <span class="item__title--big">
+      <a href="/posts/macos-sleep-wake-history/" >MacOS睡眠和唤醒历史</a>
+    </span>
+    <span class="item__date">
+      Aug 13, 2023
+    </span>
+    <span >
+      
+      <h2 id="查看用户唤醒历史">查看用户唤醒历史</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pmset -g log|grep -v <span style="color:#e6db74">&#34;DarkWake&#34;</span>|grep -E  <span style="color:#e6db74">&#34;Wake from&#34;</span>
+</span></span></code></pre></div><h2 id="查看所有睡眠和唤醒历史">查看所有睡眠和唤醒历史</h2>
+<p>内容会有点多，而且包含DarkWake</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pmset -g log|grep -E  <span style="color:#e6db74">&#34;Entering Sleep state|Wake from&#34;</span>
+</span></span></code></pre></div><h2 id="什么是darkwake">什么是DarkWake</h2>
+<p>在 macOS 中，&ldquo;DarkWake&rdquo; 和 &ldquo;Wake&rdquo; 代表了两种不同类型的唤醒状态：</p>
+      
+    </span>
+    
+    ... <a class="read-more-symbol" href="/posts/macos-sleep-wake-history/">➦</a>
+    
+  </div>
+  
+  
+  
+  
+  
+  <div class="post-list__item">
+    <span class="item__title--big">
       <a href="/posts/jp-vps-google-settings/" >谷歌日本搜索结果显示日文的解决方案</a>
     </span>
     <span class="item__date">
@@ -460,33 +487,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     </span>
     
     ... <a class="read-more-symbol" href="/posts/k8s-kind/">➦</a>
-    
-  </div>
-  
-  
-  
-  
-  
-  <div class="post-list__item">
-    <span class="item__title--big">
-      <a href="/posts/java-memory-monitor/" >Java内存监控</a>
-    </span>
-    <span class="item__date">
-      Jul 18, 2023
-    </span>
-    <span >
-      
-      <p>给一个Java内存监控的代码，具体监控：</p>
-<ul>
-<li>Netty直接内存使用</li>
-<li>堆内存使用量</li>
-<li>非堆内存使用量</li>
-<li>bufferPool内存使用量，主要有nio direct buffer和Mapped buffer</li>
-</ul>
-      
-    </span>
-    
-    ... <a class="read-more-symbol" href="/posts/java-memory-monitor/">➦</a>
     
   </div>
   

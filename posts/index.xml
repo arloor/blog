@@ -6,8 +6,15 @@
     <description>Recent content in Posts on ARLOOR</description>
     <generator>Hugo</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Tue, 16 Dec 2025 19:31:51 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 24 Dec 2025 22:12:47 +0800</lastBuildDate>
     <atom:link href="https://www.arloor.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>K3S上手玩</title>
+      <link>https://www.arloor.com/posts/play-with-k3s/</link>
+      <pubDate>Wed, 24 Dec 2025 22:12:47 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/play-with-k3s/</guid>
+      <description>&lt;p&gt;在上文 &lt;a href=&#34;https://www.arloor.com/posts/k3s-multi-cloud-air-gap-install/&#34;&gt;K3S 多云环境下的离线部署&lt;/a&gt; 中已经玩过了 1.27.3 版本的 k3s。在今年又重新玩了一遍，再次记录一下。这一次的重点是：&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;IPv4/IPv6 双栈集群的搭建&lt;/li&gt;&#xA;&lt;li&gt;K3S 备份、升级、回滚&lt;/li&gt;&#xA;&lt;li&gt;Kubernetes Dashboard 部署&lt;/li&gt;&#xA;&lt;li&gt;ArgoCD 部署，实现 GitOps&lt;/li&gt;&#xA;&lt;li&gt;reloader 部署，实现配置变更自动重启 Pod&lt;/li&gt;&#xA;&lt;/ol&gt;</description>
+    </item>
     <item>
       <title>MacOS开机自启动、资源限制、定时任务</title>
       <link>https://www.arloor.com/posts/startup-onboot-macos/</link>
