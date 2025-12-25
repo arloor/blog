@@ -671,6 +671,10 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">annotations</span>:
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 监听所有关联的 ConfigMap 和 Secret</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">reloader.stakater.com/auto</span>: <span style="color:#e6db74">&#34;true&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 监听所有关联的 Secret</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">secret.reloader.stakater.com/auto</span>: <span style="color:#e6db74">&#34;true&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 监听所有关联的 ConfigMap</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">configmap.reloader.stakater.com/auto</span>: <span style="color:#e6db74">&#34;true&#34;</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 或者指定具体的 ConfigMap/Secret</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">configmap.reloader.stakater.com/reload</span>: <span style="color:#e6db74">&#34;my-config,another-config&#34;</span>
