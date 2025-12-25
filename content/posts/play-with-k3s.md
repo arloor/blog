@@ -523,6 +523,8 @@ spec:
 EOF
 ```
 
+![alt text](/img/k3s-argocd-workload.png)
+
 删除 argocd
 
 ```bash
