@@ -261,7 +261,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     
     
     <br/>
-    <i class="fas fa-clock"></i> 5 min read
+    <i class="fas fa-clock"></i> 6 min read
 </div>
 
 
@@ -285,6 +285,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     <li><a href="#安装-kubernetes-dashboard">安装 kubernetes-dashboard</a></li>
     <li><a href="#配置-kubernetes-dashboard-的-ingress">配置 kubernetes-dashboard 的 ingress</a></li>
     <li><a href="#修改-traefik-的-websecure-端口">修改 traefik 的 websecure 端口</a></li>
+    <li><a href="#argo-cd">Argo CD</a></li>
+    <li><a href="#使用-reloader-监听-cm-和-scr-的变化并重启工作负载">使用 Reloader 监听 cm 和 scr 的变化并重启工作负载</a></li>
     <li><a href="#导入-acme-的-tls-证书">导入 ACME 的 TLS 证书</a></li>
     <li><a href="#在-macos-上管理">在 MacOS 上管理</a></li>
     <li><a href="#在-linux-上管理">在 Linux 上管理</a></li>
@@ -297,8 +299,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     <li><a href="#恢复-sqllite-数据和-server-token">恢复 sqllite 数据和 server token</a></li>
     <li><a href="#升级-k3s">升级 k3s</a></li>
     <li><a href="#回滚-k3s">回滚 k3s</a></li>
-    <li><a href="#argocd">argocd</a></li>
-    <li><a href="#使用-reloader-监听-cm-和-scr-的变化并重启工作负载">使用 reloader 监听 cm 和 scr 的变化并重启工作负载</a></li>
   </ul>
 </nav>
       
@@ -577,7 +577,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                port:
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">                  number: 8000
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
-</span></span></code></pre></div><h2 id="修改-traefik-的-websecure-端口">修改 traefik 的 websecure 端口</h2>
+</span></span></code></pre></div><p><img src="/img/k3s-dashboard-pod.png" alt="alt text"></p>
+<h2 id="修改-traefik-的-websecure-端口">修改 traefik 的 websecure 端口</h2>
 <p><a href="https://docs.k3s.io/networking/networking-services#traefik-ingress-controller">Traefik Ingress Controller</a></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; /var/lib/rancher/k3s/server/manifests/traefik-mine.yaml <span style="color:#e6db74">&lt;&lt; EOF
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: helm.cattle.io/v1
@@ -593,6 +594,90 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        exposedPort: 8443
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
 </span></span><span style="display:flex;"><span>kubectl apply -f /var/lib/rancher/k3s/server/manifests/traefik-mine.yaml
+</span></span></code></pre></div><h2 id="argo-cd">Argo CD</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl create namespace argocd
+</span></span><span style="display:flex;"><span>kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># kubectl get pods -n argocd -w</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 修改argocd-server的service类型为NodePort或者LoadBalancer，方便外部访问</span>
+</span></span><span style="display:flex;"><span>kubectl -n argocd get svc argocd-server -o yaml | sed <span style="color:#e6db74">&#39;s/type: ClusterIP/type: NodePort/&#39;</span> | kubectl apply -f -
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 获取初始密码</span>
+</span></span><span style="display:flex;"><span>kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{.data.password}&#34;</span> | base64 -d; echo
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># kubectl port-forward service/argocd-server  8080:80 -n argocd</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># argocd-server不再使用tls</span>
+</span></span><span style="display:flex;"><span>kubectl patch configmap argocd-cmd-params-cm -n argocd --type merge -p <span style="color:#e6db74">&#39;{&#34;data&#34;:{&#34;server.insecure&#34;:&#34;true&#34;}}&#39;</span>
+</span></span><span style="display:flex;"><span>kubectl rollout restart deployment argocd-server -n argocd
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 为argocd-repo-server配置git HTTP代理</span>
+</span></span><span style="display:flex;"><span>kubectl set env deployment/argocd-repo-server -n argocd HTTP_PROXY<span style="color:#f92672">=</span>http://mihomo.default.svc.cluster.local:7890 HTTPS_PROXY<span style="color:#f92672">=</span>http://mihomo.default.svc.cluster.local:7890 NO_PROXY<span style="color:#f92672">=</span>localhost,127.0.0.1,10.0.0.0/8,.svc,.cluster.local
+</span></span><span style="display:flex;"><span>kubectl rollout restart deploy argocd-repo-server -n argocd;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>kubectl apply -f - <span style="color:#e6db74">&lt;&lt;EOF
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: v1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kind: Secret
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">metadata:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  name: k3s-arloor-tls
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  namespace: argocd
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">type: kubernetes.io/tls
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">data:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  tls.crt: $(cat /root/.acme.sh/arloor.dev/fullchain.cer | base64 -w 0)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  tls.key: $(cat /root/.acme.sh/arloor.dev/arloor.dev.key| base64 -w 0)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 配置 argocd 的 ingressroute</span>
+</span></span><span style="display:flex;"><span>kubectl apply -f - <span style="color:#e6db74">&lt;&lt;&#39;EOF&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: traefik.io/v1alpha1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kind: IngressRoute
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">metadata:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  name: argocd-server
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  namespace: argocd
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">spec:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  entryPoints:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    - websecure
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  routes:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    - kind: Rule
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      match: Host(`argocd.arloor.com`)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      priority: 10
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      services:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        - name: argocd-server
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          port: 80
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    - kind: Rule
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      match: Host(`argocd.arloor.com`) &amp;&amp; Headers(`Content-Type`, `application/grpc`)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      priority: 11
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      services:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        - name: argocd-server
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          port: 80
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          scheme: h2c
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  tls:
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    secretName: k3s-arloor-tls
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span></code></pre></div><p><img src="image.png" alt="alt text"></p>
+<p>删除 argocd</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl delete namespace argocd
+</span></span></code></pre></div><p>此时还剩下 argocd 相关的 CRD 资源，可以通过下面命令删除</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl get crd | grep argoproj.io | awk <span style="color:#e6db74">&#39;{print $1}&#39;</span> | xargs kubectl delete crd
+</span></span></code></pre></div><p>还有一些 ClusterRole 和 ClusterRoleBinding 资源，可以通过下面命令删除</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl get clusterrole | grep argocd | awk <span style="color:#e6db74">&#39;{print $1}&#39;</span> | xargs kubectl delete clusterrole
+</span></span><span style="display:flex;"><span>kubectl get clusterrolebinding | grep argocd | awk <span style="color:#e6db74">&#39;{print $1}&#39;</span> | xargs kubectl delete clusterrolebinding
+</span></span></code></pre></div><h2 id="使用-reloader-监听-cm-和-scr-的变化并重启工作负载">使用 Reloader 监听 cm 和 scr 的变化并重启工作负载</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl apply -f https://raw.githubusercontent.com/stakater/Reloader/master/deployments/kubernetes/reloader.yaml
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">apps/v1</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Deployment</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">my-app</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">annotations</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 监听所有关联的 ConfigMap 和 Secret</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">reloader.stakater.com/auto</span>: <span style="color:#e6db74">&#34;true&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 或者指定具体的 ConfigMap/Secret</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">configmap.reloader.stakater.com/reload</span>: <span style="color:#e6db74">&#34;my-config,another-config&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">secret.reloader.stakater.com/reload</span>: <span style="color:#e6db74">&#34;my-secret&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># ... deployment spec</span>
+</span></span></code></pre></div><p>支持 Deployment、DaemonSet、StatefulSet、ReplicaSet、CronJob</p>
+<p>查看日志</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl logs -f deployment/reloader-reloader --tail <span style="color:#ae81ff">100</span>
 </span></span></code></pre></div><h2 id="导入-acme-的-tls-证书">导入 ACME 的 TLS 证书</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#! /bin/bash
 </span></span></span><span style="display:flex;"><span>
@@ -679,91 +764,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>systemctl restart k3s <span style="color:#75715e"># k3s-agent</span>
 </span></span></code></pre></div><h2 id="回滚-k3s">回滚 k3s</h2>
 <p>恢复 sqllite 数据和 server token 到升级前的备份状态，然后替换回旧版本的 k3s 二进制文件</p>
-<h2 id="argocd">argocd</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl create namespace argocd
-</span></span><span style="display:flex;"><span>kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># kubectl get pods -n argocd -w</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 修改argocd-server的service类型为NodePort或者LoadBalancer，方便外部访问</span>
-</span></span><span style="display:flex;"><span>kubectl -n argocd get svc argocd-server -o yaml | sed <span style="color:#e6db74">&#39;s/type: ClusterIP/type: NodePort/&#39;</span> | kubectl apply -f -
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 获取初始密码</span>
-</span></span><span style="display:flex;"><span>kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{.data.password}&#34;</span> | base64 -d; echo
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># kubectl port-forward service/argocd-server  8080:80 -n argocd</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># argocd-server不再使用tls</span>
-</span></span><span style="display:flex;"><span>kubectl patch configmap argocd-cmd-params-cm -n argocd --type merge -p <span style="color:#e6db74">&#39;{&#34;data&#34;:{&#34;server.insecure&#34;:&#34;true&#34;}}&#39;</span>
-</span></span><span style="display:flex;"><span>kubectl rollout restart deployment argocd-server -n argocd
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 为argocd-repo-server配置git HTTP代理</span>
-</span></span><span style="display:flex;"><span>kubectl set env deployment/argocd-repo-server -n argocd HTTP_PROXY<span style="color:#f92672">=</span>http://mihomo.default.svc.cluster.local:7890 HTTPS_PROXY<span style="color:#f92672">=</span>http://mihomo.default.svc.cluster.local:7890 NO_PROXY<span style="color:#f92672">=</span>localhost,127.0.0.1,10.0.0.0/8,.svc,.cluster.local
-</span></span><span style="display:flex;"><span>kubectl rollout restart deploy argocd-repo-server -n argocd;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>kubectl apply -f - <span style="color:#e6db74">&lt;&lt;EOF
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: v1
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kind: Secret
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">metadata:
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  name: k3s-arloor-tls
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  namespace: argocd
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">type: kubernetes.io/tls
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">data:
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  tls.crt: $(cat /root/.acme.sh/arloor.dev/fullchain.cer | base64 -w 0)
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  tls.key: $(cat /root/.acme.sh/arloor.dev/arloor.dev.key| base64 -w 0)
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 配置 argocd 的 ingressroute</span>
-</span></span><span style="display:flex;"><span>kubectl apply -f - <span style="color:#e6db74">&lt;&lt;&#39;EOF&#39;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: traefik.io/v1alpha1
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kind: IngressRoute
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">metadata:
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  name: argocd-server
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  namespace: argocd
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">spec:
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  entryPoints:
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    - websecure
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  routes:
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    - kind: Rule
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      match: Host(`argocd.arloor.com`)
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      priority: 10
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      services:
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        - name: argocd-server
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          port: 80
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    - kind: Rule
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      match: Host(`argocd.arloor.com`) &amp;&amp; Headers(`Content-Type`, `application/grpc`)
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      priority: 11
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      services:
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        - name: argocd-server
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          port: 80
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          scheme: h2c
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  tls:
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    secretName: k3s-arloor-tls
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
-</span></span></code></pre></div><p><img src="image.png" alt="alt text"></p>
-<p>删除 argocd</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl delete namespace argocd
-</span></span></code></pre></div><p>此时还剩下 argocd 相关的 CRD 资源，可以通过下面命令删除</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl get crd | grep argoproj.io | awk <span style="color:#e6db74">&#39;{print $1}&#39;</span> | xargs kubectl delete crd
-</span></span></code></pre></div><p>还有一些 ClusterRole 和 ClusterRoleBinding 资源，可以通过下面命令删除</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl get clusterrole | grep argocd | awk <span style="color:#e6db74">&#39;{print $1}&#39;</span> | xargs kubectl delete clusterrole
-</span></span><span style="display:flex;"><span>kubectl get clusterrolebinding | grep argocd | awk <span style="color:#e6db74">&#39;{print $1}&#39;</span> | xargs kubectl delete clusterrolebinding
-</span></span></code></pre></div><h2 id="使用-reloader-监听-cm-和-scr-的变化并重启工作负载">使用 reloader 监听 cm 和 scr 的变化并重启工作负载</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl apply -f https://raw.githubusercontent.com/stakater/Reloader/master/deployments/kubernetes/reloader.yaml
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">apps/v1</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Deployment</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">my-app</span>
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">annotations</span>:
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 监听所有关联的 ConfigMap 和 Secret</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">reloader.stakater.com/auto</span>: <span style="color:#e6db74">&#34;true&#34;</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 或者指定具体的 ConfigMap/Secret</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">configmap.reloader.stakater.com/reload</span>: <span style="color:#e6db74">&#34;my-config,another-config&#34;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">secret.reloader.stakater.com/reload</span>: <span style="color:#e6db74">&#34;my-secret&#34;</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
-</span></span><span style="display:flex;"><span>  <span style="color:#75715e"># ... deployment spec</span>
-</span></span></code></pre></div><p>支持 Deployment、DaemonSet、StatefulSet、ReplicaSet、CronJob</p>
-<p>查看日志</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl logs -f deployment/reloader-reloader --tail <span style="color:#ae81ff">100</span>
-</span></span></code></pre></div>
   </div>
   
 
