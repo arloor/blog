@@ -414,6 +414,8 @@ kubectl get clusterrolebinding | grep argocd | awk '{print $1}' | xargs kubectl 
 
 ## 使用 Reloader 监听 cm 和 scr 的变化并重启工作负载
 
+- [github.com/stakater/Reloader](https://github.com/stakater/Reloader?tab=readme-ov-file#-installation)
+
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/stakater/Reloader/master/deployments/kubernetes/reloader.yaml
 ```
