@@ -660,6 +660,9 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl get clusterrole | grep argocd | awk <span style="color:#e6db74">&#39;{print $1}&#39;</span> | xargs kubectl delete clusterrole
 </span></span><span style="display:flex;"><span>kubectl get clusterrolebinding | grep argocd | awk <span style="color:#e6db74">&#39;{print $1}&#39;</span> | xargs kubectl delete clusterrolebinding
 </span></span></code></pre></div><h2 id="使用-reloader-监听-cm-和-scr-的变化并重启工作负载">使用 Reloader 监听 cm 和 scr 的变化并重启工作负载</h2>
+<ul>
+<li><a href="https://github.com/stakater/Reloader?tab=readme-ov-file#-installation">github.com/stakater/Reloader</a></li>
+</ul>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl apply -f https://raw.githubusercontent.com/stakater/Reloader/master/deployments/kubernetes/reloader.yaml
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">apps/v1</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Deployment</span>
