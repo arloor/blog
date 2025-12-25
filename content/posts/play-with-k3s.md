@@ -523,7 +523,7 @@ spec:
 EOF
 ```
 
-![alt text](/img/k3s-argocd-workload.png)
+![alt text](image.png)
 
 删除 argocd
 
