@@ -428,6 +428,10 @@ metadata:
   annotations:
     # 监听所有关联的 ConfigMap 和 Secret
     reloader.stakater.com/auto: "true"
+    # 监听所有关联的 Secret
+    secret.reloader.stakater.com/auto: "true"
+    # 监听所有关联的 ConfigMap
+    configmap.reloader.stakater.com/auto: "true"
 
     # 或者指定具体的 ConfigMap/Secret
     configmap.reloader.stakater.com/reload: "my-config,another-config"
