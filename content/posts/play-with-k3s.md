@@ -454,6 +454,7 @@ kubectl logs -f deployment/reloader-reloader --tail 100
 - [acme 配置](https://cert-manager.io/docs/configuration/acme/#all-together)
 - [使用 Cloudflare DNS-01 Issuer](https://cert-manager.io/docs/configuration/acme/dns01/cloudflare/)
 - [创建 Certificate 资源](https://cert-manager.io/docs/usage/certificate/)
+- [The cert-manager Command Line Tool (cmctl)](https://cert-manager.io/docs/reference/cmctl/)
 
 安装：
 
@@ -470,6 +471,13 @@ kubectl rollout restart deployment cert-manager-webhook -n cert-manager
 kubectl rollout restart deployment cert-manager-cainjector -n cert-manager
 # 等待 cert-manager 相关的 pod 全部运行起来
 kubectl get pod -n cert-manager -w
+
+# 安装 cmctl 工具，用于验证 cert-manager api-server 的安装情况
+OS=$(go env GOOS); ARCH=$(go env GOARCH); curl -fsSL -o cmctl https://github.com/cert-manager/cmctl/releases/latest/download/cmctl_${OS}_${ARCH}
+chmod +x cmctl
+sudo mv cmctl /usr/local/bin
+# 验证安装
+cmctl check api
 ```
 
 签发证书：
@@ -570,6 +578,23 @@ spec:
 # kubectl describe certificate arloor-combined-cert -n default
 # # 查看生成的证书 secret
 # kubectl get secret arloor-combined-tls -n default -o yaml
+```
+
+cmctl 使用
+
+```bash
+$ kubectl get certificate
+NAME                   READY   SECRET                AGE
+arloor-combined-cert   True    arloor-combined-tls   13h
+
+$ cmctl renew arloor-combined-cert -n default
+Manually triggered issuance of Certificate default/arloor-combined-cert
+
+$ kubectl get certificaterequest
+NAME                              READY   AGE
+arloor-combined-cert-tls-8rbv2         False    10s
+
+$ cmctl status certificate arloor-combined-cert -n default
 ```
 
 ## 导入 ACME 的 TLS 证书
