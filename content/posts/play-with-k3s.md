@@ -181,6 +181,178 @@ EOF
 systemctl restart k3s
 ```
 
+## 导入 ACME 的 TLS 证书
+
+```yaml
+#! /bin/bash
+
+namespace="default monitoring kubernetes-dashboard"
+for ns in ${namespace}; do
+  kubectl apply -f -  <<EOF
+apiVersion: v1
+kind: Secret
+metadata:
+  # secret名
+  name: k3s-arloor-tls
+  # 证书放置的namespace
+  namespace: ${ns}
+type: kubernetes.io/tls
+data:
+  tls.crt: $(cat /root/.acme.sh/arloor.dev/fullchain.cer | base64 -w 0)
+  tls.key: $(cat /root/.acme.sh/arloor.dev/arloor.dev.key| base64 -w 0)
+EOF
+done
+```
+
+## Cert-Manager 部署
+
+- [kubectl apply 安装](https://cert-manager.io/docs/installation/kubectl/#steps)
+- [acme 配置](https://cert-manager.io/docs/configuration/acme/#all-together)
+- [使用 Cloudflare DNS-01 Issuer](https://cert-manager.io/docs/configuration/acme/dns01/cloudflare/)
+- [创建 Certificate 资源](https://cert-manager.io/docs/usage/certificate/)
+- [The cert-manager Command Line Tool (cmctl)](https://cert-manager.io/docs/reference/cmctl/)
+
+安装：
+
+```bash
+kubectl create namespace cert-manager
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.19.2/cert-manager.yaml
+
+# 为 cert-manager 相关的 deployment 配置 HTTP 代理
+kubectl set env deployment/cert-manager -n cert-manager HTTP_PROXY=http://mihomo.default.svc.cluster.local:7890 HTTPS_PROXY=http://mihomo.default.svc.cluster.local:7890 NO_PROXY=localhost,127.0.0.1,10.0.0.0/8,.svc,.cluster.local
+kubectl set env deployment/cert-manager-webhook -n cert-manager HTTP_PROXY=http://mihomo.default.svc.cluster.local:7890 HTTPS_PROXY=http://mihomo.default.svc.cluster.local:7890 NO_PROXY=localhost,127.0.0.1,10.0.0.0/8,.svc,.cluster.local
+kubectl set env deployment/cert-manager-cainjector -n cert-manager HTTP_PROXY=http://mihomo.default.svc.cluster.local:7890 HTTPS_PROXY=http://mihomo.default.svc.cluster.local:7890 NO_PROXY=localhost,127.0.0.1,10.0.0.0/8,.svc,.cluster.local
+kubectl rollout restart deployment cert-manager -n cert-manager
+kubectl rollout restart deployment cert-manager-webhook -n cert-manager
+kubectl rollout restart deployment cert-manager-cainjector -n cert-manager
+# 等待 cert-manager 相关的 pod 全部运行起来
+kubectl get pod -n cert-manager -w
+
+# 安装 cmctl 工具，用于验证 cert-manager api-server 的安装情况
+OS=$(go env GOOS); ARCH=$(go env GOARCH); curl -fsSL -o cmctl https://github.com/cert-manager/cmctl/releases/latest/download/cmctl_${OS}_${ARCH}
+chmod +x cmctl
+sudo mv cmctl /usr/local/bin
+# 验证安装
+cmctl check api
+```
+
+签发证书：
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cloudflare-api-token-secret
+  namespace: cert-manager
+type: Opaque
+stringData:
+  api-token: "your-cloudflare-api-token-here"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cert-pkcs12-password
+  namespace: default
+type: Opaque
+stringData:
+  password: "123456"
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-cluser-issuer
+spec:
+  acme:
+    # You must replace this email address with your own.
+    # Let's Encrypt will use this to contact you about expiring
+    # certificates, and issues related to your account.
+    email: root@xxxxx.xxxx
+    # If the ACME server supports profiles, you can specify the profile name here.
+    # See #acme-certificate-profiles below.
+    profile: tlsserver
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      # Secret resource that will be used to store the account's private key.
+      # This is your identity with your ACME provider. Any secret name may be
+      # chosen. It will be populated with data automatically, so generally
+      # nothing further needs to be done with the secret. If you lose this
+      # identity/secret, you will be able to generate a new one and generate
+      # certificates for any/all domains managed using your previous account,
+      # but you will be unable to revoke any certificates generated using that
+      # previous account.
+      name: default-issuer-account-key
+    solvers:
+      # - http01:
+      #     ingress:
+      #       ingressClassName: nginx
+      #   selector:
+      #     matchLabels:
+      #       "use-http01-solver": "true"
+      - dns01:
+          cloudflare:
+            apiTokenSecretRef:
+              name: cloudflare-api-token-secret
+              key: api-token
+        selector:
+          dnsNames:
+            - "arloor.com"
+            - "*.arloor.com"
+            - "arloor.dev"
+            - "*.arloor.dev"
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: arloor-combined-cert
+  namespace: default
+spec:
+  privateKey:
+    algorithm: RSA
+    encoding: PKCS1 #PKCS8
+    size: 2048
+    rotationPolicy: Never # 或 Always
+
+  # keystores allows adding additional output formats. This is an example for reference only.
+  keystores:
+    pkcs12:
+      create: true
+      passwordSecretRef:
+        name: cert-pkcs12-password
+        key: password
+      profile: Modern2023
+
+  secretName: arloor-combined-tls
+  issuerRef:
+    name: letsencrypt-cluser-issuer
+    kind: ClusterIssuer
+  dnsNames:
+    - arloor.dev
+    - "*.arloor.dev"
+    - arloor.com
+    - "*.arloor.com"
+# # 查看证书状态
+# kubectl describe certificate arloor-combined-cert -n default
+# # 查看生成的证书 secret
+# kubectl get secret arloor-combined-tls -n default -o yaml
+```
+
+cmctl 使用
+
+```bash
+$ kubectl get certificate
+NAME                   READY   SECRET                AGE
+arloor-combined-cert   True    arloor-combined-tls   13h
+
+$ cmctl renew arloor-combined-cert -n default
+Manually triggered issuance of Certificate default/arloor-combined-cert
+
+$ kubectl get certificaterequest
+NAME                              READY   AGE
+arloor-combined-cert-tls-8rbv2         False    10s
+
+$ cmctl status certificate arloor-combined-cert -n default
+```
+
 ## 安装 kubernetes-dashboard
 
 ```bash
@@ -446,178 +618,6 @@ spec:
 
 ```bash
 kubectl logs -f deployment/reloader-reloader --tail 100
-```
-
-## Cert-Manager 部署
-
-- [kubectl apply 安装](https://cert-manager.io/docs/installation/kubectl/#steps)
-- [acme 配置](https://cert-manager.io/docs/configuration/acme/#all-together)
-- [使用 Cloudflare DNS-01 Issuer](https://cert-manager.io/docs/configuration/acme/dns01/cloudflare/)
-- [创建 Certificate 资源](https://cert-manager.io/docs/usage/certificate/)
-- [The cert-manager Command Line Tool (cmctl)](https://cert-manager.io/docs/reference/cmctl/)
-
-安装：
-
-```bash
-kubectl create namespace cert-manager
-kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.19.2/cert-manager.yaml
-
-# 为 cert-manager 相关的 deployment 配置 HTTP 代理
-kubectl set env deployment/cert-manager -n cert-manager HTTP_PROXY=http://mihomo.default.svc.cluster.local:7890 HTTPS_PROXY=http://mihomo.default.svc.cluster.local:7890 NO_PROXY=localhost,127.0.0.1,10.0.0.0/8,.svc,.cluster.local
-kubectl set env deployment/cert-manager-webhook -n cert-manager HTTP_PROXY=http://mihomo.default.svc.cluster.local:7890 HTTPS_PROXY=http://mihomo.default.svc.cluster.local:7890 NO_PROXY=localhost,127.0.0.1,10.0.0.0/8,.svc,.cluster.local
-kubectl set env deployment/cert-manager-cainjector -n cert-manager HTTP_PROXY=http://mihomo.default.svc.cluster.local:7890 HTTPS_PROXY=http://mihomo.default.svc.cluster.local:7890 NO_PROXY=localhost,127.0.0.1,10.0.0.0/8,.svc,.cluster.local
-kubectl rollout restart deployment cert-manager -n cert-manager
-kubectl rollout restart deployment cert-manager-webhook -n cert-manager
-kubectl rollout restart deployment cert-manager-cainjector -n cert-manager
-# 等待 cert-manager 相关的 pod 全部运行起来
-kubectl get pod -n cert-manager -w
-
-# 安装 cmctl 工具，用于验证 cert-manager api-server 的安装情况
-OS=$(go env GOOS); ARCH=$(go env GOARCH); curl -fsSL -o cmctl https://github.com/cert-manager/cmctl/releases/latest/download/cmctl_${OS}_${ARCH}
-chmod +x cmctl
-sudo mv cmctl /usr/local/bin
-# 验证安装
-cmctl check api
-```
-
-签发证书：
-
-```yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: cloudflare-api-token-secret
-  namespace: cert-manager
-type: Opaque
-stringData:
-  api-token: "your-cloudflare-api-token-here"
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: cert-pkcs12-password
-  namespace: default
-type: Opaque
-stringData:
-  password: "123456"
----
-apiVersion: cert-manager.io/v1
-kind: ClusterIssuer
-metadata:
-  name: letsencrypt-cluser-issuer
-spec:
-  acme:
-    # You must replace this email address with your own.
-    # Let's Encrypt will use this to contact you about expiring
-    # certificates, and issues related to your account.
-    email: root@xxxxx.xxxx
-    # If the ACME server supports profiles, you can specify the profile name here.
-    # See #acme-certificate-profiles below.
-    profile: tlsserver
-    server: https://acme-v02.api.letsencrypt.org/directory
-    privateKeySecretRef:
-      # Secret resource that will be used to store the account's private key.
-      # This is your identity with your ACME provider. Any secret name may be
-      # chosen. It will be populated with data automatically, so generally
-      # nothing further needs to be done with the secret. If you lose this
-      # identity/secret, you will be able to generate a new one and generate
-      # certificates for any/all domains managed using your previous account,
-      # but you will be unable to revoke any certificates generated using that
-      # previous account.
-      name: default-issuer-account-key
-    solvers:
-      # - http01:
-      #     ingress:
-      #       ingressClassName: nginx
-      #   selector:
-      #     matchLabels:
-      #       "use-http01-solver": "true"
-      - dns01:
-          cloudflare:
-            apiTokenSecretRef:
-              name: cloudflare-api-token-secret
-              key: api-token
-        selector:
-          dnsNames:
-            - "arloor.com"
-            - "*.arloor.com"
-            - "arloor.dev"
-            - "*.arloor.dev"
----
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: arloor-combined-cert
-  namespace: default
-spec:
-  privateKey:
-    algorithm: RSA
-    encoding: PKCS1 #PKCS8
-    size: 2048
-    rotationPolicy: Never # 或 Always
-
-  # keystores allows adding additional output formats. This is an example for reference only.
-  keystores:
-    pkcs12:
-      create: true
-      passwordSecretRef:
-        name: cert-pkcs12-password
-        key: password
-      profile: Modern2023
-
-  secretName: arloor-combined-tls
-  issuerRef:
-    name: letsencrypt-cluser-issuer
-    kind: ClusterIssuer
-  dnsNames:
-    - arloor.dev
-    - "*.arloor.dev"
-    - arloor.com
-    - "*.arloor.com"
-# # 查看证书状态
-# kubectl describe certificate arloor-combined-cert -n default
-# # 查看生成的证书 secret
-# kubectl get secret arloor-combined-tls -n default -o yaml
-```
-
-cmctl 使用
-
-```bash
-$ kubectl get certificate
-NAME                   READY   SECRET                AGE
-arloor-combined-cert   True    arloor-combined-tls   13h
-
-$ cmctl renew arloor-combined-cert -n default
-Manually triggered issuance of Certificate default/arloor-combined-cert
-
-$ kubectl get certificaterequest
-NAME                              READY   AGE
-arloor-combined-cert-tls-8rbv2         False    10s
-
-$ cmctl status certificate arloor-combined-cert -n default
-```
-
-## 导入 ACME 的 TLS 证书
-
-```yaml
-#! /bin/bash
-
-namespace="default monitoring kubernetes-dashboard"
-for ns in ${namespace}; do
-  kubectl apply -f -  <<EOF
-apiVersion: v1
-kind: Secret
-metadata:
-  # secret名
-  name: k3s-arloor-tls
-  # 证书放置的namespace
-  namespace: ${ns}
-type: kubernetes.io/tls
-data:
-  tls.crt: $(cat /root/.acme.sh/arloor.dev/fullchain.cer | base64 -w 0)
-  tls.key: $(cat /root/.acme.sh/arloor.dev/arloor.dev.key| base64 -w 0)
-EOF
-done
 ```
 
 ## 在 MacOS 上管理
