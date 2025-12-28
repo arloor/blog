@@ -204,6 +204,14 @@ EOF
 done
 ```
 
+## 安装 kubernetes-reflector 实现跨命名空间同步 cm 和 secret
+
+用于下面的 cert-manager 签发的证书 secret 跨命名空间同步
+
+```bash
+kubectl -n kube-system apply -f https://github.com/emberstack/kubernetes-reflector/releases/latest/download/reflector.yaml
+```
+
 ## Cert-Manager 部署
 
 - [kubectl apply 安装](https://cert-manager.io/docs/installation/kubectl/#steps)
@@ -306,6 +314,13 @@ metadata:
   name: arloor-combined-cert
   namespace: default
 spec:
+  secretTemplate:
+    annotations:
+      # 向所有的命名空间反射此 secret
+      reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
+      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: ""
+      reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
+      reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: ""
   privateKey:
     algorithm: RSA
     encoding: PKCS1 #PKCS8
