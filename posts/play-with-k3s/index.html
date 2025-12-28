@@ -487,6 +487,9 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>用于下面的 cert-manager 签发的证书 secret 跨命名空间同步</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl -n kube-system apply -f https://github.com/emberstack/kubernetes-reflector/releases/latest/download/reflector.yaml
 </span></span></code></pre></div><h2 id="cert-manager-部署">Cert-Manager 部署</h2>
+<blockquote>
+<p>签发很慢很慢，要10来分钟。。建议还是先用宿主机的 acme.sh 签发好证书，然后导入到 k3s 集群中</p>
+</blockquote>
 <ul>
 <li><a href="https://cert-manager.io/docs/installation/kubectl/#steps">kubectl apply 安装</a></li>
 <li><a href="https://cert-manager.io/docs/configuration/acme/#all-together">acme 配置</a></li>
