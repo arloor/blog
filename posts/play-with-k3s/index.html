@@ -283,6 +283,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     <li><a href="#重新签发-tls-证书增加自己的域名">重新签发 TLS 证书，增加自己的域名</a></li>
     <li><a href="#设置私有镜像仓库">设置私有镜像仓库</a></li>
     <li><a href="#导入-acme-的-tls-证书">导入 ACME 的 TLS 证书</a></li>
+    <li><a href="#安装-kubernetes-reflector-实现跨命名空间同步-cm-和-secret">安装 kubernetes-reflector 实现跨命名空间同步 cm 和 secret</a></li>
     <li><a href="#cert-manager-部署">Cert-Manager 部署</a></li>
     <li><a href="#安装-kubernetes-dashboard">安装 kubernetes-dashboard</a></li>
     <li><a href="#配置-kubernetes-dashboard-的-ingress">配置 kubernetes-dashboard 的 ingress</a></li>
@@ -482,6 +483,9 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">tls.key</span>: <span style="color:#ae81ff">$(cat /root/.acme.sh/arloor.dev/arloor.dev.key| base64 -w 0)</span>
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">EOF</span>
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">done</span>
+</span></span></code></pre></div><h2 id="安装-kubernetes-reflector-实现跨命名空间同步-cm-和-secret">安装 kubernetes-reflector 实现跨命名空间同步 cm 和 secret</h2>
+<p>用于下面的 cert-manager 签发的证书 secret 跨命名空间同步</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl -n kube-system apply -f https://github.com/emberstack/kubernetes-reflector/releases/latest/download/reflector.yaml
 </span></span></code></pre></div><h2 id="cert-manager-部署">Cert-Manager 部署</h2>
 <ul>
 <li><a href="https://cert-manager.io/docs/installation/kubectl/#steps">kubectl apply 安装</a></li>
@@ -578,6 +582,13 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">arloor-combined-cert</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">default</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">secretTemplate</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">annotations</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e"># 向所有的命名空间反射此 secret</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">reflector.v1.k8s.emberstack.com/reflection-allowed</span>: <span style="color:#e6db74">&#34;true&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces</span>: <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">reflector.v1.k8s.emberstack.com/reflection-auto-enabled</span>: <span style="color:#e6db74">&#34;true&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">reflector.v1.k8s.emberstack.com/reflection-auto-namespaces</span>: <span style="color:#e6db74">&#34;&#34;</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">privateKey</span>:
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">algorithm</span>: <span style="color:#ae81ff">RSA</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">encoding</span>: <span style="color:#ae81ff">PKCS1</span> <span style="color:#75715e">#PKCS8</span>
