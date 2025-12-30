@@ -214,7 +214,7 @@ kubectl -n kube-system apply -f https://github.com/emberstack/kubernetes-reflect
 
 ## Cert-Manager 部署
 
-> 签发很慢很慢，要10来分钟。。建议还是先用宿主机的 acme.sh 签发好证书，然后导入到 k3s 集群中
+> 签发很慢很慢，要 10 来分钟。。建议还是先用宿主机的 acme.sh 签发好证书，然后导入到 k3s 集群中
 
 - [kubectl apply 安装](https://cert-manager.io/docs/installation/kubectl/#steps)
 - [acme 配置](https://cert-manager.io/docs/configuration/acme/#all-together)
@@ -369,6 +369,8 @@ arloor-combined-cert-tls-8rbv2         False    10s
 
 $ cmctl status certificate arloor-combined-cert -n default
 ```
+
+> 如果 cmctl renew 很慢，可以尝试删除对应的 CertificateRequest 资源，会触发重建。
 
 ## 安装 kubernetes-dashboard
 
