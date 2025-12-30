@@ -133,8 +133,6 @@ K3S_URL=https://118.25.142.222:6443  \
 2. 去除 server/agent 服务多云相关的参数：--node-external-ip 、 --flannel-external-ip 、--flannel-backend=wireguard-native 等；
 3. 最后重启 server/agent 服务即可
 
-但是 wireguard-native 的后端貌似无法回退到 host-gw
-
 ### 另一个选择：使用 Rancher 的中国加速镜像安装
 
 ```bash
