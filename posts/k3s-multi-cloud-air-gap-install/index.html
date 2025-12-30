@@ -407,7 +407,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>去除 server/agent 服务多云相关的参数：&ndash;node-external-ip 、 &ndash;flannel-external-ip 、&ndash;flannel-backend=wireguard-native 等；</li>
 <li>最后重启 server/agent 服务即可</li>
 </ol>
-<p>但是 wireguard-native 的后端貌似无法回退到 host-gw</p>
 <h3 id="另一个选择使用-rancher-的中国加速镜像安装">另一个选择：使用 Rancher 的中国加速镜像安装</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>. unpass
 </span></span><span style="display:flex;"><span>curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh -o install.sh
