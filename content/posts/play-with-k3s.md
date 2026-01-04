@@ -646,7 +646,7 @@ mkdir -p ~/.kube
 scp -P 2222 root@k3s.arloor.com:/etc/rancher/k3s/k3s.yaml ~/.kube/config
 curl -LO "https://dl.k8s.io/release/v1.33.1/bin/darwin/arm64/kubectl"
 chmod +x kubectl
-mv kubectl /data/bin/
+mv kubectl ~/bin/
 sed -i "" 's/127.0.0.1/v6.arloor.com/' ~/.kube/config
 kubectl get nodes
 ```
