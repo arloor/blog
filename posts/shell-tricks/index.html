@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.153.5">
+<meta name="generator" content="Hugo 0.154.2">
 
     
     
@@ -207,7 +207,7 @@
     </div>
     
 <div class="copyright">
-  &copy; 2025 arloor
+  &copy; 2026 arloor
   
     <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>
   
@@ -415,7 +415,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>总体来说，组合这些选项的效果是，<code>curl</code> 将在正常操作时保持静默，但在出现错误时显示错误消息，同时自动处理重定向并且在遇到服务器错误时失败。这使得 <code>curl</code> 更加方便地用于自动化脚本和错误处理，尤其是在你的观察性平台开发工作中可能会非常有用。</p>
 <h2 id="curl-并-gzip-解压缩">curl 并 gzip 解压缩</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>version<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;2023.07.22&#34;</span>
-</span></span><span style="display:flex;"><span>curl -Lf <span style="color:#e6db74">&#34;https://github.com/Dreamacro/clash/releases/download/premium/clash-linux-amd64-</span><span style="color:#e6db74">${</span>version<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>.gz | gzip -d &gt; /tmp/clash
+</span></span><span style="display:flex;"><span>curl -Lf <span style="color:#e6db74">&#34;https://github.com/Dreamacro/clash/releases/download/premium/clash-</span><span style="color:#66d9ef">$(</span>go env GOOS<span style="color:#66d9ef">)</span><span style="color:#e6db74">-</span><span style="color:#66d9ef">$(</span>go env GOARCH<span style="color:#66d9ef">)</span><span style="color:#e6db74">-</span><span style="color:#e6db74">${</span>version<span style="color:#e6db74">}</span><span style="color:#e6db74">.gz&#34;</span> | gzip -d &gt; /tmp/clash
 </span></span><span style="display:flex;"><span>install -m <span style="color:#ae81ff">777</span> /tmp/clash /usr/local/bin/clash
 </span></span></code></pre></div><h2 id="shell-脚本获取脚本所在目录">shell 脚本获取脚本所在目录</h2>
 <ul>
