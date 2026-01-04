@@ -188,7 +188,7 @@ EPF
 
 ```bash
 version="2023.07.22"
-curl -Lf "https://github.com/Dreamacro/clash/releases/download/premium/clash-linux-amd64-${version}".gz | gzip -d > /tmp/clash
+curl -Lf "https://github.com/Dreamacro/clash/releases/download/premium/clash-$(go env GOOS)-$(go env GOARCH)-${version}.gz" | gzip -d > /tmp/clash
 install -m 777 /tmp/clash /usr/local/bin/clash
 ```
 
