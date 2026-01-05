@@ -420,8 +420,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     </span>
     <span >
       
-      <p>简单说下问题：多个goroutine并发读写string，读取string（<code>fmt.Println</code>和<code>json.Marshal</code>）的goroutine会panic。根因是string是一个胖指针，除了pointer字段之外还有一个len字段的元数据。在给string变量赋值（拷贝）时，会逐个设置pointer和len字段，这个过程不是原子的。在有并发修改时，pointer和len就不一致了，这时就回发生问题：当len不为0，pointer为nil(0x0)时，就会<code>panic: runtime error: invalid memory address or nil pointer dereference</code>。</p>
-<p>本文首先探究下为什么golang string有这个问题，然后对比下java的string为什么没这个问题，最后介绍数据争用(data race)问题以及Golang和Rust如何避免该问题。</p>
+      <p>简单说下问题：多个 goroutine 并发读写 string，读取 string（<code>fmt.Println</code>和<code>json.Marshal</code>）的 goroutine 会 panic。根因是 string 是一个胖指针，除了 pointer 字段之外还有一个 len 字段的元数据。在给 string 变量赋值（拷贝）时，会逐个设置 pointer 和 len 字段，这个过程不是原子的。在有并发修改时，pointer 和 len 就不一致了，这时就回发生问题：当 len 不为 0，pointer 为 nil(0x0)时，就会<code>panic: runtime error: invalid memory address or nil pointer dereference</code>。</p>
+<p>本文首先探究下为什么 golang string 有这个问题，然后对比下 java 的 string 为什么没这个问题，最后介绍数据争用(data race)问题以及 Golang 和 Rust 如何避免该问题。</p>
       
     </span>
     
