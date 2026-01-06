@@ -259,7 +259,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     
     
     <br/>
-    <i class="fas fa-clock"></i> 3 min read
+    <i class="fas fa-clock"></i> 4 min read
 </div>
 
 
@@ -339,7 +339,14 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
 </span></span><span style="display:flex;"><span>chmod +x ~/bin/testgo
 </span></span></code></pre></div><h2 id="vscode-设置">vscode 设置</h2>
-<p>首先安装插件 <code>golang.go</code>。然后参考 <a href="https://github.com/devcontainers/features/blob/main/src/go/install.sh#L177">codespaces devcontainers go feature install.sh</a>，安装相关的依赖：</p>
+<ol>
+<li>
+<p>首先安装插件 <code>golang.go</code>。</p>
+</li>
+<li>
+<p>然后使用 <code>cmd + shift + p</code> 输入&quot;Go Install/Update Packages&quot;，安装/升级依赖的包。或者参考 <a href="https://github.com/devcontainers/features/blob/main/src/go/install.sh#L177">codespaces devcontainers go feature install.sh</a>，安装相关的依赖：</p>
+</li>
+</ol>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Install Go tools that are isImportant &amp;&amp; !replacedByGopls based on</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># https://github.com/golang/vscode-go/blob/v0.38.0/src/goToolsInformation.ts</span>
 </span></span><span style="display:flex;"><span>GO_TOOLS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;\
