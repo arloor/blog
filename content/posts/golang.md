@@ -17,7 +17,7 @@ highlightjslanguages:
 
 <!--more-->
 
-## 安装 golang 
+## 安装 golang
 
 ### linux-amd64
 
@@ -82,7 +82,9 @@ chmod +x ~/bin/testgo
 
 ## vscode 设置
 
-首先安装插件 `golang.go`。然后参考 [codespaces devcontainers go feature install.sh](https://github.com/devcontainers/features/blob/main/src/go/install.sh#L177)，安装相关的依赖：
+1. 首先安装插件 `golang.go`。
+
+2. 然后使用 `cmd + shift + p` 输入"Go Install/Update Packages"，安装/升级依赖的包。或者参考 [codespaces devcontainers go feature install.sh](https://github.com/devcontainers/features/blob/main/src/go/install.sh#L177)，安装相关的依赖：
 
 ```bash
 # Install Go tools that are isImportant && !replacedByGopls based on
