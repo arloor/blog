@@ -151,6 +151,7 @@ go test -c github.com/arloor/xxxx/internal/app -o __debug_bin_test -gcflags='all
     // "-c=~/.golangci.yml", // 会逐层寻找配置文件，所以不需要指定
     "-n", // 仅lint新代码
     "-v"
+    // "--fix", // 自动修复问题
   ],
   "go.toolsManagement.autoUpdate": true,
   "go.formatTool": "gofmt",
