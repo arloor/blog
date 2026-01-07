@@ -175,9 +175,13 @@ go test -c github.com/arloor/xxxx/internal/app -o __debug_bin_test -gcflags='all
 go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.7.2
 ```
 
-配置见[.golangci_v2.yml](/.golangci_v2.yml)
-
 - [golangci-lint v2 文档](https://golangci-lint.run/docs/configuration/)
+
+下载本站的配置文件:
+
+```bash
+curl https://www.arloor.com/.golangci_v2.yml -f -o ~/.golangci.yml
+```
 
 ## golangci-lint v1 使用
 
@@ -193,7 +197,11 @@ go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.64.8
 
 需要在某些地方忽略某个 `linter` 时，可以注释 `//nolint:xx,xx`，这个注释可以用在 go 文件开头、行末、函数、结构体，分别代表不同的作用域。
 
-配置见[.golangci.yml](/.golangci.yml)
+下载本站的配置文件:
+
+```bash
+curl https://www.arloor.com/.golangci.yml -f -o ~/.golangci.yml
+```
 
 ## defer
 
