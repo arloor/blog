@@ -84,36 +84,11 @@ chmod +x ~/bin/testgo
 
 1. 首先安装插件 `golang.go`。
 
-2. 配置 settings.json:
-
-```json
-{
-  "go.lintTool": "golangci-lint-v2",
-  "go.toolsManagement.autoUpdate": true,
-  "go.formatTool": "gofmt",
-  "go.testExplorer.showOutput": true,
-  "[go]": {
-    "editor.formatOnSave": true,
-    "editor.codeActionsOnSave": {
-      "source.organizeImports": "always"
-    }
-  },
-  "go.testFlags": [
-    "-gcflags=all=-l", // 针对run test禁用内联优化，使gomonkey可以成功打桩。对debug test不生效，因为golang插件针对debug test自行设置了-gcflags="all=-l -N"
-    "-v", // 使run test可以输出t.Logf的日志。对debug test不生效，只在test fail的时候才会打印t.Logf的日志
-    "--count=1" // 不缓存go test的结果
-  ],
-  "go.formatFlags": ["-w"]
-}
-```
-
-> 这样的配置下仍有一个棘手的问题难以解决：CodeLens 的 debug test 难以打印 `t.Logf` 的日志，除非 test fail，万般尝试都失败，最终放弃吧。
-
-3. 然后使用 `cmd + shift + p` 输入"Go Install/Update Packages"，安装/升级依赖的包，参考[tools](https://github.com/golang/vscode-go/wiki/tools)和[/extension/src/goToolsInformation.ts](https://github.com/golang/vscode-go/blob/master/extension/src/goToolsInformation.ts)。
+2. 然后使用 `cmd + shift + p` 输入"Go Install/Update Packages"，安装/升级依赖的包，参考[tools](https://github.com/golang/vscode-go/wiki/tools)和[/extension/src/goToolsInformation.ts](https://github.com/golang/vscode-go/blob/master/extension/src/goToolsInformation.ts)。
 
 > The extension depends on go, gopls, dlv and other optional tools. If any of the dependencies are missing, the ⚠️ Analysis Tools Missing warning is displayed. Click on the warning to download dependencies.See the [tools documentation](https://github.com/golang/vscode-go/wiki/tools) for a complete list of tools the extension depends on.
 
-4. 最后配置 `launch.json`:
+3. 配置 `launch.json`:
 
 **注意**：golang debug 不能正确处理软链接，所以最好不要把项目放在软链接的文件夹中，或者配置 `substitutePath`，见[Debug symlink directories](https://github.com/golang/vscode-go/wiki/debugging#debug-symlink-directories)和[go.delveConfig settings](https://github.com/golang/vscode-go/wiki/debugging#settings)(用于 CodeLens 里的 debug test 按钮)。其他高级配置可以见 [vscode-go debugging](https://github.com/golang/vscode-go/wiki/debugging)，也可以见 [delve 的调试命令 ˝](https://github.com/go-delve/delve/blob/master/Documentation/cli/README.md)。
 
@@ -166,6 +141,32 @@ go test -c github.com/arloor/xxxx/internal/app -o __debug_bin_test -gcflags='all
 ./__debug_bin_test -test.v -test.run="^TestGetRTMPAccessPoint$" -test.bench="BenchmarkTranslateWithFallback" -test.benchmem
 # 可以参考 go help test, go help testflag
 ```
+
+4. 配置 settings.json:
+
+```json
+{
+  "go.lintTool": "golangci-lint-v2",
+  "go.lintFlags": ["-n", "-v"],
+  "go.toolsManagement.autoUpdate": true,
+  "go.formatTool": "gofmt",
+  "go.testExplorer.showOutput": true,
+  "[go]": {
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "always"
+    }
+  },
+  "go.testFlags": [
+    "-gcflags=all=-l", // 针对run test禁用内联优化，使gomonkey可以成功打桩。对debug test不生效，因为golang插件针对debug test自行设置了-gcflags="all=-l -N"
+    "-v", // 使run test可以输出t.Logf的日志。对debug test不生效，只在test fail的时候才会打印t.Logf的日志
+    "--count=1" // 不缓存go test的结果
+  ],
+  "go.formatFlags": ["-w"]
+}
+```
+
+> 这样的配置下仍有一个棘手的问题难以解决：CodeLens 的 debug test 难以打印 `t.Logf` 的日志，除非 test fail，万般尝试都失败，最终放弃吧。
 
 ## golangci-lint v2 使用
 
