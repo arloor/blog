@@ -88,7 +88,7 @@ chmod +x ~/bin/testgo
 
 ```json
 {
-  "go.lintTool": "golangci-lint",
+  "go.lintTool": "golangci-lint-v2",
   "go.toolsManagement.autoUpdate": true,
   "go.formatTool": "gofmt",
   "go.testExplorer.showOutput": true,
