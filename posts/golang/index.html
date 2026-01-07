@@ -429,7 +429,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li><a href="https://golangci-lint.run/docs/configuration/">golangci-lint v2 文档</a></li>
 </ul>
 <p>下载本站的配置文件:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl https://www.arloor.com/.golangci_v2.yml -f -o ~/.golangci.yml
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl https://www.arloor.com/golangci/v2/.golangci.yml -f -o ~/.golangci.yml
 </span></span></code></pre></div><h2 id="golangci-lint-v1-使用">golangci-lint v1 使用</h2>
 <p>安装</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.64.8
@@ -439,7 +439,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </ul>
 <p>需要在某些地方忽略某个 <code>linter</code> 时，可以注释 <code>//nolint:xx,xx</code>，这个注释可以用在 go 文件开头、行末、函数、结构体，分别代表不同的作用域。</p>
 <p>下载本站的配置文件:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl https://www.arloor.com/.golangci.yml -f -o ~/.golangci.yml
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl https://www.arloor.com/golangci/v1/.golangci.yml -f -o ~/.golangci.yml
 </span></span></code></pre></div><h2 id="defer">defer</h2>
 <ol>
 <li>defer 匿名函数中“<strong>捕获</strong>”的参数是<strong>执行时</strong>的最新值。而“<strong>传递</strong>”的参数是声明 defer 时确定的。</li>
