@@ -144,6 +144,8 @@ go test -c github.com/arloor/xxxx/internal/app -o __debug_bin_test -gcflags='all
 
 4. 配置 settings.json:
 
+[vscode-go/wiki/settings](https://github.com/golang/vscode-go/wiki/settings)
+
 ```json
 {
   "go.lintTool": "golangci-lint-v2",
