@@ -167,14 +167,29 @@ go test -c github.com/arloor/xxxx/internal/app -o __debug_bin_test -gcflags='all
 # 可以参考 go help test, go help testflag
 ```
 
-## golangci-lint 使用
+## golangci-lint v2 使用
+
+安装：
+
+```bash
+go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.7.2
+```
+
+配置见[.golangci_v2.yml](/.golangci_v2.yml)
+
+- [golangci-lint v2 文档](https://golangci-lint.run/docs/configuration/)
+
+## golangci-lint v1 使用
+
+安装
+
+```bash
+go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.64.8
+```
 
 参考文档：
 
-- [Configuration](https://golangci-lint.run/usage/configuration/)
-- [Linters](https://golangci-lint.run/usage/linters/)
-- [False Positives](https://golangci-lint.run/usage/false-positives/)
-- [Nolint Directive](https://golangci-lint.run/usage/false-positives/#nolint-directive)
+- [Configuration](https://golangci.github.io/legacy-v1-doc/usage/configuration/)
 
 需要在某些地方忽略某个 `linter` 时，可以注释 `//nolint:xx,xx`，这个注释可以用在 go 文件开头、行末、函数、结构体，分别代表不同的作用域。
 
