@@ -259,7 +259,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     
     
     <br/>
-    <i class="fas fa-clock"></i> 3 min read
+    <i class="fas fa-clock"></i> 4 min read
 </div>
 
 
@@ -283,7 +283,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     <li><a href="#设置私有仓库等-golang-环境变量">设置私有仓库等 golang 环境变量</a></li>
     <li><a href="#设置-go-test-的快捷命令">设置 go test 的快捷命令</a></li>
     <li><a href="#vscode-设置">vscode 设置</a></li>
-    <li><a href="#golangci-lint-使用">golangci-lint 使用</a></li>
+    <li><a href="#golangci-lint-v2-使用">golangci-lint v2 使用</a></li>
+    <li><a href="#golangci-lint-v1-使用">golangci-lint v1 使用</a></li>
     <li><a href="#defer">defer</a></li>
     <li><a href="#类型转换">类型转换</a></li>
     <li><a href="#golang-枚举">Golang 枚举</a></li>
@@ -421,13 +422,19 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>go test -c github.com/arloor/xxxx/internal/app -o __debug_bin_test -gcflags<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;all=-N -l&#39;</span> <span style="color:#75715e"># -gcflags是vscode自动加入的，用于关闭优化，使得可以断点调试</span>
 </span></span><span style="display:flex;"><span>./__debug_bin_test -test.v -test.run<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;^TestGetRTMPAccessPoint</span>$<span style="color:#e6db74">&#34;</span> -test.bench<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;BenchmarkTranslateWithFallback&#34;</span> -test.benchmem
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 可以参考 go help test, go help testflag</span>
-</span></span></code></pre></div><h2 id="golangci-lint-使用">golangci-lint 使用</h2>
-<p>参考文档：</p>
+</span></span></code></pre></div><h2 id="golangci-lint-v2-使用">golangci-lint v2 使用</h2>
+<p>安装：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.7.2
+</span></span></code></pre></div><p>配置见<a href="/.golangci_v2.yml">.golangci_v2.yml</a></p>
 <ul>
-<li><a href="https://golangci-lint.run/usage/configuration/">Configuration</a></li>
-<li><a href="https://golangci-lint.run/usage/linters/">Linters</a></li>
-<li><a href="https://golangci-lint.run/usage/false-positives/">False Positives</a></li>
-<li><a href="https://golangci-lint.run/usage/false-positives/#nolint-directive">Nolint Directive</a></li>
+<li><a href="https://golangci-lint.run/docs/configuration/">golangci-lint v2 文档</a></li>
+</ul>
+<h2 id="golangci-lint-v1-使用">golangci-lint v1 使用</h2>
+<p>安装</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.64.8
+</span></span></code></pre></div><p>参考文档：</p>
+<ul>
+<li><a href="https://golangci.github.io/legacy-v1-doc/usage/configuration/">Configuration</a></li>
 </ul>
 <p>需要在某些地方忽略某个 <code>linter</code> 时，可以注释 <code>//nolint:xx,xx</code>，这个注释可以用在 go 文件开头、行末、函数、结构体，分别代表不同的作用域。</p>
 <p>配置见<a href="/.golangci.yml">.golangci.yml</a></p>
