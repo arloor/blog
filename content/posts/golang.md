@@ -149,7 +149,7 @@ go test -c github.com/arloor/xxxx/internal/app -o __debug_bin_test -gcflags='all
   "go.lintTool": "golangci-lint-v2",
   "go.lintFlags": [
     // "-c=~/.golangci.yml", // 会逐层寻找配置文件，所以不需要指定
-    "-n",
+    "-n", // 仅lint新代码
     "-v"
   ],
   "go.toolsManagement.autoUpdate": true,
