@@ -180,7 +180,7 @@ go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.7.2
 下载本站的配置文件:
 
 ```bash
-curl https://www.arloor.com/.golangci_v2.yml -f -o ~/.golangci.yml
+curl https://www.arloor.com/golangci/v2/.golangci.yml -f -o ~/.golangci.yml
 ```
 
 ## golangci-lint v1 使用
@@ -200,7 +200,7 @@ go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.64.8
 下载本站的配置文件:
 
 ```bash
-curl https://www.arloor.com/.golangci.yml -f -o ~/.golangci.yml
+curl https://www.arloor.com/golangci/v1/.golangci.yml -f -o ~/.golangci.yml
 ```
 
 ## defer
