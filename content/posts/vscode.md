@@ -9,6 +9,8 @@ subtitle: ""
 description : ""
 keywords:
 - 刘港欢 arloor moontell
+highlightjslanguages: 
+- powershell
 ---
 
 ## 字体配置——使用JetBrains Mono
@@ -368,6 +370,12 @@ MacOS上：
 if ! grep TERM_PROGRAM ~/.zshrc;then
   echo '[[ "$TERM_PROGRAM" == "vscode" ]] && . "$(/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --locate-shell-integration-path zsh)"' >> ~/.zshrc
 fi
+```
+
+3. 在windows pwsh上手动开启集成terminal
+
+```powershell
+if ($env:TERM_PROGRAM -eq "vscode") { . "$(code --locate-shell-integration-path pwsh)" }
 ```
 
 ## 文件自动保存+自动格式化

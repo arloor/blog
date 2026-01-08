@@ -3,7 +3,7 @@
         "**/node_modules": true,
         "**/bower_components": true,
         "**/*.code-search": true,
-        "content/posts": true,
+        "posts": true,
         "static/img": true
     },
     "github-actions.workflows.pinned.workflows": [
