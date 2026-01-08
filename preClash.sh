@@ -1,6 +1,6 @@
 mkdir -p static/clash/ruleset
 cd static/clash/ruleset
-for url in `awk -F "[ \"]+" '$2=="url:" {print $3}' <(curl -sSLf http://cdn.arloor.com/clash/clash.yaml)` 
+for url in `awk -F "[ \"]+" '$2=="url:" {print $3}' <(curl -sSLf http://cdn.arloor.com/clash/mihomo.yaml)` 
 do
     echo 下载 $url
     curl -sSLfO $url
