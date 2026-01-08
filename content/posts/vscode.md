@@ -499,9 +499,10 @@ if ($env:TERM_PROGRAM -eq "vscode") { . "$(code --locate-shell-integration-path 
   "git.pullTags": false, // 不自动拉取tag，避免github action更新的tag被拉取，导致git pull失败
   "github.copilot.enable": {
     "*": true,
-    "plaintext": false,
+    "plaintext": true,
     "markdown": true,
-    "scminput": false
+    "scminput": false,
+    "ini": false
   },
   "python.analysis.inlayHints.callArgumentNames": "all",
   "python.analysis.inlayHints.functionReturnTypes": true,
@@ -511,7 +512,7 @@ if ($env:TERM_PROGRAM -eq "vscode") { . "$(code --locate-shell-integration-path 
   "github-actions.workflows.pinned.refresh.enabled": true, // 自动刷新被pin住的github action的执行状态，可能触发Github API的限制
   "github-actions.workflows.pinned.refresh.interval": 10,
   "remote.SSH.defaultExtensions": [
-    "mhutchie.git-graph",
+    "gxl.git-graph-3",
     "github.copilot",
     "github.vscode-github-actions", // github actions
     "rust-lang.rust-analyzer", // rust-analyzer
@@ -524,21 +525,39 @@ if ($env:TERM_PROGRAM -eq "vscode") { . "$(code --locate-shell-integration-path 
   ],
   "workbench.colorTheme": "Default Dark+",
   "rust-analyzer.check.command": "clippy",
+  "rust-analyzer.completion.autoimport.exclude": [
+    {
+      "path": "anyhow::Ok",
+      "type": "always"
+    },
+    {
+      "path": "prometheus_client::metrics::info",
+      "type": "always"
+    }
+  ],
   "window.commandCenter": false,
   "workbench.layoutControl.enabled": false,
-  "go.lintTool": "golangci-lint",
+  "go.lintTool": "golangci-lint-v2",
+  "go.lintFlags": [
+    // "-c=~/.golangci.yml", // 会逐层寻找配置文件，所以不需要指定
+    // "-n", // 仅lint新代码
+    "-v",
+    "--fast-only" // 快速模式，跳过一些耗时的检查
+    // "--tests=false", // 不lint测试代码
+    // "--fix", // 自动修复问题
+  ],
   "remote.SSH.remotePlatform": {
-    "bi.arloor.com": "linux",
-    "pl.arloor.com": "linux",
-    "tt.arloor.com": "linux",
-    "192.168.5.244": "macOS"
+    "windows": "windows",
+    "wsl": "linux",
+    "mac": "macOS",
+    "station": "linux",
+    "windows.arloor.com": "windows",
+    "devbox": "linux"
   },
   "go.toolsManagement.autoUpdate": true,
-  "diffEditor.ignoreTrimWhitespace": true,
+  "diffEditor.ignoreTrimWhitespace": false,
   "debug.onTaskErrors": "showErrors",
-  "diffEditor.renderSideBySide": true,
-  "github.copilot.editor.enableAutoCompletions": true,
-  "terminal.integrated.shellIntegration.enabled": false,
+  "diffEditor.renderSideBySide": false,
   "go.formatTool": "gofmt",
   "editor.formatOnSave": true,
   "files.autoSave": "afterDelay",
@@ -551,24 +570,18 @@ if ($env:TERM_PROGRAM -eq "vscode") { . "$(code --locate-shell-integration-path 
   },
   "go.testFlags": [
     "-gcflags=all=-l", // 针对run test禁用内联优化，使gomonkey可以成功打桩。对debug test不生效，因为golang插件针对debug test自行设置了-gcflags="all=-l -N"
-    "-v" // 使run test可以输出t.Logf的日志。对debug test不生效，只在test fail的时候才会打印t.Logf的日志
+    "-v", // 使run test可以输出t.Logf的日志。对debug test不生效，只在test fail的时候才会打印t.Logf的日志
+    "--count=1" // 不缓存go test的结果
   ],
   "go.formatFlags": ["-w"],
   "security.workspace.trust.untrustedFiles": "open",
   "go.testExplorer.showOutput": true,
-  "gitblame.inlineMessageEnabled": true,
-  "gitblame.inlineMessageFormat": "${author.name}, (${time.ago}) · ${commit.summary}",
-  "github.copilot.advanced": {
-    "authProvider": "github"
-  },
   "files.associations": {
     "*.json": "jsonc"
   },
-  "diffEditor.hideUnchangedRegions.enabled": true,
   "terminal.integrated.profiles.windows": {
     "PowerShell": {
-      "source": "PowerShell",
-      "icon": "terminal-powershell"
+      "path": "C:\\Program Files\\PowerShell\\7\\pwsh.exe"
     },
     "Command Prompt": {
       "path": [
@@ -579,7 +592,8 @@ if ($env:TERM_PROGRAM -eq "vscode") { . "$(code --locate-shell-integration-path 
       "icon": "terminal-cmd"
     },
     "Git Bash": {
-      "source": "Git Bash"
+      "source": "Git Bash",
+      "icon": "terminal-git-bash"
     },
     "Debian (WSL)": {
       "path": "C:\\Windows\\System32\\wsl.exe",
@@ -589,77 +603,78 @@ if ($env:TERM_PROGRAM -eq "vscode") { . "$(code --locate-shell-integration-path 
       "path": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
     }
   },
-  "terminal.integrated.defaultProfile.windows": "Windows PowerShell",
+  "terminal.integrated.defaultProfile.windows": "PowerShell",
   "dev.containers.executeInWSL": true,
   "diffEditor.experimental.showMoves": true,
   "git-graph.commitDetailsView.location": "Docked to Bottom",
   "git-graph.date.format": "ISO Date & Time",
-  "leek-fund.stocks": [
-    "sh000300",
-    "sh000688",
-    "hk03690",
-    "hk00700",
-    "usr_ixic",
-    "usr_dji",
-    "usr_inx",
-    "nf_IF0",
-    "nf_IH0",
-    "nf_IC0",
-    "nf_IM0",
-    "hf_OIL",
-    "hf_CHA50CFD",
-    "sz002768",
-    "sz002212",
-    "sz002602",
-    "sh603983"
-  ],
-  "leek-fund.statusBarStock": ["sz002602"],
-  "leek-fund.stockPrice": {
-    "sz002768": {
-      "name": "国恩股份",
-      "amount": 0,
-      "price": "22.31",
-      "unitPrice": 0,
-      "earnings": 0
-    },
-    "sz002212": {
-      "name": "天融信",
-      "amount": 0,
-      "price": "6.79",
-      "unitPrice": 0,
-      "earnings": 0
-    },
-    "sz002602": {
-      "name": "ST华通",
-      "amount": 117200,
-      "price": "4.33",
-      "unitPrice": 4.233,
-      "earnings": 0
-    },
-    "sh603899": {
-      "name": "晨光股份",
-      "amount": 100,
-      "price": "29.70",
-      "unitPrice": 30.6,
-      "earnings": 0
-    },
-    "hk03690": {
-      "name": "美团-W",
-      "amount": 0,
-      "price": "162.0",
-      "unitPrice": 0,
-      "earnings": 0
-    },
-    "hk00700": {
-      "name": "腾讯控股",
-      "amount": 0,
-      "price": "395.2",
-      "unitPrice": 0,
-      "earnings": 0
-    }
-  },
   "git.blame.editorDecoration.enabled": true,
   "git.blame.statusBarItem.enabled": true,
-  "git.blame.editorDecoration.template": "${authorName} (${authorDateAgo}), ${subject}"
+  "git.blame.editorDecoration.template": "${authorName} (${authorDateAgo}), ${subject}",
+  "remote.SSH.localServerDownload": "off",
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[dockerfile]": {
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "chat.agent.enabled": true,
+  "editor.largeFileOptimizations": false,
+  "editor.accessibilitySupport": "off",
+  "redhat.telemetry.enabled": true,
+  "github.copilot.nextEditSuggestions.enabled": false,
+  "[typescript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "terminal.integrated.shellIntegration.enabled": false,
+  "[dockercompose]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "editor.autoIndent": "advanced",
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "[github-actions-workflow]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "workbench.panel.defaultLocation": "bottom",
+  "terminal.integrated.enableMultiLinePasteWarning": "never",
+  "claudeCode.useTerminal": true,
+  "claudeCode.environmentVariables": [
+    {
+      "name": "ANTHROPIC_BASE_URL",
+      "value": "https://api.burn.hair"
+    },
+    {
+      "name": "ANTHROPIC_API_KEY",
+      "value": "sk-M4vTPwc745UT1HtyJJZpd2YAWcKiYHRH9PAsmOIJWPmt1tb7"
+    }
+    // {
+    //   "name": "ANTHROPIC_AUTH_TOKEN",
+    //   "value": "sk-M4vTPwc745UT1HtyJJZpd2YAWcKiYHRH9PAsmOIJWPmt1tb7"
+    // }
+  ],
+  "chat.tools.terminal.autoApprove": {
+    "cargo build": true,
+    "/^cargo check -p rust_http_proxy$/": {
+      "approve": true,
+      "matchCommandLine": true
+    }
+  },
+  "claudeCode.preferredLocation": "panel",
+  "chat.mcp.gallery.enabled": true,
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "chat.viewSessions.orientation": "stacked",
+  "[yaml]": {
+    "diffEditor.ignoreTrimWhitespace": false
+  }
 }
 ```
