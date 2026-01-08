@@ -857,9 +857,10 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;git.pullTags&#34;</span>: <span style="color:#66d9ef">false</span>, <span style="color:#75715e">// 不自动拉取tag，避免github action更新的tag被拉取，导致git pull失败
 </span></span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;github.copilot.enable&#34;</span>: {
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;*&#34;</span>: <span style="color:#66d9ef">true</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;plaintext&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;plaintext&#34;</span>: <span style="color:#66d9ef">true</span>,
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;markdown&#34;</span>: <span style="color:#66d9ef">true</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;scminput&#34;</span>: <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;scminput&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;ini&#34;</span>: <span style="color:#66d9ef">false</span>
 </span></span><span style="display:flex;"><span>  },
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;python.analysis.inlayHints.callArgumentNames&#34;</span>: <span style="color:#e6db74">&#34;all&#34;</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;python.analysis.inlayHints.functionReturnTypes&#34;</span>: <span style="color:#66d9ef">true</span>,
@@ -869,7 +870,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;github-actions.workflows.pinned.refresh.enabled&#34;</span>: <span style="color:#66d9ef">true</span>, <span style="color:#75715e">// 自动刷新被pin住的github action的执行状态，可能触发Github API的限制
 </span></span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;github-actions.workflows.pinned.refresh.interval&#34;</span>: <span style="color:#ae81ff">10</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;remote.SSH.defaultExtensions&#34;</span>: [
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;mhutchie.git-graph&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;gxl.git-graph-3&#34;</span>,
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;github.copilot&#34;</span>,
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;github.vscode-github-actions&#34;</span>, <span style="color:#75715e">// github actions
 </span></span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;rust-lang.rust-analyzer&#34;</span>, <span style="color:#75715e">// rust-analyzer
@@ -882,21 +883,39 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>  ],
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;workbench.colorTheme&#34;</span>: <span style="color:#e6db74">&#34;Default Dark+&#34;</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;rust-analyzer.check.command&#34;</span>: <span style="color:#e6db74">&#34;clippy&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;rust-analyzer.completion.autoimport.exclude&#34;</span>: [
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;path&#34;</span>: <span style="color:#e6db74">&#34;anyhow::Ok&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;always&#34;</span>
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;path&#34;</span>: <span style="color:#e6db74">&#34;prometheus_client::metrics::info&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;always&#34;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  ],
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;window.commandCenter&#34;</span>: <span style="color:#66d9ef">false</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;workbench.layoutControl.enabled&#34;</span>: <span style="color:#66d9ef">false</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;go.lintTool&#34;</span>: <span style="color:#e6db74">&#34;golangci-lint&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;go.lintTool&#34;</span>: <span style="color:#e6db74">&#34;golangci-lint-v2&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;go.lintFlags&#34;</span>: [
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// &#34;-c=~/.golangci.yml&#34;, // 会逐层寻找配置文件，所以不需要指定
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">// &#34;-n&#34;, // 仅lint新代码
+</span></span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;-v&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;--fast-only&#34;</span> <span style="color:#75715e">// 快速模式，跳过一些耗时的检查
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">// &#34;--tests=false&#34;, // 不lint测试代码
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">// &#34;--fix&#34;, // 自动修复问题
+</span></span></span><span style="display:flex;"><span>  ],
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;remote.SSH.remotePlatform&#34;</span>: {
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;bi.arloor.com&#34;</span>: <span style="color:#e6db74">&#34;linux&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;pl.arloor.com&#34;</span>: <span style="color:#e6db74">&#34;linux&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;tt.arloor.com&#34;</span>: <span style="color:#e6db74">&#34;linux&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;192.168.5.244&#34;</span>: <span style="color:#e6db74">&#34;macOS&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;windows&#34;</span>: <span style="color:#e6db74">&#34;windows&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;wsl&#34;</span>: <span style="color:#e6db74">&#34;linux&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;mac&#34;</span>: <span style="color:#e6db74">&#34;macOS&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;station&#34;</span>: <span style="color:#e6db74">&#34;linux&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;windows.arloor.com&#34;</span>: <span style="color:#e6db74">&#34;windows&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;devbox&#34;</span>: <span style="color:#e6db74">&#34;linux&#34;</span>
 </span></span><span style="display:flex;"><span>  },
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;go.toolsManagement.autoUpdate&#34;</span>: <span style="color:#66d9ef">true</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;diffEditor.ignoreTrimWhitespace&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;diffEditor.ignoreTrimWhitespace&#34;</span>: <span style="color:#66d9ef">false</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;debug.onTaskErrors&#34;</span>: <span style="color:#e6db74">&#34;showErrors&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;diffEditor.renderSideBySide&#34;</span>: <span style="color:#66d9ef">true</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;github.copilot.editor.enableAutoCompletions&#34;</span>: <span style="color:#66d9ef">true</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;terminal.integrated.shellIntegration.enabled&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;diffEditor.renderSideBySide&#34;</span>: <span style="color:#66d9ef">false</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;go.formatTool&#34;</span>: <span style="color:#e6db74">&#34;gofmt&#34;</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;editor.formatOnSave&#34;</span>: <span style="color:#66d9ef">true</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;files.autoSave&#34;</span>: <span style="color:#e6db74">&#34;afterDelay&#34;</span>,
@@ -909,24 +928,18 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>  },
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;go.testFlags&#34;</span>: [
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;-gcflags=all=-l&#34;</span>, <span style="color:#75715e">// 针对run test禁用内联优化，使gomonkey可以成功打桩。对debug test不生效，因为golang插件针对debug test自行设置了-gcflags=&#34;all=-l -N&#34;
-</span></span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;-v&#34;</span> <span style="color:#75715e">// 使run test可以输出t.Logf的日志。对debug test不生效，只在test fail的时候才会打印t.Logf的日志
+</span></span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;-v&#34;</span>, <span style="color:#75715e">// 使run test可以输出t.Logf的日志。对debug test不生效，只在test fail的时候才会打印t.Logf的日志
+</span></span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;--count=1&#34;</span> <span style="color:#75715e">// 不缓存go test的结果
 </span></span></span><span style="display:flex;"><span>  ],
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;go.formatFlags&#34;</span>: [<span style="color:#e6db74">&#34;-w&#34;</span>],
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;security.workspace.trust.untrustedFiles&#34;</span>: <span style="color:#e6db74">&#34;open&#34;</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;go.testExplorer.showOutput&#34;</span>: <span style="color:#66d9ef">true</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;gitblame.inlineMessageEnabled&#34;</span>: <span style="color:#66d9ef">true</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;gitblame.inlineMessageFormat&#34;</span>: <span style="color:#e6db74">&#34;${author.name}, (${time.ago}) · ${commit.summary}&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;github.copilot.advanced&#34;</span>: {
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;authProvider&#34;</span>: <span style="color:#e6db74">&#34;github&#34;</span>
-</span></span><span style="display:flex;"><span>  },
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;files.associations&#34;</span>: {
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;*.json&#34;</span>: <span style="color:#e6db74">&#34;jsonc&#34;</span>
 </span></span><span style="display:flex;"><span>  },
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;diffEditor.hideUnchangedRegions.enabled&#34;</span>: <span style="color:#66d9ef">true</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;terminal.integrated.profiles.windows&#34;</span>: {
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;PowerShell&#34;</span>: {
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;source&#34;</span>: <span style="color:#e6db74">&#34;PowerShell&#34;</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;icon&#34;</span>: <span style="color:#e6db74">&#34;terminal-powershell&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;path&#34;</span>: <span style="color:#e6db74">&#34;C:\\Program Files\\PowerShell\\7\\pwsh.exe&#34;</span>
 </span></span><span style="display:flex;"><span>    },
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;Command Prompt&#34;</span>: {
 </span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;path&#34;</span>: [
@@ -937,7 +950,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;icon&#34;</span>: <span style="color:#e6db74">&#34;terminal-cmd&#34;</span>
 </span></span><span style="display:flex;"><span>    },
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;Git Bash&#34;</span>: {
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;source&#34;</span>: <span style="color:#e6db74">&#34;Git Bash&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;source&#34;</span>: <span style="color:#e6db74">&#34;Git Bash&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;icon&#34;</span>: <span style="color:#e6db74">&#34;terminal-git-bash&#34;</span>
 </span></span><span style="display:flex;"><span>    },
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;Debian (WSL)&#34;</span>: {
 </span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;path&#34;</span>: <span style="color:#e6db74">&#34;C:\\Windows\\System32\\wsl.exe&#34;</span>,
@@ -947,78 +961,79 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;path&#34;</span>: <span style="color:#e6db74">&#34;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe&#34;</span>
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>  },
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;terminal.integrated.defaultProfile.windows&#34;</span>: <span style="color:#e6db74">&#34;Windows PowerShell&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;terminal.integrated.defaultProfile.windows&#34;</span>: <span style="color:#e6db74">&#34;PowerShell&#34;</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;dev.containers.executeInWSL&#34;</span>: <span style="color:#66d9ef">true</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;diffEditor.experimental.showMoves&#34;</span>: <span style="color:#66d9ef">true</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;git-graph.commitDetailsView.location&#34;</span>: <span style="color:#e6db74">&#34;Docked to Bottom&#34;</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;git-graph.date.format&#34;</span>: <span style="color:#e6db74">&#34;ISO Date &amp; Time&#34;</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;leek-fund.stocks&#34;</span>: [
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;sh000300&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;sh000688&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;hk03690&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;hk00700&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;usr_ixic&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;usr_dji&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;usr_inx&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;nf_IF0&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;nf_IH0&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;nf_IC0&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;nf_IM0&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;hf_OIL&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;hf_CHA50CFD&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;sz002768&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;sz002212&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;sz002602&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;sh603983&#34;</span>
-</span></span><span style="display:flex;"><span>  ],
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;leek-fund.statusBarStock&#34;</span>: [<span style="color:#e6db74">&#34;sz002602&#34;</span>],
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;leek-fund.stockPrice&#34;</span>: {
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;sz002768&#34;</span>: {
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;国恩股份&#34;</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;amount&#34;</span>: <span style="color:#ae81ff">0</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;price&#34;</span>: <span style="color:#e6db74">&#34;22.31&#34;</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;unitPrice&#34;</span>: <span style="color:#ae81ff">0</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;earnings&#34;</span>: <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>    },
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;sz002212&#34;</span>: {
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;天融信&#34;</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;amount&#34;</span>: <span style="color:#ae81ff">0</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;price&#34;</span>: <span style="color:#e6db74">&#34;6.79&#34;</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;unitPrice&#34;</span>: <span style="color:#ae81ff">0</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;earnings&#34;</span>: <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>    },
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;sz002602&#34;</span>: {
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;ST华通&#34;</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;amount&#34;</span>: <span style="color:#ae81ff">117200</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;price&#34;</span>: <span style="color:#e6db74">&#34;4.33&#34;</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;unitPrice&#34;</span>: <span style="color:#ae81ff">4.233</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;earnings&#34;</span>: <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>    },
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;sh603899&#34;</span>: {
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;晨光股份&#34;</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;amount&#34;</span>: <span style="color:#ae81ff">100</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;price&#34;</span>: <span style="color:#e6db74">&#34;29.70&#34;</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;unitPrice&#34;</span>: <span style="color:#ae81ff">30.6</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;earnings&#34;</span>: <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>    },
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;hk03690&#34;</span>: {
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;美团-W&#34;</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;amount&#34;</span>: <span style="color:#ae81ff">0</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;price&#34;</span>: <span style="color:#e6db74">&#34;162.0&#34;</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;unitPrice&#34;</span>: <span style="color:#ae81ff">0</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;earnings&#34;</span>: <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>    },
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;hk00700&#34;</span>: {
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;腾讯控股&#34;</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;amount&#34;</span>: <span style="color:#ae81ff">0</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;price&#34;</span>: <span style="color:#e6db74">&#34;395.2&#34;</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;unitPrice&#34;</span>: <span style="color:#ae81ff">0</span>,
-</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;earnings&#34;</span>: <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>  },
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;git.blame.editorDecoration.enabled&#34;</span>: <span style="color:#66d9ef">true</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;git.blame.statusBarItem.enabled&#34;</span>: <span style="color:#66d9ef">true</span>,
-</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;git.blame.editorDecoration.template&#34;</span>: <span style="color:#e6db74">&#34;${authorName} (${authorDateAgo}), ${subject}&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;git.blame.editorDecoration.template&#34;</span>: <span style="color:#e6db74">&#34;${authorName} (${authorDateAgo}), ${subject}&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;remote.SSH.localServerDownload&#34;</span>: <span style="color:#e6db74">&#34;off&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;[json]&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;editor.defaultFormatter&#34;</span>: <span style="color:#e6db74">&#34;vscode.json-language-features&#34;</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;typescript.updateImportsOnFileMove.enabled&#34;</span>: <span style="color:#e6db74">&#34;always&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;[typescriptreact]&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;editor.defaultFormatter&#34;</span>: <span style="color:#e6db74">&#34;esbenp.prettier-vscode&#34;</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;[dockerfile]&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;editor.defaultFormatter&#34;</span>: <span style="color:#e6db74">&#34;foxundermoon.shell-format&#34;</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;[jsonc]&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;editor.defaultFormatter&#34;</span>: <span style="color:#e6db74">&#34;vscode.json-language-features&#34;</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;chat.agent.enabled&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;editor.largeFileOptimizations&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;editor.accessibilitySupport&#34;</span>: <span style="color:#e6db74">&#34;off&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;redhat.telemetry.enabled&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;github.copilot.nextEditSuggestions.enabled&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;[typescript]&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;editor.defaultFormatter&#34;</span>: <span style="color:#e6db74">&#34;vscode.typescript-language-features&#34;</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;terminal.integrated.shellIntegration.enabled&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;[dockercompose]&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;editor.insertSpaces&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;editor.tabSize&#34;</span>: <span style="color:#ae81ff">2</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;editor.autoIndent&#34;</span>: <span style="color:#e6db74">&#34;advanced&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;editor.defaultFormatter&#34;</span>: <span style="color:#e6db74">&#34;redhat.vscode-yaml&#34;</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;[github-actions-workflow]&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;editor.defaultFormatter&#34;</span>: <span style="color:#e6db74">&#34;redhat.vscode-yaml&#34;</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;workbench.panel.defaultLocation&#34;</span>: <span style="color:#e6db74">&#34;bottom&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;terminal.integrated.enableMultiLinePasteWarning&#34;</span>: <span style="color:#e6db74">&#34;never&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;claudeCode.useTerminal&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;claudeCode.environmentVariables&#34;</span>: [
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;ANTHROPIC_BASE_URL&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;value&#34;</span>: <span style="color:#e6db74">&#34;https://api.burn.hair&#34;</span>
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;ANTHROPIC_API_KEY&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;value&#34;</span>: <span style="color:#e6db74">&#34;sk-M4vTPwc745UT1HtyJJZpd2YAWcKiYHRH9PAsmOIJWPmt1tb7&#34;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// {
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">//   &#34;name&#34;: &#34;ANTHROPIC_AUTH_TOKEN&#34;,
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">//   &#34;value&#34;: &#34;sk-M4vTPwc745UT1HtyJJZpd2YAWcKiYHRH9PAsmOIJWPmt1tb7&#34;
+</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">// }
+</span></span></span><span style="display:flex;"><span>  ],
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;chat.tools.terminal.autoApprove&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;cargo build&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;/^cargo check -p rust_http_proxy$/&#34;</span>: {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;approve&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;matchCommandLine&#34;</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;claudeCode.preferredLocation&#34;</span>: <span style="color:#e6db74">&#34;panel&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;chat.mcp.gallery.enabled&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;[markdown]&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;editor.defaultFormatter&#34;</span>: <span style="color:#e6db74">&#34;esbenp.prettier-vscode&#34;</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;chat.viewSessions.orientation&#34;</span>: <span style="color:#e6db74">&#34;stacked&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;[yaml]&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;diffEditor.ignoreTrimWhitespace&#34;</span>: <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div>
   </div>
