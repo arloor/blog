@@ -25,13 +25,13 @@
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="vscode">
-  <meta name="twitter:description" content="字体配置——使用JetBrains Mono 下载Jetbrians Mono字体：how-to-install 解压缩 安装 Mac下将ttf文件夹下的文件全选，右击选择打开，安装所有字体 Centos9下， 将ttf文件夹下的文件全部移动到 /usr/share/fonts/${newdir}下 , yum install -y fontconfig 并执行 fc-cache 。然后执行 fc-list 即可看到新的字体 搜索font family，改成 &#39;JetBrains Mono&#39;, Menlo, Monaco, &#39;Courier New&#39;, monospace 。 搜索font size，改成13。如果这个字体还不够大，可以 command &#43; &#43;来放大UI。 搜索line height，改成1.6。 TIPS：">
+  <meta name="twitter:description" content="字体配置——使用 JetBrains Mono 下载 Jetbrians Mono 字体：how-to-install 解压缩 安装 Mac 下将 ttf 文件夹下的文件全选，右击选择打开，安装所有字体 Centos9 下， 将 ttf 文件夹下的文件全部移动到 /usr/share/fonts/${newdir}下 , yum install -y fontconfig 并执行 fc-cache 。然后执行 fc-list 即可看到新的字体 搜索 font family，改成 &#39;JetBrains Mono&#39;, Menlo, Monaco, &#39;Courier New&#39;, monospace 。 搜索 font size，改成 13。如果这个字体还不够大，可以 command &#43; &#43;来放大 UI。 搜索 line height，改成 1.6。 TIPS：">
       <meta name="twitter:site" content="@njulgh">
 
 <meta property="og:url" content="https://www.arloor.com/posts/vscode/">
   <meta property="og:site_name" content="ARLOOR">
   <meta property="og:title" content="vscode">
-  <meta property="og:description" content="字体配置——使用JetBrains Mono 下载Jetbrians Mono字体：how-to-install 解压缩 安装 Mac下将ttf文件夹下的文件全选，右击选择打开，安装所有字体 Centos9下， 将ttf文件夹下的文件全部移动到 /usr/share/fonts/${newdir}下 , yum install -y fontconfig 并执行 fc-cache 。然后执行 fc-list 即可看到新的字体 搜索font family，改成 &#39;JetBrains Mono&#39;, Menlo, Monaco, &#39;Courier New&#39;, monospace 。 搜索font size，改成13。如果这个字体还不够大，可以 command &#43; &#43;来放大UI。 搜索line height，改成1.6。 TIPS：">
+  <meta property="og:description" content="字体配置——使用 JetBrains Mono 下载 Jetbrians Mono 字体：how-to-install 解压缩 安装 Mac 下将 ttf 文件夹下的文件全选，右击选择打开，安装所有字体 Centos9 下， 将 ttf 文件夹下的文件全部移动到 /usr/share/fonts/${newdir}下 , yum install -y fontconfig 并执行 fc-cache 。然后执行 fc-list 即可看到新的字体 搜索 font family，改成 &#39;JetBrains Mono&#39;, Menlo, Monaco, &#39;Courier New&#39;, monospace 。 搜索 font size，改成 13。如果这个字体还不够大，可以 command &#43; &#43;来放大 UI。 搜索 line height，改成 1.6。 TIPS：">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
@@ -263,7 +263,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     
     
     <br/>
-    <i class="fas fa-clock"></i> 8 min read
+    <i class="fas fa-clock"></i> 7 min read
 </div>
 
 
@@ -277,46 +277,46 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
       
           <nav id="TableOfContents">
   <ul>
-    <li><a href="#字体配置使用jetbrains-mono">字体配置——使用JetBrains Mono</a></li>
+    <li><a href="#字体配置使用-jetbrains-mono">字体配置——使用 JetBrains Mono</a></li>
     <li><a href="#快捷键配置">快捷键配置</a></li>
     <li><a href="#其他快捷键">其他快捷键</a></li>
     <li><a href="#远程开发">远程开发</a>
       <ul>
-        <li><a href="#ssh到windows上使用wsl开发">ssh到windows上使用WSL开发</a></li>
-        <li><a href="#使用socat作为proxycommand用http代理连接ssh服务器">使用socat作为ProxyCommand，用http代理连接ssh服务器</a></li>
-        <li><a href="#ssh到macos上远程开发">ssh到macOS上远程开发</a></li>
+        <li><a href="#ssh-到-windows-上使用-wsl-开发">ssh 到 windows 上使用 WSL 开发</a></li>
+        <li><a href="#使用-socat-作为-proxycommand用-http-代理连接-ssh-服务器">使用 socat 作为 ProxyCommand，用 http 代理连接 ssh 服务器</a></li>
+        <li><a href="#ssh-到-macos-上远程开发">ssh 到 macOS 上远程开发</a></li>
       </ul>
     </li>
-    <li><a href="#卸载远程服务器vscode-server">卸载远程服务器vscode server</a></li>
-    <li><a href="#rust开发">Rust开发</a>
+    <li><a href="#卸载远程服务器-vscode-server">卸载远程服务器 vscode server</a></li>
+    <li><a href="#rust-开发">Rust 开发</a>
       <ul>
         <li><a href="#安装四个插件">安装四个插件：</a></li>
-        <li><a href="#配置默认build任务vscodetasksjson">配置默认build任务：<code>.vscode/tasks.json</code></a></li>
-        <li><a href="#配置调试任务-vscodelaunchjson">配置调试任务 <code>.vscode/launch.json</code></a></li>
+        <li><a href="#运行方式-1使用-codelldb-的-cargo-支持直接-cargo-buildtest">运行方式 1：使用 codelldb 的 cargo 支持直接 cargo build/test</a></li>
+        <li><a href="#运行方式-2tasksjson--launchjson">运行方式 2：tasks.json + launch.json</a></li>
       </ul>
     </li>
-    <li><a href="#python开发">Python开发</a>
+    <li><a href="#python-开发">Python 开发</a>
       <ul>
-        <li><a href="#python插件">python插件</a></li>
+        <li><a href="#python-插件">python 插件</a></li>
         <li><a href="#settings">settings</a></li>
         <li><a href="#venv">venv</a></li>
-        <li><a href="#配置python调试任务">配置python调试任务</a></li>
+        <li><a href="#配置-python-调试任务">配置 python 调试任务</a></li>
       </ul>
     </li>
     <li><a href="#integrated-terminal">integrated terminal</a></li>
     <li><a href="#文件自动保存自动格式化">文件自动保存+自动格式化</a></li>
     <li><a href="#操作系统设置">操作系统设置</a>
       <ul>
-        <li><a href="#macos-解除f11的快捷键的占用">macOS 解除F11的快捷键的占用</a></li>
+        <li><a href="#macos-解除-f11-的快捷键的占用">macOS 解除 F11 的快捷键的占用</a></li>
         <li><a href="#windows-关闭简体中文输入法的简体繁体切换">Windows 关闭简体中文输入法的简体繁体切换</a></li>
       </ul>
     </li>
     <li><a href="#其他插件">其他插件</a>
       <ul>
-        <li><a href="#git插件">Git插件</a></li>
+        <li><a href="#git-插件">Git 插件</a></li>
       </ul>
     </li>
-    <li><a href="#我的vscode配置备份">我的vscode配置备份</a></li>
+    <li><a href="#我的-vscode-配置备份">我的 vscode 配置备份</a></li>
   </ul>
 </nav>
       
@@ -324,23 +324,23 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   
   <div class="post">
-    <h2 id="字体配置使用jetbrains-mono">字体配置——使用JetBrains Mono</h2>
+    <h2 id="字体配置使用-jetbrains-mono">字体配置——使用 JetBrains Mono</h2>
 <ol>
-<li>下载Jetbrians Mono字体：<a href="https://www.jetbrains.com/lp/mono/#how-to-install">how-to-install</a></li>
+<li>下载 Jetbrians Mono 字体：<a href="https://www.jetbrains.com/lp/mono/#how-to-install">how-to-install</a></li>
 <li>解压缩</li>
 <li>安装
 <ol>
-<li>Mac下将ttf文件夹下的文件全选，右击选择打开，安装所有字体</li>
-<li>Centos9下， 将ttf文件夹下的文件全部移动到 <code>/usr/share/fonts/${newdir}</code>下 , <code>yum install -y fontconfig</code> 并执行 <code>fc-cache</code> 。然后执行 <code>fc-list</code> 即可看到新的字体</li>
+<li>Mac 下将 ttf 文件夹下的文件全选，右击选择打开，安装所有字体</li>
+<li>Centos9 下， 将 ttf 文件夹下的文件全部移动到 <code>/usr/share/fonts/${newdir}</code>下 , <code>yum install -y fontconfig</code> 并执行 <code>fc-cache</code> 。然后执行 <code>fc-list</code> 即可看到新的字体</li>
 </ol>
 </li>
-<li>搜索font family，改成 <code>'JetBrains Mono', Menlo, Monaco, 'Courier New', monospace</code> 。</li>
-<li>搜索font size，改成13。如果这个字体还不够大，可以 <code>command + +</code>来放大UI。</li>
-<li>搜索line height，改成1.6。</li>
+<li>搜索 font family，改成 <code>'JetBrains Mono', Menlo, Monaco, 'Courier New', monospace</code> 。</li>
+<li>搜索 font size，改成 13。如果这个字体还不够大，可以 <code>command + +</code>来放大 UI。</li>
+<li>搜索 line height，改成 1.6。</li>
 </ol>
 <p>TIPS：</p>
 <ol>
-<li>建议打开vscode的配置同步功能。</li>
+<li>建议打开 vscode 的配置同步功能。</li>
 <li>本地的字体设置对远程开发同样生效。</li>
 </ol>
 <h2 id="快捷键配置">快捷键配置</h2>
@@ -366,15 +366,15 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
       </tr>
       <tr>
           <td><code>option+o</code></td>
-          <td>用于打开remote explorer窗口，在多个远程开发环境中切换</td>
+          <td>用于打开 remote explorer 窗口，在多个远程开发环境中切换</td>
       </tr>
       <tr>
           <td><code>option+t</code></td>
-          <td>用于打开outline窗口，用于查看大纲或者函数列表</td>
+          <td>用于打开 outline 窗口，用于查看大纲或者函数列表</td>
       </tr>
       <tr>
           <td><code>cmd+k cmd+g</code></td>
-          <td>用于查看git log graph，需要git graph插件</td>
+          <td>用于查看 git log graph，需要 git graph 插件</td>
       </tr>
       <tr>
           <td><code>cmd+k cmd+h</code></td>
@@ -385,90 +385,90 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p><strong>macOS</strong>:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span><span style="color:#75715e">// 将键绑定放在此文件中以覆盖默认值auto[]
 </span></span></span><span style="display:flex;"><span>[
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;key&#34;</span>: <span style="color:#e6db74">&#34;cmd+m&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;command&#34;</span>: <span style="color:#e6db74">&#34;workbench.action.terminal.focusNext&#34;</span>
-</span></span><span style="display:flex;"><span>    },
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;key&#34;</span>: <span style="color:#e6db74">&#34;alt+o&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;command&#34;</span>: <span style="color:#e6db74">&#34;workbench.view.remote&#34;</span>
-</span></span><span style="display:flex;"><span>    },
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;key&#34;</span>: <span style="color:#e6db74">&#34;alt+t&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;command&#34;</span>: <span style="color:#e6db74">&#34;outline.focus&#34;</span>
-</span></span><span style="display:flex;"><span>    },
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;key&#34;</span>: <span style="color:#e6db74">&#34;cmd+k cmd+g&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;command&#34;</span>: <span style="color:#e6db74">&#34;git-graph.view&#34;</span> <span style="color:#75715e">// 需要git-graph插件
-</span></span></span><span style="display:flex;"><span>    },
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;key&#34;</span>: <span style="color:#e6db74">&#34;cmd+k cmd+h&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;command&#34;</span>: <span style="color:#e6db74">&#34;references-view.showCallHierarchy&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;when&#34;</span>: <span style="color:#e6db74">&#34;editorHasCallHierarchyProvider&#34;</span>
-</span></span><span style="display:flex;"><span>    },
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;key&#34;</span>: <span style="color:#e6db74">&#34;shift+alt+h&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;command&#34;</span>: <span style="color:#e6db74">&#34;-references-view.showCallHierarchy&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;when&#34;</span>: <span style="color:#e6db74">&#34;editorHasCallHierarchyProvider&#34;</span>
-</span></span><span style="display:flex;"><span>    },
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;key&#34;</span>: <span style="color:#e6db74">&#34;cmd+j&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;command&#34;</span>: <span style="color:#e6db74">&#34;workbench.action.terminal.toggleTerminal&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;when&#34;</span>: <span style="color:#e6db74">&#34;terminal.active&#34;</span>
-</span></span><span style="display:flex;"><span>    },
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;key&#34;</span>: <span style="color:#e6db74">&#34;ctrl+`&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;command&#34;</span>: <span style="color:#e6db74">&#34;-workbench.action.terminal.toggleTerminal&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;when&#34;</span>: <span style="color:#e6db74">&#34;terminal.active&#34;</span>
-</span></span><span style="display:flex;"><span>    },
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;key&#34;</span>: <span style="color:#e6db74">&#34;ctrl+shift+alt+`&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;command&#34;</span>: <span style="color:#e6db74">&#34;-workbench.action.terminal.newInNewWindow&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;when&#34;</span>: <span style="color:#e6db74">&#34;terminalHasBeenCreated || terminalProcessSupported&#34;</span>
-</span></span><span style="display:flex;"><span>    },
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;key&#34;</span>: <span style="color:#e6db74">&#34;cmd+k cmd+j&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;command&#34;</span>: <span style="color:#e6db74">&#34;workbench.action.createTerminalEditorSide&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;when&#34;</span>: <span style="color:#e6db74">&#34;terminalProcessSupported&#34;</span>
-</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;key&#34;</span>: <span style="color:#e6db74">&#34;cmd+m&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;command&#34;</span>: <span style="color:#e6db74">&#34;workbench.action.terminal.focusNext&#34;</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;key&#34;</span>: <span style="color:#e6db74">&#34;alt+o&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;command&#34;</span>: <span style="color:#e6db74">&#34;workbench.view.remote&#34;</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;key&#34;</span>: <span style="color:#e6db74">&#34;alt+t&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;command&#34;</span>: <span style="color:#e6db74">&#34;outline.focus&#34;</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;key&#34;</span>: <span style="color:#e6db74">&#34;cmd+k cmd+g&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;command&#34;</span>: <span style="color:#e6db74">&#34;git-graph.view&#34;</span> <span style="color:#75715e">// 需要git-graph插件
+</span></span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;key&#34;</span>: <span style="color:#e6db74">&#34;cmd+k cmd+h&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;command&#34;</span>: <span style="color:#e6db74">&#34;references-view.showCallHierarchy&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;when&#34;</span>: <span style="color:#e6db74">&#34;editorHasCallHierarchyProvider&#34;</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;key&#34;</span>: <span style="color:#e6db74">&#34;shift+alt+h&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;command&#34;</span>: <span style="color:#e6db74">&#34;-references-view.showCallHierarchy&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;when&#34;</span>: <span style="color:#e6db74">&#34;editorHasCallHierarchyProvider&#34;</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;key&#34;</span>: <span style="color:#e6db74">&#34;cmd+j&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;command&#34;</span>: <span style="color:#e6db74">&#34;workbench.action.terminal.toggleTerminal&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;when&#34;</span>: <span style="color:#e6db74">&#34;terminal.active&#34;</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;key&#34;</span>: <span style="color:#e6db74">&#34;ctrl+`&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;command&#34;</span>: <span style="color:#e6db74">&#34;-workbench.action.terminal.toggleTerminal&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;when&#34;</span>: <span style="color:#e6db74">&#34;terminal.active&#34;</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;key&#34;</span>: <span style="color:#e6db74">&#34;ctrl+shift+alt+`&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;command&#34;</span>: <span style="color:#e6db74">&#34;-workbench.action.terminal.newInNewWindow&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;when&#34;</span>: <span style="color:#e6db74">&#34;terminalHasBeenCreated || terminalProcessSupported&#34;</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;key&#34;</span>: <span style="color:#e6db74">&#34;cmd+k cmd+j&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;command&#34;</span>: <span style="color:#e6db74">&#34;workbench.action.createTerminalEditorSide&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;when&#34;</span>: <span style="color:#e6db74">&#34;terminalProcessSupported&#34;</span>
+</span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>]
 </span></span></code></pre></div><p><strong>windows</strong>:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span><span style="color:#75715e">// 将键绑定放在此文件中以覆盖默认值
 </span></span></span><span style="display:flex;"><span>[
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;key&#34;</span>: <span style="color:#e6db74">&#34;ctrl+m&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;command&#34;</span>: <span style="color:#e6db74">&#34;workbench.action.terminal.focusNext&#34;</span>
-</span></span><span style="display:flex;"><span>    },
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;key&#34;</span>: <span style="color:#e6db74">&#34;alt+o&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;command&#34;</span>: <span style="color:#e6db74">&#34;workbench.view.remote&#34;</span>
-</span></span><span style="display:flex;"><span>    },
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;key&#34;</span>: <span style="color:#e6db74">&#34;alt+t&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;command&#34;</span>: <span style="color:#e6db74">&#34;outline.focus&#34;</span>
-</span></span><span style="display:flex;"><span>    },
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;key&#34;</span>: <span style="color:#e6db74">&#34;ctrl+k ctrl+g&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;command&#34;</span>: <span style="color:#e6db74">&#34;git-graph.view&#34;</span> <span style="color:#75715e">// 需要git-graph插件
-</span></span></span><span style="display:flex;"><span>    },
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;key&#34;</span>: <span style="color:#e6db74">&#34;ctrl+k ctrl+h&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;command&#34;</span>: <span style="color:#e6db74">&#34;references-view.showCallHierarchy&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;when&#34;</span>: <span style="color:#e6db74">&#34;editorHasCallHierarchyProvider&#34;</span>
-</span></span><span style="display:flex;"><span>    },
-</span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;key&#34;</span>: <span style="color:#e6db74">&#34;shift+alt+h&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;command&#34;</span>: <span style="color:#e6db74">&#34;-references-view.showCallHierarchy&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;when&#34;</span>: <span style="color:#e6db74">&#34;editorHasCallHierarchyProvider&#34;</span>
-</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;key&#34;</span>: <span style="color:#e6db74">&#34;ctrl+m&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;command&#34;</span>: <span style="color:#e6db74">&#34;workbench.action.terminal.focusNext&#34;</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;key&#34;</span>: <span style="color:#e6db74">&#34;alt+o&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;command&#34;</span>: <span style="color:#e6db74">&#34;workbench.view.remote&#34;</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;key&#34;</span>: <span style="color:#e6db74">&#34;alt+t&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;command&#34;</span>: <span style="color:#e6db74">&#34;outline.focus&#34;</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;key&#34;</span>: <span style="color:#e6db74">&#34;ctrl+k ctrl+g&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;command&#34;</span>: <span style="color:#e6db74">&#34;git-graph.view&#34;</span> <span style="color:#75715e">// 需要git-graph插件
+</span></span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;key&#34;</span>: <span style="color:#e6db74">&#34;ctrl+k ctrl+h&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;command&#34;</span>: <span style="color:#e6db74">&#34;references-view.showCallHierarchy&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;when&#34;</span>: <span style="color:#e6db74">&#34;editorHasCallHierarchyProvider&#34;</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;key&#34;</span>: <span style="color:#e6db74">&#34;shift+alt+h&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;command&#34;</span>: <span style="color:#e6db74">&#34;-references-view.showCallHierarchy&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;when&#34;</span>: <span style="color:#e6db74">&#34;editorHasCallHierarchyProvider&#34;</span>
+</span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>]
 </span></span></code></pre></div><h2 id="其他快捷键">其他快捷键</h2>
 <table>
   <thead>
       <tr>
           <th>作用</th>
-          <th>MacOS快捷键</th>
-          <th>Windows快捷键</th>
+          <th>MacOS 快捷键</th>
+          <th>Windows 快捷键</th>
           <th>备注</th>
       </tr>
   </thead>
@@ -504,22 +504,22 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
           <td></td>
       </tr>
       <tr>
-          <td>打开copilot chat</td>
+          <td>打开 copilot chat</td>
           <td>⌃⌘I</td>
           <td>ctrl+alt+i</td>
-          <td>需要copilot chat插件</td>
+          <td>需要 copilot chat 插件</td>
       </tr>
       <tr>
-          <td>打开<a href="https://code.visualstudio.com/docs/copilot/copilot-edits">copilot edit</a>，根据prompt修改多个文件</td>
+          <td>打开<a href="https://code.visualstudio.com/docs/copilot/copilot-edits">copilot edit</a>，根据 prompt 修改多个文件</td>
           <td>⇧⌘I</td>
           <td>ctrl+shift+i</td>
-          <td>需要copilot chat插件</td>
+          <td>需要 copilot chat 插件</td>
       </tr>
       <tr>
-          <td>新建copilot chat</td>
+          <td>新建 copilot chat</td>
           <td>⌃l</td>
           <td>ctrl + l</td>
-          <td>需要copilot chat插件</td>
+          <td>需要 copilot chat 插件</td>
       </tr>
       <tr>
           <td>Delete line</td>
@@ -536,40 +536,40 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   </tbody>
 </table>
 <blockquote>
-<p>内置快捷键cheatsheet</p>
+<p>内置快捷键 cheatsheet</p>
 <ol>
-<li><a href="https://code.visualstudio.com/shortcuts/keyboard-shortcuts-macos.pdf">MacOS快捷键</a></li>
-<li><a href="https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf">Windows快捷键</a></li>
+<li><a href="https://code.visualstudio.com/shortcuts/keyboard-shortcuts-macos.pdf">MacOS 快捷键</a></li>
+<li><a href="https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf">Windows 快捷键</a></li>
 </ol>
 </blockquote>
 <h2 id="远程开发">远程开发</h2>
 <ol>
 <li>安装 <code>Remote-ssh</code> 插件。</li>
-<li>使用ssh连接到远程服务器。推荐配置是2C2G以上。为了让远程服务器流畅连接网络，使用了clash做分流，并将clash作为系统代理。
+<li>使用 ssh 连接到远程服务器。推荐配置是 2C2G 以上。为了让远程服务器流畅连接网络，使用了 clash 做分流，并将 clash 作为系统代理。
 <ul>
-<li>也可以在ssh config中增加 <code>RemoteForward 7890 localhost:7890</code> 使用本地的clash作为代理。</li>
+<li>也可以在 ssh config 中增加 <code>RemoteForward 7890 localhost:7890</code> 使用本地的 clash 作为代理。</li>
 </ul>
 </li>
 <li>历史记录保存在 <code>~/.ssh/config</code> 中。</li>
 </ol>
-<h3 id="ssh到windows上使用wsl开发">ssh到windows上使用WSL开发</h3>
-<p>我的WSL工作在镜像网络模式下，所以在设置-远程的配置文件中设置不自动端口转发：</p>
+<h3 id="ssh-到-windows-上使用-wsl-开发">ssh 到 windows 上使用 WSL 开发</h3>
+<p>我的 WSL 工作在镜像网络模式下，所以在设置-远程的配置文件中设置不自动端口转发：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;remote.autoForwardPorts&#34;</span>: <span style="color:#66d9ef">false</span>
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>我有时会ssh到windows上的WSL远程开发，不自动转发也不方便，折衷的方式是在ssh的配置文件中增加一个端口转发，从而在ssh中实现端口转发，在wsl中不端口转发。</p>
+</span></span></code></pre></div><p>我有时会 ssh 到 windows 上的 WSL 远程开发，不自动转发也不方便，折衷的方式是在 ssh 的配置文件中增加一个端口转发，从而在 ssh 中实现端口转发，在 wsl 中不端口转发。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>LocalForward <span style="color:#ae81ff">7788</span> 192.168.5.127:7788
-</span></span></code></pre></div><h3 id="使用socat作为proxycommand用http代理连接ssh服务器">使用socat作为ProxyCommand，用http代理连接ssh服务器</h3>
+</span></span></code></pre></div><h3 id="使用-socat-作为-proxycommand用-http-代理连接-ssh-服务器">使用 socat 作为 ProxyCommand，用 http 代理连接 ssh 服务器</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Host *.arloor.*
 </span></span><span style="display:flex;"><span>  ProxyCommand socat - PROXY:localhost:%h:%p,proxyport<span style="color:#f92672">=</span><span style="color:#ae81ff">6152</span>
-</span></span></code></pre></div><p>这使用了surge进行代理连接。注意，每次增加vscode的ssh服务器列表时，vscode都会把 <code>proxyport=6152</code> 改成 <code>proxyport 6152</code>，<strong>需要手动改回来</strong>。</p>
-<p>对应的surge规则是：<code>AND,((PROCESS-NAME,*socat*), (DEST-PORT,22), (DOMAIN-KEYWORD,arloor,extended-matching)),家里</code></p>
-<h3 id="ssh到macos上远程开发">ssh到macOS上远程开发</h3>
-<p>要ssh到macOS上进行远程开发，需要额外的命令：</p>
+</span></span></code></pre></div><p>这使用了 surge 进行代理连接。注意，每次增加 vscode 的 ssh 服务器列表时，vscode 都会把 <code>proxyport=6152</code> 改成 <code>proxyport 6152</code>，<strong>需要手动改回来</strong>。</p>
+<p>对应的 surge 规则是：<code>AND,((PROCESS-NAME,*socat*), (DEST-PORT,22), (DOMAIN-KEYWORD,arloor,extended-matching)),家里</code></p>
+<h3 id="ssh-到-macos-上远程开发">ssh 到 macOS 上远程开发</h3>
+<p>要 ssh 到 macOS 上进行远程开发，需要额外的命令：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>xcode-select --install <span style="color:#75715e"># 安装 LLDB.framework</span>
 </span></span><span style="display:flex;"><span>sudo DevToolsSecurity --enable <span style="color:#75715e"># 永久允许Developer Tools Access 附加到其他进程上，以进行debug</span>
 </span></span><span style="display:flex;"><span>sudo security authorizationdb write system.privilege.taskport.debug allow <span style="color:#75715e"># 允许remote-ssh调试进程。解决报错：this is a non-interactive debug session, cannot get permission to debug processes.</span>
-</span></span></code></pre></div><p>其实第三个命令就是对第二个命令的补充。他们操作的都是rights definition for: system.privilege.taskport.debug。可以执行下面两条命令来验证，可以发现就是打印格式不同，内容是一样的。</p>
+</span></span></code></pre></div><p>其实第三个命令就是对第二个命令的补充。他们操作的都是 rights definition for: system.privilege.taskport.debug。可以执行下面两条命令来验证，可以发现就是打印格式不同，内容是一样的。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo DevToolsSecurity -status -verbose
 </span></span><span style="display:flex;"><span>sudo security authorizationdb read system.privilege.taskport.debug
 </span></span></code></pre></div><p>参考文档：</p>
@@ -577,11 +577,11 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li><a href="https://code.visualstudio.com/docs/cpp/lldb-mi">Debugging with LLDB-MI on macOS</a></li>
 <li><a href="https://github.com/vadimcn/codelldb/issues/1079">Unable to debug after connecting to macOS via &ldquo;Remote - SSH&rdquo; </a> 解决报错：this is a non-interactive debug session, cannot get permission to debug processes.</li>
 </ol>
-<p>如果每次ssh到macOS都需要输入密码，设置公钥就行：</p>
+<p>如果每次 ssh 到 macOS 都需要输入密码，设置公钥就行：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo ssh-rsa xxxxxxxx not@home &gt; ~/.ssh/authorized_keys
-</span></span></code></pre></div><h2 id="卸载远程服务器vscode-server">卸载远程服务器vscode server</h2>
+</span></span></code></pre></div><h2 id="卸载远程服务器-vscode-server">卸载远程服务器 vscode server</h2>
 <blockquote>
-<p><strong>这个比想象的更加常用，因为在大型的项目中，符号跳转经常导致CPU占用很高并且无响应</strong></p>
+<p><strong>这个比想象的更加常用，因为在大型的项目中，符号跳转经常导致 CPU 占用很高并且无响应</strong></p>
 </blockquote>
 <ol>
 <li>执行命令 <code>Remote-SSH: Uninstall VS Code Server from Host</code> <strong>不推荐，实测没有卸载干净</strong></li>
@@ -595,7 +595,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
 </span></span><span style="display:flex;"><span>chmod +x /usr/local/bin/killcode
 </span></span><span style="display:flex;"><span>killcode
-</span></span></code></pre></div><h2 id="rust开发">Rust开发</h2>
+</span></span></code></pre></div><h2 id="rust-开发">Rust 开发</h2>
 <h3 id="安装四个插件">安装四个插件：</h3>
 <table>
   <thead>
@@ -607,7 +607,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   <tbody>
       <tr>
           <td>rust-analyzer</td>
-          <td>rust插件</td>
+          <td>rust 插件</td>
       </tr>
       <tr>
           <td>codelldb</td>
@@ -615,67 +615,114 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
       </tr>
       <tr>
           <td>tamasfe.even-better-toml</td>
-          <td>toml格式化</td>
+          <td>toml 格式化</td>
       </tr>
       <tr>
           <td>fill-labs.dependi</td>
-          <td>crate.io插件 <strong>自动检查依赖有没有更新</strong></td>
+          <td>crate.io 插件 <strong>自动检查依赖有没有更新</strong></td>
       </tr>
   </tbody>
 </table>
-<h3 id="配置默认build任务vscodetasksjson">配置默认build任务：<code>.vscode/tasks.json</code></h3>
+<h3 id="运行方式-1使用-codelldb-的-cargo-支持直接-cargo-buildtest">运行方式 1：使用 codelldb 的 cargo 支持直接 cargo build/test</h3>
+<p>只需要一个 <code>launch.json</code> 文件即可。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&#34;version&#34;</span>: <span style="color:#e6db74">&#34;2.0.0&#34;</span>,
-</span></span><span style="display:flex;"><span>	<span style="color:#f92672">&#34;tasks&#34;</span>: [
-</span></span><span style="display:flex;"><span>		{
-</span></span><span style="display:flex;"><span>			<span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;cargo&#34;</span>,
-</span></span><span style="display:flex;"><span>			<span style="color:#f92672">&#34;command&#34;</span>: <span style="color:#e6db74">&#34;build&#34;</span>,
-</span></span><span style="display:flex;"><span>			<span style="color:#f92672">&#34;problemMatcher&#34;</span>: [
-</span></span><span style="display:flex;"><span>				<span style="color:#e6db74">&#34;$rustc&#34;</span>
-</span></span><span style="display:flex;"><span>			],
-</span></span><span style="display:flex;"><span>			<span style="color:#f92672">&#34;args&#34;</span>: [
-</span></span><span style="display:flex;"><span>				<span style="color:#75715e">// &#34;-p&#34;,
-</span></span></span><span style="display:flex;"><span>				<span style="color:#75715e">// &#34;rust_http_proxy&#34;,
-</span></span></span><span style="display:flex;"><span>			],
-</span></span><span style="display:flex;"><span>			<span style="color:#f92672">&#34;group&#34;</span>: {
-</span></span><span style="display:flex;"><span>				<span style="color:#f92672">&#34;kind&#34;</span>: <span style="color:#e6db74">&#34;build&#34;</span>,
-</span></span><span style="display:flex;"><span>				<span style="color:#f92672">&#34;isDefault&#34;</span>: <span style="color:#66d9ef">true</span>
-</span></span><span style="display:flex;"><span>			},
-</span></span><span style="display:flex;"><span>			<span style="color:#f92672">&#34;label&#34;</span>: <span style="color:#e6db74">&#34;rust: cargo build&#34;</span>,
-</span></span><span style="display:flex;"><span>			<span style="color:#f92672">&#34;presentation&#34;</span>: {
-</span></span><span style="display:flex;"><span>				<span style="color:#f92672">&#34;reveal&#34;</span>: <span style="color:#e6db74">&#34;silent&#34;</span>,
-</span></span><span style="display:flex;"><span>			}
-</span></span><span style="display:flex;"><span>		}
-</span></span><span style="display:flex;"><span>	]
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h3 id="配置调试任务-vscodelaunchjson">配置调试任务 <code>.vscode/launch.json</code></h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 使用 IntelliSense 了解相关属性。 
-</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 悬停以查看现有属性的描述。
-</span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
-</span></span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;version&#34;</span>: <span style="color:#e6db74">&#34;0.2.0&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;configurations&#34;</span>: [
-</span></span><span style="display:flex;"><span>        {
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;lldb&#34;</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;request&#34;</span>: <span style="color:#e6db74">&#34;launch&#34;</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Debug&#34;</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// https://github.com/vadimcn/codelldb/blob/v1.10.0/MANUAL.md#rust-language-support
-</span></span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 虽然lldb支持cargo build，但是restart debug不会重新编译代码，所以不用。见https://github.com/vadimcn/codelldb/issues/988
-</span></span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;sourceLanguages&#34;</span>: [
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;rust&#34;</span>
-</span></span><span style="display:flex;"><span>            ],
-</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// https://code.visualstudio.com/docs/editor/variables-reference
-</span></span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;program&#34;</span>: <span style="color:#e6db74">&#34;${workspaceFolder}/target/debug/${workspaceFolderBasename}&#34;</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;args&#34;</span>: [],
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;cwd&#34;</span>: <span style="color:#e6db74">&#34;${workspaceFolder}&#34;</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;console&#34;</span>: <span style="color:#e6db74">&#34;internalConsole&#34;</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;preLaunchTask&#34;</span>: <span style="color:#e6db74">&#34;${defaultBuildTask}&#34;</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;env&#34;</span>: {<span style="color:#f92672">&#34;port&#34;</span>:<span style="color:#e6db74">&#34;80&#34;</span>}
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 使用 IntelliSense 了解相关属性。
+</span></span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 悬停以查看现有属性的描述。
+</span></span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+</span></span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;version&#34;</span>: <span style="color:#e6db74">&#34;0.2.0&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;configurations&#34;</span>: [
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;lldb&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;request&#34;</span>: <span style="color:#e6db74">&#34;launch&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Debug rust_http_proxy&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;cwd&#34;</span>: <span style="color:#e6db74">&#34;${workspaceFolder}&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;terminal&#34;</span>: <span style="color:#e6db74">&#34;integrated&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// https://github.com/vadimcn/codelldb/blob/v1.10.0/MANUAL.md#rust-language-support
+</span></span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;cargo&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// build/test命令
+</span></span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;args&#34;</span>: [
+</span></span><span style="display:flex;"><span>          <span style="color:#e6db74">&#34;build&#34;</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#e6db74">&#34;--bin=rust_http_proxy&#34;</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#e6db74">&#34;--package=rust_http_proxy&#34;</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#75715e">// &#34;--features&#34;,
+</span></span></span><span style="display:flex;"><span>          <span style="color:#75715e">// &#34;bpf&#34;,
+</span></span></span><span style="display:flex;"><span>          <span style="color:#75715e">// &#34;--features&#34;,
+</span></span></span><span style="display:flex;"><span>          <span style="color:#75715e">// &#34;jemalloc&#34;,
+</span></span></span><span style="display:flex;"><span>          <span style="color:#75715e">// &#34;--no-default-features&#34;,
+</span></span></span><span style="display:flex;"><span>          <span style="color:#75715e">// &#34;--features&#34;,&#34;aws_lc_rs&#34;,
+</span></span></span><span style="display:flex;"><span>          <span style="color:#75715e">// &#34;--features&#34;,&#34;pnet&#34;,
+</span></span></span><span style="display:flex;"><span>        ],
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;env&#34;</span>: {
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;RUST_BACKTRACE&#34;</span>: <span style="color:#e6db74">&#34;1&#34;</span>
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;problemMatcher&#34;</span>: <span style="color:#e6db74">&#34;$rustc&#34;</span>, <span style="color:#75715e">// Problem matcher(s) to apply to cargo output.
+</span></span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;filter&#34;</span>: {
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;kind&#34;</span>: <span style="color:#e6db74">&#34;bin&#34;</span>,
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;rust_http_proxy&#34;</span>
 </span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>    ]
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;sourceLanguages&#34;</span>: [<span style="color:#e6db74">&#34;rust&#34;</span>], <span style="color:#75715e">// 指定源代码语言为 Rust
+</span></span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;args&#34;</span>: [
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 传递参数
+</span></span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;-p&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;7788&#34;</span>
+</span></span><span style="display:flex;"><span>      ],
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;env&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;HOSTNAME&#34;</span>: <span style="color:#e6db74">&#34;test&#34;</span>
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  ]
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h2 id="python开发">Python开发</h2>
-<h3 id="python插件">python插件</h3>
+</span></span></code></pre></div><h3 id="运行方式-2tasksjson--launchjson">运行方式 2：tasks.json + launch.json</h3>
+<h4 id="配置默认-build-任务vscodetasksjson">配置默认 build 任务：<code>.vscode/tasks.json</code></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;version&#34;</span>: <span style="color:#e6db74">&#34;2.0.0&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;tasks&#34;</span>: [
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;cargo&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;command&#34;</span>: <span style="color:#e6db74">&#34;build&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;problemMatcher&#34;</span>: [<span style="color:#e6db74">&#34;$rustc&#34;</span>],
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;args&#34;</span>: [
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// &#34;-p&#34;,
+</span></span></span><span style="display:flex;"><span>        <span style="color:#75715e">// &#34;rust_http_proxy&#34;,
+</span></span></span><span style="display:flex;"><span>      ],
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;group&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;kind&#34;</span>: <span style="color:#e6db74">&#34;build&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;isDefault&#34;</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>      },
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;label&#34;</span>: <span style="color:#e6db74">&#34;rust: cargo build&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;presentation&#34;</span>: {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;reveal&#34;</span>: <span style="color:#e6db74">&#34;silent&#34;</span>
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  ]
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="配置调试任务-vscodelaunchjson">配置调试任务 <code>.vscode/launch.json</code></h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 使用 IntelliSense 了解相关属性。
+</span></span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 悬停以查看现有属性的描述。
+</span></span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
+</span></span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;version&#34;</span>: <span style="color:#e6db74">&#34;0.2.0&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;configurations&#34;</span>: [
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;type&#34;</span>: <span style="color:#e6db74">&#34;lldb&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;request&#34;</span>: <span style="color:#e6db74">&#34;launch&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;Debug&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// https://github.com/vadimcn/codelldb/blob/v1.10.0/MANUAL.md#rust-language-support
+</span></span></span><span style="display:flex;"><span>      <span style="color:#75715e">// 虽然lldb支持cargo build，但是restart debug不会重新编译代码，所以不用。见https://github.com/vadimcn/codelldb/issues/988
+</span></span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;sourceLanguages&#34;</span>: [<span style="color:#e6db74">&#34;rust&#34;</span>],
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// https://code.visualstudio.com/docs/editor/variables-reference
+</span></span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;program&#34;</span>: <span style="color:#e6db74">&#34;${workspaceFolder}/target/debug/${workspaceFolderBasename}&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;args&#34;</span>: [],
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;cwd&#34;</span>: <span style="color:#e6db74">&#34;${workspaceFolder}&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;console&#34;</span>: <span style="color:#e6db74">&#34;internalConsole&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;preLaunchTask&#34;</span>: <span style="color:#e6db74">&#34;${defaultBuildTask}&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;env&#34;</span>: { <span style="color:#f92672">&#34;port&#34;</span>: <span style="color:#e6db74">&#34;80&#34;</span> }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  ]
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="python-开发">Python 开发</h2>
+<h3 id="python-插件">python 插件</h3>
 <table>
   <thead>
       <tr>
@@ -686,19 +733,19 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   <tbody>
       <tr>
           <td>ms-python.python</td>
-          <td>python插件</td>
+          <td>python 插件</td>
       </tr>
       <tr>
           <td>ms-python.vscode-pylance</td>
-          <td>python语言服务</td>
+          <td>python 语言服务</td>
       </tr>
       <tr>
           <td>ms-python.debugpy</td>
-          <td>python调试插件</td>
+          <td>python 调试插件</td>
       </tr>
       <tr>
           <td>ms-python.pylint</td>
-          <td>python lint插件 <strong>我没装这个插件，因为pylance已经有lint了</strong></td>
+          <td>python lint 插件 <strong>我没装这个插件，因为 pylance 已经有 lint 了</strong></td>
       </tr>
   </tbody>
 </table>
@@ -712,44 +759,44 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>python3 -m venv venv
 </span></span><span style="display:flex;"><span>source venv/bin/activate
 </span></span><span style="display:flex;"><span>pip3 install -r requirements.txt
-</span></span></code></pre></div><p>按<code>cmd + shift + p</code>，然后输入<code>select interpreter</code>，最后选择venv中的python解释器地址即可。</p>
-<h3 id="配置python调试任务">配置python调试任务</h3>
+</span></span></code></pre></div><p>按<code>cmd + shift + p</code>，然后输入<code>select interpreter</code>，最后选择 venv 中的 python 解释器地址即可。</p>
+<h3 id="配置-python-调试任务">配置 python 调试任务</h3>
 <img src="/img/vscode-add-python-debug-1.png" alt="" width="400px" style="max-width: 100%;">
 
 <img src="/img/vscode-add-python-debug-2.png" alt="" width="400px" style="max-width: 100%;">
 
 <p><img src="/img/vscode-add-python-debug-3.png" alt="alt text"></p>
 <h2 id="integrated-terminal">integrated terminal</h2>
-<p>我在远程开发时经常遇到重新连接远程机器时，集成terminal没有正常初始化，表现为shell标记旁边出现黄色感叹号。参考<a href="https://code.visualstudio.com/docs/terminal/shell-integration">Terminal Shell Integration</a>，发现需要关闭“自动脚本注入”，选择手动开启。具体操作是：</p>
+<p>我在远程开发时经常遇到重新连接远程机器时，集成 terminal 没有正常初始化，表现为 shell 标记旁边出现黄色感叹号。参考<a href="https://code.visualstudio.com/docs/terminal/shell-integration">Terminal Shell Integration</a>，发现需要关闭“自动脚本注入”，选择手动开启。具体操作是：</p>
 <ol>
 <li>按 <code>cmd + ,</code> 打开设置，不勾选下面的选项。对应 settings.json 中的配置是<code>&quot;terminal.integrated.shellIntegration.enabled&quot;: false</code></li>
 </ol>
 <p><img src="/img/disable-vscode-integeted-terminal.png" alt="alt text"></p>
 <ol start="2">
-<li>在 zshrc 中手动开启集成terminal</li>
+<li>在 zshrc 中手动开启集成 terminal</li>
 </ol>
-<p>Linux上</p>
+<p>Linux 上</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ! grep TERM_PROGRAM ~/.zshrc;<span style="color:#66d9ef">then</span>
 </span></span><span style="display:flex;"><span>  echo <span style="color:#e6db74">&#39;[[ &#34;$TERM_PROGRAM&#34; == &#34;vscode&#34; ]] &amp;&amp; . &#34;$(code --locate-shell-integration-path zsh)&#34;&#39;</span> &gt;&gt; ~/.zshrc
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
-</span></span></code></pre></div><p>MacOS上：</p>
+</span></span></code></pre></div><p>MacOS 上：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ! grep TERM_PROGRAM ~/.zshrc;<span style="color:#66d9ef">then</span>
 </span></span><span style="display:flex;"><span>  echo <span style="color:#e6db74">&#39;[[ &#34;$TERM_PROGRAM&#34; == &#34;vscode&#34; ]] &amp;&amp; . &#34;$(/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --locate-shell-integration-path zsh)&#34;&#39;</span> &gt;&gt; ~/.zshrc
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
 </span></span></code></pre></div><ol start="3">
-<li>在windows pwsh上手动开启集成terminal</li>
+<li>在 windows pwsh 上手动开启集成 terminal</li>
 </ol>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ($env:TERM_PROGRAM <span style="color:#f92672">-eq</span> <span style="color:#e6db74">&#34;vscode&#34;</span>) { . <span style="color:#e6db74">&#34;</span>$(code --locate-shell-integration-path pwsh)<span style="color:#e6db74">&#34;</span> }
 </span></span></code></pre></div><h2 id="文件自动保存自动格式化">文件自动保存+自动格式化</h2>
 <blockquote>
-<p>files.autoSave设置成延迟时，自动format无效</p>
+<p>files.autoSave 设置成延迟时，自动 format 无效</p>
 </blockquote>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;editor.formatOnSave&#34;</span>: <span style="color:#66d9ef">true</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;files.autoSave&#34;</span>: <span style="color:#e6db74">&#34;onFocusChange&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;editor.formatOnSave&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;files.autoSave&#34;</span>: <span style="color:#e6db74">&#34;onFocusChange&#34;</span>
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h2 id="操作系统设置">操作系统设置</h2>
-<h3 id="macos-解除f11的快捷键的占用">macOS 解除F11的快捷键的占用</h3>
+<h3 id="macos-解除-f11-的快捷键的占用">macOS 解除 F11 的快捷键的占用</h3>
 <p>设置 -&gt; 键盘 -&gt; 键盘快捷键</p>
 <img src="/img/macOS-diable-F11.png" alt="" width="550px" style="max-width: 100%;">
 
@@ -758,7 +805,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <img src="/img/windows-disable-jianfan-qiehuan.png" alt="" width="550px" style="max-width: 100%;">
 
 <h2 id="其他插件">其他插件</h2>
-<h3 id="git插件">Git插件</h3>
+<h3 id="git-插件">Git 插件</h3>
 <p>我没有用<a href="https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens">GitLens</a>，而是参考<a href="https://juejin.cn/post/7316097536547700775">VSCode 或许不需要 GitLens</a>用了下面的插件</p>
 <table>
   <thead>
@@ -778,207 +825,200 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
       </tr>
       <tr>
           <td><a href="https://marketplace.visualstudio.com/items?itemName=waderyan.gitblame">GitBlame</a></td>
-          <td>显示每行是谁在什么时候修改的。PS：vscode 1.96内置了git blame的能力，这个插件可以卸载了，启用方式见：<a href="https://code.visualstudio.com/updates/v1_96#_source-control">November 2024 (version 1.96)</a></td>
+          <td>显示每行是谁在什么时候修改的。PS：vscode 1.96 内置了 git blame 的能力，这个插件可以卸载了，启用方式见：<a href="https://code.visualstudio.com/updates/v1_96#_source-control">November 2024 (version 1.96)</a></td>
       </tr>
   </tbody>
 </table>
 <p>并且为这些插件做了些配置变更：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;gitblame.inlineMessageEnabled&#34;</span>: <span style="color:#66d9ef">true</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;gitblame.inlineMessageFormat&#34;</span>: <span style="color:#e6db74">&#34;${author.name}, (${time.ago}) · ${commit.summary}&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;git-graph.commitDetailsView.location&#34;</span>: <span style="color:#e6db74">&#34;Docked to Bottom&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;git-graph.date.format&#34;</span>: <span style="color:#e6db74">&#34;ISO Date &amp; Time&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;gitblame.inlineMessageEnabled&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;gitblame.inlineMessageFormat&#34;</span>: <span style="color:#e6db74">&#34;${author.name}, (${time.ago}) · ${commit.summary}&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;git-graph.commitDetailsView.location&#34;</span>: <span style="color:#e6db74">&#34;Docked to Bottom&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;git-graph.date.format&#34;</span>: <span style="color:#e6db74">&#34;ISO Date &amp; Time&#34;</span>
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h2 id="我的vscode配置备份">我的vscode配置备份</h2>
+</span></span></code></pre></div><h2 id="我的-vscode-配置备份">我的 vscode 配置备份</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;editor.unicodeHighlight.nonBasicASCII&#34;</span>: <span style="color:#66d9ef">false</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;editor.fontSize&#34;</span>: <span style="color:#ae81ff">14</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;editor.fontFamily&#34;</span>: <span style="color:#e6db74">&#34;&#39;JetBrains Mono&#39;, Menlo, Monaco, &#39;Courier New&#39;, monospace&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;editor.lineHeight&#34;</span>: <span style="color:#ae81ff">1.6</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;editor.fontLigatures&#34;</span>: <span style="color:#66d9ef">false</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;editor.fontVariations&#34;</span>: <span style="color:#66d9ef">false</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;terminal.integrated.defaultProfile.linux&#34;</span>: <span style="color:#e6db74">&#34;zsh&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;git.enableSmartCommit&#34;</span>: <span style="color:#66d9ef">true</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;git.confirmSync&#34;</span>: <span style="color:#66d9ef">false</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;update.showReleaseNotes&#34;</span>: <span style="color:#66d9ef">false</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;editor.minimap.enabled&#34;</span>: <span style="color:#66d9ef">false</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;git.autofetch&#34;</span>: <span style="color:#66d9ef">true</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;terminal.integrated.fontSize&#34;</span>: <span style="color:#ae81ff">13</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;debug.console.fontSize&#34;</span>: <span style="color:#ae81ff">13</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;workbench.editor.empty.hint&#34;</span>: <span style="color:#e6db74">&#34;hidden&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;files.autoSaveDelay&#34;</span>: <span style="color:#ae81ff">200</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;git.pullTags&#34;</span>: <span style="color:#66d9ef">false</span>, <span style="color:#75715e">// 不自动拉取tag，避免github action更新的tag被拉取，导致git pull失败
-</span></span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;github.copilot.enable&#34;</span>: {
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;*&#34;</span>: <span style="color:#66d9ef">true</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;plaintext&#34;</span>: <span style="color:#66d9ef">false</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;markdown&#34;</span>: <span style="color:#66d9ef">true</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;scminput&#34;</span>: <span style="color:#66d9ef">false</span>
-</span></span><span style="display:flex;"><span>    },
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;python.analysis.inlayHints.callArgumentNames&#34;</span>: <span style="color:#e6db74">&#34;all&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;python.analysis.inlayHints.functionReturnTypes&#34;</span>: <span style="color:#66d9ef">true</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;python.analysis.inlayHints.variableTypes&#34;</span>: <span style="color:#66d9ef">true</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;python.analysis.autoFormatStrings&#34;</span>: <span style="color:#66d9ef">true</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;python.languageServer&#34;</span>: <span style="color:#e6db74">&#34;Pylance&#34;</span>, <span style="color:#75715e">// python languageServer插件
-</span></span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;github-actions.workflows.pinned.refresh.enabled&#34;</span>: <span style="color:#66d9ef">true</span>, <span style="color:#75715e">// 自动刷新被pin住的github action的执行状态，可能触发Github API的限制
-</span></span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;github-actions.workflows.pinned.refresh.interval&#34;</span>: <span style="color:#ae81ff">10</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;remote.SSH.defaultExtensions&#34;</span>: [
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;mhutchie.git-graph&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;github.copilot&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;github.vscode-github-actions&#34;</span>, <span style="color:#75715e">// github actions
-</span></span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;rust-lang.rust-analyzer&#34;</span>, <span style="color:#75715e">// rust-analyzer
-</span></span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;vadimcn.vscode-lldb&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;tamasfe.even-better-toml&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;golang.go&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;ms-python.vscode-pylance&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;ms-python.python&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;fill-labs.dependi&#34;</span>
-</span></span><span style="display:flex;"><span>    ],
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;workbench.colorTheme&#34;</span>: <span style="color:#e6db74">&#34;Default Dark+&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;rust-analyzer.check.command&#34;</span>: <span style="color:#e6db74">&#34;clippy&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;window.commandCenter&#34;</span>: <span style="color:#66d9ef">false</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;workbench.layoutControl.enabled&#34;</span>: <span style="color:#66d9ef">false</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;go.lintTool&#34;</span>: <span style="color:#e6db74">&#34;golangci-lint&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;remote.SSH.remotePlatform&#34;</span>: {
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;bi.arloor.com&#34;</span>: <span style="color:#e6db74">&#34;linux&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;pl.arloor.com&#34;</span>: <span style="color:#e6db74">&#34;linux&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;tt.arloor.com&#34;</span>: <span style="color:#e6db74">&#34;linux&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;192.168.5.244&#34;</span>: <span style="color:#e6db74">&#34;macOS&#34;</span>
-</span></span><span style="display:flex;"><span>    },
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;go.toolsManagement.autoUpdate&#34;</span>: <span style="color:#66d9ef">true</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;diffEditor.ignoreTrimWhitespace&#34;</span>: <span style="color:#66d9ef">true</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;debug.onTaskErrors&#34;</span>: <span style="color:#e6db74">&#34;showErrors&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;diffEditor.renderSideBySide&#34;</span>: <span style="color:#66d9ef">true</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;github.copilot.editor.enableAutoCompletions&#34;</span>: <span style="color:#66d9ef">true</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;terminal.integrated.shellIntegration.enabled&#34;</span>: <span style="color:#66d9ef">false</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;go.formatTool&#34;</span>: <span style="color:#e6db74">&#34;gofmt&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;editor.unicodeHighlight.nonBasicASCII&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;editor.fontSize&#34;</span>: <span style="color:#ae81ff">14</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;editor.fontFamily&#34;</span>: <span style="color:#e6db74">&#34;&#39;JetBrains Mono&#39;, Menlo, Monaco, &#39;Courier New&#39;, monospace&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;editor.lineHeight&#34;</span>: <span style="color:#ae81ff">1.6</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;editor.fontLigatures&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;editor.fontVariations&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;terminal.integrated.defaultProfile.linux&#34;</span>: <span style="color:#e6db74">&#34;zsh&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;git.enableSmartCommit&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;git.confirmSync&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;update.showReleaseNotes&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;editor.minimap.enabled&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;git.autofetch&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;terminal.integrated.fontSize&#34;</span>: <span style="color:#ae81ff">13</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;debug.console.fontSize&#34;</span>: <span style="color:#ae81ff">13</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;workbench.editor.empty.hint&#34;</span>: <span style="color:#e6db74">&#34;hidden&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;files.autoSaveDelay&#34;</span>: <span style="color:#ae81ff">200</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;git.pullTags&#34;</span>: <span style="color:#66d9ef">false</span>, <span style="color:#75715e">// 不自动拉取tag，避免github action更新的tag被拉取，导致git pull失败
+</span></span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;github.copilot.enable&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;*&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;plaintext&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;markdown&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;scminput&#34;</span>: <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;python.analysis.inlayHints.callArgumentNames&#34;</span>: <span style="color:#e6db74">&#34;all&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;python.analysis.inlayHints.functionReturnTypes&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;python.analysis.inlayHints.variableTypes&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;python.analysis.autoFormatStrings&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;python.languageServer&#34;</span>: <span style="color:#e6db74">&#34;Pylance&#34;</span>, <span style="color:#75715e">// python languageServer插件
+</span></span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;github-actions.workflows.pinned.refresh.enabled&#34;</span>: <span style="color:#66d9ef">true</span>, <span style="color:#75715e">// 自动刷新被pin住的github action的执行状态，可能触发Github API的限制
+</span></span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;github-actions.workflows.pinned.refresh.interval&#34;</span>: <span style="color:#ae81ff">10</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;remote.SSH.defaultExtensions&#34;</span>: [
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;mhutchie.git-graph&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;github.copilot&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;github.vscode-github-actions&#34;</span>, <span style="color:#75715e">// github actions
+</span></span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;rust-lang.rust-analyzer&#34;</span>, <span style="color:#75715e">// rust-analyzer
+</span></span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;vadimcn.vscode-lldb&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;tamasfe.even-better-toml&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;golang.go&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;ms-python.vscode-pylance&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;ms-python.python&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;fill-labs.dependi&#34;</span>
+</span></span><span style="display:flex;"><span>  ],
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;workbench.colorTheme&#34;</span>: <span style="color:#e6db74">&#34;Default Dark+&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;rust-analyzer.check.command&#34;</span>: <span style="color:#e6db74">&#34;clippy&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;window.commandCenter&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;workbench.layoutControl.enabled&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;go.lintTool&#34;</span>: <span style="color:#e6db74">&#34;golangci-lint&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;remote.SSH.remotePlatform&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;bi.arloor.com&#34;</span>: <span style="color:#e6db74">&#34;linux&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;pl.arloor.com&#34;</span>: <span style="color:#e6db74">&#34;linux&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;tt.arloor.com&#34;</span>: <span style="color:#e6db74">&#34;linux&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;192.168.5.244&#34;</span>: <span style="color:#e6db74">&#34;macOS&#34;</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;go.toolsManagement.autoUpdate&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;diffEditor.ignoreTrimWhitespace&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;debug.onTaskErrors&#34;</span>: <span style="color:#e6db74">&#34;showErrors&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;diffEditor.renderSideBySide&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;github.copilot.editor.enableAutoCompletions&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;terminal.integrated.shellIntegration.enabled&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;go.formatTool&#34;</span>: <span style="color:#e6db74">&#34;gofmt&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;editor.formatOnSave&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;files.autoSave&#34;</span>: <span style="color:#e6db74">&#34;afterDelay&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;terminal.integrated.defaultProfile.osx&#34;</span>: <span style="color:#e6db74">&#34;zsh&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;[go]&#34;</span>: {
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;editor.formatOnSave&#34;</span>: <span style="color:#66d9ef">true</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;files.autoSave&#34;</span>: <span style="color:#e6db74">&#34;afterDelay&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;terminal.integrated.defaultProfile.osx&#34;</span>: <span style="color:#e6db74">&#34;zsh&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;[go]&#34;</span>: {
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;editor.formatOnSave&#34;</span>: <span style="color:#66d9ef">true</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;editor.codeActionsOnSave&#34;</span>: {
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;source.organizeImports&#34;</span>: <span style="color:#e6db74">&#34;always&#34;</span>
-</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;editor.codeActionsOnSave&#34;</span>: {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;source.organizeImports&#34;</span>: <span style="color:#e6db74">&#34;always&#34;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;go.testFlags&#34;</span>: [
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;-gcflags=all=-l&#34;</span>, <span style="color:#75715e">// 针对run test禁用内联优化，使gomonkey可以成功打桩。对debug test不生效，因为golang插件针对debug test自行设置了-gcflags=&#34;all=-l -N&#34;
+</span></span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;-v&#34;</span> <span style="color:#75715e">// 使run test可以输出t.Logf的日志。对debug test不生效，只在test fail的时候才会打印t.Logf的日志
+</span></span></span><span style="display:flex;"><span>  ],
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;go.formatFlags&#34;</span>: [<span style="color:#e6db74">&#34;-w&#34;</span>],
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;security.workspace.trust.untrustedFiles&#34;</span>: <span style="color:#e6db74">&#34;open&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;go.testExplorer.showOutput&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;gitblame.inlineMessageEnabled&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;gitblame.inlineMessageFormat&#34;</span>: <span style="color:#e6db74">&#34;${author.name}, (${time.ago}) · ${commit.summary}&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;github.copilot.advanced&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;authProvider&#34;</span>: <span style="color:#e6db74">&#34;github&#34;</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;files.associations&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;*.json&#34;</span>: <span style="color:#e6db74">&#34;jsonc&#34;</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;diffEditor.hideUnchangedRegions.enabled&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;terminal.integrated.profiles.windows&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;PowerShell&#34;</span>: {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;source&#34;</span>: <span style="color:#e6db74">&#34;PowerShell&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;icon&#34;</span>: <span style="color:#e6db74">&#34;terminal-powershell&#34;</span>
 </span></span><span style="display:flex;"><span>    },
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;go.testFlags&#34;</span>: [
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;-gcflags=all=-l&#34;</span>, <span style="color:#75715e">// 针对run test禁用内联优化，使gomonkey可以成功打桩。对debug test不生效，因为golang插件针对debug test自行设置了-gcflags=&#34;all=-l -N&#34;
-</span></span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;-v&#34;</span>, <span style="color:#75715e">// 使run test可以输出t.Logf的日志。对debug test不生效，只在test fail的时候才会打印t.Logf的日志
-</span></span></span><span style="display:flex;"><span>    ],
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;go.formatFlags&#34;</span>: [
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;-w&#34;</span>
-</span></span><span style="display:flex;"><span>    ],
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;security.workspace.trust.untrustedFiles&#34;</span>: <span style="color:#e6db74">&#34;open&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;go.testExplorer.showOutput&#34;</span>: <span style="color:#66d9ef">true</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;gitblame.inlineMessageEnabled&#34;</span>: <span style="color:#66d9ef">true</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;gitblame.inlineMessageFormat&#34;</span>: <span style="color:#e6db74">&#34;${author.name}, (${time.ago}) · ${commit.summary}&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;github.copilot.advanced&#34;</span>: {
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;authProvider&#34;</span>: <span style="color:#e6db74">&#34;github&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;Command Prompt&#34;</span>: {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;path&#34;</span>: [
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;${env:windir}\\Sysnative\\cmd.exe&#34;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;${env:windir}\\System32\\cmd.exe&#34;</span>
+</span></span><span style="display:flex;"><span>      ],
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;args&#34;</span>: [],
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;icon&#34;</span>: <span style="color:#e6db74">&#34;terminal-cmd&#34;</span>
 </span></span><span style="display:flex;"><span>    },
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;files.associations&#34;</span>: {
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;*.json&#34;</span>: <span style="color:#e6db74">&#34;jsonc&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;Git Bash&#34;</span>: {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;source&#34;</span>: <span style="color:#e6db74">&#34;Git Bash&#34;</span>
 </span></span><span style="display:flex;"><span>    },
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;diffEditor.hideUnchangedRegions.enabled&#34;</span>: <span style="color:#66d9ef">true</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;terminal.integrated.profiles.windows&#34;</span>: {
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;PowerShell&#34;</span>: {
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;source&#34;</span>: <span style="color:#e6db74">&#34;PowerShell&#34;</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;icon&#34;</span>: <span style="color:#e6db74">&#34;terminal-powershell&#34;</span>
-</span></span><span style="display:flex;"><span>        },
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;Command Prompt&#34;</span>: {
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;path&#34;</span>: [
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;${env:windir}\\Sysnative\\cmd.exe&#34;</span>,
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;${env:windir}\\System32\\cmd.exe&#34;</span>
-</span></span><span style="display:flex;"><span>            ],
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;args&#34;</span>: [],
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;icon&#34;</span>: <span style="color:#e6db74">&#34;terminal-cmd&#34;</span>
-</span></span><span style="display:flex;"><span>        },
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;Git Bash&#34;</span>: {
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;source&#34;</span>: <span style="color:#e6db74">&#34;Git Bash&#34;</span>
-</span></span><span style="display:flex;"><span>        },
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;Debian (WSL)&#34;</span>: {
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;path&#34;</span>: <span style="color:#e6db74">&#34;C:\\Windows\\System32\\wsl.exe&#34;</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;args&#34;</span>: [
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;-d&#34;</span>,
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;Debian&#34;</span>
-</span></span><span style="display:flex;"><span>            ]
-</span></span><span style="display:flex;"><span>        },
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;Windows PowerShell&#34;</span>: {
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;path&#34;</span>: <span style="color:#e6db74">&#34;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe&#34;</span>
-</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;Debian (WSL)&#34;</span>: {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;path&#34;</span>: <span style="color:#e6db74">&#34;C:\\Windows\\System32\\wsl.exe&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;args&#34;</span>: [<span style="color:#e6db74">&#34;-d&#34;</span>, <span style="color:#e6db74">&#34;Debian&#34;</span>]
 </span></span><span style="display:flex;"><span>    },
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;terminal.integrated.defaultProfile.windows&#34;</span>: <span style="color:#e6db74">&#34;Windows PowerShell&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;dev.containers.executeInWSL&#34;</span>: <span style="color:#66d9ef">true</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;diffEditor.experimental.showMoves&#34;</span>: <span style="color:#66d9ef">true</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;git-graph.commitDetailsView.location&#34;</span>: <span style="color:#e6db74">&#34;Docked to Bottom&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;git-graph.date.format&#34;</span>: <span style="color:#e6db74">&#34;ISO Date &amp; Time&#34;</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;leek-fund.stocks&#34;</span>: [
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;sh000300&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;sh000688&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;hk03690&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;hk00700&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;usr_ixic&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;usr_dji&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;usr_inx&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;nf_IF0&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;nf_IH0&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;nf_IC0&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;nf_IM0&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;hf_OIL&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;hf_CHA50CFD&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;sz002768&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;sz002212&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;sz002602&#34;</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;sh603983&#34;</span>
-</span></span><span style="display:flex;"><span>    ],
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;leek-fund.statusBarStock&#34;</span>: [
-</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;sz002602&#34;</span>
-</span></span><span style="display:flex;"><span>    ],
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;leek-fund.stockPrice&#34;</span>: {
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;sz002768&#34;</span>: {
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;国恩股份&#34;</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;amount&#34;</span>: <span style="color:#ae81ff">0</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;price&#34;</span>: <span style="color:#e6db74">&#34;22.31&#34;</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;unitPrice&#34;</span>: <span style="color:#ae81ff">0</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;earnings&#34;</span>: <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>        },
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;sz002212&#34;</span>: {
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;天融信&#34;</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;amount&#34;</span>: <span style="color:#ae81ff">0</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;price&#34;</span>: <span style="color:#e6db74">&#34;6.79&#34;</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;unitPrice&#34;</span>: <span style="color:#ae81ff">0</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;earnings&#34;</span>: <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>        },
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;sz002602&#34;</span>: {
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;ST华通&#34;</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;amount&#34;</span>: <span style="color:#ae81ff">117200</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;price&#34;</span>: <span style="color:#e6db74">&#34;4.33&#34;</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;unitPrice&#34;</span>: <span style="color:#ae81ff">4.233</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;earnings&#34;</span>: <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>        },
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;sh603899&#34;</span>: {
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;晨光股份&#34;</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;amount&#34;</span>: <span style="color:#ae81ff">100</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;price&#34;</span>: <span style="color:#e6db74">&#34;29.70&#34;</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;unitPrice&#34;</span>: <span style="color:#ae81ff">30.6</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;earnings&#34;</span>: <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>        },
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;hk03690&#34;</span>: {
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;美团-W&#34;</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;amount&#34;</span>: <span style="color:#ae81ff">0</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;price&#34;</span>: <span style="color:#e6db74">&#34;162.0&#34;</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;unitPrice&#34;</span>: <span style="color:#ae81ff">0</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;earnings&#34;</span>: <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>        },
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;hk00700&#34;</span>: {
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;腾讯控股&#34;</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;amount&#34;</span>: <span style="color:#ae81ff">0</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;price&#34;</span>: <span style="color:#e6db74">&#34;395.2&#34;</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;unitPrice&#34;</span>: <span style="color:#ae81ff">0</span>,
-</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;earnings&#34;</span>: <span style="color:#ae81ff">0</span>
-</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;Windows PowerShell&#34;</span>: {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;path&#34;</span>: <span style="color:#e6db74">&#34;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe&#34;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;terminal.integrated.defaultProfile.windows&#34;</span>: <span style="color:#e6db74">&#34;Windows PowerShell&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;dev.containers.executeInWSL&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;diffEditor.experimental.showMoves&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;git-graph.commitDetailsView.location&#34;</span>: <span style="color:#e6db74">&#34;Docked to Bottom&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;git-graph.date.format&#34;</span>: <span style="color:#e6db74">&#34;ISO Date &amp; Time&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;leek-fund.stocks&#34;</span>: [
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;sh000300&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;sh000688&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;hk03690&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;hk00700&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;usr_ixic&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;usr_dji&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;usr_inx&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;nf_IF0&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;nf_IH0&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;nf_IC0&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;nf_IM0&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;hf_OIL&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;hf_CHA50CFD&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;sz002768&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;sz002212&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;sz002602&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;sh603983&#34;</span>
+</span></span><span style="display:flex;"><span>  ],
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;leek-fund.statusBarStock&#34;</span>: [<span style="color:#e6db74">&#34;sz002602&#34;</span>],
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;leek-fund.stockPrice&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;sz002768&#34;</span>: {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;国恩股份&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;amount&#34;</span>: <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;price&#34;</span>: <span style="color:#e6db74">&#34;22.31&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;unitPrice&#34;</span>: <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;earnings&#34;</span>: <span style="color:#ae81ff">0</span>
 </span></span><span style="display:flex;"><span>    },
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;git.blame.editorDecoration.enabled&#34;</span>: <span style="color:#66d9ef">true</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;git.blame.statusBarItem.enabled&#34;</span>: <span style="color:#66d9ef">true</span>,
-</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;git.blame.editorDecoration.template&#34;</span>: <span style="color:#e6db74">&#34;${authorName} (${authorDateAgo}), ${subject}&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;sz002212&#34;</span>: {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;天融信&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;amount&#34;</span>: <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;price&#34;</span>: <span style="color:#e6db74">&#34;6.79&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;unitPrice&#34;</span>: <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;earnings&#34;</span>: <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;sz002602&#34;</span>: {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;ST华通&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;amount&#34;</span>: <span style="color:#ae81ff">117200</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;price&#34;</span>: <span style="color:#e6db74">&#34;4.33&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;unitPrice&#34;</span>: <span style="color:#ae81ff">4.233</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;earnings&#34;</span>: <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;sh603899&#34;</span>: {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;晨光股份&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;amount&#34;</span>: <span style="color:#ae81ff">100</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;price&#34;</span>: <span style="color:#e6db74">&#34;29.70&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;unitPrice&#34;</span>: <span style="color:#ae81ff">30.6</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;earnings&#34;</span>: <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;hk03690&#34;</span>: {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;美团-W&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;amount&#34;</span>: <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;price&#34;</span>: <span style="color:#e6db74">&#34;162.0&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;unitPrice&#34;</span>: <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;earnings&#34;</span>: <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;hk00700&#34;</span>: {
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;腾讯控股&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;amount&#34;</span>: <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;price&#34;</span>: <span style="color:#e6db74">&#34;395.2&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;unitPrice&#34;</span>: <span style="color:#ae81ff">0</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#34;earnings&#34;</span>: <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;git.blame.editorDecoration.enabled&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;git.blame.statusBarItem.enabled&#34;</span>: <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;git.blame.editorDecoration.template&#34;</span>: <span style="color:#e6db74">&#34;${authorName} (${authorDateAgo}), ${subject}&#34;</span>
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div>
   </div>
