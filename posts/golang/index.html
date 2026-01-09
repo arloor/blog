@@ -437,7 +437,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </ul>
 <p>下载本站的配置文件:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl https://www.arloor.com/golangci/v2/.golangci.yml -f -o ~/.golangci.yml
-</span></span></code></pre></div><h2 id="golangci-lint-v1-使用">golangci-lint v1 使用</h2>
+</span></span></code></pre></div><p>可以使用<a href="https://golangci-lint.run/docs/linters/false-positives/#nolint-directive">nolint 指令</a>忽略某些地方的检查，或者配置<a href="https://golangci-lint.run/docs/linters/false-positives/#exclude">exclude rules</a>进行排除。</p>
+<h2 id="golangci-lint-v1-使用">golangci-lint v1 使用</h2>
 <p>安装</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.64.8
 </span></span></code></pre></div><p>参考文档：</p>
