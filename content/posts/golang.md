@@ -191,6 +191,8 @@ go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.7.2
 curl https://www.arloor.com/golangci/v2/.golangci.yml -f -o ~/.golangci.yml
 ```
 
+可以使用[nolint 指令](https://golangci-lint.run/docs/linters/false-positives/#nolint-directive)忽略某些地方的检查，或者配置[exclude rules](https://golangci-lint.run/docs/linters/false-positives/#exclude)进行排除。
+
 ## golangci-lint v1 使用
 
 安装
