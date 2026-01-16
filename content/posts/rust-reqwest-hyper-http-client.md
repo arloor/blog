@@ -2,25 +2,24 @@
 title: "Rust reqwest代码阅读"
 date: 2024-07-20T11:26:42+08:00
 draft: false
-categories: [ "undefined"]
+categories: ["undefined"]
 tags: ["rust"]
 weight: 10
 subtitle: ""
-description : ""
+description: ""
 keywords:
-- 刘港欢 arloor moontell
+  - 刘港欢 arloor moontell
 ---
-
 
 最近在自己的[rust_http_proxy](https://github.com/arloor/rust_http_proxy)中实现了简单的反向代理，第一版用的是手搓的无连接池版本，大致流程如下：
 
 1. 首先 `TcpStream::connect` 建立连接
 2. 通过 `conn::http1::Builder` 拿到 `sender`
-3. 发送请求 `sender.send_request(new_req)` 
+3. 发送请求 `sender.send_request(new_req)`
 
 工作的很正常，但是没有连接池。想到 `hyper` 官方提供的 `reqwest` 是有内置连接池的，于是研究了下做了改造，记录下过程中读到的代码。
 
-## Original：无连接池的reverse_proxy
+## Original：无连接池的 reverse_proxy
 
 ```Rust
 async fn reverse_proxy(
@@ -86,11 +85,11 @@ async fn reverse_proxy(
     }
 ```
 
-## 源码阅读：从reqwest到hyper-util再到hyper
+## 源码阅读：从 reqwest 到 hyper-util 再到 hyper
 
-### reqwest对 legacy::client 的使用
+### reqwest 对 legacy::client 的使用
 
-具体package是:
+具体 package 是:
 
 ```rust
 use hyper_util::client::legacy::client
@@ -237,11 +236,11 @@ where
 Send a constructed Request using this Client.
 ```
 
-值得说明的是 `legacy client` 并不是“过时”的意思，而是 `hyper` 库从 `0.14` 升级到 `1.0` 时，将其从 `hyper` 移动到了 `hyper-util`。可以理解为从hyper体系的核心库移动到了外围实用组件。见下面引用自[Upgrade from v0.14 to v1](https://hyper.rs/guides/1/upgrading/)的描述
+值得说明的是 `legacy client` 并不是“过时”的意思，而是 `hyper` 库从 `0.14` 升级到 `1.0` 时，将其从 `hyper` 移动到了 `hyper-util`。可以理解为从 hyper 体系的核心库移动到了外围实用组件。见下面引用自[Upgrade from v0.14 to v1](https://hyper.rs/guides/1/upgrading/)的描述
 
 > The higher-level pooling Client was removed from `hyper 1.0`. A similar type was added to `hyper-util`, called `client::legacy::Client`. It’s mostly a drop-in replacement.
 
-### legacy client中池化的实现
+### legacy client 中池化的实现
 
 `legacy client` 的核心实现都在 `impl<C, B> Client<C, B>` 中，核心方法有：
 
@@ -254,7 +253,7 @@ async fn try_send_request(&self, mut req: Request<B>, pool_key: PoolKey) -> Resu
 async fn connection_for(&self, pool_key: PoolKey) -> Result<pool::Pooled<PoolClient<B>, PoolKey>, Error>
 ```
 
-大致流程时将scheme、host、port作为pool_key找到一个连接（PoolClient），然后使用PoolClient的 `try_send_request` 方法。 `try_send_request` 定义如下：
+大致流程时将 scheme、host、port 作为 pool_key 找到一个连接（PoolClient），然后使用 PoolClient 的 `try_send_request` 方法。 `try_send_request` 定义如下：
 
 ```Rust
 impl<B: Body + 'static> PoolClient<B> {
@@ -290,7 +289,7 @@ impl<B: Body + 'static> PoolClient<B> {
 }
 ```
 
-当我们走进 `http1` 的 `tx.try_send_request(req)`，发现这个 `PoolClient.tx` 就是之前无连接池版本中的 `sender`，就是下面这个 `handshake` 的返回的tuple的左值（右值是Connection，会被 `tokio::spawn` 驱动执行）
+当我们走进 `http1` 的 `tx.try_send_request(req)`，发现这个 `PoolClient.tx` 就是之前无连接池版本中的 `sender`，就是下面这个 `handshake` 的返回的 tuple 的左值（右值是 Connection，会被 `tokio::spawn` 驱动执行）
 
 ```Rust
 hyper::client::conn::http1::Builder::new()
@@ -317,7 +316,7 @@ enum PoolTx<B> {
 }
 ```
 
-我们可以额外关注下的http1部分，可以更清晰的看到和无连接连接池版本的相通之处
+我们可以额外关注下的 http1 部分，可以更清晰的看到和无连接连接池版本的相通之处
 
 ```Rust
 hyper_util::client::legacy::client::Client
@@ -343,12 +342,12 @@ executor.execute( // 这里实际就是tokio::spawn，和无连接池版本一�
 // declare this tx as usable
 tx.ready().await.map_err(Error::tx)?;
 return PoolTx::Http1(tx)
-}                            
+}
 ```
 
-### hyper如何发送http1请求
+### hyper 如何发送 http1 请求
 
-接下来从hyper-util走到hyper，看看hyper这个底层库是如何发送http请求的。目标是确定我们将http2请求的body转换成http1.1的body是否有损，具体来说是，将http2分帧的body的转换成http1.1的`Transfer-Encoding: chunked`的body是否有损。答案是无损的。
+接下来从 hyper-util 走到 hyper，看看 hyper 这个底层库是如何发送 http 请求的。目标是确定我们将 http2 请求的 body 转换成 http1.1 的 body 是否有损，具体来说是，将 http2 分帧的 body 的转换成 http1.1 的`Transfer-Encoding: chunked`的 body 是否有损。答案是无损的。
 
 我们先从上节的继续看起
 
@@ -392,7 +391,7 @@ pub(crate) fn send(&mut self, val: T) -> Result<Promise<U>, T> {
 }
 ```
 
-这个 `inner.send` 是发送到了一个channel中，那这个channel的接收者在哪呢？答案是我们之前看到的被 `tokio::spawn` 的`Connection`中。这里有必要给出`Connection`的定义：
+这个 `inner.send` 是发送到了一个 channel 中，那这个 channel 的接收者在哪呢？答案是我们之前看到的被 `tokio::spawn` 的`Connection`中。这里有必要给出`Connection`的定义：
 
 ```Rust
 /// A future that processes all HTTP state for the IO object.
@@ -409,7 +408,7 @@ where
 }
 ```
 
-Connection被 `tokio::spawn` 说明他是个 `Future`，他的逻辑就在 `poll` 方法中，我们看下这个 `poll` 方法：
+Connection 被 `tokio::spawn` 说明他是个 `Future`，他的逻辑就在 `poll` 方法中，我们看下这个 `poll` 方法：
 
 ```Rust
 impl<T, B> Future for Connection<T, B>
@@ -437,7 +436,7 @@ where
 }
 ```
 
-这里就是推动 `inner: Dispatcher`的执行，我们继续看 `Dispatcher` 的poll（trait bounds有点多，经典类型体操）：
+这里就是推动 `inner: Dispatcher`的执行，我们继续看 `Dispatcher` 的 poll（trait bounds 有点多，经典类型体操）：
 
 ```Rust
 impl<D, Bs, I, T> Future for Dispatcher<D, Bs, I, T>
@@ -462,7 +461,7 @@ where
 }
 ```
 
-而后逐步走到 `poll_inner`、`poll_loop`，有经验而敏感的同学看到`poll_loop`就知道 Reacotr模式的事件循环（eventloop）他来了。这个`poll_loop`值得贴一下源码，因为涉及到其他future的饥饿问题，可能自己在做设计的时候也要考虑
+而后逐步走到 `poll_inner`、`poll_loop`，有经验而敏感的同学看到`poll_loop`就知道 Reacotr 模式的事件循环（eventloop）他来了。这个`poll_loop`值得贴一下源码，因为涉及到其他 future 的饥饿问题，可能自己在做设计的时候也要考虑
 
 ```Rust
 fn poll_loop(&mut self, cx: &mut Context<'_>) -> Poll<crate::Result<()>> {
@@ -494,7 +493,7 @@ fn poll_loop(&mut self, cx: &mut Context<'_>) -> Poll<crate::Result<()>> {
 }
 ```
 
-接着走进 `poll_write`的逻辑，就能看到具体的http请求的发送逻辑了。贴一小段代码，解密下消息从哪来
+接着走进 `poll_write`的逻辑，就能看到具体的 http 请求的发送逻辑了。贴一小段代码，解密下消息从哪来
 
 ```Rust
 fn poll_write(&mut self, cx: &mut Context<'_>) -> Poll<crate::Result<()>> {
@@ -550,7 +549,7 @@ where
     ) -> Poll<Option<Result<(Self::PollItem, Self::PollBody), Infallible>>> {
         let mut this = self.as_mut();
         debug_assert!(!this.rx_closed);
-        match this.rx.poll_recv(cx) {   // ！！！ 从channel中接收消息，看下面的impl<T, U> Receiver<T, U> 
+        match this.rx.poll_recv(cx) {   // ！！！ 从channel中接收消息，看下面的impl<T, U> Receiver<T, U>
             Poll::Ready(Some((req, mut cb))) => {
                 ...
             }
@@ -609,11 +608,11 @@ impl<T, U> Drop for Receiver<T, U> {
 }
 ```
 
-核心是 `this.rx.poll_recv(cx)`，这个rx就是 `handshake` 过程中创建的 `dispatch::channel()` 的接受部分，底层是 `mpsc::UnboundedReceiver`。其实看到这里，应该就明白hyper怎么实现client的了：
+核心是 `this.rx.poll_recv(cx)`，这个 rx 就是 `handshake` 过程中创建的 `dispatch::channel()` 的接受部分，底层是 `mpsc::UnboundedReceiver`。其实看到这里，应该就明白 hyper 怎么实现 client 的了：
 
-1. handshake生成`sender: http1::SendRequest` 和 `Connection`。
-2. 他们是**生产者消费者模型**，sender有mpsc的发送端，connection有mpsc的接收端。**我们自己实现Rust的生产者消费者模型时，可以重点参考`dispatch::channel()`**
-3. connection被tokio::spawn，poll方法中不断从mpsc接收端接收消息，然后发送http请求。
+1. handshake 生成`sender: http1::SendRequest` 和 `Connection`。
+2. 他们是**生产者消费者模型**，sender 有 mpsc 的发送端，connection 有 mpsc 的接收端。**我们自己实现 Rust 的生产者消费者模型时，可以重点参考`dispatch::channel()`**
+3. connection 被 tokio::spawn，poll 方法中不断从 mpsc 接收端接收消息，然后发送 http 请求。
 
 深究下 `dispatch::channel()` 的实现：
 
@@ -632,13 +631,13 @@ pub(crate) fn channel<T, U>() -> (Sender<T, U>, Receiver<T, U>) {
 }
 ```
 
-用到了[hyper作者的want crate](https://docs.rs/want/0.3.1/want/)。文档中写的很清楚，简单总结下，大致作用是给channel的生产者和消费者增加http1协议的ping-pong反馈机制，上一个request处理完毕，再允许发送者发送下一个request（ping pong ping pong）(http2的stream比这个复杂)。所以这个库的典型使用场景就是和 `unbounded_channel` 一起使用。
+用到了[hyper 作者的 want crate](https://docs.rs/want/0.3.1/want/)。文档中写的很清楚，简单总结下，大致作用是给 channel 的生产者和消费者增加 http1 协议的 ping-pong 反馈机制，上一个 request 处理完毕，再允许发送者发送下一个 request（ping pong ping pong）(http2 的 stream 比这个复杂)。所以这个库的典型使用场景就是和 `unbounded_channel` 一起使用。
 
-真正写header的部分，这里只截图我关注的HTTP2转HTTP1.1时是否能自动增加 `Transfer-Encoding: chunked`，简要总结下，如果没有设置 `Content-Length`，则会自动增加 `Transfer-Encoding: chunked`。截图左侧的调用栈也可以关注下。
+真正写 header 的部分，这里只截图我关注的 HTTP2 转 HTTP1.1 时是否能自动增加 `Transfer-Encoding: chunked`，简要总结下，如果没有设置 `Content-Length`，则会自动增加 `Transfer-Encoding: chunked`。截图左侧的调用栈也可以关注下。
 
 ![alt text](/img/hyper_http1_poll_write_debug.png)
 
-## Result1: 使用legacy::client构建reverse_proxy
+## Result1: 使用 legacy::client 构建 reverse_proxy
 
 增加的依赖：
 
@@ -650,7 +649,7 @@ hyper-rustls = { version = "0", default-features = false, features = [
     "native-tokio",
     "http1",
     "logging",
-] } 
+] }
 hyper-util = { version = "0.1", features = ["tokio", "server-auto"] }
 rustls = { version = "0" }
 rustls-native-certs = "0"
@@ -658,8 +657,7 @@ webpki-roots = "0"
 http = "1"
 ```
 
-hyper-rustls中的ring或者aws-lc-rs是受自己crate的可选feature控制的，这里没有展示出来。下面是构建`legacy client`的代码，支持HTTPS：
-
+hyper-rustls 中的 ring 或者 aws-lc-rs 是受自己 crate 的可选 feature 控制的，这里没有展示出来。下面是构建`legacy client`的代码，支持 HTTPS：
 
 ```Rust
 fn build_http_client() -> Client<hyper_rustls::HttpsConnector<HttpConnector>, Incoming> {
@@ -707,7 +705,7 @@ fn build_http_client() -> Client<hyper_rustls::HttpsConnector<HttpConnector>, In
 }
 ```
 
-## Result2: 使用LRU cache实现自己的连接池
+## Result2: 使用 LRU cache 实现自己的连接池
 
 最后，我又借鉴了 `shadowsocks-rust` 的 `http_client.rs`，使用 `lru_time_cache` 实现了自己的连接池。
 
@@ -821,6 +819,10 @@ where
                 if c.is_closed() {
                     // true at once after connection.await return
                     debug!("HTTP connection for host: {} is closed", access_label,);
+                    continue;
+                }
+                if !c.is_ready() {
+                    debug!("HTTP connection for host: {access_label} is not ready",);
                     continue;
                 }
                 return Some(c);
@@ -993,6 +995,11 @@ where
             HttpConnection::Http1(r) => r.is_closed(),
         }
     }
+    pub fn is_ready(&self) -> bool {
+        match self {
+            HttpConnection::Http1(r) => r.is_ready(),
+        }
+    }
 }
 
 fn handle_http1_connection_error(err: hyper::Error, access_label: AccessLabel) {
@@ -1023,5 +1030,3 @@ fn handle_http1_connection_error(err: hyper::Error, access_label: AccessLabel) {
 }
 
 ```
-
-
