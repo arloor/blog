@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.3">
+<meta name="generator" content="Hugo 0.154.5">
 
     
     
@@ -261,7 +261,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     
     
     <br/>
-    <i class="fas fa-clock"></i> 11 min read
+    <i class="fas fa-clock"></i> 10 min read
 </div>
 
 
@@ -275,16 +275,16 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
       
           <nav id="TableOfContents">
   <ul>
-    <li><a href="#original无连接池的reverse_proxy">Original：无连接池的reverse_proxy</a></li>
-    <li><a href="#源码阅读从reqwest到hyper-util再到hyper">源码阅读：从reqwest到hyper-util再到hyper</a>
+    <li><a href="#original无连接池的-reverse_proxy">Original：无连接池的 reverse_proxy</a></li>
+    <li><a href="#源码阅读从-reqwest-到-hyper-util-再到-hyper">源码阅读：从 reqwest 到 hyper-util 再到 hyper</a>
       <ul>
-        <li><a href="#reqwest对-legacyclient-的使用">reqwest对 legacy::client 的使用</a></li>
-        <li><a href="#legacy-client中池化的实现">legacy client中池化的实现</a></li>
-        <li><a href="#hyper如何发送http1请求">hyper如何发送http1请求</a></li>
+        <li><a href="#reqwest-对-legacyclient-的使用">reqwest 对 legacy::client 的使用</a></li>
+        <li><a href="#legacy-client-中池化的实现">legacy client 中池化的实现</a></li>
+        <li><a href="#hyper-如何发送-http1-请求">hyper 如何发送 http1 请求</a></li>
       </ul>
     </li>
-    <li><a href="#result1-使用legacyclient构建reverse_proxy">Result1: 使用legacy::client构建reverse_proxy</a></li>
-    <li><a href="#result2-使用lru-cache实现自己的连接池">Result2: 使用LRU cache实现自己的连接池</a></li>
+    <li><a href="#result1-使用-legacyclient-构建-reverse_proxy">Result1: 使用 legacy::client 构建 reverse_proxy</a></li>
+    <li><a href="#result2-使用-lru-cache-实现自己的连接池">Result2: 使用 LRU cache 实现自己的连接池</a></li>
   </ul>
 </nav>
       
@@ -299,7 +299,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>发送请求 <code>sender.send_request(new_req)</code></li>
 </ol>
 <p>工作的很正常，但是没有连接池。想到 <code>hyper</code> 官方提供的 <code>reqwest</code> 是有内置连接池的，于是研究了下做了改造，记录下过程中读到的代码。</p>
-<h2 id="original无连接池的reverse_proxy">Original：无连接池的reverse_proxy</h2>
+<h2 id="original无连接池的-reverse_proxy">Original：无连接池的 reverse_proxy</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">reverse_proxy</span>(
 </span></span><span style="display:flex;"><span>        req: <span style="color:#a6e22e">Request</span><span style="color:#f92672">&lt;</span>Incoming<span style="color:#f92672">&gt;</span>, <span style="color:#75715e">// 原始请求
 </span></span></span><span style="display:flex;"><span>        plain_host: <span style="color:#66d9ef">&amp;</span><span style="color:#66d9ef">str</span>, <span style="color:#75715e">// 目标主机
@@ -361,9 +361,9 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>            Err(e) <span style="color:#f92672">=&gt;</span> Err(io::Error::new(ErrorKind::ConnectionAborted, e)),
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>    }
-</span></span></code></pre></div><h2 id="源码阅读从reqwest到hyper-util再到hyper">源码阅读：从reqwest到hyper-util再到hyper</h2>
-<h3 id="reqwest对-legacyclient-的使用">reqwest对 legacy::client 的使用</h3>
-<p>具体package是:</p>
+</span></span></code></pre></div><h2 id="源码阅读从-reqwest-到-hyper-util-再到-hyper">源码阅读：从 reqwest 到 hyper-util 再到 hyper</h2>
+<h3 id="reqwest-对-legacyclient-的使用">reqwest 对 legacy::client 的使用</h3>
+<p>具体 package 是:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">use</span> hyper_util::client::legacy::client
 </span></span></code></pre></div><p>下面是 <code>reqwest</code> 发起执行请求的代码，关注用 <code>!!!</code> 标注的注释</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span>    <span style="color:#e6db74">/// Executes a `Request`.
@@ -498,11 +498,11 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>    B::Data: Send,
 </span></span><span style="display:flex;"><span>    B::Error: Into<span style="color:#f92672">&lt;</span>Box<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">dyn</span> StdError <span style="color:#f92672">+</span> Send <span style="color:#f92672">+</span> Sync<span style="color:#f92672">&gt;&gt;</span>,
 </span></span><span style="display:flex;"><span>Send a constructed Request using this Client.
-</span></span></code></pre></div><p>值得说明的是 <code>legacy client</code> 并不是“过时”的意思，而是 <code>hyper</code> 库从 <code>0.14</code> 升级到 <code>1.0</code> 时，将其从 <code>hyper</code> 移动到了 <code>hyper-util</code>。可以理解为从hyper体系的核心库移动到了外围实用组件。见下面引用自<a href="https://hyper.rs/guides/1/upgrading/">Upgrade from v0.14 to v1</a>的描述</p>
+</span></span></code></pre></div><p>值得说明的是 <code>legacy client</code> 并不是“过时”的意思，而是 <code>hyper</code> 库从 <code>0.14</code> 升级到 <code>1.0</code> 时，将其从 <code>hyper</code> 移动到了 <code>hyper-util</code>。可以理解为从 hyper 体系的核心库移动到了外围实用组件。见下面引用自<a href="https://hyper.rs/guides/1/upgrading/">Upgrade from v0.14 to v1</a>的描述</p>
 <blockquote>
 <p>The higher-level pooling Client was removed from <code>hyper 1.0</code>. A similar type was added to <code>hyper-util</code>, called <code>client::legacy::Client</code>. It’s mostly a drop-in replacement.</p>
 </blockquote>
-<h3 id="legacy-client中池化的实现">legacy client中池化的实现</h3>
+<h3 id="legacy-client-中池化的实现">legacy client 中池化的实现</h3>
 <p><code>legacy client</code> 的核心实现都在 <code>impl&lt;C, B&gt; Client&lt;C, B&gt;</code> 中，核心方法有：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span><span style="color:#75715e">// 发送请求
 </span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">request</span>(<span style="color:#f92672">&amp;</span>self, req: <span style="color:#a6e22e">Request</span><span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;</span>) -&gt; <span style="color:#a6e22e">ResponseFuture</span>
@@ -510,7 +510,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">try_send_request</span>(<span style="color:#f92672">&amp;</span>self, <span style="color:#66d9ef">mut</span> req: <span style="color:#a6e22e">Request</span><span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;</span>, pool_key: <span style="color:#a6e22e">PoolKey</span>) -&gt; Result<span style="color:#f92672">&lt;</span>Response<span style="color:#f92672">&lt;</span>hyper::body::Incoming<span style="color:#f92672">&gt;</span>, TrySendError<span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;&gt;</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">// 从pool中找一条connection
 </span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">connection_for</span>(<span style="color:#f92672">&amp;</span>self, pool_key: <span style="color:#a6e22e">PoolKey</span>) -&gt; Result<span style="color:#f92672">&lt;</span>pool::Pooled<span style="color:#f92672">&lt;</span>PoolClient<span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;</span>, PoolKey<span style="color:#f92672">&gt;</span>, Error<span style="color:#f92672">&gt;</span>
-</span></span></code></pre></div><p>大致流程时将scheme、host、port作为pool_key找到一个连接（PoolClient），然后使用PoolClient的 <code>try_send_request</code> 方法。 <code>try_send_request</code> 定义如下：</p>
+</span></span></code></pre></div><p>大致流程时将 scheme、host、port 作为 pool_key 找到一个连接（PoolClient），然后使用 PoolClient 的 <code>try_send_request</code> 方法。 <code>try_send_request</code> 定义如下：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span><span style="color:#66d9ef">impl</span><span style="color:#f92672">&lt;</span>B: <span style="color:#a6e22e">Body</span> <span style="color:#f92672">+</span> &#39;static<span style="color:#f92672">&gt;</span> PoolClient<span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">try_send_request</span>(
 </span></span><span style="display:flex;"><span>        <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self,
@@ -542,7 +542,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>        };
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>当我们走进 <code>http1</code> 的 <code>tx.try_send_request(req)</code>，发现这个 <code>PoolClient.tx</code> 就是之前无连接池版本中的 <code>sender</code>，就是下面这个 <code>handshake</code> 的返回的tuple的左值（右值是Connection，会被 <code>tokio::spawn</code> 驱动执行）</p>
+</span></span></code></pre></div><p>当我们走进 <code>http1</code> 的 <code>tx.try_send_request(req)</code>，发现这个 <code>PoolClient.tx</code> 就是之前无连接池版本中的 <code>sender</code>，就是下面这个 <code>handshake</code> 的返回的 tuple 的左值（右值是 Connection，会被 <code>tokio::spawn</code> 驱动执行）</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span>hyper::client::conn::http1::Builder::new()
 </span></span><span style="display:flex;"><span>    .preserve_header_case(<span style="color:#66d9ef">true</span>)
 </span></span><span style="display:flex;"><span>    .title_case_headers(<span style="color:#66d9ef">true</span>)
@@ -561,7 +561,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">#[cfg(feature = </span><span style="color:#e6db74">&#34;http2&#34;</span><span style="color:#75715e">)]</span>
 </span></span><span style="display:flex;"><span>    Http2(hyper::client::conn::http2::SendRequest<span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;</span>),
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>我们可以额外关注下的http1部分，可以更清晰的看到和无连接连接池版本的相通之处</p>
+</span></span></code></pre></div><p>我们可以额外关注下的 http1 部分，可以更清晰的看到和无连接连接池版本的相通之处</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span>hyper_util::client::legacy::client::Client
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">impl</span><span style="color:#f92672">&lt;</span>C, B<span style="color:#f92672">&gt;</span> Client<span style="color:#f92672">&lt;</span>C, B<span style="color:#f92672">&gt;</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">connect_to</span>(<span style="color:#f92672">&amp;</span>self, pool_key: <span style="color:#a6e22e">PoolKey</span>) -&gt; <span style="color:#a6e22e">impl</span> Lazy<span style="color:#f92672">&lt;</span>Output <span style="color:#f92672">=</span> Result<span style="color:#f92672">&lt;</span>pool::Pooled<span style="color:#f92672">&lt;</span>PoolClient<span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;</span>, PoolKey<span style="color:#f92672">&gt;</span>, Error<span style="color:#f92672">&gt;&gt;</span> <span style="color:#f92672">+</span> Send <span style="color:#f92672">+</span> Unpin
@@ -585,9 +585,9 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">// declare this tx as usable
 </span></span></span><span style="display:flex;"><span>tx.ready().<span style="color:#66d9ef">await</span>.map_err(Error::tx)<span style="color:#f92672">?</span>;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">return</span> PoolTx::Http1(tx)
-</span></span><span style="display:flex;"><span>}                            
-</span></span></code></pre></div><h3 id="hyper如何发送http1请求">hyper如何发送http1请求</h3>
-<p>接下来从hyper-util走到hyper，看看hyper这个底层库是如何发送http请求的。目标是确定我们将http2请求的body转换成http1.1的body是否有损，具体来说是，将http2分帧的body的转换成http1.1的<code>Transfer-Encoding: chunked</code>的body是否有损。答案是无损的。</p>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="hyper-如何发送-http1-请求">hyper 如何发送 http1 请求</h3>
+<p>接下来从 hyper-util 走到 hyper，看看 hyper 这个底层库是如何发送 http 请求的。目标是确定我们将 http2 请求的 body 转换成 http1.1 的 body 是否有损，具体来说是，将 http2 分帧的 body 的转换成 http1.1 的<code>Transfer-Encoding: chunked</code>的 body 是否有损。答案是无损的。</p>
 <p>我们先从上节的继续看起</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span>hyper::client::conn::http1::SendRequest
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">impl</span><span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;</span> SendRequest<span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;</span>
@@ -626,7 +626,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>        .map(<span style="color:#66d9ef">move</span> <span style="color:#f92672">|</span>_<span style="color:#f92672">|</span> rx)
 </span></span><span style="display:flex;"><span>        .map_err(<span style="color:#f92672">|</span><span style="color:#66d9ef">mut</span> e<span style="color:#f92672">|</span> (e.<span style="color:#ae81ff">0</span>).<span style="color:#ae81ff">0.</span>take().expect(<span style="color:#e6db74">&#34;envelope not dropped&#34;</span>).<span style="color:#ae81ff">0</span>)
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>这个 <code>inner.send</code> 是发送到了一个channel中，那这个channel的接收者在哪呢？答案是我们之前看到的被 <code>tokio::spawn</code> 的<code>Connection</code>中。这里有必要给出<code>Connection</code>的定义：</p>
+</span></span></code></pre></div><p>这个 <code>inner.send</code> 是发送到了一个 channel 中，那这个 channel 的接收者在哪呢？答案是我们之前看到的被 <code>tokio::spawn</code> 的<code>Connection</code>中。这里有必要给出<code>Connection</code>的定义：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span><span style="color:#e6db74">/// A future that processes all HTTP state for the IO object.
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">///
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">/// In most cases, this should just be spawned into an executor, so that it
@@ -639,7 +639,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>    inner: <span style="color:#a6e22e">Dispatcher</span><span style="color:#f92672">&lt;</span>T, B<span style="color:#f92672">&gt;</span>,
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>Connection被 <code>tokio::spawn</code> 说明他是个 <code>Future</code>，他的逻辑就在 <code>poll</code> 方法中，我们看下这个 <code>poll</code> 方法：</p>
+</span></span></code></pre></div><p>Connection 被 <code>tokio::spawn</code> 说明他是个 <code>Future</code>，他的逻辑就在 <code>poll</code> 方法中，我们看下这个 <code>poll</code> 方法：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span><span style="color:#66d9ef">impl</span><span style="color:#f92672">&lt;</span>T, B<span style="color:#f92672">&gt;</span> Future <span style="color:#66d9ef">for</span> Connection<span style="color:#f92672">&lt;</span>T, B<span style="color:#f92672">&gt;</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">where</span>
 </span></span><span style="display:flex;"><span>    T: <span style="color:#a6e22e">Read</span> <span style="color:#f92672">+</span> Write <span style="color:#f92672">+</span> Unpin,
@@ -663,7 +663,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>这里就是推动 <code>inner: Dispatcher</code>的执行，我们继续看 <code>Dispatcher</code> 的poll（trait bounds有点多，经典类型体操）：</p>
+</span></span></code></pre></div><p>这里就是推动 <code>inner: Dispatcher</code>的执行，我们继续看 <code>Dispatcher</code> 的 poll（trait bounds 有点多，经典类型体操）：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span><span style="color:#66d9ef">impl</span><span style="color:#f92672">&lt;</span>D, Bs, I, T<span style="color:#f92672">&gt;</span> Future <span style="color:#66d9ef">for</span> Dispatcher<span style="color:#f92672">&lt;</span>D, Bs, I, T<span style="color:#f92672">&gt;</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">where</span>
 </span></span><span style="display:flex;"><span>    D: <span style="color:#a6e22e">Dispatch</span><span style="color:#f92672">&lt;</span>
@@ -684,7 +684,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>        self.poll_catch(cx, <span style="color:#66d9ef">true</span>)
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>而后逐步走到 <code>poll_inner</code>、<code>poll_loop</code>，有经验而敏感的同学看到<code>poll_loop</code>就知道 Reacotr模式的事件循环（eventloop）他来了。这个<code>poll_loop</code>值得贴一下源码，因为涉及到其他future的饥饿问题，可能自己在做设计的时候也要考虑</p>
+</span></span></code></pre></div><p>而后逐步走到 <code>poll_inner</code>、<code>poll_loop</code>，有经验而敏感的同学看到<code>poll_loop</code>就知道 Reacotr 模式的事件循环（eventloop）他来了。这个<code>poll_loop</code>值得贴一下源码，因为涉及到其他 future 的饥饿问题，可能自己在做设计的时候也要考虑</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">poll_loop</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, cx: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">mut</span> Context<span style="color:#f92672">&lt;</span>&#39;_<span style="color:#f92672">&gt;</span>) -&gt; <span style="color:#a6e22e">Poll</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">crate</span>::Result<span style="color:#f92672">&lt;</span>()<span style="color:#f92672">&gt;&gt;</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Limit the looping on this connection, in case it is ready far too
 </span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">// often, so that other futures don&#39;t starve.
@@ -712,7 +712,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">trace!</span>(<span style="color:#e6db74">&#34;poll_loop yielding (self = {:p})&#34;</span>, self);
 </span></span><span style="display:flex;"><span>    task::yield_now(cx).map(<span style="color:#f92672">|</span>never<span style="color:#f92672">|</span> <span style="color:#66d9ef">match</span> never {}) <span style="color:#75715e">// 让出执行，避免其他饥饿
 </span></span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>接着走进 <code>poll_write</code>的逻辑，就能看到具体的http请求的发送逻辑了。贴一小段代码，解密下消息从哪来</p>
+</span></span></code></pre></div><p>接着走进 <code>poll_write</code>的逻辑，就能看到具体的 http 请求的发送逻辑了。贴一小段代码，解密下消息从哪来</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">poll_write</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, cx: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">mut</span> Context<span style="color:#f92672">&lt;</span>&#39;_<span style="color:#f92672">&gt;</span>) -&gt; <span style="color:#a6e22e">Poll</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">crate</span>::Result<span style="color:#f92672">&lt;</span>()<span style="color:#f92672">&gt;&gt;</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">loop</span> {
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> self.is_closing {
@@ -762,7 +762,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>    ) -&gt; <span style="color:#a6e22e">Poll</span><span style="color:#f92672">&lt;</span>Option<span style="color:#f92672">&lt;</span>Result<span style="color:#f92672">&lt;</span>(Self::PollItem, Self::PollBody), Infallible<span style="color:#f92672">&gt;&gt;&gt;</span> {
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> this <span style="color:#f92672">=</span> self.as_mut();
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">debug_assert!</span>(<span style="color:#f92672">!</span>this.rx_closed);
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">match</span> this.rx.poll_recv(cx) {   <span style="color:#75715e">// ！！！ 从channel中接收消息，看下面的impl&lt;T, U&gt; Receiver&lt;T, U&gt; 
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">match</span> this.rx.poll_recv(cx) {   <span style="color:#75715e">// ！！！ 从channel中接收消息，看下面的impl&lt;T, U&gt; Receiver&lt;T, U&gt;
 </span></span></span><span style="display:flex;"><span>            Poll::Ready(Some((req, <span style="color:#66d9ef">mut</span> cb))) <span style="color:#f92672">=&gt;</span> {
 </span></span><span style="display:flex;"><span>                <span style="color:#f92672">..</span>.
 </span></span><span style="display:flex;"><span>            }
@@ -819,11 +819,11 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span>        self.taker.cancel();
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>核心是 <code>this.rx.poll_recv(cx)</code>，这个rx就是 <code>handshake</code> 过程中创建的 <code>dispatch::channel()</code> 的接受部分，底层是 <code>mpsc::UnboundedReceiver</code>。其实看到这里，应该就明白hyper怎么实现client的了：</p>
+</span></span></code></pre></div><p>核心是 <code>this.rx.poll_recv(cx)</code>，这个 rx 就是 <code>handshake</code> 过程中创建的 <code>dispatch::channel()</code> 的接受部分，底层是 <code>mpsc::UnboundedReceiver</code>。其实看到这里，应该就明白 hyper 怎么实现 client 的了：</p>
 <ol>
-<li>handshake生成<code>sender: http1::SendRequest</code> 和 <code>Connection</code>。</li>
-<li>他们是<strong>生产者消费者模型</strong>，sender有mpsc的发送端，connection有mpsc的接收端。<strong>我们自己实现Rust的生产者消费者模型时，可以重点参考<code>dispatch::channel()</code></strong></li>
-<li>connection被tokio::spawn，poll方法中不断从mpsc接收端接收消息，然后发送http请求。</li>
+<li>handshake 生成<code>sender: http1::SendRequest</code> 和 <code>Connection</code>。</li>
+<li>他们是<strong>生产者消费者模型</strong>，sender 有 mpsc 的发送端，connection 有 mpsc 的接收端。<strong>我们自己实现 Rust 的生产者消费者模型时，可以重点参考<code>dispatch::channel()</code></strong></li>
+<li>connection 被 tokio::spawn，poll 方法中不断从 mpsc 接收端接收消息，然后发送 http 请求。</li>
 </ol>
 <p>深究下 <code>dispatch::channel()</code> 的实现：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span><span style="color:#66d9ef">pub</span>(<span style="color:#66d9ef">crate</span>) <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">channel</span><span style="color:#f92672">&lt;</span>T, U<span style="color:#f92672">&gt;</span>() -&gt; (Sender<span style="color:#f92672">&lt;</span>T, U<span style="color:#f92672">&gt;</span>, Receiver<span style="color:#f92672">&lt;</span>T, U<span style="color:#f92672">&gt;</span>) {
@@ -838,10 +838,10 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> rx <span style="color:#f92672">=</span> Receiver { inner: <span style="color:#a6e22e">rx</span>, taker };
 </span></span><span style="display:flex;"><span>    (tx, rx)
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>用到了<a href="https://docs.rs/want/0.3.1/want/">hyper作者的want crate</a>。文档中写的很清楚，简单总结下，大致作用是给channel的生产者和消费者增加http1协议的ping-pong反馈机制，上一个request处理完毕，再允许发送者发送下一个request（ping pong ping pong）(http2的stream比这个复杂)。所以这个库的典型使用场景就是和 <code>unbounded_channel</code> 一起使用。</p>
-<p>真正写header的部分，这里只截图我关注的HTTP2转HTTP1.1时是否能自动增加 <code>Transfer-Encoding: chunked</code>，简要总结下，如果没有设置 <code>Content-Length</code>，则会自动增加 <code>Transfer-Encoding: chunked</code>。截图左侧的调用栈也可以关注下。</p>
+</span></span></code></pre></div><p>用到了<a href="https://docs.rs/want/0.3.1/want/">hyper 作者的 want crate</a>。文档中写的很清楚，简单总结下，大致作用是给 channel 的生产者和消费者增加 http1 协议的 ping-pong 反馈机制，上一个 request 处理完毕，再允许发送者发送下一个 request（ping pong ping pong）(http2 的 stream 比这个复杂)。所以这个库的典型使用场景就是和 <code>unbounded_channel</code> 一起使用。</p>
+<p>真正写 header 的部分，这里只截图我关注的 HTTP2 转 HTTP1.1 时是否能自动增加 <code>Transfer-Encoding: chunked</code>，简要总结下，如果没有设置 <code>Content-Length</code>，则会自动增加 <code>Transfer-Encoding: chunked</code>。截图左侧的调用栈也可以关注下。</p>
 <p><img src="/img/hyper_http1_poll_write_debug.png" alt="alt text"></p>
-<h2 id="result1-使用legacyclient构建reverse_proxy">Result1: 使用legacy::client构建reverse_proxy</h2>
+<h2 id="result1-使用-legacyclient-构建-reverse_proxy">Result1: 使用 legacy::client 构建 reverse_proxy</h2>
 <p>增加的依赖：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[<span style="color:#a6e22e">dependencies</span>]
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">hyper-rustls</span> = { <span style="color:#a6e22e">version</span> = <span style="color:#e6db74">&#34;0&#34;</span>, <span style="color:#a6e22e">default-features</span> = <span style="color:#66d9ef">false</span>, <span style="color:#a6e22e">features</span> = [
@@ -850,13 +850,13 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;native-tokio&#34;</span>,
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;http1&#34;</span>,
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;logging&#34;</span>,
-</span></span><span style="display:flex;"><span>] } 
+</span></span><span style="display:flex;"><span>] }
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">hyper-util</span> = { <span style="color:#a6e22e">version</span> = <span style="color:#e6db74">&#34;0.1&#34;</span>, <span style="color:#a6e22e">features</span> = [<span style="color:#e6db74">&#34;tokio&#34;</span>, <span style="color:#e6db74">&#34;server-auto&#34;</span>] }
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">rustls</span> = { <span style="color:#a6e22e">version</span> = <span style="color:#e6db74">&#34;0&#34;</span> }
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">rustls-native-certs</span> = <span style="color:#e6db74">&#34;0&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">webpki-roots</span> = <span style="color:#e6db74">&#34;0&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">http</span> = <span style="color:#e6db74">&#34;1&#34;</span>
-</span></span></code></pre></div><p>hyper-rustls中的ring或者aws-lc-rs是受自己crate的可选feature控制的，这里没有展示出来。下面是构建<code>legacy client</code>的代码，支持HTTPS：</p>
+</span></span></code></pre></div><p>hyper-rustls 中的 ring 或者 aws-lc-rs 是受自己 crate 的可选 feature 控制的，这里没有展示出来。下面是构建<code>legacy client</code>的代码，支持 HTTPS：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">build_http_client</span>() -&gt; <span style="color:#a6e22e">Client</span><span style="color:#f92672">&lt;</span>hyper_rustls::HttpsConnector<span style="color:#f92672">&lt;</span>HttpConnector<span style="color:#f92672">&gt;</span>, Incoming<span style="color:#f92672">&gt;</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 创建一个 HttpConnector
 </span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> http_connector <span style="color:#f92672">=</span> HttpConnector::new();
@@ -900,7 +900,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>            .build(https_connector);
 </span></span><span style="display:flex;"><span>    client
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h2 id="result2-使用lru-cache实现自己的连接池">Result2: 使用LRU cache实现自己的连接池</h2>
+</span></span></code></pre></div><h2 id="result2-使用-lru-cache-实现自己的连接池">Result2: 使用 LRU cache 实现自己的连接池</h2>
 <p>最后，我又借鉴了 <code>shadowsocks-rust</code> 的 <code>http_client.rs</code>，使用 <code>lru_time_cache</code> 实现了自己的连接池。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span><span style="color:#e6db74">//! HTTP Client
 </span></span></span><span style="display:flex;"><span>
@@ -1011,6 +1011,10 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> c.is_closed() {
 </span></span><span style="display:flex;"><span>                    <span style="color:#75715e">// true at once after connection.await return
 </span></span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">debug!</span>(<span style="color:#e6db74">&#34;HTTP connection for host: {} is closed&#34;</span>, access_label,);
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">continue</span>;
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> <span style="color:#f92672">!</span>c.is_ready() {
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">debug!</span>(<span style="color:#e6db74">&#34;HTTP connection for host: {access_label} is not ready&#34;</span>,);
 </span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">continue</span>;
 </span></span><span style="display:flex;"><span>                }
 </span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> Some(c);
@@ -1181,6 +1185,11 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">is_closed</span>(<span style="color:#f92672">&amp;</span>self) -&gt; <span style="color:#66d9ef">bool</span> {
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">match</span> self {
 </span></span><span style="display:flex;"><span>            HttpConnection::Http1(r) <span style="color:#f92672">=&gt;</span> r.is_closed(),
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">is_ready</span>(<span style="color:#f92672">&amp;</span>self) -&gt; <span style="color:#66d9ef">bool</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">match</span> self {
+</span></span><span style="display:flex;"><span>            HttpConnection::Http1(r) <span style="color:#f92672">=&gt;</span> r.is_ready(),
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
