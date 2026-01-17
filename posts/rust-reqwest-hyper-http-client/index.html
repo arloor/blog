@@ -901,7 +901,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>    client
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h2 id="result2-使用-lru-cache-实现自己的连接池">Result2: 使用 LRU cache 实现自己的连接池</h2>
-<p>最后，我又借鉴了 <code>shadowsocks-rust</code> 的 <a href="https://github.com/shadowsocks/shadowsocks-rust/blob/dc5ea4b39de4e5223c48877d18d85b931c799302/crates/shadowsocks-service/src/local/http/http_client.rs#L112">http_client.rs</a>，使用 <code>lru_time_cache</code> 实现了自己的连接池。</p>
+<p>最后，我又借鉴了 <code>shadowsocks-rust</code> 的 <a href="https://github.com/shadowsocks/shadowsocks-rust/blob/dc5ea4b39de4e5223c48877d18d85b931c799302/crates/shadowsocks-service/src/local/http/http_client.rs#L112">http_client.rs</a>，使用 <code>lru_time_cache</code> 实现了自己的连接池。在过程中还修复了它的一个bug：<a href="https://github.com/shadowsocks/shadowsocks-rust/pull/2062">fix(http): add is_ready method and enhance connection checks</a></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span><span style="color:#e6db74">//! HTTP Client
 </span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">use</span> std::{
