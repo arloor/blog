@@ -261,7 +261,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     
     
     <br/>
-    <i class="fas fa-clock"></i> 10 min read
+    <i class="fas fa-clock"></i> 11 min read
 </div>
 
 
@@ -910,59 +910,69 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>    fmt::Debug,
 </span></span><span style="display:flex;"><span>    io::{self, ErrorKind},
 </span></span><span style="display:flex;"><span>    sync::Arc,
-</span></span><span style="display:flex;"><span>    time::{Duration, Instant},
+</span></span><span style="display:flex;"><span>    time::Instant,
 </span></span><span style="display:flex;"><span>};
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">use</span> http::{header, HeaderMap, HeaderValue, Version};
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">use</span> http::{HeaderMap, HeaderValue, Version, header};
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">use</span> hyper::{
-</span></span><span style="display:flex;"><span>    body::{self, Body},
-</span></span><span style="display:flex;"><span>    client::conn::http1,
-</span></span><span style="display:flex;"><span>    http::uri::Scheme,
 </span></span><span style="display:flex;"><span>    Request, Response,
+</span></span><span style="display:flex;"><span>    body::{self, Body},
+</span></span><span style="display:flex;"><span>    client::conn::http1::{self},
 </span></span><span style="display:flex;"><span>};
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">use</span> hyper_util::rt::TokioIo;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">use</span> io_x::{CounterIO, TimeoutIO};
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">use</span> log::{debug, error, info, trace, warn};
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">use</span> lru_time_cache::LruCache;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">use</span> prom_label::LabelImpl;
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">use</span> tokio::{net::TcpStream, sync::Mutex};
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">use</span> tokio::sync::Mutex;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">use</span> tokio_rustls::rustls::pki_types;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">use</span> <span style="color:#66d9ef">crate</span>::proxy::AccessLabel;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">use</span> <span style="color:#66d9ef">crate</span>::proxy::{AccessLabel, EitherTlsStream, build_tls_connector};
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">CONNECTION_EXPIRE_DURATION</span>: <span style="color:#a6e22e">Duration</span> <span style="color:#f92672">=</span>
-</span></span><span style="display:flex;"><span>    Duration::from_secs(<span style="color:#66d9ef">if</span> <span style="color:#f92672">!</span><span style="color:#a6e22e">cfg!</span>(debug_assertions) { <span style="color:#ae81ff">30</span> } <span style="color:#66d9ef">else</span> { <span style="color:#ae81ff">10</span> });
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#e6db74">/// HTTPClient, supporting HTTP/1.1 and H2, HTTPS.
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">HttpClient</span><span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">/// ForwardProxyClient, supporting HTTP/1.1 and H2, HTTPS.
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">ForwardProxyClient</span><span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">#[allow(clippy::type_complexity)]</span>
 </span></span><span style="display:flex;"><span>    cache_conn: <span style="color:#a6e22e">Arc</span><span style="color:#f92672">&lt;</span>Mutex<span style="color:#f92672">&lt;</span>LruCache<span style="color:#f92672">&lt;</span>AccessLabel, VecDeque<span style="color:#f92672">&lt;</span>(HttpConnection<span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;</span>, Instant)<span style="color:#f92672">&gt;&gt;&gt;&gt;</span>,
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">impl</span><span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;</span> HttpClient<span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">impl</span><span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;</span> ForwardProxyClient<span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">where</span>
 </span></span><span style="display:flex;"><span>    B: <span style="color:#a6e22e">Body</span> <span style="color:#f92672">+</span> Send <span style="color:#f92672">+</span> Unpin <span style="color:#f92672">+</span> Debug <span style="color:#f92672">+</span> &#39;static,
 </span></span><span style="display:flex;"><span>    B::Data: Send,
 </span></span><span style="display:flex;"><span>    B::Error: Into<span style="color:#f92672">&lt;</span>Box<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">dyn</span> ::std::error::Error <span style="color:#f92672">+</span> Send <span style="color:#f92672">+</span> Sync<span style="color:#f92672">&gt;&gt;</span>,
 </span></span><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">/// Create a new HttpClient
-</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">new</span>() -&gt; <span style="color:#a6e22e">HttpClient</span><span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;</span> {
-</span></span><span style="display:flex;"><span>        HttpClient {
-</span></span><span style="display:flex;"><span>            cache_conn: <span style="color:#a6e22e">Arc</span>::new(Mutex::new(LruCache::with_expiry_duration(
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">CONNECTION_EXPIRE_DURATION</span>,
-</span></span><span style="display:flex;"><span>            ))),
+</span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">new</span>() -&gt; <span style="color:#a6e22e">ForwardProxyClient</span><span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>        ForwardProxyClient {
+</span></span><span style="display:flex;"><span>            cache_conn: <span style="color:#a6e22e">Arc</span>::new(Mutex::new(LruCache::with_expiry_duration_and_capacity(<span style="color:#66d9ef">crate</span>::<span style="color:#66d9ef">IDLE_TIMEOUT</span>, <span style="color:#ae81ff">100</span>))),
 </span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#[allow(unused)]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">send_request_no_cache</span>(
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&amp;</span>self, req: <span style="color:#a6e22e">Request</span><span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;</span>, access_label: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">AccessLabel</span>, ipv6_first: Option<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">bool</span><span style="color:#f92672">&gt;</span>,
+</span></span><span style="display:flex;"><span>        stream_map_func: <span style="color:#a6e22e">impl</span> FnOnce(EitherTlsStream, AccessLabel) -&gt; <span style="color:#a6e22e">CounterIO</span><span style="color:#f92672">&lt;</span>EitherTlsStream, LabelImpl<span style="color:#f92672">&lt;</span>AccessLabel<span style="color:#f92672">&gt;&gt;</span>,
+</span></span><span style="display:flex;"><span>    ) -&gt; Result<span style="color:#f92672">&lt;</span>Response<span style="color:#f92672">&lt;</span>body::Incoming<span style="color:#f92672">&gt;</span>, std::io::Error<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Make a new connection
+</span></span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> c <span style="color:#f92672">=</span> <span style="color:#66d9ef">match</span> HttpConnection::connect(access_label, ipv6_first, stream_map_func).<span style="color:#66d9ef">await</span> {
+</span></span><span style="display:flex;"><span>            Ok(c) <span style="color:#f92672">=&gt;</span> c,
+</span></span><span style="display:flex;"><span>            Err(err) <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">error!</span>(<span style="color:#e6db74">&#34;failed to connect to host: {}, error: {}&#34;</span>, <span style="color:#f92672">&amp;</span>access_label.target, err);
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> Err(io::Error::new(io::ErrorKind::InvalidData, err));
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">trace!</span>(<span style="color:#e6db74">&#34;HTTP making request to host: {access_label}, request: {req:?}&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> response <span style="color:#f92672">=</span> c.send_request(req).<span style="color:#66d9ef">await</span>.map_err(io::Error::other)<span style="color:#f92672">?</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">trace!</span>(<span style="color:#e6db74">&#34;HTTP received response from host: {access_label}, response: {response:?}&#34;</span>);
+</span></span><span style="display:flex;"><span>        Ok(response)
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">/// Make HTTP requests
 </span></span></span><span style="display:flex;"><span>    <span style="color:#75715e">#[inline]</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">send_request</span>(
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&amp;</span>self,
-</span></span><span style="display:flex;"><span>        req: <span style="color:#a6e22e">Request</span><span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;</span>,
-</span></span><span style="display:flex;"><span>        access_label: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">AccessLabel</span>,
-</span></span><span style="display:flex;"><span>        stream_map_func: <span style="color:#a6e22e">impl</span> FnOnce(
-</span></span><span style="display:flex;"><span>            TcpStream,
-</span></span><span style="display:flex;"><span>            AccessLabel,
-</span></span><span style="display:flex;"><span>        ) -&gt; <span style="color:#a6e22e">CounterIO</span><span style="color:#f92672">&lt;</span>TcpStream, LabelImpl<span style="color:#f92672">&lt;</span>AccessLabel<span style="color:#f92672">&gt;&gt;</span>,
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&amp;</span>self, req: <span style="color:#a6e22e">Request</span><span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;</span>, access_label: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">AccessLabel</span>, ipv6_first: Option<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">bool</span><span style="color:#f92672">&gt;</span>,
+</span></span><span style="display:flex;"><span>        stream_map_func: <span style="color:#a6e22e">impl</span> FnOnce(EitherTlsStream, AccessLabel) -&gt; <span style="color:#a6e22e">CounterIO</span><span style="color:#f92672">&lt;</span>EitherTlsStream, LabelImpl<span style="color:#f92672">&lt;</span>AccessLabel<span style="color:#f92672">&gt;&gt;</span>,
 </span></span><span style="display:flex;"><span>    ) -&gt; Result<span style="color:#f92672">&lt;</span>Response<span style="color:#f92672">&lt;</span>body::Incoming<span style="color:#f92672">&gt;</span>, std::io::Error<span style="color:#f92672">&gt;</span> {
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 1. Check if there is an available client
 </span></span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Some(c) <span style="color:#f92672">=</span> self.get_cached_connection(access_label).<span style="color:#66d9ef">await</span> {
@@ -974,18 +984,10 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 2. If no. Make a new connection
-</span></span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> scheme <span style="color:#f92672">=</span> <span style="color:#66d9ef">match</span> req.uri().scheme() {
-</span></span><span style="display:flex;"><span>            Some(s) <span style="color:#f92672">=&gt;</span> s,
-</span></span><span style="display:flex;"><span>            None <span style="color:#f92672">=&gt;</span> <span style="color:#f92672">&amp;</span>Scheme::<span style="color:#66d9ef">HTTP</span>,
-</span></span><span style="display:flex;"><span>        };
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> c <span style="color:#f92672">=</span> <span style="color:#66d9ef">match</span> HttpConnection::connect(scheme, access_label, stream_map_func).<span style="color:#66d9ef">await</span> {
+</span></span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> c <span style="color:#f92672">=</span> <span style="color:#66d9ef">match</span> HttpConnection::connect(access_label, ipv6_first, stream_map_func).<span style="color:#66d9ef">await</span> {
 </span></span><span style="display:flex;"><span>            Ok(c) <span style="color:#f92672">=&gt;</span> c,
 </span></span><span style="display:flex;"><span>            Err(err) <span style="color:#f92672">=&gt;</span> {
-</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">error!</span>(
-</span></span><span style="display:flex;"><span>                    <span style="color:#e6db74">&#34;failed to connect to host: {}, error: {}&#34;</span>,
-</span></span><span style="display:flex;"><span>                    <span style="color:#f92672">&amp;</span>access_label.target, err
-</span></span><span style="display:flex;"><span>                );
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">error!</span>(<span style="color:#e6db74">&#34;failed to connect to host: {}, error: {}&#34;</span>, <span style="color:#f92672">&amp;</span>access_label.target, err);
 </span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> Err(io::Error::new(io::ErrorKind::InvalidData, err));
 </span></span><span style="display:flex;"><span>            }
 </span></span><span style="display:flex;"><span>        };
@@ -997,20 +999,16 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">get_cached_connection</span>(<span style="color:#f92672">&amp;</span>self, access_label: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">AccessLabel</span>) -&gt; Option<span style="color:#f92672">&lt;</span>HttpConnection<span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;&gt;</span> {
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Some(q) <span style="color:#f92672">=</span> self.cache_conn.lock().<span style="color:#66d9ef">await</span>.get_mut(access_label) {
-</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">debug!</span>(
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;HTTP client for host: {} found in cache, len: {}&#34;</span>,
-</span></span><span style="display:flex;"><span>                access_label,
-</span></span><span style="display:flex;"><span>                q.len()
-</span></span><span style="display:flex;"><span>            );
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">debug!</span>(<span style="color:#e6db74">&#34;HTTP client for host: {} found in cache, len: {}&#34;</span>, access_label, q.len());
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">while</span> <span style="color:#66d9ef">let</span> Some((c, inst)) <span style="color:#f92672">=</span> q.pop_front() {
 </span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">let</span> now <span style="color:#f92672">=</span> Instant::now();
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> now <span style="color:#f92672">-</span> inst <span style="color:#f92672">&gt;=</span> <span style="color:#66d9ef">CONNECTION_EXPIRE_DURATION</span> {
-</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">debug!</span>(<span style="color:#e6db74">&#34;HTTP connection for host: {} expired&#34;</span>, access_label,);
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> now <span style="color:#f92672">-</span> inst <span style="color:#f92672">&gt;=</span> <span style="color:#66d9ef">crate</span>::<span style="color:#66d9ef">IDLE_TIMEOUT</span> {
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">debug!</span>(<span style="color:#e6db74">&#34;HTTP connection for host: {access_label} expired&#34;</span>,);
 </span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">continue</span>;
 </span></span><span style="display:flex;"><span>                }
 </span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> c.is_closed() {
 </span></span><span style="display:flex;"><span>                    <span style="color:#75715e">// true at once after connection.await return
-</span></span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">debug!</span>(<span style="color:#e6db74">&#34;HTTP connection for host: {} is closed&#34;</span>, access_label,);
+</span></span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">debug!</span>(<span style="color:#e6db74">&#34;HTTP connection for host: {access_label} is closed&#34;</span>,);
 </span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">continue</span>;
 </span></span><span style="display:flex;"><span>                }
 </span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> <span style="color:#f92672">!</span>c.is_ready() {
@@ -1020,53 +1018,47 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> Some(c);
 </span></span><span style="display:flex;"><span>            }
 </span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">debug!</span>(<span style="color:#e6db74">&#34;HTTP client for host: {} not found in cache&#34;</span>, access_label);
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">debug!</span>(<span style="color:#e6db74">&#34;HTTP client for host: {access_label} not found in cache&#34;</span>);
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>        None
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">send_request_conn</span>(
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&amp;</span>self,
-</span></span><span style="display:flex;"><span>        access_label: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">AccessLabel</span>,
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">mut</span> c: <span style="color:#a6e22e">HttpConnection</span><span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;</span>,
-</span></span><span style="display:flex;"><span>        req: <span style="color:#a6e22e">Request</span><span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span>(<span style="color:#66d9ef">crate</span>) <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">send_request_conn</span>(
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&amp;</span>self, access_label: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">AccessLabel</span>, <span style="color:#66d9ef">mut</span> c: <span style="color:#a6e22e">HttpConnection</span><span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;</span>, req: <span style="color:#a6e22e">Request</span><span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;</span>,
 </span></span><span style="display:flex;"><span>    ) -&gt; <span style="color:#a6e22e">hyper</span>::Result<span style="color:#f92672">&lt;</span>Response<span style="color:#f92672">&lt;</span>body::Incoming<span style="color:#f92672">&gt;&gt;</span> {
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">trace!</span>(
-</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;HTTP making request to host: {}, request: {:?}&#34;</span>,
-</span></span><span style="display:flex;"><span>            access_label,
-</span></span><span style="display:flex;"><span>            req
-</span></span><span style="display:flex;"><span>        );
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">trace!</span>(<span style="color:#e6db74">&#34;HTTP making request to host: {access_label}, request: {req:?}&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> url <span style="color:#f92672">=</span> req.uri().clone();
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> response <span style="color:#f92672">=</span> c.send_request(req).<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">trace!</span>(
-</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;HTTP received response from host: {}, response: {:?}&#34;</span>,
-</span></span><span style="display:flex;"><span>            access_label,
-</span></span><span style="display:flex;"><span>            response
-</span></span><span style="display:flex;"><span>        );
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">trace!</span>(<span style="color:#e6db74">&#34;HTTP received response from host: {access_label}, response: {response:?}&#34;</span>);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Check keep-alive
 </span></span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> check_keep_alive(response.version(), response.headers(), <span style="color:#66d9ef">false</span>) {
-</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">trace!</span>(
-</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;HTTP connection keep-alive for host: {}, response: {:?}&#34;</span>,
-</span></span><span style="display:flex;"><span>                access_label,
-</span></span><span style="display:flex;"><span>                response
-</span></span><span style="display:flex;"><span>            );
-</span></span><span style="display:flex;"><span>            self.cache_conn
-</span></span><span style="display:flex;"><span>                .lock()
-</span></span><span style="display:flex;"><span>                .<span style="color:#66d9ef">await</span>
-</span></span><span style="display:flex;"><span>                .entry(access_label.clone())
-</span></span><span style="display:flex;"><span>                .or_insert_with(VecDeque::new)
-</span></span><span style="display:flex;"><span>                .push_back((c, Instant::now()));
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">trace!</span>(<span style="color:#e6db74">&#34;HTTP connection keep-alive for host: {access_label}, response: {response:?}&#34;</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">let</span> cache_conn <span style="color:#f92672">=</span> self.cache_conn.clone();
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">let</span> access_label <span style="color:#f92672">=</span> access_label.clone();
+</span></span><span style="display:flex;"><span>            tokio::spawn(<span style="color:#66d9ef">async</span> <span style="color:#66d9ef">move</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">match</span> c.ready().<span style="color:#66d9ef">await</span> {
+</span></span><span style="display:flex;"><span>                    Ok(_) <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>                        <span style="color:#a6e22e">info!</span>(<span style="color:#e6db74">&#34;HTTP connection for host: {access_label} {url} is ready and will be cached&#34;</span>);
+</span></span><span style="display:flex;"><span>                        cache_conn
+</span></span><span style="display:flex;"><span>                            .lock()
+</span></span><span style="display:flex;"><span>                            .<span style="color:#66d9ef">await</span>
+</span></span><span style="display:flex;"><span>                            .entry(access_label)
+</span></span><span style="display:flex;"><span>                            .or_insert_with(VecDeque::new)
+</span></span><span style="display:flex;"><span>                            .push_back((c, Instant::now()));
+</span></span><span style="display:flex;"><span>                    }
+</span></span><span style="display:flex;"><span>                    Err(e) <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>                        <span style="color:#a6e22e">warn!</span>(<span style="color:#e6db74">&#34;HTTP connection for host: {access_label} {url} failed to become ready: {}&#34;</span>, e);
+</span></span><span style="display:flex;"><span>                    }
+</span></span><span style="display:flex;"><span>                };
+</span></span><span style="display:flex;"><span>            });
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        Ok(response)
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">check_keep_alive</span>(
-</span></span><span style="display:flex;"><span>    version: <span style="color:#a6e22e">Version</span>,
-</span></span><span style="display:flex;"><span>    headers: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">HeaderMap</span><span style="color:#f92672">&lt;</span>HeaderValue<span style="color:#f92672">&gt;</span>,
-</span></span><span style="display:flex;"><span>    check_proxy: <span style="color:#66d9ef">bool</span>,
-</span></span><span style="display:flex;"><span>) -&gt; <span style="color:#66d9ef">bool</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">check_keep_alive</span>(version: <span style="color:#a6e22e">Version</span>, headers: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">HeaderMap</span><span style="color:#f92672">&lt;</span>HeaderValue<span style="color:#f92672">&gt;</span>, check_proxy: <span style="color:#66d9ef">bool</span>) -&gt; <span style="color:#66d9ef">bool</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// HTTP/1.1, HTTP/2, HTTP/3 keeps alive by default
 </span></span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> conn_keep_alive <span style="color:#f92672">=</span> <span style="color:#f92672">!</span><span style="color:#a6e22e">matches!</span>(version, Version::<span style="color:#66d9ef">HTTP_09</span> <span style="color:#f92672">|</span> Version::<span style="color:#66d9ef">HTTP_10</span>);
 </span></span><span style="display:flex;"><span>
@@ -1111,7 +1103,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#[allow(dead_code)]</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">HttpConnection</span><span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">pub</span>(<span style="color:#66d9ef">crate</span>) <span style="color:#66d9ef">enum</span> <span style="color:#a6e22e">HttpConnection</span><span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;</span> {
 </span></span><span style="display:flex;"><span>    Http1(http1::SendRequest<span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;</span>),
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
@@ -1121,36 +1113,45 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>    B::Data: Send,
 </span></span><span style="display:flex;"><span>    B::Error: Into<span style="color:#f92672">&lt;</span>Box<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">dyn</span> ::std::error::Error <span style="color:#f92672">+</span> Send <span style="color:#f92672">+</span> Sync<span style="color:#f92672">&gt;&gt;</span>,
 </span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">connect</span>(
-</span></span><span style="display:flex;"><span>        scheme: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Scheme</span>,
-</span></span><span style="display:flex;"><span>        access_label: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">AccessLabel</span>,
-</span></span><span style="display:flex;"><span>        stream_map_func: <span style="color:#a6e22e">impl</span> FnOnce(
-</span></span><span style="display:flex;"><span>            TcpStream,
-</span></span><span style="display:flex;"><span>            AccessLabel,
-</span></span><span style="display:flex;"><span>        ) -&gt; <span style="color:#a6e22e">CounterIO</span><span style="color:#f92672">&lt;</span>TcpStream, LabelImpl<span style="color:#f92672">&lt;</span>AccessLabel<span style="color:#f92672">&gt;&gt;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span>(<span style="color:#66d9ef">crate</span>) <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">connect</span>(
+</span></span><span style="display:flex;"><span>        access_label: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">AccessLabel</span>, ipv6_first: Option<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">bool</span><span style="color:#f92672">&gt;</span>,
+</span></span><span style="display:flex;"><span>        stream_map_func: <span style="color:#a6e22e">impl</span> FnOnce(EitherTlsStream, AccessLabel) -&gt; <span style="color:#a6e22e">CounterIO</span><span style="color:#f92672">&lt;</span>EitherTlsStream, LabelImpl<span style="color:#f92672">&lt;</span>AccessLabel<span style="color:#f92672">&gt;&gt;</span>,
 </span></span><span style="display:flex;"><span>    ) -&gt; <span style="color:#a6e22e">io</span>::Result<span style="color:#f92672">&lt;</span>HttpConnection<span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;&gt;</span> {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">*</span>scheme <span style="color:#f92672">!=</span> Scheme::<span style="color:#66d9ef">HTTP</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">*</span>scheme <span style="color:#f92672">!=</span> Scheme::<span style="color:#66d9ef">HTTPS</span> {
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> Err(io::Error::new(ErrorKind::InvalidInput, <span style="color:#e6db74">&#34;invalid scheme&#34;</span>));
-</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> stream <span style="color:#f92672">=</span> <span style="color:#66d9ef">crate</span>::proxy::connect_with_preference(<span style="color:#f92672">&amp;</span>access_label.target, ipv6_first).<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> stream <span style="color:#f92672">=</span> <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Some(<span style="color:#66d9ef">true</span>) <span style="color:#f92672">=</span> access_label.relay_over_tls {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 建立 TLS 连接
+</span></span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">let</span> connector <span style="color:#f92672">=</span> build_tls_connector();
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> stream <span style="color:#f92672">=</span> TcpStream::connect(<span style="color:#f92672">&amp;</span>access_label.target).<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> stream: <span style="color:#a6e22e">CounterIO</span><span style="color:#f92672">&lt;</span>TcpStream, LabelImpl<span style="color:#f92672">&lt;</span>AccessLabel<span style="color:#f92672">&gt;&gt;</span> <span style="color:#f92672">=</span>
-</span></span><span style="display:flex;"><span>            stream_map_func(stream, access_label.clone());
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">let</span> host <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>access_label
+</span></span><span style="display:flex;"><span>                .target
+</span></span><span style="display:flex;"><span>                .split(<span style="color:#e6db74">&#39;:&#39;</span>)
+</span></span><span style="display:flex;"><span>                .next()
+</span></span><span style="display:flex;"><span>                .ok_or(io::Error::other(<span style="color:#e6db74">&#34;invalid host&#34;</span>))<span style="color:#f92672">?</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">let</span> server_name <span style="color:#f92672">=</span> pki_types::ServerName::try_from(<span style="color:#f92672">*</span>host)
+</span></span><span style="display:flex;"><span>                .map_err(<span style="color:#f92672">|</span>e<span style="color:#f92672">|</span> io::Error::new(ErrorKind::InvalidInput, <span style="color:#a6e22e">format!</span>(<span style="color:#e6db74">&#34;Invalid DNS name: </span><span style="color:#e6db74">{}</span><span style="color:#e6db74">&#34;</span>, e)))<span style="color:#f92672">?</span>
+</span></span><span style="display:flex;"><span>                .to_owned();
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>        HttpConnection::connect_http_http1(scheme, access_label, stream).<span style="color:#66d9ef">await</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">match</span> connector.connect(server_name, stream).<span style="color:#66d9ef">await</span> {
+</span></span><span style="display:flex;"><span>                Ok(tls_stream) <span style="color:#f92672">=&gt;</span> EitherTlsStream::Tls { stream: <span style="color:#a6e22e">tls_stream</span> },
+</span></span><span style="display:flex;"><span>                Err(e) <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">warn!</span>(<span style="color:#e6db74">&#34;[forward_bypass TLS handshake error] [{}]: {}&#34;</span>, access_label, e);
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">return</span> Err(e);
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 使用普通 TCP 连接
+</span></span></span><span style="display:flex;"><span>            EitherTlsStream::Tcp { stream }
+</span></span><span style="display:flex;"><span>        };
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> stream: <span style="color:#a6e22e">CounterIO</span><span style="color:#f92672">&lt;</span>EitherTlsStream, LabelImpl<span style="color:#f92672">&lt;</span>AccessLabel<span style="color:#f92672">&gt;&gt;</span> <span style="color:#f92672">=</span> stream_map_func(stream, access_label.clone());
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        HttpConnection::connect_http_http1(access_label, stream).<span style="color:#66d9ef">await</span>
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">connect_http_http1</span>(
-</span></span><span style="display:flex;"><span>        scheme: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">Scheme</span>,
-</span></span><span style="display:flex;"><span>        access_label: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">AccessLabel</span>,
-</span></span><span style="display:flex;"><span>        stream: <span style="color:#a6e22e">CounterIO</span><span style="color:#f92672">&lt;</span>TcpStream, LabelImpl<span style="color:#f92672">&lt;</span>AccessLabel<span style="color:#f92672">&gt;&gt;</span>,
+</span></span><span style="display:flex;"><span>        access_label: <span style="color:#66d9ef">&amp;</span><span style="color:#a6e22e">AccessLabel</span>, stream: <span style="color:#a6e22e">CounterIO</span><span style="color:#f92672">&lt;</span>EitherTlsStream, LabelImpl<span style="color:#f92672">&lt;</span>AccessLabel<span style="color:#f92672">&gt;&gt;</span>,
 </span></span><span style="display:flex;"><span>    ) -&gt; <span style="color:#a6e22e">io</span>::Result<span style="color:#f92672">&lt;</span>HttpConnection<span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;&gt;</span> {
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">trace!</span>(
-</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;HTTP making new HTTP/1.1 connection to host: {}, scheme: {}&#34;</span>,
-</span></span><span style="display:flex;"><span>            access_label,
-</span></span><span style="display:flex;"><span>            scheme
-</span></span><span style="display:flex;"><span>        );
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> stream <span style="color:#f92672">=</span> TimeoutIO::new(stream, <span style="color:#66d9ef">CONNECTION_EXPIRE_DURATION</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> stream <span style="color:#f92672">=</span> TimeoutIO::new(stream, <span style="color:#66d9ef">crate</span>::<span style="color:#66d9ef">IDLE_TIMEOUT</span>);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e">// HTTP/1.x
 </span></span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> (send_request, connection) <span style="color:#f92672">=</span> <span style="color:#66d9ef">match</span> http1::Builder::new()
@@ -1160,12 +1161,12 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>            .<span style="color:#66d9ef">await</span>
 </span></span><span style="display:flex;"><span>        {
 </span></span><span style="display:flex;"><span>            Ok(s) <span style="color:#f92672">=&gt;</span> s,
-</span></span><span style="display:flex;"><span>            Err(err) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">return</span> Err(io::Error::new(ErrorKind::Other, err)),
+</span></span><span style="display:flex;"><span>            Err(err) <span style="color:#f92672">=&gt;</span> <span style="color:#66d9ef">return</span> Err(io::Error::other(err)),
 </span></span><span style="display:flex;"><span>        };
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> access_label <span style="color:#f92672">=</span> access_label.clone();
 </span></span><span style="display:flex;"><span>        tokio::spawn(<span style="color:#66d9ef">async</span> <span style="color:#66d9ef">move</span> {
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Err(err) <span style="color:#f92672">=</span> connection.<span style="color:#66d9ef">await</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Err(err) <span style="color:#f92672">=</span> connection.with_upgrades().<span style="color:#66d9ef">await</span> {
 </span></span><span style="display:flex;"><span>                handle_http1_connection_error(err, access_label);
 </span></span><span style="display:flex;"><span>            }
 </span></span><span style="display:flex;"><span>        });
@@ -1173,10 +1174,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">#[inline]</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">send_request</span>(
-</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self,
-</span></span><span style="display:flex;"><span>        req: <span style="color:#a6e22e">Request</span><span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;</span>,
-</span></span><span style="display:flex;"><span>    ) -&gt; <span style="color:#a6e22e">hyper</span>::Result<span style="color:#f92672">&lt;</span>Response<span style="color:#f92672">&lt;</span>body::Incoming<span style="color:#f92672">&gt;&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">send_request</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self, req: <span style="color:#a6e22e">Request</span><span style="color:#f92672">&lt;</span>B<span style="color:#f92672">&gt;</span>) -&gt; <span style="color:#a6e22e">hyper</span>::Result<span style="color:#f92672">&lt;</span>Response<span style="color:#f92672">&lt;</span>body::Incoming<span style="color:#f92672">&gt;&gt;</span> {
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">match</span> self {
 </span></span><span style="display:flex;"><span>            HttpConnection::Http1(r) <span style="color:#f92672">=&gt;</span> r.send_request(req).<span style="color:#66d9ef">await</span>,
 </span></span><span style="display:flex;"><span>        }
@@ -1187,9 +1185,16 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>            HttpConnection::Http1(r) <span style="color:#f92672">=&gt;</span> r.is_closed(),
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">is_ready</span>(<span style="color:#f92672">&amp;</span>self) -&gt; <span style="color:#66d9ef">bool</span> {
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">match</span> self {
 </span></span><span style="display:flex;"><span>            HttpConnection::Http1(r) <span style="color:#f92672">=&gt;</span> r.is_ready(),
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pub</span> <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">ready</span>(<span style="color:#f92672">&amp;</span><span style="color:#66d9ef">mut</span> self) -&gt; Result<span style="color:#f92672">&lt;</span>(), hyper::Error<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">match</span> self {
+</span></span><span style="display:flex;"><span>            HttpConnection::Http1(r) <span style="color:#f92672">=&gt;</span> r.ready().<span style="color:#66d9ef">await</span>,
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
@@ -1199,25 +1204,15 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Some(io_err) <span style="color:#f92672">=</span> source.downcast_ref::<span style="color:#f92672">&lt;</span>io::Error<span style="color:#f92672">&gt;</span>() {
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> io_err.kind() <span style="color:#f92672">==</span> ErrorKind::TimedOut {
 </span></span><span style="display:flex;"><span>                <span style="color:#75715e">// 由于超时导致的连接关闭（TimeoutIO）
-</span></span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">info!</span>(
-</span></span><span style="display:flex;"><span>                    <span style="color:#e6db74">&#34;[legacy proxy connection io closed]: [{}] {} to {}&#34;</span>,
-</span></span><span style="display:flex;"><span>                    io_err.kind(),
-</span></span><span style="display:flex;"><span>                    io_err,
-</span></span><span style="display:flex;"><span>                    access_label
-</span></span><span style="display:flex;"><span>                );
+</span></span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">info!</span>(<span style="color:#e6db74">&#34;[legacy proxy connection io closed]: [{}] {} to {}&#34;</span>, io_err.kind(), io_err, access_label);
 </span></span><span style="display:flex;"><span>            } <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">warn!</span>(
-</span></span><span style="display:flex;"><span>                    <span style="color:#e6db74">&#34;[legacy proxy io error]: [{}] {} to {}&#34;</span>,
-</span></span><span style="display:flex;"><span>                    io_err.kind(),
-</span></span><span style="display:flex;"><span>                    io_err,
-</span></span><span style="display:flex;"><span>                    access_label
-</span></span><span style="display:flex;"><span>                );
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">warn!</span>(<span style="color:#e6db74">&#34;[legacy proxy io error]: [{}] {} to {}&#34;</span>, io_err.kind(), io_err, access_label);
 </span></span><span style="display:flex;"><span>            }
 </span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">warn!</span>(<span style="color:#e6db74">&#34;[legacy proxy io error]: [{}] to {}&#34;</span>, source, access_label);
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">warn!</span>(<span style="color:#e6db74">&#34;[legacy proxy io error]: [{source}] to {access_label}&#34;</span>);
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">warn!</span>(<span style="color:#e6db74">&#34;[legacy proxy io error] [{}] to {}&#34;</span>, err, access_label);
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">warn!</span>(<span style="color:#e6db74">&#34;[legacy proxy io error] [{err}] to {access_label}&#34;</span>);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div>
