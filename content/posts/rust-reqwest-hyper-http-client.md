@@ -707,7 +707,7 @@ fn build_http_client() -> Client<hyper_rustls::HttpsConnector<HttpConnector>, In
 
 ## Result2: 使用 LRU cache 实现自己的连接池
 
-最后，我又借鉴了 `shadowsocks-rust` 的 [http_client.rs](https://github.com/shadowsocks/shadowsocks-rust/blob/dc5ea4b39de4e5223c48877d18d85b931c799302/crates/shadowsocks-service/src/local/http/http_client.rs#L112)，使用 `lru_time_cache` 实现了自己的连接池。
+最后，我又借鉴了 `shadowsocks-rust` 的 [http_client.rs](https://github.com/shadowsocks/shadowsocks-rust/blob/dc5ea4b39de4e5223c48877d18d85b931c799302/crates/shadowsocks-service/src/local/http/http_client.rs#L112)，使用 `lru_time_cache` 实现了自己的连接池。在过程中还修复了它的一个bug：[fix(http): add is_ready method and enhance connection checks](https://github.com/shadowsocks/shadowsocks-rust/pull/2062)
 
 ```Rust
 //! HTTP Client
