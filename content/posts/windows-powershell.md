@@ -16,6 +16,8 @@ highlightjslanguages:
 
 对 linux 的 shell 脚本比较熟悉后，发现 windows 的 powershell 也挺好用的。这里记录一些常用的脚本片段，方便以后查阅。
 
+<!--more-->
+
 ## 安装 powershell 7
 
 [install-powershell-on-windows](https://learn.microsoft.com/zh-cn/powershell/scripting/install/install-powershell-on-windows?view=powershell-7.5)
@@ -125,8 +127,6 @@ Invoke-Expression (&starship init powershell)
 ```powershell
 . "$HOME\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1"
 ```
-
-<!--more-->
 
 ## 查看磁盘占用
 
