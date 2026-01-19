@@ -281,6 +281,104 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     <span >
       
       <p>对 linux 的 shell 脚本比较熟悉后，发现 windows 的 powershell 也挺好用的。这里记录一些常用的脚本片段，方便以后查阅。</p>
+<h2 id="安装-powershell-7">安装 powershell 7</h2>
+<p><a href="https://learn.microsoft.com/zh-cn/powershell/scripting/install/install-powershell-on-windows?view=powershell-7.5">install-powershell-on-windows</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>winget install --id Microsoft.PowerShell --source winget
+</span></span></code></pre></div><p>编辑配置文件 <code>code $PROFILE</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 设置系统代理</span>
+</span></span><span style="display:flex;"><span>$proxy = <span style="color:#e6db74">&#34;http://127.0.0.1:7890&#34;</span>  <span style="color:#75715e"># 你的代理地址和端口</span>
+</span></span><span style="display:flex;"><span>$env:HTTP_PROXY = $proxy
+</span></span><span style="display:flex;"><span>$env:HTTPS_PROXY = $proxy
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 可选：输出代理状态</span>
+</span></span><span style="display:flex;"><span>Write-Output <span style="color:#e6db74">&#34;HTTP_PROXY is set to </span>$env:HTTP_PROXY<span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ShortNameSimple = @{
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;s&#39;</span> = <span style="color:#e6db74">&#39;Select-Object&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;g&#39;</span> = <span style="color:#e6db74">&#39;Get-Content&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#  ...</span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 为每个键设置别名或执行相应的命令</span>
+</span></span><span style="display:flex;"><span>$ShortNameSimple.Keys | ForEach-Object {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 对其他命令设置别名</span>
+</span></span><span style="display:flex;"><span>    Set-Alias $_ $ShortNameSimple.$_
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ShortName = @{
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;down&#39;</span>     = {
+</span></span><span style="display:flex;"><span>        shutdown /s /f /t <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;bios&#39;</span>     = {
+</span></span><span style="display:flex;"><span>        shutdown /r /fw /t <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;keep_wsl&#39;</span> = {
+</span></span><span style="display:flex;"><span>        Start-ScheduledTask keep_wsl
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 为每个键设置别名或执行相应的命令</span>
+</span></span><span style="display:flex;"><span>$ShortName.Keys | ForEach-Object {
+</span></span><span style="display:flex;"><span>    Set-Item -Path <span style="color:#e6db74">&#34;function:</span>$($_)<span style="color:#e6db74">&#34;</span> -Value $ShortName.$_
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> Watch-ProxyLog {
+</span></span><span style="display:flex;"><span>    Get-Content -Tail <span style="color:#ae81ff">50</span> -Wait C:\tmp\proxy.log_rCURRENT
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>Set-Alias -Name loo -Value Watch-ProxyLog
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> Get-FolderSize {
+</span></span><span style="display:flex;"><span>    Write-Host <span style="color:#e6db74">&#39;正在计算当前目录的空间占用，请稍候。。。&#39;</span> -ForegroundColor Yellow
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 统计当前目录下的文件(不在子文件夹中)</span>
+</span></span><span style="display:flex;"><span>    $currentFiles = Get-ChildItem <span style="color:#f92672">-File</span> -Force -ErrorAction SilentlyContinue
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> ($currentFiles) {
+</span></span><span style="display:flex;"><span>        $currentSize = ($currentFiles | Measure-Object -Property Length -Sum).Sum
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        $currentSize = <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 统计所有子文件夹</span>
+</span></span><span style="display:flex;"><span>    $folders = Get-ChildItem -Force | Where-Object { $_.PSIsContainer } | ForEach-Object {
+</span></span><span style="display:flex;"><span>        $files = Get-ChildItem $_.FullName -Recurse -Force <span style="color:#f92672">-File</span> -ErrorAction SilentlyContinue
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> ($files) {
+</span></span><span style="display:flex;"><span>            $size = ($files | Measure-Object -Property Length -Sum).Sum
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            $size = <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        [<span style="color:#66d9ef">PSCustomObject</span>]@{
+</span></span><span style="display:flex;"><span>            Name   = $_.Name
+</span></span><span style="display:flex;"><span>            SizeGB = [<span style="color:#66d9ef">math</span>]::Round($size / <span style="color:#ae81ff">1</span>GB, <span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>            SizeMB = [<span style="color:#66d9ef">math</span>]::Round($size / <span style="color:#ae81ff">1</span>MB, <span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 添加当前目录文件统计</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> ($currentSize <span style="color:#f92672">-gt</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>        $currentDirEntry = [<span style="color:#66d9ef">PSCustomObject</span>]@{
+</span></span><span style="display:flex;"><span>            Name   = <span style="color:#e6db74">&#34;.&#34;</span>
+</span></span><span style="display:flex;"><span>            SizeGB = [<span style="color:#66d9ef">math</span>]::Round($currentSize / <span style="color:#ae81ff">1</span>GB, <span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>            SizeMB = [<span style="color:#66d9ef">math</span>]::Round($currentSize / <span style="color:#ae81ff">1</span>MB, <span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        $allEntries = @($currentDirEntry) + $folders
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        $allEntries = $folders
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 按大小排序并显示</span>
+</span></span><span style="display:flex;"><span>    $allEntries | Sort-Object SizeGB -Descending | Format-Table -AutoSize
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 创建 alias</span>
+</span></span><span style="display:flex;"><span>Set-Alias -Name ds -Value Get-FolderSize
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Invoke-Expression (&amp;starship init powershell)
+</span></span></code></pre></div><p>或者直接使用 windows powershell 1.0 的配置文件:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>. <span style="color:#e6db74">&#34;</span>$HOME<span style="color:#e6db74">\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1&#34;</span>
+</span></span></code></pre></div>
       
     </span>
     
