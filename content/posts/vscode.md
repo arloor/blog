@@ -96,6 +96,14 @@ TIPS：
     "key": "cmd+k cmd+j",
     "command": "workbench.action.createTerminalEditorSide",
     "when": "terminalProcessSupported"
+  },
+  {
+    "key": "shift+enter",
+    "command": "workbench.action.terminal.sendSequence",
+    "args": {
+      "text": "\u001b\r"
+    },
+    "when": "terminalFocus"
   }
 ]
 ```
@@ -108,10 +116,6 @@ TIPS：
   {
     "key": "ctrl+m",
     "command": "workbench.action.terminal.focusNext"
-  },
-  {
-    "key": "alt+o",
-    "command": "workbench.view.remote"
   },
   {
     "key": "alt+t",
@@ -130,6 +134,33 @@ TIPS：
     "key": "shift+alt+h",
     "command": "-references-view.showCallHierarchy",
     "when": "editorHasCallHierarchyProvider"
+  },
+  {
+    "key": "alt+o",
+    "command": "workbench.view.remote"
+  },
+  {
+    "key": "ctrl+j",
+    "command": "workbench.action.terminal.toggleTerminal",
+    "when": "terminal.active"
+  },
+  {
+    "key": "ctrl+oem_3",
+    "command": "-workbench.action.terminal.toggleTerminal",
+    "when": "terminal.active"
+  },
+  {
+    "key": "ctrl+k ctrl+j",
+    "command": "workbench.action.createTerminalEditorSide",
+    "when": "terminalProcessSupported"
+  },
+  {
+    "key": "shift+enter",
+    "command": "workbench.action.terminal.sendSequence",
+    "args": {
+      "text": "\u001b\r"
+    },
+    "when": "terminalFocus"
   }
 ]
 ```
@@ -521,7 +552,8 @@ if ($env:TERM_PROGRAM -eq "vscode") { . "$(code --locate-shell-integration-path 
     "golang.go",
     "ms-python.vscode-pylance",
     "ms-python.python",
-    "fill-labs.dependi"
+    "fill-labs.dependi",
+    "esbenp.prettier-vscode"
   ],
   "workbench.colorTheme": "Default Dark+",
   "rust-analyzer.check.command": "clippy",
@@ -537,15 +569,6 @@ if ($env:TERM_PROGRAM -eq "vscode") { . "$(code --locate-shell-integration-path 
   ],
   "window.commandCenter": false,
   "workbench.layoutControl.enabled": false,
-  "go.lintTool": "golangci-lint-v2",
-  "go.lintFlags": [
-    // "-c=~/.golangci.yml", // 会逐层寻找配置文件，所以不需要指定
-    // "-n", // 仅lint新代码
-    "-v",
-    "--fast-only" // 快速模式，跳过一些耗时的检查
-    // "--tests=false", // 不lint测试代码
-    // "--fix", // 自动修复问题
-  ],
   "remote.SSH.remotePlatform": {
     "windows": "windows",
     "wsl": "linux",
@@ -554,31 +577,13 @@ if ($env:TERM_PROGRAM -eq "vscode") { . "$(code --locate-shell-integration-path 
     "windows.arloor.com": "windows",
     "devbox": "linux"
   },
-  "go.toolsManagement.autoUpdate": true,
-  "diffEditor.ignoreTrimWhitespace": false,
+  "diffEditor.ignoreTrimWhitespace": true,
   "debug.onTaskErrors": "showErrors",
-  "diffEditor.renderSideBySide": false,
-  "go.formatTool": "gofmt",
+  "diffEditor.renderSideBySide": true,
   "editor.formatOnSave": true,
   "files.autoSave": "afterDelay",
   "terminal.integrated.defaultProfile.osx": "zsh",
-  "[go]": {
-    "editor.formatOnSave": true,
-    "editor.codeActionsOnSave": {
-      "source.organizeImports": "always"
-    }
-  },
-  "go.testFlags": [
-    "-gcflags=all=-l", // 针对run test禁用内联优化，使gomonkey可以成功打桩。对debug test不生效，因为golang插件针对debug test自行设置了-gcflags="all=-l -N"
-    "-v", // 使run test可以输出t.Logf的日志。对debug test不生效，只在test fail的时候才会打印t.Logf的日志
-    "--count=1" // 不缓存go test的结果
-  ],
-  "go.formatFlags": ["-w"],
   "security.workspace.trust.untrustedFiles": "open",
-  "go.testExplorer.showOutput": true,
-  "files.associations": {
-    "*.json": "jsonc"
-  },
   "terminal.integrated.profiles.windows": {
     "PowerShell": {
       "path": "C:\\Program Files\\PowerShell\\7\\pwsh.exe"
@@ -645,21 +650,6 @@ if ($env:TERM_PROGRAM -eq "vscode") { . "$(code --locate-shell-integration-path 
   },
   "workbench.panel.defaultLocation": "bottom",
   "terminal.integrated.enableMultiLinePasteWarning": "never",
-  "claudeCode.useTerminal": true,
-  "claudeCode.environmentVariables": [
-    {
-      "name": "ANTHROPIC_BASE_URL",
-      "value": "https://api.burn.hair"
-    },
-    {
-      "name": "ANTHROPIC_API_KEY",
-      "value": "sk-M4vTPwc745UT1HtyJJZpd2YAWcKiYHRH9PAsmOIJWPmt1tb7"
-    }
-    // {
-    //   "name": "ANTHROPIC_AUTH_TOKEN",
-    //   "value": "sk-M4vTPwc745UT1HtyJJZpd2YAWcKiYHRH9PAsmOIJWPmt1tb7"
-    // }
-  ],
   "chat.tools.terminal.autoApprove": {
     "cargo build": true,
     "/^cargo check -p rust_http_proxy$/": {
@@ -667,14 +657,38 @@ if ($env:TERM_PROGRAM -eq "vscode") { . "$(code --locate-shell-integration-path 
       "matchCommandLine": true
     }
   },
-  "claudeCode.preferredLocation": "panel",
   "chat.mcp.gallery.enabled": true,
   "[markdown]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "chat.viewSessions.orientation": "stacked",
   "[yaml]": {
     "diffEditor.ignoreTrimWhitespace": false
-  }
+  },
+  "chat.viewSessions.orientation": "stacked",
+  // "go.toolsManagement.autoUpdate": true,
+  "go.formatTool": "gofmt",
+  "go.lintTool": "golangci-lint-v2",
+  "go.lintFlags": [
+    // "-c=~/.golangci.yml", // 会逐层寻找配置文件，所以不需要指定
+    "-n", // 仅lint新代码
+    "-v"
+    // "--fast-only", // 快速模式，跳过一些耗时的检查
+    // "--tests=false", // 不lint测试代码
+    // "--fix", // 自动修复问题
+  ],
+  "[go]": {
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "always"
+    }
+  },
+  "go.testFlags": [
+    "-gcflags=all=-l", // 针对run test禁用内联优化，使gomonkey可以成功打桩。对debug test不生效，因为golang插件针对debug test自行设置了-gcflags="all=-l -N"
+    "-v", // 使run test可以输出t.Logf的日志。对debug test不生效，只在test fail的时候才会打印t.Logf的日志
+    "--count=1" // 不缓存go test的结果
+  ],
+  "go.formatFlags": ["-w"],
+  "go.testExplorer.showOutput": true,
+  "claudeCode.preferredLocation": "sidebar"
 }
 ```
