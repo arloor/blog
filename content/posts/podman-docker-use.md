@@ -21,6 +21,7 @@ highlightjslanguages:
 - [rhel/#install-using-the-repository](https://docs.docker.com/engine/install/rhel/#install-using-the-repository)
 - [#daemon-configuration-file](https://docs.docker.com/reference/cli/dockerd/#daemon-configuration-file)
 - [HTTP 代理环境变量的大小写说明](https://about.gitlab.com/blog/2021/01/27/we-need-to-talk-no-proxy/)
+- [docker-ce 火山引擎镜像](https://developer.volcengine.com/articles/7132008672707739662)
 
 ### debian12 安装 docker
 
