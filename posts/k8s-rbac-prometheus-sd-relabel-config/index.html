@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -336,7 +336,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>每一个pod都有一个ServiceAccount，没有特别指定的话，pod的ServiceAccount将会是其namespace的default ServiceAccount。</li>
 <li>在pod的文件系统中，有个神秘目录：</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/var/run/secrets/kubernetes.io/serviceaccount/
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/var/run/secrets/kubernetes.io/serviceaccount/
 </span></span></code></pre></div><p>这个神秘目录下有三个文件，其内容分别是：</p>
 <ol>
 <li>token: 该pod的ServiceAccount的token。</li>
@@ -355,7 +355,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>PS：如果需要长期存在的可以参考:<a href="https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/#manually-create-a-long-lived-api-token-for-a-serviceaccount">manually-create-a-long-lived-api-token-for-a-serviceaccount</a>。也可以按照文末附录的<a href="#%E5%88%9B%E5%BB%BA%E9%95%BF%E6%9C%9F%E5%AD%98%E5%9C%A8%E7%9A%84token">#创建长期存在的token</a>流程实验一下。</p>
 </blockquote>
 <p>接下来我们会实施一下，我们直接使用了cluster-admin的角色，免得创建细粒度的ClusterRole，当然这在生产中是不推荐的。我们在最后也清理掉了这个ServiceAccount。shell脚本如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 创建具有cluster-admin角色的test-admin-user</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 创建具有cluster-admin角色的test-admin-user</span>
 </span></span><span style="display:flex;"><span>kubectl apply -f - <span style="color:#e6db74">&lt;&lt;EOF
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: v1
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kind: ServiceAccount
@@ -405,7 +405,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <blockquote>
 <p>PS: Prometheus部署在K8S集群外也可以监控K8S集群，此时需要指定apiserver地址，token和ca_cert（或设置不验证证书）。参考文档中的这段描述：</p>
 </blockquote>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># The API server addresses. If left empty, Prometheus is assumed to run inside</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># The API server addresses. If left empty, Prometheus is assumed to run inside</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># of the cluster and will discover API servers automatically and use the pod&#39;s</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># CA certificate and bearer token file at /var/run/secrets/kubernetes.io/serviceaccount/.</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">[</span> api_server: &lt;host&gt; <span style="color:#f92672">]</span>
@@ -417,7 +417,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </ol>
 <h3 id="创建长期存在的token">创建长期存在的token</h3>
 <p>首先创建了cluster-admin角色的ServiceAccount &ldquo;arloor&rdquo;，并生成长期存在的token</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl apply -f - <span style="color:#e6db74">&lt;&lt;EOF
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl apply -f - <span style="color:#e6db74">&lt;&lt;EOF
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: v1
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kind: ServiceAccount
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">metadata:
@@ -454,7 +454,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>kubectl get secret/arloor-secret -o yaml <span style="color:#75715e">#查看token字段，base64格式的</span>
 </span></span><span style="display:flex;"><span>kubectl describe secret/arloor-secret <span style="color:#75715e"># 查看token字段，原始的</span>
 </span></span></code></pre></div><p>其中 <code>kubectl get</code> 得到的是Base64编码过的，需要base64解码才能使用：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>base64 -d - <span style="color:#e6db74">&lt;&lt;EOF
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>base64 -d - <span style="color:#e6db74">&lt;&lt;EOF
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">xxxxxxx token
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
 </span></span></code></pre></div>

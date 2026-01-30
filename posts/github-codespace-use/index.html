@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -322,9 +322,9 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>Chrome通过App模式打开codespace。和第一种一样也是使用浏览器，好处就在用App模式更加原生。</li>
 </ol>
 <p>第三种方式我觉得使用最简单，体验也最好。只需要执行如下代码即可：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>chrome.exe --app<span style="color:#f92672">=</span>https://<span style="color:#e6db74">${</span>user<span style="color:#e6db74">}</span>-<span style="color:#e6db74">${</span>repo<span style="color:#e6db74">}</span>-<span style="color:#e6db74">${</span>id<span style="color:#e6db74">}</span>.github.dev/ --start-maximized
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>chrome.exe --app<span style="color:#f92672">=</span>https://<span style="color:#e6db74">${</span>user<span style="color:#e6db74">}</span>-<span style="color:#e6db74">${</span>repo<span style="color:#e6db74">}</span>-<span style="color:#e6db74">${</span>id<span style="color:#e6db74">}</span>.github.dev/ --start-maximized
 </span></span></code></pre></div><p>windows下可以编写成vbs脚本，实现双击打开。vbs脚本内容如下</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>set ws<span style="color:#f92672">=</span>WScript.CreateObject<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;WScript.Shell&#34;</span><span style="color:#f92672">)</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>set ws<span style="color:#f92672">=</span>WScript.CreateObject<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;WScript.Shell&#34;</span><span style="color:#f92672">)</span>
 </span></span><span style="display:flex;"><span>ws.Run <span style="color:#e6db74">&#34;chrome.exe --app=https://</span><span style="color:#e6db74">${</span>user<span style="color:#e6db74">}</span><span style="color:#e6db74">-</span><span style="color:#e6db74">${</span>repo<span style="color:#e6db74">}</span><span style="color:#e6db74">-</span><span style="color:#e6db74">${</span>id<span style="color:#e6db74">}</span><span style="color:#e6db74">.github.dev/ --start-maximized&#34;</span>,0
 </span></span></code></pre></div><h2 id="配置codespaces">配置Codespaces</h2>
 <blockquote>
@@ -346,7 +346,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>可以在 <code>.devcontainer</code>目录下配置 <code>devcontainer.json</code> 文件（<a href="https://containers.dev/implementors/json_reference/#_devcontainerjson-properties">参考文档</a>），配置Codespaces初始化的设置。</p>
 <p>推荐的用法是，使用微软的<a href="https://mcr.microsoft.com/en-us/catalog?search=devcontainers">devcontainer基础镜像</a>，再增加一些<a href="https://containers.dev/features">features</a>，最后按需在 <code>postCreateCommand</code> 执行一些个性化命令。当然也支持使用dockerfile修改基础镜像，参考<a href="https://code.visualstudio.com/docs/devcontainers/create-dev-container#_dockerfile">https://code.visualstudio.com/docs/devcontainers/create-dev-container#_dockerfile</a></p>
 <p>我的Rust调试环境的配置如下，可供参考</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// https://mcr.microsoft.com/en-us/catalog?search=devcontainers
 </span></span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;image&#34;</span>: <span style="color:#e6db74">&#34;mcr.microsoft.com/devcontainers/universal&#34;</span>, <span style="color:#75715e">//
 </span></span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;privileged&#34;</span>: <span style="color:#66d9ef">true</span>, <span style="color:#75715e">// 特权以支持ebpf
@@ -388,7 +388,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <ol>
 <li>用于实时交互数据传输的websocket地址：</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plaintext" data-lang="plaintext"><span style="display:flex;"><span>*.servicebus.windows.net:443
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-plaintext" data-lang="plaintext"><span style="display:flex;"><span>*.servicebus.windows.net:443
 </span></span></code></pre></div><p>这个应该是关乎延迟、决定体验最重要的一个域名，建议一定要配置代理</p>
 <blockquote>
 <p>vsls-prod-ins-asse-private-relay.servicebus.windows.net</p>
@@ -396,7 +396,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <ol start="2">
 <li>用于端口转发的websocket地址</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>*.rel.tunnels.api.visualstudio.com
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>*.rel.tunnels.api.visualstudio.com
 </span></span></code></pre></div><blockquote>
 <p>inc1.rel.tunnels.api.visualstudio.com
 inc1-data.rel.tunnels.api.visualstudio.com</p>
@@ -404,7 +404,7 @@ inc1-data.rel.tunnels.api.visualstudio.com</p>
 <ol start="3">
 <li>vscode涉及的资源或静态文件地址</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>*.vscode-cdn.net
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>*.vscode-cdn.net
 </span></span><span style="display:flex;"><span>*.github.com
 </span></span><span style="display:flex;"><span>*.github.dev
 </span></span><span style="display:flex;"><span>*.trafficmanager.net

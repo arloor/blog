@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -297,7 +297,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p><img src="/img/google-nid-cookie.png" alt="Alt text"></p>
 <h2 id="通过surge-mac的http-rewrite永久修改nid-cookie">通过Surge Mac的http rewrite永久修改NID cookie</h2>
 <p>参考文档1中介绍了google是使用NID这个cookie来存储搜索过滤器配置的，我们就用Surge Mac的http rewrite功能将这个cookie永久生效。我们先用正则替换来替换存在的nid，而后为放置nid cookie的缺失，再增加一个cookie的header</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[<span style="color:#a6e22e">Header</span> <span style="color:#a6e22e">Rewrite</span>]
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[<span style="color:#a6e22e">Header</span> <span style="color:#a6e22e">Rewrite</span>]
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">https</span><span style="color:#960050;background-color:#1e0010">://</span>.<span style="color:#960050;background-color:#1e0010">*</span><span style="color:#a6e22e">google</span>.<span style="color:#a6e22e">com</span>.<span style="color:#960050;background-color:#1e0010">*</span> <span style="color:#a6e22e">header-replace-regex</span> <span style="color:#a6e22e">Cookie</span> <span style="color:#960050;background-color:#1e0010">^</span><span style="color:#a6e22e">NID</span>.<span style="color:#960050;background-color:#1e0010">*</span> <span style="color:#a6e22e">NID</span>=<span style="color:#960050;background-color:#1e0010">换成你的</span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">https</span><span style="color:#960050;background-color:#1e0010">://</span>.<span style="color:#960050;background-color:#1e0010">*</span><span style="color:#a6e22e">google</span>.<span style="color:#a6e22e">com</span>.<span style="color:#960050;background-color:#1e0010">*</span> <span style="color:#a6e22e">header-add</span> <span style="color:#a6e22e">Cookie</span> <span style="color:#a6e22e">NID</span>=<span style="color:#960050;background-color:#1e0010">换成你的</span>
 </span></span><span style="display:flex;"><span>

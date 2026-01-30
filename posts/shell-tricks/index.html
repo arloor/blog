@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -292,7 +292,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   <div class="post">
     <p>个人搞了很多零散的 shell 脚本，开个博客统一整理下</p>
 <h2 id="统计客户端连接数">统计客户端连接数</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; /usr/local/bin/nt <span style="color:#e6db74">&lt;&lt;\EOF
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; /usr/local/bin/nt <span style="color:#e6db74">&lt;&lt;\EOF
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">netstat -ntp|grep -E &#34;ESTABLISHED|CLOSE_WAIT&#34;|awk -F &#34;[ :]+&#34;  -v OFS=&#34;&#34; &#39;$5&lt;10000 &amp;&amp; $5!=&#34;22&#34; &amp;&amp; $7&gt;1024 {printf(&#34;%15s   =&gt; %15s:%-5s %s\n&#34;,$6,$4,$5,$9)}&#39;|sort|uniq -c|sort -rn
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
 </span></span><span style="display:flex;"><span>chmod +x /usr/local/bin/nt
@@ -300,7 +300,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><p><strong>说明</strong></p>
 <p>过滤了 localPort 为 22（到 ssh 的连接）、remotePort 在 1024 以下（如 80，443 等公开服务）的连接，剩下的连接可以认为是 remote 主动发起连接的，可以认为是本机的 client。</p>
 <p><strong>效果</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>     <span style="color:#ae81ff">22</span>    209.9.xxx.xx   <span style="color:#f92672">=</span>&gt;       10.0.4.10:443   144085/rust_xx
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>     <span style="color:#ae81ff">22</span>    209.9.xxx.xx   <span style="color:#f92672">=</span>&gt;       10.0.4.10:443   144085/rust_xx
 </span></span><span style="display:flex;"><span>      <span style="color:#ae81ff">2</span>  222.70.xxx.xxx   <span style="color:#f92672">=</span>&gt;       10.0.4.10:443   144085/rust_xx
 </span></span><span style="display:flex;"><span>      <span style="color:#ae81ff">2</span>   101.90.xx.xxx   <span style="color:#f92672">=</span>&gt;       10.0.4.10:443   144085/rust_xx
 </span></span></code></pre></div><p><strong>用到的知识</strong></p>
@@ -311,7 +311,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>sort 和 uniq 搭配使用，统计行出现次数</li>
 </ol>
 <h2 id="统计网卡流量">统计网卡流量</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; /usr/local/bin/netsum <span style="color:#e6db74">&lt;&lt; \EOF
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; /usr/local/bin/netsum <span style="color:#e6db74">&lt;&lt; \EOF
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">echo &#34;&#34;
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">echo Time: $(date &#39;+%F %T&#39;)
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">cat /proc/uptime| awk -F. &#39;{run_days=$1 / 86400;run_hour=($1 % 86400)/3600;run_minute=($1 % 3600)/60;run_second=$1 % 60;printf(&#34;uptime：\033[32m%d天%d时%d分%d秒\033[0m\n&#34;,run_days,run_hour,run_minute,run_second)}&#39;
@@ -327,7 +327,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>  echo 已设置定时任务;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
 </span></span></code></pre></div><p><strong>使用效果</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Time: Sun May <span style="color:#ae81ff">8</span> 17:30:34 CST <span style="color:#ae81ff">2022</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Time: Sun May <span style="color:#ae81ff">8</span> 17:30:34 CST <span style="color:#ae81ff">2022</span>
 </span></span><span style="display:flex;"><span>uptime：1天21时44分26秒
 </span></span><span style="display:flex;"><span>--------------------------------------------------------------------------
 </span></span><span style="display:flex;"><span>流量累计使用情况：
@@ -344,26 +344,26 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>printf 格式化输出 <code>printf &quot;%5s 分隔符 %5s\n&quot; one two</code></li>
 <li>利用 grep 返回结果在 if 语句里判断文件中是否存在某语句</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ! grep <span style="color:#e6db74">&#34;/usr/local/bin/netsum&#34;</span> /etc/crontab &gt; /dev/null;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ! grep <span style="color:#e6db74">&#34;/usr/local/bin/netsum&#34;</span> /etc/crontab &gt; /dev/null;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">then</span>
 </span></span><span style="display:flex;"><span>....
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>
 </span></span><span style="display:flex;"><span>....
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
 </span></span></code></pre></div><h2 id="sed-替换文本内容">sed 替换文本内容</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sed -i <span style="color:#e6db74">&#34;s/UseDNS.*/UseDNS no/g&#34;</span> /etc/ssh/sshd_config
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sed -i <span style="color:#e6db74">&#34;s/UseDNS.*/UseDNS no/g&#34;</span> /etc/ssh/sshd_config
 </span></span></code></pre></div><p>将匹配<code>UseDNS.*</code>的行都换成<code>UseDNS no</code>，并写入原文件。支持正则表达式，见<a href="https://www.yiibai.com/sed/sed_regular_expressions.html">sed_regular_expressions</a></p>
 <h2 id="sed-删除行">sed 删除行</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sed -i <span style="color:#e6db74">&#39;/^alias nt=.*/d&#39;</span> .bashrc
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sed -i <span style="color:#e6db74">&#39;/^alias nt=.*/d&#39;</span> .bashrc
 </span></span></code></pre></div><h2 id="awk-设置变量">awk 设置变量</h2>
 <p><code>host=$1</code> 设置了 host 这个变量，并在后续的 awk command 中用到</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>➜  ~ cat /data/bin/pod
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>➜  ~ cat /data/bin/pod
 </span></span><span style="display:flex;"><span>kubectl get pod -A -o wide -l app<span style="color:#f92672">=</span>proxy |awk -v host<span style="color:#f92672">=</span>$1 <span style="color:#e6db74">&#39;$8==host {print $2}&#39;</span>
 </span></span><span style="display:flex;"><span>➜  ~ pod hk
 </span></span><span style="display:flex;"><span>proxy-pqhhc
 </span></span></code></pre></div><h2 id="clickhouse-简化命令">Clickhouse 简化命令</h2>
 <p>场景：使用 clickhouse client 连接数据库时，经常要带一些参数，例如 ip、用户名等。每次都输入这些信息的话，会比较麻烦。一种解法是写 alias，但是在一些场景下免不了<code>source ~/.zsh_rc</code>。另一种更通用的方式是写个 shell 脚本：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/usr/bin/clickhouse client -h 10.0.218.10 --database xxxx --send_logs_level<span style="color:#f92672">=</span>trace --log-level<span style="color:#f92672">=</span>trace --server_logs_file<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;/tmp/query.log&#39;</span> <span style="color:#e6db74">&#34;</span>$@<span style="color:#e6db74">&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/usr/bin/clickhouse client -h 10.0.218.10 --database xxxx --send_logs_level<span style="color:#f92672">=</span>trace --log-level<span style="color:#f92672">=</span>trace --server_logs_file<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;/tmp/query.log&#39;</span> <span style="color:#e6db74">&#34;</span>$@<span style="color:#e6db74">&#34;</span>
 </span></span></code></pre></div><p>核心是最后的 <code>&quot;$@&quot;</code> ，其他则是将 ck 查询的日志传送到本地。</p>
 <p>在 shell 脚本中，<code>&quot;$@&quot;</code>和<code>$@</code>有不同的行为：</p>
 <ul>
@@ -375,7 +375,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>所以在这种情况下，使用 <code>&quot;$@&quot;</code> 是正确的，因为它会把 <code>--query</code> 和 <code>&quot;select 1&quot;</code> 作为两个独立的参数传递给 Clickhouse 客户端。</p>
 <h2 id="clickhouse-导入不同环境数据">Clickhouse 导入不同环境数据</h2>
 <p>用 Fomart CSV 进行导入</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 定义sql</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 定义sql</span>
 </span></span><span style="display:flex;"><span>query<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>cat <span style="color:#e6db74">&lt;&lt;EOF
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">with &#39;c4e22d5e5c90364863af7e06e3c9d9c5&#39; as traceID,
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;20230805&#39; as part
@@ -414,20 +414,20 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </ol>
 <p>总体来说，组合这些选项的效果是，<code>curl</code> 将在正常操作时保持静默，但在出现错误时显示错误消息，同时自动处理重定向并且在遇到服务器错误时失败。这使得 <code>curl</code> 更加方便地用于自动化脚本和错误处理，尤其是在你的观察性平台开发工作中可能会非常有用。</p>
 <h2 id="curl-并-gzip-解压缩">curl 并 gzip 解压缩</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>version<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;2023.07.22&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>version<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;2023.07.22&#34;</span>
 </span></span><span style="display:flex;"><span>curl -Lf <span style="color:#e6db74">&#34;https://github.com/Dreamacro/clash/releases/download/premium/clash-</span><span style="color:#66d9ef">$(</span>go env GOOS<span style="color:#66d9ef">)</span><span style="color:#e6db74">-</span><span style="color:#66d9ef">$(</span>go env GOARCH<span style="color:#66d9ef">)</span><span style="color:#e6db74">-</span><span style="color:#e6db74">${</span>version<span style="color:#e6db74">}</span><span style="color:#e6db74">.gz&#34;</span> | gzip -d &gt; /tmp/clash
 </span></span><span style="display:flex;"><span>install -m <span style="color:#ae81ff">777</span> /tmp/clash /usr/local/bin/clash
 </span></span></code></pre></div><h2 id="shell-脚本获取脚本所在目录">shell 脚本获取脚本所在目录</h2>
 <ul>
 <li>shebang 行是 /bin/bash 时：</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#! /bin/bash
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#! /bin/bash
 </span></span></span><span style="display:flex;"><span>SCRIPT_DIR<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>cd <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>dirname <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>BASH_SOURCE[0]<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">&amp;&amp;</span> pwd<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
 </span></span><span style="display:flex;"><span>echo $SCRIPT_DIR
 </span></span></code></pre></div><ul>
 <li>shebang 行是 /bin/sh 时：</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#! /bin/sh
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#! /bin/sh
 </span></span></span><span style="display:flex;"><span>SCRIPT_DIR<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>cd <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>dirname <span style="color:#e6db74">&#34;</span>$0<span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">&amp;&amp;</span> pwd<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
 </span></span><span style="display:flex;"><span>echo $SCRIPT_DIR
 </span></span></code></pre></div>

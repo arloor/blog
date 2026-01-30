@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -341,7 +341,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </ol>
 <h3 id="askmoved重定向">ASK/MOVED重定向</h3>
 <p>我们之前提到，redis cluster会将所有key分散到16384个槽，cluster中每个节点分别承载一部分槽。而客户端可以连接到cluster中的每一个节点，当客户端读写的key不在该连接所指的节点上时，cluster的节点不会代理该读写请求，而是返回重定向响应（IP和端口），由客户端根据该响应去请求正确地址上的节点。在redis中，重定向响应就是ASK和MOVED。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>get {n}<span style="color:#ae81ff">111</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>get {n}<span style="color:#ae81ff">111</span>
 </span></span><span style="display:flex;"><span>(error) MOVED <span style="color:#ae81ff">3432</span> <span style="color:#ae81ff">99.47.149.25</span><span style="color:#f92672">:</span><span style="color:#ae81ff">6419</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>get {n}<span style="color:#ae81ff">222</span>
@@ -459,7 +459,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>clusterMsg的前17个字段是所有类型消息都有的字段，最后一个字段<code>data</code>的类型是<code>union clusterMsgData</code>。</p>
 <p><strong>union clusterMsgData</strong></p>
 <p>union是共享空间的意思，多种不同的struct存放在相同的内存空间。<code>clusterMsgData</code>的定义如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">union</span> clusterMsgData {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">union</span> clusterMsgData {
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* PING, MEET and PONG */</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">struct</span> {
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e">/* Array of N clusterMsgDataGossip structures */</span>
@@ -484,7 +484,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><p>可以看到该共享空间可以存放9种不同类型的data，对应于<code>clusterMsg</code>中的<code>type</code>字段。</p>
 <p><strong>clusterMsgDataGossip</strong></p>
 <p>这是PING、PONG、MEET类型消息中的data，也是所谓的八卦和闲话，是sender所知的其他节点的信息。其定义如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> nodename[CLUSTER_NAMELEN];
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">uint32_t</span> ping_sent;
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">uint32_t</span> pong_received;
@@ -498,12 +498,12 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>PING、PONG两种类型的消息被称为心跳，会用于判断tcp连接是否需要重连和节点是否宕机。MEET消息除了类型外其实和PING、PONG一模一样，但是他多了“使接受新节点”的语义，上一节有叙。</p>
 <p><strong>clusterMsgDataFail</strong></p>
 <p>我们刚刚提到PING、PONG心跳可用于判断节点是否宕机。如果节点A判断节点B宕机（FAIL），则其会向所有节点发送FAIL消息。收到FAIL消息的所有节点都会将B标记为宕机（FAIL）</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> nodename[CLUSTER_NAMELEN];
 </span></span><span style="display:flex;"><span>} clusterMsgDataFail;
 </span></span></code></pre></div><p><strong>clusterMsgDataPublish</strong></p>
 <p>redis也是一个稳定可靠的发布订阅系统。PUBLISH类型的消息就是用于在cluster中传播发布订阅的消息，使每个节点都能发布相同的消息。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">uint32_t</span> channel_len;
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">uint32_t</span> message_len;
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* We can&#39;t reclare bulk_data as bulk_data[] since this structure is
@@ -513,7 +513,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>} clusterMsgDataPublish;
 </span></span></code></pre></div><p><strong>clusterMsgDataUpdate</strong></p>
 <p>当A收到B发来的消息并发现消息中的版本（configEpoch）小于自己目前所知的，则说明B的状态过时了，此时回向B发送UPDATE消息，携带A所知的版本（configEpoch）和slots位图，要求B更新自己的状态。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">typedef</span> <span style="color:#66d9ef">struct</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">uint64_t</span> configEpoch; <span style="color:#75715e">/* Config epoch of the specified instance. */</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> nodename[CLUSTER_NAMELEN]; <span style="color:#75715e">/* Name of the slots owner. */</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span> slots[CLUSTER_SLOTS<span style="color:#f92672">/</span><span style="color:#ae81ff">8</span>]; <span style="color:#75715e">/* Slots bitmap. */</span>
@@ -523,7 +523,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>心跳发送PING包和检测PONG响应时间都在<code>clusterCron</code>中，下面结合源码介绍其中机制：</p>
 <p><strong>随机选取节点，发送PING</strong></p>
 <p>一般情况下一个节点每秒向随机的固定数量的节点发送PING（也收到固定数量节点的PONG），所以不管集群有多少节点，单个节点每秒的PING包数量是固定的。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>    <span style="color:#75715e">/* Ping some random node 1 time every 10 iterations, so that we usually ping
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>    <span style="color:#75715e">/* Ping some random node 1 time every 10 iterations, so that we usually ping
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * one random node every second. */</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>(iteration <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>)) {
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> j;
@@ -550,7 +550,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>    }
 </span></span></code></pre></div><p><strong>查漏补缺，PING长时间没有PING过的节点</strong></p>
 <p>如果超过NODE_TIMEOUT/2时长没有向一个节点发送PING，会强制向其发送PING</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>       <span style="color:#75715e">//在node的遍历中
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>       <span style="color:#75715e">//在node的遍历中
 </span></span></span><span style="display:flex;"><span>        <span style="color:#75715e">/* If we have currently no active ping in this instance, and the
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">         * received PONG is older than half the cluster timeout, send
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">         * a new ping now, to ensure all the nodes are pinged without
@@ -565,7 +565,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><p><strong>长时间没有收到PONG，怀疑tcp连接断开，重建连接</strong></p>
 <p>长时间没有收到PONG，要么tcp连接出现问题，要么目标节点宕机导致无法响应心跳。首先怀疑tcp连接出现问题，进行重建。</p>
 <p>如果一个超过NODE_TIMEOUT/2时长一个节点没有返回PONG，则认为到该节点的tcp连接出现问题，释放该tcp连接，在下一<code>clusterCron</code>会自动重建。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>       <span style="color:#75715e">//在node的遍历中
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>       <span style="color:#75715e">//在node的遍历中
 </span></span></span><span style="display:flex;"><span>        <span style="color:#75715e">/* If we are waiting for the PONG more than half the cluster
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">         * timeout, reconnect the link: maybe there is a connection
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">         * issue even if the node is alive. */</span>
@@ -586,7 +586,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>在cluster中标记节点宕机状态的flag有PFAIL和FAIL，这和sentinel中的sdown和odown很像——PFAIL：我认为该节点挂了，那就可能挂了；FAIL：大家都告诉我他挂了，那他确实挂了。sentinel和cluster确实有些像，例如宕机检测、选举、epoch等。</p>
 <p><strong>何时设置PFAIL</strong></p>
 <p>如果sender向其他节点发送PING后，超过NODE_TIMEOUT仍没有收到pong，则设置该节点为PFAIL。主节点和从节点都能将另一个节点设置成PFAIL。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (delay <span style="color:#f92672">&gt;</span> server.cluster_node_timeout) {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (delay <span style="color:#f92672">&gt;</span> server.cluster_node_timeout) {
 </span></span><span style="display:flex;"><span>            <span style="color:#75715e">/* Timeout reached. Set the node as possibly failing if it is
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">             * not already in this state. */</span>
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>(node<span style="color:#f92672">-&gt;</span>flags <span style="color:#f92672">&amp;</span> (CLUSTER_NODE_PFAIL<span style="color:#f92672">|</span>CLUSTER_NODE_FAIL))) {
@@ -601,7 +601,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>正如上文所说的，PING/PONG包中含有N个其他节点的gossip信息，包含PING/PONG
 时间、flags等信息。其中flags就包含PFAIL、FAIL，通过这种gossip的传播，节点就能向集群其他节点传播自己知道的信息。</p>
 <p>如果节点A在NODE_TIMEOUT*2的时间内收到大部分节点将节点B置为PFAIL或FAIL状态，则节点A将节点B置为FAIL，同时向所有可到达的节点发送FAIL消息（FAIL消息格式见上文）。所有收到FAIL消息的节点都会将该节点设置为FAIL。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">clusterProcessGossipSection</span>(clusterMsg <span style="color:#f92672">*</span>hdr, clusterLink <span style="color:#f92672">*</span>link) {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">clusterProcessGossipSection</span>(clusterMsg <span style="color:#f92672">*</span>hdr, clusterLink <span style="color:#f92672">*</span>link) {
 </span></span><span style="display:flex;"><span>   ...
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (node) {
 </span></span><span style="display:flex;"><span>            <span style="color:#75715e">//根据消息中的clusterMsgDataGossip更新节点状态
@@ -657,7 +657,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>节点可达并且是主节点，但超过N*NODE_TIMEOUT没有进行failover。这时最好将该主节点重新加入集群。</li>
 </ul>
 <p>相关代码：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">/* This function is called only if a node is marked as FAIL, but we are able
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">/* This function is called only if a node is marked as FAIL, but we are able
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * to reach it again. It checks if there are the conditions to undo the FAIL
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"> * state. */</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">clearNodeFailureIfNeeded</span>(clusterNode <span style="color:#f92672">*</span>node) {
@@ -727,7 +727,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>根据这三个参数计算出来的选举延迟会让每个试图发起选举的从节点在不同的时间发起选举。</p>
 <p>一旦一个从节点赢得选举，他获得一个新的独一无二的configEpoch。他会通过PING、PONG向其他节点宣告自己是主节点，并携带configEpoch和自己携带的slots。为了更快的更新其他节点的配置信息，该新主节点会立刻向其他节点发送PONG包。当前不可达的节点在网络恢复后会最终更新自己的配置，因为当他向其他节点发送更旧得配置信息时，会收到UPDATE消息。</p>
 <p>相关代码：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">clusterGetSlaveRank</span>(<span style="color:#66d9ef">void</span>) {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">clusterGetSlaveRank</span>(<span style="color:#66d9ef">void</span>) {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> myoffset;
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> j, rank <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>    clusterNode <span style="color:#f92672">*</span>master;
@@ -851,7 +851,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <h3 id="处理gossip部分消息">处理gossip部分消息</h3>
 <p>clusterProcessGossipSection负责处理PING和PONG消息中的gossip信息</p>
 <p>Gossip部分包含如下字段：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> nodename[CLUSTER_NAMELEN];
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> nodename[CLUSTER_NAMELEN];
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">uint32_t</span> ping_sent;
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">uint32_t</span> pong_received;
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> ip[NET_IP_STR_LEN];  <span style="color:#75715e">/* IP address last time it was seen */</span>
@@ -860,7 +860,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">uint16_t</span> flags;             <span style="color:#75715e">/* node-&gt;flags copy */</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">uint32_t</span> notused1;
 </span></span></code></pre></div><p>源码+解析</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">clusterProcessGossipSection</span>(clusterMsg <span style="color:#f92672">*</span>hdr, clusterLink <span style="color:#f92672">*</span>link) {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">clusterProcessGossipSection</span>(clusterMsg <span style="color:#f92672">*</span>hdr, clusterLink <span style="color:#f92672">*</span>link) {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">uint16_t</span> count <span style="color:#f92672">=</span> <span style="color:#a6e22e">ntohs</span>(hdr<span style="color:#f92672">-&gt;</span>count);
 </span></span><span style="display:flex;"><span>    clusterMsgDataGossip <span style="color:#f92672">*</span>g <span style="color:#f92672">=</span> (clusterMsgDataGossip<span style="color:#f92672">*</span>) hdr<span style="color:#f92672">-&gt;</span>data.ping.gossip;
 </span></span><span style="display:flex;"><span>    clusterNode <span style="color:#f92672">*</span>sender <span style="color:#f92672">=</span> link<span style="color:#f92672">-&gt;</span>node <span style="color:#f92672">?</span> link<span style="color:#f92672">-&gt;</span>node : <span style="color:#a6e22e">clusterLookupNode</span>(hdr<span style="color:#f92672">-&gt;</span>sender);

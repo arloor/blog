@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -317,7 +317,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <pre tabindex="0"><code>JAVA_AGENT_JAR_PARH=java-agent.jar
 java -Xbootclasspath/a:${JAVA_AGENT_JAR_PARH} -javaagent:${JAVA_AGENT_JAR_PARH} -jar xxxx.jar
 </code></pre><h3 id="动态加载">动态加载</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>String name <span style="color:#f92672">=</span> ManagementFactory.<span style="color:#a6e22e">getRuntimeMXBean</span>().<span style="color:#a6e22e">getName</span>();
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>String name <span style="color:#f92672">=</span> ManagementFactory.<span style="color:#a6e22e">getRuntimeMXBean</span>().<span style="color:#a6e22e">getName</span>();
 </span></span><span style="display:flex;"><span>String pid <span style="color:#f92672">=</span> name.<span style="color:#a6e22e">split</span>(<span style="color:#e6db74">&#34;@&#34;</span>)<span style="color:#f92672">[</span>0<span style="color:#f92672">]</span>;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">final</span> VirtualMachine vm <span style="color:#f92672">=</span> VirtualMachine.<span style="color:#a6e22e">attach</span>(pid);
 </span></span><span style="display:flex;"><span>vm.<span style="color:#a6e22e">loadAgent</span>(${JAVA_AGENT_JAR_PARH},${ARGS});
@@ -325,7 +325,7 @@ java -Xbootclasspath/a:${JAVA_AGENT_JAR_PARH} -javaagent:${JAVA_AGENT_JAR_PARH} 
 </span></span></code></pre></div><blockquote>
 <p>VirtualMachine在jdk（非jre）下的lib/tools.jar，classpath可能不包含该jar包，需要反射调用URLClassLoader类的addURL方法增加tools.jar，然后再得到VirtualMachine类，如下：</p>
 </blockquote>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> java.io.File;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> java.io.File;
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.lang.reflect.Method;
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.net.URL;
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.net.URLClassLoader;
@@ -408,7 +408,7 @@ java -Xbootclasspath/a:${JAVA_AGENT_JAR_PARH} -javaagent:${JAVA_AGENT_JAR_PARH} 
 <p><code>MANIFEST.MF</code>文件，静态加载必须指定<code>Premain-Class</code>这个类；动态加载必须指定<code>Agent-Class</code>。通常也会加入<code>Can-Redefine-Classes</code> 和 <code>Can-Retransform-Classes</code> 选项。</p>
 <p><code>Premain-Class</code>一定要有premain方法，动态加载一定要有agentmain方法</p>
 <p><code>MANIFEST.MF</code>可以使用maven的<code>maven-jar-plugin</code>进行配置：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;project</span> <span style="color:#a6e22e">xmlns=</span><span style="color:#e6db74">&#34;http://maven.apache.org/POM/4.0.0&#34;</span> <span style="color:#a6e22e">xmlns:xsi=</span><span style="color:#e6db74">&#34;http://www.w3.org/2001/XMLSchema-instance&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;project</span> <span style="color:#a6e22e">xmlns=</span><span style="color:#e6db74">&#34;http://maven.apache.org/POM/4.0.0&#34;</span> <span style="color:#a6e22e">xmlns:xsi=</span><span style="color:#e6db74">&#34;http://www.w3.org/2001/XMLSchema-instance&#34;</span>
 </span></span><span style="display:flex;"><span>         <span style="color:#a6e22e">xsi:schemaLocation=</span><span style="color:#e6db74">&#34;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd&#34;</span><span style="color:#f92672">&gt;</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;modelVersion&gt;</span>4.0.0<span style="color:#f92672">&lt;/modelVersion&gt;</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;groupId&gt;</span>com.meituan.mtrace<span style="color:#f92672">&lt;/groupId&gt;</span>
@@ -470,7 +470,7 @@ java -Xbootclasspath/a:${JAVA_AGENT_JAR_PARH} -javaagent:${JAVA_AGENT_JAR_PARH} 
 <h2 id="agent如何做字节码修改的">Agent如何做字节码修改的？</h2>
 <h3 id="1通过instrumentation注册classfiletransformer">1.通过Instrumentation注册ClassFileTransformer</h3>
 <p>直接看Premain-class和Agent-class的定义，在我们这里名字就是Agent</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> java.io.*;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> java.io.*;
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.lang.instrument.ClassFileTransformer;
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.lang.instrument.Instrumentation;
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -554,7 +554,7 @@ java -Xbootclasspath/a:${JAVA_AGENT_JAR_PARH} -javaagent:${JAVA_AGENT_JAR_PARH} 
 </ol>
 <h3 id="2classfiletransformer使用javassist修改字节码">2.ClassFileTransformer使用javassist修改字节码</h3>
 <p>ClassFileTransformer接口定义如下，只有一个transform接口</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">ClassFileTransformer</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">ClassFileTransformer</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">/**
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * 部分Java DOC
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * @param loader                the defining loader of the class to be transformed,
@@ -583,7 +583,7 @@ java -Xbootclasspath/a:${JAVA_AGENT_JAR_PARH} -javaagent:${JAVA_AGENT_JAR_PARH} 
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">throws</span> IllegalClassFormatException;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>一个ClassFIleTranformer的实现:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> javassist.ClassPool;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> javassist.ClassPool;
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> javassist.CtClass;
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> javassist.LoaderClassPath;
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> javassist.CtClass;
@@ -699,7 +699,7 @@ java -Xbootclasspath/a:${JAVA_AGENT_JAR_PARH} -javaagent:${JAVA_AGENT_JAR_PARH} 
 <img src="/img/arthas-jad-trace-runnable.png" alt=""></p>
 <p>TraceRunnable、Context等类竟然有两个类，一个由SystemClassLoader加载（AppClassLoader），一个由BootstrapClassLoader加载（null）。mtrace的跨线程传递trace其实就是将当前span放到threadlocal中，跨线程时把父线程的threadlocal的span放置到子线程的threadlocal中。而Context类就是threadlocal的容器。但是现在Context类实际有两个，业务代码把span放到ContextA类中，threapool从ContextB类中拿span，但是ContextB中并没有span，这就导致了跨线程传递失败。</p>
 <p>存放threadlocal的类的Context定义：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Context</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Context</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> ThreadLocal<span style="color:#f92672">&lt;</span>Object<span style="color:#f92672">&gt;</span> SERVER_CONTEXT <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ThreadLocal<span style="color:#f92672">&lt;</span>Object<span style="color:#f92672">&gt;</span>();
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">final</span> ThreadLocal<span style="color:#f92672">&lt;</span>Object<span style="color:#f92672">&gt;</span> CLIENT_CONTEXT <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ThreadLocal<span style="color:#f92672">&lt;</span>Object<span style="color:#f92672">&gt;</span>();
 </span></span><span style="display:flex;"><span>
@@ -732,7 +732,7 @@ java -Xbootclasspath/a:${JAVA_AGENT_JAR_PARH} -javaagent:${JAVA_AGENT_JAR_PARH} 
 <p>避免在Agent中加载任何会使用Context类的类，比如TraceRunnable等。</p>
 <p>最终我们采用一种类似“代理模式”的设计。agent中使用的TaskWrapper是一个代理，真实实现（TraceRunnable）在非agent中注册进去。</p>
 <p>TaskWrapper定义：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.concurrent.Callable;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.concurrent.Callable;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TaskWrapper</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> TaskWrapper.<span style="color:#a6e22e">Reformer</span> reformer; <span style="color:#75715e">//真实实现</span>
@@ -765,7 +765,7 @@ java -Xbootclasspath/a:${JAVA_AGENT_JAR_PARH} -javaagent:${JAVA_AGENT_JAR_PARH} 
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>具体在非agent中注册进去的过程是：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">//  1. 动态加载agent</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">//  1. 动态加载agent</span>
 </span></span><span style="display:flex;"><span>String name <span style="color:#f92672">=</span> ManagementFactory.<span style="color:#a6e22e">getRuntimeMXBean</span>().<span style="color:#a6e22e">getName</span>();
 </span></span><span style="display:flex;"><span>String pid <span style="color:#f92672">=</span> name.<span style="color:#a6e22e">split</span>(<span style="color:#e6db74">&#34;@&#34;</span>)<span style="color:#f92672">[</span>0<span style="color:#f92672">]</span>;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">final</span> VirtualMachine vm <span style="color:#f92672">=</span> VirtualMachine.<span style="color:#a6e22e">attach</span>(pid);
@@ -797,7 +797,7 @@ java -Xbootclasspath/a:${JAVA_AGENT_JAR_PARH} -javaagent:${JAVA_AGENT_JAR_PARH} 
 <p>这个文档先陈述了一个事实——<strong>agentJar中的类除了Premain-Class/Agent-class由SystemClassLoader（应用类加载器）加载，其他类都由BootstrapClassloader加载</strong>。</p>
 <h3 id="其他注意点">其他注意点</h3>
 <p>对于ThreadPoolExecutor的封装比较简单，对于ForkJoinPool的封装需要对ForkJoinTask进行修改，而且需要增加Field。<strong>JVM规范里写到，一旦一个类被加载后，他的scheme不能被改变，也就是不能增减属性和方法</strong>。如果在ForkJoinTask已经被类加载后尝试修改，会失败并报错：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>java.<span style="color:#a6e22e">lang</span>.<span style="color:#a6e22e">UnsupportedOperationException</span>: <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">redefinition</span> failed: attempted to change the <span style="color:#a6e22e">schema</span> (add<span style="color:#f92672">/</span>remove fields)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>java.<span style="color:#a6e22e">lang</span>.<span style="color:#a6e22e">UnsupportedOperationException</span>: <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">redefinition</span> failed: attempted to change the <span style="color:#a6e22e">schema</span> (add<span style="color:#f92672">/</span>remove fields)
 </span></span><span style="display:flex;"><span>	at sun.<span style="color:#a6e22e">instrument</span>.<span style="color:#a6e22e">InstrumentationImpl</span>.<span style="color:#a6e22e">retransformClasses0</span>(Native Method) <span style="color:#f92672">~[?</span>:1.<span style="color:#a6e22e">8</span>.<span style="color:#a6e22e">0_251</span><span style="color:#f92672">]</span>
 </span></span><span style="display:flex;"><span>	at sun.<span style="color:#a6e22e">instrument</span>.<span style="color:#a6e22e">InstrumentationImpl</span>.<span style="color:#a6e22e">retransformClasses</span>(InstrumentationImpl.<span style="color:#a6e22e">java</span>:144) <span style="color:#f92672">~[?</span>:1.<span style="color:#a6e22e">8</span>.<span style="color:#a6e22e">0_251</span><span style="color:#f92672">]</span>
 </span></span><span style="display:flex;"><span>	at com.<span style="color:#a6e22e">meituan</span>.<span style="color:#a6e22e">mtrace</span>.<span style="color:#a6e22e">agent</span>.<span style="color:#a6e22e">runtime</span>.<span style="color:#a6e22e">Injector</span>.<span style="color:#a6e22e">doRetransform</span>(Injector.<span style="color:#a6e22e">java</span>:68) <span style="color:#f92672">[?</span>:<span style="color:#f92672">?]</span>

@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -292,7 +292,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>非堆内存使用量</li>
 <li>bufferPool内存使用量，主要有nio direct buffer和Mapped buffer</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> io.netty.util.internal.PlatformDependent;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> io.netty.util.internal.PlatformDependent;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.lang.management.BufferPoolMXBean;
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.lang.management.ManagementFactory;
@@ -322,7 +322,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> MemoryMXBean memoryMXBean <span style="color:#f92672">=</span> ManagementFactory.<span style="color:#a6e22e">getMemoryMXBean</span>();
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> List<span style="color:#f92672">&lt;</span>BufferPoolMXBean<span style="color:#f92672">&gt;</span> bufferPoolMXBeans <span style="color:#f92672">=</span> ManagementFactory.<span style="color:#a6e22e">getPlatformMXBeans</span>(BufferPoolMXBean.<span style="color:#a6e22e">class</span>);
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>buffer_pool_direct    <span style="color:#ae81ff">8193</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>buffer_pool_direct    <span style="color:#ae81ff">8193</span>
 </span></span><span style="display:flex;"><span>buffer_pool_mapped    <span style="color:#ae81ff">0</span>
 </span></span><span style="display:flex;"><span>buffer_pool_mapped___non_volatile_memory    <span style="color:#ae81ff">0</span>
 </span></span><span style="display:flex;"><span>      direct_netty    -1
@@ -335,14 +335,14 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>要统计netty直接内存使用量，实际使用的是netty中PlatformDependent类的<code>DIRECT_MEMORY_COUNTER</code>变量。</p>
 <p>netty在初始化这个变量前，会检查时候能反射拿到DirectByteBuffer的构造方法。</p>
 <p>在jdk9以上，拿构造方法被认为是<code>illegal reflective access</code>会看到这样的警告信息：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>WARNING: An illegal reflective access operation has occurred
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>WARNING: An illegal reflective access operation has occurred
 </span></span><span style="display:flex;"><span>WARNING: Illegal reflective access by io.netty.util.internal.ReflectionUtil <span style="color:#f92672">(</span>file:/C:/Users/arloor/.m2/repository/io/netty/netty-all/4.1.53.Final/netty-all-4.1.53.Final.jar<span style="color:#f92672">)</span> to constructor java.nio.DirectByteBuffer<span style="color:#f92672">(</span>long,int<span style="color:#f92672">)</span>
 </span></span><span style="display:flex;"><span>WARNING: Please consider reporting this to the maintainers of io.netty.util.internal.ReflectionUtil
 </span></span><span style="display:flex;"><span>WARNING: Use --illegal-access<span style="color:#f92672">=</span>warn to enable warnings of further illegal reflective access operations
 </span></span><span style="display:flex;"><span>WARNING: All illegal access operations will be denied in a future release
 </span></span></code></pre></div><p>所以有人就在github上提issue了：<a href="https://github.com/netty/netty/pull/7650">https://github.com/netty/netty/pull/7650</a></p>
 <p>netty的解决方案是：默认关闭这个反射拿构造方法的操作，相关代码：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>    <span style="color:#75715e">// PlatformDependent0.java</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>    <span style="color:#75715e">// PlatformDependent0.java</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">boolean</span> <span style="color:#a6e22e">explicitTryReflectionSetAccessible0</span>(){
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e">// we disable reflective access</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> SystemPropertyUtil.<span style="color:#a6e22e">getBoolean</span>(<span style="color:#e6db74">&#34;io.netty.tryReflectionSetAccessible&#34;</span>,javaVersion()<span style="color:#f92672">&lt;</span> 9);
@@ -353,7 +353,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </blockquote>
 <h2 id="jdk16以上设置---add-opens-javabasejavanioall-unnamed-的说明">jdk16以上设置 <code>--add-opens java.base/java.nio=ALL-UNNAMED</code> 的说明</h2>
 <p>如果不设置，则统计netty直接内存使用量时，会在反射获取 <code>DirectByteBuffer</code> 的构造函数 <code>private java.nio.DirectByteBuffer(long,int)</code> 的时候抛出下面的异常，导致无法获取：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>java.lang.reflect.InaccessibleObjectException: 
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>java.lang.reflect.InaccessibleObjectException: 
 </span></span><span style="display:flex;"><span>Unable to make private java.nio.DirectByteBuffer<span style="color:#f92672">(</span>long,int<span style="color:#f92672">)</span> accessible: 
 </span></span><span style="display:flex;"><span>module java.base does not <span style="color:#e6db74">&#34;opens java.nio&#34;</span> to unnamed module @5a4aa2f2
 </span></span></code></pre></div><p><img src="/directByteBufferConstructor.png" alt=""></p>
@@ -363,7 +363,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <ol>
 <li>设置vm options：</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>-Dio.netty.leakDetectionLevel<span style="color:#f92672">=</span>paranoid
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>-Dio.netty.leakDetectionLevel<span style="color:#f92672">=</span>paranoid
 </span></span></code></pre></div><ol start="2">
 <li>
 <p>调用 <code>ResourceLeakDetector.setLevel()</code></p>
@@ -372,7 +372,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>springboot的Netty AutoConfigure：</p>
 </li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>spring:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>spring:
 </span></span><span style="display:flex;"><span>  netty:
 </span></span><span style="display:flex;"><span>    leak-detection: paranoid
 </span></span></code></pre></div><p>这个auto configure会通过方法2来设置探测登记。注意，如果用了springboot，一定要通过方法3来配置，因为这个autoconfigure是默认开启的，并且默认设置为simple登记。</p>

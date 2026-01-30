@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -300,7 +300,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     <p>以后可能以 golang 谋生一段时间了，开个 golang 的笔记</p>
 <h2 id="安装-golang">安装 golang</h2>
 <h3 id="linux-amd64">linux-amd64</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>version<span style="color:#f92672">=</span>1.22.12
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>version<span style="color:#f92672">=</span>1.22.12
 </span></span><span style="display:flex;"><span>curl <span style="color:#e6db74">&#34;https://go.dev/dl/go</span><span style="color:#e6db74">${</span>version<span style="color:#e6db74">}</span><span style="color:#e6db74">.linux-amd64.tar.gz&#34;</span> -Lf -o /tmp/golang.tar.gz
 </span></span><span style="display:flex;"><span>rm -rf /usr/local/go <span style="color:#f92672">&amp;&amp;</span> tar -C /usr/local -xzf /tmp/golang.tar.gz
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ! grep <span style="color:#e6db74">&#34;go/bin&#34;</span> ~/.zshrc;<span style="color:#66d9ef">then</span>
@@ -308,7 +308,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>  echo <span style="color:#e6db74">&#39;export PATH=$PATH:/usr/local/go/bin&#39;</span> &gt;&gt; ~/.zshrc
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
 </span></span></code></pre></div><h3 id="darwin-arm64">darwin-arm64</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>version<span style="color:#f92672">=</span>1.22.12
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>version<span style="color:#f92672">=</span>1.22.12
 </span></span><span style="display:flex;"><span>sudo rm -f /tmp/golang.tar.gz
 </span></span><span style="display:flex;"><span>curl <span style="color:#e6db74">&#34;https://go.dev/dl/go</span><span style="color:#e6db74">${</span>version<span style="color:#e6db74">}</span><span style="color:#e6db74">.darwin-arm64.tar.gz&#34;</span> -Lf -o /tmp/golang.tar.gz
 </span></span><span style="display:flex;"><span>sudo rm -rf /usr/local/go <span style="color:#f92672">&amp;&amp;</span> sudo tar -C /usr/local -xzf /tmp/golang.tar.gz
@@ -318,7 +318,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
 </span></span></code></pre></div><p>或者到<a href="https://go.dev/dl/">https://go.dev/dl/</a>下载安装包安装</p>
 <h3 id="安装多版本">安装多版本</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>go install golang.org/dl/go1.24.3@latest
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>go install golang.org/dl/go1.24.3@latest
 </span></span><span style="display:flex;"><span>go1.24.3 download
 </span></span><span style="display:flex;"><span>go1.24.3 version
 </span></span><span style="display:flex;"><span>
@@ -326,11 +326,11 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>go1.24.3 env GOROOT <span style="color:#75715e"># GOROOT=~/sdk/go1.24.3</span>
 </span></span><span style="display:flex;"><span>ls -lh ~/go/bin/go1.24.3
 </span></span></code></pre></div><h2 id="设置私有仓库等-golang-环境变量">设置私有仓库等 golang 环境变量</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>go env -w GOPROXY<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://goproxy.cn,https://proxy.golang.org,direct&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>go env -w GOPROXY<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://goproxy.cn,https://proxy.golang.org,direct&#34;</span>
 </span></span><span style="display:flex;"><span>go env -w GOPRIVATE<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;*.xxxx.xxx,*.xxxxx.cn,git.xxxxxx.com&#34;</span>
 </span></span><span style="display:flex;"><span>go env -w GOSUMDB<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;sum.golang.google.cn&#34;</span>
 </span></span></code></pre></div><h2 id="设置-go-test-的快捷命令">设置 go test 的快捷命令</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p ~/bin
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p ~/bin
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ! grep <span style="color:#e6db74">&#34;PATH=~/bin&#34;</span> ~/.zshrc;<span style="color:#66d9ef">then</span>
 </span></span><span style="display:flex;"><span>  export PATH<span style="color:#f92672">=</span>~/bin:$PATH
 </span></span><span style="display:flex;"><span>  echo <span style="color:#e6db74">&#39;export PATH=~/bin:$PATH&#39;</span> &gt;&gt; ~/.zshrc
@@ -355,7 +355,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>配置 <code>launch.json</code>:</li>
 </ol>
 <p><strong>注意</strong>：golang debug 不能正确处理软链接，所以最好不要把项目放在软链接的文件夹中，或者配置 <code>substitutePath</code>，见<a href="https://github.com/golang/vscode-go/wiki/debugging#debug-symlink-directories">Debug symlink directories</a>和<a href="https://github.com/golang/vscode-go/wiki/debugging#settings">go.delveConfig settings</a>(用于 CodeLens 里的 debug test 按钮)。其他高级配置可以见 <a href="https://github.com/golang/vscode-go/wiki/debugging">vscode-go debugging</a>，也可以见 <a href="https://github.com/go-delve/delve/blob/master/Documentation/cli/README.md">delve 的调试命令 ˝</a>。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 使用 IntelliSense 了解相关属性。
 </span></span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 悬停以查看现有属性的描述。
 </span></span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
@@ -395,14 +395,14 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>  ]
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>其中 <code>Test debug</code> 相当于：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>go test -c github.com/arloor/xxxx/internal/app -o __debug_bin_test -gcflags<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;all=-N -l&#39;</span> <span style="color:#75715e"># -gcflags是vscode自动加入的，用于关闭优化，使得可以断点调试</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>go test -c github.com/arloor/xxxx/internal/app -o __debug_bin_test -gcflags<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;all=-N -l&#39;</span> <span style="color:#75715e"># -gcflags是vscode自动加入的，用于关闭优化，使得可以断点调试</span>
 </span></span><span style="display:flex;"><span>./__debug_bin_test -test.v -test.run<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;^TestGetRTMPAccessPoint</span>$<span style="color:#e6db74">&#34;</span> -test.bench<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;BenchmarkTranslateWithFallback&#34;</span> -test.benchmem
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 可以参考 go help test, go help testflag</span>
 </span></span></code></pre></div><ol start="4">
 <li>配置 settings.json:</li>
 </ol>
 <p><a href="https://github.com/golang/vscode-go/wiki/settings">vscode-go/wiki/settings</a></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;go.lintTool&#34;</span>: <span style="color:#e6db74">&#34;golangci-lint-v2&#34;</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;go.lintFlags&#34;</span>: [
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// &#34;-c=~/.golangci.yml&#34;, // 会逐层寻找配置文件，所以不需要指定
@@ -433,30 +433,30 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </blockquote>
 <h2 id="golangci-lint-v2-使用">golangci-lint v2 使用</h2>
 <p>安装：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.7.2
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.7.2
 </span></span></code></pre></div><ul>
 <li><a href="https://golangci-lint.run/docs/configuration/">golangci-lint v2 文档</a></li>
 </ul>
 <p>下载本站的配置文件:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl https://www.arloor.com/golangci/v2/.golangci.yml -f -o ~/.golangci.yml
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl https://www.arloor.com/golangci/v2/.golangci.yml -f -o ~/.golangci.yml
 </span></span></code></pre></div><p>可以使用<a href="https://golangci-lint.run/docs/linters/false-positives/#nolint-directive">nolint 指令</a>忽略某些地方的检查，或者配置<a href="https://golangci-lint.run/docs/linters/false-positives/#exclude">exclude rules</a>进行排除。</p>
 <h2 id="golangci-lint-v1-使用">golangci-lint v1 使用</h2>
 <p>安装</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.64.8
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.64.8
 </span></span></code></pre></div><p>参考文档：</p>
 <ul>
 <li><a href="https://golangci.github.io/legacy-v1-doc/usage/configuration/">Configuration</a></li>
 </ul>
 <p>需要在某些地方忽略某个 <code>linter</code> 时，可以注释 <code>//nolint:xx,xx</code>，这个注释可以用在 go 文件开头、行末、函数、结构体，分别代表不同的作用域。</p>
 <p>下载本站的配置文件:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl https://www.arloor.com/golangci/v1/.golangci.yml -f -o ~/.golangci.yml
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl https://www.arloor.com/golangci/v1/.golangci.yml -f -o ~/.golangci.yml
 </span></span></code></pre></div><h2 id="defer">defer</h2>
 <ol>
 <li>defer 匿名函数中“<strong>捕获</strong>”的参数是<strong>执行时</strong>的最新值。而“<strong>传递</strong>”的参数是声明 defer 时确定的。</li>
 <li>defer 函数可以修改返回值，只要返回值是“<strong>捕获</strong>”的</li>
 <li>探讨 defer 和 for、if 一起使用的情况(这个有点坑的)： <a href="https://victoriametrics.com/blog/defer-in-go/">Golang Defer: From Basic To Traps</a></li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> <span style="color:#e6db74">&#34;fmt&#34;</span>
 </span></span><span style="display:flex;"><span>
@@ -509,8 +509,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <blockquote>
 <p>垃圾的一笔，连个原生的枚举都没</p>
 </blockquote>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>go get -u github.com/dmarkham/enumer
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>go get -u github.com/dmarkham/enumer
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">//go:generate go run github.com/dmarkham/enumer -type=Strategy -output=enumer_autogen.go</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Strategy</span> <span style="color:#66d9ef">int</span>
@@ -520,9 +520,9 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Default</span> <span style="color:#a6e22e">Strategy</span> = <span style="color:#66d9ef">iota</span>
 </span></span><span style="display:flex;"><span>)
 </span></span></code></pre></div><h2 id="引入开发分支作为依赖">引入开发分支作为依赖</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>go get github.com/arloor/xxxx@feature/xxxx
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>go get github.com/arloor/xxxx@feature/xxxx
 </span></span></code></pre></div><h2 id="context-的-key-不要使用内置类型">context 的 key 不要使用内置类型</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">action</span> <span style="color:#66d9ef">struct</span>{} <span style="color:#75715e">// 自定义类型作为key。空struct不占内存</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">action</span> <span style="color:#66d9ef">struct</span>{} <span style="color:#75715e">// 自定义类型作为key。空struct不占内存</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 1. 设置value</span>
 </span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">tmp</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">WithValue</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Background</span>(), <span style="color:#a6e22e">action</span>{}, <span style="color:#e6db74">&#34;someAction&#34;</span>)

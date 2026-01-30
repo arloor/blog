@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -332,14 +332,14 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p><a href="https://doc.rust-lang.org/stable/book/">rust book</a>是一定需要看的，可以看<a href="https://kaisery.github.io/trpl-zh-cn/title-page.html">rust book 中文版</a>。第一次看的时候看的英文版，今年看的是中文版，感觉翻译还不错。<a href="https://doc.rust-lang.org/std/">rust 标准库文档</a>当成工具书吧，类似 java doc 的那种存在。现在的软件开发可以说一切都是基于网络，所以一个网络编程框架是肯定要学习的。tokio 是目前最火的网络编程框架吧。<a href="https://tokio.rs/tokio/tutorial">tokio 文档</a>这个文档以一个简单 redis 的 client/server 实现为例子，逐渐深入地介绍 tokio。tokio 对自己的定位不是网络编程框架，而是异步运行时。</p>
 <h2 id="安装">安装</h2>
 <p><strong>Linux</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl --proto <span style="color:#e6db74">&#39;=https&#39;</span> --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --default-host x86_64-unknown-linux-gnu -y
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl --proto <span style="color:#e6db74">&#39;=https&#39;</span> --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --default-host x86_64-unknown-linux-gnu -y
 </span></span></code></pre></div><p><strong>MacOS</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl --proto <span style="color:#e6db74">&#39;=https&#39;</span> --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl --proto <span style="color:#e6db74">&#39;=https&#39;</span> --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 </span></span></code></pre></div><p><strong>WINDOWS</strong></p>
 <p>使用 rust-init 程序，需要额外下载 visual studio 2019 的安装器，并安装 visual c++ 生成工具、windows 10 sdk、英文语言包</p>
 <p><strong>设置代理</strong></p>
 <p>rustup 安装和更新使用中科大镜像：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>export RUSTUP_DIST_SERVER<span style="color:#f92672">=</span>https://mirrors.ustc.edu.cn/rust-static
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>export RUSTUP_DIST_SERVER<span style="color:#f92672">=</span>https://mirrors.ustc.edu.cn/rust-static
 </span></span><span style="display:flex;"><span>export RUSTUP_UPDATE_ROOT<span style="color:#f92672">=</span>https://mirrors.ustc.edu.cn/rust-static/rustup
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">## windows：</span>
@@ -348,14 +348,14 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">## 然后运行安装脚本/rustup-init.exe</span>
 </span></span></code></pre></div><p>Cargo 是 rust 的包管理工具，类似 java 的 maven，设置代理如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt;&gt; ~/.cargo/config <span style="color:#e6db74">&lt;&lt;\EOF
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt;&gt; ~/.cargo/config <span style="color:#e6db74">&lt;&lt;\EOF
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[http]
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">proxy = &#34;127.0.0.1:3128&#34;
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[https]
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">proxy = &#34;127.0.0.1:3128&#34;
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
 </span></span></code></pre></div><p>或者使用中科大镜像</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt;&gt; ~/.cargo/config <span style="color:#e6db74">&lt;&lt;\EOF
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt;&gt; ~/.cargo/config <span style="color:#e6db74">&lt;&lt;\EOF
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[source.crates-io]
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">registry = &#34;https://github.com/rust-lang/crates.io-index&#34;
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">replace-with = &#39;ustc&#39;
@@ -363,7 +363,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">registry = &#34;git://mirrors.ustc.edu.cn/crates.io-index&#34;
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
 </span></span></code></pre></div><h2 id="卸载">卸载</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>rustup self uninstall
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>rustup self uninstall
 </span></span></code></pre></div><p><strong>集成开发环境</strong></p>
 <p>我使用的是 Clion+<a href="https://plugins.jetbrains.com/plugin/8182-rust">rust 插件</a></p>
 <p>其他开发环境有<a href="https://www.rust-lang.org/zh-CN/tools">https://www.rust-lang.org/zh-CN/tools</a></p>
@@ -371,10 +371,10 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <h2 id="rust-基础理解怎么做到内存安全的">rust 基础——理解怎么做到内存安全的</h2>
 <p>内存安全是 rust 最重要的特点。为了实现这一点，rust 增加了很多限制，这些限制是 rust 与其他语言最大的不同，也是 rust 学习路径陡峭的根本原因。</p>
 <h3 id="变量是默认不可变的">变量是默认不可变的</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> x <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> x <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>;
 </span></span><span style="display:flex;"><span>x <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>; <span style="color:#75715e">//编译器此时报错
 </span></span></span></code></pre></div><p>需要增加 mut：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> x <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> x <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>;
 </span></span><span style="display:flex;"><span>x <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>;
 </span></span></code></pre></div><h3 id="基础数据类型">基础数据类型</h3>
 <ul>
@@ -408,7 +408,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>对于 Move trait 的类型，可以使用借用，也可以使用<code>.clone</code>深拷贝出一个对象，进行传参。但是深拷贝是开销很大的，也可以选择使用 Rc 智能指针包裹（见下文）。</p>
 </blockquote>
 <p>那什么是 Drop 呢？回忆一下 java8 的 try-with-resource 语法：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>        <span style="color:#66d9ef">try</span>(InputStream in<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> ByteArrayInputStream(<span style="color:#e6db74">&#34;aaaa&#34;</span>.<span style="color:#a6e22e">getBytes</span>(StandardCharsets.<span style="color:#a6e22e">UTF_8</span>))){
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>        <span style="color:#66d9ef">try</span>(InputStream in<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> ByteArrayInputStream(<span style="color:#e6db74">&#34;aaaa&#34;</span>.<span style="color:#a6e22e">getBytes</span>(StandardCharsets.<span style="color:#a6e22e">UTF_8</span>))){
 </span></span><span style="display:flex;"><span>            <span style="color:#75715e">// doSomeThing...</span>
 </span></span><span style="display:flex;"><span>        }<span style="color:#66d9ef">catch</span> (Throwable e){
 </span></span><span style="display:flex;"><span>            e.<span style="color:#a6e22e">printStackTrace</span>();
@@ -423,12 +423,12 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </ul>
 <p>而上面的所有权体系的基础是，<strong>堆上数据随栈上指针的出栈而释放</strong>，也就是堆上数据的生命周期由他的指针的生命周期决定。但是如果多个指针都用到同一个堆上数据，只要有一个指针没有消亡，堆上数据就不能释放怎么办呢？这时候就要引用计数出马了，就是 Rc&lt;&gt;智能指针。</p>
 <p>我们先看 Rc。对某个数据结构 T，我们可以创建引用计数 Rc，使其有多个所有者。Rc 会把对应的数据结构创建在堆上，我们在第二讲谈到过，堆是唯一可以让动态创建的数据被到处使用的内存。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span><span style="color:#66d9ef">use</span> std::rc::Rc;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span><span style="color:#66d9ef">use</span> std::rc::Rc;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">let</span> a <span style="color:#f92672">=</span> Rc::new(<span style="color:#ae81ff">1</span>);
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>之后，如果想对数据创建更多的所有者，我们可以通过 clone() 来完成。对一个 Rc 结构进行 clone()，不会将其内部的数据复制，只会增加引用计数。而当一个 Rc 结构离开作用域被 drop() 时，也只会减少其引用计数，直到引用计数为零，才会真正清除对应的内存。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span><span style="color:#66d9ef">use</span> std::rc::Rc;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span><span style="color:#66d9ef">use</span> std::rc::Rc;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> a <span style="color:#f92672">=</span> Rc::new(<span style="color:#ae81ff">1</span>);
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> b <span style="color:#f92672">=</span> a.clone();
@@ -438,7 +438,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p><img src="/img/a3510f9b565577bc74bc0dcda0b3e78c.webp" alt=""></p>
 <p>你也许会有疑问：为什么我们生成了对同一块内存的多个所有者，但是，编译器不抱怨所有权冲突呢？</p>
 <p>仔细看这段代码：首先 a 是 Rc::new(1) 的所有者，这毋庸置疑；然后 b 和 c 都调用了 a.clone()，分别得到了一个新的 Rc，所以从编译器的角度，abc 都各自拥有一个 Rc。如果文字你觉得稍微有点绕，看看 Rc 的 clone() 函数的实现，就很清楚了（源代码）：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">clone</span>(<span style="color:#f92672">&amp;</span>self) -&gt; <span style="color:#a6e22e">Rc</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-Rust" data-lang="Rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">clone</span>(<span style="color:#f92672">&amp;</span>self) -&gt; <span style="color:#a6e22e">Rc</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 增加引用计数
 </span></span></span><span style="display:flex;"><span>    self.inner().inc_strong();
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 通过 self.ptr 生成一个新的 Rc 结构
@@ -466,7 +466,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </ol>
 <h3 id="引用和借用">引用和借用</h3>
 <p>上面我们介绍了所有权系统，堆上数据一般都是 Move trait 的，传递这些参数将会移动所有权到新的作用域中。问题来了：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>(){
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>(){
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> s <span style="color:#f92672">=</span> String::from(<span style="color:#e6db74">&#34;string&#34;</span>);
 </span></span><span style="display:flex;"><span>    useString(s);
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">println!</span>{<span style="color:#e6db74">&#34;{}&#34;</span>,s}; <span style="color:#75715e">//这里将报错
@@ -477,7 +477,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// s的所有权移动到这里
 </span></span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>上面的代码报错是符合所有权系统的原则的。如果我们还想使用<code>s</code>,需要改成这样：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>(){
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>(){
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> s <span style="color:#f92672">=</span> String::from(<span style="color:#e6db74">&#34;string&#34;</span>);
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> s<span style="color:#f92672">=</span>useString(s);
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">println!</span>{<span style="color:#e6db74">&#34;{}&#34;</span>,s};
@@ -489,7 +489,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>也即是再把 s 的所有权返回回去。这种代码很傻逼，于是借用的概念就出来了，用引用（&amp;）来表达借用。</p>
 <p>借用允许不获取所有权的情况下使用变量。我们可以这样改造代码：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> s <span style="color:#f92672">=</span> String::from(<span style="color:#e6db74">&#34;string&#34;</span>);
 </span></span><span style="display:flex;"><span>    useString(<span style="color:#f92672">&amp;</span>s);
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">println!</span> {<span style="color:#e6db74">&#34;use {} again&#34;</span>, s};
@@ -506,7 +506,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </ol>
 </blockquote>
 <p>为什么“引用必须总是有效的”？因为引用所指向的数据如果已经被释放，那么就会导致一些错误，这就是“悬垂指针”。“悬垂指针”也是内存安全问题的一种，rust 也致力于在编译器暴露这种问题，他的解决方案就是“生命周期注解参数”：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> s <span style="color:#f92672">=</span> String::from(<span style="color:#e6db74">&#34;string&#34;</span>);
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> sl <span style="color:#f92672">=</span> String::from(<span style="color:#e6db74">&#34;longer string&#34;</span>);
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">println!</span> {<span style="color:#e6db74">&#34;longer is {}&#34;</span>, longest(<span style="color:#f92672">&amp;</span>s,<span style="color:#f92672">&amp;</span>sl)};
@@ -529,7 +529,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <h2 id="pin-和-unpin">Pin 和 Unpin</h2>
 <p><code>Pin&lt;P&lt;T&gt;&gt;</code> 是常见的结构，其中 P 是 T 的指针，比如 <code>Pin&lt;&amp;String&gt;</code> 或 <code>Pin&lt;Box&lt;T&gt;&gt;</code>。Pin 的主要目的是确保 T:!Unpin（<strong>没有实现 Unpin</strong>） 在内存中的位置不会改变，这在自引用结构中非常重要，异步 rust 的 async/await 基于的 generaotr、状态机就包含子引用结构。</p>
 <p>自引用结构：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#75715e">// 这是一个自引用结构（self-referential struct）
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#75715e">// 这是一个自引用结构（self-referential struct）
 </span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">SelfReferential</span> {
 </span></span><span style="display:flex;"><span>    data: String,
 </span></span><span style="display:flex;"><span>    pointer: <span style="color:#f92672">*</span><span style="color:#66d9ef">const</span> String, <span style="color:#75715e">// 指向自己的data字段
@@ -566,7 +566,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <ol>
 <li>变量声明</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> s1 <span style="color:#f92672">=</span> String::from(<span style="color:#e6db74">&#34;Hello&#34;</span>);
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">let</span> s2 <span style="color:#f92672">=</span> s1; <span style="color:#75715e">// s1的所有权转移给了s2，这里发生了move
 </span></span></span><span style="display:flex;"><span>  <span style="color:#75715e">// let s3 = s1; // s1的所有权以及转移走了，不能再move，否则会报错：error[E0382]: use of moved value: `s1`
@@ -574,7 +574,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><ol start="2">
 <li>使用 <code>std::mem::swap</code>等api 传入可变引用</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> x <span style="color:#f92672">=</span> String::from(<span style="color:#e6db74">&#34;xxx&#34;</span>);
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> y <span style="color:#f92672">=</span> String::from(<span style="color:#e6db74">&#34;yyy&#34;</span>);
 </span></span><span style="display:flex;"><span>
@@ -588,7 +588,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>Unpin: 即使被pin住，也可以安全的被移动。从下面的代码看就是，能从Pin中拿到可变引用</p>
 </blockquote>
 <p>于是我们来到 Pin 的标准库定义：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#e6db74">/// A pinned pointer.
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#e6db74">/// A pinned pointer.
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">///
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">/// This is a wrapper around a kind of pointer which makes that pointer &#34;pin&#34; its
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">/// value in place, preventing the value referenced by that pointer from being moved
@@ -621,7 +621,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h2 id="静态链接可执行文件">静态链接可执行文件</h2>
 <p>链接 Linkage 更多的是编译器的概念而不是语言的概念，Rust 直接使用了 gcc 或 msvc 等现成编译器的链接器。因此我们先拿 gcc 的命令来解释下静态链接：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>gcc -static -o main main.c -I/path/to/include -L/path/to/library -lexample
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>gcc -static -o main main.c -I/path/to/include -L/path/to/library -lexample
 </span></span></code></pre></div><p>这里的命令选项解释如下：</p>
 <ul>
 <li><code>-static</code> 是一个 GCC 链接选项，用于指示链接器尽可能使用静态库来构建程序。当使用这个选项时，链接器会尝试将所有程序使用的库以静态库的形式链接进可执行文件，包括 C 标准库（libc）、数学库（libm）等通用库。</li>
@@ -634,25 +634,25 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>参考<a href="https://doc.rust-lang.org/reference/linkage.html#static-and-dynamic-c-runtimes">Rust Linkage: Static and dynamic C runtimes</a>，Rust 的 toolchain 支持动态和静态两种链接方式，可以指定<code>crt-static</code> target feature 来手动配置。大部份 toolchain 默认是动态链接的，musl 的 toolchain 则默认是静态链接。下面就以 <code>x86_64-unknown-linux-gnu</code> 和 <code>x86_64-unknown-linux-musl</code> 两种 linux 上常见的 toolchain 为例介绍如何进行静态链接，并介绍使用 <code>build.rs</code> 让部分库使用静态链接</p>
 <h3 id="x86_64-unknown-linux-gnu">x86_64-unknown-linux-gnu</h3>
 <p>参考<a href="https://doc.rust-lang.org/reference/linkage.html">Linkage - The Rust Reference</a></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>RUSTFLAGS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;-C target-feature=+crt-static&#34;</span> cargo build --release --target x86_64-unknown-linux-gnu
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>RUSTFLAGS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;-C target-feature=+crt-static&#34;</span> cargo build --release --target x86_64-unknown-linux-gnu
 </span></span></code></pre></div><p>注意：</p>
 <ol>
 <li><code>--target x86_64-unknown-linux-gnu</code> 不能省略</li>
 <li>可执行文件在 <code>/target/x86_64-unknown-linux-gnu/release/</code></li>
 </ol>
 <p>如果报错：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/usr/bin/ld: cannot find -lm
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/usr/bin/ld: cannot find -lm
 </span></span><span style="display:flex;"><span>/usr/bin/ld: cannot find -lc
 </span></span></code></pre></div><p>说明系统上缺少了 <code>C</code> 标准库（libc）、数学库（libm）等通用库，安装即可。</p>
 <p>以我的 redhat9 开发机为例，缺失的是 <code>glibc-static</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># search from https://pkgs.org/search/?q=libc.a</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># search from https://pkgs.org/search/?q=libc.a</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># centos 9</span>
 </span></span><span style="display:flex;"><span>dnf --enablerepo<span style="color:#f92672">=</span>crb install glibc-static
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># redhat9</span>
 </span></span><span style="display:flex;"><span>subscription-manager repos --enable codeready-builder-for-rhel-9-x86_64-rpms <span style="color:#75715e"># https://access.redhat.com/articles/4348511</span>
 </span></span><span style="display:flex;"><span>yum install -y glibc-static <span style="color:#75715e"># yum whatprovides &#34;*/libc.a&#34;</span>
 </span></span></code></pre></div><p>以 ubuntu 为例，缺失的是 <code>libc6-dev</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>apt install -y libc6-dev
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>apt install -y libc6-dev
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>$ apt update <span style="color:#f92672">&amp;&amp;</span> apt-get install -y apt-file <span style="color:#f92672">&amp;&amp;</span> apt-file update <span style="color:#f92672">&amp;&amp;</span> apt-file search libc.a | grep <span style="color:#e6db74">&#34;libc6-dev:&#34;</span>
 </span></span><span style="display:flex;"><span>libc6-dev: /usr/lib/x86_64-linux-gnu/libc.a
@@ -666,7 +666,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <ol>
 <li>安装 musl</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cd /var/
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cd /var/
 </span></span><span style="display:flex;"><span>version<span style="color:#f92672">=</span>1.2.5
 </span></span><span style="display:flex;"><span>curl -SsLf  http://musl.libc.org/releases/musl-<span style="color:#e6db74">${</span>version<span style="color:#e6db74">}</span>.tar.gz -o musl-<span style="color:#e6db74">${</span>version<span style="color:#e6db74">}</span>.tar.gz
 </span></span><span style="display:flex;"><span>tar -zxf musl-<span style="color:#e6db74">${</span>version<span style="color:#e6db74">}</span>.tar.gz
@@ -678,22 +678,22 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><ol start="2">
 <li>安装 musl toolchain</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>rustup target add x86_64-unknown-linux-musl
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>rustup target add x86_64-unknown-linux-musl
 </span></span></code></pre></div><ol start="3">
 <li>使用 musl toolchain 编译</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># debug, 可执行文件在target/x86_64-unknown-linux-musl/debug/</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># debug, 可执行文件在target/x86_64-unknown-linux-musl/debug/</span>
 </span></span><span style="display:flex;"><span>cargo build --target x86_64-unknown-linux-musl
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># release，可执行文件在target/x86_64-unknown-linux-musl/release/</span>
 </span></span><span style="display:flex;"><span>cargo build --release --target x86_64-unknown-linux-musl
 </span></span></code></pre></div><h3 id="使用-buildrs-指定静态链接部分库">使用 build.rs 指定静态链接部分库</h3>
 <p>当然，除了全局静态链接，也可以在 <code>build.rs</code> 中指定仅仅静态链接某些库，可以参考 deeplflow agent 的 <a href="https://github.com/deepflowio/deepflow/blob/main/agent/build.rs">build.rs</a>，例如：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#a6e22e">println!</span>(<span style="color:#e6db74">&#34;cargo:rustc-link-lib=static=c&#34;</span>);
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#a6e22e">println!</span>(<span style="color:#e6db74">&#34;cargo:rustc-link-lib=static=c&#34;</span>);
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">println!</span>(<span style="color:#e6db74">&#34;cargo:rustc-link-lib=static=elf&#34;</span>);
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">println!</span>(<span style="color:#e6db74">&#34;cargo:rustc-link-lib=static=m&#34;</span>);
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">println!</span>(<span style="color:#e6db74">&#34;cargo:rustc-link-lib=static=z&#34;</span>);
 </span></span></code></pre></div><p>也可以在 build.rs 中设置库的搜索路径，例如：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> target_env.as_str() <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;musl&#34;</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> target_env.as_str() <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;musl&#34;</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">#[cfg(target_arch = </span><span style="color:#e6db74">&#34;x86_64&#34;</span><span style="color:#75715e">)]</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">println!</span>(<span style="color:#e6db74">&#34;cargo:rustc-link-search=native=/usr/x86_64-linux-musl/lib64&#34;</span>);
 </span></span><span style="display:flex;"><span>
@@ -704,7 +704,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">println!</span>(<span style="color:#e6db74">&#34;cargo:rustc-link-search=native=/usr/lib64&#34;</span>);
 </span></span></code></pre></div><p>其他关于 build.rs 可以参考<a href="https://doc.rust-lang.org/cargo/reference/build-scripts.html">The build script</a></p>
 <p>静态链接部分库也可以成为局部静态链接，举个例子介绍 gcc 怎么做局部静态链接，rustc 可以举一反三:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>gcc -o myprogram myprogram.c -Wl,-Bstatic -lfoo -lbar -Wl,-Bdynamic -lbaz
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>gcc -o myprogram myprogram.c -Wl,-Bstatic -lfoo -lbar -Wl,-Bdynamic -lbaz
 </span></span></code></pre></div><p>这个命令做了以下几点：</p>
 <ul>
 <li><code>-Wl,</code> 前缀是用来告诉 GCC 将后面的选项传递给链接器。</li>

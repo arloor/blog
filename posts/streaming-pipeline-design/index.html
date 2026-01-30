@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -287,14 +287,14 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     <p>一种流式编程的代码</p>
 <p><img src="/img/processTree.png" alt=""></p>
 <h2 id="使用示例">使用示例</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>ProcessTree<span style="color:#f92672">&lt;</span>ThriftSpanList<span style="color:#f92672">&gt;</span> processTree <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ProcessTree<span style="color:#f92672">&lt;&gt;</span>();
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>ProcessTree<span style="color:#f92672">&lt;</span>ThriftSpanList<span style="color:#f92672">&gt;</span> processTree <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ProcessTree<span style="color:#f92672">&lt;&gt;</span>();
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">final</span> Node<span style="color:#f92672">&lt;</span>ThriftSpanList, Set<span style="color:#f92672">&lt;</span>DependencyCell<span style="color:#f92672">&gt;&gt;</span> firstNode <span style="color:#f92672">=</span> processTree.<span style="color:#a6e22e">setFirstNode</span>(sceneProcessor);
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">final</span> Node<span style="color:#f92672">&lt;</span>Set<span style="color:#f92672">&lt;</span>DependencyCell<span style="color:#f92672">&gt;</span>, Void<span style="color:#f92672">&gt;</span> sceneDependencyNode <span style="color:#f92672">=</span> firstNode.<span style="color:#a6e22e">addNext</span>(sceneDependencyProcessor);
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>processTree.<span style="color:#a6e22e">handle</span>(list);
 </span></span></code></pre></div><h2 id="具体代码">具体代码</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ProcessTree</span><span style="color:#f92672">&lt;</span>INPUT<span style="color:#f92672">&gt;</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ProcessTree</span><span style="color:#f92672">&lt;</span>INPUT<span style="color:#f92672">&gt;</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> Way<span style="color:#f92672">&lt;</span>INPUT<span style="color:#f92672">&gt;</span> entryWay;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#f92672">&lt;</span>OUTPUT<span style="color:#f92672">&gt;</span> Node<span style="color:#f92672">&lt;</span>INPUT, OUTPUT<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">setFirstNode</span>(NodeProcessor<span style="color:#f92672">&lt;</span>INPUT, OUTPUT<span style="color:#f92672">&gt;</span> firstNodeProcessor) {
@@ -309,7 +309,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.List;
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.List;
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.concurrent.CopyOnWriteArrayList;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Node</span><span style="color:#f92672">&lt;</span>INPUT, OUTPUT<span style="color:#f92672">&gt;</span> {
@@ -341,10 +341,10 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> nextNode;
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">NodeProcessor</span><span style="color:#f92672">&lt;</span>INPUT, OUTPUT<span style="color:#f92672">&gt;</span> {
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">NodeProcessor</span><span style="color:#f92672">&lt;</span>INPUT, OUTPUT<span style="color:#f92672">&gt;</span> {
 </span></span><span style="display:flex;"><span>    OUTPUT <span style="color:#a6e22e">doProcess</span>(INPUT input);
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Way</span><span style="color:#f92672">&lt;</span>INPUT<span style="color:#f92672">&gt;</span> {
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Way</span><span style="color:#f92672">&lt;</span>INPUT<span style="color:#f92672">&gt;</span> {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> Node<span style="color:#f92672">&lt;</span>INPUT, <span style="color:#f92672">?&gt;</span> destination;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> Node<span style="color:#f92672">&lt;</span>INPUT, <span style="color:#f92672">?&gt;</span> getDestination() {
@@ -361,7 +361,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> com.google.common.collect.ImmutableMap;
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> com.google.common.collect.ImmutableMap;
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.slf4j.Logger;
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.slf4j.LoggerFactory;
 </span></span><span style="display:flex;"><span>

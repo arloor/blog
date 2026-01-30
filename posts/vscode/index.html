@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -383,7 +383,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   </tbody>
 </table>
 <p><strong>macOS</strong>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span><span style="color:#75715e">// 将键绑定放在此文件中以覆盖默认值auto[]
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-json" data-lang="json"><span style="display:flex;"><span><span style="color:#75715e">// 将键绑定放在此文件中以覆盖默认值auto[]
 </span></span></span><span style="display:flex;"><span>[
 </span></span><span style="display:flex;"><span>  {
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;key&#34;</span>: <span style="color:#e6db74">&#34;cmd+m&#34;</span>,
@@ -441,7 +441,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>  }
 </span></span><span style="display:flex;"><span>]
 </span></span></code></pre></div><p><strong>windows</strong>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span><span style="color:#75715e">// 将键绑定放在此文件中以覆盖默认值
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-json" data-lang="json"><span style="display:flex;"><span><span style="color:#75715e">// 将键绑定放在此文件中以覆盖默认值
 </span></span></span><span style="display:flex;"><span>[
 </span></span><span style="display:flex;"><span>  {
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;key&#34;</span>: <span style="color:#e6db74">&#34;ctrl+m&#34;</span>,
@@ -585,23 +585,23 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </ol>
 <h3 id="ssh-到-windows-上使用-wsl-开发">ssh 到 windows 上使用 WSL 开发</h3>
 <p>我的 WSL 工作在镜像网络模式下，所以在设置-远程的配置文件中设置不自动端口转发：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;remote.autoForwardPorts&#34;</span>: <span style="color:#66d9ef">false</span>
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>我有时会 ssh 到 windows 上的 WSL 远程开发，不自动转发也不方便，折衷的方式是在 ssh 的配置文件中增加一个端口转发，从而在 ssh 中实现端口转发，在 wsl 中不端口转发。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>LocalForward <span style="color:#ae81ff">7788</span> 192.168.5.127:7788
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>LocalForward <span style="color:#ae81ff">7788</span> 192.168.5.127:7788
 </span></span></code></pre></div><h3 id="使用-socat-作为-proxycommand用-http-代理连接-ssh-服务器">使用 socat 作为 ProxyCommand，用 http 代理连接 ssh 服务器</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Host *.arloor.*
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Host *.arloor.*
 </span></span><span style="display:flex;"><span>  ProxyCommand socat - PROXY:localhost:%h:%p,proxyport<span style="color:#f92672">=</span><span style="color:#ae81ff">6152</span>
 </span></span></code></pre></div><p>这使用了 surge 进行代理连接。注意，每次增加 vscode 的 ssh 服务器列表时，vscode 都会把 <code>proxyport=6152</code> 改成 <code>proxyport 6152</code>，<strong>需要手动改回来</strong>。</p>
 <p>对应的 surge 规则是：<code>AND,((PROCESS-NAME,*socat*), (DEST-PORT,22), (DOMAIN-KEYWORD,arloor,extended-matching)),家里</code></p>
 <h3 id="ssh-到-macos-上远程开发">ssh 到 macOS 上远程开发</h3>
 <p>要 ssh 到 macOS 上进行远程开发，需要额外的命令：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>xcode-select --install <span style="color:#75715e"># 安装 LLDB.framework</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>xcode-select --install <span style="color:#75715e"># 安装 LLDB.framework</span>
 </span></span><span style="display:flex;"><span>sudo DevToolsSecurity --enable <span style="color:#75715e"># 永久允许Developer Tools Access 附加到其他进程上，以进行debug</span>
 </span></span><span style="display:flex;"><span>sudo security authorizationdb write system.privilege.taskport.debug allow <span style="color:#75715e"># 允许remote-ssh调试进程。解决报错：this is a non-interactive debug session, cannot get permission to debug processes.</span>
 </span></span></code></pre></div><p>其实第三个命令就是对第二个命令的补充。他们操作的都是 rights definition for: system.privilege.taskport.debug。可以执行下面两条命令来验证，可以发现就是打印格式不同，内容是一样的。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo DevToolsSecurity -status -verbose
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo DevToolsSecurity -status -verbose
 </span></span><span style="display:flex;"><span>sudo security authorizationdb read system.privilege.taskport.debug
 </span></span></code></pre></div><p>参考文档：</p>
 <ol>
@@ -609,7 +609,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li><a href="https://github.com/vadimcn/codelldb/issues/1079">Unable to debug after connecting to macOS via &ldquo;Remote - SSH&rdquo; </a> 解决报错：this is a non-interactive debug session, cannot get permission to debug processes.</li>
 </ol>
 <p>如果每次 ssh 到 macOS 都需要输入密码，设置公钥就行：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo ssh-rsa xxxxxxxx not@home &gt; ~/.ssh/authorized_keys
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo ssh-rsa xxxxxxxx not@home &gt; ~/.ssh/authorized_keys
 </span></span></code></pre></div><h2 id="卸载远程服务器-vscode-server">卸载远程服务器 vscode server</h2>
 <blockquote>
 <p><strong>这个比想象的更加常用，因为在大型的项目中，符号跳转经常导致 CPU 占用很高并且无响应</strong></p>
@@ -618,7 +618,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>执行命令 <code>Remote-SSH: Uninstall VS Code Server from Host</code> <strong>不推荐，实测没有卸载干净</strong></li>
 <li>或手动执行</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; /usr/local/bin/killcode <span style="color:#e6db74">&lt;&lt;\EOF
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; /usr/local/bin/killcode <span style="color:#e6db74">&lt;&lt;\EOF
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74"># Kill server processes
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kill -9 $(ps aux | grep vscode-server | grep $USER | grep -v grep | awk &#39;{print $2}&#39;)
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74"># Delete related files and folder
@@ -656,7 +656,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </table>
 <h3 id="运行方式-1使用-codelldb-的-cargo-支持直接-cargo-buildtest">运行方式 1：使用 codelldb 的 cargo 支持直接 cargo build/test</h3>
 <p>只需要一个 <code>launch.json</code> 文件即可。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 使用 IntelliSense 了解相关属性。
 </span></span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 悬停以查看现有属性的描述。
 </span></span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
@@ -706,7 +706,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="运行方式-2tasksjson--launchjson">运行方式 2：tasks.json + launch.json</h3>
 <h4 id="配置默认-build-任务vscodetasksjson">配置默认 build 任务：<code>.vscode/tasks.json</code></h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;version&#34;</span>: <span style="color:#e6db74">&#34;2.0.0&#34;</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;tasks&#34;</span>: [
 </span></span><span style="display:flex;"><span>    {
@@ -729,7 +729,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>  ]
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h4 id="配置调试任务-vscodelaunchjson">配置调试任务 <code>.vscode/launch.json</code></h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 使用 IntelliSense 了解相关属性。
 </span></span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 悬停以查看现有属性的描述。
 </span></span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
@@ -781,13 +781,13 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   </tbody>
 </table>
 <h3 id="settings">settings</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;python.analysis.inlayHints.callArgumentNames&#34;</span>: <span style="color:#e6db74">&#34;all&#34;</span>,
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;python.analysis.inlayHints.callArgumentNames&#34;</span>: <span style="color:#e6db74">&#34;all&#34;</span>,
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;python.analysis.inlayHints.functionReturnTypes&#34;</span>: true,
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;python.analysis.inlayHints.variableTypes&#34;</span>: true,
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;python.analysis.autoFormatStrings&#34;</span>: true,
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;python.languageServer&#34;</span>: <span style="color:#e6db74">&#34;Pylance&#34;</span>
 </span></span></code></pre></div><h3 id="venv">venv</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>python3 -m venv venv
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>python3 -m venv venv
 </span></span><span style="display:flex;"><span>source venv/bin/activate
 </span></span><span style="display:flex;"><span>pip3 install -r requirements.txt
 </span></span></code></pre></div><p>按<code>cmd + shift + p</code>，然后输入<code>select interpreter</code>，最后选择 venv 中的 python 解释器地址即可。</p>
@@ -807,22 +807,22 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>在 zshrc 中手动开启集成 terminal</li>
 </ol>
 <p>Linux 上</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ! grep TERM_PROGRAM ~/.zshrc;<span style="color:#66d9ef">then</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ! grep TERM_PROGRAM ~/.zshrc;<span style="color:#66d9ef">then</span>
 </span></span><span style="display:flex;"><span>  echo <span style="color:#e6db74">&#39;[[ &#34;$TERM_PROGRAM&#34; == &#34;vscode&#34; ]] &amp;&amp; . &#34;$(code --locate-shell-integration-path zsh)&#34;&#39;</span> &gt;&gt; ~/.zshrc
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
 </span></span></code></pre></div><p>MacOS 上：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ! grep TERM_PROGRAM ~/.zshrc;<span style="color:#66d9ef">then</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ! grep TERM_PROGRAM ~/.zshrc;<span style="color:#66d9ef">then</span>
 </span></span><span style="display:flex;"><span>  echo <span style="color:#e6db74">&#39;[[ &#34;$TERM_PROGRAM&#34; == &#34;vscode&#34; ]] &amp;&amp; . &#34;$(/Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code --locate-shell-integration-path zsh)&#34;&#39;</span> &gt;&gt; ~/.zshrc
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
 </span></span></code></pre></div><ol start="3">
 <li>在 windows pwsh 上手动开启集成 terminal</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ($env:TERM_PROGRAM <span style="color:#f92672">-eq</span> <span style="color:#e6db74">&#34;vscode&#34;</span>) { . <span style="color:#e6db74">&#34;</span>$(code --locate-shell-integration-path pwsh)<span style="color:#e6db74">&#34;</span> }
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ($env:TERM_PROGRAM <span style="color:#f92672">-eq</span> <span style="color:#e6db74">&#34;vscode&#34;</span>) { . <span style="color:#e6db74">&#34;</span>$(code --locate-shell-integration-path pwsh)<span style="color:#e6db74">&#34;</span> }
 </span></span></code></pre></div><h2 id="文件自动保存自动格式化">文件自动保存+自动格式化</h2>
 <blockquote>
 <p>files.autoSave 设置成延迟时，自动 format 无效</p>
 </blockquote>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;editor.formatOnSave&#34;</span>: <span style="color:#66d9ef">true</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;files.autoSave&#34;</span>: <span style="color:#e6db74">&#34;onFocusChange&#34;</span>
 </span></span><span style="display:flex;"><span>}
@@ -861,14 +861,14 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   </tbody>
 </table>
 <p>并且为这些插件做了些配置变更：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;gitblame.inlineMessageEnabled&#34;</span>: <span style="color:#66d9ef">true</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;gitblame.inlineMessageFormat&#34;</span>: <span style="color:#e6db74">&#34;${author.name}, (${time.ago}) · ${commit.summary}&#34;</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;git-graph.commitDetailsView.location&#34;</span>: <span style="color:#e6db74">&#34;Docked to Bottom&#34;</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;git-graph.date.format&#34;</span>: <span style="color:#e6db74">&#34;ISO Date &amp; Time&#34;</span>
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h2 id="我的-vscode-配置备份">我的 vscode 配置备份</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;editor.unicodeHighlight.nonBasicASCII&#34;</span>: <span style="color:#66d9ef">false</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;editor.fontSize&#34;</span>: <span style="color:#ae81ff">14</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;editor.fontFamily&#34;</span>: <span style="color:#e6db74">&#34;&#39;JetBrains Mono&#39;, Menlo, Monaco, &#39;Courier New&#39;, monospace&#34;</span>,

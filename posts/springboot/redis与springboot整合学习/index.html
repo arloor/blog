@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -307,7 +307,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>考虑问题如下：用户访问购物车会比较频繁，而且经常更改（比如修改数字）。对于后端的数据来说，也就是读写都很频繁。于是考虑通过redis，来减少对数据库的读写。</p>
 <p>就研究一下怎么使用redis以及整合到springboot中。</p>
 <p>cart数据库的设计如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">DROP</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#66d9ef">IF</span> <span style="color:#66d9ef">EXISTS</span> <span style="color:#f92672">`</span>cart<span style="color:#f92672">`</span>;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">DROP</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#66d9ef">IF</span> <span style="color:#66d9ef">EXISTS</span> <span style="color:#f92672">`</span>cart<span style="color:#f92672">`</span>;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> <span style="color:#f92672">`</span>cart<span style="color:#f92672">`</span> (
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">`</span>uname<span style="color:#f92672">`</span> varchar(<span style="color:#ae81ff">30</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">`</span>pid<span style="color:#f92672">`</span> int(<span style="color:#ae81ff">30</span>) <span style="color:#66d9ef">NOT</span> <span style="color:#66d9ef">NULL</span>,
@@ -325,17 +325,17 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>先留下redis的文档地址<a href="https://redis.io/documentation">redis文档</a></p>
 <h1 id="在centos74安装配置redis409">在centos7.4安装配置redis4.0.9</h1>
 <h2 id="下载解压安装gcc编译">下载、解压、安装gcc、编译</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span> wget http://download.redis.io/releases/redis-4.0.9.tar.gz
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span> wget http://download.redis.io/releases/redis-4.0.9.tar.gz
 </span></span><span style="display:flex;"><span> tar xzf redis-4.0.9.tar.gz
 </span></span><span style="display:flex;"><span> cd redis-4.0.9
 </span></span><span style="display:flex;"><span> yum install gcc
 </span></span><span style="display:flex;"><span> make MALLOC<span style="color:#f92672">=</span>libc
 </span></span></code></pre></div><h2 id="配置path">配置PATH</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>vim /etc/profile.d/custom.sh
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>vim /etc/profile.d/custom.sh
 </span></span><span style="display:flex;"><span><span style="color:#75715e">## 在custome.sh中输入</span>
 </span></span><span style="display:flex;"><span>export  PATH<span style="color:#f92672">=</span>$PATH:/root/redis-4.0.9/src
 </span></span></code></pre></div><p>PATH生效之后（注意要生效，小白别说我坑，可以搜一下这个），输入<code>redis-server</code>会有如下控制台输出：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>                _._                                                  
 </span></span><span style="display:flex;"><span>           _.-<span style="color:#e6db74">``</span>__ <span style="color:#e6db74">&#39;&#39;</span>-._                                             
 </span></span><span style="display:flex;"><span>      _.-<span style="color:#e6db74">``</span>    <span style="color:#e6db74">`</span>.  <span style="color:#e6db74">`</span>_.  <span style="color:#e6db74">&#39;&#39;</span>-._           Redis 4.0.9 <span style="color:#f92672">(</span>00000000/0<span style="color:#f92672">)</span> <span style="color:#ae81ff">64</span> bit
@@ -355,10 +355,10 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">              `-.__.-&#39;</span>                                               
 </span></span></code></pre></div><h2 id="设置服务与开机自动启动">设置服务与开机自动启动</h2>
 <p>修改 redis目录下的redis.conf 如下部分。将<code>daemonize no</code>设置为<code>daemonize yes</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># By default Redis does not run as a daemon. Use &#39;yes&#39; if you need it.</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># By default Redis does not run as a daemon. Use &#39;yes&#39; if you need it.</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Note that Redis will write a pid file in /var/run/redis.pid when daemonized.</span>
 </span></span><span style="display:flex;"><span>daemonize yes
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir /etc/redis
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir /etc/redis
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 复制redis.conf 到 /etc/redis/6379.conf</span>
 </span></span><span style="display:flex;"><span>cp /root/redis-4.0.9/redis.conf /etc/redis/6379.conf
 </span></span><span style="display:flex;"><span>
@@ -368,9 +368,9 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 执行自启动命令</span>
 </span></span><span style="display:flex;"><span>chkconfig redisd on
 </span></span></code></pre></div><p>在执行<code>chkconfig redisd on</code>时报错<code>service redisd does not support chkconfig</code>。解决这个：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>vim /etc/init.d/redisd
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>vim /etc/init.d/redisd
 </span></span></code></pre></div><p>在第一行中加入如下注释：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/sh
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#!/bin/sh
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"># chkconfig:   2345 90 10</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># description:  Redis is a persistent key-value database</span>
 </span></span></code></pre></div><p>这两行的意思时，在运行级别为2、3、4、5时，自动启动redis。启动优先级90、关闭优先级10</p>
@@ -381,7 +381,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <pre tabindex="0"><code>Starting Redis server...
 /etc/init.d/redisd: line 21: /usr/local/bin/redis-server: No such file or directory
 </code></pre><p>跟据报错信息，创建server、cli的软连接（redis-cli的软连接也是需要的）</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ln -s /root/redis-4.0.9/src/redis-server /usr/local/bin/redis-server
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ln -s /root/redis-4.0.9/src/redis-server /usr/local/bin/redis-server
 </span></span><span style="display:flex;"><span>ln -s /root/redis-4.0.9/src/redis-cli /usr/local/bin/redis-cli
 </span></span></code></pre></div><p>再次执行<code>service redisd start</code>，使用<code>ps -aux | grep redis</code>可以看到redis进程的信息，说明配置成功。</p>
 <h2 id="记下没有遇到的坑">记下没有遇到的坑</h2>
@@ -419,12 +419,12 @@ Waiting for Redis to shutdown ...
 <li>用redisTemplate。这种就类似于使用redis-cli终端一样，自己去设置key-value。</li>
 </ul>
 <h2 id="applicationproperties和pomxml">application.properties和pom.xml</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;dependency&gt;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#f92672">&lt;dependency&gt;</span>
 </span></span><span style="display:flex;"><span>	<span style="color:#f92672">&lt;groupId&gt;</span>org.springframework.boot<span style="color:#f92672">&lt;/groupId&gt;</span>
 </span></span><span style="display:flex;"><span>	<span style="color:#f92672">&lt;artifactId&gt;</span>spring-boot-starter-data-redis<span style="color:#f92672">&lt;/artifactId&gt;</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;/dependency&gt;</span>
 </span></span></code></pre></div><p>上面的依赖貌似自动导入了jedis和一个连接池，不是很清楚</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># redis</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># redis</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Redis数据库索引（默认为0）</span>
 </span></span><span style="display:flex;"><span>spring.redis.database<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Redis服务器地址</span>

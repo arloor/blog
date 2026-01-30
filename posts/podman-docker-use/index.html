@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -304,9 +304,10 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li><a href="https://docs.docker.com/engine/install/rhel/#install-using-the-repository">rhel/#install-using-the-repository</a></li>
 <li><a href="https://docs.docker.com/reference/cli/dockerd/#daemon-configuration-file">#daemon-configuration-file</a></li>
 <li><a href="https://about.gitlab.com/blog/2021/01/27/we-need-to-talk-no-proxy/">HTTP 代理环境变量的大小写说明</a></li>
+<li><a href="https://developer.volcengine.com/articles/7132008672707739662">docker-ce 火山引擎镜像</a></li>
 </ul>
 <h3 id="debian12-安装-docker">debian12 安装 docker</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Add Docker&#39;s official GPG key:</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Add Docker&#39;s official GPG key:</span>
 </span></span><span style="display:flex;"><span>apt-get update
 </span></span><span style="display:flex;"><span>apt-get install ca-certificates curl
 </span></span><span style="display:flex;"><span>install -m <span style="color:#ae81ff">0755</span> -d /etc/apt/keyrings
@@ -324,7 +325,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <blockquote>
 <p>相比 Debian12 的区别仅是使用 DEB822 格式的 sources.list 文件</p>
 </blockquote>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Add Docker&#39;s official GPG key:</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Add Docker&#39;s official GPG key:</span>
 </span></span><span style="display:flex;"><span>apt-get update
 </span></span><span style="display:flex;"><span>apt-get install ca-certificates curl
 </span></span><span style="display:flex;"><span>install -m <span style="color:#ae81ff">0755</span> -d /etc/apt/keyrings
@@ -343,13 +344,13 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>apt-get update
 </span></span><span style="display:flex;"><span>apt-get install -y  docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 </span></span></code></pre></div><h3 id="centos-9-安装-docker">centos 9 安装 docker</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>dnf -y install dnf-plugins-core
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>dnf -y install dnf-plugins-core
 </span></span><span style="display:flex;"><span>dnf config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo
 </span></span><span style="display:flex;"><span>dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 </span></span><span style="display:flex;"><span>systemctl enable --now docker
 </span></span></code></pre></div><h3 id="设置-docker-daemon-代理">设置 docker daemon 代理</h3>
 <p>这个是用于 pull 镜像时的代理设置。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p /etc/systemd/system/docker.service.d
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p /etc/systemd/system/docker.service.d
 </span></span><span style="display:flex;"><span>touch /etc/systemd/system/docker.service.d/http-proxy.conf
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ! grep HTTP_PROXY /etc/systemd/system/docker.service.d/http-proxy.conf;
@@ -368,7 +369,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>systemctl show --property<span style="color:#f92672">=</span>Environment docker
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 像这样：Environment=HTTP_PROXY=http://127.0.0.1:8081/ NO_PROXY=localhost,127.0.0.1,docker-registry.so</span>
 </span></span></code></pre></div><p>或者：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p /etc/docker
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p /etc/docker
 </span></span><span style="display:flex;"><span>cat &gt; /etc/docker/daemon.json  <span style="color:#e6db74">&lt;&lt;EOF
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">{
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;proxies&#34;: {
@@ -385,7 +386,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <blockquote>
 <p>注意，这个配置文件中还有其他的配置，例如 docker registry 的账户密码，不建议直接覆盖。</p>
 </blockquote>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p ~/.docker
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p ~/.docker
 </span></span><span style="display:flex;"><span>cat &gt; ~/.docker/config.json <span style="color:#e6db74">&lt;&lt;EOF
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">{
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74"> &#34;proxies&#34;: {
@@ -398,7 +399,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">}
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
 </span></span></code></pre></div><h4 id="单次设置">单次设置</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># build</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># build</span>
 </span></span><span style="display:flex;"><span>docker build --build-arg HTTP_PROXY<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;http://proxy.example.com:3128&#34;</span> . --network<span style="color:#f92672">=</span>host
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># run</span>
 </span></span><span style="display:flex;"><span>docker run --env HTTP_PROXY<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;http://proxy.example.com:3128&#34;</span> redis --network<span style="color:#f92672">=</span>host
@@ -409,7 +410,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </ul>
 <h3 id="删除-podman-build-中途退出的中间镜像">删除 podman build 中途退出的中间镜像</h3>
 <p><a href="https://github.com/containers/podman/issues/7889">https://github.com/containers/podman/issues/7889</a></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>podman ps --all --storage
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>podman ps --all --storage
 </span></span><span style="display:flex;"><span>buildah rm --all
 </span></span><span style="display:flex;"><span>podman rmi -a
 </span></span></code></pre></div><h3 id="设置-podman-cli-的-http-代理设置">设置 podman CLI 的 HTTP 代理设置</h3>
@@ -417,7 +418,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <h3 id="podman-使用-systemd-管理容器">Podman 使用 systemd 管理容器</h3>
 <h4 id="podman-generate-systemd">podman generate systemd</h4>
 <p>参考 <code>man podman-generate-systemd</code> 或 <a href="https://docs.podman.io/en/latest/markdown/podman-generate-systemd.1.html">podman-generate-systemd(1)</a></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>podman run -d <span style="color:#ae81ff">\
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>podman run -d <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span>--pull<span style="color:#f92672">=</span>newer <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span>--name redis <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span>--network host <span style="color:#ae81ff">\
@@ -432,7 +433,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>其中 <code>--pull=newer</code> 表示每次都 pull 镜像，这在使用 <code>latest</code> 镜像时很有用</p>
 <h4 id="qualet-运行">qualet 运行</h4>
 <p>参考<a href="https://docs.podman.io/en/latest/markdown/podman-systemd.unit.5.html">podman-systemd.unit.5</a>或者 <code>man podman-systemd.unit</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; /tmp/proxy.container <span style="color:#e6db74">&lt;&lt;&#39;EOF&#39;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; /tmp/proxy.container <span style="color:#e6db74">&lt;&lt;&#39;EOF&#39;
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[Unit]
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Wants=network-online.target
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">After=network-online.target
@@ -470,7 +471,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <ol>
 <li>启动 <code>Registry:3</code></li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p /etc/distribution
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p /etc/distribution
 </span></span><span style="display:flex;"><span>cat &gt; /etc/distribution/config.yml <span style="color:#e6db74">&lt;&lt;EOF
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">version: 0.1
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">log:
@@ -502,7 +503,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><ol start="2">
 <li>配置 docker daemon</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p /etc/docker
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p /etc/docker
 </span></span><span style="display:flex;"><span>cat &gt; /etc/docker/daemon.json  <span style="color:#e6db74">&lt;&lt;EOF
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">{
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;registry-mirrors&#34;: [&#34;http://ttl.arloor.com:6666&#34;]
@@ -512,7 +513,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><ol start="3">
 <li>配置 podman</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p $HOME/.config/containers
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p $HOME/.config/containers
 </span></span><span style="display:flex;"><span>cat &gt; $HOME/.config/containers/registries.conf<span style="color:#e6db74">&lt;&lt;EOF
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">unqualified-search-registries = [&#34;docker.io&#34;]
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
@@ -524,7 +525,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">insecure = true  # 如果镜像站使用HTTP而非HTTPS，设为true
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
 </span></span></code></pre></div><h2 id="podman-保存密码">podman 保存密码</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>podman login quay.io -u arloor -p <span style="color:#e6db74">${</span>token<span style="color:#e6db74">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>podman login quay.io -u arloor -p <span style="color:#e6db74">${</span>token<span style="color:#e6db74">}</span>
 </span></span><span style="display:flex;"><span>cat /run/user/0/containers/auth.json <span style="color:#75715e">#密码在此</span>
 </span></span><span style="display:flex;"><span>cp /run/user/0/containers/auth.json ~/.config/podman_auth.json
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ! grep REGISTRY_AUTH_FILE ~/.zshrc;<span style="color:#66d9ef">then</span>

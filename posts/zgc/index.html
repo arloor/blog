@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -305,7 +305,7 @@ update-alternatives --config java
 heap_option=&#39;-Xms400m -Xmx400m&#39;
 </code></pre><h2 id="gc日志">GC日志</h2>
 <p><strong>查看gc的关键信息</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">#</span> 简洁版
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">#</span> 简洁版
 </span></span><span style="display:flex;"><span>alias lgc<span style="color:#f92672">=</span><span style="color:#960050;background-color:#1e0010">&#39;</span>grep <span style="color:#f92672">-</span>E <span style="color:#e6db74">&#34;gc,start|gc,phases.*Pause|gc,phases|gc,heap|gc,heap.*Used:.*\)&#34;</span><span style="color:#960050;background-color:#1e0010">&#39;</span>
 </span></span><span style="display:flex;"><span>lgc <span style="color:#f92672">/</span>var<span style="color:#f92672">/</span>log<span style="color:#f92672">/</span>gc.<span style="color:#a6e22e">log</span>
 </span></span><span style="display:flex;"><span>
@@ -317,7 +317,7 @@ heap_option=&#39;-Xms400m -Xmx400m&#39;
 <p><strong>精简GC信息（去除统计信息）</strong></p>
 <pre tabindex="0"><code>cat /opt/proxy/gc.log |grep -v &#34;gc,stats&#34;|grep -v &#34;safepoint&#34;
 </code></pre><p><strong>GC信息统计</strong>：可以定时的打印垃圾收集信息，观察10秒内、10分钟内、10个小时内，从启动到现在的所有统计信息。利用这些统计信息，可以排查定位一些异常点。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>cat <span style="color:#f92672">/</span>opt<span style="color:#f92672">/</span>proxy<span style="color:#f92672">/</span>gc.<span style="color:#a6e22e">log</span><span style="color:#f92672">|</span>grep <span style="color:#f92672">-</span>E <span style="color:#e6db74">&#34;gc,stats&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>cat <span style="color:#f92672">/</span>opt<span style="color:#f92672">/</span>proxy<span style="color:#f92672">/</span>gc.<span style="color:#a6e22e">log</span><span style="color:#f92672">|</span>grep <span style="color:#f92672">-</span>E <span style="color:#e6db74">&#34;gc,stats&#34;</span>
 </span></span></code></pre></div><p>主要关注点已用红线划出：</p>
 <p><img src="/img/ZGC-gc-stats.png" alt=""></p>
 <h2 id="zgc引起的应用停顿原因">ZGC引起的应用停顿原因：</h2>

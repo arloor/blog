@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -287,7 +287,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>在go语言的世界里，内存池有两种，一种是官方的sync.pool——临时对象池；另一种是利用channel实现的自定义内存池。下面将首先介绍这两种内存池的特点。</p>
 <h2 id="1标准库syncpool">1.标准库sync.pool</h2>
 <p>用法很简单，如下所示：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">package</span> main
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">package</span> main
 </span></span><span style="display:flex;"><span> 
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">import</span>(
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -314,7 +314,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </ol>
 <p>以上两点，就是sync.pool最重要的两个特征：细粒度锁、pool中空闲对象在GC时仍然会被清空。</p>
 <p>从我现在的理解来看，细粒度锁是很好的，但是GC时仍然会被回收这个我觉得有点不爽。。应该提供一个可以自定义的回收策略吧，比如定时5分钟这样，下一次GC还是太频繁了。从下面的代码来看，用户也没有办法自己去覆写poolCleanup函数：runtime_registerPoolCleanup由runtime实现，并且是私有防范。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>func <span style="color:#a6e22e">init</span>() {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>func <span style="color:#a6e22e">init</span>() {
 </span></span><span style="display:flex;"><span>	runtime_registerPoolCleanup(poolCleanup)
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
@@ -332,7 +332,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>意思应该是，持有sync.pool的对象不能是短命的对象（一个<a href="https://segmentfault.com/a/1190000016987629">博客</a>有不一样的理解：sync.pool中的对象不能是短命对象，我不认可这个）。我们的内存池是一个全局的资源池，“全局”这个东西的生命周期就是一个进程的开始到消亡，应该是最长的了，使用sync.pool作为我们的内存池，应该是可以的，但我始终不怎么满意GC时，仍然会被回收这个。</p>
 <h2 id="2使用channel机制实现的pool">2.使用channel机制实现的pool</h2>
 <p>我看到好几个使用channel实现的pool，大体如下:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">package</span> bpool
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">package</span> bpool
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">// BytePool implements a leaky pool of []byte in the form of a bounded</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">// channel.</span>

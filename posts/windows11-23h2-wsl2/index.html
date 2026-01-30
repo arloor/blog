@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -361,18 +361,18 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </ol>
 </blockquote>
 <p><strong>关闭虚拟机平台和 Hyper-V 虚拟机监控程序：</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>dism.exe /online /disable-feature /featurename<span style="color:#960050;background-color:#1e0010">:</span>VirtualMachinePlatform /norestart
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>dism.exe /online /disable-feature /featurename<span style="color:#960050;background-color:#1e0010">:</span>VirtualMachinePlatform /norestart
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 其实只要关闭 Microsoft-Hyper-V-Hypervisor 就行了</span>
 </span></span><span style="display:flex;"><span>DISM /Online /Disable-Feature /FeatureName<span style="color:#960050;background-color:#1e0010">:</span>Microsoft-Hyper-V-All /NoRestart
 </span></span><span style="display:flex;"><span>sc.exe config wslservice start= disabled
 </span></span></code></pre></div><p><strong>开启虚拟机平台和 Hyper-V 虚拟机监控程序：</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>dism.exe /online /enable-feature /featurename<span style="color:#960050;background-color:#1e0010">:</span>VirtualMachinePlatform /all /norestart
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>dism.exe /online /enable-feature /featurename<span style="color:#960050;background-color:#1e0010">:</span>VirtualMachinePlatform /all /norestart
 </span></span><span style="display:flex;"><span>DISM /Online /Enable-Feature /All /FeatureName<span style="color:#960050;background-color:#1e0010">:</span>Microsoft-Hyper-V-All /NoRestart
 </span></span><span style="display:flex;"><span>sc.exe config wslservice start= demand
 </span></span></code></pre></div><p><strong>查看所有 windows 功能</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>dism.exe /online /Get-Features
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>dism.exe /online /Get-Features
 </span></span></code></pre></div><h2 id="userprofilewslconfig">%userprofile%/.wslconfig</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[<span style="color:#a6e22e">wsl2</span>]
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[<span style="color:#a6e22e">wsl2</span>]
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># networkingMode=bridged</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># vmSwitch=Home # 此处的名称和指定的虚拟网络交换机一致</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># dhcp=false # 禁用DHCP，在WSL2系统中通过设置Linux的静态IP实现获取IP</span>
@@ -391,12 +391,12 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 开启cgroup v2，用于docker和autoMemoryReclaim = gradual共存</span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">kernelCommandLine</span> = <span style="color:#a6e22e">cgroup_no_v1</span>=<span style="color:#a6e22e">all</span> <span style="color:#a6e22e">systemd</span>.<span style="color:#a6e22e">unified_cgroup_hierarchy</span>=<span style="color:#ae81ff">1</span>
 </span></span></code></pre></div><p>上面的配置启用了自动内存回收，不过仍然可以手动释放 page cache（在 wsl 中执行）：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;sync; echo 3 &gt; /proc/sys/vm/drop_caches; touch /root/drop_caches_last_run&#34;</span> |tee /tmp/drop_caches
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;sync; echo 3 &gt; /proc/sys/vm/drop_caches; touch /root/drop_caches_last_run&#34;</span> |tee /tmp/drop_caches
 </span></span><span style="display:flex;"><span>install /tmp/drop_caches /usr/local/bin/loss
 </span></span><span style="display:flex;"><span>loss
 </span></span></code></pre></div><h2 id="安装-wsl2">安装 WSL2</h2>
 <p>这里使用了 Debian12，因为我不喜欢 Ubuntu 的 Snap，而且 Debian12 的 wsl 发行版支持 ebpf。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 启用VMP 虚拟机平台</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 启用VMP 虚拟机平台</span>
 </span></span><span style="display:flex;"><span>dism.exe /online /enable-feature /featurename<span style="color:#960050;background-color:#1e0010">:</span>VirtualMachinePlatform /all /norestart
 </span></span><span style="display:flex;"><span>echo you may need reboot to take effect
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 启用wslservice</span>
@@ -411,7 +411,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>设置用户名和密码：</p>
 <p><img src="/img/Snipaste_2024-09-21_16-56-02.png" alt=""></p>
 <p>启用 systemd：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ! grep -q <span style="color:#e6db74">&#34;systemd=true&#34;</span> /etc/wsl.conf; <span style="color:#66d9ef">then</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ! grep -q <span style="color:#e6db74">&#34;systemd=true&#34;</span> /etc/wsl.conf; <span style="color:#66d9ef">then</span>
 </span></span><span style="display:flex;"><span>    cat <span style="color:#e6db74">&lt;&lt;EOF | tee /etc/wsl.conf
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[boot]
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">systemd = true
@@ -425,7 +425,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <h2 id="其他设置">其他设置</h2>
 <h3 id="apt-设置代理">apt 设置代理</h3>
 <p>默认安装的 Debian 的默认源是官方源，国内比较慢，直接配置 apt 代理。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ! grep -q Acquire::http::Proxy /etc/apt/apt.conf.d/proxy.conf;<span style="color:#66d9ef">then</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ! grep -q Acquire::http::Proxy /etc/apt/apt.conf.d/proxy.conf;<span style="color:#66d9ef">then</span>
 </span></span><span style="display:flex;"><span>    cat <span style="color:#e6db74">&lt;&lt;EOF | tee /etc/apt/apt.conf.d/proxy.conf
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Acquire::http::Proxy &#34;https://user:passwd@server:port/&#34;;
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Acquire::https::Proxy &#34;https://user:passwd@server:port/&#34;;
@@ -435,7 +435,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
 </span></span></code></pre></div><h3 id="apt-不更新某软件">apt 不更新某软件</h3>
 <p>apt-mark 可以对软件包进行设置（手动/自动）安装标记，也可以用来处理软件包的 dpkg(1) 选中状态，以及列出或过滤拥有某个标记的软件包。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>apt-mark auto – 标记指定软件包为自动安装
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>apt-mark auto – 标记指定软件包为自动安装
 </span></span><span style="display:flex;"><span>apt-mark manual – 标记指定软件包为手动安装
 </span></span><span style="display:flex;"><span>apt-mark minimize-manual – Mark all dependencies of meta packages as automatically installed.
 </span></span><span style="display:flex;"><span>apt-mark hold – 标记指定软件包为保留<span style="color:#f92672">(</span>held back<span style="color:#f92672">)</span>，阻止软件自动更新
@@ -454,7 +454,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><h3 id="git-设置">git 设置</h3>
 <p>由于 wsl 支持 windows 和 linux 的命令互操作，你实际上会有两个 git，一个 wsl 的 git，一个 windows 的 git.exe。</p>
 <p><strong>WSL git 配置</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git config --global core.editor vim
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git config --global core.editor vim
 </span></span><span style="display:flex;"><span>git config --global http.proxy http://127.0.0.1:7890
 </span></span><span style="display:flex;"><span>git config --global https.proxy http://127.0.0.1:7890
 </span></span><span style="display:flex;"><span>git config --global <span style="color:#e6db74">&#34;includeIf.hasconfig:remote.*.url:*://*github.com*/**.path&#34;</span> .gitconfig_github
@@ -471,7 +471,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>git config --global core.autocrlf input
 </span></span></code></pre></div><p><strong>windows git 配置</strong></p>
 <p>wsl 的 git 提交时自动将 crlf 转换为 lf，checkout 时不转成 crlf</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git config --global core.autocrlf input
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git config --global core.autocrlf input
 </span></span></code></pre></div><p>autocrlf 的配置详见<a href="https://git-scm.com/book/en/v2/Customizing-Git-Git-Configuration#_formatting_and_whitespace">git 文档</a></p>
 <p>简单解释就是：</p>
 <ul>
@@ -484,13 +484,13 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p><strong>但是</strong>我的设置成了 windows 上也是 input。</p>
 <p>直接原因是我有很多 shell 脚本，原本 git.exe 的 bash 是可以执行 crlf 的 shell 文件的。安装 wsl 后，bash 被替换为了 Debian 的 bash，不能处理 crlf 的 shell 文件。——我需要 shell 脚本是 lf 的。根本原因，换行符的问题是一个历史遗留问题，是操作系统之间的壁垒。现代的 ide 或者文本编辑器都是跨平台使用的，他们能处理换行符的问题，那么用 vscode，idea 就行了，不要用 windows 的老版文本编辑器了。我已经比较习惯在 linux 处理文本了，vim、grep、awk、sed 等等很爽，wsl 的最大好处就是在 windows 上能用上原生的 bash，那就文本全部 linux 化好了。</p>
 <h3 id="安装-ca-证书">安装 ca 证书</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cp your-certificate.crt /usr/local/share/ca-certificates/
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cp your-certificate.crt /usr/local/share/ca-certificates/
 </span></span><span style="display:flex;"><span>update-ca-certificates
 </span></span></code></pre></div><h2 id="docker-和-podman">docker 和 podman</h2>
 <ul>
 <li>如果你遇到 docker 无法从 Windows 访问的问题。首先确保 docker 版本在 27.3.0 以上，这个版本修复了这个问题，见<a href="https://github.com/moby/moby/pull/48514/files#diff-aa946998315144e84ceffe7bd84918fd8d34183af1cae444ce90e2b620ec8371">[27.x backport] Do not DNAT packets from WSL2&rsquo;s loopback0</a>。如果不能升级 docker 的话，可以在 /etc/docker/daemon.json 里添加一句 &ldquo;iptables&rdquo;: false，然后重启 docker daemon</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;iptables&#34;</span>: <span style="color:#66d9ef">false</span>
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><ul>
@@ -503,7 +503,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </ul>
 <h2 id="内存释放太慢最不满意的一点">内存释放太慢，最不满意的一点</h2>
 <p>即使有了<code>autoMemoryReclaim</code>，任务管理器里看到的 <code>VmmemWSL</code> 还是远大于 wsl 里 top 看到的 res + buffer/cache。即使<code>wsl -t Debian</code> 也不会释放内存，只有<code>wsl --shutdown</code>才可以释放内存。观察到断开所有 wsl 的 terminal 和所有由用户启动的后台进程（不包含 systemd 启动的）都结束后，wsl 会在一段时间后自动 shutdown，此时 VmmemWSL 也会降为 0。但如果有后台进程常驻的话，就不会自动关闭了，这就建议放个 bat 文件在桌面，不用 wsl 的时候就 shutdown 掉吧。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>@echo off
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>@echo off
 </span></span><span style="display:flex;"><span>wsl --shutdown
 </span></span></code></pre></div><p>相关 issue: <a href="https://github.com/microsoft/WSL/issues/4166">WSL 2 consumes massive amounts of RAM and doesn&rsquo;t return it</a></p>
 <p>关于内存回收的问题，找到两个文章：</p>
@@ -531,11 +531,11 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <h2 id="让-wsl-一直在后台运行">让 wsl 一直在后台运行</h2>
 <p><a href="https://www.cnblogs.com/wswind/p/17201979.html">https://www.cnblogs.com/wswind/p/17201979.html</a></p>
 <p><strong>简单方案：</strong> 写个 VBS 脚本，启动 wsl 的 terminal 在后台一直等待输入：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>set ws<span style="color:#f92672">=</span>wscript.CreateObject<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;wscript.shell&#34;</span><span style="color:#f92672">)</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>set ws<span style="color:#f92672">=</span>wscript.CreateObject<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;wscript.shell&#34;</span><span style="color:#f92672">)</span>
 </span></span><span style="display:flex;"><span>ws.run <span style="color:#e6db74">&#34;wsl -d Debian&#34;</span>, <span style="color:#ae81ff">0</span>
 </span></span></code></pre></div><p><strong>进阶方案：</strong> 只启动一个后台进程，即使多次运行该 VBS 脚本：</p>
 <p>keepalive 命令：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; /usr/local/bin/keepalive <span style="color:#e6db74">&lt;&lt;&#39;EOF&#39;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; /usr/local/bin/keepalive <span style="color:#e6db74">&lt;&lt;&#39;EOF&#39;
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">command=&#34;watch -n 30 &#39;uptime |head -n 3 | tee /tmp/uptime&#39;&#34;
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">ps -ef|grep &#34;${command}&#34;|grep -v grep
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">if [ $? -ne 0 ]
@@ -547,16 +547,16 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
 </span></span><span style="display:flex;"><span>chmod +x /usr/local/bin/keepalive
 </span></span></code></pre></div><p>写个 VBS 脚本：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>set ws<span style="color:#f92672">=</span>wscript.CreateObject<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;wscript.shell&#34;</span><span style="color:#f92672">)</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>set ws<span style="color:#f92672">=</span>wscript.CreateObject<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;wscript.shell&#34;</span><span style="color:#f92672">)</span>
 </span></span><span style="display:flex;"><span>ws.run <span style="color:#e6db74">&#34;wsl -d Debian /usr/local/bin/keepalive&#34;</span>, <span style="color:#ae81ff">0</span>
 </span></span></code></pre></div><p>将这个 VBS 脚本的快捷方式放到启动文件夹，这样就可以在开机时自动运行了。启动文件夹在：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>%userprofile%<span style="color:#ae81ff">\A</span>ppData<span style="color:#ae81ff">\R</span>oaming<span style="color:#ae81ff">\M</span>icrosoft<span style="color:#ae81ff">\W</span>indows<span style="color:#ae81ff">\S</span>tart Menu<span style="color:#ae81ff">\P</span>rograms<span style="color:#ae81ff">\S</span>tartup
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>%userprofile%<span style="color:#ae81ff">\A</span>ppData<span style="color:#ae81ff">\R</span>oaming<span style="color:#ae81ff">\M</span>icrosoft<span style="color:#ae81ff">\W</span>indows<span style="color:#ae81ff">\S</span>tart Menu<span style="color:#ae81ff">\P</span>rograms<span style="color:#ae81ff">\S</span>tartup
 </span></span></code></pre></div><p>或者使用 windows 的任务计划程序设置为用户登录时自动运行，参考<a href="https://www.sjdhome.com/blog/post/wsl2-auto-start/">实现 WSL 2 开机免登录自动启动</a>：</p>
 <p><img src="/img/task-scheduler-keep-wsl-1.png" alt="alt text">
 <img src="/img/task-scheduler-keep-wsl-2.png" alt="alt text">
 <img src="/img/task-scheduler-keep-wsl-3.png" alt="alt text"></p>
 <h2 id="卸载发行版">卸载发行版</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bat" data-lang="bat"><span style="display:flex;"><span>wsl --terminate Debian # 停止
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bat" data-lang="bat"><span style="display:flex;"><span>wsl --terminate Debian # 停止
 </span></span><span style="display:flex;"><span>wsl --unregister Debian # 卸载
 </span></span></code></pre></div><h2 id="wsl2-debian12-安装-docker-并配置-daemonjson">WSL2 debian12 安装 docker 并配置 daemon.json</h2>
 <ul>
@@ -564,7 +564,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li><a href="https://docs.docker.com/engine/install/rhel/#install-using-the-repository">rhel/#install-using-the-repository</a></li>
 <li><a href="https://docs.docker.com/reference/cli/dockerd/#daemon-configuration-file">#daemon-configuration-file</a></li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Add Docker&#39;s official GPG key:</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Add Docker&#39;s official GPG key:</span>
 </span></span><span style="display:flex;"><span>apt-get update
 </span></span><span style="display:flex;"><span>apt-get install ca-certificates curl
 </span></span><span style="display:flex;"><span>install -m <span style="color:#ae81ff">0755</span> -d /etc/apt/keyrings
@@ -578,7 +578,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span>  tee /etc/apt/sources.list.d/docker.list &gt; /dev/null
 </span></span><span style="display:flex;"><span>apt-get update
 </span></span><span style="display:flex;"><span>apt-get install -y  docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p /etc/docker
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p /etc/docker
 </span></span><span style="display:flex;"><span>cat &gt; /etc/docker/daemon.json <span style="color:#e6db74">&lt;&lt;EOF
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">{
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;iptables&#34;: false,
@@ -601,7 +601,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </li>
 </ul>
 <p>设置代理的另一种方式：<a href="https://docs.docker.com/engine/daemon/proxy/#daemon-configuration">proxy/#daemon-configuration</a></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p /etc/systemd/system/docker.service.d
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p /etc/systemd/system/docker.service.d
 </span></span><span style="display:flex;"><span>touch /etc/systemd/system/docker.service.d/http-proxy.conf
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ! grep HTTP_PROXY /etc/systemd/system/docker.service.d/http-proxy.conf;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">then</span>
@@ -617,7 +617,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#Verify that the configuration has been loaded:</span>
 </span></span><span style="display:flex;"><span>systemctl show --property<span style="color:#f92672">=</span>Environment docker
 </span></span></code></pre></div><h2 id="wsl2-debian12-安装-openssh-server">WSL2 debian12 安装 openssh-server</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>apt remove -y openssh-server
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>apt remove -y openssh-server
 </span></span><span style="display:flex;"><span>apt install -y openssh-server
 </span></span><span style="display:flex;"><span>mkdir -p /root/.ssh
 </span></span><span style="display:flex;"><span>echo ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDZQzKHfZLlFEdaRUjfSK4twhL0y7+v23Ko4EI1nl6E1/zYqloSZCH3WqQFLGA7gnFlqSAfEHgCdD/4Ubei5a49iG0KSPajS6uPkrB/eiirTaGbe8oRKv2ib4R7ndbwdlkcTBLYFxv8ScfFQv6zBVX3ywZtRCboTxDPSmmrNGb2nhPuFFwnbOX8McQO5N4IkeMVedUlC4w5//xxSU67i1i/7kZlpJxMTXywg8nLlTuysQrJHOSQvYHG9a6TbL/tOrh/zwVFbBS+kx7X1DIRoeC0jHlVJSSwSfw6ESrH9JW71cAvn6x6XjjpGdQZJZxpnR1NTiG4Q5Mog7lCNMJjPtwJ not@home &gt;/root/.ssh/authorized_keys
@@ -632,20 +632,20 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p><img src="/img/winodws11-firewall-setup-222-port.png" alt="alt text"></p>
 <p>然后一路下一步即可。</p>
 <p>或者直接在管理员权限的 powershell 执行：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ps1" data-lang="ps1"><span style="display:flex;"><span>$port=<span style="color:#ae81ff">2222</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ps1" data-lang="ps1"><span style="display:flex;"><span>$port=<span style="color:#ae81ff">2222</span>
 </span></span><span style="display:flex;"><span>New-NetFirewallRule -DisplayName <span style="color:#e6db74">&#34;Allow Port </span>$port<span style="color:#e6db74">&#34;</span> -Direction Inbound -Protocol TCP -LocalPort $port -Action Allow
 </span></span></code></pre></div><p>之后就可以使用 vscode remote-ssh 到 WSL2 上来开发了。具体的 ssh config 如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Host wsl
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Host wsl
 </span></span><span style="display:flex;"><span>  HostName 192.168.xx.xx
 </span></span><span style="display:flex;"><span>  Port <span style="color:#ae81ff">222</span>
 </span></span><span style="display:flex;"><span>  User root
 </span></span></code></pre></div><p>不过因为 wsl2 有 idle 自动关闭的特性，所以从外部 remote-ssh 进来时，需要从外部保活 WSL2。思路是 ssh 到 windows 上（参考<a href="/posts/mac-wakeonlan-windows-11-msi-motherboard/#windows11-%E5%90%AF%E7%94%A8openssh">widnows11 启用 openssh-server</a>），然后执行一个前台命令一直运行，具体命令是：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh windows_user@windows -t wsl
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh windows_user@windows -t wsl
 </span></span></code></pre></div><blockquote>
 <p>以下经过测试无用：</p>
 </blockquote>
 <p>或者设置 powershell 的 profile</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ps1" data-lang="ps1"><span style="display:flex;"><span>$ShortName = @{
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ps1" data-lang="ps1"><span style="display:flex;"><span>$ShortName = @{
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;s&#39;</span> = <span style="color:#e6db74">&#39;Select-Object&#39;</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;g&#39;</span> = <span style="color:#e6db74">&#39;Get-Content&#39;</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;keep&#39;</span> = {
@@ -674,7 +674,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li><a href="https://www.debian.org/releases/trixie/release-notes/upgrading.zh_CN.html">从 Debian 12 （bookworm）升级 </a></li>
 <li><a href="https://gist.github.com/bramtechs/50d724a33d37278d7ca003c6119c8fea">Upgrade Debian 9 (current WSL) to Debian 12 (bookworm testing)</a></li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>apt-get update <span style="color:#f92672">&amp;&amp;</span> apt-get dist-upgrade --autoremove -y
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>apt-get update <span style="color:#f92672">&amp;&amp;</span> apt-get dist-upgrade --autoremove -y
 </span></span><span style="display:flex;"><span>sed -i <span style="color:#e6db74">&#39;s/bookworm/trixie/g&#39;</span> /etc/apt/sources.list
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 假设所有的repo都有了trixie版本，再运行下面的命令。可以通过apt-get update检测是否有trixie版本，如果没有的话，可以改回bookworm版本</span>
 </span></span><span style="display:flex;"><span>find /etc/apt/sources.list.d -type f -exec sed -i <span style="color:#e6db74">&#39;s/bookworm/trixie/g&#39;</span> <span style="color:#f92672">{}</span> <span style="color:#ae81ff">\;</span>
@@ -682,7 +682,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># apt modernize-sources # 不建议执行</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># reboot</span>
 </span></span></code></pre></div><h2 id="将-vhdx-文件移动到-d-盘">将 vhdx 文件移动到 D 盘</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>(Get-ChildItem -Path HKCU<span style="color:#960050;background-color:#1e0010">:</span>\Software\Microsoft\Windows\CurrentVersion\Lxss | Where-Object { $_.GetValue(<span style="color:#e6db74">&#34;DistributionName&#34;</span>) <span style="color:#f92672">-eq</span> <span style="color:#e6db74">&#39;Debian&#39;</span> }).GetValue(<span style="color:#e6db74">&#34;BasePath&#34;</span>) + <span style="color:#e6db74">&#34;\ext4.vhdx&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>(Get-ChildItem -Path HKCU<span style="color:#960050;background-color:#1e0010">:</span>\Software\Microsoft\Windows\CurrentVersion\Lxss | Where-Object { $_.GetValue(<span style="color:#e6db74">&#34;DistributionName&#34;</span>) <span style="color:#f92672">-eq</span> <span style="color:#e6db74">&#39;Debian&#39;</span> }).GetValue(<span style="color:#e6db74">&#34;BasePath&#34;</span>) + <span style="color:#e6db74">&#34;\ext4.vhdx&#34;</span>
 </span></span><span style="display:flex;"><span>wsl -l
 </span></span><span style="display:flex;"><span>wsl --export Debian d://Debian.tar  <span style="color:#75715e"># 导出成tar文件</span>
 </span></span><span style="display:flex;"><span>wsl --unregister Debian <span style="color:#75715e"># 需要先注销原来的发行版</span>
@@ -691,23 +691,23 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 确认vhdx文件位置</span>
 </span></span><span style="display:flex;"><span>(Get-ChildItem -Path HKCU<span style="color:#960050;background-color:#1e0010">:</span>\Software\Microsoft\Windows\CurrentVersion\Lxss | Where-Object { $_.GetValue(<span style="color:#e6db74">&#34;DistributionName&#34;</span>) <span style="color:#f92672">-eq</span> <span style="color:#e6db74">&#39;Debian&#39;</span> }).GetValue(<span style="color:#e6db74">&#34;BasePath&#34;</span>) + <span style="color:#e6db74">&#34;\ext4.vhdx&#34;</span>
 </span></span></code></pre></div><h2 id="安装-rhel10-作为-wsl">安装 rhel10 作为 WSL</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>mkdir D:\redhat
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>mkdir D:\redhat
 </span></span><span style="display:flex;"><span>wsl --import rhel D:\redhat C:\Users\arloor\Downloads\composer-api-8d21250f-6d7f-<span style="color:#ae81ff">4483</span>-8a1e-c79c51929d45-disk.tar.gz
 </span></span><span style="display:flex;"><span>wsl.exe --shutdown
 </span></span><span style="display:flex;"><span>wsl.exe --manage rhel --set-sparse true --allow-unsafe
 </span></span></code></pre></div><h2 id="常见报错解决">常见报错解决</h2>
 <h3 id="0x80070422-wslservice-服务未启动">0x80070422 wslservice 服务未启动</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>无法启动服务，原因可能是已被禁用或与其相关联的设备没有启动。
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>无法启动服务，原因可能是已被禁用或与其相关联的设备没有启动。
 </span></span><span style="display:flex;"><span>Error code: Wsl/0x80070422
 </span></span></code></pre></div><p>解决方案：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bat" data-lang="bat"><span style="display:flex;"><span>sc.exe config wslservice start= demand
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bat" data-lang="bat"><span style="display:flex;"><span>sc.exe config wslservice start= demand
 </span></span></code></pre></div><h3 id="0x8004032d-虚拟机平台功能未启用">0x8004032d 虚拟机平台功能未启用</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bat" data-lang="bat"><span style="display:flex;"><span>WslRegisterDistribution failed with error: 0x8004032d
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bat" data-lang="bat"><span style="display:flex;"><span>WslRegisterDistribution failed with error: 0x8004032d
 </span></span><span style="display:flex;"><span>Error: 0x8004032d (null)
 </span></span></code></pre></div><p>解决方案：在启用和关闭 windows 功能中打开“虚拟机平台”或使用下面的 cmd 命令并重启</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bat" data-lang="bat"><span style="display:flex;"><span>dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bat" data-lang="bat"><span style="display:flex;"><span>dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
 </span></span></code></pre></div><h3 id="端口被占用问题解决">端口被占用问题解决</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bat" data-lang="bat"><span style="display:flex;"><span># 查看当前动态端口范围
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bat" data-lang="bat"><span style="display:flex;"><span># 查看当前动态端口范围
 </span></span><span style="display:flex;"><span>netsh int ipv4 show dynamicport tcp
 </span></span><span style="display:flex;"><span># 查看被使用的端口
 </span></span><span style="display:flex;"><span>netsh int ipv4 show excludedportrange protocol=tcp

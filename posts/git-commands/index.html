@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -302,7 +302,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   <div class="post">
     <h2 id="设置githubcom的用户名">设置github.com的用户名</h2>
 <p>参考<a href="https://git-scm.com/docs/git-config#Documentation/git-config.txt-codehasconfigremoteurlcode">git文档</a>，允许使用标准文件路径匹配（standard globbing wildcards）和<code>/**</code>、<code>**/</code>来定义url的pattern</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git config --global <span style="color:#e6db74">&#34;includeIf.hasconfig:remote.*.url:*://*github.com*/**.path&#34;</span> .gitconfig_github
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git config --global <span style="color:#e6db74">&#34;includeIf.hasconfig:remote.*.url:*://*github.com*/**.path&#34;</span> .gitconfig_github
 </span></span><span style="display:flex;"><span>git config --global <span style="color:#e6db74">&#34;includeIf.hasconfig:remote.*.url:git@github.com:*/**.path&#34;</span> .gitconfig_github
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>cat &gt; ~/.gitconfig_github <span style="color:#e6db74">&lt;&lt;EOF
@@ -313,24 +313,24 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><blockquote>
 <p>可以增加下面的代码来控制内网的git仓库不走全局git代理：</p>
 </blockquote>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>http<span style="color:#f92672">]</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>http<span style="color:#f92672">]</span>
 </span></span><span style="display:flex;"><span>        proxy <span style="color:#f92672">=</span> 
 </span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>https<span style="color:#f92672">]</span>
 </span></span><span style="display:flex;"><span>        proxy <span style="color:#f92672">=</span> 
 </span></span></code></pre></div><h2 id="永久保存git密码">永久保存git密码</h2>
 <h3 id="linuxwindows">Linux/Windows</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git config --global credential.helper store
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git config --global credential.helper store
 </span></span><span style="display:flex;"><span>touch ~/.git-credentials
 </span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;https://arloor:</span><span style="color:#e6db74">${</span>{ github.token <span style="color:#e6db74">}</span><span style="color:#e6db74">}@github.com&#34;</span> &gt;&gt; ~/.git-credentials
 </span></span></code></pre></div><p>当github账号启用了二次验证时，输入的密码请填写自己在github上生成的api key。</p>
 <h3 id="macos">MacOS</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 默认就是，其实不需要显式设置</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 默认就是，其实不需要显式设置</span>
 </span></span><span style="display:flex;"><span>git config --global credential.helper osxkeychain
 </span></span></code></pre></div><p>然后在“钥匙串访问”搜索<code>github.com</code>，双击，可以查看和修改密码。</p>
 <img src="/img/git-credential-osxkeychain-view.png" alt="" width="700px" style="max-width: 100%;">
 
 <h3 id="使用git-config">使用git config</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git config --global url.https://arloor:<span style="color:#e6db74">${</span>{ github.token <span style="color:#e6db74">}</span><span style="color:#f92672">}</span>@github.com/.insteadOf https://github.com/
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git config --global url.https://arloor:<span style="color:#e6db74">${</span>{ github.token <span style="color:#e6db74">}</span><span style="color:#f92672">}</span>@github.com/.insteadOf https://github.com/
 </span></span></code></pre></div><p>这种设置的坏处是token保存在了git config文件中，安全程度可能稍差。但是对于go.mod中依赖了私有库的情况很方便</p>
 <h2 id="修改历史提交中的用户">修改历史提交中的用户</h2>
 <p>比如，你的 <code>commit</code> 历史为 <code>A-B-C-D-E-F</code> ， <code>F</code> 为 <code>HEAD</code> ， 你打算修改 <code>C</code> 和 <code>D</code> 的用户名或邮箱，你需要：</p>
@@ -350,12 +350,12 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </li>
 <li>多次执行以下命令，直至rebase结束</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git commit --amend --author<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;arloor &lt;admin@arloor.com&gt;&#34;</span> --no-edit<span style="color:#f92672">&amp;&amp;</span>git rebase --continue
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git commit --amend --author<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;arloor &lt;admin@arloor.com&gt;&#34;</span> --no-edit<span style="color:#f92672">&amp;&amp;</span>git rebase --continue
 </span></span></code></pre></div><ol start="4">
 <li>如果需要更新到远程仓库， 使用 <code>git push -f</code>（请确保修改的 <code>commit</code> 不会影响其他人）</li>
 </ol>
 <h2 id="统计git仓库中用户代码行">统计git仓库中用户代码行</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; /usr/local/bin/ncode <span style="color:#e6db74">&lt;&lt;\EOF
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; /usr/local/bin/ncode <span style="color:#e6db74">&lt;&lt;\EOF
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[ &#34;$1&#34; = &#34;&#34; ]&amp;&amp;user=&#34;arloor\|刘港欢\|liuganghuan&#34;||user=$1
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">echo ${user}\&#39;s work summary: @$(date)
@@ -373,7 +373,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>chmod +x /usr/local/bin/ncode
 </span></span><span style="display:flex;"><span>ncode arloor
 </span></span></code></pre></div><h2 id="删除git中某一文件的历史">删除git中某一文件的历史</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git filter-branch --tree-filter <span style="color:#e6db74">&#39;rm -rf path/folder&#39;</span> HEAD
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git filter-branch --tree-filter <span style="color:#e6db74">&#39;rm -rf path/folder&#39;</span> HEAD
 </span></span><span style="display:flex;"><span>git filter-branch --tree-filter <span style="color:#e6db74">&#39;rm -f path/file&#39;</span> HEAD
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 也可以指定 检索的 Commit 历史的范围：</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># git filter-branch --tree-filter &#39;rm -rf path/folder&#39; 347ae59..HEAD</span>
@@ -387,22 +387,22 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>git reflog expire --expire<span style="color:#f92672">=</span>now --all
 </span></span><span style="display:flex;"><span>git gc --prune<span style="color:#f92672">=</span>now
 </span></span></code></pre></div><h2 id="打印最后一个提交">打印最后一个提交</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git -P log -1 -p --color
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git -P log -1 -p --color
 </span></span></code></pre></div><h2 id="不再跟踪某个文件">不再跟踪某个文件</h2>
 <p>保持之前的内容，不再提交之后的变更，可以使用下面的命令：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git update-index --assume-unchanged path/to/your/file <span style="color:#75715e"># 假设某文件未变更，从而不加入暂存区</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git update-index --assume-unchanged path/to/your/file <span style="color:#75715e"># 假设某文件未变更，从而不加入暂存区</span>
 </span></span><span style="display:flex;"><span>git ls-files -v | grep <span style="color:#e6db74">&#39;^[a-z]&#39;</span> <span style="color:#75715e"># 查看当前被假设未变更的文件，即以 h 开头的文件</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># git update-index --no-assume-unchanged path/to/your/file # 恢复</span>
 </span></span></code></pre></div><h2 id="将已被追踪的文件删除并加入-gitignore">将已被追踪的文件删除并加入 <code>.gitignore</code></h2>
 <p>比如要在 <code>.gitignore</code> 中增加：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>logs/
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>logs/
 </span></span><span style="display:flex;"><span>data/*.csv
 </span></span></code></pre></div><p>需要执行下面命令删除相关缓存</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git rm -r --cached logs/
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git rm -r --cached logs/
 </span></span><span style="display:flex;"><span>git rm -r --cached data/*.csv
 </span></span></code></pre></div><p>更暴力的也可以：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git rm -r --cached .
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git rm -r --cached .
 </span></span></code></pre></div><p>之后可以 <code>add</code> 和 <code>commit</code></p>
 
   </div>

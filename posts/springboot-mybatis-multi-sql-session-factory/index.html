@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -296,7 +296,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>在yaml文件中配置 <code>spring.datasource.xx</code> ，用来定义datasource，包括driver class、url、用户名、密码等</li>
 <li>在yaml文件中配置 <code>mybatis.xx</code> ，用来修改Mybatis的默认参数。下面是一个例子：</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">spring</span>:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">spring</span>:
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">datasource</span>:
 </span></span><span style="display:flex;"><span>        <span style="color:#f92672">url</span>: <span style="color:#ae81ff">jdbc:mysql://xxxxxx:3306/database?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=true&amp;autoReconnect=true</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#f92672">username</span>: <span style="color:#ae81ff">xxx</span>
@@ -309,7 +309,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">type-handlers-package</span>: <span style="color:#ae81ff">com.arloor.mybatis.typehandler</span> <span style="color:#75715e"># 数据库类型到Java类型的映射</span>
 </span></span></code></pre></div><h3 id="自动装配实现">自动装配实现</h3>
 <p>自动装配的核心类是 <code>MybatisAutoConfiguration</code>，先看这个类上重要的三个注解：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@ConditionalOnSingleCandidate</span>(DataSource.<span style="color:#a6e22e">class</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@ConditionalOnSingleCandidate</span>(DataSource.<span style="color:#a6e22e">class</span>)
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">@EnableConfigurationProperties</span>(MybatisProperties.<span style="color:#a6e22e">class</span>)
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">@AutoConfigureAfter</span>({ DataSourceAutoConfiguration.<span style="color:#a6e22e">class</span>, MybatisLanguageDriverAutoConfiguration.<span style="color:#a6e22e">class</span> })
 </span></span></code></pre></div><table>
@@ -335,7 +335,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   </tbody>
 </table>
 <p>再看 <code>MybatisAutoConfiguration</code> 到底做了啥，截取下其中几个bean定义就很清楚了，直接以一段代码展示吧。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">// 从唯一的或者@Primary的Datasource bean创建SqlSessionFactory bean</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">// 从唯一的或者@Primary的Datasource bean创建SqlSessionFactory bean</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">@Bean</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">@ConditionalOnMissingBean</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> SqlSessionFactory <span style="color:#a6e22e">sqlSessionFactory</span>(DataSource dataSource) <span style="color:#66d9ef">throws</span> Exception
@@ -356,7 +356,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MapperScannerRegistrarNotFoundConfiguration</span> <span style="color:#66d9ef">implements</span> InitializingBean
 </span></span></code></pre></div><h2 id="多数据源配置">多数据源配置</h2>
 <p><code>MapperScan.class</code> 的java Doc就定义了一个完整的数据源——datasource + sqlSessionFactory + MapperScan。而多数据源配置就是多组 datasource + sqlSessionFactory + MapperScan。下面的代码就定义了 <code>com.arloor.one.mapper</code> 走 oneSessionFactory，<code>com.arloor.two.mapper</code> 走 twoSessionFactory。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>  <span style="color:#a6e22e">@Configuration</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>  <span style="color:#a6e22e">@Configuration</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">@MapperScan</span>(value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;com.arloor.one.mapper&#34;</span>, sqlSessionFactoryRef <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;oneSessionFactory&#34;</span>)
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">OneConfig</span> {
 </span></span><span style="display:flex;"><span> 
@@ -404,7 +404,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </ol>
 <h2 id="自定义typehandler">自定义TypeHandler</h2>
 <p>MySQL的字段还是比较简单，Clickhouse就有很多类型了，比如groupArray等等，这种就需要自定义typeHandler了，这里记录下相关代码。需要注意的是，下面代码使用了深拷贝，原因是clickhouse的ResultSet会复用对象（举个例子：A本来是第一行的数据，到第二行变成了第二行的数据）</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> com.arloor.GroupArray;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> com.arloor.GroupArray;
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.ibatis.type.BaseTypeHandler;
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.ibatis.type.JdbcType;
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.ibatis.type.MappedTypes;
@@ -455,7 +455,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> GroupArray(result);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> com.arloor.type.StringArray;
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> com.arloor.type.StringArray;
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.commons.lang3.StringUtils;
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.ibatis.type.BaseTypeHandler;
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.apache.ibatis.type.JdbcType;
@@ -504,9 +504,9 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>其中StringArray类也挺有意思的，大家应该知道Mysql是没有Array类型的，但Clickhouse有该类型。原生的创建array的方式如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>statement.<span style="color:#a6e22e">getConnection</span>().<span style="color:#a6e22e">createArrayOf</span>(<span style="color:#e6db74">&#34;VARCHAR&#34;</span>, item.<span style="color:#a6e22e">getApps</span>().<span style="color:#a6e22e">toArray</span>(<span style="color:#66d9ef">new</span> String<span style="color:#f92672">[</span>0<span style="color:#f92672">]</span>))
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>statement.<span style="color:#a6e22e">getConnection</span>().<span style="color:#a6e22e">createArrayOf</span>(<span style="color:#e6db74">&#34;VARCHAR&#34;</span>, item.<span style="color:#a6e22e">getApps</span>().<span style="color:#a6e22e">toArray</span>(<span style="color:#66d9ef">new</span> String<span style="color:#f92672">[</span>0<span style="color:#f92672">]</span>))
 </span></span></code></pre></div><p>完整代码：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>            <span style="color:#66d9ef">try</span> (Connection connection <span style="color:#f92672">=</span> clickhouseDataSource.<span style="color:#a6e22e">getConnection</span>()) {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>            <span style="color:#66d9ef">try</span> (Connection connection <span style="color:#f92672">=</span> clickhouseDataSource.<span style="color:#a6e22e">getConnection</span>()) {
 </span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">try</span> (PreparedStatement statement <span style="color:#f92672">=</span> connection.<span style="color:#a6e22e">prepareStatement</span>(INSERT_STATEMENT)) {
 </span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">for</span> (TraceIdIndexItem item : buffer.<span style="color:#a6e22e">values</span>()) {
 </span></span><span style="display:flex;"><span>                        statement.<span style="color:#a6e22e">setString</span>(1, item.<span style="color:#a6e22e">getTraceId</span>());
@@ -524,7 +524,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>                }
 </span></span><span style="display:flex;"><span>            }
 </span></span></code></pre></div><p>这里存在的问题是，createArrayOf需要创建连接，性能非常差，在火焰图上可以看出来。因此，自定义了一个StringArray类，并实现了 <code>java.sql.Array</code> 的相关接口，代码如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> java.sql.ResultSet;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> java.sql.ResultSet;
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.sql.SQLException;
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.sql.SQLFeatureNotSupportedException;
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.sql.Types;
@@ -605,7 +605,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 	at com.sun.proxy.$Proxy115.selectAll(Unknown Source)
     ..............
 </code></pre><p>关键方法：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>org.<span style="color:#a6e22e">mybatis</span>.<span style="color:#a6e22e">spring</span>.<span style="color:#a6e22e">SqlSessionFactoryBean</span><span style="color:#960050;background-color:#1e0010">#</span>buildSqlSessionFactory <span style="color:#75715e">// 创建SqlSessionFactory</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>org.<span style="color:#a6e22e">mybatis</span>.<span style="color:#a6e22e">spring</span>.<span style="color:#a6e22e">SqlSessionFactoryBean</span><span style="color:#960050;background-color:#1e0010">#</span>buildSqlSessionFactory <span style="color:#75715e">// 创建SqlSessionFactory</span>
 </span></span><span style="display:flex;"><span>org.<span style="color:#a6e22e">apache</span>.<span style="color:#a6e22e">ibatis</span>.<span style="color:#a6e22e">builder</span>.<span style="color:#a6e22e">xml</span>.<span style="color:#a6e22e">XMLMapperBuilder</span><span style="color:#960050;background-color:#1e0010">#</span>parse <span style="color:#75715e">// 解析xml</span>
 </span></span><span style="display:flex;"><span>org.<span style="color:#a6e22e">apache</span>.<span style="color:#a6e22e">ibatis</span>.<span style="color:#a6e22e">builder</span>.<span style="color:#a6e22e">xml</span>.<span style="color:#a6e22e">XMLMapperBuilder</span><span style="color:#960050;background-color:#1e0010">#</span>configurationElement <span style="color:#75715e">//解析BaseReusltMap 和 sql等</span>
 </span></span></code></pre></div><p><img src="/img/mybaits-sqlsessionfactory-loading.png" alt="Alt text"></p>

@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -294,7 +294,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>首先启用可选功能 openssh server</p>
 <p><img src="/img/winodws11-enable-opensshd.png" alt="alt text"></p>
 <p>然后启动sshd服务，并设置为自动启动，并检查防火墙设置：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ps1" data-lang="ps1"><span style="display:flex;"><span><span style="color:#75715e"># Start the sshd service</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ps1" data-lang="ps1"><span style="display:flex;"><span><span style="color:#75715e"># Start the sshd service</span>
 </span></span><span style="display:flex;"><span>Start-Service sshd
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 设置为开机自启动</span>
 </span></span><span style="display:flex;"><span>Set-Service -Name sshd -StartupType <span style="color:#e6db74">&#39;Automatic&#39;</span>
@@ -308,12 +308,12 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 设置默认shell为powershell</span>
 </span></span><span style="display:flex;"><span>New-ItemProperty -Path <span style="color:#e6db74">&#34;HKLM:\SOFTWARE\OpenSSH&#34;</span> -Name DefaultShell -Value <span style="color:#e6db74">&#34;C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe&#34;</span> -PropertyType String -Force
 </span></span></code></pre></div><p>配置sshd_config，位置在 %programdata%\ssh\sshd_config，参考文档：<a href="https://learn.microsoft.com/zh-cn/windows-server/administration/OpenSSH/openssh-server-configuration">OpenSSH Server configuration for Windows Server and Windows</a>，主要修改下面两个配置：就是强制使用公钥登录</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>PubkeyAuthentication yes
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>PubkeyAuthentication yes
 </span></span><span style="display:flex;"><span>PasswordAuthentication no
 </span></span></code></pre></div><p>然后重启sshd服务，让配置生效。</p>
 <p>在windows上保存公钥: 如果是系统管理员账户（一般第一个账户都是系统管理员账户），则在 <code>%programdata%/ssh/administrators_authorized_keys</code> 中保存公钥，如果是普通用户，则在 <code>%userprofile%/.ssh/authorized_keys</code> 中保存公钥。</p>
 <h2 id="设置powershell默认http代理">设置powershell默认http代理</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ps1" data-lang="ps1"><span style="display:flex;"><span><span style="color:#75715e"># 确保允许执行脚本</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ps1" data-lang="ps1"><span style="display:flex;"><span><span style="color:#75715e"># 确保允许执行脚本</span>
 </span></span><span style="display:flex;"><span>Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 按需创建powershell的profile文件</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (<span style="color:#f92672">-not</span> (Test-Path -Path $PROFILE)) {
@@ -336,7 +336,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 或者用：Add-Content -Path $PROFILE -Encoding UTF8</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 这个是追加</span>
 </span></span></code></pre></div><p>最后C:\Users\arloor\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1内容是：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ps1" data-lang="ps1"><span style="display:flex;"><span><span style="color:#75715e"># 设置系统代理</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ps1" data-lang="ps1"><span style="display:flex;"><span><span style="color:#75715e"># 设置系统代理</span>
 </span></span><span style="display:flex;"><span>$proxy = <span style="color:#e6db74">&#34;http://127.0.0.1:7890&#34;</span>  <span style="color:#75715e"># 你的代理地址和端口</span>
 </span></span><span style="display:flex;"><span>$env:HTTP_PROXY = $proxy
 </span></span><span style="display:flex;"><span>$env:HTTPS_PROXY = $proxy

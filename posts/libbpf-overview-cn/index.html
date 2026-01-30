@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -336,14 +336,14 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>为了使BPF程序可移植，libbpf依赖于运行内核的BTF类型信息。内核还通过sysfs在/sys/kernel/btf/vmlinux暴露了这种自描述的权威BTF信息。</p>
 <p>You can generate the BTF information for the running kernel with the following command:</p>
 <p>你可以使用以下命令为运行的内核生成BTF信息：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bpftool btf dump file /sys/kernel/btf/vmlinux format c &gt; vmlinux.h
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bpftool btf dump file /sys/kernel/btf/vmlinux format c &gt; vmlinux.h
 </span></span></code></pre></div><p>The command generates a vmlinux.h header file with all kernel types (BTF types) that the running kernel uses. Including vmlinux.h in your BPF program eliminates dependency on system-wide kernel headers.</p>
 <p>这个命令生成一个vmlinux.h头文件，其中包含运行内核使用的所有BPF Type Format（BTF类型）。在BPF程序中include vmlinux.h文件可以消除对系统范围内内核头文件的依赖。</p>
 <p>libbpf enables portability of BPF programs by looking at the BPF program’s recorded BTF type and relocation information and matching them to BTF information (vmlinux) provided by the running kernel. libbpf then resolves and matches all the types and fields, and updates necessary offsets and other relocatable data to ensure that BPF program’s logic functions correctly for a specific kernel on the host. BPF CO-RE concept thus eliminates overhead associated with BPF development and allows developers to write portable BPF applications without modifications and runtime source code compilation on the target machine.</p>
 <p>libbpf通过查看BPF程序记录的BTF类型和重定位信息，并将它们与运行内核提供的BTF信息（vmlinux）进行匹配，从而实现BPF程序的可移植性。然后，libbpf解析和匹配所有类型和字段，并更新必要的偏移量和其他可重定位数据，以确保BPF程序的逻辑在主机上的特定内核上正确运行。因此，BPF CO-RE概念消除了与BPF开发相关的开销，并允许开发人员编写可移植的BPF应用程序，而无需在目标机器上进行修改和运行时源代码编译。</p>
 <p>The following code snippet shows how to read the parent field of a kernel task_struct using BPF CO-RE and libbf. The basic helper to read a field in a CO-RE relocatable manner is bpf_core_read(dst, sz, src), which will read sz bytes from the field referenced by src into the memory pointed to by dst.</p>
 <p>下面的代码片段显示了如何使用BPF CO-RE和libbf读取内核task_struct的parent字段。以可重定位方式读取struct的field的基础BPF helper是bpf_core_read(dst, sz, src)，它将从src引用的字段中读取sz字节到dst指向的内存中。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">//...
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">//...
 </span></span></span><span style="display:flex;"><span> <span style="color:#66d9ef">struct</span> task_struct <span style="color:#f92672">*</span>task <span style="color:#f92672">=</span> (<span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span>)<span style="color:#a6e22e">bpf_get_current_task</span>();
 </span></span><span style="display:flex;"><span> <span style="color:#66d9ef">struct</span> task_struct <span style="color:#f92672">*</span>parent_task;
 </span></span><span style="display:flex;"><span> <span style="color:#66d9ef">int</span> err;

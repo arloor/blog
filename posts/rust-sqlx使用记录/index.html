@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -304,7 +304,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   <div class="post">
     <h2 id="依赖">依赖</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span><span style="color:#a6e22e">sqlx</span> = { <span style="color:#a6e22e">version</span> = <span style="color:#e6db74">&#34;0.8.2&#34;</span>, <span style="color:#a6e22e">features</span> = [
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span><span style="color:#a6e22e">sqlx</span> = { <span style="color:#a6e22e">version</span> = <span style="color:#e6db74">&#34;0.8.2&#34;</span>, <span style="color:#a6e22e">features</span> = [
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;mysql&#34;</span>,
 </span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;runtime-tokio-rustls&#34;</span>, <span style="color:#75715e"># 使用rustls而不是native-tls</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e"># &#34;runtime-tokio-native-tls&#34;,</span>
@@ -313,7 +313,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>] }
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">sqlx-mysql</span> = <span style="color:#e6db74">&#34;0.8.2&#34;</span> <span style="color:#75715e"># mysql驱动</span>
 </span></span></code></pre></div><h2 id="代码生成">代码生成</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> rows <span style="color:#f92672">=</span> sqlx::<span style="color:#a6e22e">query!</span>(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#34;show variables like &#39;%time_zone%&#39;;&#34;</span>)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> rows <span style="color:#f92672">=</span> sqlx::<span style="color:#a6e22e">query!</span>(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#34;show variables like &#39;%time_zone%&#39;;&#34;</span>)
 </span></span><span style="display:flex;"><span>    .fetch_all(<span style="color:#f92672">&amp;</span>pool)
 </span></span><span style="display:flex;"><span>    .<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
 </span></span></code></pre></div><p>上面的 <code>sqlx::query!</code> 查询宏自动生成了 sql 结果集对应的 <code>Rust struct</code>。这在编译期实现，因此可以在编译期确保你的 rust 代码和数据库表字段类型正确对应。又分为 <code>online</code> 代码生成和 <code>offline</code> 代码生成。</p>
@@ -351,7 +351,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <ol>
 <li>首先安装 sqlx-cli: 这里仅激活了 rustls 和 mysql 驱动的 feature</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cargo install sqlx-cli --no-default-features --features rustls,mysql
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cargo install sqlx-cli --no-default-features --features rustls,mysql
 </span></span></code></pre></div><ol start="2">
 <li>
 <p>设置 <code>DATABASE_URL</code> 环境变量，方式同上</p>
@@ -360,15 +360,15 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>最后执行下面的命令:</p>
 </li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cargo sqlx prepare
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cargo sqlx prepare
 </span></span></code></pre></div><p>此时，会生成 <code>.sqlx</code> 文件夹，其中保存了缓存信息。这种方式的好处是，不需要将 <code>.env</code> 提交到代码仓库。</p>
 <h4 id="强制使用-offline-缓存">强制使用 offline 缓存</h4>
 <p>在既有 <code>DATABASE_URL</code> 环境变量又有 <code>.sqlx</code> 文件夹的情况下，sqlx 会优先使用 <code>DATABASE_URL</code> 环境变量进行 online 代码生成，从而确保代码是最新的。</p>
 <p>如果要强制使用<code>.sqlx</code> 文件夹的缓存，则需要在<code>.env</code> 中增加</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>SQLX_OFFLINE<span style="color:#f92672">=</span>true
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>SQLX_OFFLINE<span style="color:#f92672">=</span>true
 </span></span></code></pre></div><h3 id="查询宏-query_as">查询宏 <code>query_as!</code></h3>
 <p>可以自定义 struct ，前提是 struct 需要 <code>derive FromRow</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#75715e">#[derive(sqlx::FromRow)]</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#75715e">#[derive(sqlx::FromRow)]</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">StockRankChangeDB</span> {
 </span></span><span style="display:flex;"><span>    market: String,
 </span></span><span style="display:flex;"><span>    code: String,
@@ -387,13 +387,13 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><h2 id="连接池初始化">连接池初始化</h2>
 <p>创建 MySQL 连接池有两种方式：</p>
 <h3 id="方式一使用连接字符串">方式一：使用连接字符串</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#a6e22e">info!</span>(<span style="color:#e6db74">&#34;connecting to mysql...&#34;</span>);
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#a6e22e">info!</span>(<span style="color:#e6db74">&#34;connecting to mysql...&#34;</span>);
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> pool: <span style="color:#a6e22e">sqlx</span>::Pool<span style="color:#f92672">&lt;</span>sqlx::MySql<span style="color:#f92672">&gt;</span> <span style="color:#f92672">=</span> MySqlPoolOptions::new()
 </span></span><span style="display:flex;"><span>    .max_connections(<span style="color:#ae81ff">20</span>)
 </span></span><span style="display:flex;"><span>    .connect(<span style="color:#e6db74">&#34;mysql://user:password@host:3306/test?ssl-mode=Required&amp;timezone=%2B08:00&#34;</span>) <span style="color:#75715e">// URL 需要 urlencode
 </span></span></span><span style="display:flex;"><span>    .<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
 </span></span></code></pre></div><h3 id="方式二使用配置选项">方式二：使用配置选项</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#a6e22e">info!</span>(<span style="color:#e6db74">&#34;connecting to mysql...&#34;</span>);
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#a6e22e">info!</span>(<span style="color:#e6db74">&#34;connecting to mysql...&#34;</span>);
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> pool: <span style="color:#a6e22e">sqlx</span>::Pool<span style="color:#f92672">&lt;</span>sqlx::MySql<span style="color:#f92672">&gt;</span> <span style="color:#f92672">=</span> MySqlPoolOptions::new()
 </span></span><span style="display:flex;"><span>    .max_connections(<span style="color:#ae81ff">20</span>)
 </span></span><span style="display:flex;"><span>    .connect_with(
@@ -409,7 +409,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><h2 id="查询执行方式">查询执行方式</h2>
 <h3 id="方式一使用连接池中的单个连接">方式一：使用连接池中的单个连接</h3>
 <p>适合需要在同一连接上执行多次查询的场景。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#75715e">// 从连接池获取连接
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#75715e">// 从连接池获取连接
 </span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> conn <span style="color:#f92672">=</span> pool.acquire().<span style="color:#66d9ef">await</span><span style="color:#f92672">?</span>;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">// 执行查询函数
@@ -445,7 +445,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="方式二直接使用连接池">方式二：直接使用连接池</h3>
 <p>适合单次查询，无需保持连接的场景。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> result <span style="color:#f92672">=</span> sqlx::<span style="color:#a6e22e">query!</span>(
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> result <span style="color:#f92672">=</span> sqlx::<span style="color:#a6e22e">query!</span>(
 </span></span><span style="display:flex;"><span>        <span style="color:#e6db74">r</span><span style="color:#e6db74">#&#34;
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        INSERT INTO stock_rank_changes (
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            market, code, name, bankuai, calc_time, current_rank, ten_minute_change,
@@ -489,7 +489,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="方式三手动管理连接生命周期">方式三：手动管理连接生命周期</h3>
 <p>适合需要精确控制连接获取和释放的场景。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">match</span> self.mysql_pool.acquire().<span style="color:#66d9ef">await</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">match</span> self.mysql_pool.acquire().<span style="color:#66d9ef">await</span> {
 </span></span><span style="display:flex;"><span>    Ok(<span style="color:#66d9ef">mut</span> conn) <span style="color:#f92672">=&gt;</span> {
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> result <span style="color:#f92672">=</span> sqlx::<span style="color:#a6e22e">query!</span>(
 </span></span><span style="display:flex;"><span>            <span style="color:#e6db74">r</span><span style="color:#e6db74">#&#34;

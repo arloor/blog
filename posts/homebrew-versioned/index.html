@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -287,7 +287,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   <div class="post">
     <p>需要在mac上安装 clang-format-16，记录下homebrew安装指定版本软件的方法。</p>
 <h2 id="安装homebrew">安装homebrew</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/bin/bash -c <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/bin/bash -c <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">(</span>echo; echo <span style="color:#e6db74">&#39;eval &#34;$(/opt/homebrew/bin/brew shellenv)&#34;&#39;</span><span style="color:#f92672">)</span> &gt;&gt; $HOME/.zprofile
 </span></span><span style="display:flex;"><span>eval <span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>/opt/homebrew/bin/brew shellenv<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
 </span></span></code></pre></div><h2 id="参考文档">参考文档</h2>
@@ -297,7 +297,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </ul>
 <h2 id="安装指定版本的软件">安装指定版本的软件</h2>
 <p>以安装 clang-format-16 为例</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 安装tap homebrew/core（最新版本默认不安装tap homebrew/core，所以需要手动安装</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 安装tap homebrew/core（最新版本默认不安装tap homebrew/core，所以需要手动安装</span>
 </span></span><span style="display:flex;"><span>brew tap homebrew/core --force
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 寻找tap homebrew/core的路径</span>
 </span></span><span style="display:flex;"><span>brew tap-info homebrew/core     
@@ -322,7 +322,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>brew extract --version<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;16.0.6&#39;</span> clang-format $USER/tap
 </span></span><span style="display:flex;"><span>brew install clang-format@16.0.6
 </span></span></code></pre></div><p><code>git log</code> 查到的提交记录也可以到<a href="https://github.com/Homebrew/homebrew-core/commits/master/Formula/c/clang-format.rb">https://github.com/Homebrew/homebrew-core/commits/master/Formula/c/clang-format.rb</a>查看。注意，<code>homebrew-core</code> 在  <code>Aug 15, 2023</code>的这个<a href="https://github.com/Homebrew/homebrew-core/commit/442f9cc511ce6dfe75b96b2c83749d90dde914d2">提交</a> 对所有的Formula都做了次移动，为了包含此提交前的较老的软件版本，<code>git log</code> 的时候需要加上<code>--follow</code>参数：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cd /opt/homebrew/Library/Taps/homebrew/homebrew-core
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cd /opt/homebrew/Library/Taps/homebrew/homebrew-core
 </span></span><span style="display:flex;"><span>git log -p --follow -- Formula/c/clang-format.rb | grep -e ^commit -e <span style="color:#e6db74">&#39;url &#34;http&#39;</span>
 </span></span></code></pre></div><h2 id="附录相关术语">附录：相关术语：</h2>
 <p>详见<a href="https://docs.brew.sh/Manpage">manpage</a></p>
@@ -378,7 +378,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>tap：formula所在的文件夹</li>
 </ul>
 <h2 id="附录homebrew常用命令">附录：homebrew常用命令：</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>brew deps --installed --tree <span style="color:#75715e"># 查看已安装软件的依赖树</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>brew deps --installed --tree <span style="color:#75715e"># 查看已安装软件的依赖树</span>
 </span></span><span style="display:flex;"><span>brew search mysql <span style="color:#75715e"># 搜索软件</span>
 </span></span><span style="display:flex;"><span>brew search <span style="color:#e6db74">&#34;/(^|.+tap.+)go(@|</span>$<span style="color:#e6db74">)/&#34;</span> <span style="color:#75715e"># 使用正则表达式搜索，以搜索golang为例</span>
 </span></span><span style="display:flex;"><span>brew info mysql <span style="color:#75715e"># 查看软件信息</span>

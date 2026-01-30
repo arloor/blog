@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -306,7 +306,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p><a href="https://github.com/libbpf/libbpf-bootstrap">libbpf-bootstrap</a>用git submodule提供了<code>libbpf</code>和<code>bpftool</code> ，避免依赖系统全局的libbpf和bpftool，所以使用libbpf-bootstrap的话，不需要预先在系统中安装2和3。</p>
 <h2 id="libbpf-bootstrap-概览"><strong>Libbpf-bootstrap 概览</strong></h2>
 <p>原文中提到的libbpf-bootstrap的文件树如下，当前已经发生了一些变化，但是不影响我们理解。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ tree
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ tree
 </span></span><span style="display:flex;"><span>.
 </span></span><span style="display:flex;"><span>├── libbpf
 </span></span><span style="display:flex;"><span>│   ├── ...
@@ -345,11 +345,11 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </ol>
 <h2 id="一些备忘">一些备忘</h2>
 <p><strong>libbpf-bootstrap项目初始化</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git submodule update --init --recursive
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git submodule update --init --recursive
 </span></span><span style="display:flex;"><span>yum install -y zlib-devel elfutils-libelf-devel bpftool libbpf
 </span></span><span style="display:flex;"><span>bpftool btf dump file /sys/kernel/btf/vmlinux format c &gt; ./vmlinux.h
 </span></span></code></pre></div><p><strong>寻找libc的动态库，用于uprobe</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ find / -name libc.so.6 
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ find / -name libc.so.6 
 </span></span><span style="display:flex;"><span>/var/lib/containers/storage/overlay/de102d108aeda5726e7c2794014f5c49caa079542e29c15d0f9dbb9ed9280fc1/diff/usr/lib64/libc.so.6
 </span></span><span style="display:flex;"><span>/var/lib/containers/storage/overlay/c34512f6bae849adb22b5cf34a4f42e8054431ca488cd754020c09a7664dbf46/merged/usr/lib64/libc.so.6
 </span></span><span style="display:flex;"><span>/usr/lib64/libc.so.6

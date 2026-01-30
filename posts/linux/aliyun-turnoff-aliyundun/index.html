@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -294,13 +294,13 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p><strong>基本信息-防御状态</strong></p>
 <p><img src="/img/aliyun-close-client-self-protection.png" alt="alt text"></p>
 <p>然后在机器上执行以下命令：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget <span style="color:#e6db74">&#34;http://update2.aegis.aliyun.com/download/uninstall.sh&#34;</span> <span style="color:#f92672">&amp;&amp;</span> chmod +x uninstall.sh <span style="color:#f92672">&amp;&amp;</span> ./uninstall.sh
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget <span style="color:#e6db74">&#34;http://update2.aegis.aliyun.com/download/uninstall.sh&#34;</span> <span style="color:#f92672">&amp;&amp;</span> chmod +x uninstall.sh <span style="color:#f92672">&amp;&amp;</span> ./uninstall.sh
 </span></span></code></pre></div><h2 id="卸载云监控c版本插件">卸载云监控C++版本插件</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bash /usr/local/cloudmonitor/cloudmonitorCtl.sh stop
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bash /usr/local/cloudmonitor/cloudmonitorCtl.sh stop
 </span></span><span style="display:flex;"><span>bash /usr/local/cloudmonitor/cloudmonitorCtl.sh uninstall
 </span></span><span style="display:flex;"><span>rm -rf /usr/local/cloudmonitor
 </span></span></code></pre></div><h2 id="卸载云助手命令执行工具">卸载云助手（命令执行工具）</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 停止并卸载云助手守护进程</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 停止并卸载云助手守护进程</span>
 </span></span><span style="display:flex;"><span>/usr/local/share/assist-daemon/assist_daemon --stop
 </span></span><span style="display:flex;"><span>/usr/local/share/assist-daemon/assist_daemon --delete
 </span></span><span style="display:flex;"><span>rm -rf /usr/local/share/assist-daemon
@@ -309,7 +309,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 删除文件</span>
 </span></span><span style="display:flex;"><span>rm -rf /usr/local/share/aliyun-assist
 </span></span></code></pre></div><h2 id="一键脚本">一键脚本</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bash &lt;<span style="color:#f92672">(</span>curl -SsLf https://us.arloor.dev/https://gist.githubusercontent.com/arloor/f1414882b9bcb003c15f58e92be43606/raw/uninstall_aliyundun.sh<span style="color:#f92672">)</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bash &lt;<span style="color:#f92672">(</span>curl -SsLf https://us.arloor.dev/https://gist.githubusercontent.com/arloor/f1414882b9bcb003c15f58e92be43606/raw/uninstall_aliyundun.sh<span style="color:#f92672">)</span>
 </span></span></code></pre></div><p>注意，此脚本仍然需要在阿里云云安全中心关闭自保护功能。</p>
 <h2 id="参考文档">参考文档</h2>
 <ul>
@@ -318,7 +318,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li><a href="https://help.aliyun.com/zh/ecs/user-guide/start-stop-or-uninstall-the-cloud-assistant-agent?spm=a2c4g.11186623.0.0.6f5055e0LThgs9#section-o45-6j5-x5m">卸载云助手Agent（Linux实例）</a></li>
 </ul>
 <h2 id="腾讯云卸载内置监控">腾讯云卸载内置监控</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#命令执行云镜、云监控卸载命令：</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#命令执行云镜、云监控卸载命令：</span>
 </span></span><span style="display:flex;"><span>/usr/local/qcloud/YunJing/uninst.sh
 </span></span><span style="display:flex;"><span>/usr/local/qcloud/stargate/admin/uninstall.sh
 </span></span><span style="display:flex;"><span>/usr/local/qcloud/monitor/barad/admin/uninstall.sh
@@ -327,10 +327,10 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#最后清理一下 /etc/rc.local 文件，将里面含qcloud的行全部删掉。</span>
 </span></span><span style="display:flex;"><span>sed -i <span style="color:#e6db74">&#39;/.*qcloud.*/d&#39;</span> /etc/rc.local
 </span></span></code></pre></div><h2 id="腾讯云卸载自动化助手">腾讯云卸载自动化助手</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl disable tat_agent --now
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl disable tat_agent --now
 </span></span><span style="display:flex;"><span>rm -f /etc/systemd/system/tat_agent.service
 </span></span></code></pre></div><p>安装</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo wget -qO - https://tat-1258344699.cos-internal.accelerate.tencentcos.cn/tat_agent/tat_agent_installer.sh | sudo sh
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo wget -qO - https://tat-1258344699.cos-internal.accelerate.tencentcos.cn/tat_agent/tat_agent_installer.sh | sudo sh
 </span></span></code></pre></div>
   </div>
   

@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -369,7 +369,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>注意google play service是没有图标的，所以安装成功之后也是看不到google play service的图标的，不要误以为是安装失败了。</p>
 <h2 id="安装google-play-store">安装google play store</h2>
 <p>跟上面的操作一样，在apkmirror搜索google play store，或者点此<a href="https://www.apkmirror.com/?post_type=app_release&amp;searchtype=apk&amp;s=google+play+store">直达链接</a>，然后下载apk安装即可，注意下载带<code>[0]</code>的apk，其他版本是给手表和电视用的。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>App Notes:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>App Notes:
 </span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>0<span style="color:#f92672">]</span> - For all devices.
 </span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>5<span style="color:#f92672">]</span> - For Android Wear devices
 </span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>8<span style="color:#f92672">]</span> - For Android TV devices.
@@ -381,7 +381,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>尽管很多国行手机支持直接安装谷歌框架，但往往安装的是国行谷歌框架，其对应的地址是 services.googleapis.cn，在国内该地址会被解析到不支持 Play 商店的 IP 上（因为域名以 .cn 结尾，因此大部分规则都会让该地址走直连</p>
 </blockquote>
 <p>解决方案也比较简单，让<code>services.googleapis.cn</code>走代理即可，比如clash规则中添加：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span>- <span style="color:#ae81ff">DOMAIN-SUFFIX,services.googleapis.cn</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span>- <span style="color:#ae81ff">DOMAIN-SUFFIX,services.googleapis.cn</span>
 </span></span></code></pre></div><h2 id="鸿蒙420版本安装google三件套">鸿蒙4.20版本安装google三件套</h2>
 <p>我的P50 Pro使用该方案完美安装，所以推荐大家看下：</p>
 

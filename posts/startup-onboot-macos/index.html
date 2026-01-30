@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -335,7 +335,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li><a href="https://www.launchd.info/">Launchd.info</a></li>
 </ol>
 <p>下面是一个示例 plist 文件：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">&lt;!DOCTYPE plist PUBLIC &#34;-//Apple//DTD PLIST 1.0//EN&#34; &#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&#34;&gt;</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;plist</span> <span style="color:#a6e22e">version=</span><span style="color:#e6db74">&#34;1.0&#34;</span><span style="color:#f92672">&gt;</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;dict&gt;</span>
@@ -452,7 +452,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>我们主要通过 <code>RunAtLoad = True</code> 实现开机自启，建议任何自定义 plist 都设置 <code>RunAtLoad = True</code>。</p>
 <h2 id="服务管理脚本">服务管理脚本</h2>
 <p>这里提供一个脚本用于启动和停止 LaunchAgent/LaunchDaemon 服务，效果类似于 Linux 上的 systemctl：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#! /bin/bash
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#! /bin/bash
 </span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>sub_command<span style="color:#f92672">=</span>
 </span></span><span style="display:flex;"><span>service_name<span style="color:#f92672">=</span>
@@ -553,7 +553,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>        ;;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">esac</span>
 </span></span></code></pre></div><p>把这个脚本命名成 <code>systemctl</code>，那你就可以：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl enable com.arloor.sslocal  <span style="color:#75715e"># 设置开机自启并立即启动</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl enable com.arloor.sslocal  <span style="color:#75715e"># 设置开机自启并立即启动</span>
 </span></span><span style="display:flex;"><span>systemctl disable com.arloor.sslocal <span style="color:#75715e"># 停止进程并取消开机自启</span>
 </span></span><span style="display:flex;"><span>systemctl start com.arloor.sslocal   <span style="color:#75715e"># 启动（不改变开机自启设置）</span>
 </span></span><span style="display:flex;"><span>systemctl stop com.arloor.sslocal    <span style="color:#75715e"># 停止进程（不改变开机自启设置）</span>
@@ -619,12 +619,12 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </blockquote>
 <h2 id="服务禁用数据库清理">服务禁用数据库清理</h2>
 <p>LaunchAgents/LaunchDaemons 是否被 disable 存储在单独的文件中。由于 MacOS 不会自动删除 plist 已经被删除的 LaunchAgents/LaunchDaemons。这导致<code>launchctl print-disabled gui/$(id -u)</code>时会看到一些无效的项目。如果想手动删除这些项目，需要先在恢复模式（开机时按住 ⌘R）关闭安全模式，然后才能通过 vim 修改。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># LaunchAgents</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># LaunchAgents</span>
 </span></span><span style="display:flex;"><span>/private/var/db/com.apple.xpc.launchd/disabled.<span style="color:#66d9ef">$(</span>id -u<span style="color:#66d9ef">)</span>.plist
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># LaunchDaemons</span>
 </span></span><span style="display:flex;"><span>/private/var/db/com.apple.xpc.launchd/disabled.plist
 </span></span></code></pre></div><p>或者直接在恢复模式使用 PlistBuddy 删除</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 删除 LaunchAgents 禁用项</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 删除 LaunchAgents 禁用项</span>
 </span></span><span style="display:flex;"><span>/usr/libexec/Plistbuddy <span style="color:#e6db74">&#34;/Volumes/{系统卷名称}/var/db/com.apple.xpc.launchd/disabled.{用户ID}.plist&#34;</span> -c Delete:<span style="color:#f92672">{</span>Label<span style="color:#f92672">}</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 删除 LaunchDaemons 禁用项</span>
 </span></span><span style="display:flex;"><span>/usr/libexec/Plistbuddy <span style="color:#e6db74">&#34;/Volumes/{系统卷名称}/var/db/com.apple.xpc.launchd/disabled.plist&#34;</span> -c Delete:<span style="color:#f92672">{</span>Label<span style="color:#f92672">}</span>
@@ -635,7 +635,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <ol>
 <li>新建 <code>/Library/LaunchDaemons/limit.maxfiles.plist</code> 文件，写入</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
 </span></span><span style="display:flex;"><span> <span style="color:#75715e">&lt;!DOCTYPE plist PUBLIC &#34;-//Apple//DTD PLIST 1.0//EN&#34;
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">         &#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&#34;&gt;</span>
 </span></span><span style="display:flex;"><span> <span style="color:#f92672">&lt;plist</span> <span style="color:#a6e22e">version=</span><span style="color:#e6db74">&#34;1.0&#34;</span><span style="color:#f92672">&gt;</span>
@@ -657,20 +657,20 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><ol start="2">
 <li>修改文件权限</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo chown root:wheel /Library/LaunchDaemons/limit.maxfiles.plist
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo chown root:wheel /Library/LaunchDaemons/limit.maxfiles.plist
 </span></span><span style="display:flex;"><span>sudo chmod <span style="color:#ae81ff">644</span> /Library/LaunchDaemons/limit.maxfiles.plist
 </span></span></code></pre></div><ol start="3">
 <li>加载 plist 文件(或重启系统后生效 launchd 在启动时会自动加载该目录的 plist)</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo systemctl enable limit.maxfiles
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo systemctl enable limit.maxfiles
 </span></span></code></pre></div><ol start="4">
 <li>确认更改后的限制</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>launchctl limit maxfiles
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>launchctl limit maxfiles
 </span></span></code></pre></div><p>详见<a href="https://zidongwudaijun.com/2017/02/max-osx-ulimit/">Mac OS X 下的资源限制</a></p>
 <h2 id="macos-定时任务">macOS 定时任务</h2>
 <p>参考<a href="https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/ScheduledJobs.html">Scheduling Timed Jobs</a></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span><span style="color:#75715e">&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">&lt;!DOCTYPE plist PUBLIC &#34;-//Apple//DTD PLIST 1.0//EN&#34; &#34;http://www.apple.com/DTDs/PropertyList-1.0.dtd&#34;&gt;</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">&lt;plist</span> <span style="color:#a6e22e">version=</span><span style="color:#e6db74">&#34;1.0&#34;</span><span style="color:#f92672">&gt;</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">&lt;dict&gt;</span>

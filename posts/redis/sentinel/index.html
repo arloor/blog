@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -397,7 +397,7 @@ ODWON是客观宕机，即大于等于quorum个sentinel都认为该master宕机�
 </code></pre><p>如果delta为负，或者过大，说明在两次sentinelTimer的执行间隔中，系统时间被异常地修改，时间不再可信，进入TILT模式，只做监控，不做acting</p>
 <p><strong>退出TILT模式</strong></p>
 <p>在handle每个节点的acting部分的开始，都会检查是否在TILT模式中，如果在则判断能否退出。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (sentinel.tilt) {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (sentinel.tilt) {
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">mstime</span>()<span style="color:#f92672">-</span>sentinel.tilt_start_time <span style="color:#f92672">&lt;</span> SENTINEL_TILT_PERIOD) <span style="color:#66d9ef">return</span>;
 </span></span><span style="display:flex;"><span>        sentinel.tilt <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">sentinelEvent</span>(LL_WARNING,<span style="color:#e6db74">&#34;-tilt&#34;</span>,NULL,<span style="color:#e6db74">&#34;#tilt mode exited&#34;</span>);
@@ -462,7 +462,7 @@ master_name,master_ip,master_port,master_config_epoch
 <li>选举leader</li>
 <li>执行failover</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>    <span style="color:#75715e">/* ============== ACTING HALF ============= */</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>    <span style="color:#75715e">/* ============== ACTING HALF ============= */</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* Every kind of instance */</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">sentinelCheckSubjectivelyDown</span>(ri);
 </span></span><span style="display:flex;"><span>
@@ -525,7 +525,7 @@ master_name,master_ip,master_port,master_config_epoch
 </ol>
 <p><strong>sentinelFailoverStateMachine-执行failover的状态机</strong></p>
 <p>该状态机真正调用一些函数来执行failover过程，状态转换如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>    <span style="color:#66d9ef">switch</span>(ri<span style="color:#f92672">-&gt;</span>failover_state) {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>    <span style="color:#66d9ef">switch</span>(ri<span style="color:#f92672">-&gt;</span>failover_state) {
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">case</span> SENTINEL_FAILOVER_STATE_WAIT_START:
 </span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">sentinelFailoverWaitStart</span>(ri);
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">break</span>;
@@ -558,7 +558,7 @@ master_name,master_ip,master_port,master_config_epoch
 <p>这是最后一个部分啦。</p>
 <p>请求成为leader的sentinel将自己的epoch+1，然后携带自己的runid和epoch向其他sentinel发送<code>is-master-down-by-addr</code>。</p>
 <p>其他sentinel会拿着该runid和epoch决定是否把票投给他。其实现在sentinelVoteLeader。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">sentinelVoteLeader</span>(sentinelRedisInstance <span style="color:#f92672">*</span>master, <span style="color:#66d9ef">uint64_t</span> req_epoch, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>req_runid, <span style="color:#66d9ef">uint64_t</span> <span style="color:#f92672">*</span>leader_epoch) {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">sentinelVoteLeader</span>(sentinelRedisInstance <span style="color:#f92672">*</span>master, <span style="color:#66d9ef">uint64_t</span> req_epoch, <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>req_runid, <span style="color:#66d9ef">uint64_t</span> <span style="color:#f92672">*</span>leader_epoch) {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (req_epoch <span style="color:#f92672">&gt;</span> sentinel.current_epoch) {
 </span></span><span style="display:flex;"><span>        sentinel.current_epoch <span style="color:#f92672">=</span> req_epoch;
 </span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">sentinelFlushConfig</span>();

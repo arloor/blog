@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -296,7 +296,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>使用hostPath挂载nginx的目录，展示web网页。</li>
 </ol>
 <h2 id="dockerfile">Dockerfile</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>FROM docker.io/redhat/ubi9-micro:9.2-9
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>FROM docker.io/redhat/ubi9-micro:9.2-9
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 设置时区为上海，ubi9-micro内置了tzdata </span>
 </span></span><span style="display:flex;"><span>RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime <span style="color:#f92672">&amp;&amp;</span> echo <span style="color:#e6db74">&#34;Asia/Shanghai&#34;</span> &gt; /etc/timezone
 </span></span><span style="display:flex;"><span>COPY target/x86_64-unknown-linux-musl/release/rust_http_proxy /
@@ -307,14 +307,14 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li><a href="https://www.51cto.com/article/751174.html">为什么我不再使用Alpine Linux</a></li>
 </ol>
 <p>文中提及的问题在我使用基于busybox的curl镜像radial/busyboxplus:curl时也遇到了：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ curl https://kubernetes.default.svc
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ curl https://kubernetes.default.svc
 </span></span><span style="display:flex;"><span>curl: <span style="color:#f92672">(</span>6<span style="color:#f92672">)</span> Couldn<span style="color:#e6db74">&#39;t resolve host &#39;</span>kubernetes.default.svc<span style="color:#960050;background-color:#1e0010">&#39;</span>
 </span></span></code></pre></div><ol start="3">
 <li><a href="https://catalog.redhat.com/software/containers/ubi9-init/6183297540a2d8e95c82e8bd">ubi9-init</a></li>
 </ol>
 <p>ubi9-init的PID=1的进程为systemd，可以用systemd的方式运行多个进程。推荐用<code>-d</code>在后台运行，<code>-it</code>在前台的方式没有办法通过 <code>ctrl + c</code> 停止容器，因为systemd会忽略正常退出信号，因为这个systemd会。使用例子<a href="https://access.redhat.com/documentation/zh-cn/red_hat_enterprise_linux/8/html/building_running_and_managing_containers/assembly_adding-software-to-a-ubi-container_building-running-and-managing-containers#using-the-ubi-init-images_assembly_adding-software-to-a-ubi-container">ubi8-init加httpd</a></p>
 <h2 id="proxy的manifest">Proxy的manifest</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">apps/v1</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">apps/v1</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">DaemonSet</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">proxy</span>
@@ -390,30 +390,30 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    -----BEGIN RSA PRIVATE KEY-----
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    ........</span>
 </span></span></code></pre></div><p>上面用到了hostPath卷，因为文件夹权限的问题，hostPath卷在容器中只可读，如果要可写，需要调整container的securityContext来赋予特权模式（如下），或者在宿主机上修改文件夹的权限。当然这都不推荐在生产上使用，生产上还是用pvc动态置备比较好。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>        securityContext:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>        securityContext:
 </span></span><span style="display:flex;"><span>          privileged: true
 </span></span></code></pre></div><p>我的那些代理：</p>
 <p><img src="/img/telegram-cloud-photo-size-5-6192798952399681427-y.jpg" alt="Alt text"></p>
 <h2 id="替换镜像仓库为腾讯云的">替换镜像仓库为腾讯云的</h2>
 <p>腾讯云的镜像仓库控制台 <a href="https://console.cloud.tencent.com/tcr/?rid=1">https://console.cloud.tencent.com/tcr/?rid=1</a>。选择广州地区，有个人版可以开通。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>kubectl set image ds/proxy proxy<span style="color:#f92672">=</span>ccr.ccs.tencentyun.com/arloor/rust_http_proxy:17dbb5ef
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>kubectl set image ds/proxy proxy<span style="color:#f92672">=</span>ccr.ccs.tencentyun.com/arloor/rust_http_proxy:17dbb5ef
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># kubectl patch ds proxy --type=&#39;json&#39; -p=&#39;[{&#34;op&#34;: &#34;replace&#34;, &#34;path&#34;: &#34;/spec/template/spec/containers/0/image&#34;, &#34;value&#34;:&#34;ccr.ccs.tencentyun.com/arloor/rust_http_proxy:1.6&#34;}]&#39;</span>
 </span></span><span style="display:flex;"><span>kubectl describe ds proxy|grep Image
 </span></span></code></pre></div><p>接下来DaemonSet会进行滚动更新</p>
 <h2 id="查看pod日志">查看pod日志</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; /data/bin/lo <span style="color:#e6db74">&lt;&lt;\EOF
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; /data/bin/lo <span style="color:#e6db74">&lt;&lt;\EOF
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kubectl get pods  -A -o custom-columns=NAME:.metadata.name,NODE:.spec.nodeName -l app=proxy |awk -v host=$1 &#39;$2==host {print $1}&#39; | xargs -I {} kubectl logs {} -f --tail=50
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
 </span></span><span style="display:flex;"><span>chmod +x /data/bin/lo
 </span></span><span style="display:flex;"><span>lo hk
 </span></span></code></pre></div><p>更暴力，一次性查看所有pod的日志</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; /data/bin/lol <span style="color:#e6db74">&lt;&lt;EOF
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; /data/bin/lol <span style="color:#e6db74">&lt;&lt;EOF
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kubectl logs -l app=proxy -f --max-log-requests 20 --tail=5
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
 </span></span><span style="display:flex;"><span>chmod +x /data/bin/lol
 </span></span><span style="display:flex;"><span>lol
 </span></span></code></pre></div><h2 id="定时更新rust_http_proxy的ssl证书">定时更新rust_http_proxy的ssl证书</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ vim /usr/local/bin/imcert                                               
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ vim /usr/local/bin/imcert                                               
 </span></span><span style="display:flex;"><span>cert<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>sed  <span style="color:#e6db74">&#39;s/^/    /g&#39;</span> /root/.acme.sh/arloor.dev/fullchain.cer<span style="color:#e6db74">`</span>
 </span></span><span style="display:flex;"><span>key<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>sed  <span style="color:#e6db74">&#39;s/^/    /g&#39;</span> /root/.acme.sh/arloor.dev/arloor.dev.key<span style="color:#e6db74">`</span>
 </span></span><span style="display:flex;"><span>
@@ -428,22 +428,22 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  key: |
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">${key}
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ vim /etc/crontab
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ vim /etc/crontab
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">20</span>  <span style="color:#ae81ff">4</span>  *  *  * root  /usr/local/bin/imcert
 </span></span></code></pre></div><h2 id="驱逐coredns到外网的vps"><del>驱逐coredns到外网的VPS</del></h2>
 <blockquote>
 <p>!! 不再需要此操作，因为hostNetwork的dnsPolicy会fallBack到default，也就是使用Host的dns</p>
 </blockquote>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl label node sg161 location<span style="color:#f92672">=</span>out
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl label node sg161 location<span style="color:#f92672">=</span>out
 </span></span><span style="display:flex;"><span>kubectl label node hk101 location<span style="color:#f92672">=</span>out
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#75715e"># p.yaml</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#75715e"># p.yaml</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">spec</span>:
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">replicas</span>: <span style="color:#ae81ff">2</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">template</span>:
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">spec</span>:
 </span></span><span style="display:flex;"><span>      <span style="color:#f92672">nodeSelector</span>: 
 </span></span><span style="display:flex;"><span>        <span style="color:#f92672">location</span>: <span style="color:#ae81ff">out</span>
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl patch deployment coredns -n kube-system --patch-file p.yaml
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl patch deployment coredns -n kube-system --patch-file p.yaml
 </span></span></code></pre></div>
   </div>
   

@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -298,7 +298,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   <div class="post">
     <p>上一篇在阿里云上安装了centos8，现在就开一篇centos8的踩坑记录，还是比较多的。。</p>
 <h2 id="关闭firewalld">关闭firewalld</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>service firewalld stop
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>service firewalld stop
 </span></span><span style="display:flex;"><span>systemctl disable firewalld
 </span></span></code></pre></div><h2 id="关闭selinux">关闭selinux</h2>
 <pre tabindex="0"><code>setenforce 0
@@ -306,7 +306,7 @@ sed -i &#39;s/SELINUX=enforcing/SELINUX=disabled/&#39; /etc/selinux/config
 sestatus
 reboot
 </code></pre><h2 id="测速">测速</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>podman run  --rm --net host --name speedtest docker.io/arloor/speedtest
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>podman run  --rm --net host --name speedtest docker.io/arloor/speedtest
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#打开80端口</span>
 </span></span></code></pre></div><h2 id="启用elrepo">启用elrepo</h2>
 <pre tabindex="0"><code>rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
@@ -321,16 +321,16 @@ yum --enablerepo=elrepo-kernel install -y kernel-ml  #以后升级也是执行�
 <pre tabindex="0"><code>tar -tvf a.tar
 </code></pre><p>v可以省略</p>
 <p><strong>压缩某目录下的某文件（或子目录）</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>tar -zcvf a.tar.gz  -C ~/test somedir
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>tar -zcvf a.tar.gz  -C ~/test somedir
 </span></span></code></pre></div><p>这样就可以压缩<code>~/test</code>目录下的<code>somedir</code>子目录到<code>a.tar.gz</code>中</p>
 <p><strong>注意：</strong> <code>somedir</code>在这种模式下是不能用通配符的</p>
 <p><strong>压缩时排除指定文件</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>tar -zcf ~/test/public.tar.gz -C ~/test --exclude<span style="color:#f92672">=</span>public.tar.gz .
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>tar -zcf ~/test/public.tar.gz -C ~/test --exclude<span style="color:#f92672">=</span>public.tar.gz .
 </span></span></code></pre></div><p><strong>解压缩</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>tar -zxvf a.tar.gz -C targetDir
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>tar -zxvf a.tar.gz -C targetDir
 </span></span></code></pre></div><p>解压到目标文件夹</p>
 <h2 id="安装squid并设置高匿及密码">安装squid并设置高匿及密码</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># squid4.4</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># squid4.4</span>
 </span></span><span style="display:flex;"><span>yum install -y squid
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">##设置密码</span>
@@ -465,7 +465,7 @@ http_access deny !github
 </code></pre><p>这样squid仅仅允许访问github.com了。</p>
 <p><a href="https://my.oschina.net/u/125259/blog/310289">squid的一些命令</a></p>
 <h2 id="安装ss-libev">安装ss-libev</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 安装依赖</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 安装依赖</span>
 </span></span><span style="display:flex;"><span>yum install gcc gettext autoconf libtool automake make pcre-devel asciidoc xmlto c-ares-devel libev-devel -y
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 安装libsodium</span>
 </span></span><span style="display:flex;"><span>libsodium_file<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;libsodium-1.0.17&#34;</span>
@@ -530,7 +530,7 @@ http_access deny !github
 </span></span><span style="display:flex;"><span>systemctl daemon-reload
 </span></span><span style="display:flex;"><span>systemctl start ss
 </span></span></code></pre></div><h2 id="fedora31安装shadowsocks-libev">fedora31安装shadowsocks-libev</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>yum install epel-release -y
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>yum install epel-release -y
 </span></span><span style="display:flex;"><span>yum install gcc gettext autoconf libtool automake make pcre-devel asciidoc xmlto c-ares-devel libev-devel libsodium-devel mbedtls-devel -y
 </span></span><span style="display:flex;"><span>export http_proxy<span style="color:#f92672">=</span>http://localhost:8081
 </span></span><span style="display:flex;"><span>export https_proxy<span style="color:#f92672">=</span>http://localhost:8081
@@ -646,7 +646,7 @@ fi
 </code></pre><p>关闭</p>
 <pre tabindex="0"><code>ps -ef |grep iperf |grep -v grep|awk &#39;{print $2}&#39;|xargs -I {} kill -15 {}
 </code></pre><h2 id="安装旧版本golang并设置不自动更新">安装旧版本golang，并设置不自动更新</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>dnf search golang
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>dnf search golang
 </span></span><span style="display:flex;"><span>dnf list golang --showduplicates
 </span></span><span style="display:flex;"><span>dnf install -y golang-1.16.12-1.module+el8.5.0+13637+960c7771
 </span></span><span style="display:flex;"><span><span style="color:#75715e">## 设置不自动更新golang相关的包</span>

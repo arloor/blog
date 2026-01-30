@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -300,16 +300,16 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <h2 id="常用命令">常用命令</h2>
 <h3 id="查看明文通信内容">查看明文通信内容</h3>
 <p>查看IPv4的到80端口的http协议明文。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>tcpdump  -A -nn -s <span style="color:#ae81ff">0</span> <span style="color:#e6db74">&#39;tcp port 80 and (((ip[2:2] - ((ip[0]&amp;0xf)&lt;&lt;2)) - ((tcp[12]&amp;0xf0)&gt;&gt;2)) != 0)&#39;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>tcpdump  -A -nn -s <span style="color:#ae81ff">0</span> <span style="color:#e6db74">&#39;tcp port 80 and (((ip[2:2] - ((ip[0]&amp;0xf)&lt;&lt;2)) - ((tcp[12]&amp;0xf0)&gt;&gt;2)) != 0)&#39;</span>
 </span></span></code></pre></div><p><code>-A</code> 表示用ASCII编码打印tcp包内容，用于查看http等明文协议</p>
 <p>可以增加<code>and src host 101.33.xx.xx</code> 的条件来指定来源ip，此时只打印请求;增加<code>and dest host 101.33.xx.xx</code>，此时只打印响应；增加<code>and host 101.33.xx.xx</code>，此时请求和响应都会打印。</p>
 <p>具体条件表达式可以参见<code>man pcap-filter</code></p>
 <p>只适用于IPv4的原因是上面的表达式中用到IPv4协议头部字段中的长度，换成IPv6的包，就不对了。IPv6版本的就没这么容易了，因为IPv6的payload length(ip6[4:2])包含了<code>Extension header</code>和TCP数据，而<code>Extension header</code>长度计算比较复杂，也没看到网上有正确的写法，鉴于这是一个老软件了，我倾向于相信网上没有资料就是没有解法。</p>
 <h3 id="查看dns请求">查看DNS请求</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>tcpdump -i any -nn <span style="color:#e6db74">&#39;udp port 53 or tcp port 53&#39;</span> -l
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>tcpdump -i any -nn <span style="color:#e6db74">&#39;udp port 53 or tcp port 53&#39;</span> -l
 </span></span></code></pre></div><h3 id="抓包容器中的流量">抓包容器中的流量</h3>
 <p>需要使用nsenter进入容器的网络命名空间。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo nsenter -t &lt;pid&gt; -n tcpdump -i eth0 -w capture.pcap
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo nsenter -t &lt;pid&gt; -n tcpdump -i eth0 -w capture.pcap
 </span></span></code></pre></div><h3 id="查看localhost的包">查看localhost的包</h3>
 <blockquote>
 <p>来自ChatGPT-4</p>
@@ -317,7 +317,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p><code>tcpdump</code>通常是用来捕获通过网络接口传输的数据包，而不是那些仅在本地主机之间传输的数据包。</p>
 <p>127.0.0.1是一个特殊的IP地址，也被称为loopback地址。当你的计算机向这个地址发送数据时，数据包不会真正离开你的计算机，而是会在本地进行处理。因此，如果你试图用<code>tcpdump</code>在一个物理网络接口（如eth0）上捕获发送到127.0.0.1的数据包，你可能无法捕获到任何数据包，因为这些数据包并没有通过该网络接口。</p>
 <p>如果你想要用<code>tcpdump</code>捕获127.0.0.1上的网络流量，你应该在loopback接口（在Linux系统中通常被命名为lo）上运行<code>tcpdump</code>。例如：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo tcpdump -i lo
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo tcpdump -i lo
 </span></span></code></pre></div><p>这将允许你捕获在本地主机上发送和接收的数据包。请注意，你可能需要管理员权限来运行<code>tcpdump</code>。</p>
 <h2 id="向chatgpt的提问">向ChatGPT的提问</h2>
 <h3 id="为什么有时候tcpdump没有在length-n后面打印http的请求详情">为什么有时候tcpdump没有在length n后面打印http的请求详情？</h3>
@@ -339,7 +339,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>默认情况下，tcpdump会尝试将已知的端口号转换为服务名称（例如，将80端口转换为http）。如果你想让tcpdump直接显示端 maverick.</p>
 <p>默认情况下，tcpdump会将端口显示为服务名称，比如将&quot;80&quot;显示为&quot;http&quot;。如果你希望tcpdump直接显示端口号，而不是服务名称，你可以使用 <code>-nn</code> 参数。&quot;-n&quot; 参数的作用是不把主机的网络地址转换成名字，&quot;-nn&quot; 参数的作用是不把网络地址和端口转换成家名书。</p>
 <p>例如，你可以运行以下命令：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>tcpdump -nn <span style="color:#e6db74">&#39;port 80&#39;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>tcpdump -nn <span style="color:#e6db74">&#39;port 80&#39;</span>
 </span></span></code></pre></div><p>在这个命令中，tcpdump将会显示端口号，而不是将它们转换为服务名称。</p>
 
   </div>

@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -288,7 +288,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     <p>关于windows自动更新，我的建议是关闭windows自动更新，时常到<a href="https://support.microsoft.com/en-us/topic/windows-11-version-23h2-update-history-59875222-b990-4bd9-932f-91a5954de434">Windows 11, version 23H2 update history</a>和<a href="https://support.microsoft.com/zh-cn/topic/windows-11%E7%89%88%E6%9C%AC-23h2-%E6%9B%B4%E6%96%B0%E5%8E%86%E5%8F%B2%E8%AE%B0%E5%BD%95-59875222-b990-4bd9-932f-91a5954de434">Windows 11版本 23H2 更新历史记录</a>看看有没有有用的更新。看到有更新后，千万别急着更新，过个十天半个月用搜索引擎搜搜看看该更新有没有问题再说。比如最近的<a href="https://support.microsoft.com/en-us/topic/june-25-2024-kb5039302-os-builds-22621-3810-and-22631-3810-preview-0ab34e3f-bca9-4a52-a1a4-404bf8162f58">kb5039302</a>就存在虚拟机无限重启的问题。很多大问题是不会被windows官方写在页面上的，都是外面媒体爆出来的。</p>
 <p>下面就介绍下彻底关闭windows自动更新的方式。参考<a href="https://www.disktool.cn/content-center/stop-windows-11-update-666.html">https://www.disktool.cn/content-center/stop-windows-11-update-666.html</a>，我推荐使用组策略或注册表来彻底关闭windows自动更新。在文章最开始，我们给出windows11 pro版的一键脚本分别<strong>彻底关闭更新</strong>和<strong>允许手动检查更新</strong>，以管理员权限运行即可。之后会介绍手动设置组策略和注册表的方式，方便了解上面的脚本到底干了啥。另外，我也推荐关闭windows自带的驱动更新，防止出现显卡掉驱动等问题。</p>
 <h2 id="彻底关闭更新">彻底关闭更新</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>@echo off
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>@echo off
 </span></span><span style="display:flex;"><span>REM -- 禁止自动更新
 </span></span><span style="display:flex;"><span>reg add <span style="color:#e6db74">&#34;HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU&#34;</span> /v NoAutoUpdate /t REG_DWORD /d <span style="color:#ae81ff">1</span> /f
 </span></span><span style="display:flex;"><span>REM -- 禁止在windows设置中检查更新
@@ -297,7 +297,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>reg add <span style="color:#e6db74">&#34;HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate&#34;</span> /v ExcludeWUDriversInQualityUpdate /t REG_DWORD /d <span style="color:#ae81ff">1</span> /f
 </span></span></code></pre></div><p>这个脚本使用了 <code>reg add</code> 命令来添加或修改注册表项。参数 <code>/v</code> 指定值的名称，<code>/t</code> 指定数据类型，<code>/d</code> 指定数据内容，<code>/f</code> 表示强制覆盖而不提示。执行后并重启后，windows自动更新就已经禁用了，并且会发现windows设置中的更新选项变灰，无法点击。</p>
 <h2 id="允许手动检查更新">允许手动检查更新</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>@echo off
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>@echo off
 </span></span><span style="display:flex;"><span>REM -- 允许手动检查更新
 </span></span><span style="display:flex;"><span>reg add <span style="color:#e6db74">&#34;HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate&#34;</span> /v SetDisableUXWUAccess /t REG_DWORD /d <span style="color:#ae81ff">0</span> /f
 </span></span></code></pre></div><p>执行后打开windows设置中的更新，会发现可以手动检查更新并安装了。</p>
@@ -357,7 +357,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>按Win+R输入regedit并按Enter键打开注册表编辑器。</li>
 <li>导航到此路径：</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>HKEY_LOCAL_MACHINE<span style="color:#ae81ff">\S</span>OFTWARE<span style="color:#ae81ff">\P</span>olicies<span style="color:#ae81ff">\M</span>icrosoft<span style="color:#ae81ff">\W</span>indows
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>HKEY_LOCAL_MACHINE<span style="color:#ae81ff">\S</span>OFTWARE<span style="color:#ae81ff">\P</span>olicies<span style="color:#ae81ff">\M</span>icrosoft<span style="color:#ae81ff">\W</span>indows
 </span></span></code></pre></div><ol start="3">
 <li>右键单击Windows文件夹，选择“新建”&gt;“项”，然后将其命名为“WindowsUpdate”。</li>
 <li>右键单击新建的WindowsUpdate文件夹，选择“新建”&gt;“项”，然后将其命名为“AU”。</li>
@@ -370,7 +370,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>按Win+R输入regedit并按Enter键打开注册表编辑器。</li>
 <li>导航到此路径：</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>HKEY_LOCAL_MACHINE<span style="color:#ae81ff">\S</span>OFTWARE<span style="color:#ae81ff">\P</span>olicies<span style="color:#ae81ff">\M</span>icrosoft<span style="color:#ae81ff">\W</span>indows
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>HKEY_LOCAL_MACHINE<span style="color:#ae81ff">\S</span>OFTWARE<span style="color:#ae81ff">\P</span>olicies<span style="color:#ae81ff">\M</span>icrosoft<span style="color:#ae81ff">\W</span>indows
 </span></span></code></pre></div><ol start="3">
 <li>右键单击Windows文件夹，选择“新建”&gt;“项”，然后将其命名为“WindowsUpdate”。</li>
 <li>右键单击新建的WindowsUpdate文件夹，选择“新建”&gt;“DWORD（32位）值”，然后将其命名为“SetDisableUXWUAccess”。</li>
@@ -382,7 +382,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>按Win+R输入regedit并按Enter键打开注册表编辑器。</li>
 <li>导航到此路径：</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>HKEY_LOCAL_MACHINE<span style="color:#ae81ff">\S</span>OFTWARE<span style="color:#ae81ff">\P</span>olicies<span style="color:#ae81ff">\M</span>icrosoft<span style="color:#ae81ff">\W</span>indows
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>HKEY_LOCAL_MACHINE<span style="color:#ae81ff">\S</span>OFTWARE<span style="color:#ae81ff">\P</span>olicies<span style="color:#ae81ff">\M</span>icrosoft<span style="color:#ae81ff">\W</span>indows
 </span></span></code></pre></div><ol start="3">
 <li>右键单击Windows文件夹，选择“新建”&gt;“项”，然后将其命名为“WindowsUpdate”。</li>
 <li>右键单击新建的WindowsUpdate文件夹，选择“新建”&gt;“DWORD（32位）值”，然后将其命名为“ExcludeWUDriversInQualityUpdate”</li>

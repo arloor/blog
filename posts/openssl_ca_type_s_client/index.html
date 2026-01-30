@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -301,7 +301,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>在 <code>~/ca/certs</code> 创建自定义SSL证书，私钥为 <code>privkey.pem</code> ，公钥为 <code>cert.pem</code>。他们将被用于启动https服务。</li>
 </ol>
 <p>脚本下载：<a href="/sh/ca.sh">ca.sh</a>。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl https://arloor.com/sh/ca.sh | bash
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl https://arloor.com/sh/ca.sh | bash
 </span></span></code></pre></div><p>由于<a href="https://support.apple.com/zh-cn/103769">iOS 13 和 macOS 10.15 中的可信证书应满足的要求</a>的限制，我们签发的证书最大有效时间只能是825天，否则会被safari报非标准证书，苹果就是屁事多。</p>
 <h2 id="mac下安装自定义ca证书">Mac下安装自定义CA证书</h2>
 <p>使用访达打开 <code>~/ca</code> 双击 <code>ca.pem</code> ，会打开“钥匙串访问”，将其安装到“系统”级别的“证书”下。</p>
@@ -312,7 +312,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p><img src="/img/8d7b336fd9e376eb116acb1e7d93d69a.png" alt="8d7b336fd9e376eb116acb1e7d93d69a.png"></p>
 <h2 id="windows安装ca">Windows安装CA</h2>
 <p><a href="https://learn.microsoft.com/zh-cn/windows-hardware/drivers/install/installing-test-certificates">https://learn.microsoft.com/zh-cn/windows-hardware/drivers/install/installing-test-certificates</a></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>certmgr /add ca.pem /s /r localMachine root
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>certmgr /add ca.pem /s /r localMachine root
 </span></span></code></pre></div><p>或者开始菜单搜索&rsquo;管理用户证书&rsquo;，然后如下图操作</p>
 <p><img src="/img/windows-install-ca.png" alt="alt text"></p>
 <h2 id="参考文档">参考文档</h2>
@@ -332,18 +332,18 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>总结一下，<code>-----BEGIN RSA PRIVATE KEY-----</code> 是特定于 RSA 的 PKCS#1 格式的私钥，而 <code>-----BEGIN PRIVATE KEY-----</code> 是更通用的 PKCS#8 格式的私钥，可用于多种加密算法。尽管两者之间有区别，但在实际使用中，许多加密库和工具都可以处理这两种格式。</p>
 <h2 id="不使用ca生成证书和各种格式的私钥">不使用CA生成证书和各种格式的私钥</h2>
 <h3 id="生成证书和pkcs1私钥">生成证书和PKCS#1私钥</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 生成PKCS#1私钥</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 生成PKCS#1私钥</span>
 </span></span><span style="display:flex;"><span>openssl genrsa -out privkey.pem <span style="color:#ae81ff">4096</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 从私钥生成证书</span>
 </span></span><span style="display:flex;"><span>openssl req -x509 -key privkey.pem -sha256 -nodes -out cert.pem -days <span style="color:#ae81ff">3650</span> -subj <span style="color:#e6db74">&#34;/C=/ST=/L=/O=/OU=/CN=example.com&#34;</span>
 </span></span></code></pre></div><h3 id="生成证书和pkcs8私钥">生成证书和PKCS#8私钥</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>openssl req -x509 -newkey rsa:4096 -sha256 -nodes -keyout privkey.pem -out cert.pem -days <span style="color:#ae81ff">3650</span> -subj <span style="color:#e6db74">&#34;/C=/ST=/L=/O=/OU=/CN=example.com&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>openssl req -x509 -newkey rsa:4096 -sha256 -nodes -keyout privkey.pem -out cert.pem -days <span style="color:#ae81ff">3650</span> -subj <span style="color:#e6db74">&#34;/C=/ST=/L=/O=/OU=/CN=example.com&#34;</span>
 </span></span></code></pre></div><h3 id="生成证书和pkcs8私钥并转换成pkcs1私钥">生成证书和PKCS#8私钥，并转换成PKCS#1私钥</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>openssl req -x509 -newkey rsa:4096 -sha256 -nodes -keyout temp.pem -out cert.pem -days <span style="color:#ae81ff">3650</span> -subj <span style="color:#e6db74">&#34;/C=/ST=/L=/O=/OU=/CN=example.com&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>openssl req -x509 -newkey rsa:4096 -sha256 -nodes -keyout temp.pem -out cert.pem -days <span style="color:#ae81ff">3650</span> -subj <span style="color:#e6db74">&#34;/C=/ST=/L=/O=/OU=/CN=example.com&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">## 转换成PKCS#1私钥</span>
 </span></span><span style="display:flex;"><span>openssl rsa -inform PEM -in temp.pem -outform PEM -out privkey.pem
 </span></span></code></pre></div><h2 id="私钥转换格式的常用命令">私钥转换格式的常用命令</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 转换成PKCS#8</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 转换成PKCS#8</span>
 </span></span><span style="display:flex;"><span>openssl pkcs8 -topk8 -inform PEM -in privkey.pem -out pkcs8_private_key.pem -outform PEM -nocrypt
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 转换成PKCS#1，也称RSA密钥。</span>
 </span></span><span style="display:flex;"><span>openssl rsa -inform PEM -in privkey.pem -outform PEM -out rsa_aes_privkey.pem
@@ -354,15 +354,15 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li><code>-ign_eof</code> 表示处理半关闭</li>
 </ul>
 <p>更多可以看 <code>man openssl</code>的 s_client 部分</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">(</span>echo -ne <span style="color:#e6db74">&#34;GET /ip HTTP/1.1\r\nConnection: Close\r\n\r\n&#34;</span><span style="color:#f92672">)</span> |openssl s_client -quiet -ign_eof -alpn http/1.1 -ignore_critical  -connect www.arloor.com:443 2&gt;/dev/null
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">(</span>echo -ne <span style="color:#e6db74">&#34;GET /ip HTTP/1.1\r\nConnection: Close\r\n\r\n&#34;</span><span style="color:#f92672">)</span> |openssl s_client -quiet -ign_eof -alpn http/1.1 -ignore_critical  -connect www.arloor.com:443 2&gt;/dev/null
 </span></span></code></pre></div><p>交互式终端：在最后增加 <code>-crlf</code> 将换行设置为http协议的 <code>\r\n</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>openssl s_client -showcerts -ign_eof -alpn http/1.1 -ignore_critical  -connect www.arloor.com:443 -crlf 2&gt;/dev/null
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>openssl s_client -showcerts -ign_eof -alpn http/1.1 -ignore_critical  -connect www.arloor.com:443 -crlf 2&gt;/dev/null
 </span></span></code></pre></div><p>试试继续输入<code>GET / HTTP/1.1</code>加两个Enter。</p>
 <h2 id="从pem格式证书和私钥生成pkcs12">从pem格式证书和私钥生成pkcs12</h2>
 <p>surge mac的MitM解析https数据可以导入pkcs12格式的ca证书，这里就转换下</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>openssl pkcs12 -export -inkey cakey.pem -in ca.pem -password pass:<span style="color:#e6db74">&#34;123456&#34;</span> -out ca.p12 -name myalias
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>openssl pkcs12 -export -inkey cakey.pem -in ca.pem -password pass:<span style="color:#e6db74">&#34;123456&#34;</span> -out ca.p12 -name myalias
 </span></span></code></pre></div><p>查看：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>openssl pkcs12 -in ca.p12 -password pass:<span style="color:#e6db74">&#34;123456&#34;</span> -info
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>openssl pkcs12 -in ca.p12 -password pass:<span style="color:#e6db74">&#34;123456&#34;</span> -info
 </span></span></code></pre></div>
   </div>
   

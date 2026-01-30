@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -312,7 +312,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     <p>尝试使用kubeadm安装k8s</p>
 <h2 id="kubeadm安装控制面">kubeadm安装控制面</h2>
 <h3 id="机器配置">机器配置</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 关闭swap</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 关闭swap</span>
 </span></span><span style="display:flex;"><span>swapoff -a <span style="color:#75715e"># 临时关闭</span>
 </span></span><span style="display:flex;"><span>sed -i <span style="color:#e6db74">&#39;/.*swap.*/d&#39;</span> /etc/fstab <span style="color:#75715e"># 永久关闭，下次开机生效</span>
 </span></span><span style="display:flex;"><span>
@@ -336,7 +336,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>sudo sysctl --system
 </span></span></code></pre></div><h3 id="安装containerd">安装containerd</h3>
 <p>当前版本为1.7.2</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget  https://github.com/containerd/containerd/releases/download/v1.7.2/containerd-1.7.2-linux-amd64.tar.gz -O /tmp/containerd.tar.gz
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget  https://github.com/containerd/containerd/releases/download/v1.7.2/containerd-1.7.2-linux-amd64.tar.gz -O /tmp/containerd.tar.gz
 </span></span><span style="display:flex;"><span>tar -zxvf /tmp/containerd.tar.gz -C /usr/local
 </span></span><span style="display:flex;"><span>containerd -v <span style="color:#75715e"># 1.7.2</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">## runc</span>
@@ -357,7 +357,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span><span style="color:#75715e">## systemd服务</span>
 </span></span><span style="display:flex;"><span>wget https://raw.githubusercontent.com/containerd/containerd/main/containerd.service -O /lib/systemd/system/containerd.service
 </span></span></code></pre></div><p>修改containerd.service的代理配置，否则镜像都拉不下来，calico网络插件也装不了</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>vim /lib/systemd/system/containerd.service
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>vim /lib/systemd/system/containerd.service
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 在[Service]块中增加代理配置</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># NO_PROXY中</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#  10.96.0.0/16是kubeadm init --service-cidr的默认地址</span>
@@ -366,15 +366,15 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>Environment<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;HTTPS_PROXY=http://127.0.0.1:3128/&#34;</span>
 </span></span><span style="display:flex;"><span>Environment<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;NO_PROXY=192.168.0.0/16,127.0.0.1,10.0.0.0/8,172.16.0.0/12,localhost&#34;</span>
 </span></span></code></pre></div><p>启动containerd服务</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl daemon-reload
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl daemon-reload
 </span></span><span style="display:flex;"><span>systemctl enable --now containerd
 </span></span></code></pre></div><h3 id="安装crictl">安装crictl</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://github.com/kubernetes-sigs/cri-tools/releases/download/v1.27.0/crictl-v1.27.0-linux-amd64.tar.gz -O /tmp/crictl-v1.27.0-linux-amd64.tar.gz
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://github.com/kubernetes-sigs/cri-tools/releases/download/v1.27.0/crictl-v1.27.0-linux-amd64.tar.gz -O /tmp/crictl-v1.27.0-linux-amd64.tar.gz
 </span></span><span style="display:flex;"><span>tar -zxvf /tmp/crictl-v1.27.0-linux-amd64.tar.gz -C /tmp
 </span></span><span style="display:flex;"><span>install -m <span style="color:#ae81ff">755</span> /tmp/crictl /usr/local/bin/crictl
 </span></span><span style="display:flex;"><span>crictl --runtime-endpoint<span style="color:#f92672">=</span>unix:///run/containerd/containerd.sock  version
 </span></span></code></pre></div><h3 id="安装kubtelet-kubeadm-kubectl">安装kubtelet kubeadm kubectl</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat <span style="color:#e6db74">&lt;&lt;EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat <span style="color:#e6db74">&lt;&lt;EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[kubernetes]
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">name=Kubernetes
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
@@ -396,7 +396,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>kubectl version --short <span style="color:#75715e"># Client Version: v1.27.3</span>
 </span></span></code></pre></div><h3 id="初始化控制面节点">初始化控制面节点</h3>
 <p>控制面节点是控制面组件运行的地方，包括etcd和api server。是kubectl打交道的地方.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># echo $(ip addr|grep &#34;inet &#34; |awk -F &#34;[ /]+&#34; &#39;{print $3}&#39;|grep -v &#34;127.0.0.1&#34;) $(hostname) &gt;&gt; /etc/hosts</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># echo $(ip addr|grep &#34;inet &#34; |awk -F &#34;[ /]+&#34; &#39;{print $3}&#39;|grep -v &#34;127.0.0.1&#34;) $(hostname) &gt;&gt; /etc/hosts</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># echo 127.0.0.1 $(hostname) &gt;&gt; /etc/hosts</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>
@@ -415,29 +415,29 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>watch crictl --runtime-endpoint<span style="color:#f92672">=</span>unix:///run/containerd/containerd.sock ps -a
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 如果执行有问题，就kubeadm reset重新进行kubeadm init</span>
 </span></span></code></pre></div><p>设置kube config</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  mkdir -p $HOME/.kube
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>  mkdir -p $HOME/.kube
 </span></span><span style="display:flex;"><span>  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 </span></span><span style="display:flex;"><span>  sudo chown <span style="color:#66d9ef">$(</span>id -u<span style="color:#66d9ef">)</span>:<span style="color:#66d9ef">$(</span>id -g<span style="color:#66d9ef">)</span> $HOME/.kube/config
 </span></span><span style="display:flex;"><span>kubectl get cs <span style="color:#75715e"># 使用kubectl与集群交互</span>
 </span></span></code></pre></div><p>让其他节点加入集群：我这里只用控制面了，就不操作了</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Then you can join any number of worker nodes by running the following on each as root:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Then you can join any number of worker nodes by running the following on each as root:
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>kubeadm join mi:6443 --token 9j2kbw.05vncqjs7bntu4wu <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span>        --discovery-token-ca-cert-hash sha256:7c5d6e9360110ffb1784601a06043c9467e054283e851909d70161d36e9f08ef <span style="color:#75715e">#--ignore-preflight-errors=all</span>
 </span></span></code></pre></div><h3 id="安装网络插件解决node-not-ready">安装网络插件，解决node not ready</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl get nodes
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl get nodes
 </span></span><span style="display:flex;"><span>NAME   STATUS     ROLES           AGE   VERSION
 </span></span><span style="display:flex;"><span>node   NotReady   control-plane   49m   v1.27.3
 </span></span><span style="display:flex;"><span>$ kubectl describe nodes node|grep KubeletNotReady
 </span></span><span style="display:flex;"><span>  Ready            False   Wed, <span style="color:#ae81ff">19</span> Jul <span style="color:#ae81ff">2023</span> 22:52:58 +0800   Wed, <span style="color:#ae81ff">19</span> Jul <span style="color:#ae81ff">2023</span> 22:06:46 +0800   KubeletNotReady              container runtime network not ready: NetworkReady<span style="color:#f92672">=</span>false reason:NetworkPluginNotReady message:Network plugin returns error: cni plugin not initialized
 </span></span></code></pre></div><p>下面安装Calico网络插件，前提是 <code>--pod-network-cidr=192.168.0.0/16</code>，并且containerd正确设置了代理，否则下载不了Calico</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 创建tigera operator</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 创建tigera operator</span>
 </span></span><span style="display:flex;"><span>kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.26.1/manifests/tigera-operator.yaml
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 创建Calico网络插件</span>
 </span></span><span style="display:flex;"><span>kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.26.1/manifests/custom-resources.yaml
 </span></span><span style="display:flex;"><span>watch kubectl get pods -n calico-system <span style="color:#75715e"># 两秒刷新一次，直到所有Calico的pod变成running</span>
 </span></span></code></pre></div><p>下面是安装flannel网络插件，和Calico网络插件选一个即可</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml -O kube-flannel.yml
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml -O kube-flannel.yml
 </span></span><span style="display:flex;"><span>sed -i <span style="color:#e6db74">&#39;s/10.244.0.0\/16/192.168.0.0\/16/&#39;</span> kube-flannel.yml
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i in <span style="color:#66d9ef">$(</span>grep <span style="color:#e6db74">&#34;image: &#34;</span> kube-flannel.yml | awk -F <span style="color:#e6db74">&#39;[ &#34;]+&#39;</span> <span style="color:#e6db74">&#39;{print $3}&#39;</span>|uniq<span style="color:#66d9ef">)</span>; <span style="color:#66d9ef">do</span>
 </span></span><span style="display:flex;"><span>        echo 下载 $i
@@ -446,19 +446,19 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>kubectl apply -f kube-flannel.yml
 </span></span><span style="display:flex;"><span>watch kubectl get pod -n kube-flannel
 </span></span></code></pre></div><h3 id="让控制面节点也能调度pod">让控制面节点也能调度pod</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl taint nodes --all node-role.kubernetes.io/control-plane-
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl taint nodes --all node-role.kubernetes.io/control-plane-
 </span></span><span style="display:flex;"><span>kubectl taint nodes --all node-role.kubernetes.io/master-
 </span></span></code></pre></div><h3 id="检验dns正确">检验dns正确</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl run curl --image<span style="color:#f92672">=</span>radial/busyboxplus:curl -it --rm
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl run curl --image<span style="color:#f92672">=</span>radial/busyboxplus:curl -it --rm
 </span></span><span style="display:flex;"><span>nslookup kubernetes.default
 </span></span></code></pre></div><h3 id="在控制面节点上跑一个nginx的pod">在控制面节点上跑一个nginx的pod</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl apply -f https://k8s.io/examples/pods/simple-pod.yaml
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl apply -f https://k8s.io/examples/pods/simple-pod.yaml
 </span></span><span style="display:flex;"><span>watch kubectl get pods -o wide <span style="color:#75715e"># 显示nginx的pod正Running在192.168.254.8上</span>
 </span></span><span style="display:flex;"><span>curl 192.168.254.8
 </span></span><span style="display:flex;"><span>kubectl delete pod nginx <span style="color:#75715e"># 删除这个pod</span>
 </span></span></code></pre></div><h2 id="常用组件安装">常用组件安装</h2>
 <h3 id="装个我的代理">装个我的代理</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; proxy.yaml <span style="color:#e6db74">&lt;&lt;EOF
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; proxy.yaml <span style="color:#e6db74">&lt;&lt;EOF
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: apps/v1
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kind: Deployment
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">metadata:
@@ -516,13 +516,13 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>kubectl apply -f proxy.yaml
 </span></span><span style="display:flex;"><span>watch kubectl get pod
 </span></span></code></pre></div><h3 id="helm包管理器">helm包管理器</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://get.helm.sh/helm-v3.12.0-linux-amd64.tar.gz -O /tmp/helm-v3.12.0-linux-amd64.tar.gz
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://get.helm.sh/helm-v3.12.0-linux-amd64.tar.gz -O /tmp/helm-v3.12.0-linux-amd64.tar.gz
 </span></span><span style="display:flex;"><span>tar -zxvf /tmp/helm-v3.12.0-linux-amd64.tar.gz -C /tmp
 </span></span><span style="display:flex;"><span>mv /tmp/linux-amd64/helm  /usr/local/bin/
 </span></span></code></pre></div><h3 id="metric-server">metric server</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.6.3/components.yaml
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.6.3/components.yaml
 </span></span></code></pre></div><p>修改 <code>components.yaml</code> 中容器的启动参数，加入 <code>--kubelet-insecure-tls</code> 。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i in <span style="color:#66d9ef">$(</span>grep <span style="color:#e6db74">&#34;image: &#34;</span> components.yaml | awk -F <span style="color:#e6db74">&#39;[ &#34;]+&#39;</span> <span style="color:#e6db74">&#39;{print $3}&#39;</span>|uniq<span style="color:#66d9ef">)</span>; <span style="color:#66d9ef">do</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i in <span style="color:#66d9ef">$(</span>grep <span style="color:#e6db74">&#34;image: &#34;</span> components.yaml | awk -F <span style="color:#e6db74">&#39;[ &#34;]+&#39;</span> <span style="color:#e6db74">&#39;{print $3}&#39;</span>|uniq<span style="color:#66d9ef">)</span>; <span style="color:#66d9ef">do</span>
 </span></span><span style="display:flex;"><span>        echo 下载 $i
 </span></span><span style="display:flex;"><span>        crictl --runtime-endpoint<span style="color:#f92672">=</span>unix:///run/containerd/containerd.sock pull <span style="color:#e6db74">${</span>i<span style="color:#e6db74">}</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span>
@@ -536,22 +536,22 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>ingress-nginx-controller-admission   ClusterIP      10.99.75.35     &lt;none&gt;        443/TCP                      4m42s
 </span></span></code></pre></div><p>metrics-server的pod正常启动后，等一段时间就可以使用kubectl top查看集群和pod的metrics信息。</p>
 <h3 id="kubernetes-dashboard">kubernetes dashboard</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml -O dashboard.yaml
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml -O dashboard.yaml
 </span></span></code></pre></div><p>修改dashboard.yaml成hostNetWork： 参考<a href="https://hackmd.io/@compalAA/SykoBsSbi#Step3-%E6%89%8B%E5%8B%95%E4%B8%8B%E8%BC%89image">K8S Dashboard安裝/操作</a></p>
 <ol>
 <li>Service/kubernetes-dashboard的spec中增加  type: NodePort</li>
 <li><del>Deployment/dashboard-metrics-scraper最后一行增加hostNetwork: true、dnsPolicy: ClusterFirstWithHostNet 和containers：并排</del></li>
 <li>在args中增加 - &ndash;token-ttl=43200 将token过期时间改为12小时</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl apply -f dashboard.yaml
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl apply -f dashboard.yaml
 </span></span><span style="display:flex;"><span>watch kubectl get svc -n kubernetes-dashboard
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>NAME                        TYPE        CLUSTER-IP       EXTERNAL-IP   PORT<span style="color:#f92672">(</span>S<span style="color:#f92672">)</span>         AGE   SELECTOR
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>NAME                        TYPE        CLUSTER-IP       EXTERNAL-IP   PORT<span style="color:#f92672">(</span>S<span style="color:#f92672">)</span>         AGE   SELECTOR
 </span></span><span style="display:flex;"><span>dashboard-metrics-scraper   ClusterIP   10.106.143.149   &lt;none&gt;        8000/TCP        53s   k8s-app<span style="color:#f92672">=</span>dashboard-metrics-scraper
 </span></span><span style="display:flex;"><span>kubernetes-dashboard        NodePort    10.97.248.169    &lt;none&gt;        443:31611/TCP   53s   k8s-app<span style="color:#f92672">=</span>kubernetes-dashboard
 </span></span></code></pre></div><p><code>443:31611/TCP</code> 表示我们可以通过外网ip:31611来访问dashboard，快速得到这个端口可以用下面的命令</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl get svc -n kubernetes-dashboard |grep NodePort|awk -F <span style="color:#e6db74">&#39;[ :/]+&#39;</span> <span style="color:#e6db74">&#39;{print $6}&#39;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl get svc -n kubernetes-dashboard |grep NodePort|awk -F <span style="color:#e6db74">&#39;[ :/]+&#39;</span> <span style="color:#e6db74">&#39;{print $6}&#39;</span>
 </span></span></code></pre></div><p>生成访问token: 参考<a href="https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/creating-sample-user.md">creating-sample-user</a></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl apply -f - <span style="color:#e6db74">&lt;&lt;EOF
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl apply -f - <span style="color:#e6db74">&lt;&lt;EOF
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: v1
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kind: ServiceAccount
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">metadata:
@@ -574,7 +574,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  namespace: kubernetes-dashboard
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
 </span></span></code></pre></div><p>打印port，并生成token，随后通过token访问 <code>https://ip/31611</code> 即可使用dashboard。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; /usr/local/bin/token <span style="color:#e6db74">&lt;&lt;\EOF
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; /usr/local/bin/token <span style="color:#e6db74">&lt;&lt;\EOF
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">echo Port: `kubectl get svc -n kubernetes-dashboard |grep NodePort|awk -F &#39;[ :/]+&#39; &#39;{print $6}&#39;`
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">echo
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">echo Token: 
@@ -608,13 +608,13 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <h2 id="其他">其他</h2>
 <h3 id="metal-lb">metal lb</h3>
 <p>metallb-native.yaml</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://raw.githubusercontent.com/metallb/metallb/v0.13.10/config/manifests/metallb-native.yaml -O metallb-native.yaml
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://raw.githubusercontent.com/metallb/metallb/v0.13.10/config/manifests/metallb-native.yaml -O metallb-native.yaml
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i in <span style="color:#66d9ef">$(</span>grep <span style="color:#e6db74">&#34;image: &#34;</span> metallb-native.yaml | awk -F <span style="color:#e6db74">&#39;[ &#34;]+&#39;</span> <span style="color:#e6db74">&#39;{print $3}&#39;</span>|uniq<span style="color:#66d9ef">)</span>; <span style="color:#66d9ef">do</span>
 </span></span><span style="display:flex;"><span>        echo 下载 $i
 </span></span><span style="display:flex;"><span>        crictl --runtime-endpoint<span style="color:#f92672">=</span>unix:///run/containerd/containerd.sock pull <span style="color:#e6db74">${</span>i<span style="color:#e6db74">}</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">done</span>
 </span></span><span style="display:flex;"><span>kubectl apply -f metallb-native.yaml
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; l2.yaml <span style="color:#e6db74">&lt;&lt;EOF
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; l2.yaml <span style="color:#e6db74">&lt;&lt;EOF
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">---
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: metallb.io/v1beta1
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kind: IPAddressPool
@@ -637,15 +637,15 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
 </span></span><span style="display:flex;"><span>kubectl apply -f l2.yaml
 </span></span></code></pre></div><h3 id="ingress-nginx并通过hostnetwork暴露18080和1443端口">ingress-nginx并通过hostNetwork暴露18080和1443端口</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://github.com/kubernetes/ingress-nginx/releases/download/helm-chart-4.7.1/ingress-nginx-4.7.1.tgz
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://github.com/kubernetes/ingress-nginx/releases/download/helm-chart-4.7.1/ingress-nginx-4.7.1.tgz
 </span></span><span style="display:flex;"><span>helm show values ingress-nginx-4.7.1.tgz &gt; values.yaml <span style="color:#75715e"># 查看可以配置的value</span>
 </span></span></code></pre></div><p>修改values.yaml：改成使用hostNetwork，并且修改containerPort为非常用端口。我们的环境没有LoadBalencer，所以要用hostNetwork</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span>  <span style="color:#f92672">containerPort</span>:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span>  <span style="color:#f92672">containerPort</span>:
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">http</span>: <span style="color:#ae81ff">18080</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">https</span>: <span style="color:#ae81ff">1443</span>
 </span></span><span style="display:flex;"><span>...<span style="color:#ae81ff">.</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">hostNetwork</span>: <span style="color:#66d9ef">true</span>
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">## 预下载registry.k8s.io的镜像</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">## 预下载registry.k8s.io的镜像</span>
 </span></span><span style="display:flex;"><span>helm template  ingress-nginx-4.7.1.tgz -f values.yaml &gt; ingress-nginx-deploy.yaml
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i in <span style="color:#66d9ef">$(</span>grep <span style="color:#e6db74">&#34;image: &#34;</span> ingress-nginx-deploy.yaml | awk -F <span style="color:#e6db74">&#39;[ &#34;]+&#39;</span> <span style="color:#e6db74">&#39;{print $3}&#39;</span>|uniq<span style="color:#66d9ef">)</span>; <span style="color:#66d9ef">do</span>
 </span></span><span style="display:flex;"><span>        echo 下载 $i
@@ -660,7 +660,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>kubectl get services -o wide
 </span></span><span style="display:flex;"><span>kubectl get controller -o wide
 </span></span></code></pre></div><p>修改端口</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl edit deployment release-name-ingress-nginx-controller <span style="color:#75715e">#  不知道values.yaml里的extraArgs有用吗</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl edit deployment release-name-ingress-nginx-controller <span style="color:#75715e">#  不知道values.yaml里的extraArgs有用吗</span>
 </span></span><span style="display:flex;"><span>/ -- 搜索，然后修改：
 </span></span><span style="display:flex;"><span>   spec:
 </span></span><span style="display:flex;"><span>      containers:
@@ -678,10 +678,10 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>        - --http-port<span style="color:#f92672">=</span><span style="color:#ae81ff">18080</span>
 </span></span><span style="display:flex;"><span>        - --https-port<span style="color:#f92672">=</span><span style="color:#ae81ff">1443</span>
 </span></span><span style="display:flex;"><span>$ kubectl delete pod release-name-ingress-nginx-controller-5c65485f4c-lnm2r <span style="color:#75715e">#删除这个deployment的老pod，就会创建新的pod</span>
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl enable rust_http_proxy --now <span style="color:#75715e">#开启原来的那些服务</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl enable rust_http_proxy --now <span style="color:#75715e">#开启原来的那些服务</span>
 </span></span><span style="display:flex;"><span>curl http://xxxx:18080 <span style="color:#75715e"># 404即成功</span>
 </span></span></code></pre></div><h3 id="nodeport方式安装ingress-nginx">NodePort方式安装Ingress Nginx</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget -O ingress-nginx.yaml https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.1/deploy/static/provider/baremetal/deploy.yaml
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget -O ingress-nginx.yaml https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.1/deploy/static/provider/baremetal/deploy.yaml
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i in <span style="color:#66d9ef">$(</span>grep <span style="color:#e6db74">&#34;image: &#34;</span> ingress-nginx.yaml | awk -F <span style="color:#e6db74">&#39;[ &#34;]+&#39;</span> <span style="color:#e6db74">&#39;{print $3}&#39;</span>|uniq<span style="color:#66d9ef">)</span>; <span style="color:#66d9ef">do</span>
 </span></span><span style="display:flex;"><span>        echo 下载 $i
 </span></span><span style="display:flex;"><span>        crictl --runtime-endpoint<span style="color:#f92672">=</span>unix:///run/containerd/containerd.sock pull <span style="color:#e6db74">${</span>i<span style="color:#e6db74">}</span>
@@ -689,13 +689,13 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>kubectl apply -f ingress-nginx.yaml
 </span></span><span style="display:flex;"><span>watch kubectl get service -A
 </span></span></code></pre></div><p>问题： 在做<a href="https://kubernetes.github.io/ingress-nginx/deploy/#local-testing">local-testing</a>创建ingress时，连接不到admission。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl create deployment demo --image<span style="color:#f92672">=</span>httpd --port<span style="color:#f92672">=</span><span style="color:#ae81ff">80</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl create deployment demo --image<span style="color:#f92672">=</span>httpd --port<span style="color:#f92672">=</span><span style="color:#ae81ff">80</span>
 </span></span><span style="display:flex;"><span>$ kubectl expose deployment demo
 </span></span><span style="display:flex;"><span>$ kubectl create ingress demo-localhost --class<span style="color:#f92672">=</span>nginx <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span>  --rule<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;demo.localdev.me/*=demo:80&#34;</span>
 </span></span><span style="display:flex;"><span>error: failed to create ingress: Internal error occurred: failed calling webhook <span style="color:#e6db74">&#34;validate.nginx.ingress.kubernetes.io&#34;</span>: failed to call webhook: Post <span style="color:#e6db74">&#34;https://ingress-nginx-controller-admission.ingress-nginx.svc:443/networking/v1/ingresses?timeout=10s&#34;</span>: EOF
 </span></span></code></pre></div><p>测试了下dns</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl run curl --image<span style="color:#f92672">=</span>radial/busyboxplus:curl -it
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl run curl --image<span style="color:#f92672">=</span>radial/busyboxplus:curl -it
 </span></span><span style="display:flex;"><span>$ nslookup ingress-nginx-controller-admission.ingress-nginx.svc <span style="color:#75715e"># dns是通的</span>
 </span></span><span style="display:flex;"><span>Server:    10.96.0.10
 </span></span><span style="display:flex;"><span>Address 1: 10.96.0.10 kube-dns.kube-system.svc.cluster.local
@@ -725,7 +725,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>&lt; Content-Length: <span style="color:#ae81ff">0</span>
 </span></span><span style="display:flex;"><span>&lt; 
 </span></span></code></pre></div><p>类似的问题在 kubernetes.default 也一样</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span> root@curl:/ <span style="color:#f92672">]</span>$ nslookup kubernetes.default
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span> root@curl:/ <span style="color:#f92672">]</span>$ nslookup kubernetes.default
 </span></span><span style="display:flex;"><span>Server:    10.96.0.10
 </span></span><span style="display:flex;"><span>Address 1: 10.96.0.10 kube-dns.kube-system.svc.cluster.local
 </span></span><span style="display:flex;"><span>

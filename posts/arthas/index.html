@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -287,7 +287,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   <div class="post">
     <p>arthas用来动态调试很好用</p>
 <h2 id="安装arthas">安装arthas</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -O https://arthas.aliyun.com/arthas-boot.jar
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>curl -O https://arthas.aliyun.com/arthas-boot.jar
 </span></span><span style="display:flex;"><span>java -jar arthas-boot.jar <span style="color:#75715e">#--repo-mirror aliyun --use-http</span>
 </span></span></code></pre></div><h2 id="安装idea插件">安装idea插件</h2>
 <ul>
@@ -302,7 +302,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <ul>
 <li><a href="https://arthas.aliyun.com/doc/ognl.html#%E4%BD%BF%E7%94%A8%E5%8F%82%E8%80%83">ognl.html</a></li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># 调用静态方法</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#75715e"># 调用静态方法</span>
 </span></span><span style="display:flex;"><span>$ ognl <span style="color:#e6db74">&#39;@java.lang.System@out.println(&#34;hello&#34;)&#39;</span>
 </span></span><span style="display:flex;"><span>null
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 查看静态字段</span>
@@ -327,7 +327,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><p><code>@demo.MathGame@random</code> 也可以用在watch中</p>
 <h2 id="java直接内存溢出的诊断">Java直接内存溢出的诊断</h2>
 <p>netty相关的直接内存溢出诊断很方便，没有用netty的直接内存溢出诊断可以用下面的方法：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>options unsafe true
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>options unsafe true
 </span></span><span style="display:flex;"><span>stack java.nio.ByteBuffer allocateDirect  -n <span style="color:#ae81ff">5</span>
 </span></span></code></pre></div><p>找到频繁申请直接内存的地方，就是可疑的点。之前遇到的一个case是Hbase的客户端申请的直接内存因为一直没有GC得不到回收，通过此方法找到了，当时对排查的人惊为天人。</p>
   </div>

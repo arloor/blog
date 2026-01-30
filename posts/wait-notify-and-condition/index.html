@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -299,7 +299,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>线程在已经获取对象monitor的前提下调用，唤醒一个或者所有在该对象monitor上等待的线程（notifyall）。</p>
 <p>被唤醒的线程在调用notify的线程放弃对象的锁之后才能继续执行，并且公平地和其他想要在该对象上同步的线程竞争。</p>
 <p>从以上描述，一种合理的notify：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">send</span>(){
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">send</span>(){
 </span></span><span style="display:flex;"><span>  synchronsized(<span style="color:#66d9ef">this</span>){
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// send something;</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">notify</span>();
@@ -311,7 +311,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>在被notify选中被wakeup时，该线程会移出对象等待集合，重新加入线程调度。然后和其他线程公平竞争来在该对象上同步。一旦获得该对象的控制，线程将恢复所有同步声明，也就是恢复到wait调用前的状态，然后从wait方法返回。</p>
 <p>因为线程会在没有被notify、被中断、超时的情况下被唤醒（称为可疑唤醒）。所以wait调用需要在while（不满足唤醒的条件）中来防止可疑唤醒。</p>
 <p>所以，wait的典型调用如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>      <span style="color:#66d9ef">synchronized</span> (obj) {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>      <span style="color:#66d9ef">synchronized</span> (obj) {
 </span></span><span style="display:flex;"><span>         <span style="color:#66d9ef">while</span> (<span style="color:#f92672">&lt;</span>condition does not hold<span style="color:#f92672">&gt;</span>){
 </span></span><span style="display:flex;"><span>             obj.<span style="color:#a6e22e">wait</span>(timeout);
 </span></span><span style="display:flex;"><span>        }
@@ -326,7 +326,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>用lock代替synchronized，用condition代替monitor（实现多个等待集）。</p>
 <p>可疑唤醒依然会出现，所以await需要在while（test）中</p>
 <p>典型调用</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">BoundedBuffer</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">BoundedBuffer</span> {
 </span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">final</span> Lock lock <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ReentrantLock();
 </span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">final</span> Condition notFull  <span style="color:#f92672">=</span> lock.<span style="color:#a6e22e">newCondition</span>(); 
 </span></span><span style="display:flex;"><span>   <span style="color:#66d9ef">final</span> Condition notEmpty <span style="color:#f92672">=</span> lock.<span style="color:#a6e22e">newCondition</span>(); 

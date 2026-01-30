@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -296,7 +296,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>Redis使用TCP协议，网络通信需要包从客户端传递到服务器端，再从服务器端传回客户端，这段网络传输的时间被称为RTT(Round Trip Time)。RTT可以很短，比如在本地回环网卡（127.0.0.1）上传输，也可以很长，比如在中国和美国之间传输。</p>
 <p>当RTT很长时，即使redis本身可以承受每秒数以万计的请求，但是实际上大量的时间消耗在RTT上，比如250ms的RTT，则每秒单TCP连接上最多处理4个请求（可以通过增加TCP连接数并将请求负载均衡到不同的TCP连接上增加实际能处理的请求数，但还是效率太低）。即使使用本地回环网卡，RTT仅需要约0.05ms，当写的数量十分大时，RTT的时间消耗仍然很大。</p>
 <p>从这里就可以看到，RTT成为影响redis性能的重要因素（RTT同样影响其他网络程序）。Redis采用Pipelining的技术来减少RTT的影响。用一句话总结Pipelining就是“一次性讲很多句话”。如下所示：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#原来的redis请求-响应</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#原来的redis请求-响应</span>
 </span></span><span style="display:flex;"><span>Client: INCR X
 </span></span><span style="display:flex;"><span>Server: <span style="color:#ae81ff">1</span>
 </span></span><span style="display:flex;"><span>Client: INCR X
@@ -322,7 +322,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>Redis is a fast and stable Publish/Subscribe messaging system!——很自信，所以我信了。</p>
 <p>发布订阅系统不是senders 负责将消息发送给subscribers，而是将消息发送给Channel，senders 并不需要有哪些subscribers。同样，subscribers表示对某些Channel感兴趣，而不需要知道有哪些senders 。发送者和接受者的解耦让更大的可伸缩性和更弹性的网络拓扑成为可能。</p>
 <p>一个Redis发布订阅的实例：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>redis-cli -h 99.47.149.27 -p <span style="color:#ae81ff">6428</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>redis-cli -h 99.47.149.27 -p <span style="color:#ae81ff">6428</span>
 </span></span><span style="display:flex;"><span>99.47.149.27:6428&gt; subscribe one two
 </span></span><span style="display:flex;"><span>Reading messages... <span style="color:#f92672">(</span>press Ctrl-C to quit<span style="color:#f92672">)</span>
 </span></span><span style="display:flex;"><span>1<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;subscribe&#34;</span>
@@ -364,7 +364,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>正确的单节点分布式锁：</p>
 </blockquote>
 <p>使用以下命令获取锁：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>SET key exclusive_random_value NX PX <span style="color:#ae81ff">30000</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>SET key exclusive_random_value NX PX <span style="color:#ae81ff">30000</span>
 </span></span></code></pre></div><ul>
 <li>NX——只有该key不存在时才会设置</li>
 <li>PX 30000——30秒的超时时间</li>

@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -349,7 +349,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>集群节点越多，对控制面节点的 CPU、内存压力越大，参见<a href="https://docs.k3s.io/installation/requirements#cpu-and-memory">requirements#cpu-and-memory</a></li>
 </ol>
 <h3 id="创建控制面-server-节点">创建控制面 Server 节点</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget <span style="color:#e6db74">&#34;https://github.com/k3s-io/k3s/releases/download/v1.27.3%2Bk3s1/k3s-airgap-images-amd64.tar&#34;</span> -O k3s-airgap-images-amd64.tar
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget <span style="color:#e6db74">&#34;https://github.com/k3s-io/k3s/releases/download/v1.27.3%2Bk3s1/k3s-airgap-images-amd64.tar&#34;</span> -O k3s-airgap-images-amd64.tar
 </span></span><span style="display:flex;"><span>sudo mkdir -p /var/lib/rancher/k3s/agent/images/
 </span></span><span style="display:flex;"><span>sudo mv -f ./k3s-airgap-images-amd64.tar /var/lib/rancher/k3s/agent/images/
 </span></span><span style="display:flex;"><span>
@@ -371,9 +371,9 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span>--disable<span style="color:#f92672">=</span>traefik <span style="color:#75715e"># 禁用traefik ingress controller</span>
 </span></span><span style="display:flex;"><span>watch kubectl get pod -A
 </span></span></code></pre></div><p>安装好 server 后，在 server node 上执行以下命令来得到 agent 加入集群的 token：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat /var/lib/rancher/k3s/server/token
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat /var/lib/rancher/k3s/server/token
 </span></span></code></pre></div><h3 id="agent-节点加入集群">Agent 节点加入集群</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>. unpass
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>. unpass
 </span></span><span style="display:flex;"><span>wget <span style="color:#e6db74">&#34;http://cdn.arloor.com/k3s/k3s-airgap-images-amd64.tar&#34;</span> -O k3s-airgap-images-amd64.tar <span style="color:#75715e"># https://github.com/k3s-io/k3s/releases/download/v1.27.3%2Bk3s1/k3s-airgap-images-amd64.tar</span>
 </span></span><span style="display:flex;"><span>sudo mkdir -p /var/lib/rancher/k3s/agent/images/
 </span></span><span style="display:flex;"><span>sudo mv -f ./k3s-airgap-images-amd64.tar /var/lib/rancher/k3s/agent/images/
@@ -391,7 +391,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span>bash install.sh <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span>--node-external-ip<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;`curl https://bwg.arloor.dev:444/ip -k`&#34;</span>
 </span></span></code></pre></div><p>如果 Agent 节点能自由访问 Internet，也可以用下面的命令：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://get.k3s.io/ -O install.sh <span style="color:#ae81ff">\
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://get.k3s.io/ -O install.sh <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span><span style="color:#f92672">&amp;&amp;</span> chmod +x install.sh
 </span></span><span style="display:flex;"><span>INSTALL_K3S_VERSION<span style="color:#f92672">=</span>v1.27.3+k3s1 <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span>K3S_TOKEN<span style="color:#f92672">=</span>K10098693af78777497406169383c59586da0916a6fc63bd293d9881f48b4789e0f::server:12345 <span style="color:#ae81ff">\
@@ -399,7 +399,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span>./install.sh <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span>--node-external-ip<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;`curl https://bwg.arloor.dev:444/ip -k`&#34;</span>
 </span></span></code></pre></div><h3 id="卸载-server-和-agent">卸载 Server 和 Agent</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/usr/local/bin/k3s-uninstall.sh
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/usr/local/bin/k3s-uninstall.sh
 </span></span><span style="display:flex;"><span>/usr/local/bin/k3s-agent-uninstall.sh
 </span></span></code></pre></div><h3 id="从多云架构回退到普通架构">从多云架构回退到普通架构</h3>
 <ol>
@@ -408,7 +408,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>最后重启 server/agent 服务即可</li>
 </ol>
 <h3 id="另一个选择使用-rancher-的中国加速镜像安装">另一个选择：使用 Rancher 的中国加速镜像安装</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>. unpass
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>. unpass
 </span></span><span style="display:flex;"><span>curl -sfL https://rancher-mirror.rancher.cn/k3s/k3s-install.sh -o install.sh
 </span></span><span style="display:flex;"><span>chmod +x install.sh
 </span></span><span style="display:flex;"><span>INSTALL_K3S_MIRROR<span style="color:#f92672">=</span>cn  INSTALL_K3S_VERSION<span style="color:#f92672">=</span>v1.27.3+k3s1 K3S_TOKEN<span style="color:#f92672">=</span><span style="color:#ae81ff">12345</span> ./install.sh <span style="color:#ae81ff">\
@@ -419,7 +419,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>watch kubectl get pod -A
 </span></span></code></pre></div><p>虽然 rancher 中国的文档不咋样，但是这个加速镜像还是要点赞的， <code>INSTALL_K3S_MIRROR=cn</code> 环境变量就是来使用加速镜像的。此方式也不需要使用代理。我是在<a href="https://docs.rancher.cn/docs/k3s/installation/install-options/_index/#%E4%BD%BF%E7%94%A8%E8%84%9A%E6%9C%AC%E5%AE%89%E8%A3%85%E7%9A%84%E9%80%89%E9%A1%B9">Rancher 中国的安装选项介绍</a>找到这个镜像的。建议配合 <code>INSTALL_K3S_VERSION=v1.27.3+k3s1</code>环境变量指定 k3s 版本为 v1.27.3+k3s1(我离线安装的版本)</p>
 <h2 id="测试-dns-正常工作">测试 dns 正常工作</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl run curl --image<span style="color:#f92672">=</span>redhat/ubi9-minimal --attach --command --rm --restart<span style="color:#f92672">=</span>Never -- <span style="color:#ae81ff">\
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl run curl --image<span style="color:#f92672">=</span>redhat/ubi9-minimal --attach --command --rm --restart<span style="color:#f92672">=</span>Never -- <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span>sh -c <span style="color:#e6db74">&#39;curl https://kubernetes.default:443 -k -v; echo $?&#39;</span>
 </span></span></code></pre></div><table>
   <thead>
@@ -454,13 +454,13 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>这里还是使用 v2.7.0 版本，因为 v3.0.0 版本需要 ingress-nginx-controller，而我不想用 ingress-controller。</p>
 </blockquote>
 <p>下载 k8s dashboard 的 manifest，并预先下载镜像</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>. pass
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>. pass
 </span></span><span style="display:flex;"><span>wget https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml -O recommended.yaml
 </span></span><span style="display:flex;"><span>. unpass
 </span></span><span style="display:flex;"><span>crictl pull docker.io/kubernetesui/dashboard:v2.7.0
 </span></span><span style="display:flex;"><span>crictl pull docker.io/kubernetesui/metrics-scraper:v1.0.8
 </span></span></code></pre></div><p>修改 Service/kubernetes-dashboard，将 type 设置成 LoadBalancer，修改 port 为 8443，修改后的样子：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Service</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Service</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">labels</span>:
@@ -475,19 +475,19 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">k8s-app</span>: <span style="color:#ae81ff">kubernetes-dashboard</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">type</span>: <span style="color:#ae81ff">LoadBalancer</span>
 </span></span></code></pre></div><p>创建工作负载</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>. unpass
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>. unpass
 </span></span><span style="display:flex;"><span>kubectl apply -f recommended.yaml
 </span></span><span style="display:flex;"><span>watch kubectl get pod -n kubernetes-dashboard
 </span></span></code></pre></div><h3 id="使用-helm-安装">使用 helm 安装</h3>
 <p>安装 helm：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://get.helm.sh/helm-v3.12.0-linux-amd64.tar.gz -O /tmp/helm-v3.12.0-linux-amd64.tar.gz
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget https://get.helm.sh/helm-v3.12.0-linux-amd64.tar.gz -O /tmp/helm-v3.12.0-linux-amd64.tar.gz
 </span></span><span style="display:flex;"><span>tar -zxvf /tmp/helm-v3.12.0-linux-amd64.tar.gz -C /tmp
 </span></span><span style="display:flex;"><span>mv /tmp/linux-amd64/helm  /usr/local/bin/
 </span></span></code></pre></div><p>安装 dashboard 的 helm chart</p>
 <blockquote>
 <p>需要先参考<a href="#%E8%AE%BF%E9%97%AE%E9%9B%86%E7%BE%A4">访问集群</a>设置 kubeconfig，从而让 helm 与集群交互</p>
 </blockquote>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
 </span></span><span style="display:flex;"><span>helm repo update
 </span></span><span style="display:flex;"><span>helm search repo kubernetes-dashboard -l <span style="color:#75715e">#找到 app version 2.7.0对应的version为6.0.8</span>
 </span></span><span style="display:flex;"><span>helm show values kubernetes-dashboard/kubernetes-dashboard --version 6.0.8 &gt; /tmp/values.yaml
@@ -521,7 +521,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><h3 id="生成访问-token">生成访问 token</h3>
 <p>kubernetes-dashboard 使用 RBAC 的权限控制，需要我们生成 ServiceRole 和 ClusterRoleBinding，并生成 token。可以生成永不过期的 token，也可以生成带过期时间的 token</p>
 <h4 id="永不过期的-token">永不过期的 token</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl apply -f - <span style="color:#e6db74">&lt;&lt;EOF
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl apply -f - <span style="color:#e6db74">&lt;&lt;EOF
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: v1
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kind: ServiceAccount
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">metadata:
@@ -558,11 +558,11 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>kubectl get secret/arloor-secret -o yaml <span style="color:#75715e">#查看token字段，base64格式的</span>
 </span></span><span style="display:flex;"><span>kubectl describe secret/arloor-secret <span style="color:#75715e"># 查看token字段，原始的</span>
 </span></span></code></pre></div><p>其中 kubectl get 得到的是 Base64 编码过的，需要 base64 解码才能使用：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>base64 -d - <span style="color:#e6db74">&lt;&lt;EOF
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>base64 -d - <span style="color:#e6db74">&lt;&lt;EOF
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">xxxxxxx token
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
 </span></span></code></pre></div><h4 id="带过期时间的-token">带过期时间的 token</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl apply -f - <span style="color:#e6db74">&lt;&lt;EOF
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl apply -f - <span style="color:#e6db74">&lt;&lt;EOF
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">apiVersion: v1
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kind: ServiceAccount
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">metadata:
@@ -589,7 +589,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kubectl create token arloor --duration 24000h
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
 </span></span><span style="display:flex;"><span>chmod +x /usr/local/bin/token
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>token <span style="color:#75715e"># 有效期100天</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>token <span style="color:#75715e"># 有效期100天</span>
 </span></span></code></pre></div><p>使用 token 登陆 dashboard 后可以看到类似下面的界面</p>
 <p><img src="/img/k3s-two-nodes.png" alt=""></p>
 <p>kubernetes-dashboard 的鉴权机制可以看<a href="https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/README.md#login-view">access-control</a>。我是用的文档中的 Authorization header 配合 chrome 的 modHeader 插件来使用上面的 token 进行鉴权，这样使用 dashboard 就很方便了。</p>
@@ -599,20 +599,20 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <ol>
 <li>配置 KUBECONFIG 环境变量</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>export KUBECONFIG<span style="color:#f92672">=</span>/etc/rancher/k3s/k3s.yaml
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>export KUBECONFIG<span style="color:#f92672">=</span>/etc/rancher/k3s/k3s.yaml
 </span></span><span style="display:flex;"><span>kubectl get pods --all-namespaces
 </span></span><span style="display:flex;"><span>helm ls --all-namespaces
 </span></span></code></pre></div><ol start="2">
 <li>增加 <code>--kubeconfig</code> 参数</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl --kubeconfig /etc/rancher/k3s/k3s.yaml get pods --all-namespaces
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl --kubeconfig /etc/rancher/k3s/k3s.yaml get pods --all-namespaces
 </span></span><span style="display:flex;"><span>helm --kubeconfig /etc/rancher/k3s/k3s.yaml ls --all-namespaces
 </span></span></code></pre></div><ol start="3">
 <li>复制到默认 kubeconfig 的位置</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cp -f /etc/rancher/k3s/k3s.yaml ~/.kube/config
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cp -f /etc/rancher/k3s/k3s.yaml ~/.kube/config
 </span></span></code></pre></div><h3 id="mac-上管理该-k3s-集群">Mac 上管理该 k3s 集群：</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir ~/.kube
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir ~/.kube
 </span></span><span style="display:flex;"><span>scp root@mi.arloor.com:/etc/rancher/k3s/k3s.yaml ~/.kube/config
 </span></span><span style="display:flex;"><span>curl -LO <span style="color:#e6db74">&#34;https://dl.k8s.io/release/v1.27.3/bin/darwin/arm64/kubectl&#34;</span>
 </span></span><span style="display:flex;"><span>chmod +x kubectl
@@ -622,7 +622,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><p>其中，Mac 上安装 kubectl 参考<a href="https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/#install-kubectl-binary-with-curl-on-macos">install-kubectl-binary-with-curl-on-macos</a>。注意 kubectl 和集群版本要保持一致，否则有些 api 可能不兼容。</p>
 <p>另外，使用 sed 命令是要注意： Mac 和 Linux 在 sed 命令的 -i 参数上存在一些不同。在 Linux 上，-i 参数后面可以直接跟着文件名，但在 macOS 上，-i 需要后跟一个扩展名。这个扩展名用于创建一个备份文件。如果你不想创建备份文件，你可以使用空字符串（&quot;&quot;）作为扩展名。</p>
 <p>如果报错证书不信任，需要做这个： 见<a href="https://docs.k3s.io/installation/configuration">https://docs.k3s.io/installation/configuration</a></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ vim /etc/rancher/k3s/config.yaml
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ vim /etc/rancher/k3s/config.yaml
 </span></span><span style="display:flex;"><span>tls-san:
 </span></span><span style="display:flex;"><span>  - you_domain
 </span></span><span style="display:flex;"><span>  - kubernetes
@@ -639,10 +639,10 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>修改 <code>/etc/systemd/system/k3s.service</code> 中的 <code>--node-external-ip</code> 参数</li>
 <li>重启 k3s 服务</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl daemon-reload
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl daemon-reload
 </span></span><span style="display:flex;"><span>systemctl restart k3s
 </span></span></code></pre></div><p><strong>Agent</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sed -i <span style="color:#e6db74">&#39;s/K3S_URL.*/K3S_URL=&#34;https:\/\/154.xx.xx.xx:6443&#34;/&#39;</span>  /etc/systemd/system/k3s-agent.service.env
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sed -i <span style="color:#e6db74">&#39;s/K3S_URL.*/K3S_URL=&#34;https:\/\/154.xx.xx.xx:6443&#34;/&#39;</span>  /etc/systemd/system/k3s-agent.service.env
 </span></span><span style="display:flex;"><span>systemctl restart k3s-agent.service
 </span></span></code></pre></div>
   </div>

@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -291,16 +291,16 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>在<a href="https://github.com/starship/starship/releases/latest">发布页</a>下载 MSI 包来安装Starship最新版。</li>
 <li>powershell以管理员运行下列命令，以放开脚本执行</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Set-ExecutionPolicy -ExecutionPolicy Unrestricted  -Scope LocalMachine
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Set-ExecutionPolicy -ExecutionPolicy Unrestricted  -Scope LocalMachine
 </span></span></code></pre></div><ol start="4">
 <li>参考官方文档，修改PowerShell 配置文件</li>
 </ol>
 <blockquote>
 <p>将以下内容添加到您 PowerShell 配置文件的末尾（通过运行 $PROFILE 来获取配置文件的路径）</p>
 </blockquote>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plaintext" data-lang="plaintext"><span style="display:flex;"><span>Invoke-Expression (&amp;starship init powershell)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-plaintext" data-lang="plaintext"><span style="display:flex;"><span>Invoke-Expression (&amp;starship init powershell)
 </span></span></code></pre></div><h2 id="linux-zsh">Linux zsh</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>add_zsh_plugin<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>add_zsh_plugin<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>    local plugin<span style="color:#f92672">=</span>$1
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> -z <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>plugin<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
 </span></span><span style="display:flex;"><span>        echo <span style="color:#e6db74">&#34;Usage: add_plugin &lt;plugin&gt;&#34;</span>
@@ -362,7 +362,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>setup_zsh
 </span></span><span style="display:flex;"><span>setup_starship
 </span></span></code></pre></div><p>注意，默认的zsh跟bash在一些行为上有一些差距，所以我手动调用了setopt来设置一些行为，主要控制history和交互式命令行中注释的处理。可以参考zsh中的setopt设置：带localoptions的是仅在当前shell生效，可以不关注。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ grep setopt ~/.oh-my-zsh/lib/*
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ grep setopt ~/.oh-my-zsh/lib/*
 </span></span><span style="display:flex;"><span>.oh-my-zsh/lib/async_prompt.zsh:  setopt localoptions noksharrays
 </span></span><span style="display:flex;"><span>.oh-my-zsh/lib/cli.zsh:  setopt localoptions nopromptsubst
 </span></span><span style="display:flex;"><span>.oh-my-zsh/lib/completion.zsh:unsetopt menu_complete   <span style="color:#75715e"># do not autoselect the first completion entry</span>

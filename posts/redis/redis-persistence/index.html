@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -419,7 +419,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>其实实现在rewriteAppendOnlyFileBackground。redis会fork出一个子进程。子进程创建名为“temp-rewriteaof-bg-{child_pid}.aof”的临时文件。随后调用rewriteAppendOnlyFile(tempfile)。</p>
 <p>rewrite的整体过程是：先将当前redis的快照保存到新AOF文件中，然后将aof_rewrite_buf_blocks中的缓冲写到新的AOF文件中</p>
 <p>rewriteAppendOnlyFile会根据server.aof_use_rdb_preamble是否设定，决定rewirte是否使用rdb作当前redis的快照。其关键代码为：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (server.aof_use_rdb_preamble) {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (server.aof_use_rdb_preamble) {
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> error;
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">rdbSaveRio</span>(<span style="color:#f92672">&amp;</span>aof,<span style="color:#f92672">&amp;</span>error,RDB_SAVE_AOF_PREAMBLE,NULL) <span style="color:#f92672">==</span> C_ERR) {
 </span></span><span style="display:flex;"><span>            errno <span style="color:#f92672">=</span> error;

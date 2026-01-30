@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -298,13 +298,13 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     <iframe src="https://www.youtube.com/embed/DBC5x8Mv5OE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
 <h2 id="插入的html如下">插入的html如下</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;iframe-container&#34;</span>&gt;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-html" data-lang="html"><span style="display:flex;"><span>&lt;<span style="color:#f92672">div</span> <span style="color:#a6e22e">class</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;iframe-container&#34;</span>&gt;
 </span></span><span style="display:flex;"><span>    &lt;<span style="color:#f92672">iframe</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://www.youtube.com/embed/DBC5x8Mv5OE?list=PLoZEEVUrMkMSIkfSbEXNQFubB4yOjMz2a&#34;</span> <span style="color:#a6e22e">frameborder</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;0&#34;</span> <span style="color:#a6e22e">allow</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture&#34;</span> <span style="color:#a6e22e">allowfullscreen</span>&gt;&lt;/<span style="color:#f92672">iframe</span>&gt;
 </span></span><span style="display:flex;"><span>&lt;/<span style="color:#f92672">div</span>&gt;
 </span></span></code></pre></div><h2 id="实现原理">实现原理</h2>
 <p>放上<a href="https://benmarshall.me/responsive-iframes/">原博客</a>。</p>
 <p>这个博客说到，使用js来实现响应式iframe是不对的，应该使用css。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-css" data-lang="css"><span style="display:flex;"><span>.<span style="color:#a6e22e">iframe-container</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-css" data-lang="css"><span style="display:flex;"><span>.<span style="color:#a6e22e">iframe-container</span> {
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">overflow</span>: <span style="color:#66d9ef">hidden</span>;
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">padding-top</span>: <span style="color:#ae81ff">56.25</span><span style="color:#66d9ef">%</span>;
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">width</span>: <span style="color:#ae81ff">100</span><span style="color:#66d9ef">%</span>;
@@ -323,12 +323,12 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>那么hugo怎么使用这个css？</p>
 <p>我在主题下的scss文件夹中的_base.scss中加入了上面的css，发现就能生效，还是较为简单方便的。</p>
 <p>至于另一种html5的vedio标签，只需要宽度和高度都设为100%即可实现响应式，如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>&lt;video controls<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span> width<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;100%&#34;</span> height<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;100%&#34;</span>&gt;&lt;source src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;http://cdn.moontell.cn/robot.mp4&#34;</span> type<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;video/mp4&#34;</span>&gt;&lt;/video&gt;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>&lt;video controls<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&#34;</span> width<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;100%&#34;</span> height<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;100%&#34;</span>&gt;&lt;source src<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;http://cdn.moontell.cn/robot.mp4&#34;</span> type<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;video/mp4&#34;</span>&gt;&lt;/video&gt;
 </span></span></code></pre></div><h2 id="番外其他本博客使用的前端小技巧">番外：其他本博客使用的前端小技巧</h2>
 <p>这是一个偏前端的博客，估计很久不会有其他前端文章，所以把这个小东西也放在这。</p>
 <h3 id="对博客中出现的图片宽度进行定制">对博客中出现的图片宽度进行定制</h3>
 <p>一般我们在markdown中插入图片就是：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>!<span style="color:#f92672">[](</span>/img/ssnodes.png<span style="color:#f92672">)</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>!<span style="color:#f92672">[](</span>/img/ssnodes.png<span style="color:#f92672">)</span>
 </span></span></code></pre></div><p><img src="/img/ssnodes.png" alt=""></p>
 <p>这个在大多数情况表现良好，图片宽度会取min(100%父容器宽度, 图片像素px)。但是有一种情况让人很头疼：手机截图。现在手机的像素都很高，{图片像素px}至少会是1080，而且屏幕截图很长。上面的这个图片不长，想象一下一个好几屏的长截图🤢，这种情况下截图占满屏幕，并且需要拉很久，看到就会很难受吧。归根结底，还是因为手机截图的像素宽度太大，导致min(100%父容器宽度, 图片像素px)的值还是很大。</p>
 <p>为了避免这个问题。使用下面的方式：</p>

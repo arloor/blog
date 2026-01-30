@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -326,7 +326,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>proxy盲转发client与server之间的流量</li>
 </ol>
 <p>这一部分代码见如下两个函数：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">//file: sogo/main.go</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">//file: sogo/main.go</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">//读 5 1 0 写回 5 0</span>
 </span></span><span style="display:flex;"><span>func <span style="color:#a6e22e">handshake</span>(clientCon net.<span style="color:#a6e22e">Conn</span>) error {
@@ -367,7 +367,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><p>完成handshake, getTargetAddr 之后，chrome就会发送真实的http请求了，sogo(client) 要做的就是将这部分http请求进行加密，然后加上http请求的头，发送到sogo-server。</p>
 <h2 id="使用http包裹payload">使用http包裹payload</h2>
 <p>第一部分：如何将真实的http请求，再进行加密，最后加上假的http请求头，变成伪装好的http请求，发送给sogo-server。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">//file: sogo/mio/prefix.go</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">//file: sogo/mio/prefix.go</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> fakeHost <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;qtgwuehaoisdhuaishdaisuhdasiuhlassjd.com&#34;</span>  <span style="color:#75715e">//虚假host</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>func <span style="color:#a6e22e">AppendHttpRequestPrefix</span>(buf <span style="color:#f92672">[]</span><span style="color:#66d9ef">byte</span>, addr string) <span style="color:#f92672">[]</span><span style="color:#66d9ef">byte</span> {
@@ -379,7 +379,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>包裹完毕之后返回的[]byte就可以发送给sogo-server了。</p>
 <p>第二部分：将sogo-server从目标网站获得的真实响应进行简单加密，包裹http响应头，发送给sogo(client)。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">//file: sogo-server/mio/prefix.go</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">//file: sogo-server/mio/prefix.go</span>
 </span></span><span style="display:flex;"><span>func <span style="color:#a6e22e">AppendHttpResponsePrefix</span>(buf <span style="color:#f92672">[]</span><span style="color:#66d9ef">byte</span>) <span style="color:#f92672">[]</span><span style="color:#66d9ef">byte</span> {
 </span></span><span style="display:flex;"><span>	Simple(<span style="color:#f92672">&amp;</span>buf, len(buf))
 </span></span><span style="display:flex;"><span>	buf <span style="color:#f92672">=</span> append(<span style="color:#f92672">[]</span><span style="color:#66d9ef">byte</span>(<span style="color:#e6db74">&#34;HTTP/1.1 200 OK\r\nContent-Type: text/plain; charset=utf-8\r\nContent-Length: &#34;</span><span style="color:#f92672">+</span>strconv.<span style="color:#a6e22e">Itoa</span>(len(buf))<span style="color:#f92672">+</span><span style="color:#e6db74">&#34;\r\n\r\n&#34;</span>), buf...)
@@ -388,7 +388,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><p>包裹完毕之后返回的[]byte就可以发送给sogo(client)了。</p>
 <h2 id="解包伪装好的请求响应">解包伪装好的请求、响应</h2>
 <p>先看以下伪装好的请求的样子：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>POST /target?at<span style="color:#f92672">={</span>targetAddrBase64<span style="color:#f92672">}</span> HTTP/1.1
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>POST /target?at<span style="color:#f92672">={</span>targetAddrBase64<span style="color:#f92672">}</span> HTTP/1.1
 </span></span><span style="display:flex;"><span>Host: <span style="color:#f92672">{</span>fakehost<span style="color:#f92672">}</span>
 </span></span><span style="display:flex;"><span>Accept: */*
 </span></span><span style="display:flex;"><span>Content-Type: text/plain
@@ -408,17 +408,17 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>如果，现在你看了如何解决这个问题，其实就是一句话，在tcp上层定义自己的应用层协议：也就是tcp报文的格式。http这个应用层协议就是一种tcp报文的一种定义。</p>
 <p>我们的伪装好的报文就是http协议，所以要做的就是实现自己的http请求解析器，获取我们关心的信息。</p>
 <p>sogo的http请求解析器，在：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">//file sogo-server/server.go</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">//file sogo-server/server.go</span>
 </span></span><span style="display:flex;"><span>func <span style="color:#a6e22e">read</span>(clientConn net.<span style="color:#a6e22e">Conn</span>, redundancy <span style="color:#f92672">[]</span><span style="color:#66d9ef">byte</span>) (payload, redundancyRetain <span style="color:#f92672">[]</span><span style="color:#66d9ef">byte</span>, target string, readErr error)
 </span></span></code></pre></div><p>这一部分有点繁杂。。不多解释，自己看代码吧。</p>
 <h2 id="伪装sogo-server80为其他http网站">伪装sogo-server:80为其他http网站</h2>
 <p>这一部分就是第二特性：将sogo-server所在的ip:端口伪装成一个http网站。</p>
 <p>上一节，我们提到 {fakehost}。我们故意将{fakehost}定义为一个复杂、很长的域名。我们伪装的请求，都会带有如下请求头</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Host: <span style="color:#f92672">{</span>fakehost<span style="color:#f92672">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Host: <span style="color:#f92672">{</span>fakehost<span style="color:#f92672">}</span>
 </span></span></code></pre></div><p>如果，http请求的Host不是这个{fakehost}则说明这不是一个经sogo(client)的请求，而是直接请求了sogo-server。也就是，有人来嗅探啦！</p>
 <p>对这种，我们就会将该请求，原封不动地转到伪装站。（其实还是有点修改的，但这是细节，看代码吧）所以，直接访问sogo-server-ip:80 就是访问伪装站：80。</p>
 <h2 id="linux上服务端部署">linux上服务端部署</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>yum install -y wget
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>yum install -y wget
 </span></span><span style="display:flex;"><span>wget https://github.com/arloor/sogo/releases/download/v1.0/sogo-server
 </span></span><span style="display:flex;"><span>wget https://github.com/arloor/sogo/releases/download/v1.0/sogo-server.json
 </span></span><span style="display:flex;"><span>
@@ -449,7 +449,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>systemctl daemon-reload
 </span></span><span style="display:flex;"><span>systemctl enable sogo-server
 </span></span></code></pre></div><h2 id="linux上客户端安装java版">linux上客户端安装（java版）</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget --no-check-certificate --no-cookies --header <span style="color:#e6db74">&#34;Cookie: oraclelicense=accept-securebackup-cookie&#34;</span> http://download.oracle.com/otn-pub/java/jdk/8u131-b11/d54c1d3a095b4ff2b6607d096fa80163/jdk-8u131-linux-x64.rpm
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget --no-check-certificate --no-cookies --header <span style="color:#e6db74">&#34;Cookie: oraclelicense=accept-securebackup-cookie&#34;</span> http://download.oracle.com/otn-pub/java/jdk/8u131-b11/d54c1d3a095b4ff2b6607d096fa80163/jdk-8u131-linux-x64.rpm
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#wget http://repo-1252282974.cossh.myqcloud.com/jdk-8u131-linux-x64.rpm #使用腾讯云对象存储</span>
 </span></span><span style="display:flex;"><span>rpm -ivh jdk-8u131-linux-x64.rpm
 </span></span><span style="display:flex;"><span>rm -f jdk-8u131-linux-x64.rpm
@@ -481,7 +481,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>systemctl start sogo
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#vim /etc/hosts #配置proxy1 proxy2</span>
 </span></span></code></pre></div><h2 id="linux上客户端安装过时">linux上客户端安装（过时）</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 国内机器下面两个wget会很慢，考虑本地下载再上传到服务器吧</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 国内机器下面两个wget会很慢，考虑本地下载再上传到服务器吧</span>
 </span></span><span style="display:flex;"><span>wget https://github.com/arloor/sogo/releases/download/v1.0/sogo.json
 </span></span><span style="display:flex;"><span>wget https://github.com/arloor/sogo/releases/download/v1.0/sogo
 </span></span><span style="display:flex;"><span>
@@ -496,7 +496,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><h2 id="windows客户端安装">windows客户端安装</h2>
 <p>到<a href="https://github.com/arloor/sogo/releases/tag/v1.0">Release</a>下载<code>sogo.exe</code>和<code>sogo.json</code>。</p>
 <p>sogo.json内容如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;ClientPort&#34;</span>: <span style="color:#ae81ff">8888</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;Use&#34;</span>: <span style="color:#ae81ff">0</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;Servers&#34;</span>: [
@@ -541,7 +541,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>iowait是cpu等待io的时间占比，sogo应用是网络IO，一般不会有磁盘IO，唯一有可能的只有写入日志文件。在关闭日志记录之后，cpu iowait降低至0，问题解决。</p>
 <p>一些排查iowait占用高的方法：</p>
 <h4 id="查找哪个硬盘正在被写入">查找哪个硬盘正在被写入</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@coolnull ~<span style="color:#f92672">]</span><span style="color:#75715e"># iostat -x 2 5</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@coolnull ~<span style="color:#f92672">]</span><span style="color:#75715e"># iostat -x 2 5</span>
 </span></span><span style="display:flex;"><span> avg-cpu: %user %nice %system %iowait %steal %idle
 </span></span><span style="display:flex;"><span>  3.66 0.00 47.64 48.69 0.00 0.00
 </span></span><span style="display:flex;"><span>
@@ -554,7 +554,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>上述示例，sda盘的%utilized达到了111.41%。这表示引起I/O慢的进程在写入sda盘。因为我这个测试实例中只有1个硬盘，但对于有多硬盘的服务器来说，这可以缩小在使用I/O的进程范围。</p>
 <p>除了iostat的%utilized能提供丰富的信息外，像rrqm/s、wrqm/s这些每秒读、写的请求数，r/s、w/s每秒读写数也很有用。在我们的例子中，我们的程序看起来读写很繁重的信息也能帮助我们确定这个讨人厌的进程。</p>
 <h4 id="查找引起高io的进程">查找引起高I/O的进程</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@coolnull ~<span style="color:#f92672">]</span><span style="color:#75715e"># iotop</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@coolnull ~<span style="color:#f92672">]</span><span style="color:#75715e"># iotop</span>
 </span></span><span style="display:flex;"><span> Total DISK READ: 8.00 M/s | Total DISK WRITE: 20.36 M/s
 </span></span><span style="display:flex;"><span>  TID PRIO USER DISK READ DISK WRITE SWAPIN IO&gt; COMMAND
 </span></span><span style="display:flex;"><span> <span style="color:#ae81ff">15758</span> be/4 root 7.99 M/s 8.01 M/s 0.00 % 61.97 % bonnie++ -n <span style="color:#ae81ff">0</span> -u <span style="color:#ae81ff">0</span> -r <span style="color:#ae81ff">239</span> -s <span style="color:#ae81ff">478</span> -f -b -d /tmp
@@ -565,7 +565,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>ps命令能打印出内存，cpu的情况但没办法打印出硬盘I/O的情况。虽然ps没办法打印出I/O的情况，但它可以显示出进程是否在等待I/O。</p>
 <p>The ps state field provides the processes current state; below is a list of states from the man page.
 ps状态列提供了进程当前的状态，以下从man ps上获取的进程stat列表</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>PROCESS STATE CODES
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>PROCESS STATE CODES
 </span></span><span style="display:flex;"><span> D uninterruptible sleep <span style="color:#f92672">(</span>usually IO<span style="color:#f92672">)</span>
 </span></span><span style="display:flex;"><span> R running or runnable <span style="color:#f92672">(</span>on run queue<span style="color:#f92672">)</span>
 </span></span><span style="display:flex;"><span> S interruptible sleep <span style="color:#f92672">(</span>waiting <span style="color:#66d9ef">for</span> an event to complete<span style="color:#f92672">)</span>
@@ -575,7 +575,7 @@ ps状态列提供了进程当前的状态，以下从man ps上获取的进程sta
 </span></span><span style="display:flex;"><span> Z defunct <span style="color:#f92672">(</span><span style="color:#e6db74">&#34;zombie&#34;</span><span style="color:#f92672">)</span> process, terminated but not reaped by its parent.
 </span></span></code></pre></div><p>等待I/O的进程通过处于uninterruptible sleep或D状态；通过给出这些信息我们就可以简单的查找出处在wait状态的进程</p>
 <p>示例：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@coolnull ~<span style="color:#f92672">]</span><span style="color:#75715e"># for x in `seq 1 1 10`; do ps -eo state,pid,cmd | grep &#34;^D&#34;; echo &#34;----&#34;; sleep 5; done</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@coolnull ~<span style="color:#f92672">]</span><span style="color:#75715e"># for x in `seq 1 1 10`; do ps -eo state,pid,cmd | grep &#34;^D&#34;; echo &#34;----&#34;; sleep 5; done</span>
 </span></span><span style="display:flex;"><span> D <span style="color:#ae81ff">248</span> <span style="color:#f92672">[</span>jbd2/dm-0-8<span style="color:#f92672">]</span>
 </span></span><span style="display:flex;"><span> D <span style="color:#ae81ff">16528</span> bonnie++ -n <span style="color:#ae81ff">0</span> -u <span style="color:#ae81ff">0</span> -r <span style="color:#ae81ff">239</span> -s <span style="color:#ae81ff">478</span> -f -b -d /tmp
 </span></span><span style="display:flex;"><span> ----
@@ -593,7 +593,7 @@ ps状态列提供了进程当前的状态，以下从man ps上获取的进程sta
 </span></span></code></pre></div><p>上述命令会每5秒循环打印出位于D状态的进程，共打印10次</p>
 <p>从上面的输出可以看出bonnie++，pid 16528比其它进程更加占用I/O。从这点，bonnie++看起来更有可能引起I/O Wait。但仅凭进程处于uninterruptible sleep state誊，还不能完全确定就是这引起的I/O wait。</p>
 <p>为了帮助肯定我们的怀疑，我们可以使用/proc文件系统。在这个进程目录里，每个进程都有一个io文件，里面的数值跟iotop命令获取的I/O数值一样。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@coolnull ~<span style="color:#f92672">]</span><span style="color:#75715e"># cat /proc/16528/io</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@coolnull ~<span style="color:#f92672">]</span><span style="color:#75715e"># cat /proc/16528/io</span>
 </span></span><span style="display:flex;"><span> rchar: <span style="color:#ae81ff">48752567</span>
 </span></span><span style="display:flex;"><span> wchar: <span style="color:#ae81ff">549961789</span>
 </span></span><span style="display:flex;"><span> syscr: <span style="color:#ae81ff">5967</span>
@@ -605,7 +605,7 @@ ps状态列提供了进程当前的状态，以下从man ps上获取的进程sta
 <h4 id="查找哪个文件在被繁重地写入">查找哪个文件在被繁重地写入</h4>
 <p>lsof命令会为你展示指定进程打开的所有文件或依赖提供选项的所有进程。从这个列表，人们可以根据文件的大小和/proc io文件里出现的次数做出有用的猜测，哪个文件正在被频繁地写入。</p>
 <p>为了减少输出的内容，我们可以使用-p 选项来只打印指定进程id打开的文件</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@coolnull ~<span style="color:#f92672">]</span><span style="color:#75715e"># lsof -p 16528</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>root@coolnull ~<span style="color:#f92672">]</span><span style="color:#75715e"># lsof -p 16528</span>
 </span></span><span style="display:flex;"><span> COMMAND PID USER FD TYPE DEVICE SIZE/OFF NODE NAME
 </span></span><span style="display:flex;"><span> bonnie++ <span style="color:#ae81ff">16528</span> root cwd DIR 252,0 <span style="color:#ae81ff">4096</span> <span style="color:#ae81ff">130597</span> /tmp
 </span></span><span style="display:flex;"><span> &lt;truncated&gt;
@@ -616,10 +616,10 @@ ps状态列提供了进程当前的状态，以下从man ps上获取的进程sta
 </span></span><span style="display:flex;"><span> bonnie++ <span style="color:#ae81ff">16528</span> root 12u REG 252,0 <span style="color:#ae81ff">501219328</span> <span style="color:#ae81ff">131869</span> &lt;strong&gt;/tmp/Bonnie.16528
 </span></span></code></pre></div><h3 id="3报错too-many-open-files">3.报错：too many open files</h3>
 <p>错误日志如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Socket accept error: accept tcp <span style="color:#f92672">[</span>::<span style="color:#f92672">]</span>:80: accept4: too many open files;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Socket accept error: accept tcp <span style="color:#f92672">[</span>::<span style="color:#f92672">]</span>:80: accept4: too many open files;
 </span></span></code></pre></div><p>too many open files(打开的文件过多)是Linux系统中常见的错误，从字面意思上看就是说程序打开的文件数过多，不过这里的files不单是文件的意思，也包括打开的通讯链接(比如socket)，正在监听的端口等等，所以有时候也可以叫做句柄(handle)，这个错误通常也可以叫做句柄数超出系统限制。</p>
 <p>引起的原因就是进程在某个时刻打开了超过shell会话限制的文件数量以及通讯链接数，通过命令<code>ulimit -a</code>可以查看当前shell会话设置的最大句柄数是多少</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># ulimit -a</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># ulimit -a</span>
 </span></span><span style="display:flex;"><span>core file size          <span style="color:#f92672">(</span>blocks, -c<span style="color:#f92672">)</span> <span style="color:#ae81ff">0</span>
 </span></span><span style="display:flex;"><span>data seg size           <span style="color:#f92672">(</span>kbytes, -d<span style="color:#f92672">)</span> unlimited
 </span></span><span style="display:flex;"><span>scheduling priority             <span style="color:#f92672">(</span>-e<span style="color:#f92672">)</span> <span style="color:#ae81ff">0</span>
@@ -638,7 +638,7 @@ ps状态列提供了进程当前的状态，以下从man ps上获取的进程sta
 </span></span><span style="display:flex;"><span>file locks                      <span style="color:#f92672">(</span>-x<span style="color:#f92672">)</span> unlimited
 </span></span></code></pre></div><p>open files那一行就代表当前shell会话目前允许单个进程打开的最大句柄数，这里是1024，这个值对于这个使用场景太小了。</p>
 <p>使用命令lsof -p 进程id可以查看单个进程所有打开的文件详情，使用命令lsof -p 进程id | wc -l可以统计进程打开了多少文件：（PS：使用lsof -i:80|wc -l可以查看80端口有多少个连接）</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>lsof -p <span style="color:#66d9ef">$(</span>ps -aux|grep -v <span style="color:#e6db74">&#34;grep&#34;</span>|grep sogo|awk <span style="color:#e6db74">&#39;$1!=&#34;&#34;{print $2}&#39;</span><span style="color:#66d9ef">)</span>|wc -l
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>lsof -p <span style="color:#66d9ef">$(</span>ps -aux|grep -v <span style="color:#e6db74">&#34;grep&#34;</span>|grep sogo|awk <span style="color:#e6db74">&#39;$1!=&#34;&#34;{print $2}&#39;</span><span style="color:#66d9ef">)</span>|wc -l
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#1610</span>
 </span></span><span style="display:flex;"><span>lsof -i:80|wc -l
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#337</span>
@@ -648,10 +648,10 @@ ps状态列提供了进程当前的状态，以下从man ps上获取的进程sta
 <p>作为临时限制，ulimit 可以作用于通过使用其命令登录的 shell 会话，在会话终止时便结束限制，并不影响于其他 shell 会话。而对于长期的固定限制，ulimit 命令语句又可以被添加到由登录 shell 读取的文件中，作用于特定的 shell 用户。前面多次提到shell会话，ulimit的影响范围是，输入ulimit命令之后的命令，也就是对当前shell和当前shell的子进程生效，对其它shell不产生影响。</p>
 </blockquote>
 <p>重启进程后，可以执行以下命令，查看新的limit是否对新进程生效</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat /proc/$pid/limits|grep open
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat /proc/$pid/limits|grep open
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># Max open files            65536                65536                files</span>
 </span></span></code></pre></div><p>另一种，通过修改配置文件来修改limit，在重启后不会失效：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>vim /etc/security/limits.conf  
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>vim /etc/security/limits.conf  
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#在最后加入  </span>
 </span></span><span style="display:flex;"><span>* soft nofile <span style="color:#ae81ff">65536</span>  
 </span></span><span style="display:flex;"><span>* hard nofile <span style="color:#ae81ff">65536</span>  

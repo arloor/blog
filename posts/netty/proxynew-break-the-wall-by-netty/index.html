@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -295,12 +295,12 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>在go中实现reactor模式很简单，其实在java中实现也不难。无非就是新建一个线程/提交到线程池，代码也就是<code>new Thread().start()</code>或者<code>excutors.submit(task)</code>这样。</p>
 <p>这里又要向<a href="https://github.com/iluwatar/java-design-patterns/tree/master/reactor">java-design-pattern</a>学习了。他对事件处理引入了一个Dispatcer接口（接口就有很多中实现啦，单线程的分派、线程池的分派、自己实现的线程池的分派）。</p>
 <p>Dispatcher接口</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Dispatcher</span> {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Dispatcher</span> {
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">onChannelReadEvent</span>(AbstractNioChannel channel, Object readObject, SelectionKey key);
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">stop</span>() <span style="color:#66d9ef">throws</span> InterruptedException;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>一个Dispatcher实现</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ThreadPoolDispatcher</span> <span style="color:#66d9ef">implements</span> Dispatcher {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ThreadPoolDispatcher</span> <span style="color:#66d9ef">implements</span> Dispatcher {
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> ExecutorService executorService;
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">ThreadPoolDispatcher</span>(<span style="color:#66d9ef">int</span> poolSize) {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">executorService</span> <span style="color:#f92672">=</span> Executors.<span style="color:#a6e22e">newFixedThreadPool</span>(poolSize);
@@ -337,7 +337,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 }
 </code></pre><p>这段代码是真实的我在使用的代码（代理的客户端）。可以看到，不使用<code>事件驱动</code>就是这样，事件和事件的处理放在了一起。我们一般的做法是，将代码隔离成方法。就像上面那样，将写定义在<code>writeAllBytes</code>函数中。这样做就实现了，事件名称（名称、声明&hellip;）和事件的处理（定义）相分离。但是这还不是事件驱动，事件驱动是真正实现事件接收和事件处理分离。</p>
 <p>一个典型的<a href="https://github.com/iluwatar/java-design-patterns/tree/master/event-driven-architecture">事件驱动</a>：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">//事件</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#75715e">//事件</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">interface</span> <span style="color:#a6e22e">Event</span> {
 </span></span><span style="display:flex;"><span>  Class<span style="color:#f92672">&lt;?</span> <span style="color:#66d9ef">extends</span> Event<span style="color:#f92672">&gt;</span> <span style="color:#a6e22e">getType</span>();
 </span></span><span style="display:flex;"><span>}

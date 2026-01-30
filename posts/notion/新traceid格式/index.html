@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -321,7 +321,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>● 地址：机器mac地址</p>
 <p>● 事件id（0-16383），单个tick⾥⾃增</p>
 <p>单机每秒钟可以⽣成1638亿个id JDK中没有提供V1版本的UUID，需要参考开源的代码：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>com.github.f4b6a3.uuid.factory.AbstTimeBasedFactory
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>com.github.f4b6a3.uuid.factory.AbstTimeBasedFactory
 </span></span></code></pre></div><p>**问题：**虽然使用了时间作为字段之一，但是把时间分成了三段，并把最低的32位移位到了最高的32位，破坏了时间的有序性，详见下面的代码：</p>
 <p><img src="/img/MTY4ODg1Njc4MzQxMjk1Mw_358414_4OxnbWmKTrhn0Hzb_1679484597.png" alt="https://wdcdn.qpic.cn/MTY4ODg1Njc4MzQxMjk1Mw_358414_4OxnbWmKTrhn0Hzb_1679484597?w=1200&amp;h=574"></p>
 <h3 id="uuid-v4-random"><strong>UUID V4 random</strong></h3>

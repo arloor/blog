@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -342,17 +342,17 @@ int main()
 <p><code>Mat</code>这个类包含两部分信息：矩阵头信息和指向包含像素“值”的矩阵的指针。矩阵头信息包含：矩阵的大小、存储的方法、矩阵的地址等等。矩阵头信息中的矩阵大小是constant的，尽管矩阵本身大小会根据不同的图片改变。（mat代表一个图片，而mat由matrix实现，并且matrix会被复用。）</p>
 <p>opencv是图像处理库，传递图像给函数是一种普遍的操作。下面讲讲将大大降低程序速度的行为——复制大图片（拷贝操作）。</p>
 <p>首先<code>Mat A,B</code>只创建了A,B的header，并没有创建一个matrix实例。当进行读取图片操作时，才真正创建了matrix，并且将此matrix的指针给了Mat对象。当进行复制/赋值操作时，实际上被复制的是header信息和matrix指针，并没有进行“深拷贝”（将对象完全复制一遍）。看一段代码</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>Mat A, C;                          <span style="color:#75715e">// creates just the header parts
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>Mat A, C;                          <span style="color:#75715e">// creates just the header parts
 </span></span></span><span style="display:flex;"><span>A <span style="color:#f92672">=</span> imread(argv[<span style="color:#ae81ff">1</span>], IMREAD_COLOR); <span style="color:#75715e">// here we&#39;ll know the method used (allocate matrix)
 </span></span></span><span style="display:flex;"><span>Mat <span style="color:#a6e22e">B</span>(A);                                 <span style="color:#75715e">// Use the copy constructor
 </span></span></span><span style="display:flex;"><span>C <span style="color:#f92672">=</span> A;                                    <span style="color:#75715e">// Assignment operator
 </span></span></span></code></pre></div><p>上面的所有Mat对象，最终都指向了一个matrix，只是他们可能拥有不同的header。这意味着一个<code>Mat</code>修改会影响其他的<code>Mat</code>。而不同的header决定了访问matrix的不同方式。</p>
 <p>例如，创建一个只关注某一矩形区域的Mat：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>Mat <span style="color:#a6e22e">D</span> (A, Rect(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">100</span>) ); <span style="color:#75715e">// using a rectangle
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>Mat <span style="color:#a6e22e">D</span> (A, Rect(<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">100</span>, <span style="color:#ae81ff">100</span>) ); <span style="color:#75715e">// using a rectangle
 </span></span></span><span style="display:flex;"><span>Mat E <span style="color:#f92672">=</span> A(Range<span style="color:#f92672">::</span>all(), Range(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">3</span>)); <span style="color:#75715e">// using row and column boundaries
 </span></span></span></code></pre></div><p>现在的问题是，既然这么多Mat都拥有Matrix的指针，谁负责释放Matrix。简单的回答是：最后使用它的人。这里面有一个引用计数的机制，当一个对象复制了mat的header，matrix的计数就会增加。当一个header被清除时，matrix的计数就会减少。减到0，matrix就会被清理。</p>
 <p>当然opencv也提供了复制matrix本身的方法：<code>cv::Mat::clone()</code>、<code>cv::Mat::copyTo()</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>Mat F <span style="color:#f92672">=</span> A.clone();
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>Mat F <span style="color:#f92672">=</span> A.clone();
 </span></span><span style="display:flex;"><span>Mat G;
 </span></span><span style="display:flex;"><span>A.copyTo(G);
 </span></span></code></pre></div><p>这样，Mat F、G的修改就不会影响到A。</p>
@@ -430,7 +430,7 @@ int main()
 </table>
 <h2 id="cvlut函数-遍历每个像素并改变其值">cv::LUT函数 遍历每个像素并改变其值</h2>
 <p>函数定义：<code>void LUT(InputArray src, InputArray lut, OutputArray dst)</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Parameters: 都是Mat类型
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Parameters: 都是Mat类型
 </span></span><span style="display:flex;"><span>第一个参数：原始图像的地址； 
 </span></span><span style="display:flex;"><span>第二个参数：查找表的地址，对于多通道图像的查找，它可以有一个通道，也可以与原始图像有相同的通道； 
 </span></span><span style="display:flex;"><span>第三个参数：输出图像的地址。

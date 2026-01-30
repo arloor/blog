@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -306,7 +306,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <h2 id="准备安装源">准备安装源</h2>
 <p>首先到<a href="https://access.redhat.com/downloads/content/rhel">Popular Downloads for Red Hat Enterprise Linux</a>下载rhel9的DVD iso到一台提供http服务的公网vps上。</p>
 <p>然后挂载该镜像到一个目录，然后启动httpd服务（文档:<a href="https://access.redhat.com/documentation/zh-cn/red_hat_enterprise_linux/9/html-single/performing_an_advanced_rhel_9_installation/index#creating-installation-sources-for-kickstart-installations_installing-rhel-as-an-experienced-user">使用 HTTP 或 HTTPS 创建安装源</a>）</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 下面这个链接自己在下载页面复制</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 下面这个链接自己在下载页面复制</span>
 </span></span><span style="display:flex;"><span>wget https://access.cdn.redhat.com/content/origin/files/sha256/30/30fd8dff2d29a384bd97886fa826fa5be872213c81e853eae3f9d9674f720ad0/rhel-9.2-x86_64-dvd.iso?_auth_<span style="color:#f92672">=</span>xxxxxxxxxxx -O /var/redhat9.iso
 </span></span><span style="display:flex;"><span>lsof -i:80
 </span></span><span style="display:flex;"><span>yum install -y httpd
@@ -341,7 +341,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
       </tr>
   </tbody>
 </table>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#version=RHEL9</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#version=RHEL9</span>
 </span></span><span style="display:flex;"><span>ignoredisk --only-use<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;sda|hda|xda|vda|xvda|nvme0n1&#34;</span>
 </span></span><span style="display:flex;"><span>clearpart --all --initlabel
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># autopart --nohome --noswap</span>
@@ -399,7 +399,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>重启。</li>
 </ol>
 <p>下面一键完成：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 1. 启用blscfg模块</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 1. 启用blscfg模块</span>
 </span></span><span style="display:flex;"><span>sed -i <span style="color:#e6db74">&#39;s/GRUB_ENABLE_BLSCFG.*/GRUB_ENABLE_BLSCFG=true/g&#39;</span> /etc/default/grub
 </span></span><span style="display:flex;"><span>grub2-mkconfig -o /boot/grub2/grub.cfg
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 2. 下载网络安装的kernel</span>
@@ -437,17 +437,17 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p><del>将 <code>/boot</code> 前的UUID=，改为<code>/dev/vda1</code></del> (搬瓦工的机器是/dev/sda1，会启动不了，所以还是在rc.local中mount)</p>
 <p>将/boot使用的分区删掉</p>
 <p>然后在rc.local或者其他能自启动的地方加上</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sed -i <span style="color:#e6db74">&#34;/.*\/boot.*/d&#34;</span> /etc/fstab
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sed -i <span style="color:#e6db74">&#34;/.*\/boot.*/d&#34;</span> /etc/fstab
 </span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;mount /dev/vda1 /boot&#34;</span> &gt;&gt; /etc/rc.d/rc.local
 </span></span><span style="display:flex;"><span>chmod +x /etc/rc.d/rc.local
 </span></span></code></pre></div><h3 id="添加virtio驱动">添加virtio驱动</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt;&gt; /etc/dracut.conf <span style="color:#e6db74">&lt;&lt;EOF
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt;&gt; /etc/dracut.conf <span style="color:#e6db74">&lt;&lt;EOF
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">add_drivers+=&#34; virtio_console virtio_net virtio_scsi virtio_blk &#34;
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
 </span></span><span style="display:flex;"><span>dracut -f
 </span></span><span style="display:flex;"><span>lsinitrd /boot/initramfs-<span style="color:#66d9ef">$(</span>uname -r<span style="color:#66d9ef">)</span>.img | grep virtio
 </span></span></code></pre></div><p>可以看到已经有virtio了：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>-rw-r--r--   <span style="color:#ae81ff">1</span> root     root        <span style="color:#ae81ff">12196</span> Feb <span style="color:#ae81ff">15</span> 00:45 usr/lib/modules/5.14.0-284.11.1.el9_2.x86_64/kernel/drivers/block/virtio_blk.ko.xz
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>-rw-r--r--   <span style="color:#ae81ff">1</span> root     root        <span style="color:#ae81ff">12196</span> Feb <span style="color:#ae81ff">15</span> 00:45 usr/lib/modules/5.14.0-284.11.1.el9_2.x86_64/kernel/drivers/block/virtio_blk.ko.xz
 </span></span><span style="display:flex;"><span>-rw-r--r--   <span style="color:#ae81ff">1</span> root     root        <span style="color:#ae81ff">19152</span> Feb <span style="color:#ae81ff">15</span> 00:45 usr/lib/modules/5.14.0-284.11.1.el9_2.x86_64/kernel/drivers/char/virtio_console.ko.xz
 </span></span><span style="display:flex;"><span>-rw-r--r--   <span style="color:#ae81ff">1</span> root     root        <span style="color:#ae81ff">45932</span> Feb <span style="color:#ae81ff">15</span> 00:45 usr/lib/modules/5.14.0-284.11.1.el9_2.x86_64/kernel/drivers/net/virtio_net.ko.xz
 </span></span><span style="display:flex;"><span>-rw-r--r--   <span style="color:#ae81ff">1</span> root     root        <span style="color:#ae81ff">12336</span> Feb <span style="color:#ae81ff">15</span> 00:45 usr/lib/modules/5.14.0-284.11.1.el9_2.x86_64/kernel/drivers/scsi/virtio_scsi.ko.xz
@@ -456,23 +456,23 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </blockquote>
 <h3 id="添加第二块磁盘">添加第二块磁盘</h3>
 <p>在腾讯云新建云硬盘，并挂载后，执行：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkfs -t ext4 /dev/vdb
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkfs -t ext4 /dev/vdb
 </span></span><span style="display:flex;"><span>mkdir /dd
 </span></span><span style="display:flex;"><span>mount /dev/vdb /dd
 </span></span><span style="display:flex;"><span>df -TH
 </span></span></code></pre></div><p>如果要自动挂载，可以加到 <code>/etc/fstab</code> 下，内容为：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/dev/vdb /dd   ext4 defaults     <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">0</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/dev/vdb /dd   ext4 defaults     <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">0</span>
 </span></span></code></pre></div><p>参考腾讯云的<a href="https://cloud.tencent.com/document/product/1207/81981#Steps">云盘初始化文档</a></p>
 <h3 id="开始dd">开始dd</h3>
 <p>一键完成：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>fdisk -l -u /dev/vda
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>fdisk -l -u /dev/vda
 </span></span><span style="display:flex;"><span>last<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>fdisk -l -u /dev/vda|tail -n <span style="color:#ae81ff">1</span> |awk <span style="color:#e6db74">&#39;{print $3}&#39;</span><span style="color:#66d9ef">)</span> <span style="color:#75715e"># 获取分区的末尾</span>
 </span></span><span style="display:flex;"><span>echo $last
 </span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;&#34;</span> &gt; .bash_history <span style="color:#75715e"># 清空历史命令</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">(</span>dd   bs<span style="color:#f92672">=</span><span style="color:#ae81ff">512</span> count<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>expr <span style="color:#e6db74">${</span>last<span style="color:#e6db74">}</span> + 1<span style="color:#66d9ef">)</span> <span style="color:#66d9ef">if</span><span style="color:#f92672">=</span>/dev/vda | gzip -9 &gt; /dd/9.img.gz &amp;<span style="color:#f92672">)</span> <span style="color:#75715e">## dd到末尾+1</span>
 </span></span><span style="display:flex;"><span>watch -n <span style="color:#ae81ff">5</span> pkill -USR1 ^dd$  <span style="color:#75715e"># 每五秒输出一次进度</span>
 </span></span></code></pre></div><p>手动步骤：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>fdisk -l -u /dev/vda
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>fdisk -l -u /dev/vda
 </span></span><span style="display:flex;"><span>Disk /dev/vda：120 GiB，128849018880 字节，251658240 个扇区
 </span></span><span style="display:flex;"><span>单元：扇区 / <span style="color:#ae81ff">1</span> * 512 <span style="color:#f92672">=</span> <span style="color:#ae81ff">512</span> 字节
 </span></span><span style="display:flex;"><span>扇区大小<span style="color:#f92672">(</span>逻辑/物理<span style="color:#f92672">)</span>：512 字节 / <span style="color:#ae81ff">512</span> 字节
@@ -488,25 +488,25 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span><span style="color:#f92672">(</span>dd   bs<span style="color:#f92672">=</span><span style="color:#ae81ff">512</span> count<span style="color:#f92672">=</span><span style="color:#ae81ff">8390656</span> <span style="color:#66d9ef">if</span><span style="color:#f92672">=</span>/dev/vda | gzip -9 &gt; /dd/9.img.gz &amp;<span style="color:#f92672">)</span>
 </span></span><span style="display:flex;"><span>watch -n <span style="color:#ae81ff">5</span> pkill -USR1 ^dd$  <span style="color:#75715e"># 每五秒输出一次进度</span>
 </span></span></code></pre></div><h3 id="用web服务下载镜像">用web服务下载镜像</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl start httpd
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl start httpd
 </span></span><span style="display:flex;"><span>ln -fs /dd/9.img.gz /var/www/html/9.img.gz
 </span></span><span style="display:flex;"><span>wget http://xxxx/9.img.gz -O 9.img.gz
 </span></span></code></pre></div><h2 id="在新机器上安装">在新机器上安装</h2>
 <h3 id="安装dd镜像">安装dd镜像</h3>
 <p>centos8/9先关闭blscfg</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sed -i <span style="color:#e6db74">&#34;s/^GRUB_ENABLE_BLSCFG=.*/GRUB_ENABLE_BLSCFG=false/g&#34;</span> /etc/default/grub
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sed -i <span style="color:#e6db74">&#34;s/^GRUB_ENABLE_BLSCFG=.*/GRUB_ENABLE_BLSCFG=false/g&#34;</span> /etc/default/grub
 </span></span><span style="display:flex;"><span>grub2-mkconfig -o /boot/grub2/grub.cfg
 </span></span><span style="display:flex;"><span>rm -rf /boot/grub2/grub.cfg.bak
 </span></span><span style="display:flex;"><span>rm -rf /boot/grub2/grub.cfg.old
 </span></span></code></pre></div><p>因为dd脚本需要使用debian的源，国内vps需要设置代理：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>export http_proxy<span style="color:#f92672">=</span>xxx
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>export http_proxy<span style="color:#f92672">=</span>xxx
 </span></span><span style="display:flex;"><span>export https_proxy<span style="color:#f92672">=</span>xxx
 </span></span></code></pre></div><p>最后安装：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bash &lt;<span style="color:#f92672">(</span>curl -sSLf http://cdn.arloor.com/rhel/Core_Install_v3.1.sh<span style="color:#f92672">)</span>  -dd http://154.17.9.38/9.img.gz
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bash &lt;<span style="color:#f92672">(</span>curl -sSLf http://cdn.arloor.com/rhel/Core_Install_v3.1.sh<span style="color:#f92672">)</span>  -dd http://154.17.9.38/9.img.gz
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 国内阿里云、腾讯云推荐用：</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># . unpass;bash &lt;(curl -sSLf https://mirror.ghproxy.com/https://raw.githubusercontent.com/bin456789/reinstall/main/reinstall.sh) dd --img=http://154.17.9.38/9.img.gz</span>
 </span></span></code></pre></div><h3 id="dd后磁盘扩容">dd后磁盘扩容</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#对新添加的磁盘进行分区，此处使用整块盘</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#对新添加的磁盘进行分区，此处使用整块盘</span>
 </span></span><span style="display:flex;"><span>fdisk /dev/vda  <span style="color:#75715e"># 然后输入n，一路回车，最后输入w使分区生效</span>
 </span></span><span style="display:flex;"><span>vgdisplay   <span style="color:#75715e">#查看系统中的逻辑组</span>
 </span></span><span style="display:flex;"><span>pvdisplay   <span style="color:#75715e">#查看系统中的物理卷</span>
@@ -522,7 +522,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>df -Th <span style="color:#75715e">#这次再看的话，已经改过来了</span>
 </span></span><span style="display:flex;"><span>lsblk <span style="color:#75715e">#查看块设备</span>
 </span></span></code></pre></div><h3 id="注册到红帽">注册到红帽</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 先设置一个独一无二的hostname</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 先设置一个独一无二的hostname</span>
 </span></span><span style="display:flex;"><span>hostnamectl set-hostname xxx
 </span></span><span style="display:flex;"><span>subscription-manager register
 </span></span><span style="display:flex;"><span>subscription-manager attach --auto
@@ -530,7 +530,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>简单总结：需要你再次注册一年期的开发者订阅，而不提供“续约”，因为续约这种服务是需要付费的（资本主义操了</p>
 <p>再次注册也很简单，用浏览器无痕模式打开<a href="http://developers.redhat.com/">developers.redhat.com</a>，然后登陆，然后登出，最后关闭所有浏览器。过一会到<a href="http://access.redhat.com/management">红帽订阅管理网站</a>就能看到新的开发者订阅。</p>
 <p>之前的红帽服务器需要重新注册：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo subscription-manager remove --all
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo subscription-manager remove --all
 </span></span><span style="display:flex;"><span>sudo subscription-manager unregister
 </span></span><span style="display:flex;"><span>sudo subscription-manager clean
 </span></span><span style="display:flex;"><span>sudo subscription-manager register
@@ -538,7 +538,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>sudo subscription-manager attach --auto
 </span></span></code></pre></div><h3 id="sshd关闭密码登陆等">sshd关闭密码登陆等</h3>
 <p>密码登陆可能有风险，而且我又使用了公钥登陆，就关闭密码登陆了</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#关闭密码</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#关闭密码</span>
 </span></span><span style="display:flex;"><span>grep <span style="color:#e6db74">&#34;PasswordAuthentication yes &#34;</span> /etc/ssh/sshd_config
 </span></span><span style="display:flex;"><span>sed  -i  -e <span style="color:#e6db74">&#39;s/\(#\)\?PasswordAuthentication yes/PasswordAuthentication no/g&#39;</span> /etc/ssh/sshd_config
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#关闭GSSAPI认证登陆</span>
@@ -557,7 +557,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><h3 id="删除旧内核">删除旧内核</h3>
 <p>我们的镜像boot分区只有1G，如果内核占据的磁盘太大，可能因为boot分区满导致yum更新失败。当然，Rhel9使用dnf的配置项 <code>installonly_limit=3</code>  （/etc/dnf/dnf.conf）来控制内核的数量，默认保存3个，所以一般来说不会超过1G大小。如果真的不够，可以把上面的值调整成2。</p>
 <p>但是还是提供个删除旧内核的脚本：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo rpm -q kernel <span style="color:#75715e"># 查看内核数量</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo rpm -q kernel <span style="color:#75715e"># 查看内核数量</span>
 </span></span><span style="display:flex;"><span>sudo dnf remove --oldinstallonly --setopt installonly_limit<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span> kernel -y
 </span></span><span style="display:flex;"><span>sudo rpm -q kernel <span style="color:#75715e"># 再次查看内核数量</span>
 </span></span></code></pre></div>

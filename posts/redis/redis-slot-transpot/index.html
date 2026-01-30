@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -325,7 +325,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </ol>
 <h2 id="askmoved重定向">ASK/MOVED重定向</h2>
 <p>在介绍迁移前，先说下什么是ASK/MOVED重定向。前面说到节点不会代理客户端对其他节点的查询，而是返回重定向，告诉客户端目标key在哪个节点上——这是基于性能的考虑。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>get <span style="color:#f92672">{</span>n<span style="color:#f92672">}</span><span style="color:#ae81ff">111</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>get <span style="color:#f92672">{</span>n<span style="color:#f92672">}</span><span style="color:#ae81ff">111</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">(</span>error<span style="color:#f92672">)</span> MOVED <span style="color:#ae81ff">3432</span> 99.47.149.25:6419
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>get <span style="color:#f92672">{</span>n<span style="color:#f92672">}</span><span style="color:#ae81ff">222</span>
@@ -349,9 +349,9 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </ul>
 <h3 id="迁移实际操作">迁移实际操作</h3>
 <p>先放迁移操作的命令：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>./redis-trib.rb reshard  --from   004c9d0adad075161658c3a2f972591a265ec83c<span style="color:#f92672">(</span>A<span style="color:#f92672">)</span> --to  7efc5feb4a1ddb095e9253d918d1d3137599d381<span style="color:#f92672">(</span>B<span style="color:#f92672">)</span>   --slots <span style="color:#ae81ff">10</span> --yes --timeout <span style="color:#ae81ff">10000</span>  --yes --pipeline <span style="color:#ae81ff">20</span> 99.47.149.25:6419
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>./redis-trib.rb reshard  --from   004c9d0adad075161658c3a2f972591a265ec83c<span style="color:#f92672">(</span>A<span style="color:#f92672">)</span> --to  7efc5feb4a1ddb095e9253d918d1d3137599d381<span style="color:#f92672">(</span>B<span style="color:#f92672">)</span>   --slots <span style="color:#ae81ff">10</span> --yes --timeout <span style="color:#ae81ff">10000</span>  --yes --pipeline <span style="color:#ae81ff">20</span> 99.47.149.25:6419
 </span></span></code></pre></div><p>把节点A中的前10个slot迁移到节点B，每次迁移20个key。详细的参数解释可以自己通过<code>./redis-trib.rb help</code>看，我要讲如何安装这个脚本执行所需的依赖。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>    <span style="color:#75715e">#安装ruby</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>    <span style="color:#75715e">#安装ruby</span>
 </span></span><span style="display:flex;"><span>    yum -y install zlib-devel
 </span></span><span style="display:flex;"><span>    tar xvf ruby-2.2.7.tar.gz
 </span></span><span style="display:flex;"><span>    cd ruby-2.2.7/
@@ -381,7 +381,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </ul>
 <p>迁移耗时肯定会和服务器性能、集群中的网络状况有关联——以上耗时仅供参考，根据本文有缘人完全可以自己来一遍迁移计时【推荐】</p>
 <p>上一个计算毫秒级时间差的shell函数：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> timediff<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> timediff<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># time format:date +&#34;%s.%N&#34;, such as 1502758855.907197692</span>
 </span></span><span style="display:flex;"><span>    start_time<span style="color:#f92672">=</span>$1
@@ -433,7 +433,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>添加redis代理后，如果只有一个代理，会有单点问题（该redis代理挂了，整个redis服务就挂了）。这很好解决，启动多个redis代理，将他们注册到etcd或者zookeeper，客户端从etcd或zookeeper获取redis代理信息并选择一个使用。</p>
 <h2 id="附录仅备忘防止重复工作">附录——仅备忘，防止重复工作</h2>
 <p>快速执行redis-trib的脚本</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#! /bin/bash
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#! /bin/bash
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"># 用于快速迁移一个槽点</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#一般还是不能直接用的，需要保证需要迁移的slot迁移前后都在节点slots的最前面；并自己修改一些a和b中的一些参数</span>
 </span></span><span style="display:flex;"><span>a<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;redis-trib.rb reshard --yes --from   34a5f5f4f6f2cf0da57ef51d2902feb3103c161b  --to  004c9d0adad075161658c3a2f972591a265ec83c   --slots 1  --timeout 10000   --pipeline 50 99.47.149.25:6419&#34;</span>

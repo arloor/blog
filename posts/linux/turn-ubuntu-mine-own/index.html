@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -362,7 +362,7 @@ EOF
 systemctl enable ss
 service ss start
 </code></pre><p>这样就可以使用service ss xxxxx来管理shadowsocks了。其中比较重要的项是：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#在网络启动完毕后启动ss-local；</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#在网络启动完毕后启动ss-local；</span>
 </span></span><span style="display:flex;"><span>After<span style="color:#f92672">=</span>network-online.target
 </span></span><span style="display:flex;"><span>Wants<span style="color:#f92672">=</span>network-online.target
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#进程退出五秒后自动重启。</span>
@@ -562,7 +562,7 @@ sudo tlp start
 </code></pre><p>tlp可以设置充电阀值，详见<a href="https://wiki.archlinux.org/index.php/TLP_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)">arch linux wiki</a></p>
 <p>实际上我没有用tlp，因为发现在windows下配置了之后，就不需要在ubuntu上再做设置了。</p>
 <h1 id="设置apt代理">设置apt代理</h1>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo vim /etc/apt/apt.conf.d/proxy.conf
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo vim /etc/apt/apt.conf.d/proxy.conf
 </span></span></code></pre></div><pre tabindex="0"><code>Acquire::http::Proxy &#34;http://user:password@proxy.server:port/&#34;;
 Acquire::https::Proxy &#34;http://user:password@proxy.server:port/&#34;;
 </code></pre><h1 id="最后">最后</h1>

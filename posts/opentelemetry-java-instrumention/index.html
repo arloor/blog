@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -331,7 +331,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </ol>
 <h3 id="agentstarterimpl">AgentStarterImpl</h3>
 <p>构造如下，涉及到一个类型强转：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>  <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> AgentStarter <span style="color:#a6e22e">createAgentStarter</span>(
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>  <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> AgentStarter <span style="color:#a6e22e">createAgentStarter</span>(
 </span></span><span style="display:flex;"><span>      ClassLoader agentClassLoader, Instrumentation instrumentation, File javaagentFile)
 </span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">throws</span> Exception {
 </span></span><span style="display:flex;"><span>    Class<span style="color:#f92672">&lt;?&gt;</span> starterClass <span style="color:#f92672">=</span>
@@ -345,7 +345,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>AgentStarterImpl是AgentClassLoader加载的，他是AgentStarter这个接口的实现类（由BootstrapClassloader加载）。因为AgentStartImpl extends(impl) AgentStartImpl, 且 AgentClassLoader extends BootstrapClassLoader（逻辑上的父子关系）。</p>
 <p>AgentStarterImpl又创建了各种插件的extensionClassLoader，独立classloader的目的是为了避免与用户代码的影响。</p>
 <p>最后将extensionClassLoader设置为线程上下文的Classloader，并安装BytebuddyAgent来做字节码修改。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>  <span style="color:#a6e22e">@Override</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>  <span style="color:#a6e22e">@Override</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">start</span>() {
 </span></span><span style="display:flex;"><span>    extensionClassLoader <span style="color:#f92672">=</span> createExtensionClassLoader(getClass().<span style="color:#a6e22e">getClassLoader</span>(), javaagentFile);
 </span></span><span style="display:flex;"><span>    ClassLoader savedContextClassLoader <span style="color:#f92672">=</span> Thread.<span style="color:#a6e22e">currentThread</span>().<span style="color:#a6e22e">getContextClassLoader</span>();

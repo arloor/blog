@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -376,9 +376,9 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <h3 id="mergetree存储结构">MergeTree存储结构</h3>
 <p><a href="https://developer.aliyun.com/article/761931?spm=a2c6h.12873639.article-detail.5.32324011wLItBr">ClickHouse内核分析-MergeTree的存储结构和查询加速</a></p>
 <p>表的数据存储在$path/data/$database/$table目录下，该目录下的子目录格式为：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-plaintext" data-lang="plaintext"><span style="display:flex;"><span>$partitionId_$minBlock_$maxBlock_$level
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-plaintext" data-lang="plaintext"><span style="display:flex;"><span>$partitionId_$minBlock_$maxBlock_$level
 </span></span></code></pre></div><p>并且，一个partition是分为多个目录的，举个实际的例子如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ls |grep 8f244a4f142a2f3c5ea8da2fbc25405b
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ls |grep 8f244a4f142a2f3c5ea8da2fbc25405b
 </span></span><span style="display:flex;"><span>8f244a4f142a2f3c5ea8da2fbc25405b_0_106_20
 </span></span><span style="display:flex;"><span>8f244a4f142a2f3c5ea8da2fbc25405b_107_112_1
 </span></span><span style="display:flex;"><span>8f244a4f142a2f3c5ea8da2fbc25405b_107_135_2
@@ -420,7 +420,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>主键是action_id、scene_id&hellip;</li>
 <li>有avatar_id上的minmax索引</li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> user_action_log (
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">CREATE</span> <span style="color:#66d9ef">TABLE</span> user_action_log (
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">`</span>time<span style="color:#f92672">`</span> DateTime <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">CAST</span>(<span style="color:#e6db74">&#39;1970-01-01 08:00:00&#39;</span>, <span style="color:#e6db74">&#39;DateTime&#39;</span>) <span style="color:#66d9ef">COMMENT</span> <span style="color:#e6db74">&#39;日志时间&#39;</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">`</span>action_id<span style="color:#f92672">`</span> UInt16 <span style="color:#66d9ef">DEFAULT</span> <span style="color:#66d9ef">CAST</span>(<span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#39;UInt16&#39;</span>) <span style="color:#66d9ef">COMMENT</span> <span style="color:#e6db74">&#39;日志行为类型id&#39;</span>,
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">`</span>action_name<span style="color:#f92672">`</span> String <span style="color:#66d9ef">DEFAULT</span> <span style="color:#e6db74">&#39;&#39;</span> <span style="color:#66d9ef">COMMENT</span> <span style="color:#e6db74">&#39;日志行为类型名&#39;</span>,
@@ -472,9 +472,9 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <h2 id="向量引擎">向量引擎</h2>
 <p>通过SIMD(Single Instruction Multiple Data)加速操作，ClickHouse使用SSE 4.2指令集。关于SIMD可见<a href="https://zhuanlan.zhihu.com/p/337756824">向量化并行（vectorization）</a></p>
 <h2 id="低基数类型">低基数类型</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Set set<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> HashSet<span style="color:#f92672">&lt;&gt;</span>(list)
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>Set set<span style="color:#f92672">=</span><span style="color:#66d9ef">new</span> HashSet<span style="color:#f92672">&lt;&gt;</span>(list)
 </span></span></code></pre></div><p>考虑从list生成set，如果list不断膨胀，膨胀到非常大，最后生成的set的大小仍然比较小，则这个数据集就是低基数的。用sql描述就是：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">select</span> <span style="color:#66d9ef">distinct</span> column的结果比较小
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">select</span> <span style="color:#66d9ef">distinct</span> column的结果比较小
 </span></span></code></pre></div><p>低基数类型实际是使用<strong>字典索引</strong>。把遇到的元素都加入到字典中，每个元素一个index。然后用index代替元素本身，从而缩减存储和查询成本。</p>
 <p><img src="/img/low-cardinality.webp" alt=""></p>
 <p>相对于低基数，高基数问题是监控场景下的常见问题：</p>
@@ -495,7 +495,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>使用zookeeper进行分布式协作</li>
 </ul>
 <p>sharding规则在<code>config.xml</code>的remote_servers中，也可以在<code>metrika.xml</code>中配置，三分片两副本配置的例子如下:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span>    <span style="color:#f92672">&lt;clickhouse_remote_servers&gt;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span>    <span style="color:#f92672">&lt;clickhouse_remote_servers&gt;</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;cluster&gt;</span>
 </span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;shard&gt;</span>
 </span></span><span style="display:flex;"><span>                <span style="color:#f92672">&lt;weight&gt;</span>1<span style="color:#f92672">&lt;/weight&gt;</span>

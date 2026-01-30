@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -300,7 +300,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <ol>
 <li>以管理员运行 cmd，输入：</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>reg ADD <span style="color:#e6db74">&#34;HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\PasswordLess\Device&#34;</span> /v DevicePasswordLessBuildVersion /t REG_DWORD /d <span style="color:#ae81ff">0</span> /f
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>reg ADD <span style="color:#e6db74">&#34;HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\PasswordLess\Device&#34;</span> /v DevicePasswordLessBuildVersion /t REG_DWORD /d <span style="color:#ae81ff">0</span> /f
 </span></span></code></pre></div><ol start="2">
 <li>重启电脑，让新注册表生效</li>
 <li>在开始菜单输入：<code>netplwiz</code> ，并取消勾选</li>
@@ -321,15 +321,15 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <img src="/img/windows-feature-disable-virt.png" alt="" width="400px" style="max-width: 100%;">
 
 <p>关闭虚拟机平台和 Hyper-V 虚拟机监控程序：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>dism.exe /online /disable-feature /featurename:VirtualMachinePlatform /norestart
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>dism.exe /online /disable-feature /featurename:VirtualMachinePlatform /norestart
 </span></span><span style="display:flex;"><span>DISM /Online /Disable-Feature /FeatureName:Microsoft-Hyper-V-All /NoRestart
 </span></span></code></pre></div><p>开启虚拟机平台和 Hyper-V 虚拟机监控程序：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
 </span></span><span style="display:flex;"><span>DISM /Online /Enable-Feature /All /FeatureName:Microsoft-Hyper-V-All /NoRestart
 </span></span></code></pre></div><p>或者使用 bcedit 命令关闭 hyper-v：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bcdedit /set hypervisorlaunchtype off
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bcdedit /set hypervisorlaunchtype off
 </span></span></code></pre></div><p>启用 hyper-v：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bcdedit /set hypervisorlaunchtype auto
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bcdedit /set hypervisorlaunchtype auto
 </span></span></code></pre></div><h3 id="使用-intel-大小核的-cpu-时控制面板选择电源计划选择平衡或者高性能更推荐平衡千万不要选卓越性能">使用 intel 大小核的 CPU 时，控制面板“选择电源计划”选择平衡或者高性能（更推荐平衡），千万不要选卓越性能</h3>
 <p>这涉及到大小核的调度策略，更多请搜索异构调度策略。参考：</p>
 <ul>
@@ -338,10 +338,10 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </ul>
 <h2 id="应用已卸载但是设置-应用中还有">应用已卸载但是设置-&gt;应用中还有</h2>
 <p>在注册表中删除即可</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">计算机</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#a6e22e">HKEY_LOCAL_MACHINE</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#a6e22e">SOFTWARE</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#a6e22e">WOW6432Node</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#a6e22e">Microsoft</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#a6e22e">Windows</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#a6e22e">CurrentVersion</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#a6e22e">Uninstall</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#a6e22e">计算机</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#a6e22e">HKEY_LOCAL_MACHINE</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#a6e22e">SOFTWARE</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#a6e22e">WOW6432Node</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#a6e22e">Microsoft</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#a6e22e">Windows</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#a6e22e">CurrentVersion</span><span style="color:#960050;background-color:#1e0010">\</span><span style="color:#a6e22e">Uninstall</span>
 </span></span></code></pre></div><h2 id="应用已卸载但是残留了服务">应用已卸载，但是残留了服务</h2>
 <p>在注册表中删除即可</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>计算机<span style="color:#ae81ff">\H</span>KEY_LOCAL_MACHINE<span style="color:#ae81ff">\S</span>YSTEM<span style="color:#ae81ff">\C</span>urrentControlSet<span style="color:#ae81ff">\S</span>ervices
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>计算机<span style="color:#ae81ff">\H</span>KEY_LOCAL_MACHINE<span style="color:#ae81ff">\S</span>YSTEM<span style="color:#ae81ff">\C</span>urrentControlSet<span style="color:#ae81ff">\S</span>ervices
 </span></span></code></pre></div><h2 id="窗口最小化">窗口最小化</h2>
 <ol>
 <li><code>ALT+Esc</code> 可以使当前窗口最小化。</li>
@@ -353,14 +353,14 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </ol>
 <h2 id="恢复老的右键菜单">恢复老的右键菜单</h2>
 <p>以管理员运行：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>reg add <span style="color:#e6db74">&#34;HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32&#34;</span> /f
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>reg add <span style="color:#e6db74">&#34;HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32&#34;</span> /f
 </span></span><span style="display:flex;"><span>taskkill /F /IM explorer.exe
 </span></span><span style="display:flex;"><span>explorer.exe
 </span></span></code></pre></div><h2 id="关闭-edge-浏览器的自动更新">关闭 edge 浏览器的自动更新</h2>
 <p><a href="https://sysin.org/blog/disable-edge-auto-update/#Microsoft-Edge-for-Windows">如何禁用 Microsoft Edge 自动更新 (Windows, Linux, macOS)
 Posted by sysin on 2022-09-03</a></p>
 <p>禁用</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>taskkill /im MicrosoftEdgeUpdate.exe /f
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>taskkill /im MicrosoftEdgeUpdate.exe /f
 </span></span><span style="display:flex;"><span>taskkill /im msedge.exe /f
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>sc.exe stop edgeupdate
@@ -375,7 +375,7 @@ Posted by sysin on 2022-09-03</a></p>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># schtasks.exe /Delete /TN \MicrosoftEdgeUpdateTaskMachineUA /F</span>
 </span></span><span style="display:flex;"><span>Get-ScheduledTask -taskname MicrosoftEdgeUpdate* | Unregister-ScheduledTask -Confirm: $false
 </span></span></code></pre></div><p>启用</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>sc.exe config edgeupdate start= delayed-auto
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>sc.exe config edgeupdate start= delayed-auto
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 启用 edgeupdatem 服务</span>
 </span></span><span style="display:flex;"><span>sc.exe config edgeupdatem start= demand
@@ -407,7 +407,7 @@ Posted by sysin on 2022-09-03</a></p>
 <p>要为应用程序启用自动更新，只需返回组策略编辑器并选择未配置或已禁用单选按钮。</p>
 <h2 id="删除文件资源管理器侧边栏显示的-linux-文件夹">删除文件资源管理器侧边栏显示的 linux 文件夹</h2>
 <p>修改注册表：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>HKEY_CURRENT_USER<span style="color:#ae81ff">\S</span>oftware<span style="color:#ae81ff">\C</span>lasses<span style="color:#ae81ff">\C</span>LSID<span style="color:#ae81ff">\{</span>B2B4A4D1-2754-4140-A2EB-9A76D9D7CDC6<span style="color:#f92672">}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>HKEY_CURRENT_USER<span style="color:#ae81ff">\S</span>oftware<span style="color:#ae81ff">\C</span>lasses<span style="color:#ae81ff">\C</span>LSID<span style="color:#ae81ff">\{</span>B2B4A4D1-2754-4140-A2EB-9A76D9D7CDC6<span style="color:#f92672">}</span>
 </span></span></code></pre></div><p>将 <code>System.IsPinnedToNameSpaceTree</code> 从 1 改成 0</p>
 
   </div>

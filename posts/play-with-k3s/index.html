@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -355,7 +355,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>使用 flannel 的 wireguard-native 后端，开启多云网络互通</li>
 <li>仅给 containerd 配置代理环境变量，加速镜像拉取，不影响 kubectl、kubelet。参考：<a href="https://docs.k3s.io/advanced#configuring-an-http-proxy">Configuring an HTTP proxy</a>。</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>version<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>curl -s https://api.github.com/repos/k3s-io/k3s/releases/latest | jq -r <span style="color:#e6db74">&#39;.tag_name&#39;</span><span style="color:#66d9ef">)</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>version<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>curl -s https://api.github.com/repos/k3s-io/k3s/releases/latest | jq -r <span style="color:#e6db74">&#39;.tag_name&#39;</span><span style="color:#66d9ef">)</span>
 </span></span><span style="display:flex;"><span>version_url_encoded<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>echo $version | sed <span style="color:#e6db74">&#39;s/+/%2B/g&#39;</span> | sed <span style="color:#e6db74">&#39;s/\//\\\//g&#39;</span><span style="color:#66d9ef">)</span>
 </span></span><span style="display:flex;"><span>echo 安装 k3s 版本 $version
 </span></span><span style="display:flex;"><span>mkdir -p /var/lib/rancher/k3s/agent/images/
@@ -384,7 +384,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>使用离线安装的方式，提前下载好 k3s 二进制文件和 airgap 镜像包</li>
 <li>仅给 containerd 配置代理环境变量，加速镜像拉取，不影响 kubectl、kubelet。参考：<a href="https://docs.k3s.io/advanced#configuring-an-http-proxy">Configuring an HTTP proxy</a>。</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>k3s_server<span style="color:#f92672">=</span>https://v6.arloor.com:6443
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>k3s_server<span style="color:#f92672">=</span>https://v6.arloor.com:6443
 </span></span><span style="display:flex;"><span>version<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>curl -s https://api.github.com/repos/k3s-io/k3s/releases/latest | jq -r <span style="color:#e6db74">&#39;.tag_name&#39;</span><span style="color:#66d9ef">)</span>
 </span></span><span style="display:flex;"><span>version_url_encoded<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>echo $version | sed <span style="color:#e6db74">&#39;s/+/%2B/g&#39;</span> | sed <span style="color:#e6db74">&#39;s/\//\\\//g&#39;</span><span style="color:#66d9ef">)</span>
 </span></span><span style="display:flex;"><span>echo 安装 k3s 版本 $version
@@ -406,7 +406,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span>./k3s_init.sh <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span>--node-external-ip<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;`curl https://ttl.arloor.com/ip -k`&#34;</span>
 </span></span></code></pre></div><h2 id="创建-serviceaccount-和-clusterrolebinding">创建 ServiceAccount 和 ClusterRoleBinding</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#ae81ff">kubectl apply -f - &lt;&lt;EOF</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#ae81ff">kubectl apply -f - &lt;&lt;EOF</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">ServiceAccount</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
@@ -443,7 +443,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">kubectl get secret/arloor-secret -o yaml</span> <span style="color:#75715e">#查看token字段，base64格式的</span>
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">kubectl describe secret/arloor-secret</span> <span style="color:#75715e"># 查看token字段，原始的</span>
 </span></span></code></pre></div><h2 id="重新签发-tls-证书增加自己的域名">重新签发 TLS 证书，增加自己的域名</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>domain<span style="color:#f92672">=</span>k3s.arloor.com
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>domain<span style="color:#f92672">=</span>k3s.arloor.com
 </span></span><span style="display:flex;"><span>cat &gt; /etc/rancher/k3s/config.yaml <span style="color:#e6db74">&lt;&lt;EOF
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">tls-san:
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  - ${domain}
@@ -457,7 +457,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 或者在k3s服务中增加 --tls-san xxx.com</span>
 </span></span><span style="display:flex;"><span>systemctl restart k3s
 </span></span></code></pre></div><h2 id="设置私有镜像仓库">设置私有镜像仓库</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; /etc/rancher/k3s/registries.yaml <span style="color:#e6db74">&lt;&lt;EOF
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; /etc/rancher/k3s/registries.yaml <span style="color:#e6db74">&lt;&lt;EOF
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">mirrors:
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  docker.io:
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    endpoint:
@@ -465,7 +465,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
 </span></span><span style="display:flex;"><span>systemctl restart k3s
 </span></span></code></pre></div><h2 id="导入-acme-的-tls-证书">导入 ACME 的 TLS 证书</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#75715e">#! /bin/bash</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#75715e">#! /bin/bash</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">namespace=&#34;default monitoring kubernetes-dashboard&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">for ns in ${namespace}; do</span>
@@ -485,7 +485,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">done</span>
 </span></span></code></pre></div><h2 id="安装-kubernetes-reflector-实现跨命名空间同步-cm-和-secret">安装 kubernetes-reflector 实现跨命名空间同步 cm 和 secret</h2>
 <p>用于下面的 cert-manager 签发的证书 secret 跨命名空间同步</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl -n kube-system apply -f https://github.com/emberstack/kubernetes-reflector/releases/latest/download/reflector.yaml
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl -n kube-system apply -f https://github.com/emberstack/kubernetes-reflector/releases/latest/download/reflector.yaml
 </span></span></code></pre></div><h2 id="cert-manager-部署">Cert-Manager 部署</h2>
 <blockquote>
 <p>签发很慢很慢，要 10 来分钟。。建议还是先用宿主机的 acme.sh 签发好证书，然后导入到 k3s 集群中</p>
@@ -498,7 +498,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li><a href="https://cert-manager.io/docs/reference/cmctl/">The cert-manager Command Line Tool (cmctl)</a></li>
 </ul>
 <p>安装：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl create namespace cert-manager
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl create namespace cert-manager
 </span></span><span style="display:flex;"><span>kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.19.2/cert-manager.yaml
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 为 cert-manager 相关的 deployment 配置 HTTP 代理</span>
@@ -518,7 +518,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 验证安装</span>
 </span></span><span style="display:flex;"><span>cmctl check api
 </span></span></code></pre></div><p>签发证书：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Secret</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">cloudflare-api-token-secret</span>
@@ -621,7 +621,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># # 查看生成的证书 secret</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># kubectl get secret arloor-combined-tls -n default -o yaml</span>
 </span></span></code></pre></div><p>cmctl 使用</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl get certificate
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ kubectl get certificate
 </span></span><span style="display:flex;"><span>NAME                   READY   SECRET                AGE
 </span></span><span style="display:flex;"><span>arloor-combined-cert   True    arloor-combined-tls   13h
 </span></span><span style="display:flex;"><span>
@@ -637,7 +637,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>如果 cmctl renew 很慢，可以尝试删除对应的 CertificateRequest 资源，会触发重建。</p>
 </blockquote>
 <h2 id="安装-kubernetes-dashboard">安装 kubernetes-dashboard</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
 </span></span><span style="display:flex;"><span>helm repo update
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># helm search repo kubernetes-dashboard -l</span>
 </span></span><span style="display:flex;"><span>helm show values kubernetes-dashboard/kubernetes-dashboard --version 7.14.0 &gt; /tmp/values.yaml
@@ -645,7 +645,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --create-namespace --namespace kubernetes-dashboard --set kong.enabled<span style="color:#f92672">=</span>false
 </span></span></code></pre></div><p><img src="/img/k3s-dashboard-pod.png" alt="alt text"></p>
 <h2 id="配置-kubernetes-dashboard-的-ingress">配置 kubernetes-dashboard 的 ingress</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#ae81ff">host=&#34;dash.arloor.com&#34;</span> <span style="color:#75715e"># host=&#34;*.arloor.com&#34;支持通配符</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#ae81ff">host=&#34;dash.arloor.com&#34;</span> <span style="color:#75715e"># host=&#34;*.arloor.com&#34;支持通配符</span>
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">kubectl apply -f - &lt;&lt;EOF</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 创建k3s-arloor-tls secret</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
@@ -754,7 +754,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">EOF</span>
 </span></span></code></pre></div><h2 id="修改-traefik-的-websecure-端口">修改 traefik 的 websecure 端口</h2>
 <p><a href="https://docs.k3s.io/networking/networking-services#traefik-ingress-controller">Traefik Ingress Controller</a></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#ae81ff">cat &gt; /var/lib/rancher/k3s/server/manifests/traefik-mine.yaml &lt;&lt; EOF</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#ae81ff">cat &gt; /var/lib/rancher/k3s/server/manifests/traefik-mine.yaml &lt;&lt; EOF</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">helm.cattle.io/v1</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">HelmChartConfig</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
@@ -769,7 +769,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">EOF</span>
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">kubectl apply -f /var/lib/rancher/k3s/server/manifests/traefik-mine.yaml</span>
 </span></span></code></pre></div><h2 id="argo-cd">Argo CD</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl create namespace argocd
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl create namespace argocd
 </span></span><span style="display:flex;"><span>kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># kubectl get pods -n argocd -w</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 修改argocd-server的service类型为NodePort或者LoadBalancer，方便外部访问</span>
@@ -785,7 +785,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 为argocd-repo-server配置git HTTP代理</span>
 </span></span><span style="display:flex;"><span>kubectl set env deployment/argocd-repo-server -n argocd HTTP_PROXY<span style="color:#f92672">=</span>http://mihomo.default.svc.cluster.local:7890 HTTPS_PROXY<span style="color:#f92672">=</span>http://mihomo.default.svc.cluster.local:7890 NO_PROXY<span style="color:#f92672">=</span>localhost,127.0.0.1,10.0.0.0/8,.svc,.cluster.local
 </span></span><span style="display:flex;"><span>kubectl rollout restart deploy argocd-repo-server -n argocd;
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#75715e"># 创建 argocd 的 TLS secret</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#75715e"># 创建 argocd 的 TLS secret</span>
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">kubectl apply -f - &lt;&lt;EOF</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Secret</span>
@@ -827,18 +827,18 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">EOF</span>
 </span></span></code></pre></div><p><img src="/img/k3s-argocd-workload.png" alt="alt text"></p>
 <p>删除 argocd</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl delete namespace argocd
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl delete namespace argocd
 </span></span></code></pre></div><p>此时还剩下 argocd 相关的 CRD 资源，可以通过下面命令删除</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl get crd | grep argoproj.io | awk <span style="color:#e6db74">&#39;{print $1}&#39;</span> | xargs kubectl delete crd
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl get crd | grep argoproj.io | awk <span style="color:#e6db74">&#39;{print $1}&#39;</span> | xargs kubectl delete crd
 </span></span></code></pre></div><p>还有一些 ClusterRole 和 ClusterRoleBinding 资源，可以通过下面命令删除</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl get clusterrole | grep argocd | awk <span style="color:#e6db74">&#39;{print $1}&#39;</span> | xargs kubectl delete clusterrole
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl get clusterrole | grep argocd | awk <span style="color:#e6db74">&#39;{print $1}&#39;</span> | xargs kubectl delete clusterrole
 </span></span><span style="display:flex;"><span>kubectl get clusterrolebinding | grep argocd | awk <span style="color:#e6db74">&#39;{print $1}&#39;</span> | xargs kubectl delete clusterrolebinding
 </span></span></code></pre></div><h2 id="使用-reloader-监听-cm-和-scr-的变化并重启工作负载">使用 Reloader 监听 cm 和 scr 的变化并重启工作负载</h2>
 <ul>
 <li><a href="https://github.com/stakater/Reloader?tab=readme-ov-file#-installation">github.com/stakater/Reloader</a></li>
 </ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl apply -f https://raw.githubusercontent.com/stakater/Reloader/master/deployments/kubernetes/reloader.yaml
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">apps/v1</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl apply -f https://raw.githubusercontent.com/stakater/Reloader/master/deployments/kubernetes/reloader.yaml
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">apps/v1</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Deployment</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">metadata</span>:
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">my-app</span>
@@ -857,9 +857,9 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>  <span style="color:#75715e"># ... deployment spec</span>
 </span></span></code></pre></div><p>支持 Deployment、DaemonSet、StatefulSet、ReplicaSet、CronJob</p>
 <p>查看日志</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl logs -f deployment/reloader-reloader --tail <span style="color:#ae81ff">100</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl logs -f deployment/reloader-reloader --tail <span style="color:#ae81ff">100</span>
 </span></span></code></pre></div><h2 id="在-macos-上管理">在 MacOS 上管理</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p ~/.kube
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p ~/.kube
 </span></span><span style="display:flex;"><span>scp -P <span style="color:#ae81ff">2222</span> root@k3s.arloor.com:/etc/rancher/k3s/k3s.yaml ~/.kube/config
 </span></span><span style="display:flex;"><span>curl -LO <span style="color:#e6db74">&#34;https://dl.k8s.io/release/v1.33.1/bin/darwin/arm64/kubectl&#34;</span>
 </span></span><span style="display:flex;"><span>chmod +x kubectl
@@ -867,7 +867,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>sed -i <span style="color:#e6db74">&#34;&#34;</span> <span style="color:#e6db74">&#39;s/127.0.0.1/v6.arloor.com/&#39;</span> ~/.kube/config
 </span></span><span style="display:flex;"><span>kubectl get nodes
 </span></span></code></pre></div><h2 id="在-linux-上管理">在 Linux 上管理</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p ~/.kube
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p ~/.kube
 </span></span><span style="display:flex;"><span>scp -P <span style="color:#ae81ff">2222</span> root@k3s.arloor.com:/etc/rancher/k3s/k3s.yaml ~/.kube/config
 </span></span><span style="display:flex;"><span>curl -LO <span style="color:#e6db74">&#34;https://dl.k8s.io/release/v1.33.1/bin/linux/amd64/kubectl&#34;</span>
 </span></span><span style="display:flex;"><span>chmod +x kubectl
@@ -875,18 +875,18 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>sed -i <span style="color:#e6db74">&#39;s/127.0.0.1/v6.arloor.com/&#39;</span> ~/.kube/config
 </span></span><span style="display:flex;"><span>kubectl get nodes
 </span></span></code></pre></div><h2 id="删除镜像">删除镜像</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>crictl rmi --prune
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>crictl rmi --prune
 </span></span><span style="display:flex;"><span>crictl rmi -a
 </span></span></code></pre></div><h2 id="快速-exec-容器">快速 exec 容器</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; /usr/local/bin/attach <span style="color:#e6db74">&lt;&lt;&#39;EOF&#39;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; /usr/local/bin/attach <span style="color:#e6db74">&lt;&lt;&#39;EOF&#39;
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kubectl exec -it -n ${2:-default} $(kubectl get pods -l app=$1 -n ${2:-default} -o jsonpath=&#39;{.items[0].metadata.name}&#39;) -- /bin/sh
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
 </span></span><span style="display:flex;"><span>chmod +x /usr/local/bin/attach
 </span></span></code></pre></div><p>第一个参数是 <code>app label</code> 的值，第二个参数是 <code>namespace</code></p>
 <h2 id="查看日志">查看日志</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl logs -f --tail <span style="color:#ae81ff">1000</span> --timestamps -l app<span style="color:#f92672">=</span>proxy
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl logs -f --tail <span style="color:#ae81ff">1000</span> --timestamps -l app<span style="color:#f92672">=</span>proxy
 </span></span></code></pre></div><h2 id="修改-app-的镜像">修改 app 的镜像</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 修改Deployment中的镜像</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 修改Deployment中的镜像</span>
 </span></span><span style="display:flex;"><span>kubectl set image deployment/deployment-name container-name<span style="color:#f92672">=</span>new-image:tag -n namespace
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 示例</span>
@@ -898,9 +898,9 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 修改StatefulSet中的镜像</span>
 </span></span><span style="display:flex;"><span>kubectl set image statefulset/statefulset-name container-name<span style="color:#f92672">=</span>new-image:tag -n namespace
 </span></span></code></pre></div><h2 id="查看集群资源使用情况">查看集群资源使用情况</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl top pods -A --sum --sort-by<span style="color:#f92672">=</span>memory
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl top pods -A --sum --sort-by<span style="color:#f92672">=</span>memory
 </span></span></code></pre></div><h2 id="备份-sqllite-数据和-server-token">备份 sqllite 数据和 server token</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; /usr/local/bin/backup_k3s.sh <span style="color:#e6db74">&lt;&lt;&#39;EOF&#39;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; /usr/local/bin/backup_k3s.sh <span style="color:#e6db74">&lt;&lt;&#39;EOF&#39;
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">#!/bin/bash
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">tar -zcvf k3s.server.db.tar.gz  -C /var/lib/rancher/k3s/server/db/ .
@@ -910,13 +910,13 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><p>k3s.server.db.tar.gz 和 k3s.server.db.tar.gz 分别是数据库和 token 的备份文件</p>
 <h2 id="恢复-sqllite-数据和-server-token">恢复 sqllite 数据和 server token</h2>
 <p>恢复后你的工作负载会回到备份时的状态，之后的变更都会丢失</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl stop k3s
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>systemctl stop k3s
 </span></span><span style="display:flex;"><span>tar -zxvf k3s.server.db.tar.gz -C /var/lib/rancher/k3s/server/db/
 </span></span><span style="display:flex;"><span>tar -zxvf k3s.server.token.tar.gz -C /var/lib/rancher/k3s/server
 </span></span><span style="display:flex;"><span>systemctl start k3s
 </span></span></code></pre></div><h2 id="升级-k3s">升级 k3s</h2>
 <p>先逐个升级 Server 节点，然后再升级 Agent 节点。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>version<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>curl -s https://api.github.com/repos/k3s-io/k3s/releases/latest | jq -r <span style="color:#e6db74">&#39;.tag_name&#39;</span><span style="color:#66d9ef">)</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>version<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>curl -s https://api.github.com/repos/k3s-io/k3s/releases/latest | jq -r <span style="color:#e6db74">&#39;.tag_name&#39;</span><span style="color:#66d9ef">)</span>
 </span></span><span style="display:flex;"><span>version_url_encoded<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>echo $version | sed <span style="color:#e6db74">&#39;s/+/%2B/g&#39;</span> | sed <span style="color:#e6db74">&#39;s/\//\\\//g&#39;</span><span style="color:#66d9ef">)</span>
 </span></span><span style="display:flex;"><span>echo 安装 k3s 版本 $version
 </span></span><span style="display:flex;"><span>curl -L -o /tmp/k3s <span style="color:#e6db74">&#34;https://us.arloor.dev/https://github.com/k3s-io/k3s/releases/download/</span><span style="color:#e6db74">${</span>version_url_encoded<span style="color:#e6db74">}</span><span style="color:#e6db74">/k3s&#34;</span>

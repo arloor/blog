@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -291,7 +291,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   <div class="post">
     <p>最近写个小东西用到了MySQL，折腾下怎么给MySQL配置SSL</p>
 <h2 id="mysql-daemon配置">MySQL Daemon配置</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#rm -rf /var/lib/mysql</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#rm -rf /var/lib/mysql</span>
 </span></span><span style="display:flex;"><span>docker stop mysql
 </span></span><span style="display:flex;"><span>mkdir -p /var/lib/mysql /etc/mysql/conf.d
 </span></span><span style="display:flex;"><span>cat &gt; /etc/mysql/conf.d/ssl.cnf <span style="color:#e6db74">&lt;&lt;EOF
@@ -329,7 +329,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>设置 <code>default-time_zone = '+8:00'</code> 是为了让mysql的时间和服务器时间一致，否则会有8小时的时差。</li>
 </ol>
 <h3 id="建表">建表</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker exec mysql sh -c <span style="color:#e6db74">&#39;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker exec mysql sh -c <span style="color:#e6db74">&#39;
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">mysql -pYOUR_PASSWORD -e &#34;
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">use test
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">DROP TABLE IF EXISTS rank_record;
@@ -353,13 +353,13 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;</span>
 </span></span></code></pre></div><h2 id="macos连接">macOS连接</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>brew install mysql-client
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>brew install mysql-client
 </span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#39;export PATH=&#34;/opt/homebrew/opt/mysql-client/bin:$PATH&#34;&#39;</span> &gt;&gt; ~/.zshrc
 </span></span><span style="display:flex;"><span>export PATH<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/opt/homebrew/opt/mysql-client/bin:</span>$PATH<span style="color:#e6db74">&#34;</span>
 </span></span><span style="display:flex;"><span>mysql test -h xxxx.com -u root --password<span style="color:#f92672">=</span>xxxxxx --ssl-mode<span style="color:#f92672">=</span>REQUIRED
 </span></span><span style="display:flex;"><span><span style="color:#75715e">## 执行 SHOW SESSION STATUS LIKE &#39;Ssl_cipher&#39;; 或 \s; 确认ssl已激活</span>
 </span></span></code></pre></div><h2 id="rust-sqlx-连接">Rust sqlx 连接：</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> pool: <span style="color:#a6e22e">sqlx</span>::Pool<span style="color:#f92672">&lt;</span>sqlx::MySql<span style="color:#f92672">&gt;</span> <span style="color:#f92672">=</span> MySqlPoolOptions::new()
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">let</span> pool: <span style="color:#a6e22e">sqlx</span>::Pool<span style="color:#f92672">&lt;</span>sqlx::MySql<span style="color:#f92672">&gt;</span> <span style="color:#f92672">=</span> MySqlPoolOptions::new()
 </span></span><span style="display:flex;"><span>    .max_connections(<span style="color:#ae81ff">20</span>)
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">//  .connect(&#34;mysql://root:xxxxxxx@xxxxxx.com:3306/test?ssl-mode=Required&amp;timezone=%2B08:00&#34;) // timezone参数见https://github.com/launchbadge/sqlx/pull/3418/files。
 </span></span></span><span style="display:flex;"><span>    .connect_with(
@@ -383,7 +383,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>核心是要打开 <code>With CA Cert</code> ，并把 <code>ssl_ca=</code> 指定的ca证书内容贴在下面，否则Grafana不会尝试使用ssl连接，就会被mysql服务端拒绝。</p>
 <p><img src="/img/d27be30b18dff83b4aa40501bb9a0816.png" alt="d27be30b18dff83b4aa40501bb9a0816.png"></p>
 <p>查询语句：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">AVG</span>(<span style="color:#f92672">`</span>rank<span style="color:#f92672">`</span>) <span style="color:#66d9ef">as</span> value,
 </span></span><span style="display:flex;"><span>  src_security_code <span style="color:#66d9ef">as</span> metric,
 </span></span><span style="display:flex;"><span>  <span style="color:#960050;background-color:#1e0010">$</span>__timeGroupAlias(calc_time, <span style="color:#e6db74">&#39;10m&#39;</span>)
@@ -417,7 +417,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">ORDER</span> <span style="color:#66d9ef">BY</span>
 </span></span><span style="display:flex;"><span>  time
 </span></span></code></pre></div><p>对应的sql语句：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">AVG</span>(<span style="color:#f92672">`</span>rank<span style="color:#f92672">`</span>)          <span style="color:#66d9ef">as</span> value,
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#66d9ef">SELECT</span> <span style="color:#66d9ef">AVG</span>(<span style="color:#f92672">`</span>rank<span style="color:#f92672">`</span>)          <span style="color:#66d9ef">as</span> value,
 </span></span><span style="display:flex;"><span>       src_security_code    <span style="color:#66d9ef">as</span> metric,
 </span></span><span style="display:flex;"><span>       CONVERT_TZ(from_unixtime(<span style="color:#66d9ef">cast</span>(<span style="color:#66d9ef">cast</span>(UNIX_TIMESTAMP(calc_time) <span style="color:#f92672">/</span> (<span style="color:#ae81ff">600</span>) <span style="color:#66d9ef">as</span> signed) <span style="color:#f92672">*</span> <span style="color:#ae81ff">600</span> <span style="color:#66d9ef">as</span> signed)), <span style="color:#e6db74">&#39;UTC&#39;</span>,
 </span></span><span style="display:flex;"><span>                  <span style="color:#e6db74">&#39;+08:00&#39;</span>) <span style="color:#66d9ef">as</span> time

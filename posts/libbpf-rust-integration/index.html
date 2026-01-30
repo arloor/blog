@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -315,18 +315,18 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>pkg-config: libbpf-rs使用pkg-config来查找libbpf库</li>
 </ol>
 <p><strong>Ubuntu 22.04/Debain 12安装：</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>apt-get install -y libbpf-dev zlib1g-dev libelf-dev pkg-config clang bpftool make
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>apt-get install -y libbpf-dev zlib1g-dev libelf-dev pkg-config clang bpftool make
 </span></span></code></pre></div><p><strong>centos stream 9 安装：</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>yum install -y libbpf zlib-devel elfutils-libelf-devel pkgconf-pkg-config clang bpftool make gettext-devel automake
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>yum install -y libbpf zlib-devel elfutils-libelf-devel pkgconf-pkg-config clang bpftool make gettext-devel automake
 </span></span></code></pre></div><h2 id="生成vmlinuxh">生成vmlinux.h</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bpftool btf dump file /sys/kernel/btf/vmlinux format c &gt; vmlinux.h
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bpftool btf dump file /sys/kernel/btf/vmlinux format c &gt; vmlinux.h
 </span></span></code></pre></div><p>一些简单的ebpf程序可以不依赖vmlinux.h。</p>
 <blockquote>
 <p>也可以不依赖手动生成的vmlinux.h，而是直接将 libbpf-rs 下的 <a href="https://github.com/libbpf/libbpf-rs/tree/master/vmlinux">vmlinux模块</a> 作为build dependency，这样可以避免手动生成vmlinux.h的麻烦。后面的详细实操就没有生成vmlinux.h</p>
 </blockquote>
 <h2 id="rust-lib项目搭建">rust lib项目搭建</h2>
 <h3 id="总体文件结构">总体文件结构</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>.
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>.
 </span></span><span style="display:flex;"><span>├── Cargo.lock
 </span></span><span style="display:flex;"><span>├── Cargo.toml
 </span></span><span style="display:flex;"><span>├── build.rs
@@ -345,7 +345,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <blockquote>
 <p>如果想在c语言文件中进行符号跳转，可以安装微软的 C/C++ 插件 <code>ms-vscode.cpptools</code>，整体体验还是不错的，bpf的helper函数也能跳转。</p>
 </blockquote>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;vmlinux.h&#34;</span><span style="color:#75715e">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;vmlinux.h&#34;</span><span style="color:#75715e">
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bpf/bpf_helpers.h&gt;</span><span style="color:#75715e">
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bpf/bpf_core_read.h&gt;</span><span style="color:#75715e">
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;bpf/bpf_tracing.h&gt;</span><span style="color:#75715e">
@@ -384,7 +384,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">char</span> _license[] <span style="color:#a6e22e">SEC</span>(<span style="color:#e6db74">&#34;license&#34;</span>) <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;GPL&#34;</span>;
 </span></span></code></pre></div><p><strong>Cargo.toml：</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[<span style="color:#a6e22e">package</span>]
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[<span style="color:#a6e22e">package</span>]
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">name</span> = <span style="color:#e6db74">&#34;bpf_socket_filter&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">version</span> = <span style="color:#e6db74">&#34;0.1.0&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">authors</span> = [<span style="color:#e6db74">&#34;arloor &lt;admin@arloor.com&gt;&#34;</span>]
@@ -408,7 +408,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">libbpf-cargo</span> = <span style="color:#e6db74">&#34;0.23.0&#34;</span>   <span style="color:#75715e"># Cargo plugin to build bpf programs</span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">vmlinux</span> = { <span style="color:#a6e22e">git</span> = <span style="color:#e6db74">&#34;https://github.com/libbpf/libbpf-rs.git&#34;</span>, <span style="color:#a6e22e">branch</span> = <span style="color:#e6db74">&#34;master&#34;</span> } <span style="color:#75715e">#使用远程的vmlinux.h 配合build.rs使用</span>
 </span></span></code></pre></div><p><strong>build.rs</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">use</span> std::env;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">use</span> std::env;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">use</span> std::path::PathBuf;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">use</span> libbpf_cargo::SkeletonBuilder;
@@ -440,7 +440,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>运行cargo build时，libbpf-cargo插件将会根据build.rs生成的program.skel.rs文件，包含了所有的bpf map和bpf program。</p>
 <h3 id="编写librs以作为其他项目的依赖">编写lib.rs,以作为其他项目的依赖</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#75715e">#![deny(warnings)]</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#75715e">#![deny(warnings)]</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">use</span> libc::{
 </span></span><span style="display:flex;"><span>    bind, close, if_nametoindex, sockaddr_ll, socket, <span style="color:#66d9ef">AF_PACKET</span>, <span style="color:#66d9ef">PF_PACKET</span>, <span style="color:#66d9ef">SOCK_CLOEXEC</span>,
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">SOCK_NONBLOCK</span>, <span style="color:#66d9ef">SOCK_RAW</span>,
@@ -572,7 +572,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="编写example1rs">编写example1.rs</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">use</span> std::{thread::sleep, time::Duration};
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">use</span> std::{thread::sleep, time::Duration};
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">use</span> bpf_socket_filter <span style="color:#66d9ef">as</span> socket_filter;
 </span></span><span style="display:flex;"><span>
@@ -585,27 +585,27 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="测试">测试</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cargo run --example example1
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cargo run --example example1
 </span></span></code></pre></div><h3 id="查看系统当前有哪些ebpf程序">查看系统当前有哪些ebpf程序</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bpftool prog show
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>bpftool prog show
 </span></span></code></pre></div><h2 id="进阶">进阶</h2>
 <h3 id="docker运行">docker运行</h3>
 <p>需要增加 <code>--privileged</code>, 参考<a href="https://andreybleme.com/2022-05-22/running-ebpf-programs-on-docker-containers/">running-ebpf-programs-on-docker-containers</a></p>
 <h3 id="静态链接">静态链接</h3>
 <p><strong>1. 静态链接libbpf、zlib、libelf</strong></p>
 <p><code>libbpf-rs</code> 提供了 <code>vendored</code> 特性，自动在运行时编译libbpf、zlib、libelf的静态库，从而可以静态链接到生成的可执行文件中。在Cargo.toml中激活：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[<span style="color:#a6e22e">dependencies</span>.<span style="color:#a6e22e">libbpf-rs</span>]
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-toml" data-lang="toml"><span style="display:flex;"><span>[<span style="color:#a6e22e">dependencies</span>.<span style="color:#a6e22e">libbpf-rs</span>]
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">version</span> = <span style="color:#e6db74">&#34;0.23.0&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">features</span> = [<span style="color:#e6db74">&#34;vendored&#34;</span>]
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">default-features</span> = <span style="color:#66d9ef">false</span>
 </span></span></code></pre></div><p><code>vendored</code> 特性编译时需要执行<a href="https://github.com/libbpf/libbpf-sys/blob/master/build.rs">libbpf-sys的build.rs</a>，需要下面的这些包，请根据发行版自行安装</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># centos # 使用 yum whatprovides xxx查询到具体的package</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># centos # 使用 yum whatprovides xxx查询到具体的package</span>
 </span></span><span style="display:flex;"><span>yum install -y autoconf gettext-devel flex bison gawk make pkg-config automake
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># ubuntu # 使用 apt-file search xxx查询到具体的package</span>
 </span></span><span style="display:flex;"><span>apt-get install -y autoconf autopoint flex bison gawk make pkg-config automake
 </span></span></code></pre></div><p><strong>2. 生成静态链接的 gnu 二进制文件</strong></p>
 <p>参考<a href="https://doc.rust-lang.org/reference/linkage.html">Rust Linkage</a>和<a href="https://github.com/libbpf/libbpf-rs/pull/498">VENDORIZE: add feature vendored</a>，执行以下命令即可：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>RUSTFLAGS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;-C target-feature=+crt-static&#34;</span> cargo build --release --target x86_64-unknown-linux-gnu
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>RUSTFLAGS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;-C target-feature=+crt-static&#34;</span> cargo build --release --target x86_64-unknown-linux-gnu
 </span></span></code></pre></div><p>注意：</p>
 <ol>
 <li>libbpf-rs静态链接仅支持gnu，<strong>不支持musl</strong></li>
@@ -613,18 +613,18 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>可执行文件在 <code>/target/x86_64-unknown-linux-gnu/release/</code></li>
 </ol>
 <p>如果报错：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/usr/bin/ld: cannot find -lm
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>/usr/bin/ld: cannot find -lm
 </span></span><span style="display:flex;"><span>/usr/bin/ld: cannot find -lc
 </span></span></code></pre></div><p>说明系统上缺少了一些静态库，安装即可。</p>
 <p>以我的redhat9开发机为例，缺失的是 <code>glibc-static</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># search from https://pkgs.org/search/?q=libc.a</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># search from https://pkgs.org/search/?q=libc.a</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># centos 9</span>
 </span></span><span style="display:flex;"><span>dnf --enablerepo<span style="color:#f92672">=</span>crb install glibc-static
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># redhat9</span>
 </span></span><span style="display:flex;"><span>subscription-manager repos --enable codeready-builder-for-rhel-9-x86_64-rpms <span style="color:#75715e"># https://access.redhat.com/articles/4348511</span>
 </span></span><span style="display:flex;"><span>yum install -y glibc-static <span style="color:#75715e"># yum whatprovides &#34;*/libc.a&#34;</span>
 </span></span></code></pre></div><p>以ubuntu为例，缺失的是 <code>libc6-dev</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>apt install -y libc6-dev
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>apt install -y libc6-dev
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>$ apt update <span style="color:#f92672">&amp;&amp;</span> apt-get install -y apt-file <span style="color:#f92672">&amp;&amp;</span> apt-file update <span style="color:#f92672">&amp;&amp;</span> apt-file search libc.a | grep <span style="color:#e6db74">&#34;libc6-dev:&#34;</span>
 </span></span><span style="display:flex;"><span>libc6-dev: /usr/lib/x86_64-linux-gnu/libc.a

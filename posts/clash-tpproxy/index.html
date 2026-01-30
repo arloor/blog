@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -297,7 +297,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>关闭tun</li>
 <li>使用dns的fallback配置来避免dns污染相关问题</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">mixed-port</span>: <span style="color:#ae81ff">7890</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">mixed-port</span>: <span style="color:#ae81ff">7890</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">redir-port</span>: <span style="color:#ae81ff">7892</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">authentication</span>: [<span style="color:#e6db74">&#34;&#34;</span>]
 </span></span><span style="display:flex;"><span><span style="color:#f92672">allow-lan</span>: <span style="color:#66d9ef">true</span>
@@ -324,13 +324,13 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li><strong>因为使用的是redirect模式，所以需要打开内核的ip_forward特性</strong>。（iptables-tpproxy则需要根据fwmark进行增加ip route</li>
 </ol>
 <p>开启内核的ip_forward</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sed -i <span style="color:#e6db74">&#39;/^net.ipv4.ip_forward=0/&#39;</span>d /etc/sysctl.conf
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sed -i <span style="color:#e6db74">&#39;/^net.ipv4.ip_forward=0/&#39;</span>d /etc/sysctl.conf
 </span></span><span style="display:flex;"><span>sed -n <span style="color:#e6db74">&#39;/^net.ipv4.ip_forward=1/&#39;</span>p /etc/sysctl.conf | grep -q <span style="color:#e6db74">&#34;net.ipv4.ip_forward=1&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> $? -ne <span style="color:#ae81ff">0</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
 </span></span><span style="display:flex;"><span>    echo -e <span style="color:#e6db74">&#34;net.ipv4.ip_forward=1&#34;</span> &gt;&gt; /etc/sysctl.conf <span style="color:#f92672">&amp;&amp;</span> sysctl -p
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
 </span></span></code></pre></div><p>nftables的redirect（以下只代理tcp，不代理udp）</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; /lib/systemd/system/con.service <span style="color:#e6db74">&lt;&lt;EOF
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; /lib/systemd/system/con.service <span style="color:#e6db74">&lt;&lt;EOF
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[Unit]
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Description=clash
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">After=network.target
@@ -349,7 +349,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[Install]
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">WantedBy=multi-user.target
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir /etc/nftables
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir /etc/nftables
 </span></span><span style="display:flex;"><span>cat &gt; /etc/nftables/nftables-redirect-clash.nft <span style="color:#e6db74">&lt;&lt;EOF
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">table ip nat {
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">	chain clash_dns {
@@ -502,7 +502,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <blockquote>
 <p>除了利用REDIRECT模式，Istio还提供TPROXY模式，当然也是借助Linux内核提供的功能实现的，对于TPROXY模式，实现的原理要相对复杂不少，需要借助iptables和路由：通过iptables将数据包打上mark，然后使用一个特殊的路由，将数据包指向本地，由于使用了mangle表，所以数据包的原始和目的地址都是不会被修改的。下面是一个例子：</p>
 </blockquote>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>iptables -t mangle -A PREROUTING -p tcp -j TPROXY --tproxy-mark 0x1/0x1 --on-port <span style="color:#ae81ff">8888</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>iptables -t mangle -A PREROUTING -p tcp -j TPROXY --tproxy-mark 0x1/0x1 --on-port <span style="color:#ae81ff">8888</span>
 </span></span><span style="display:flex;"><span>ip rule add fwmark 0x1/0x1 pref <span style="color:#ae81ff">100</span> table <span style="color:#ae81ff">100</span>
 </span></span><span style="display:flex;"><span>ip route add local default dev lo table <span style="color:#ae81ff">100</span>
 </span></span></code></pre></div>

@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -320,7 +320,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <h2 id="1-创建镜像网站">1. 创建镜像网站</h2>
 <p>首先到<a href="https://developers.redhat.com/products/rhel/download">红帽开发者网站-rhel下载</a>注册开发者账号，然后下载rhel8的DVD iso到一台提供http服务的公网vps上。</p>
 <p>然后挂载该镜像到一个目录，然后启动httpd服务（文档:<a href="https://access.redhat.com/documentation/zh-cn/red_hat_enterprise_linux/8/html/performing_an_advanced_rhel_installation/creating-installation-sources-for-kickstart-installations_installing-rhel-as-an-experienced-user#creating-an-installation-source-on-http_creating-installation-sources-for-kickstart-installations">使用 HTTP 或 HTTPS 创建安装源</a>）</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 下面这个链接自己在下载页面复制</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 下面这个链接自己在下载页面复制</span>
 </span></span><span style="display:flex;"><span>wget https://access.cdn.redhat.com/content/origin/files/sha256/30/30fd8dff2d29a384bd97886fa826fa5be872213c81e853eae3f9d9674f720ad0/rhel-8.3-x86_64-dvd.iso?_auth_<span style="color:#f92672">=</span>xxxxxxxxxxx -O redhat8.iso
 </span></span><span style="display:flex;"><span>lsof -i:80
 </span></span><span style="display:flex;"><span>yum install -y httpd
@@ -342,7 +342,7 @@ echo &#34;done&#34;
 </code></pre><p>下载好的内核和initd文件都在<code>/boot</code>路径下。在linux系统上，无论哪种分区,<code>/boot</code>都在启动分区上。</p>
 <h2 id="3-编写grub2启动项的内核参数">3. 编写grub2启动项的内核参数</h2>
 <p>先给下一个实际的menuentry例子：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>menuentry <span style="color:#e6db74">&#39;Install Centos8 [ ]&#39;</span> --class debian --class gnu-linux --class gnu --class os <span style="color:#f92672">{</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>menuentry <span style="color:#e6db74">&#39;Install Centos8 [ ]&#39;</span> --class debian --class gnu-linux --class gnu --class os <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>        load_video
 </span></span><span style="display:flex;"><span>        set gfxpayload<span style="color:#f92672">=</span>keep
 </span></span><span style="display:flex;"><span>        insmod gzio

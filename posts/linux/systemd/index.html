@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -281,10 +281,10 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   <div class="post">
     <p>以前的博客中有如何使用shell脚本重启应用的教程，也有解决tty的最大打开文件数量限制的方法。其实这些都可以用systemd服务的方式解决。今天就来一个简单的service文件，记录下怎么使用。</p>
 <p>使用如下命令即可编写sogo服务的service文件，并设置开机自启动。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>vim /usr/lib/systemd/system/sogo.service
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>vim /usr/lib/systemd/system/sogo.service
 </span></span><span style="display:flex;"><span>systemctl enable sogo
 </span></span></code></pre></div><p>service文件内容如下。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>Unit<span style="color:#f92672">]</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>Unit<span style="color:#f92672">]</span>
 </span></span><span style="display:flex;"><span>Description<span style="color:#f92672">=</span>一个socks5代理
 </span></span><span style="display:flex;"><span>After<span style="color:#f92672">=</span>network-online.target
 </span></span><span style="display:flex;"><span>Wants<span style="color:#f92672">=</span>network-online.target
@@ -299,7 +299,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>Install<span style="color:#f92672">]</span>
 </span></span><span style="display:flex;"><span>WantedBy<span style="color:#f92672">=</span>multi-user.target
 </span></span></code></pre></div><p>以上就是一个简单的服务文件了。好处很简单，重启、关闭等只需要使用sevice控制了，还是挺舒服的。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>After<span style="color:#f92672">=</span>network-online.target    <span style="color:#75715e">#等待网络—ip、dns等</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>After<span style="color:#f92672">=</span>network-online.target    <span style="color:#75715e">#等待网络—ip、dns等</span>
 </span></span><span style="display:flex;"><span>Wants<span style="color:#f92672">=</span>network-online.target    <span style="color:#75715e">#等待网络—ip、dns等</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>LimitNOFILE<span style="color:#f92672">=</span><span style="color:#ae81ff">100000</span>             <span style="color:#75715e">#最大打开文件数，对于web服务还是很重要的</span>

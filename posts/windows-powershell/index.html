@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -339,9 +339,9 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     <p>对 linux 的 shell 脚本比较熟悉后，发现 windows 的 powershell 也挺好用的。这里记录一些常用的脚本片段，方便以后查阅。</p>
 <h2 id="安装-powershell-7">安装 powershell 7</h2>
 <p><a href="https://learn.microsoft.com/zh-cn/powershell/scripting/install/install-powershell-on-windows?view=powershell-7.5">install-powershell-on-windows</a></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>winget install --id Microsoft.PowerShell --source winget
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>winget install --id Microsoft.PowerShell --source winget
 </span></span></code></pre></div><p>编辑配置文件 <code>code $PROFILE</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 设置系统代理</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 设置系统代理</span>
 </span></span><span style="display:flex;"><span>$proxy = <span style="color:#e6db74">&#34;http://127.0.0.1:7890&#34;</span>  <span style="color:#75715e"># 你的代理地址和端口</span>
 </span></span><span style="display:flex;"><span>$env:HTTP_PROXY = $proxy
 </span></span><span style="display:flex;"><span>$env:HTTPS_PROXY = $proxy
@@ -433,13 +433,13 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>Invoke-Expression (&amp;starship init powershell)
 </span></span></code></pre></div><p>或者直接使用 windows powershell 1.0 的配置文件:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>. <span style="color:#e6db74">&#34;</span>$HOME<span style="color:#e6db74">\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>. <span style="color:#e6db74">&#34;</span>$HOME<span style="color:#e6db74">\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1&#34;</span>
 </span></span></code></pre></div><h2 id="查看磁盘占用">查看磁盘占用</h2>
 <p>类似 <code>du -h -d 1 . | sort -hr</code> 的功能，可以使用 PowerShell 脚本来查看当前目录下的文件夹大小：</p>
 <blockquote>
 <p>可以 <code>code $PROFILE</code> 打开 PowerShell 配置文件，将下面的函数添加进去，这样就可以在 PowerShell 中使用 <code>ds</code> 命令来查看当前目录下的文件夹大小。</p>
 </blockquote>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> Get-FolderSize {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> Get-FolderSize {
 </span></span><span style="display:flex;"><span>    Write-Host <span style="color:#e6db74">&#39;正在计算当前目录的空间占用，请稍候。。。&#39;</span> -ForegroundColor Yellow
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e"># 统计当前目录下的文件(不在子文件夹中)</span>
 </span></span><span style="display:flex;"><span>    $currentFiles = Get-ChildItem <span style="color:#f92672">-File</span> -Force -ErrorAction SilentlyContinue
@@ -502,11 +502,11 @@ MonsterHunterWildsBetatest         0.44    451.38
 Black Myth Wukong Benchmark Tool   0.04     41.16
 Steam Controller Configs              0         0
 </code></pre><h2 id="放开某端口的防火墙">放开某端口的防火墙</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>$port=<span style="color:#ae81ff">2222</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>$port=<span style="color:#ae81ff">2222</span>
 </span></span><span style="display:flex;"><span>New-NetFirewallRule -DisplayName <span style="color:#e6db74">&#34;Allow Port </span>$port<span style="color:#e6db74">&#34;</span> -Direction Inbound -Protocol TCP -LocalPort $port -Action Allow
 </span></span></code></pre></div><h2 id="系统信息相关">系统信息相关</h2>
 <h3 id="查看-cpu-和内存使用情况">查看 CPU 和内存使用情况</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># CPU 使用率</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># CPU 使用率</span>
 </span></span><span style="display:flex;"><span>Get-Counter <span style="color:#e6db74">&#39;\Processor(_Total)\% Processor Time&#39;</span> -SampleInterval <span style="color:#ae81ff">1</span> -MaxSamples <span style="color:#ae81ff">3</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 内存使用情况</span>
@@ -515,11 +515,11 @@ Steam Controller Configs              0         0
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 系统内存概览</span>
 </span></span><span style="display:flex;"><span>Get-CimInstance Win32_OperatingSystem | Select-Object @{N=<span style="color:#e6db74">&#39;TotalMemoryGB&#39;</span>;E={[<span style="color:#66d9ef">math</span>]::Round($_.TotalVisibleMemorySize/<span style="color:#ae81ff">1</span>MB,<span style="color:#ae81ff">2</span>)}}, @{N=<span style="color:#e6db74">&#39;FreeMemoryGB&#39;</span>;E={[<span style="color:#66d9ef">math</span>]::Round($_.FreePhysicalMemory/<span style="color:#ae81ff">1</span>MB,<span style="color:#ae81ff">2</span>)}}
 </span></span></code></pre></div><h3 id="查看磁盘使用情况">查看磁盘使用情况</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 查看所有磁盘分区使用情况</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 查看所有磁盘分区使用情况</span>
 </span></span><span style="display:flex;"><span>Get-PSDrive -PSProvider FileSystem | Select-Object Name, @{N=<span style="color:#e6db74">&#39;UsedGB&#39;</span>;E={[<span style="color:#66d9ef">math</span>]::Round($_.Used/<span style="color:#ae81ff">1</span>GB,<span style="color:#ae81ff">2</span>)}}, @{N=<span style="color:#e6db74">&#39;FreeGB&#39;</span>;E={[<span style="color:#66d9ef">math</span>]::Round($_.Free/<span style="color:#ae81ff">1</span>GB,<span style="color:#ae81ff">2</span>)}}, @{N=<span style="color:#e6db74">&#39;TotalGB&#39;</span>;E={[<span style="color:#66d9ef">math</span>]::Round(($_.Used+$_.Free)/<span style="color:#ae81ff">1</span>GB,<span style="color:#ae81ff">2</span>)}}
 </span></span></code></pre></div><h2 id="进程管理">进程管理</h2>
 <h3 id="查找并终止进程">查找并终止进程</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 按名称查找进程</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 按名称查找进程</span>
 </span></span><span style="display:flex;"><span>Get-Process -Name *chrome* | Select-Object Id, ProcessName, CPU, @{N=<span style="color:#e6db74">&#39;MemoryMB&#39;</span>;E={[<span style="color:#66d9ef">math</span>]::Round($_.WorkingSet64/<span style="color:#ae81ff">1</span>MB,<span style="color:#ae81ff">2</span>)}}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 终止进程</span>
@@ -533,14 +533,14 @@ Steam Controller Configs              0         0
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Stop-Process -Id $_.OwningProcess -Force  # 取消注释以终止进程</span>
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="查看端口占用">查看端口占用</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 查看所有监听端口</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 查看所有监听端口</span>
 </span></span><span style="display:flex;"><span>Get-NetTCPConnection -State Listen | Select-Object LocalAddress, LocalPort, @{N=<span style="color:#e6db74">&#39;Process&#39;</span>;E={(Get-Process -Id $_.OwningProcess).ProcessName}} | Sort-Object LocalPort
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 查看特定端口</span>
 </span></span><span style="display:flex;"><span>Get-NetTCPConnection -LocalPort <span style="color:#ae81ff">80</span> -ErrorAction SilentlyContinue | Select-Object LocalAddress, LocalPort, RemoteAddress, RemotePort, State, @{N=<span style="color:#e6db74">&#39;Process&#39;</span>;E={(Get-Process -Id $_.OwningProcess).ProcessName}}
 </span></span></code></pre></div><h2 id="网络相关">网络相关</h2>
 <h3 id="测试网络连通性">测试网络连通性</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 类似 ping，但更强大</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 类似 ping，但更强大</span>
 </span></span><span style="display:flex;"><span>Test-NetConnection -ComputerName google.com -Port <span style="color:#ae81ff">443</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 批量测试多个主机</span>
@@ -554,7 +554,7 @@ Steam Controller Configs              0         0
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>} | Format-Table -AutoSize
 </span></span></code></pre></div><h3 id="查看网络配置">查看网络配置</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 获取 IP 地址信息</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 获取 IP 地址信息</span>
 </span></span><span style="display:flex;"><span>Get-NetIPAddress -AddressFamily IPv4 | Where-Object { $_.IPAddress <span style="color:#f92672">-ne</span> <span style="color:#e6db74">&#34;127.0.0.1&#34;</span> } | Select-Object InterfaceAlias, IPAddress, PrefixLength
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 获取 DNS 服务器</span>
@@ -563,11 +563,11 @@ Steam Controller Configs              0         0
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 获取默认网关</span>
 </span></span><span style="display:flex;"><span>Get-NetRoute -DestinationPrefix <span style="color:#e6db74">&#34;0.0.0.0/0&#34;</span> | Select-Object InterfaceAlias, NextHop
 </span></span></code></pre></div><h3 id="刷新-dns-缓存">刷新 DNS 缓存</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>Clear-DnsClientCache
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>Clear-DnsClientCache
 </span></span><span style="display:flex;"><span>Write-Host <span style="color:#e6db74">&#34;DNS 缓存已清除&#34;</span> -ForegroundColor Green
 </span></span></code></pre></div><h2 id="文件操作">文件操作</h2>
 <h3 id="批量重命名文件">批量重命名文件</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 批量添加前缀</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 批量添加前缀</span>
 </span></span><span style="display:flex;"><span>Get-ChildItem -Filter <span style="color:#e6db74">&#34;*.jpg&#34;</span> | Rename-Item -NewName { <span style="color:#e6db74">&#34;prefix_&#34;</span> + $_.Name }
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 批量替换文件名中的字符</span>
@@ -576,10 +576,10 @@ Steam Controller Configs              0         0
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 按序号重命名</span>
 </span></span><span style="display:flex;"><span>$i = <span style="color:#ae81ff">1</span>; Get-ChildItem -Filter <span style="color:#e6db74">&#34;*.png&#34;</span> | ForEach-Object { Rename-Item $_.FullName -NewName (<span style="color:#e6db74">&#34;image_{0:D3}.png&#34;</span> <span style="color:#f92672">-f</span> $i++)}
 </span></span></code></pre></div><h3 id="查找大文件">查找大文件</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 查找当前目录下大于 100MB 的文件</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 查找当前目录下大于 100MB 的文件</span>
 </span></span><span style="display:flex;"><span>Get-ChildItem -Recurse <span style="color:#f92672">-File</span> -ErrorAction SilentlyContinue | Where-Object { $_.Length <span style="color:#f92672">-gt</span> <span style="color:#ae81ff">100</span>MB } | Sort-Object Length -Descending | Select-Object @{N=<span style="color:#e6db74">&#39;SizeMB&#39;</span>;E={[<span style="color:#66d9ef">math</span>]::Round($_.Length/<span style="color:#ae81ff">1</span>MB,<span style="color:#ae81ff">2</span>)}}, FullName | Format-Table -AutoSize
 </span></span></code></pre></div><h3 id="计算文件哈希">计算文件哈希</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 计算 MD5</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 计算 MD5</span>
 </span></span><span style="display:flex;"><span>Get-FileHash -Path <span style="color:#e6db74">&#34;文件路径&#34;</span> -Algorithm MD5
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 计算 SHA256</span>
@@ -588,7 +588,7 @@ Steam Controller Configs              0         0
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 批量计算当前目录所有文件的哈希</span>
 </span></span><span style="display:flex;"><span>Get-ChildItem <span style="color:#f92672">-File</span> | Get-FileHash -Algorithm MD5 | Select-Object Hash, @{N=<span style="color:#e6db74">&#39;FileName&#39;</span>;E={Split-Path $_.Path -Leaf}}
 </span></span></code></pre></div><h3 id="压缩和解压">压缩和解压</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 压缩文件夹</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 压缩文件夹</span>
 </span></span><span style="display:flex;"><span>Compress-Archive -Path <span style="color:#e6db74">&#34;源文件夹&#34;</span> -DestinationPath <span style="color:#e6db74">&#34;目标.zip&#34;</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 解压缩</span>
@@ -598,7 +598,7 @@ Steam Controller Configs              0         0
 </span></span><span style="display:flex;"><span>Compress-Archive -Path <span style="color:#e6db74">&#34;新文件&#34;</span> -Update -DestinationPath <span style="color:#e6db74">&#34;现有.zip&#34;</span>
 </span></span></code></pre></div><h2 id="服务管理">服务管理</h2>
 <h3 id="查看和管理服务">查看和管理服务</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 查看所有正在运行的服务</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 查看所有正在运行的服务</span>
 </span></span><span style="display:flex;"><span>Get-Service | Where-Object { $_.Status <span style="color:#f92672">-eq</span> <span style="color:#e6db74">&#34;Running&#34;</span> } | Sort-Object DisplayName
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 按名称搜索服务</span>
@@ -613,7 +613,7 @@ Steam Controller Configs              0         0
 </span></span><span style="display:flex;"><span>Set-Service -Name <span style="color:#e6db74">&#34;服务名&#34;</span> -StartupType Automatic  <span style="color:#75715e"># Manual / Disabled</span>
 </span></span></code></pre></div><h2 id="环境变量">环境变量</h2>
 <h3 id="查看和设置环境变量">查看和设置环境变量</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 查看所有环境变量</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 查看所有环境变量</span>
 </span></span><span style="display:flex;"><span>Get-ChildItem Env<span style="color:#960050;background-color:#1e0010">:</span> | Sort-Object Name
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 查看特定环境变量</span>
@@ -633,7 +633,7 @@ Steam Controller Configs              0         0
 </span></span><span style="display:flex;"><span>[<span style="color:#66d9ef">Environment</span>]::SetEnvironmentVariable(<span style="color:#e6db74">&#34;PATH&#34;</span>, <span style="color:#e6db74">&#34;</span>$currentPath<span style="color:#e6db74">;C:\新路径&#34;</span>, <span style="color:#e6db74">&#34;User&#34;</span>)
 </span></span></code></pre></div><h2 id="计划任务">计划任务</h2>
 <h3 id="创建计划任务">创建计划任务</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 创建一个每天运行的计划任务</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 创建一个每天运行的计划任务</span>
 </span></span><span style="display:flex;"><span>$action = New-ScheduledTaskAction -Execute <span style="color:#e6db74">&#34;powershell.exe&#34;</span> -Argument <span style="color:#e6db74">&#34;-File C:\Scripts\backup.ps1&#34;</span>
 </span></span><span style="display:flex;"><span>$trigger = New-ScheduledTaskTrigger -Daily -At <span style="color:#e6db74">&#34;03:00&#34;</span>
 </span></span><span style="display:flex;"><span>$principal = New-ScheduledTaskPrincipal -UserId <span style="color:#e6db74">&#34;SYSTEM&#34;</span> -RunLevel Highest
@@ -645,7 +645,7 @@ Steam Controller Configs              0         0
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 删除计划任务</span>
 </span></span><span style="display:flex;"><span>Unregister-ScheduledTask -TaskName <span style="color:#e6db74">&#34;每日备份&#34;</span> -Confirm:$false
 </span></span></code></pre></div><h2 id="剪贴板操作">剪贴板操作</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 复制到剪贴板</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 复制到剪贴板</span>
 </span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;要复制的内容&#34;</span> | Set-Clipboard
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 从剪贴板获取内容</span>
@@ -654,7 +654,7 @@ Steam Controller Configs              0         0
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 将命令输出复制到剪贴板</span>
 </span></span><span style="display:flex;"><span>Get-Process | Out-String | Set-Clipboard
 </span></span></code></pre></div><h2 id="下载文件">下载文件</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 使用 Invoke-WebRequest 下载</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 使用 Invoke-WebRequest 下载</span>
 </span></span><span style="display:flex;"><span>Invoke-WebRequest -Uri <span style="color:#e6db74">&#34;https://example.com/file.zip&#34;</span> -OutFile <span style="color:#e6db74">&#34;file.zip&#34;</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 带进度条的下载</span>
@@ -665,13 +665,13 @@ Steam Controller Configs              0         0
 </span></span><span style="display:flex;"><span>Start-BitsTransfer -Source <span style="color:#e6db74">&#34;https://example.com/file.zip&#34;</span> -Destination <span style="color:#e6db74">&#34;file.zip&#34;</span>
 </span></span></code></pre></div><h2 id="实用小函数">实用小函数</h2>
 <h3 id="快速打开常用目录">快速打开常用目录</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 添加到 $PROFILE</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 添加到 $PROFILE</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> hosts { notepad C:\Windows\System32\drivers\etc\hosts }
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> downloads { Set-Location $env:USERPROFILE\Downloads }
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> desktop { Set-Location $env:USERPROFILE\Desktop }
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> projects { Set-Location D:\Projects }  <span style="color:#75715e"># 自定义你的项目目录</span>
 </span></span></code></pre></div><h3 id="快速创建文件类似-linux-touch">快速创建文件（类似 Linux touch）</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> touch {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> touch {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">param</span>([<span style="color:#66d9ef">string</span>]$Path)
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (Test-Path $Path) {
 </span></span><span style="display:flex;"><span>        (Get-Item $Path).LastWriteTime = Get-Date
@@ -680,13 +680,13 @@ Steam Controller Configs              0         0
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="历史命令搜索">历史命令搜索</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 搜索历史命令</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 搜索历史命令</span>
 </span></span><span style="display:flex;"><span>Get-History | Where-Object { $_.CommandLine <span style="color:#f92672">-like</span> <span style="color:#e6db74">&#34;*关键词*&#34;</span> }
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 查看所有历史命令（包括之前的会话）</span>
 </span></span><span style="display:flex;"><span>Get-Content (Get-PSReadlineOption).HistorySavePath | Select-String <span style="color:#e6db74">&#34;关键词&#34;</span>
 </span></span></code></pre></div><h3 id="生成随机密码">生成随机密码</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> New-RandomPassword {
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> New-RandomPassword {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">param</span>([<span style="color:#66d9ef">int</span>]$Length = <span style="color:#ae81ff">16</span>)
 </span></span><span style="display:flex;"><span>    $chars = <span style="color:#e6db74">&#39;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&amp;*&#39;</span>
 </span></span><span style="display:flex;"><span>    -join (<span style="color:#ae81ff">1</span>..$Length | ForEach-Object { $chars[(Get-Random -Maximum $chars.Length)] })
@@ -695,7 +695,7 @@ Steam Controller Configs              0         0
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用</span>
 </span></span><span style="display:flex;"><span>New-RandomPassword -Length <span style="color:#ae81ff">20</span>
 </span></span></code></pre></div><h3 id="快速-base64-编解码">快速 Base64 编解码</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 编码</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 编码</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">function</span> ConvertTo-Base64 { <span style="color:#66d9ef">param</span>([<span style="color:#66d9ef">string</span>]$Text) [<span style="color:#66d9ef">Convert</span>]::ToBase64String([<span style="color:#66d9ef">System.Text.Encoding</span>]::UTF8.GetBytes($Text)) }
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 解码</span>

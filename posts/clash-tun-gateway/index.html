@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -322,14 +322,14 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </blockquote>
 <p>下载链接<a href="https://github.com/Dreamacro/clash/releases/tag/premium">https://github.com/Dreamacro/clash/releases/tag/premium</a>，到页面下方选择clash-linux-amd64开头的文件下载。也可以选择clash-linux-amd64-v3的版本，有一些性能提升，但是老机器上可能有兼容性问题。</p>
 <p>写此文时clash premium版本是clash-linux-amd64-2023.07.22，我的下载命令如下。大家可以自行修改version字段为最新版本。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>version<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;2023.07.22&#34;</span> <span style="color:#75715e"># 自行修改为当前的最新版本</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>version<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;2023.07.22&#34;</span> <span style="color:#75715e"># 自行修改为当前的最新版本</span>
 </span></span><span style="display:flex;"><span>curl -Lf <span style="color:#e6db74">&#34;https://github.com/Dreamacro/clash/releases/download/premium/clash-linux-amd64-</span><span style="color:#e6db74">${</span>version<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>.gz | gzip -d &gt; /tmp/clash
 </span></span><span style="display:flex;"><span>install -m <span style="color:#ae81ff">777</span> /tmp/clash /usr/local/bin/clash
 </span></span></code></pre></div><h2 id="下载clash-dashboard的ui">下载Clash dashboard的UI</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p /data/clash
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p /data/clash
 </span></span><span style="display:flex;"><span>git clone -b gh-pages https://github.com/haishanh/yacd.git /data/clash/ui
 </span></span></code></pre></div><p>PS: 为了使用上面的UI，需要在clash的配置文件中加上：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">external-controller</span>: <span style="color:#ae81ff">0.0.0.0</span>:<span style="color:#ae81ff">9090</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">external-controller</span>: <span style="color:#ae81ff">0.0.0.0</span>:<span style="color:#ae81ff">9090</span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">external-ui</span>: <span style="color:#ae81ff">/data/clash/ui</span>
 </span></span></code></pre></div><p>这样就能访问软路由的9090端口通过ui操纵clash的配置了。</p>
 <p><img src="/img/clash-yacd-ui.png" alt="Alt text"></p>
@@ -345,7 +345,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </ul>
 </blockquote>
 <p>在你原有的clash配置文件中增加以下内容：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">experimental</span>:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">experimental</span>:
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">sniff-tls-sni</span>: <span style="color:#66d9ef">true</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">tun</span>:
@@ -393,7 +393,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <blockquote>
 <p>如果53端口被占用，请自行关闭相关进程</p>
 </blockquote>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; /lib/systemd/system/clash.service <span style="color:#e6db74">&lt;&lt;\EOF
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; /lib/systemd/system/clash.service <span style="color:#e6db74">&lt;&lt;\EOF
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[Unit]
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Description=rust_http_proxy
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">After=network-online.target
@@ -418,7 +418,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p><img src="/img/macos-gateway-setting.png" alt="Alt text"></p>
 <h2 id="主机温度监控">主机温度监控</h2>
 <p>用被动散热还是挺担心温度的，所以用lm_sensors测了下，室温30度时，cpu温度在40-45度，没毛病。被动散热下，铝合金的外壳温度是暖暖的，冬天肯定很吸猫。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ yum install -y lm_sensors
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ yum install -y lm_sensors
 </span></span><span style="display:flex;"><span>$ sensors
 </span></span><span style="display:flex;"><span>acpitz-acpi-0
 </span></span><span style="display:flex;"><span>Adapter: ACPI interface
@@ -437,14 +437,14 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <h2 id="一些拓展">一些拓展</h2>
 <h3 id="屏蔽quic流量">屏蔽quic流量</h3>
 <p>chrome浏览器和youtube应用等默认开启了quic，国内udp qos的问题会导致quic网速较差，一般情况下都建议关闭quic。在chrome浏览器里，可以访问 <code>chrome://flags</code>，将 <code>Experimental QUIC protocol</code> 的特性关闭。但是在手机youtube应用里就没办法关闭了，所以研究了下clash屏蔽quic的方案，就是在配置文件里增加：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">script</span>:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">script</span>:
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">shortcuts</span>:
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">quic</span>: <span style="color:#ae81ff">network == &#39;udp&#39; and dst_port == 443</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">rules</span>:
 </span></span><span style="display:flex;"><span>- <span style="color:#ae81ff">SCRIPT,quic,REJECT,no-resolve</span>
 </span></span></code></pre></div><h3 id="避免暴露dns服务">避免暴露DNS服务</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">dns</span>:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">dns</span>:
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">enable</span>: <span style="color:#66d9ef">true</span>
 </span></span><span style="display:flex;"><span>  <span style="color:#75715e">#listen: 0.0.0.0:53</span>
 </span></span></code></pre></div><p>这样，DNS服务就会监听 <code>198.18.0.1:53</code> 而不是 <code>0.0.0.0:53</code> ，也就不会暴露。不过为了让DNS劫持生效，设备的DNS不能设置为局域网地址，需要是公网地址或者<code>198.18.0.1</code>，详见官方的描述：</p>

@@ -10,7 +10,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
 
@@ -232,10 +232,10 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     <span >
       
       <h2 id="查看用户唤醒历史">查看用户唤醒历史</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pmset -g log|grep -v <span style="color:#e6db74">&#34;DarkWake&#34;</span>|grep -E  <span style="color:#e6db74">&#34;Wake from&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pmset -g log|grep -v <span style="color:#e6db74">&#34;DarkWake&#34;</span>|grep -E  <span style="color:#e6db74">&#34;Wake from&#34;</span>
 </span></span></code></pre></div><h2 id="查看所有睡眠和唤醒历史">查看所有睡眠和唤醒历史</h2>
 <p>内容会有点多，而且包含DarkWake</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pmset -g log|grep -E  <span style="color:#e6db74">&#34;Entering Sleep state|Wake from&#34;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pmset -g log|grep -E  <span style="color:#e6db74">&#34;Entering Sleep state|Wake from&#34;</span>
 </span></span></code></pre></div><h2 id="什么是darkwake">什么是DarkWake</h2>
 <p>在 macOS 中，&ldquo;DarkWake&rdquo; 和 &ldquo;Wake&rdquo; 代表了两种不同类型的唤醒状态：</p>
       
@@ -357,7 +357,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>使用hostPath挂载nginx的目录，展示web网页。</li>
 </ol>
 <h2 id="dockerfile">Dockerfile</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>FROM docker.io/redhat/ubi9-micro:9.2-9
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>FROM docker.io/redhat/ubi9-micro:9.2-9
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 设置时区为上海，ubi9-micro内置了tzdata </span>
 </span></span><span style="display:flex;"><span>RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime <span style="color:#f92672">&amp;&amp;</span> echo <span style="color:#e6db74">&#34;Asia/Shanghai&#34;</span> &gt; /etc/timezone
 </span></span><span style="display:flex;"><span>COPY target/x86_64-unknown-linux-musl/release/rust_http_proxy /

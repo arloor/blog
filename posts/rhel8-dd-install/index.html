@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -308,7 +308,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     <p>centos8没有了，虽然Red Hat推出了开发者计划，允许用户使用免费的rhel8，但是云服务厂商普遍没有提供rhel8的镜像，一般的用户还是没有办法在vps上用上rhel8，就连centos8的替代品rocky linux、almalinux大部分云服务厂商也没有提供。</p>
 <p>这个博客就是介绍下，如何在公有云vps上通过dd写盘安装rhel8系统。</p>
 <h2 id="dd安装脚本">dd安装脚本</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">## 如果是国内vps会遇到连接deb.debian.org失败的问题，需要自己设置http代理</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">## 如果是国内vps会遇到连接deb.debian.org失败的问题，需要自己设置http代理</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">## 镜像的root密码是arloor.com</span>
 </span></span><span style="display:flex;"><span>wget http://cdn.arloor.com/rhel/Core_Install_v3.1.sh -O install.sh<span style="color:#f92672">&amp;&amp;</span>bash install.sh -dd <span style="color:#e6db74">&#34;http://cdn.arloor.com/rhel/rhel8.img.gz&#34;</span>
 </span></span></code></pre></div><p>dd安装使用了www.cxthhhhh.com的脚本，详见<a href="https://www.cxthhhhh.com/network-reinstall-system-modify">一键网络重装系统 - 魔改版</a></p>
@@ -322,7 +322,7 @@ rm -rf /boot/grub2/grub.cfg.old
 </code></pre><h2 id="安装后的操作">安装后的操作</h2>
 <h3 id="磁盘扩容">磁盘扩容</h3>
 <p>镜像本身只使用了3.2G空间，需要扩容以使用全部磁盘空间</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>fdisk -l      <span style="color:#75715e">#查看磁盘</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>fdisk -l      <span style="color:#75715e">#查看磁盘</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#对新添加的磁盘进行分区，此处使用整块盘</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#并将格式化好的盘改成lvm（8e）格式</span>
 </span></span><span style="display:flex;"><span>fdisk /dev/vda  
@@ -340,7 +340,7 @@ rm -rf /boot/grub2/grub.cfg.old
 </span></span><span style="display:flex;"><span>df -Th <span style="color:#75715e">#这次再看的话，已经改过来了</span>
 </span></span></code></pre></div><h3 id="注册vps到redhat以获取更新">注册vps到redhat以获取更新</h3>
 <p>未注册的vps是无法yum update的，这里需要先行注册红帽开发者计划</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo subscription-manager remove --all
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo subscription-manager remove --all
 </span></span><span style="display:flex;"><span>sudo subscription-manager unregister
 </span></span><span style="display:flex;"><span>sudo subscription-manager clean
 </span></span><span style="display:flex;"><span>sudo subscription-manager register
@@ -350,7 +350,7 @@ rm -rf /boot/grub2/grub.cfg.old
 <p>简单总结：需要你再次注册一年期的开发者订阅，而不提供“续约”，因为续约这种服务是需要付费的（资本主义操了</p>
 <p>再次注册也很简单，用浏览器无痕模式打开<a href="http://developers.redhat.com/">developers.redhat.com</a>，然后登陆，然后登出，最后关闭所有浏览器。过一会到<a href="http://access.redhat.com/management">红帽订阅管理网站</a>就能看到新的开发者订阅。</p>
 <p>之前的红帽服务器需要重新注册：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo subscription-manager remove --all
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo subscription-manager remove --all
 </span></span><span style="display:flex;"><span>sudo subscription-manager unregister
 </span></span><span style="display:flex;"><span>sudo subscription-manager clean
 </span></span><span style="display:flex;"><span>sudo subscription-manager register
@@ -359,7 +359,7 @@ rm -rf /boot/grub2/grub.cfg.old
 </span></span></code></pre></div><h3 id="删除旧内核">删除旧内核</h3>
 <p>因为该镜像只给boot分区留了200M，升级几次内核后，boot分区就不够用了。这里提供下删除旧内核的两种方式</p>
 <p><strong>方式1：直接删除内核和启动镜像(推荐)</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ls /boot/vmlinuz-*|grep -v <span style="color:#e6db74">&#34;rescue&#34;</span>|sort -r|tail -n +2|xargs -I <span style="color:#f92672">{}</span> rm -rf <span style="color:#f92672">{}</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ls /boot/vmlinuz-*|grep -v <span style="color:#e6db74">&#34;rescue&#34;</span>|sort -r|tail -n +2|xargs -I <span style="color:#f92672">{}</span> rm -rf <span style="color:#f92672">{}</span>
 </span></span><span style="display:flex;"><span>ls /boot/initramfs-*|grep -v <span style="color:#e6db74">&#34;rescue&#34;</span>|sort -r|tail -n +2|xargs -I <span style="color:#f92672">{}</span> rm -rf <span style="color:#f92672">{}</span>
 </span></span><span style="display:flex;"><span>sed -i <span style="color:#e6db74">&#34;s/^GRUB_ENABLE_BLSCFG=.*/GRUB_ENABLE_BLSCFG=false/g&#34;</span> /etc/default/grub
 </span></span><span style="display:flex;"><span>grub2-mkconfig -o /boot/grub2/grub.cfg
@@ -367,16 +367,16 @@ rm -rf /boot/grub2/grub.cfg.old
 </span></span><span style="display:flex;"><span>rm -rf /boot/grub2/grub.cfg.old
 </span></span></code></pre></div><p>这种方式没有更新yum的已安装软件缓存</p>
 <p><strong>方式2：通过dnf删除老内核</strong></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>dnf remove --oldinstallonly --setopt installonly_limit<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span> kernel
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>dnf remove --oldinstallonly --setopt installonly_limit<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span> kernel
 </span></span></code></pre></div><p>执行该脚本要求系统运行在已安装的最新内核上。如果不是，请重启并选择第一个启动项启动系统，然后再执行该命令。</p>
 <p><strong>方式3：直接不更新内核</strong></p>
 <p>上面两种方式是删除老内核给新内核腾空间，也可以选择更新时直接忽略kernel的更新。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>vim /etc/yum.conf
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>vim /etc/yum.conf
 </span></span><span style="display:flex;"><span><span style="color:#75715e">## 在[main]最后增加</span>
 </span></span><span style="display:flex;"><span>exclude<span style="color:#f92672">=</span>kernel*
 </span></span></code></pre></div><h3 id="设置dnf代理">设置dnf代理</h3>
 <p>国内vps访问redhat的官方源比较慢，需要设置dnf的代理</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>vim /etc/dnf/dnf.conf
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>vim /etc/dnf/dnf.conf
 </span></span><span style="display:flex;"><span>在<span style="color:#f92672">[</span>main<span style="color:#f92672">]</span>的最后面加上
 </span></span><span style="display:flex;"><span>proxy<span style="color:#f92672">=</span>&lt;scheme&gt;://&lt;ip-or-hostname&gt;<span style="color:#f92672">[</span>:port<span style="color:#f92672">]</span>
 </span></span><span style="display:flex;"><span>proxy_username<span style="color:#f92672">=</span>
@@ -398,40 +398,40 @@ rm -rf /boot/grub2/grub.cfg.old
 <p>网卡配置选择为dhcp，dd到vps上之后可能需要改为静态ip</p>
 <h3 id="修改网卡">修改网卡</h3>
 <p>查看当前网卡</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>dmesg | grep eth
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>dmesg | grep eth
 </span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    4.829146<span style="color:#f92672">]</span> vmxnet3 0000:03:00.0 eth0: NIC Link is Up <span style="color:#ae81ff">10000</span> Mbps
 </span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>    5.671853<span style="color:#f92672">]</span> vmxnet3 0000:03:00.0 ens3: renamed from eth0
 </span></span></code></pre></div><p>我们需要将ens3变更为eth0</p>
 <p>查看当前连接信息</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># nmcli connection show</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># nmcli connection show</span>
 </span></span><span style="display:flex;"><span>NAME    UUID                                  TYPE      DEVICE
 </span></span><span style="display:flex;"><span>ens3  46f3176f-23ac-4af8-b9fe-08d3c668ba81  ethernet  ens3
 </span></span></code></pre></div><p>新增eth0连接</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># nmcli connection add type ethernet con-name eth0 ifname ens3</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># nmcli connection add type ethernet con-name eth0 ifname ens3</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># nmcli connection show</span>
 </span></span><span style="display:flex;"><span>NAME    UUID                                  TYPE      DEVICE
 </span></span><span style="display:flex;"><span>ens3  46f3176f-23ac-4af8-b9fe-08d3c668ba81  ethernet  ens3
 </span></span><span style="display:flex;"><span>eth0    55e201dc-0f9e-44c7-b6ae-da09370e3718  ethernet  --
 </span></span></code></pre></div><p>删除ens3连接</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># nmcli connection delete ens3</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># nmcli connection delete ens3</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># nmcli connection show</span>
 </span></span><span style="display:flex;"><span>NAME  UUID                                  TYPE      DEVICE
 </span></span><span style="display:flex;"><span>eth0  55e201dc-0f9e-44c7-b6ae-da09370e3718  ethernet  ens3
 </span></span></code></pre></div><p>修改物理网卡名称</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 查看配置文件</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 查看配置文件</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># ls /etc/sysconfig/network-scripts/</span>
 </span></span><span style="display:flex;"><span>ifcfg-eth0
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 修改物理网卡名称</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># sed -i &#39;s/ens3/eth0/&#39; /etc/sysconfig/network-scripts/ifcfg-eth0</span>
 </span></span></code></pre></div><p>修改grub启动配置</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>vim /etc/default/grub
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>vim /etc/default/grub
 </span></span><span style="display:flex;"><span><span style="color:#75715e">#在GRUB_CMDLINE_LINUX_DEFAULT行后边添加</span>
 </span></span><span style="display:flex;"><span>net.ifnames<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> biosdevname<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>grub2-mkconfig -o /boot/grub2/grub.cfg
 </span></span></code></pre></div><p>检查/etc/udev/rules.d/70-persistent-net.rules是否存在，如果存在则删除</p>
 <h3 id="关闭防火墙和selinux">关闭防火墙和selinux</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">## 禁用firewalld</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">## 禁用firewalld</span>
 </span></span><span style="display:flex;"><span>service firewalld stop
 </span></span><span style="display:flex;"><span>systemctl disable firewalld
 </span></span><span style="display:flex;"><span><span style="color:#75715e">## 关闭selinux</span>
@@ -446,8 +446,8 @@ rm -rf /boot/grub2/grub.cfg.old
 <h3 id="最后修改etcfstab">最后修改/etc/fstab</h3>
 <p>将/boot使用的分区删掉</p>
 <p>然后在rc.local或者其他能自启动的地方加上</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mount /dev/vda1 /boot
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>chmod +x /etc/rc.d/rc.local
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mount /dev/vda1 /boot
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>chmod +x /etc/rc.d/rc.local
 </span></span></code></pre></div><h3 id="添加虚拟化所需的一些磁盘驱动">添加虚拟化所需的一些磁盘驱动</h3>
 <p>在/etc/dracut.conf里添加</p>
 <pre tabindex="0"><code>add_drivers+=&#34;virtio_console virtio_net virtio_scsi virtio_blk&#34;

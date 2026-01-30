@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -298,7 +298,7 @@ bash autogen.sh
 make
 make install
 </code></pre><h2 id="一个没有handle的loop">一个没有handle的loop</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 使用cat编辑a.c</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 使用cat编辑a.c</span>
 </span></span><span style="display:flex;"><span>cat &gt; a.c <span style="color:#e6db74">&lt;&lt; EOF
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">#include &lt;stdio.h&gt;
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">#include &lt;stdlib.h&gt;
@@ -327,7 +327,7 @@ make install
 <p>这个例子给loop增加一个idle handle，可以认为这是cpu进入空闲的事件。</p>
 <p>下面这个例子使用<code>uv_default_loop()</code>代替了上个例子的malloc和init，同时也没有显式得free这个default loop。</p>
 <p>这个例子的重点是创建了一个名为“idler”的handle，并将其注册到loop中，然后启动loop。代码如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>    <span style="color:#66d9ef">uv_idle_t</span> idler;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span>    <span style="color:#66d9ef">uv_idle_t</span> idler;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">uv_idle_init</span>(<span style="color:#a6e22e">uv_default_loop</span>(), <span style="color:#f92672">&amp;</span>idler);
 </span></span><span style="display:flex;"><span>   <span style="color:#a6e22e">uv_idle_start</span>(<span style="color:#f92672">&amp;</span>idler, count_check_stop);
@@ -340,7 +340,7 @@ make install
 </ol>
 <p>uv_run执行后，每当idle事件发生时，都会调用count_check_stop函数，会对计数器加一，如果计数器大于5000000，则会uv_idle_stop这个handle（移除该handle）。这导致loop中没有handle等待触发，所以loop也会退出整个进程退出。</p>
 <p>总结一下，在loop的malloc、init后，需要注册handle，完成handle的内存分配、init（注册到loop）、start（注册回调函数）。需要移除该handle时对该handle执行stop。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;uv.h&gt;</span><span style="color:#75715e">
 </span></span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">int64_t</span> counter <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
@@ -372,7 +372,7 @@ make install
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>输出</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Idling...
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>Idling...
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">1</span> idle
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">2</span> idle
 </span></span><span style="display:flex;"><span><span style="color:#ae81ff">3</span> idle

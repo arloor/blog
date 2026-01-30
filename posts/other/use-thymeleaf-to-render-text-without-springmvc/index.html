@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -285,7 +285,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   <div class="post">
     <p>thymeleaf是springboot默认的模版引擎，最近需要“渲染模版”这个功能，想到了thymeleaf，记一下怎么用。</p>
 <h2 id="依赖">依赖</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span>        <span style="color:#75715e">&lt;!-- https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf --&gt;</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-xml" data-lang="xml"><span style="display:flex;"><span>        <span style="color:#75715e">&lt;!-- https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf --&gt;</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;dependency&gt;</span>
 </span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;groupId&gt;</span>org.thymeleaf<span style="color:#f92672">&lt;/groupId&gt;</span>
 </span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;artifactId&gt;</span>thymeleaf<span style="color:#f92672">&lt;/artifactId&gt;</span>
@@ -298,7 +298,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>            <span style="color:#f92672">&lt;version&gt;</span>29.0-jre<span style="color:#f92672">&lt;/version&gt;</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#f92672">&lt;/dependency&gt;</span>
 </span></span></code></pre></div><h2 id="代码">代码</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.HashMap;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.HashMap;
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.Map;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">RenderParam</span> {
@@ -313,7 +313,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">this</span>;
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">package</span> com.arloor.forwardproxy.util;
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">package</span> com.arloor.forwardproxy.util;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> com.arloor.forwardproxy.vo.RenderParam;
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> com.google.common.collect.ImmutableMap;

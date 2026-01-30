@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -286,7 +286,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     <p>背景：需要提供一个配置服务给60w+机器，没台机器每分钟请求一次拉取最新配置。springboot的默认tomcat配置是不行的，研究下tomcat有哪些配置项，以及如何在springboot中配置。</p>
 <h2 id="如何在springboot中修改tomcat的配置">如何在springboot中修改tomcat的配置</h2>
 <p><a href="https://docs.spring.io/spring-boot/docs/2.2.0.RELEASE/reference/html/howto.html#howto-configure-webserver">springboot官方文档</a>告诉我们可以在<code>application.yml</code>里做一些配置，这些配置都以<code>server.tomcat.</code>开头，但这些仅仅覆盖了常见的配置，全部配置需要我们使用如下代码：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Component</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#a6e22e">@Component</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyTomcatWebServerCustomizer</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">implements</span> WebServerFactoryCustomizer<span style="color:#f92672">&lt;</span>TomcatServletWebServerFactory<span style="color:#f92672">&gt;</span> {
 </span></span><span style="display:flex;"><span>
@@ -313,7 +313,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>connector组件在tomcat的整体架构中是处理tcp连接的部分，我们需要优化connector配置让tomcat能承载更多的请求。上面的代码我进行了5项配置，这些配置在<a href="https://tomcat.apache.org/tomcat-9.0-doc/config/http.html#Standard_Implementation">tomcat的配置文档</a>里都有介绍。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>protocol.<span style="color:#a6e22e">setKeepAliveTimeout</span>(90000); <span style="color:#75715e">//表示90秒没有新的请求则断开连接</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>protocol.<span style="color:#a6e22e">setKeepAliveTimeout</span>(90000); <span style="color:#75715e">//表示90秒没有新的请求则断开连接</span>
 </span></span><span style="display:flex;"><span>protocol.<span style="color:#a6e22e">setMaxKeepAliveRequests</span>(600); <span style="color:#75715e">// 表示一个socket连接处理600次请求后主动断开</span>
 </span></span></code></pre></div><p>剩下的三个参数主要控制 tomcat的连接池、线程池和accept queue大小。引用<a href="https://tomcat.apache.org/tomcat-9.0-doc/config/http.html#Standard_Implementation">tomcat的配置文档</a>的一句话介绍：</p>
 <blockquote>
@@ -325,7 +325,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <img src="/img/accept-queue.png" alt=""></p>
 <h2 id="http客户端代码">http客户端代码</h2>
 <p>客户端因为是以jar包的方式提供sdk，所以直接使用jdk的UrlConnection类，代码如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> org.slf4j.Logger;
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> org.slf4j.Logger;
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> org.slf4j.LoggerFactory;
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.io.IOException;

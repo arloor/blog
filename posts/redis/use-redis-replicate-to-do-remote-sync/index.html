@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -374,7 +374,7 @@ PING
 <p>在输出的最后我们看到好几个PING，这是redis集群其他节点发送过来的请求，被主节点异步地发送给我们实验的这个伪slave。</p>
 <h3 id="模拟以后的增量同步">模拟以后的增量同步</h3>
 <p>执行<code>nc ip port</code>后，依次输入：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>PING
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>PING
 </span></span><span style="display:flex;"><span>REPLCONF listening-port <span style="color:#ae81ff">8888</span>
 </span></span><span style="display:flex;"><span>REPLCONF capa eof capa psync2
 </span></span><span style="display:flex;"><span>PSYNC b8e7eba438f7ee357d2f0978a9ed307ef250e1fd <span style="color:#ae81ff">3638988293</span>

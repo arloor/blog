@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -289,7 +289,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   <div class="post">
     <p>减少造轮子，安装已有socks5、http代理。这里的ss5和squid是不能达到FQ的目的的，要实现这个目的，请查看之前的其他文章。</p>
 <h2 id="编译ss5socks5代理">编译ss5——socks5代理</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>yum install -y gcc openldap-devel pam-devel openssl-devel
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>yum install -y gcc openldap-devel pam-devel openssl-devel
 </span></span><span style="display:flex;"><span>wget http://jaist.dl.sourceforge.net/project/ss5/ss5/3.8.9-8/ss5-3.8.9-8.tar.gz
 </span></span><span style="display:flex;"><span>tar -vzx -f ss5-3.8.9-8.tar.gz
 </span></span><span style="display:flex;"><span>cd ss5-3.8.9/
@@ -310,7 +310,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>service ss5 restart
 </span></span></code></pre></div><p>这样就在1080端口启动了socks5代理，允许uname/passwd认证的用户使用该socks5代理。</p>
 <h2 id="安装squidhttp代理">安装squid——http代理</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>yum install squid
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>yum install squid
 </span></span><span style="display:flex;"><span>vim /etc/squid/squid.conf
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 写入以下内容</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># http_access allow localnet</span>
@@ -323,7 +323,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><p>这样就在8888端口运行了一个只允许本地连接的http代理。</p>
 <h2 id="只允许本地使用这两个代理">只允许本地使用这两个代理</h2>
 <p>这个大多数人是不需要做的。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>iptables -I  INPUT <span style="color:#ae81ff">1</span> -p tcp  --dport <span style="color:#ae81ff">1080</span> -j DROP 
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>iptables -I  INPUT <span style="color:#ae81ff">1</span> -p tcp  --dport <span style="color:#ae81ff">1080</span> -j DROP 
 </span></span><span style="display:flex;"><span>iptables -I  INPUT <span style="color:#ae81ff">1</span> -p udp  --dport <span style="color:#ae81ff">1080</span> -j DROP
 </span></span><span style="display:flex;"><span>iptables -I  INPUT <span style="color:#ae81ff">1</span> -p tcp  --dport <span style="color:#ae81ff">8888</span> -j DROP
 </span></span><span style="display:flex;"><span>iptables -I  INPUT <span style="color:#ae81ff">1</span> -i lo -j ACCEPT   <span style="color:#75715e">#允许本地访问</span>

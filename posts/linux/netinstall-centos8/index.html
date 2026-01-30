@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -299,13 +299,13 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p><a href="https://www.youtube.com/watch?v=R4PDWmtQ6Zw">youtube</a></p>
 <h2 id="脚本">脚本</h2>
 <p>执行以下命令，</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget -qO install.sh http://www.arloor.com/install-centos8-from-centos7.sh <span style="color:#f92672">&amp;&amp;</span> bash install.sh
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget -qO install.sh http://www.arloor.com/install-centos8-from-centos7.sh <span style="color:#f92672">&amp;&amp;</span> bash install.sh
 </span></span></code></pre></div><p>上述脚本所做：</p>
 <ol>
 <li>从阿里云镜像网站下载<code>vmlinuz</code>和<code>initrd.img</code>到<code>/boot/net8</code>文件夹</li>
 <li>编写grub2启动项，示例所示，主要关注linux16那行的内核参数</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>menuentry <span style="color:#e6db74">&#39;Install Centos8 [ ]&#39;</span> --class debian --class gnu-linux --class gnu --class os <span style="color:#f92672">{</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>menuentry <span style="color:#e6db74">&#39;Install Centos8 [ ]&#39;</span> --class debian --class gnu-linux --class gnu --class os <span style="color:#f92672">{</span>
 </span></span><span style="display:flex;"><span>        load_video
 </span></span><span style="display:flex;"><span>        set gfxpayload<span style="color:#f92672">=</span>keep
 </span></span><span style="display:flex;"><span>        insmod gzio
@@ -344,7 +344,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <h2 id="全自动kickstart安装centos8自用">全自动kickstart安装centos8【自用】</h2>
 <p>所谓全自动的意思就是不需要使用VNC进行安装系统的配置，所有的网络配置、磁盘分区、软件包选择都通过kickstart进行。执行完脚本后，只需要等待若干分钟即可。以下脚本就是kickstart全自动安装的脚本，安装完毕后默认root密码为arloor.com。另外该脚本会设置公钥登录（当然是我自己的公钥了），所以在安装完毕之后，请清空<code>authorized_keys</code>。</p>
 <p>该脚本目前仅自用，不保证可用。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget -O kickstart.sh http://www.arloor.com/centos8-kickstart-from-centos7.sh <span style="color:#f92672">&amp;&amp;</span> bash kickstart.sh -a
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>wget -O kickstart.sh http://www.arloor.com/centos8-kickstart-from-centos7.sh <span style="color:#f92672">&amp;&amp;</span> bash kickstart.sh -a
 </span></span></code></pre></div><h2 id="另外三种安装方式备忘">另外三种安装方式【备忘】</h2>
 <blockquote>
 <p>仅自己备忘</p>

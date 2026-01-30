@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.154.5">
+<meta name="generator" content="Hugo 0.155.0">
 
     
     
@@ -301,7 +301,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>本文首先探究下为什么 golang string 有这个问题，然后对比下 java 的 string 为什么没这个问题，最后介绍数据争用(data race)问题以及 Golang 和 Rust 如何避免该问题。</p>
 <h2 id="golang-string-data-race-的-panic-复现及分析">golang string data race 的 panic 复现及分析</h2>
 <h3 id="最简复现">最简复现：</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">// go run main/string_data_race_panic.go</span>
 </span></span><span style="display:flex;"><span>
@@ -338,7 +338,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>	<span style="color:#75715e">// _, _ = json.Marshal(c)</span>
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="panic-内容">panic 内容：</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ptr: 0x0, len: <span style="color:#ae81ff">15</span> panic: runtime error: invalid memory address or nil pointer dereference
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ptr: 0x0, len: <span style="color:#ae81ff">15</span> panic: runtime error: invalid memory address or nil pointer dereference
 </span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>signal SIGSEGV: segmentation violation code<span style="color:#f92672">=</span>0x1 addr<span style="color:#f92672">=</span>0x0 pc<span style="color:#f92672">=</span>0x475234<span style="color:#f92672">]</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>goroutine <span style="color:#ae81ff">7</span> <span style="color:#f92672">[</span>running<span style="color:#f92672">]</span>:
@@ -366,11 +366,11 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>        /root/main.go:15 +0x76
 </span></span><span style="display:flex;"><span>exit status <span style="color:#ae81ff">2</span>
 </span></span></code></pre></div><p>关注 panic 信息中的这一行：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>fmt.<span style="color:#f92672">(</span>*fmt<span style="color:#f92672">)</span>.padString<span style="color:#f92672">(</span>0x1400011a1c0?, <span style="color:#f92672">{</span>0x0, 0xf<span style="color:#f92672">})</span> // 0x0是指针地址nil，0xf是长度（15，即/test/test/test的长度）
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>fmt.<span style="color:#f92672">(</span>*fmt<span style="color:#f92672">)</span>.padString<span style="color:#f92672">(</span>0x1400011a1c0?, <span style="color:#f92672">{</span>0x0, 0xf<span style="color:#f92672">})</span> // 0x0是指针地址nil，0xf是长度（15，即/test/test/test的长度）
 </span></span></code></pre></div><p>0x0 是指针地址 nil，0xf 是长度（15，即/test/test/test 的长度）。发现 len 是 15，尝试解引用 nil 指针来读底层数据，就会 panic</p>
 <h3 id="根因分析">根因分析：</h3>
 <p>为了分析这个 panic 的根因，先看 string 的定义：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// go/src/reflect/value.go</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#75715e">// go/src/reflect/value.go</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">// StringHeader is the runtime representation of a string.</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e">// ...</span>
@@ -391,7 +391,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>作为一个 java 老手，“<strong>不可变对象是线程安全的</strong>”是一个基本概念。但是 golang 的 string 却在多线程数据争用中出现了问题，为什么 java 和 golang 有这样的差异？后面会讲到。</p>
 <h3 id="一种修复方案使用-atomicvalue">一种修复方案：使用 atomic.Value</h3>
 <p>使用 <code>atomic.Value</code> 包裹 string。不过 atomic 是基于 CAS 的，这样的改动在 <code>sleep 10 纳秒</code> 的情况下，会导致 CAS 陷入忙等待，CPU 占用率 100%且阻塞住，这时候就要显式使用 mutex 了。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> (
 </span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;fmt&#34;</span>
@@ -423,7 +423,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><h2 id="java-的-string-为什么没这个问题">java 的 String 为什么没这个问题</h2>
 <h3 id="首先java-赋值传参是-pass-by-copy-of-object-reference">首先：java 赋值/传参是 pass by copy of object reference</h3>
 <p>以下面的代码为例，Java 的赋值和传参（非基础类型）操作可以分为两步：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>String str <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> String()
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span>String str <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> String()
 </span></span></code></pre></div><table>
   <thead>
       <tr>
