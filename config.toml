@@ -92,12 +92,12 @@ url = "/about/"
 name = "Grafana"
 identifier = "Grafana"
 weight = 5
-url = "/grafana/d/a0d0b2fe-285a-44ba-8509-a404961d6da49/rust-http-proxy"
+url = "/grafana-iframe" 
 [[menu.main]]
 name = "网速监控"
 identifier = "网速监控"
 weight = 6
-url = "/net"
+url = "/net-iframe"
 [[menu.main]]
 name = "沪ICP备2025110448号"
 weight = 7

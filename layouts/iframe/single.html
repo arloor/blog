@@ -1,0 +1,26 @@
+{{ define "header" }}
+    {{ partial "header.html" . }}
+{{ end }}
+
+{{ define "content" }}
+    <iframe
+        src="{{ .Params.iframeUrl }}"
+        title="{{ .Title }}"
+        frameborder="0"
+        allowfullscreen>
+    </iframe>
+    <style>
+        .content.container {
+            padding: 0;
+            max-width: 100%;
+        }
+        .content.container iframe {
+            width: 100%;
+            height: calc(100vh - 20px);
+            border: none;
+        }
+    </style>
+{{ end }}
+
+{{ define "footer" }}
+{{ end }}
