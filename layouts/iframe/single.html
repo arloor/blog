@@ -21,9 +21,11 @@
             height: calc(100% - 10px);
             border: none;
         }
-        .content {
-        margin-left: 16rem;
-        margin-right: 0;
+        @media (min-width: 768px) {
+            .content {
+            margin-left: 16rem;
+            margin-right: 0;
+            }
         }
     </style>
 {{ end }}
