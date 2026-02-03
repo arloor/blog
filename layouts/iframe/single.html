@@ -4,7 +4,7 @@
 
 {{ define "content" }}
 <iframe src="{{ .Params.iframeUrl }}" title="{{ .Title }}" frameborder="0" allowfullscreen
-    sandbox="allow-scripts allow-same-origin allow-forms allow-popups">
+    sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-storage-access-by-user-activation">
 </iframe>
 <style>
     .content.container {
