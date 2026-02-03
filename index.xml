@@ -1332,17 +1332,24 @@
       <description>&lt;p&gt;&lt;a href=&#34;https://github.com/htr3n/laramod&#34;&gt;LaraMod&lt;/a&gt; is another modularisation effort to systematically organising a &lt;a href=&#34;https://laravel.com&#34;&gt;Laravel&lt;/a&gt; based project. The idea stems from my struggle to structure a Laravel-based project so that I can work effectively on individual modules whilst keeping Laravel codebase intact as much as possible and also keeping the project&amp;rsquo;s codebase separate from Laravel.&lt;/p&gt;</description>
     </item>
     <item>
+      <title>Grafana 监控面板</title>
+      <link>https://www.arloor.com/grafana-iframe/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://www.arloor.com/grafana-iframe/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>NAT管理系统</title>
+      <link>https://www.arloor.com/nat-iframe/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://www.arloor.com/nat-iframe/</guid>
+      <description></description>
+    </item>
+    <item>
       <title>归档</title>
       <link>https://www.arloor.com/archives/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://www.arloor.com/archives/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>网速监控</title>
-      <link>https://www.arloor.com/grafana-iframe/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://www.arloor.com/grafana-iframe/</guid>
       <description></description>
     </item>
     <item>

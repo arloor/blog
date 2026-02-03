@@ -689,9 +689,11 @@
     <loc>https://www.arloor.com/portfolio/laramod/</loc>
     <lastmod>2018-01-19T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://www.arloor.com/archives/</loc>
-  </url><url>
     <loc>https://www.arloor.com/grafana-iframe/</loc>
+  </url><url>
+    <loc>https://www.arloor.com/nat-iframe/</loc>
+  </url><url>
+    <loc>https://www.arloor.com/archives/</loc>
   </url><url>
     <loc>https://www.arloor.com/net-iframe/</loc>
   </url>
