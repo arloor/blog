@@ -92,7 +92,7 @@ url = "/about/"
 name = "Grafana"
 identifier = "Grafana"
 weight = 5
-url = "/grafana-iframe" 
+url = "/grafana-iframe"
 [[menu.main]]
 name = "网速监控"
 identifier = "网速监控"
@@ -104,7 +104,12 @@ identifier = "NAT规则"
 weight = 7
 url = "/nat-iframe"
 [[menu.main]]
-name = "沪ICP备2025110448号"
+name = "股票监控"
+identifier = "股票监控"
 weight = 8
+url = "/stock-realtime"
+[[menu.main]]
+name = "沪ICP备2025110448号"
+weight = 9
 identifier = "沪ICP备2025110448号"
 url = "http://beian.miit.gov.cn/"
