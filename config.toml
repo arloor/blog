@@ -99,7 +99,12 @@ identifier = "网速监控"
 weight = 6
 url = "/net-iframe"
 [[menu.main]]
-name = "沪ICP备2025110448号"
+name = "NAT规则"
+identifier = "NAT规则"
 weight = 7
+url = "/nat-iframe"
+[[menu.main]]
+name = "沪ICP备2025110448号"
+weight = 8
 identifier = "沪ICP备2025110448号"
 url = "http://beian.miit.gov.cn/"
