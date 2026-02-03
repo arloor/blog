@@ -108,8 +108,8 @@ name = "股票监控"
 identifier = "股票监控"
 weight = 8
 url = "/stock-realtime"
-[[menu.main]]
-name = "沪ICP备2025110448号"
-weight = 9
-identifier = "沪ICP备2025110448号"
-url = "http://beian.miit.gov.cn/"
+# [[menu.main]]
+# name = "沪ICP备2025110448号"
+# weight = 9
+# identifier = "沪ICP备2025110448号"
+# url = "http://beian.miit.gov.cn/"
