@@ -10,7 +10,7 @@ description: ""
 keywords:
   - 刘港欢 arloor moontell
 highlightjslanguages:
-    - powershell
+  - powershell
 ---
 
 ## 设置github.com的用户名
@@ -39,7 +39,7 @@ EOF
 
 ## 使用ssh密钥登录Github
 
->首先需要确保已经在github上添加了ssh公钥，参考下图配置：
+> 首先需要确保已经在github上添加了ssh公钥，参考下图配置：
 
 ![alt text](/img/github-ssh-key.png)
 
@@ -63,6 +63,8 @@ ssh -T git@github.com
 
 ### Windows
 
+> 注意：此方法需要 Git for Windows 环境（自带 connect.exe）。如果使用其他代理工具，可以将 `connect -H` 替换为相应的代理命令。
+
 ```powershell
 $proxyport = 7890 # 按需修改
 # 替换将https的github地址替换为ssh地址
@@ -85,11 +87,9 @@ Host github.com
 ssh -T git@github.com
 ```
 
-> 注意：此方法需要 Git for Windows 环境（自带 connect.exe）。如果使用其他代理工具，可以将 `connect -H` 替换为相应的代理命令。
-
 ## 永久保存git密码
 
-### Linux/Windows
+### Linux/Windows【保存明文，不大安全】
 
 ```bash
 git config --global credential.helper store
@@ -110,13 +110,13 @@ git config --global credential.helper osxkeychain
 
 {{< imgx src="/img/git-credential-osxkeychain-view.png" alt="" width="700px" style="max-width: 100%;">}}
 
-### 使用git config
+### 使用git config【强烈不建议】
 
 ```bash
 git config --global url.https://arloor:${{ github.token }}@github.com/.insteadOf https://github.com/
 ```
 
-这种设置的坏处是token保存在了git config文件中，安全程度可能稍差。但是对于go.mod中依赖了私有库的情况很方便
+这种设置的坏处是token保存在了git config文件中，并且每一个git仓库的remote url中都会包含token，存在很大的泄露风险
 
 ## 修改历史提交中的用户
 
