@@ -304,9 +304,9 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     </li>
     <li><a href="#永久保存git密码">永久保存git密码</a>
       <ul>
-        <li><a href="#linuxwindows">Linux/Windows</a></li>
+        <li><a href="#linuxwindows保存明文不大安全">Linux/Windows【保存明文，不大安全】</a></li>
         <li><a href="#macos">MacOS</a></li>
-        <li><a href="#使用git-config">使用git config</a></li>
+        <li><a href="#使用git-config强烈不建议">使用git config【强烈不建议】</a></li>
       </ul>
     </li>
     <li><a href="#修改历史提交中的用户">修改历史提交中的用户</a></li>
@@ -359,6 +359,9 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOL</span>
 </span></span><span style="display:flex;"><span>ssh -T git@github.com
 </span></span></code></pre></div><h3 id="windows">Windows</h3>
+<blockquote>
+<p>注意：此方法需要 Git for Windows 环境（自带 connect.exe）。如果使用其他代理工具，可以将 <code>connect -H</code> 替换为相应的代理命令。</p>
+</blockquote>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>$proxyport = <span style="color:#ae81ff">7890</span> <span style="color:#75715e"># 按需修改</span>
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># 替换将https的github地址替换为ssh地址</span>
 </span></span><span style="display:flex;"><span>git config --global url.git@github.com<span style="color:#960050;background-color:#1e0010">:</span>.insteadOf https<span style="color:#960050;background-color:#1e0010">:</span>//github.com/
@@ -378,11 +381,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;@</span>
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>ssh -T git@github.com
-</span></span></code></pre></div><blockquote>
-<p>注意：此方法需要 Git for Windows 环境（自带 connect.exe）。如果使用其他代理工具，可以将 <code>connect -H</code> 替换为相应的代理命令。</p>
-</blockquote>
-<h2 id="永久保存git密码">永久保存git密码</h2>
-<h3 id="linuxwindows">Linux/Windows</h3>
+</span></span></code></pre></div><h2 id="永久保存git密码">永久保存git密码</h2>
+<h3 id="linuxwindows保存明文不大安全">Linux/Windows【保存明文，不大安全】</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git config --global credential.helper store
 </span></span><span style="display:flex;"><span>touch ~/.git-credentials
 </span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;https://arloor:</span><span style="color:#e6db74">${</span>{ github.token <span style="color:#e6db74">}</span><span style="color:#e6db74">}@github.com&#34;</span> &gt;&gt; ~/.git-credentials
@@ -393,9 +393,9 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><p>然后在“钥匙串访问”搜索<code>github.com</code>，双击，可以查看和修改密码。</p>
 <img src="/img/git-credential-osxkeychain-view.png" alt="" width="700px" style="max-width: 100%;">
 
-<h3 id="使用git-config">使用git config</h3>
+<h3 id="使用git-config强烈不建议">使用git config【强烈不建议】</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git config --global url.https://arloor:<span style="color:#e6db74">${</span>{ github.token <span style="color:#e6db74">}</span><span style="color:#f92672">}</span>@github.com/.insteadOf https://github.com/
-</span></span></code></pre></div><p>这种设置的坏处是token保存在了git config文件中，安全程度可能稍差。但是对于go.mod中依赖了私有库的情况很方便</p>
+</span></span></code></pre></div><p>这种设置的坏处是token保存在了git config文件中，并且每一个git仓库的remote url中都会包含token，存在很大的泄露风险</p>
 <h2 id="修改历史提交中的用户">修改历史提交中的用户</h2>
 <p>比如，你的 <code>commit</code> 历史为 <code>A-B-C-D-E-F</code> ， <code>F</code> 为 <code>HEAD</code> ， 你打算修改 <code>C</code> 和 <code>D</code> 的用户名或邮箱，你需要：</p>
 <ol>
