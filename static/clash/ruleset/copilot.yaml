@@ -1,6 +1,0 @@
-payload:
-   - DOMAIN-SUFFIX,copilot-proxy.githubusercontent.com
-   - DOMAIN-SUFFIX,copilot-telemetry.githubusercontent.com
-   - DOMAIN-SUFFIX,githubcopilot.com
-   - DOMAIN-SUFFIX,copilot-telemetry-service.githubusercontent.com
-   - DOMAIN-SUFFIX,origin-tracker.githubusercontent.com
