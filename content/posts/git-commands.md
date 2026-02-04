@@ -35,6 +35,21 @@ EOF
         proxy = 
 ```
 
+## 使用ssh密钥登录Github
+
+```bash
+proxyport=7890 #按需修改
+apt install -y socat # 安装socat工具
+# 替换将https的github地址替换为ssh地址
+git config --global url.git@github.com:.insteadOf https://github.com/
+# 设置http代理
+grep -qF 'Host github.com' ~/.ssh/config || cat >> ~/.ssh/config << EOL
+Host github.com
+    HostName github.com
+    ProxyCommand socat - PROXY:localhost:%h:%p,proxyport=${proxyport}
+EOL
+```
+
 ## 永久保存git密码
 
 ### Linux/Windows
