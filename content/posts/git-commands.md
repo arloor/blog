@@ -9,6 +9,8 @@ subtitle: ""
 description: ""
 keywords:
   - 刘港欢 arloor moontell
+highlightjslanguages:
+    - powershell
 ---
 
 ## 设置github.com的用户名
