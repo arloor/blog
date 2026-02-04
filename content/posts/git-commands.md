@@ -39,6 +39,10 @@ EOF
 
 ## 使用ssh密钥登录Github
 
+>首先需要确保已经在github上添加了ssh公钥，参考下图配置：
+
+![alt text](/img/github-ssh-key.png)
+
 ### linux/MacOS
 
 ```bash
