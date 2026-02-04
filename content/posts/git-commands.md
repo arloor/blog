@@ -2,13 +2,13 @@
 title: "Git常用命令"
 date: 2023-06-07T14:31:05+08:00
 draft: false
-categories: [ "undefined"]
-tags: ["software","github"]
+categories: ["undefined"]
+tags: ["software", "github"]
 weight: 10
 subtitle: ""
-description : ""
+description: ""
 keywords:
-- 刘港欢 arloor moontell
+  - 刘港欢 arloor moontell
 ---
 
 ## 设置github.com的用户名
@@ -30,12 +30,14 @@ EOF
 
 ```bash
 [http]
-        proxy = 
+        proxy =
 [https]
-        proxy = 
+        proxy =
 ```
 
 ## 使用ssh密钥登录Github
+
+### linux/MacOS
 
 ```bash
 proxyport=7890 #按需修改
@@ -43,12 +45,39 @@ apt install -y socat # 安装socat工具
 # 替换将https的github地址替换为ssh地址
 git config --global url.git@github.com:.insteadOf https://github.com/
 # 设置http代理
+mkdir -p ~/.ssh
 grep -qF 'Host github.com' ~/.ssh/config || cat >> ~/.ssh/config << EOL
 Host github.com
     HostName github.com
     ProxyCommand socat - PROXY:localhost:%h:%p,proxyport=${proxyport}
 EOL
+ssh -T git@github.com
 ```
+
+### Windows
+
+```powershell
+$proxyport = 7890 # 按需修改
+# 替换将https的github地址替换为ssh地址
+git config --global url.git@github.com:.insteadOf https://github.com/
+# 设置SSH代理（使用Git for Windows自带的connect工具）
+$sshConfigPath = "$env:USERPROFILE\.ssh\config"
+if (!(Test-Path $sshConfigPath)) {
+    New-Item -ItemType File -Path $sshConfigPath -Force | Out-Null
+}
+$configContent = Get-Content $sshConfigPath -Raw -ErrorAction SilentlyContinue
+if ($configContent -notmatch 'Host github\.com') {
+    Add-Content -Path $sshConfigPath -Value @"
+
+Host github.com
+    HostName github.com
+    ProxyCommand "C:\\Program Files\\Git\\mingw64\\bin\\connect.exe" -H localhost:$proxyport %h %p
+"@
+}
+ssh -T git@github.com
+```
+
+> 注意：此方法需要 Git for Windows 环境（自带 connect.exe）。如果使用其他代理工具，可以将 `connect -H` 替换为相应的代理命令。
 
 ## 永久保存git密码
 
@@ -85,13 +114,13 @@ git config --global url.https://arloor:${{ github.token }}@github.com/.insteadOf
 
 比如，你的 `commit` 历史为 `A-B-C-D-E-F` ， `F` 为 `HEAD` ， 你打算修改 `C` 和 `D` 的用户名或邮箱，你需要：
 
-1. 运行 `git rebase -i B` 
-    1. 如果你需要修改 A ，可以运行 `git rebase -i --root`
+1. 运行 `git rebase -i B`
+   1. 如果你需要修改 A ，可以运行 `git rebase -i --root`
 2. 把 C 和 D 两个 commit 的那一行的 pick 改为 edit。下面用vim列模式来批量修改( d删除、I在前方插入、A在后方插入、c修改)
-    1. 按 `Ctrl + V` 进入vim的列模式
-    2. 然后上下左右移动光标选择多个pick
-    3. 先输入小写d，删除pick，再输入大写I，插入`edit`，然后安 `Esc`，等两秒左右。
-    4. **或者选中 `pick` ，按c进入删除插入模式输入 `edit`，再按 `Esc` 等两秒**
+   1. 按 `Ctrl + V` 进入vim的列模式
+   2. 然后上下左右移动光标选择多个pick
+   3. 先输入小写d，删除pick，再输入大写I，插入`edit`，然后安 `Esc`，等两秒左右。
+   4. **或者选中 `pick` ，按c进入删除插入模式输入 `edit`，再按 `Esc` 等两秒**
 3. 多次执行以下命令，直至rebase结束
 
 ```bash
@@ -113,9 +142,9 @@ git log --author="刘港欢\|liuganghuan\|arloor" --pretty=tformat: --numstat | 
         subs += $2;
         loc += $1 - $2;
     }
-} 
-END { 
-    printf "added lines: %s, removed lines: %s, total lines: %s\n", add, subs, loc 
+}
+END {
+    printf "added lines: %s, removed lines: %s, total lines: %s\n", add, subs, loc
 }'
 EOF
 chmod +x /usr/local/bin/ncode
