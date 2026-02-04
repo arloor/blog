@@ -50,6 +50,7 @@ grep -qF 'Host github.com' ~/.ssh/config || cat >> ~/.ssh/config << EOL
 Host github.com
     HostName github.com
     ProxyCommand socat - PROXY:localhost:%h:%p,proxyport=${proxyport}
+    User arloor
 EOL
 ssh -T git@github.com
 ```
@@ -72,6 +73,7 @@ if ($configContent -notmatch 'Host github\.com') {
 Host github.com
     HostName github.com
     ProxyCommand "C:\\Program Files\\Git\\mingw64\\bin\\connect.exe" -H localhost:$proxyport %h %p
+    User arloor
 "@
 }
 ssh -T git@github.com
