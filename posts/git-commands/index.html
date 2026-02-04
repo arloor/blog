@@ -340,6 +340,10 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>https<span style="color:#f92672">]</span>
 </span></span><span style="display:flex;"><span>        proxy <span style="color:#f92672">=</span>
 </span></span></code></pre></div><h2 id="使用ssh密钥登录github">使用ssh密钥登录Github</h2>
+<blockquote>
+<p>首先需要确保已经在github上添加了ssh公钥，参考下图配置：</p>
+</blockquote>
+<p><img src="/img/github-ssh-key.png" alt="alt text"></p>
 <h3 id="linuxmacos">linux/MacOS</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>proxyport<span style="color:#f92672">=</span><span style="color:#ae81ff">7890</span> <span style="color:#75715e">#按需修改</span>
 </span></span><span style="display:flex;"><span>apt install -y socat <span style="color:#75715e"># 安装socat工具</span>
