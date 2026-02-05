@@ -40,7 +40,7 @@ layouts/            # 自定义 Hugo 布局
   iframe/           # iframe 类型页面的布局模板
   shortcodes/       # 自定义 shortcodes（bilibili, img, imgx, youtube）
 static/             # 静态资源（图片、脚本、配置文件等）
-themes/hyde-arloor/ # 主题（Git submodule，勿直接修改）
+themes/hyde-arloor/ # 主题（Git submodule，可以修改以增强本hugo主题）
 config.toml         # Hugo 站点配置
 ```
 
