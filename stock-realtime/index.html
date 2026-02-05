@@ -48,7 +48,7 @@
 
 
 
-<link rel="stylesheet" href="/scss/hyde-hyde.d7b20acd164c30068340f6a728a1440b770caedae3d70e6d9e954f9cb2e9eaa1.css" integrity="sha256-17IKzRZMMAaDQPanKKFEC3cMrtrj1w5tnpVPnLLp6qE=">
+<link rel="stylesheet" href="/scss/hyde-hyde.5e4451fef574f24eb3610284749bae42c5b417904daed54c09731671da3012df.css" integrity="sha256-XkRR/vV08k6zYQKEdJuuQsW0F5BNrtVMCXMWcdowEt8=">
 
 
 <link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
@@ -126,7 +126,7 @@
     <div class="collapsible-menu">
       <input type="checkbox" id="menuToggle">
       <label for="menuToggle">ARLOOR</label>
-      <div class="menu-content">
+      <div class="menu-content menu-content--mobile">
         <div class="show-in-small">
           <a href="/">
             
@@ -237,6 +237,106 @@
 </section>
       </div>
     </div>
+    <div class="menu-content menu-content--desktop">
+      <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/posts/">
+						<span>文章</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/tags/">
+						<span>分类</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/about/">
+						<span>关于我</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/grafana-iframe">
+						<span>Grafana</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/net-iframe">
+						<span>网速监控</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/nat-iframe">
+						<span>NAT规则</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/stock-realtime">
+						<span>股票监控</span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+    </div>
+    <div class="social-wrap social-wrap--desktop">
+      <section class="social">
+	
+	<a href="https://x.com/njulgh" rel="me" target="_blank"><i class="fa-brands fa-x-twitter fa-lg"></i></a>
+	
+	
+	
+	
+	
+	<a href="https://github.com/arloor" rel="me" target="_blank"><i class="fa-brands fa-github fa-lg"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://t.me/never_contact_me" rel="me" target="_blank"><i class="fa-brands fa-telegram fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	<a href="mailto:admin@arloor.com" rel="me" target="_blank"><i class="fa-solid fa-at fa-lg"></i></a>
+	
+	
+	
+	
+</section>
+    </div>
     
 <div class="copyright">
   &copy; 2026 arloor
@@ -258,6 +358,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     <span class="sidebar-toggle-icon"></span>
   </button>
 </div>
+
   <div class="content container">
     
 <iframe src="https://stock.arloor.com/realtime" title="股票监控" frameborder="0" allowfullscreen
@@ -279,11 +380,43 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 
     @media (min-width: 768px) {
         .content {
-            margin-left: 16rem;
+            margin-left: 0;
             margin-right: 0;
         }
     }
 </style>
+<script>
+    (function () {
+        function resizeIframe() {
+            var iframe = document.querySelector('.content.container iframe');
+            if (!iframe) {
+                return;
+            }
+            var rect = iframe.getBoundingClientRect();
+            var available = window.innerHeight - rect.top;
+            if (available < 0) {
+                available = 0;
+            }
+            iframe.style.height = available + 'px';
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', resizeIframe);
+        } else {
+            resizeIframe();
+        }
+
+        window.addEventListener('load', resizeIframe);
+        window.addEventListener('resize', resizeIframe);
+
+        var menuToggle = document.getElementById('menuToggle');
+        if (menuToggle) {
+            menuToggle.addEventListener('change', function () {
+                window.requestAnimationFrame(resizeIframe);
+            });
+        }
+    })();
+</script>
 
   </div>
   
