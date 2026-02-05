@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-    
+
     
 
 
@@ -55,7 +55,7 @@
 
 
 
-<link rel="stylesheet" href="/scss/hyde-hyde.31797f25ba1bf071033fc6ddad4a7bae4537d6a38917cf0ea6475ce906174abb.css" integrity="sha256-MXl/Jbob8HEDP8bdrUp7rkU31qOJF88Opkdc6QYXSrs=">
+<link rel="stylesheet" href="/scss/hyde-hyde.c1ec27afdd03d92566f3f5a8a9910b1f5443217ec4eb47d477c6ad944e5b9303.css" integrity="sha256-wewnr90D2SVm8/WoqZELH1RDIX7E60fUd8atlE5bkwM=">
 
 
 <link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
@@ -81,17 +81,31 @@
 </head>
 
 
-    <body class=" ">
-    <script>
-    if (localStorage.getItem('sidebar-collapsed') === 'true') {
+
+<body class=" ">
+  <script>
+    
+    var isIframePage = false;
+
+    if (isIframePage) {
+      
       document.body.classList.add('sidebar-collapsed');
+    } else {
+      
+      if (localStorage.getItem('sidebar-collapsed') === 'true') {
+        document.body.classList.add('sidebar-collapsed');
+      }
     }
+
     function toggleSidebar() {
       document.body.classList.toggle('sidebar-collapsed');
-      localStorage.setItem('sidebar-collapsed', document.body.classList.contains('sidebar-collapsed'));
+      
+      if (!isIframePage) {
+        localStorage.setItem('sidebar-collapsed', document.body.classList.contains('sidebar-collapsed'));
+      }
     }
-    </script>
-    
+  </script>
+  
 <div class="sidebar">
   <div class="container ">
     <div class="sidebar-about">
@@ -246,11 +260,13 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 
   </div>
 </div>
-<button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle sidebar">
-  <span class="sidebar-toggle-icon"></span>
-</button>
-        <div class="content container">
-            
+<div class="sidebar-toggle-wrapper" onclick="toggleSidebar()">
+  <button class="sidebar-toggle" aria-label="Toggle sidebar">
+    <span class="sidebar-toggle-icon"></span>
+  </button>
+</div>
+  <div class="content container">
+    
     
 <article>
   <header>
@@ -361,8 +377,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </article>
 
 
-        </div>
-        
+  </div>
+  
     
 
 
@@ -478,5 +494,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 
 
 
-    </body>
+</body>
+
 </html>
