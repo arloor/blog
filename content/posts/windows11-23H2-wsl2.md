@@ -183,6 +183,7 @@ cat > ~/.gitconfig_github <<EOF
         email = admin@arloor.com
 EOF
 git config --global credential.helper store
+git config --global pull.rebase true
 # wsl的git忽略文件权限的变更
 git config --global core.filemode false
 # wsl的git 提交时自动将crlf转换为lf，checkout时不转成crlf
@@ -195,6 +196,9 @@ wsl 的 git 提交时自动将 crlf 转换为 lf，checkout 时不转成 crlf
 
 ```bash
 git config --global core.autocrlf input
+git config --global pull.rebase true
+# 保存 windows 的 git 凭证，避免每次都输入用户名和密码
+git config --global credential.helper manager-core
 ```
 
 autocrlf 的配置详见[git 文档](https://git-scm.com/book/en/v2/Customizing-Git-Git-Configuration#_formatting_and_whitespace)
