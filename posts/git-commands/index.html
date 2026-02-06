@@ -25,15 +25,15 @@
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Git常用命令">
-  <meta name="twitter:description" content="设置github.com的用户名 参考git文档，允许使用标准文件路径匹配（standard globbing wildcards）和/**、**/来定义url的pattern
-git config --global &#34;includeIf.hasconfig:remote.*.url:*://*github.com*/**.path&#34; .gitconfig_github git config --global &#34;includeIf.hasconfig:remote.*.url:git@github.com:*/**.path&#34; .gitconfig_github cat &gt; ~/.gitconfig_github &lt;&lt;EOF [user] name = arloor email = admin@arloor.com EOF 可以增加下面的代码来控制内网的git仓库不走全局git代理：">
+  <meta name="twitter:description" content="这篇记录我最常用、且相对不容易踩坑的 Git 命令。覆盖场景包括：
+不同仓库使用不同身份 SSH &#43; 代理访问 GitHub 凭证管理 改写历史提交 清理敏感文件历史 忽略已追踪文件">
       <meta name="twitter:site" content="@njulgh">
 
 <meta property="og:url" content="https://www.arloor.com/posts/git-commands/">
   <meta property="og:site_name" content="ARLOOR">
   <meta property="og:title" content="Git常用命令">
-  <meta property="og:description" content="设置github.com的用户名 参考git文档，允许使用标准文件路径匹配（standard globbing wildcards）和/**、**/来定义url的pattern
-git config --global &#34;includeIf.hasconfig:remote.*.url:*://*github.com*/**.path&#34; .gitconfig_github git config --global &#34;includeIf.hasconfig:remote.*.url:git@github.com:*/**.path&#34; .gitconfig_github cat &gt; ~/.gitconfig_github &lt;&lt;EOF [user] name = arloor email = admin@arloor.com EOF 可以增加下面的代码来控制内网的git仓库不走全局git代理：">
+  <meta property="og:description" content="这篇记录我最常用、且相对不容易踩坑的 Git 命令。覆盖场景包括：
+不同仓库使用不同身份 SSH &#43; 代理访问 GitHub 凭证管理 改写历史提交 清理敏感文件历史 忽略已追踪文件">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
@@ -424,26 +424,26 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
       
           <nav id="TableOfContents">
   <ul>
-    <li><a href="#设置githubcom的用户名">设置github.com的用户名</a></li>
-    <li><a href="#使用ssh密钥登录github">使用ssh密钥登录Github</a>
+    <li><a href="#按远程地址自动切换-git-身份">按远程地址自动切换 Git 身份</a></li>
+    <li><a href="#使用-ssh-密钥访问-github">使用 SSH 密钥访问 GitHub</a>
       <ul>
-        <li><a href="#linuxmacos">linux/MacOS</a></li>
-        <li><a href="#windows">Windows</a></li>
+        <li><a href="#linux--macos通过-http-代理转发-ssh">Linux / macOS（通过 HTTP 代理转发 SSH）</a></li>
+        <li><a href="#windowsgit-for-windows">Windows（Git for Windows）</a></li>
       </ul>
     </li>
-    <li><a href="#永久保存git密码">永久保存git密码</a>
+    <li><a href="#凭证保存方式按安全性排序">凭证保存方式（按安全性排序）</a>
       <ul>
-        <li><a href="#linuxwindows保存明文不大安全">Linux/Windows【保存明文，不大安全】</a></li>
-        <li><a href="#macos">MacOS</a></li>
-        <li><a href="#使用git-config强烈不建议">使用git config【强烈不建议】</a></li>
+        <li><a href="#推荐系统凭证管理器">推荐：系统凭证管理器</a></li>
+        <li><a href="#可用但不推荐明文保存">可用但不推荐：明文保存</a></li>
+        <li><a href="#不建议把-token-写进-url-重写规则">不建议：把 Token 写进 URL 重写规则</a></li>
       </ul>
     </li>
-    <li><a href="#修改历史提交中的用户">修改历史提交中的用户</a></li>
-    <li><a href="#统计git仓库中用户代码行">统计git仓库中用户代码行</a></li>
-    <li><a href="#删除git中某一文件的历史">删除git中某一文件的历史</a></li>
-    <li><a href="#打印最后一个提交">打印最后一个提交</a></li>
-    <li><a href="#不再跟踪某个文件">不再跟踪某个文件</a></li>
-    <li><a href="#将已被追踪的文件删除并加入-gitignore">将已被追踪的文件删除并加入 <code>.gitignore</code></a></li>
+    <li><a href="#修改历史提交的作者信息">修改历史提交的作者信息</a></li>
+    <li><a href="#统计某作者在仓库中的代码增删行">统计某作者在仓库中的代码增删行</a></li>
+    <li><a href="#删除某文件目录的全部历史敏感信息清理">删除某文件/目录的全部历史（敏感信息清理）</a></li>
+    <li><a href="#查看最后一次提交的完整-diff">查看最后一次提交的完整 diff</a></li>
+    <li><a href="#临时忽略本地变更不再提交">临时忽略本地变更（不再提交）</a></li>
+    <li><a href="#已被追踪的文件如何改为忽略">已被追踪的文件，如何改为忽略</a></li>
   </ul>
 </nav>
       
@@ -451,57 +451,61 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   
   <div class="post">
-    <h2 id="设置githubcom的用户名">设置github.com的用户名</h2>
-<p>参考<a href="https://git-scm.com/docs/git-config#Documentation/git-config.txt-codehasconfigremoteurlcode">git文档</a>，允许使用标准文件路径匹配（standard globbing wildcards）和<code>/**</code>、<code>**/</code>来定义url的pattern</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git config --global <span style="color:#e6db74">&#34;includeIf.hasconfig:remote.*.url:*://*github.com*/**.path&#34;</span> .gitconfig_github
-</span></span><span style="display:flex;"><span>git config --global <span style="color:#e6db74">&#34;includeIf.hasconfig:remote.*.url:git@github.com:*/**.path&#34;</span> .gitconfig_github
+    <p>这篇记录我最常用、且相对不容易踩坑的 Git 命令。覆盖场景包括：</p>
+<ul>
+<li>不同仓库使用不同身份</li>
+<li>SSH + 代理访问 GitHub</li>
+<li>凭证管理</li>
+<li>改写历史提交</li>
+<li>清理敏感文件历史</li>
+<li>忽略已追踪文件</li>
+</ul>
+<h2 id="按远程地址自动切换-git-身份">按远程地址自动切换 Git 身份</h2>
+<p>适合一个人维护多个身份（例如个人账号 + 公司账号）。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git config --global <span style="color:#e6db74">&#39;includeIf.hasconfig:remote.*.url:*://*github.com*/**.path&#39;</span> ~/.gitconfig_github
+</span></span><span style="display:flex;"><span>git config --global <span style="color:#e6db74">&#39;includeIf.hasconfig:remote.*.url:git@github.com:*/**.path&#39;</span> ~/.gitconfig_github
+</span></span></code></pre></div><p>创建 <code>~/.gitconfig_github</code>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ini" data-lang="ini"><span style="display:flex;"><span><span style="color:#66d9ef">[user]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">name</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">arloor
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    email = admin@arloor.com</span>
+</span></span></code></pre></div><p>如果你开启了全局 Git 代理，但希望某些内网仓库不走代理，可以在对应配置中显式清空：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ini" data-lang="ini"><span style="display:flex;"><span><span style="color:#66d9ef">[http]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">proxy</span> <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">[https]</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">proxy</span> <span style="color:#f92672">=</span>
+</span></span></code></pre></div><h2 id="使用-ssh-密钥访问-github">使用 SSH 密钥访问 GitHub</h2>
+<p>先确认公钥已经添加到 GitHub：</p>
+<p><img src="/img/github-ssh-key.png" alt="GitHub SSH Key"></p>
+<h3 id="linux--macos通过-http-代理转发-ssh">Linux / macOS（通过 HTTP 代理转发 SSH）</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>proxyport<span style="color:#f92672">=</span><span style="color:#ae81ff">7890</span> <span style="color:#75715e"># 按需修改</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>cat &gt; ~/.gitconfig_github <span style="color:#e6db74">&lt;&lt;EOF
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[user]
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        name = arloor
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        email = admin@arloor.com
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
-</span></span></code></pre></div><blockquote>
-<p>可以增加下面的代码来控制内网的git仓库不走全局git代理：</p>
-</blockquote>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#f92672">[</span>http<span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>        proxy <span style="color:#f92672">=</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">[</span>https<span style="color:#f92672">]</span>
-</span></span><span style="display:flex;"><span>        proxy <span style="color:#f92672">=</span>
-</span></span></code></pre></div><h2 id="使用ssh密钥登录github">使用ssh密钥登录Github</h2>
-<blockquote>
-<p>首先需要确保已经在github上添加了ssh公钥，参考下图配置：</p>
-</blockquote>
-<p><img src="/img/github-ssh-key.png" alt="alt text"></p>
-<h3 id="linuxmacos">linux/MacOS</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>proxyport<span style="color:#f92672">=</span><span style="color:#ae81ff">7890</span> <span style="color:#75715e">#按需修改</span>
-</span></span><span style="display:flex;"><span>apt install -y socat <span style="color:#75715e"># 安装socat工具</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 替换将https的github地址替换为ssh地址</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Ubuntu / Debian</span>
+</span></span><span style="display:flex;"><span>sudo apt install -y socat
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 将 https 地址自动替换为 ssh 地址</span>
 </span></span><span style="display:flex;"><span>git config --global url.git@github.com:.insteadOf https://github.com/
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 设置http代理</span>
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>mkdir -p ~/.ssh
-</span></span><span style="display:flex;"><span>grep -qF <span style="color:#e6db74">&#39;Host github.com&#39;</span> ~/.ssh/config <span style="color:#f92672">||</span> cat &gt;&gt; ~/.ssh/config <span style="color:#e6db74">&lt;&lt; EOL
+</span></span><span style="display:flex;"><span>grep -qF <span style="color:#e6db74">&#39;Host github.com&#39;</span> ~/.ssh/config <span style="color:#f92672">||</span> cat &gt;&gt; ~/.ssh/config <span style="color:#e6db74">&lt;&lt;EOF
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Host github.com
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    HostName github.com
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    ProxyCommand socat - PROXY:localhost:%h:%p,proxyport=${proxyport}
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    User git
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOL</span>
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>ssh -T git@github.com
-</span></span></code></pre></div><h3 id="windows">Windows</h3>
-<blockquote>
-<p>注意：此方法需要 Git for Windows 环境（自带 connect.exe）。如果使用其他代理工具，可以将 <code>connect -H</code> 替换为相应的代理命令。</p>
-</blockquote>
+</span></span></code></pre></div><h3 id="windowsgit-for-windows">Windows（Git for Windows）</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>$proxyport = <span style="color:#ae81ff">7890</span> <span style="color:#75715e"># 按需修改</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 替换将https的github地址替换为ssh地址</span>
 </span></span><span style="display:flex;"><span>git config --global url.git@github.com<span style="color:#960050;background-color:#1e0010">:</span>.insteadOf https<span style="color:#960050;background-color:#1e0010">:</span>//github.com/
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 设置SSH代理（使用Git for Windows自带的connect工具）</span>
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>$sshConfigPath = <span style="color:#e6db74">&#34;</span>$env:USERPROFILE<span style="color:#e6db74">\.ssh\config&#34;</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (!(Test-Path $sshConfigPath)) {
-</span></span><span style="display:flex;"><span>    New-Item -ItemType File -Path $sshConfigPath -Force | Out-Null
+</span></span><span style="display:flex;"><span>  New-Item -ItemType File -Path $sshConfigPath -Force | Out-Null
 </span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>$configContent = Get-Content $sshConfigPath -Raw -ErrorAction SilentlyContinue
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ($configContent <span style="color:#f92672">-notmatch</span> <span style="color:#e6db74">&#39;Host github\.com&#39;</span>) {
-</span></span><span style="display:flex;"><span>    Add-Content -Path $sshConfigPath -Value <span style="color:#e6db74">@&#34;
+</span></span><span style="display:flex;"><span>  Add-Content -Path $sshConfigPath -Value <span style="color:#e6db74">@&#34;
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Host github.com
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    HostName github.com
@@ -509,95 +513,93 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    User git
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;@</span>
 </span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>ssh -T git@github.com
-</span></span></code></pre></div><h2 id="永久保存git密码">永久保存git密码</h2>
-<h3 id="linuxwindows保存明文不大安全">Linux/Windows【保存明文，不大安全】</h3>
+</span></span></code></pre></div><h2 id="凭证保存方式按安全性排序">凭证保存方式（按安全性排序）</h2>
+<h3 id="推荐系统凭证管理器">推荐：系统凭证管理器</h3>
+<ul>
+<li>macOS：<code>osxkeychain</code></li>
+<li>Windows：<code>manager-core</code>（通常已默认启用）</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git config --global credential.helper osxkeychain
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 或</span>
+</span></span><span style="display:flex;"><span>git config --global credential.helper manager-core
+</span></span></code></pre></div><h3 id="可用但不推荐明文保存">可用但不推荐：明文保存</h3>
+<p><code>store</code> 会把凭证明文写入 <code>~/.git-credentials</code>，只建议在临时环境使用。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git config --global credential.helper store
-</span></span><span style="display:flex;"><span>touch ~/.git-credentials
-</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;https://arloor:</span><span style="color:#e6db74">${</span>{ github.token <span style="color:#e6db74">}</span><span style="color:#e6db74">}@github.com&#34;</span> &gt;&gt; ~/.git-credentials
-</span></span></code></pre></div><p>当github账号启用了二次验证时，输入的密码请填写自己在github上生成的api key。</p>
-<h3 id="macos">MacOS</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 默认就是，其实不需要显式设置</span>
-</span></span><span style="display:flex;"><span>git config --global credential.helper osxkeychain
-</span></span></code></pre></div><p>然后在“钥匙串访问”搜索<code>github.com</code>，双击，可以查看和修改密码。</p>
-<img src="/img/git-credential-osxkeychain-view.png" alt="" width="700px" style="max-width: 100%;">
-
-<h3 id="使用git-config强烈不建议">使用git config【强烈不建议】</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git config --global url.https://arloor:<span style="color:#e6db74">${</span>{ github.token <span style="color:#e6db74">}</span><span style="color:#f92672">}</span>@github.com/.insteadOf https://github.com/
-</span></span></code></pre></div><p>这种设置的坏处是token保存在了git config文件中，并且每一个git仓库的remote url中都会包含token，存在很大的泄露风险</p>
-<h2 id="修改历史提交中的用户">修改历史提交中的用户</h2>
-<p>比如，你的 <code>commit</code> 历史为 <code>A-B-C-D-E-F</code> ， <code>F</code> 为 <code>HEAD</code> ， 你打算修改 <code>C</code> 和 <code>D</code> 的用户名或邮箱，你需要：</p>
+</span></span></code></pre></div><p>如果 GitHub 开启了 2FA，密码位置应填写 Personal Access Token（PAT），而不是登录密码。</p>
+<h3 id="不建议把-token-写进-url-重写规则">不建议：把 Token 写进 URL 重写规则</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git config --global url.https://&lt;user&gt;:&lt;token&gt;@github.com/.insteadOf https://github.com/
+</span></span></code></pre></div><p>风险是 token 会进入配置文件，且容易在 remote URL、日志或截图中泄露。</p>
+<h2 id="修改历史提交的作者信息">修改历史提交的作者信息</h2>
+<p>假设历史是 <code>A-B-C-D-E-F</code>（<code>F</code> 为 <code>HEAD</code>），你要修改 <code>C</code> 和 <code>D</code>：</p>
 <ol>
-<li>运行 <code>git rebase -i B</code>
-<ol>
-<li>如果你需要修改 A ，可以运行 <code>git rebase -i --root</code></li>
+<li>从 <code>B</code> 后开始交互式 rebase：<code>git rebase -i B</code></li>
+<li>把 <code>C</code>、<code>D</code> 两行从 <code>pick</code> 改成 <code>edit</code></li>
+<li>每次停下时执行：</li>
 </ol>
-</li>
-<li>把 C 和 D 两个 commit 的那一行的 pick 改为 edit。下面用vim列模式来批量修改( d删除、I在前方插入、A在后方插入、c修改)
-<ol>
-<li>按 <code>Ctrl + V</code> 进入vim的列模式</li>
-<li>然后上下左右移动光标选择多个pick</li>
-<li>先输入小写d，删除pick，再输入大写I，插入<code>edit</code>，然后安 <code>Esc</code>，等两秒左右。</li>
-<li><strong>或者选中 <code>pick</code> ，按c进入删除插入模式输入 <code>edit</code>，再按 <code>Esc</code> 等两秒</strong></li>
-</ol>
-</li>
-<li>多次执行以下命令，直至rebase结束</li>
-</ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git commit --amend --author<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;arloor &lt;admin@arloor.com&gt;&#34;</span> --no-edit<span style="color:#f92672">&amp;&amp;</span>git rebase --continue
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git commit --amend --author<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;arloor &lt;admin@arloor.com&gt;&#34;</span> --no-edit
+</span></span><span style="display:flex;"><span>git rebase --continue
 </span></span></code></pre></div><ol start="4">
-<li>如果需要更新到远程仓库， 使用 <code>git push -f</code>（请确保修改的 <code>commit</code> 不会影响其他人）</li>
+<li>全部完成后，若远程已存在旧历史，需要强推：</li>
 </ol>
-<h2 id="统计git仓库中用户代码行">统计git仓库中用户代码行</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; /usr/local/bin/ncode <span style="color:#e6db74">&lt;&lt;\EOF
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[ &#34;$1&#34; = &#34;&#34; ]&amp;&amp;user=&#34;arloor\|刘港欢\|liuganghuan&#34;||user=$1
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git push --force-with-lease
+</span></span></code></pre></div><p><code>--force-with-lease</code> 比 <code>-f</code> 更安全，能避免覆盖他人的新提交。</p>
+<p>如果你需要修改 A ，可以运行 <code>git rebase -i --root</code></p>
+<h2 id="统计某作者在仓库中的代码增删行">统计某作者在仓库中的代码增删行</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; /usr/local/bin/ncode <span style="color:#e6db74">&lt;&lt;&#39;EOF&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">#!/usr/bin/env bash
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">set -euo pipefail
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">echo ${user}\&#39;s work summary: @$(date)
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">git log --author=&#34;刘港欢\|liuganghuan\|arloor&#34; --pretty=tformat: --numstat | awk &#39;{
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    if ($1 != &#34;-&#34; &amp;&amp; $2 != &#34;-&#34;) {
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        add += $1;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        subs += $2;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        loc += $1 - $2;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    }
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">}
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">END {
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    printf &#34;added lines: %s, removed lines: %s, total lines: %s\n&#34;, add, subs, loc
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">}&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">author_pattern=&#34;${1:-arloor|刘港欢|liuganghuan}&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">echo &#34;${author_pattern}&#39;s work summary @ $(date)&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">git log --author=&#34;${author_pattern}&#34; --pretty=tformat: --numstat | awk &#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  $1 != &#34;-&#34; &amp;&amp; $2 != &#34;-&#34; {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    add += $1
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    del += $2
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  }
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  END {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    printf &#34;added: %s, removed: %s, net: %s\n&#34;, add, del, add - del
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  }
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>chmod +x /usr/local/bin/ncode
-</span></span><span style="display:flex;"><span>ncode arloor
-</span></span></code></pre></div><h2 id="删除git中某一文件的历史">删除git中某一文件的历史</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git filter-branch --tree-filter <span style="color:#e6db74">&#39;rm -rf path/folder&#39;</span> HEAD
-</span></span><span style="display:flex;"><span>git filter-branch --tree-filter <span style="color:#e6db74">&#39;rm -f path/file&#39;</span> HEAD
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 也可以指定 检索的 Commit 历史的范围：</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># git filter-branch --tree-filter &#39;rm -rf path/folder&#39; 347ae59..HEAD</span>
+</span></span><span style="display:flex;"><span>ncode <span style="color:#e6db74">&#39;arloor|liuganghuan&#39;</span>
+</span></span></code></pre></div><h2 id="删除某文件目录的全部历史敏感信息清理">删除某文件/目录的全部历史（敏感信息清理）</h2>
+<p>优先使用 <code>git filter-repo</code>（官方推荐，速度快、结果更稳定）：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 目录</span>
+</span></span><span style="display:flex;"><span>git filter-repo --path path/folder --invert-paths
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 最后强制推送</span>
-</span></span><span style="display:flex;"><span>git push --force --all
-</span></span><span style="display:flex;"><span>git push origin master --force --tags
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 立即删除本地无用的缓存，释放空间</span>
-</span></span><span style="display:flex;"><span>git <span style="color:#66d9ef">for</span>-each-ref --format<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;delete %(refname)&#34;</span> refs/original | git update-ref --stdin
-</span></span><span style="display:flex;"><span>git reflog expire --expire<span style="color:#f92672">=</span>now --all
-</span></span><span style="display:flex;"><span>git gc --prune<span style="color:#f92672">=</span>now
-</span></span></code></pre></div><h2 id="打印最后一个提交">打印最后一个提交</h2>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 单文件</span>
+</span></span><span style="display:flex;"><span>git filter-repo --path path/file --invert-paths
+</span></span></code></pre></div><p>随后强制更新远程：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git push --force --all
+</span></span><span style="display:flex;"><span>git push --force --tags
+</span></span></code></pre></div><p>如果你还在用旧命令：<code>git filter-branch</code> 已不推荐，除非兼容性要求必须使用。</p>
+<h2 id="查看最后一次提交的完整-diff">查看最后一次提交的完整 diff</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git -P log -1 -p --color
-</span></span></code></pre></div><h2 id="不再跟踪某个文件">不再跟踪某个文件</h2>
-<p>保持之前的内容，不再提交之后的变更，可以使用下面的命令：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git update-index --assume-unchanged path/to/your/file <span style="color:#75715e"># 假设某文件未变更，从而不加入暂存区</span>
-</span></span><span style="display:flex;"><span>git ls-files -v | grep <span style="color:#e6db74">&#39;^[a-z]&#39;</span> <span style="color:#75715e"># 查看当前被假设未变更的文件，即以 h 开头的文件</span>
+</span></span></code></pre></div><h2 id="临时忽略本地变更不再提交">临时忽略本地变更（不再提交）</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git update-index --assume-unchanged path/to/file
+</span></span><span style="display:flex;"><span>git ls-files -v | grep <span style="color:#e6db74">&#39;^[a-z]&#39;</span>   <span style="color:#75715e"># 小写开头通常表示被标记</span>
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># git update-index --no-assume-unchanged path/to/your/file # 恢复</span>
-</span></span></code></pre></div><h2 id="将已被追踪的文件删除并加入-gitignore">将已被追踪的文件删除并加入 <code>.gitignore</code></h2>
-<p>比如要在 <code>.gitignore</code> 中增加：</p>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 恢复</span>
+</span></span><span style="display:flex;"><span>git update-index --no-assume-unchanged path/to/file
+</span></span></code></pre></div><p>适合本地私有配置文件。若是团队共享规则，优先用 <code>.gitignore</code>。</p>
+<h2 id="已被追踪的文件如何改为忽略">已被追踪的文件，如何改为忽略</h2>
+<p>在 <code>.gitignore</code> 增加规则，例如：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>logs/
 </span></span><span style="display:flex;"><span>data/*.csv
-</span></span></code></pre></div><p>需要执行下面命令删除相关缓存</p>
+</span></span></code></pre></div><p>然后从索引中移除（保留本地文件）：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git rm -r --cached logs/
 </span></span><span style="display:flex;"><span>git rm -r --cached data/*.csv
-</span></span></code></pre></div><p>更暴力的也可以：</p>
+</span></span><span style="display:flex;"><span>git commit -m <span style="color:#e6db74">&#34;chore: stop tracking ignored files&#34;</span>
+</span></span></code></pre></div><p>如果规则很多，也可以一次性清理索引再重新加入：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git rm -r --cached .
-</span></span></code></pre></div><p>之后可以 <code>add</code> 和 <code>commit</code></p>
-
+</span></span><span style="display:flex;"><span>git add .
+</span></span><span style="display:flex;"><span>git commit -m <span style="color:#e6db74">&#34;chore: re-index with updated .gitignore&#34;</span>
+</span></span></code></pre></div>
   </div>
   
 

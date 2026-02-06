@@ -499,18 +499,15 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     </span>
     <span >
       
-      <h2 id="设置githubcom的用户名">设置github.com的用户名</h2>
-<p>参考<a href="https://git-scm.com/docs/git-config#Documentation/git-config.txt-codehasconfigremoteurlcode">git文档</a>，允许使用标准文件路径匹配（standard globbing wildcards）和<code>/**</code>、<code>**/</code>来定义url的pattern</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git config --global <span style="color:#e6db74">&#34;includeIf.hasconfig:remote.*.url:*://*github.com*/**.path&#34;</span> .gitconfig_github
-</span></span><span style="display:flex;"><span>git config --global <span style="color:#e6db74">&#34;includeIf.hasconfig:remote.*.url:git@github.com:*/**.path&#34;</span> .gitconfig_github
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>cat &gt; ~/.gitconfig_github <span style="color:#e6db74">&lt;&lt;EOF
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[user]
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        name = arloor
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        email = admin@arloor.com
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
-</span></span></code></pre></div><blockquote>
-<p>可以增加下面的代码来控制内网的git仓库不走全局git代理：</p>
+      <p>这篇记录我最常用、且相对不容易踩坑的 Git 命令。覆盖场景包括：</p>
+<ul>
+<li>不同仓库使用不同身份</li>
+<li>SSH + 代理访问 GitHub</li>
+<li>凭证管理</li>
+<li>改写历史提交</li>
+<li>清理敏感文件历史</li>
+<li>忽略已追踪文件</li>
+</ul>
       
     </span>
     
