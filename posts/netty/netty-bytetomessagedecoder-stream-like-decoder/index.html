@@ -366,7 +366,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   </button>
 </div>
 
-  <div class="content container">
+  <div class="content container" data-auto-height="min">
     
     
 <article>
@@ -717,6 +717,52 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 
 
 
+  <script>
+    (function () {
+      function resizeAutoHeight() {
+        var targets = document.querySelectorAll('[data-auto-height]');
+        for (var i = 0; i < targets.length; i += 1) {
+          var target = targets[i];
+          var rect = target.getBoundingClientRect();
+          var available = window.innerHeight - rect.top;
+          if (available < 0) {
+            available = 0;
+          }
+
+          var mode = target.getAttribute('data-auto-height');
+          if (mode === 'min') {
+            target.style.minHeight = available + 'px';
+          } else {
+            target.style.height = available + 'px';
+          }
+        }
+      }
+
+      function scheduleResize() {
+        window.requestAnimationFrame(resizeAutoHeight);
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', scheduleResize);
+      } else {
+        scheduleResize();
+      }
+
+      window.addEventListener('load', scheduleResize);
+      window.addEventListener('resize', scheduleResize);
+      window.addEventListener('orientationchange', scheduleResize);
+
+      var menuToggle = document.getElementById('menuToggle');
+      if (menuToggle) {
+        menuToggle.addEventListener('change', scheduleResize);
+      }
+
+      var sidebarToggle = document.querySelector('.sidebar-toggle-wrapper');
+      if (sidebarToggle) {
+        sidebarToggle.addEventListener('click', scheduleResize);
+      }
+    })();
+  </script>
 </body>
 
 </html>
