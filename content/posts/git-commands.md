@@ -13,70 +13,85 @@ highlightjslanguages:
   - powershell
 ---
 
-## 设置github.com的用户名
+这篇记录我最常用、且相对不容易踩坑的 Git 命令。覆盖场景包括：
 
-参考[git文档](https://git-scm.com/docs/git-config#Documentation/git-config.txt-codehasconfigremoteurlcode)，允许使用标准文件路径匹配（standard globbing wildcards）和`/**`、`**/`来定义url的pattern
+- 不同仓库使用不同身份
+- SSH + 代理访问 GitHub
+- 凭证管理
+- 改写历史提交
+- 清理敏感文件历史
+- 忽略已追踪文件
+
+<!--more-->
+
+## 按远程地址自动切换 Git 身份
+
+适合一个人维护多个身份（例如个人账号 + 公司账号）。
 
 ```bash
-git config --global "includeIf.hasconfig:remote.*.url:*://*github.com*/**.path" .gitconfig_github
-git config --global "includeIf.hasconfig:remote.*.url:git@github.com:*/**.path" .gitconfig_github
+git config --global 'includeIf.hasconfig:remote.*.url:*://*github.com*/**.path' ~/.gitconfig_github
+git config --global 'includeIf.hasconfig:remote.*.url:git@github.com:*/**.path' ~/.gitconfig_github
+```
 
-cat > ~/.gitconfig_github <<EOF
+创建 `~/.gitconfig_github`：
+
+```ini
 [user]
-        name = arloor
-        email = admin@arloor.com
-EOF
+    name = arloor
+    email = admin@arloor.com
 ```
 
-> 可以增加下面的代码来控制内网的git仓库不走全局git代理：
+如果你开启了全局 Git 代理，但希望某些内网仓库不走代理，可以在对应配置中显式清空：
 
-```bash
+```ini
 [http]
-        proxy =
+    proxy =
 [https]
-        proxy =
+    proxy =
 ```
 
-## 使用ssh密钥登录Github
+## 使用 SSH 密钥访问 GitHub
 
-> 首先需要确保已经在github上添加了ssh公钥，参考下图配置：
+先确认公钥已经添加到 GitHub：
 
-![alt text](/img/github-ssh-key.png)
+![GitHub SSH Key](/img/github-ssh-key.png)
 
-### linux/MacOS
+### Linux / macOS（通过 HTTP 代理转发 SSH）
 
 ```bash
-proxyport=7890 #按需修改
-apt install -y socat # 安装socat工具
-# 替换将https的github地址替换为ssh地址
+proxyport=7890 # 按需修改
+
+# Ubuntu / Debian
+sudo apt install -y socat
+
+# 将 https 地址自动替换为 ssh 地址
 git config --global url.git@github.com:.insteadOf https://github.com/
-# 设置http代理
+
 mkdir -p ~/.ssh
-grep -qF 'Host github.com' ~/.ssh/config || cat >> ~/.ssh/config << EOL
+grep -qF 'Host github.com' ~/.ssh/config || cat >> ~/.ssh/config <<EOF
 Host github.com
     HostName github.com
     ProxyCommand socat - PROXY:localhost:%h:%p,proxyport=${proxyport}
     User git
-EOL
+EOF
+
 ssh -T git@github.com
 ```
 
-### Windows
-
-> 注意：此方法需要 Git for Windows 环境（自带 connect.exe）。如果使用其他代理工具，可以将 `connect -H` 替换为相应的代理命令。
+### Windows（Git for Windows）
 
 ```powershell
 $proxyport = 7890 # 按需修改
-# 替换将https的github地址替换为ssh地址
 git config --global url.git@github.com:.insteadOf https://github.com/
-# 设置SSH代理（使用Git for Windows自带的connect工具）
+
 $sshConfigPath = "$env:USERPROFILE\.ssh\config"
 if (!(Test-Path $sshConfigPath)) {
-    New-Item -ItemType File -Path $sshConfigPath -Force | Out-Null
+  New-Item -ItemType File -Path $sshConfigPath -Force | Out-Null
 }
+
 $configContent = Get-Content $sshConfigPath -Raw -ErrorAction SilentlyContinue
 if ($configContent -notmatch 'Host github\.com') {
-    Add-Content -Path $sshConfigPath -Value @"
+  Add-Content -Path $sshConfigPath -Value @"
 
 Host github.com
     HostName github.com
@@ -84,136 +99,149 @@ Host github.com
     User git
 "@
 }
+
 ssh -T git@github.com
 ```
 
-## 永久保存git密码
+## 凭证保存方式（按安全性排序）
 
-### Linux/Windows【保存明文，不大安全】
+### 推荐：系统凭证管理器
+
+- macOS：`osxkeychain`
+- Windows：`manager-core`（通常已默认启用）
+
+```bash
+git config --global credential.helper osxkeychain
+# 或
+git config --global credential.helper manager-core
+```
+
+### 可用但不推荐：明文保存
+
+`store` 会把凭证明文写入 `~/.git-credentials`，只建议在临时环境使用。
 
 ```bash
 git config --global credential.helper store
-touch ~/.git-credentials
-echo "https://arloor:${{ github.token }}@github.com" >> ~/.git-credentials
 ```
 
-当github账号启用了二次验证时，输入的密码请填写自己在github上生成的api key。
+如果 GitHub 开启了 2FA，密码位置应填写 Personal Access Token（PAT），而不是登录密码。
 
-### MacOS
+### 不建议：把 Token 写进 URL 重写规则
 
 ```bash
-# 默认就是，其实不需要显式设置
-git config --global credential.helper osxkeychain
+git config --global url.https://<user>:<token>@github.com/.insteadOf https://github.com/
 ```
 
-然后在“钥匙串访问”搜索`github.com`，双击，可以查看和修改密码。
+风险是 token 会进入配置文件，且容易在 remote URL、日志或截图中泄露。
 
-{{< imgx src="/img/git-credential-osxkeychain-view.png" alt="" width="700px" style="max-width: 100%;">}}
+## 修改历史提交的作者信息
 
-### 使用git config【强烈不建议】
+假设历史是 `A-B-C-D-E-F`（`F` 为 `HEAD`），你要修改 `C` 和 `D`：
+
+1. 从 `B` 后开始交互式 rebase：`git rebase -i B`
+2. 把 `C`、`D` 两行从 `pick` 改成 `edit`
+3. 每次停下时执行：
 
 ```bash
-git config --global url.https://arloor:${{ github.token }}@github.com/.insteadOf https://github.com/
+git commit --amend --author="arloor <admin@arloor.com>" --no-edit
+git rebase --continue
 ```
 
-这种设置的坏处是token保存在了git config文件中，并且每一个git仓库的remote url中都会包含token，存在很大的泄露风险
-
-## 修改历史提交中的用户
-
-比如，你的 `commit` 历史为 `A-B-C-D-E-F` ， `F` 为 `HEAD` ， 你打算修改 `C` 和 `D` 的用户名或邮箱，你需要：
-
-1. 运行 `git rebase -i B`
-   1. 如果你需要修改 A ，可以运行 `git rebase -i --root`
-2. 把 C 和 D 两个 commit 的那一行的 pick 改为 edit。下面用vim列模式来批量修改( d删除、I在前方插入、A在后方插入、c修改)
-   1. 按 `Ctrl + V` 进入vim的列模式
-   2. 然后上下左右移动光标选择多个pick
-   3. 先输入小写d，删除pick，再输入大写I，插入`edit`，然后安 `Esc`，等两秒左右。
-   4. **或者选中 `pick` ，按c进入删除插入模式输入 `edit`，再按 `Esc` 等两秒**
-3. 多次执行以下命令，直至rebase结束
+4. 全部完成后，若远程已存在旧历史，需要强推：
 
 ```bash
-git commit --amend --author="arloor <admin@arloor.com>" --no-edit&&git rebase --continue
+git push --force-with-lease
 ```
 
-4. 如果需要更新到远程仓库， 使用 `git push -f`（请确保修改的 `commit` 不会影响其他人）
+`--force-with-lease` 比 `-f` 更安全，能避免覆盖他人的新提交。
 
-## 统计git仓库中用户代码行
+如果你需要修改 A ，可以运行 `git rebase -i --root`
+
+## 统计某作者在仓库中的代码增删行
 
 ```bash
-cat > /usr/local/bin/ncode <<\EOF
-[ "$1" = "" ]&&user="arloor\|刘港欢\|liuganghuan"||user=$1
+cat > /usr/local/bin/ncode <<'EOF'
+#!/usr/bin/env bash
+set -euo pipefail
 
-echo ${user}\'s work summary: @$(date)
-git log --author="刘港欢\|liuganghuan\|arloor" --pretty=tformat: --numstat | awk '{
-    if ($1 != "-" && $2 != "-") {
-        add += $1;
-        subs += $2;
-        loc += $1 - $2;
-    }
-}
-END {
-    printf "added lines: %s, removed lines: %s, total lines: %s\n", add, subs, loc
-}'
+author_pattern="${1:-arloor|刘港欢|liuganghuan}"
+echo "${author_pattern}'s work summary @ $(date)"
+
+git log --author="${author_pattern}" --pretty=tformat: --numstat | awk '
+  $1 != "-" && $2 != "-" {
+    add += $1
+    del += $2
+  }
+  END {
+    printf "added: %s, removed: %s, net: %s\n", add, del, add - del
+  }
+'
 EOF
+
 chmod +x /usr/local/bin/ncode
-ncode arloor
+ncode 'arloor|liuganghuan'
 ```
 
-## 删除git中某一文件的历史
+## 删除某文件/目录的全部历史（敏感信息清理）
+
+优先使用 `git filter-repo`（官方推荐，速度快、结果更稳定）：
 
 ```bash
-git filter-branch --tree-filter 'rm -rf path/folder' HEAD
-git filter-branch --tree-filter 'rm -f path/file' HEAD
-# 也可以指定 检索的 Commit 历史的范围：
-# git filter-branch --tree-filter 'rm -rf path/folder' 347ae59..HEAD
+# 目录
+git filter-repo --path path/folder --invert-paths
 
-# 最后强制推送
-git push --force --all
-git push origin master --force --tags
-
-# 立即删除本地无用的缓存，释放空间
-git for-each-ref --format="delete %(refname)" refs/original | git update-ref --stdin
-git reflog expire --expire=now --all
-git gc --prune=now
+# 单文件
+git filter-repo --path path/file --invert-paths
 ```
 
-## 打印最后一个提交
+随后强制更新远程：
+
+```bash
+git push --force --all
+git push --force --tags
+```
+
+如果你还在用旧命令：`git filter-branch` 已不推荐，除非兼容性要求必须使用。
+
+## 查看最后一次提交的完整 diff
 
 ```bash
 git -P log -1 -p --color
 ```
 
-## 不再跟踪某个文件
-
-保持之前的内容，不再提交之后的变更，可以使用下面的命令：
+## 临时忽略本地变更（不再提交）
 
 ```bash
-git update-index --assume-unchanged path/to/your/file # 假设某文件未变更，从而不加入暂存区
-git ls-files -v | grep '^[a-z]' # 查看当前被假设未变更的文件，即以 h 开头的文件
+git update-index --assume-unchanged path/to/file
+git ls-files -v | grep '^[a-z]'   # 小写开头通常表示被标记
 
-# git update-index --no-assume-unchanged path/to/your/file # 恢复
+# 恢复
+git update-index --no-assume-unchanged path/to/file
 ```
 
-## 将已被追踪的文件删除并加入 `.gitignore`
+适合本地私有配置文件。若是团队共享规则，优先用 `.gitignore`。
 
-比如要在 `.gitignore` 中增加：
+## 已被追踪的文件，如何改为忽略
+
+在 `.gitignore` 增加规则，例如：
 
 ```bash
 logs/
 data/*.csv
 ```
 
-需要执行下面命令删除相关缓存
+然后从索引中移除（保留本地文件）：
 
 ```bash
 git rm -r --cached logs/
 git rm -r --cached data/*.csv
+git commit -m "chore: stop tracking ignored files"
 ```
 
-更暴力的也可以：
+如果规则很多，也可以一次性清理索引再重新加入：
 
 ```bash
 git rm -r --cached .
+git add .
+git commit -m "chore: re-index with updated .gitignore"
 ```
-
-之后可以 `add` 和 `commit`
