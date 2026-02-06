@@ -28,7 +28,7 @@ keywords:
 | 远程转发（Remote, `-R`） | 远端端口 -> 本地目标 | 让远端访问本机服务 | `ssh -R remote_port:local_host:local_port user@ssh_host` |
 | 动态转发（Dynamic, `-D`） | 本地端口 -> SOCKS5 代理 | 浏览器/命令行走代理 | `ssh -D local_port user@ssh_host` |
 
-## 本地端口转发（`-L`）
+### 本地端口转发（`-L`）
 
 场景：你要访问远程服务器上的 `127.0.0.1:8090`（比如 Prometheus、Grafana、内部管理面板）。
 
@@ -53,7 +53,7 @@ Host monitor
 ssh monitor
 ```
 
-## 远程端口转发（`-R`）
+### 远程端口转发（`-R`）
 
 场景：你本机有一个服务（如本地代理 `127.0.0.1:7890`），想让远程服务器能用到。
 
@@ -72,7 +72,7 @@ Host server
 
 注意：默认只有远程服务器本机能访问这个 `7890` 端口。若要让远程其他机器也能访问，需要服务端 `sshd_config` 配置 `GatewayPorts`。
 
-## 动态端口转发（`-D`）
+### 动态端口转发（`-D`）
 
 场景：在本地创建一个 SOCKS5 代理，供浏览器、终端工具统一走 SSH 隧道。
 
@@ -82,7 +82,7 @@ ssh -N -D 1080 root@server.example.com
 
 应用里配置 SOCKS5 代理为 `127.0.0.1:1080` 即可。
 
-## 常用稳定性参数
+### 常用稳定性参数
 
 ```bash
 ssh -fN \
