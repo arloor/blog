@@ -313,71 +313,6 @@ wsl --terminate Debian # 停止
 wsl --unregister Debian # 卸载
 ```
 
-## WSL2 debian12 安装 docker 并配置 daemon.json
-
-- [debian/#install-from-a-package](https://docs.docker.com/engine/install/debian/#install-from-a-package)
-- [rhel/#install-using-the-repository](https://docs.docker.com/engine/install/rhel/#install-using-the-repository)
-- [#daemon-configuration-file](https://docs.docker.com/reference/cli/dockerd/#daemon-configuration-file)
-
-```bash
-# Add Docker's official GPG key:
-apt-get update
-apt-get install ca-certificates curl
-install -m 0755 -d /etc/apt/keyrings
-curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
-chmod a+r /etc/apt/keyrings/docker.asc
-
-# Add the repository to Apt sources:
-echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
-  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-  tee /etc/apt/sources.list.d/docker.list > /dev/null
-apt-get update
-apt-get install -y  docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-```
-
-```bash
-mkdir -p /etc/docker
-cat > /etc/docker/daemon.json <<EOF
-{
-    "iptables": false,
-    "proxies": {
-        "http-proxy": "http://127.0.0.1:7890",
-        "https-proxy": "http://127.0.0.1:7890",
-        "no-proxy": "*.test.example.com,.example.org,127.0.0.0/8,localhost,127.0.0.1,docker-registry.somecorporation.com"
-    }
-}
-EOF
-
-systemctl restart docker
-```
-
-该脚本修改了 `daemon.json` 文件，具体作用如下：
-
-- `--iptables=false` prevents the Docker daemon from adding iptables rules. If multiple daemons manage iptables rules, they may overwrite rules set by another daemon. **Be aware that disabling this option requires you to manually add iptables rules to expose container ports.** If you prevent Docker from adding iptables rules, Docker also doesn't add IP masquerading rules, even if you set `--ip-masq` to `true`. Without IP masquerading rules, Docker containers can't connect to external hosts or the internet when using network other than default bridge.
-
-- 设置了使用 windows clash 的代理。
-
-设置代理的另一种方式：[proxy/#daemon-configuration](https://docs.docker.com/engine/daemon/proxy/#daemon-configuration)
-
-```bash
-mkdir -p /etc/systemd/system/docker.service.d
-touch /etc/systemd/system/docker.service.d/http-proxy.conf
-if ! grep HTTP_PROXY /etc/systemd/system/docker.service.d/http-proxy.conf;
-then
-cat >> /etc/systemd/system/docker.service.d/http-proxy.conf <<EOF
-[Service]
-Environment="HTTP_PROXY=http://127.0.0.1:7890" "HTTPS_PROXY=http://127.0.0.1:7890" "NO_PROXY=localhost,127.0.0.1,docker-registry.somecorporation.com"
-EOF
-fi
-# Flush changes:
-systemctl daemon-reload
-#Restart Docker:
-systemctl restart docker
-#Verify that the configuration has been loaded:
-systemctl show --property=Environment docker
-```
-
 ## WSL2 debian12 安装 openssh-server
 
 ```bash
@@ -421,53 +356,6 @@ Host wsl
 
 ```bash
 ssh windows_user@windows -t wsl
-```
-
-> 以下经过测试无用：
-
-或者设置 powershell 的 profile
-
-```ps1
-$ShortName = @{
-    's' = 'Select-Object'
-    'g' = 'Get-Content'
-    'keep' = {
-        Start-Process "C:\Windows\System32\cscript.exe" -ArgumentList "C:\Users\arloor\Desktop\keep_wsl.vbs"
-    }
-    'keep2' = {
-        Start-Process -FilePath "wsl.exe" -ArgumentList "-d Debian /usr/local/bin/keepalive"
-    }
-#  ...
-}
-
-# 为每个键设置别名或执行相应的命令
-$ShortName.Keys | ForEach-Object {
-    if ($_ -eq 'keep' -or $_ -eq 'keep2') {
-        # 对 'keep' 使用函数
-        Set-Item -Path "function:$($_)" -Value $ShortName.$_
-    } else {
-        # 对其他命令设置别名
-        Set-Alias $_ $ShortName.$_
-    }
-}
-```
-
-之后 ssh 上去后执行`keep`即可。尝试了`ssh xxx -t keep`是没这个效果的，得先 ssh 进去，再执行 keep，后面就能退出这个 ssh 的窗口了。
-
-## 将 WSL 的 Debian12 升级到 Debian13
-
-- [升级到 Debian13](https://gist.github.com/yorickdowne/3cecc7b424ce241b173510e36754af47)
-- [从 Debian 12 （bookworm）升级 ](https://www.debian.org/releases/trixie/release-notes/upgrading.zh_CN.html)
-- [Upgrade Debian 9 (current WSL) to Debian 12 (bookworm testing)](https://gist.github.com/bramtechs/50d724a33d37278d7ca003c6119c8fea)
-
-```bash
-apt-get update && apt-get dist-upgrade --autoremove -y
-sed -i 's/bookworm/trixie/g' /etc/apt/sources.list
-# 假设所有的repo都有了trixie版本，再运行下面的命令。可以通过apt-get update检测是否有trixie版本，如果没有的话，可以改回bookworm版本
-find /etc/apt/sources.list.d -type f -exec sed -i 's/bookworm/trixie/g' {} \;
-apt-get update && apt-get dist-upgrade --autoremove -y
-# apt modernize-sources # 不建议执行
-# reboot
 ```
 
 ## 将 vhdx 文件移动到 D 盘
