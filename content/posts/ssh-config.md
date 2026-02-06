@@ -98,6 +98,39 @@ ssh -fN \
 - `ExitOnForwardFailure=yes`：端口转发失败就立即退出，避免“看起来连上了但其实没生效”。
 - `ServerAliveInterval` + `ServerAliveCountMax`：减少 NAT/防火墙导致的静默断连。
 
+## `ProxyCommand` 与 `ProxyJump`
+
+两者都用于“到目标主机前先经过中间层”，但侧重点不同：
+
+- `ProxyCommand`：最灵活。你可以指定任意命令（如 `socat`、`nc`）来建立到 `%h:%p` 的连接，适合接 HTTP/SOCKS 代理或特殊网络环境。
+- `ProxyJump`：最省心。专门用于跳板机（bastion）场景，语义清晰、配置更短。
+
+`ProxyCommand` 示例（经本地 HTTP 代理连接目标）：
+
+```sshconfig
+Host through-http-proxy
+  HostName server.example.com
+  User root
+  ProxyCommand /opt/homebrew/bin/socat - PROXY:localhost:%h:%p,proxyport=6152
+```
+
+这里 `%h` 和 `%p` 会自动替换成目标主机与端口。
+
+`ProxyJump` 示例（先连跳板机，再进内网主机）：
+
+```sshconfig
+Host bastion
+  HostName bastion.example.com
+  User ubuntu
+
+Host app-internal
+  HostName 10.0.1.23
+  User ubuntu
+  ProxyJump bastion
+```
+
+连接时直接执行 `ssh app-internal`。如果是多级跳板，也可以写成 `ProxyJump jump1,jump2`。
+
 ## 我的 `~/.ssh/config` 示例
 
 先看第一行：
@@ -138,4 +171,3 @@ ssh mac
 ssh wsl
 ssh tt.arloor.com
 ```
-
