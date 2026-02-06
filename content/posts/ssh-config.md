@@ -110,7 +110,7 @@ ssh -fN \
 - `Host` 规则会影响它后面的配置项，直到下一个 `Host` 段开始。
 - 同一主机命中多个 `Host` 段时，每个参数采用“第一次命中”的值；实践上应把更具体的规则放前面，把通用默认规则放后面。
 
-```sshconfig
+```bash
 # 对多数主机走本地 HTTP 代理（socat）
 # 注意：某些工具会把 "proxyport=6152" 错改成 "proxyport 6152"
 Host !pi.arloor.com *.arloor.* mac wsl
