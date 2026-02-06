@@ -19,25 +19,27 @@
     
     
 
-<title>ssh配置 • ARLOOR</title>
+<title>SSH 配置与端口转发 • ARLOOR</title>
 <meta name="description" content="今天，你学习了吗">
 <meta name="keywords" content="刘港欢, arloor, moontell">
 
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="ssh配置">
-  <meta name="twitter:description" content="SSH隧道的类型 本地端口转发（Local Port Forwarding）：允许你将本地端口上的数据转发到远程服务器。 远程端口转发（Remote Port Forwarding）：允许你将远程服务器上的端口转发到本地计算机。 动态端口转发（Dynamic Port Forwarding）：创建一个本地的SOCKS代理服务器，可以用于多种目的，如安全浏览。 本地端口转发： ssh -L [本地端口]:[目标服务器地址]:[目标端口] root@xxxxx 也可以将本地端口转发写到 ~/.ssh/config 文件中，这样就可以直接在 ssh [SSH服务器别名] 时建立端口转发。">
+  <meta name="twitter:title" content="SSH 配置与端口转发">
+  <meta name="twitter:description" content="一篇搞懂 SSH 本地转发、远程转发、动态代理和 ~/.ssh/config 常用写法。">
       <meta name="twitter:site" content="@njulgh">
 
 <meta property="og:url" content="https://www.arloor.com/posts/ssh-config/">
   <meta property="og:site_name" content="ARLOOR">
-  <meta property="og:title" content="ssh配置">
-  <meta property="og:description" content="SSH隧道的类型 本地端口转发（Local Port Forwarding）：允许你将本地端口上的数据转发到远程服务器。 远程端口转发（Remote Port Forwarding）：允许你将远程服务器上的端口转发到本地计算机。 动态端口转发（Dynamic Port Forwarding）：创建一个本地的SOCKS代理服务器，可以用于多种目的，如安全浏览。 本地端口转发： ssh -L [本地端口]:[目标服务器地址]:[目标端口] root@xxxxx 也可以将本地端口转发写到 ~/.ssh/config 文件中，这样就可以直接在 ssh [SSH服务器别名] 时建立端口转发。">
+  <meta property="og:title" content="SSH 配置与端口转发">
+  <meta property="og:description" content="一篇搞懂 SSH 本地转发、远程转发、动态代理和 ~/.ssh/config 常用写法。">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2023-11-16T20:20:22+08:00">
     <meta property="article:modified_time" content="2023-11-16T20:20:22+08:00">
     <meta property="article:tag" content="Software">
+    <meta property="article:tag" content="Ssh">
+    <meta property="article:tag" content="Network">
 
 
     
@@ -371,7 +373,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     
 <article>
   <header>
-    <h1>ssh配置</h1>
+    <h1>SSH 配置与端口转发</h1>
     
     
 <div class="post__meta">
@@ -386,7 +388,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
           in
           
           
-              <a class="badge badge-category" href="/categories/undefined">UNDEFINED</a>
+              <a class="badge badge-category" href="/categories/software">SOFTWARE</a>
               
           
       
@@ -399,6 +401,12 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
            <i class="fas fa-tags"></i>
           
           <a class="badge badge-tag" href="/tags/software">software</a>
+           
+      
+          <a class="badge badge-tag" href="/tags/ssh">ssh</a>
+           
+      
+          <a class="badge badge-tag" href="/tags/network">network</a>
           
       
     
@@ -418,12 +426,12 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
       
           <nav id="TableOfContents">
   <ul>
-    <li><a href="#ssh隧道的类型">SSH隧道的类型</a></li>
-    <li><a href="#本地端口转发"><strong>本地端口转发：</strong></a></li>
-    <li><a href="#远程端口转发"><strong>远程端口转发</strong></a></li>
-    <li><a href="#动态端口转发"><strong>动态端口转发</strong></a></li>
-    <li><a href="#高级选项">高级选项</a></li>
-    <li><a href="#我的ssh-config备份">我的ssh config备份</a></li>
+    <li><a href="#三种端口转发速查">三种端口转发速查</a></li>
+    <li><a href="#本地端口转发-l">本地端口转发（<code>-L</code>）</a></li>
+    <li><a href="#远程端口转发-r">远程端口转发（<code>-R</code>）</a></li>
+    <li><a href="#动态端口转发-d">动态端口转发（<code>-D</code>）</a></li>
+    <li><a href="#常用稳定性参数">常用稳定性参数</a></li>
+    <li><a href="#我的-sshconfig-示例">我的 <code>~/.ssh/config</code> 示例</a></li>
   </ul>
 </nav>
       
@@ -431,55 +439,113 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   
   <div class="post">
-    <h2 id="ssh隧道的类型">SSH隧道的类型</h2>
+    <p>这篇把我最常用的 SSH 隧道能力整理成一份可直接复用的笔记，覆盖：</p>
 <ul>
-<li>本地端口转发（Local Port Forwarding）：允许你将本地端口上的数据转发到远程服务器。</li>
-<li>远程端口转发（Remote Port Forwarding）：允许你将远程服务器上的端口转发到本地计算机。</li>
-<li>动态端口转发（Dynamic Port Forwarding）：创建一个本地的SOCKS代理服务器，可以用于多种目的，如安全浏览。</li>
+<li>本地端口转发（<code>-L</code>）</li>
+<li>远程端口转发（<code>-R</code>）</li>
+<li>动态端口转发（<code>-D</code> / SOCKS5）</li>
+<li><code>~/.ssh/config</code> 里长期可维护的写法</li>
 </ul>
-<h2 id="本地端口转发"><strong>本地端口转发：</strong></h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh -L <span style="color:#f92672">[</span>本地端口<span style="color:#f92672">]</span>:<span style="color:#f92672">[</span>目标服务器地址<span style="color:#f92672">]</span>:<span style="color:#f92672">[</span>目标端口<span style="color:#f92672">]</span> root@xxxxx
-</span></span></code></pre></div><p>也可以将本地端口转发写到 <code>~/.ssh/config</code> 文件中，这样就可以直接在 <code>ssh [SSH服务器别名]</code> 时建立端口转发。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>Host xxxxx
-</span></span><span style="display:flex;"><span>  LocalForward <span style="color:#ae81ff">8090</span> 127.0.0.1:8090
-</span></span></code></pre></div><p>可以理解为<strong>Local 8090 forward to 127.0.0.1:8090</strong>，即访问本地的8090端口就相当于访问远程服务器的127.0.0.1:8090。</p>
-<p>注意有端口转发的tcp连接存在时，<code>exit</code> 断开ssh时，ssh命令并不会直接退出，还需要等端口转发连接断开或直接 <code>ctrl+c</code> 退出。</p>
-<h2 id="远程端口转发"><strong>远程端口转发</strong></h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh -R <span style="color:#f92672">[</span>远程端口<span style="color:#f92672">]</span>:<span style="color:#f92672">[</span>本地地址<span style="color:#f92672">]</span>:<span style="color:#f92672">[</span>本地端口<span style="color:#f92672">]</span> root@xxxxxx
-</span></span></code></pre></div><p>这允许远程服务器上的用户连接到你本地机器上的服务。</p>
-<p>对应的 <code>.ssh/config</code> 内容如下：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>RemoteForward <span style="color:#ae81ff">7890</span> localhost:7890
-</span></span></code></pre></div><p>可以理解为<strong>Remote 7890 forward to 本机的localhost:7890</strong>，这其实是让远程服务器使用本机的clash代理</p>
-<h2 id="动态端口转发"><strong>动态端口转发</strong></h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh -D <span style="color:#f92672">[</span>本地端口<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>SSH服务器用户名<span style="color:#f92672">]</span>@<span style="color:#f92672">[</span>SSH服务器地址<span style="color:#f92672">]</span>
-</span></span></code></pre></div><p>这会创建一个SOCKS代理，你可以在浏览器或其他应用程序中配置使用。</p>
-<h2 id="高级选项">高级选项</h2>
+<h2 id="三种端口转发速查">三种端口转发速查</h2>
+<table>
+  <thead>
+      <tr>
+          <th>类型</th>
+          <th>作用方向</th>
+          <th>常见场景</th>
+          <th>命令骨架</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>本地转发（Local, <code>-L</code>）</td>
+          <td>本地端口 -&gt; 远端目标</td>
+          <td>访问远程机器内网服务</td>
+          <td><code>ssh -L local_port:target_host:target_port user@ssh_host</code></td>
+      </tr>
+      <tr>
+          <td>远程转发（Remote, <code>-R</code>）</td>
+          <td>远端端口 -&gt; 本地目标</td>
+          <td>让远端访问本机服务</td>
+          <td><code>ssh -R remote_port:local_host:local_port user@ssh_host</code></td>
+      </tr>
+      <tr>
+          <td>动态转发（Dynamic, <code>-D</code>）</td>
+          <td>本地端口 -&gt; SOCKS5 代理</td>
+          <td>浏览器/命令行走代理</td>
+          <td><code>ssh -D local_port user@ssh_host</code></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="本地端口转发-l">本地端口转发（<code>-L</code>）</h2>
+<p>场景：你要访问远程服务器上的 <code>127.0.0.1:8090</code>（比如 Prometheus、Grafana、内部管理面板）。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh -N -L 8090:127.0.0.1:8090 root@server.example.com
+</span></span></code></pre></div><p>然后访问本地 <code>http://127.0.0.1:8090</code>，实际就是在访问远程 <code>127.0.0.1:8090</code>。</p>
+<p>也可以写进 <code>~/.ssh/config</code>：</p>
+<pre tabindex="0"><code class="language-sshconfig" data-lang="sshconfig">Host monitor
+  HostName server.example.com
+  User root
+  LocalForward 8090 127.0.0.1:8090
+</code></pre><p>连接时直接执行：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh monitor
+</span></span></code></pre></div><h2 id="远程端口转发-r">远程端口转发（<code>-R</code>）</h2>
+<p>场景：你本机有一个服务（如本地代理 <code>127.0.0.1:7890</code>），想让远程服务器能用到。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh -N -R 7890:127.0.0.1:7890 root@server.example.com
+</span></span></code></pre></div><p>对应 <code>~/.ssh/config</code>：</p>
+<pre tabindex="0"><code class="language-sshconfig" data-lang="sshconfig">Host server
+  HostName server.example.com
+  User root
+  RemoteForward 7890 127.0.0.1:7890
+</code></pre><p>注意：默认只有远程服务器本机能访问这个 <code>7890</code> 端口。若要让远程其他机器也能访问，需要服务端 <code>sshd_config</code> 配置 <code>GatewayPorts</code>。</p>
+<h2 id="动态端口转发-d">动态端口转发（<code>-D</code>）</h2>
+<p>场景：在本地创建一个 SOCKS5 代理，供浏览器、终端工具统一走 SSH 隧道。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh -N -D <span style="color:#ae81ff">1080</span> root@server.example.com
+</span></span></code></pre></div><p>应用里配置 SOCKS5 代理为 <code>127.0.0.1:1080</code> 即可。</p>
+<h2 id="常用稳定性参数">常用稳定性参数</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh -fN <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  -o ExitOnForwardFailure<span style="color:#f92672">=</span>yes <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  -o ServerAliveInterval<span style="color:#f92672">=</span><span style="color:#ae81ff">30</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  -o ServerAliveCountMax<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  -L 8090:127.0.0.1:8090 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  root@server.example.com
+</span></span></code></pre></div><ul>
+<li><code>-N</code>：只建隧道，不执行远程命令。</li>
+<li><code>-f</code>：放到后台执行（常和 <code>-N</code> 搭配）。</li>
+<li><code>ExitOnForwardFailure=yes</code>：端口转发失败就立即退出，避免“看起来连上了但其实没生效”。</li>
+<li><code>ServerAliveInterval</code> + <code>ServerAliveCountMax</code>：减少 NAT/防火墙导致的静默断连。</li>
+</ul>
+<h2 id="我的-sshconfig-示例">我的 <code>~/.ssh/config</code> 示例</h2>
+<p>先看第一行：
+<code>Host !pi.arloor.com *.arloor.* mac wsl</code></p>
+<p>这不是在定义一个主机名，而是在写一个“匹配规则列表”：</p>
 <ul>
-<li>可以使用 -N 选项在不执行远程命令的情况下建立SSH连接。</li>
-<li>使用 -f 选项可以使SSH会话在后台运行。</li>
+<li><code>*.arloor.*</code>、<code>mac</code>、<code>wsl</code> 命中时，应用下面的配置。</li>
+<li><code>!pi.arloor.com</code> 是排除规则，即使它也匹配 <code>*.arloor.*</code>，仍然不应用该段配置。</li>
+<li><code>Host</code> 规则会影响它后面的配置项，直到下一个 <code>Host</code> 段开始。</li>
+<li>同一主机命中多个 <code>Host</code> 段时，每个参数采用“第一次命中”的值；实践上应把更具体的规则放前面，把通用默认规则放后面。</li>
 </ul>
-<h2 id="我的ssh-config备份">我的ssh config备份</h2>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 除了pi.arloor.com之外的，Host符合其他条件的Host</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">## 设置使用socat代理，注意vscode可能把proxyport=6152改成proxyport 6152，注意手动恢复</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Host !pi.arloor.com *.arloor.* mac wsl
-</span></span><span style="display:flex;"><span>  ProxyCommand /opt/homebrew/bin/socat - PROXY:localhost:%h:%p,proxyport<span style="color:#f92672">=</span><span style="color:#ae81ff">6152</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 家里的mac-mini</span>
-</span></span><span style="display:flex;"><span>Host mac
-</span></span><span style="display:flex;"><span>  HostName 192.168.5.244
-</span></span><span style="display:flex;"><span>  User arloor
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Host wsl
-</span></span><span style="display:flex;"><span>  HostName 192.168.5.127
-</span></span><span style="display:flex;"><span>  Port <span style="color:#ae81ff">222</span>
-</span></span><span style="display:flex;"><span>  User root
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>Host tt.arloor.com
-</span></span><span style="display:flex;"><span>  HostName tt.arloor.com
-</span></span><span style="display:flex;"><span>  User root
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh mac-mini
-</span></span><span style="display:flex;"><span>ssh windows
+<pre tabindex="0"><code class="language-sshconfig" data-lang="sshconfig"># 对多数主机走本地 HTTP 代理（socat）
+# 注意：某些工具会把 &#34;proxyport=6152&#34; 错改成 &#34;proxyport 6152&#34;
+Host !pi.arloor.com *.arloor.* mac wsl
+  ProxyCommand /opt/homebrew/bin/socat - PROXY:localhost:%h:%p,proxyport=6152
+
+# 家里的 mac mini
+Host mac
+  HostName 192.168.5.244
+  User arloor
+
+Host wsl
+  HostName 192.168.5.127
+  Port 222
+  User root
+
+Host tt.arloor.com
+  HostName tt.arloor.com
+  User root
+</code></pre><p>连接示例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh mac
+</span></span><span style="display:flex;"><span>ssh wsl
+</span></span><span style="display:flex;"><span>ssh tt.arloor.com
 </span></span></code></pre></div>
   </div>
   
