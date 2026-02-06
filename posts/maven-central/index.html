@@ -366,7 +366,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   </button>
 </div>
 
-  <div class="content container" data-auto-height="min">
+  <div class="content container">
     
     
 <article>
@@ -702,8 +702,12 @@ gpg --keyserver hkp://keyserver.ubuntu.com:11371 --recv-keys 公钥ID 查询公�
 
   <script>
     (function () {
+      var targets = document.querySelectorAll('[data-auto-height]');
+      if (!targets.length) {
+        return;
+      }
+
       function resizeAutoHeight() {
-        var targets = document.querySelectorAll('[data-auto-height]');
         for (var i = 0; i < targets.length; i += 1) {
           var target = targets[i];
           var rect = target.getBoundingClientRect();

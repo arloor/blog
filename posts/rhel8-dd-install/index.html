@@ -368,7 +368,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   </button>
 </div>
 
-  <div class="content container" data-auto-height="min">
+  <div class="content container">
     
     
 <article>
@@ -767,8 +767,12 @@ I/O 大小(最小/最佳)：512 字节 / 512 字节
 
   <script>
     (function () {
+      var targets = document.querySelectorAll('[data-auto-height]');
+      if (!targets.length) {
+        return;
+      }
+
       function resizeAutoHeight() {
-        var targets = document.querySelectorAll('[data-auto-height]');
         for (var i = 0; i < targets.length; i += 1) {
           var target = targets[i];
           var rect = target.getBoundingClientRect();

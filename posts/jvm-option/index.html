@@ -368,7 +368,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   </button>
 </div>
 
-  <div class="content container" data-auto-height="min">
+  <div class="content container">
     
     
 <article>
@@ -661,8 +661,12 @@ alias num=&#39;jps -l |grep forward|awk &#39;\&#39;&#39;{print $1}&#39;\&#39;&#3
 
   <script>
     (function () {
+      var targets = document.querySelectorAll('[data-auto-height]');
+      if (!targets.length) {
+        return;
+      }
+
       function resizeAutoHeight() {
-        var targets = document.querySelectorAll('[data-auto-height]');
         for (var i = 0; i < targets.length; i += 1) {
           var target = targets[i];
           var rect = target.getBoundingClientRect();

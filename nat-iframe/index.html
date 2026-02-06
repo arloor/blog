@@ -359,7 +359,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   </button>
 </div>
 
-  <div class="content container" data-auto-height="min">
+  <div class="content container">
     
 <iframe src="https://hknat.arloor.dev:15533/" title="NAT管理系统" frameborder="0" allowfullscreen data-auto-height="exact"
     sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-storage-access-by-user-activation allow-modals">
@@ -394,8 +394,12 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 
   <script>
     (function () {
+      var targets = document.querySelectorAll('[data-auto-height]');
+      if (!targets.length) {
+        return;
+      }
+
       function resizeAutoHeight() {
-        var targets = document.querySelectorAll('[data-auto-height]');
         for (var i = 0; i < targets.length; i += 1) {
           var target = targets[i];
           var rect = target.getBoundingClientRect();
