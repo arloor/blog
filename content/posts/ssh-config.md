@@ -9,6 +9,7 @@ subtitle: ""
 description: "一篇搞懂 SSH 本地转发、远程转发、动态代理和 ~/.ssh/config 常用写法。"
 keywords:
   - 刘港欢 arloor moontell
+highlightjslanguages:
 ---
 
 这篇把我最常用的 SSH 隧道能力整理成一份可直接复用的笔记，覆盖：
@@ -40,7 +41,7 @@ ssh -N -L 8090:127.0.0.1:8090 root@server.example.com
 
 也可以写进 `~/.ssh/config`：
 
-```sshconfig
+```bash
 Host monitor
   HostName server.example.com
   User root
@@ -63,7 +64,7 @@ ssh -N -R 7890:127.0.0.1:7890 root@server.example.com
 
 对应 `~/.ssh/config`：
 
-```sshconfig
+```bash
 Host server
   HostName server.example.com
   User root
@@ -113,7 +114,7 @@ ssh -fN \
 
 `ProxyCommand` 示例（经本地 HTTP 代理连接目标）：
 
-```sshconfig
+```bash
 Host through-http-proxy
   HostName server.example.com
   User root
@@ -124,7 +125,7 @@ Host through-http-proxy
 
 `ProxyJump` 示例（先连跳板机，再进内网主机）：
 
-```sshconfig
+```bash
 
 Host app-internal
   HostName 10.0.1.23
