@@ -55,7 +55,7 @@
 
 
 
-<link rel="stylesheet" href="/scss/hyde-hyde.8f3f0fbdb0d8426fd2d78cc6316372131860692b189c9a93774e5d7e8f3183c0.css" integrity="sha256-jz8PvbDYQm/S14zGMWNyExhgaSsYnJqTd05dfo8xg8A=">
+<link rel="stylesheet" href="/scss/hyde-hyde.450fb44ebc3d22a0c2ad0bac343a24ba1977f265b8524bf22c7d30a1ec8af90d.css" integrity="sha256-RQ&#43;0Trw9IqDCrQusNDokuhl38mW4UkvyLH0woeyK&#43;Q0=">
 
 
 <link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
@@ -682,6 +682,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     (function () {
       var targets = document.querySelectorAll('[data-auto-height]');
       if (!targets.length) {
+        setTopNavOffset();
+        bindTopNavOffsetEvents();
         return;
       }
 
@@ -704,7 +706,35 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
       }
 
       function scheduleResize() {
-        window.requestAnimationFrame(resizeAutoHeight);
+        window.requestAnimationFrame(function () {
+          resizeAutoHeight();
+          setTopNavOffset();
+        });
+      }
+
+      function setTopNavOffset() {
+        var sidebar = document.querySelector('.sidebar');
+        if (!sidebar) {
+          return;
+        }
+        var navHeight = Math.ceil(sidebar.getBoundingClientRect().height);
+        document.documentElement.style.setProperty('--top-nav-offset', navHeight + 'px');
+      }
+
+      function bindTopNavOffsetEvents() {
+        window.addEventListener('load', setTopNavOffset);
+        window.addEventListener('resize', scheduleResize);
+        window.addEventListener('orientationchange', scheduleResize);
+
+        var menuToggle = document.getElementById('menuToggle');
+        if (menuToggle) {
+          menuToggle.addEventListener('change', scheduleResize);
+        }
+
+        var sidebarToggle = document.querySelector('.sidebar-toggle-wrapper');
+        if (sidebarToggle) {
+          sidebarToggle.addEventListener('click', scheduleResize);
+        }
       }
 
       if (document.readyState === 'loading') {
@@ -713,19 +743,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
         scheduleResize();
       }
 
-      window.addEventListener('load', scheduleResize);
-      window.addEventListener('resize', scheduleResize);
-      window.addEventListener('orientationchange', scheduleResize);
-
-      var menuToggle = document.getElementById('menuToggle');
-      if (menuToggle) {
-        menuToggle.addEventListener('change', scheduleResize);
-      }
-
-      var sidebarToggle = document.querySelector('.sidebar-toggle-wrapper');
-      if (sidebarToggle) {
-        sidebarToggle.addEventListener('click', scheduleResize);
-      }
+      bindTopNavOffsetEvents();
     })();
   </script>
 </body>
