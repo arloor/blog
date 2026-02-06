@@ -406,7 +406,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     
     
     <br/>
-    <i class="fas fa-clock"></i> 9 min read
+    <i class="fas fa-clock"></i> 8 min read
 </div>
 
 
@@ -437,9 +437,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     <li><a href="#内存释放太慢最不满意的一点">内存释放太慢，最不满意的一点</a></li>
     <li><a href="#让-wsl-一直在后台运行">让 wsl 一直在后台运行</a></li>
     <li><a href="#卸载发行版">卸载发行版</a></li>
-    <li><a href="#wsl2-debian12-安装-docker-并配置-daemonjson">WSL2 debian12 安装 docker 并配置 daemon.json</a></li>
     <li><a href="#wsl2-debian12-安装-openssh-server">WSL2 debian12 安装 openssh-server</a></li>
-    <li><a href="#将-wsl-的-debian12-升级到-debian13">将 WSL 的 Debian12 升级到 Debian13</a></li>
     <li><a href="#将-vhdx-文件移动到-d-盘">将 vhdx 文件移动到 D 盘</a></li>
     <li><a href="#安装-rhel10-作为-wsl">安装 rhel10 作为 WSL</a></li>
     <li><a href="#常见报错解决">常见报错解决</a>
@@ -707,64 +705,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <h2 id="卸载发行版">卸载发行版</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bat" data-lang="bat"><span style="display:flex;"><span>wsl --terminate Debian # 停止
 </span></span><span style="display:flex;"><span>wsl --unregister Debian # 卸载
-</span></span></code></pre></div><h2 id="wsl2-debian12-安装-docker-并配置-daemonjson">WSL2 debian12 安装 docker 并配置 daemon.json</h2>
-<ul>
-<li><a href="https://docs.docker.com/engine/install/debian/#install-from-a-package">debian/#install-from-a-package</a></li>
-<li><a href="https://docs.docker.com/engine/install/rhel/#install-using-the-repository">rhel/#install-using-the-repository</a></li>
-<li><a href="https://docs.docker.com/reference/cli/dockerd/#daemon-configuration-file">#daemon-configuration-file</a></li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># Add Docker&#39;s official GPG key:</span>
-</span></span><span style="display:flex;"><span>apt-get update
-</span></span><span style="display:flex;"><span>apt-get install ca-certificates curl
-</span></span><span style="display:flex;"><span>install -m <span style="color:#ae81ff">0755</span> -d /etc/apt/keyrings
-</span></span><span style="display:flex;"><span>curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
-</span></span><span style="display:flex;"><span>chmod a+r /etc/apt/keyrings/docker.asc
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Add the repository to Apt sources:</span>
-</span></span><span style="display:flex;"><span>echo <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;deb [arch=</span><span style="color:#66d9ef">$(</span>dpkg --print-architecture<span style="color:#66d9ef">)</span><span style="color:#e6db74"> signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">  </span><span style="color:#66d9ef">$(</span>. /etc/os-release <span style="color:#f92672">&amp;&amp;</span> echo <span style="color:#e6db74">&#34;</span>$VERSION_CODENAME<span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">)</span><span style="color:#e6db74"> stable&#34;</span> | <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span>  tee /etc/apt/sources.list.d/docker.list &gt; /dev/null
-</span></span><span style="display:flex;"><span>apt-get update
-</span></span><span style="display:flex;"><span>apt-get install -y  docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p /etc/docker
-</span></span><span style="display:flex;"><span>cat &gt; /etc/docker/daemon.json <span style="color:#e6db74">&lt;&lt;EOF
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">{
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;iptables&#34;: false,
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;proxies&#34;: {
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;http-proxy&#34;: &#34;http://127.0.0.1:7890&#34;,
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;https-proxy&#34;: &#34;http://127.0.0.1:7890&#34;,
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        &#34;no-proxy&#34;: &#34;*.test.example.com,.example.org,127.0.0.0/8,localhost,127.0.0.1,docker-registry.somecorporation.com&#34;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    }
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">}
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>systemctl restart docker
-</span></span></code></pre></div><p>该脚本修改了 <code>daemon.json</code> 文件，具体作用如下：</p>
-<ul>
-<li>
-<p><code>--iptables=false</code> prevents the Docker daemon from adding iptables rules. If multiple daemons manage iptables rules, they may overwrite rules set by another daemon. <strong>Be aware that disabling this option requires you to manually add iptables rules to expose container ports.</strong> If you prevent Docker from adding iptables rules, Docker also doesn&rsquo;t add IP masquerading rules, even if you set <code>--ip-masq</code> to <code>true</code>. Without IP masquerading rules, Docker containers can&rsquo;t connect to external hosts or the internet when using network other than default bridge.</p>
-</li>
-<li>
-<p>设置了使用 windows clash 的代理。</p>
-</li>
-</ul>
-<p>设置代理的另一种方式：<a href="https://docs.docker.com/engine/daemon/proxy/#daemon-configuration">proxy/#daemon-configuration</a></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p /etc/systemd/system/docker.service.d
-</span></span><span style="display:flex;"><span>touch /etc/systemd/system/docker.service.d/http-proxy.conf
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ! grep HTTP_PROXY /etc/systemd/system/docker.service.d/http-proxy.conf;
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">then</span>
-</span></span><span style="display:flex;"><span>cat &gt;&gt; /etc/systemd/system/docker.service.d/http-proxy.conf <span style="color:#e6db74">&lt;&lt;EOF
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[Service]
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Environment=&#34;HTTP_PROXY=http://127.0.0.1:7890&#34; &#34;HTTPS_PROXY=http://127.0.0.1:7890&#34; &#34;NO_PROXY=localhost,127.0.0.1,docker-registry.somecorporation.com&#34;
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Flush changes:</span>
-</span></span><span style="display:flex;"><span>systemctl daemon-reload
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#Restart Docker:</span>
-</span></span><span style="display:flex;"><span>systemctl restart docker
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#Verify that the configuration has been loaded:</span>
-</span></span><span style="display:flex;"><span>systemctl show --property<span style="color:#f92672">=</span>Environment docker
 </span></span></code></pre></div><h2 id="wsl2-debian12-安装-openssh-server">WSL2 debian12 安装 openssh-server</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>apt remove -y openssh-server
 </span></span><span style="display:flex;"><span>apt install -y openssh-server
@@ -790,46 +730,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>  User root
 </span></span></code></pre></div><p>不过因为 wsl2 有 idle 自动关闭的特性，所以从外部 remote-ssh 进来时，需要从外部保活 WSL2。思路是 ssh 到 windows 上（参考<a href="/posts/mac-wakeonlan-windows-11-msi-motherboard/#windows11-%E5%90%AF%E7%94%A8openssh">widnows11 启用 openssh-server</a>），然后执行一个前台命令一直运行，具体命令是：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ssh windows_user@windows -t wsl
-</span></span></code></pre></div><blockquote>
-<p>以下经过测试无用：</p>
-</blockquote>
-<p>或者设置 powershell 的 profile</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ps1" data-lang="ps1"><span style="display:flex;"><span>$ShortName = @{
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;s&#39;</span> = <span style="color:#e6db74">&#39;Select-Object&#39;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;g&#39;</span> = <span style="color:#e6db74">&#39;Get-Content&#39;</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;keep&#39;</span> = {
-</span></span><span style="display:flex;"><span>        Start-Process <span style="color:#e6db74">&#34;C:\Windows\System32\cscript.exe&#34;</span> -ArgumentList <span style="color:#e6db74">&#34;C:\Users\arloor\Desktop\keep_wsl.vbs&#34;</span>
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#39;keep2&#39;</span> = {
-</span></span><span style="display:flex;"><span>        Start-Process -FilePath <span style="color:#e6db74">&#34;wsl.exe&#34;</span> -ArgumentList <span style="color:#e6db74">&#34;-d Debian /usr/local/bin/keepalive&#34;</span>
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#  ...</span>
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 为每个键设置别名或执行相应的命令</span>
-</span></span><span style="display:flex;"><span>$ShortName.Keys | ForEach-Object {
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> ($_ <span style="color:#f92672">-eq</span> <span style="color:#e6db74">&#39;keep&#39;</span> <span style="color:#f92672">-or</span> $_ <span style="color:#f92672">-eq</span> <span style="color:#e6db74">&#39;keep2&#39;</span>) {
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 对 &#39;keep&#39; 使用函数</span>
-</span></span><span style="display:flex;"><span>        Set-Item -Path <span style="color:#e6db74">&#34;function:</span>$($_)<span style="color:#e6db74">&#34;</span> -Value $ShortName.$_
-</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>        <span style="color:#75715e"># 对其他命令设置别名</span>
-</span></span><span style="display:flex;"><span>        Set-Alias $_ $ShortName.$_
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>之后 ssh 上去后执行<code>keep</code>即可。尝试了<code>ssh xxx -t keep</code>是没这个效果的，得先 ssh 进去，再执行 keep，后面就能退出这个 ssh 的窗口了。</p>
-<h2 id="将-wsl-的-debian12-升级到-debian13">将 WSL 的 Debian12 升级到 Debian13</h2>
-<ul>
-<li><a href="https://gist.github.com/yorickdowne/3cecc7b424ce241b173510e36754af47">升级到 Debian13</a></li>
-<li><a href="https://www.debian.org/releases/trixie/release-notes/upgrading.zh_CN.html">从 Debian 12 （bookworm）升级 </a></li>
-<li><a href="https://gist.github.com/bramtechs/50d724a33d37278d7ca003c6119c8fea">Upgrade Debian 9 (current WSL) to Debian 12 (bookworm testing)</a></li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>apt-get update <span style="color:#f92672">&amp;&amp;</span> apt-get dist-upgrade --autoremove -y
-</span></span><span style="display:flex;"><span>sed -i <span style="color:#e6db74">&#39;s/bookworm/trixie/g&#39;</span> /etc/apt/sources.list
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># 假设所有的repo都有了trixie版本，再运行下面的命令。可以通过apt-get update检测是否有trixie版本，如果没有的话，可以改回bookworm版本</span>
-</span></span><span style="display:flex;"><span>find /etc/apt/sources.list.d -type f -exec sed -i <span style="color:#e6db74">&#39;s/bookworm/trixie/g&#39;</span> <span style="color:#f92672">{}</span> <span style="color:#ae81ff">\;</span>
-</span></span><span style="display:flex;"><span>apt-get update <span style="color:#f92672">&amp;&amp;</span> apt-get dist-upgrade --autoremove -y
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># apt modernize-sources # 不建议执行</span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># reboot</span>
 </span></span></code></pre></div><h2 id="将-vhdx-文件移动到-d-盘">将 vhdx 文件移动到 D 盘</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>(Get-ChildItem -Path HKCU<span style="color:#960050;background-color:#1e0010">:</span>\Software\Microsoft\Windows\CurrentVersion\Lxss | Where-Object { $_.GetValue(<span style="color:#e6db74">&#34;DistributionName&#34;</span>) <span style="color:#f92672">-eq</span> <span style="color:#e6db74">&#39;Debian&#39;</span> }).GetValue(<span style="color:#e6db74">&#34;BasePath&#34;</span>) + <span style="color:#e6db74">&#34;\ext4.vhdx&#34;</span>
 </span></span><span style="display:flex;"><span>wsl -l
