@@ -59,7 +59,8 @@ git config --global 'includeIf.hasconfig:remote.*.url:git@github.com:*/**.path' 
 ### Linux / macOS（通过 HTTP 代理转发 SSH）
 
 ```bash
-proxyport=7890 # 按需修改
+read -r -p "Proxy port [7890]: " proxyport
+proxyport="${proxyport:-7890}"
 
 # Ubuntu / Debian
 sudo apt install -y socat
@@ -81,7 +82,8 @@ ssh -T git@github.com
 ### Windows（Git for Windows）
 
 ```powershell
-$proxyport = 7890 # 按需修改
+$proxyport = Read-Host "Proxy port [7890]"
+if ([string]::IsNullOrWhiteSpace($proxyport)) { $proxyport = "7890" }
 git config --global url.git@github.com:.insteadOf https://github.com/
 
 $sshConfigPath = "$env:USERPROFILE\.ssh\config"
