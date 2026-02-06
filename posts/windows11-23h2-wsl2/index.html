@@ -610,6 +610,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        email = admin@arloor.com
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
 </span></span><span style="display:flex;"><span>git config --global credential.helper store
+</span></span><span style="display:flex;"><span>git config --global pull.rebase true
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># wsl的git忽略文件权限的变更</span>
 </span></span><span style="display:flex;"><span>git config --global core.filemode false
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># wsl的git 提交时自动将crlf转换为lf，checkout时不转成crlf</span>
@@ -617,6 +618,9 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><p><strong>windows git 配置</strong></p>
 <p>wsl 的 git 提交时自动将 crlf 转换为 lf，checkout 时不转成 crlf</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>git config --global core.autocrlf input
+</span></span><span style="display:flex;"><span>git config --global pull.rebase true
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 保存 windows 的 git 凭证，避免每次都输入用户名和密码</span>
+</span></span><span style="display:flex;"><span>git config --global credential.helper manager-core
 </span></span></code></pre></div><p>autocrlf 的配置详见<a href="https://git-scm.com/book/en/v2/Customizing-Git-Git-Configuration#_formatting_and_whitespace">git 文档</a></p>
 <p>简单解释就是：</p>
 <ul>
