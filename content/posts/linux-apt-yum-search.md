@@ -1,5 +1,5 @@
 ---
-title: "Linux包管理工具搜索特定文件/列出包的所有文件"
+title: "Linux包管理工具搜索特定文件/列出包的所有文件【apt/yum】"
 date: 2024-06-18T01:09:02+08:00
 draft: false
 categories: ["undefined"]
