@@ -672,7 +672,13 @@ alias num=&#39;jps -l |grep forward|awk &#39;\&#39;&#39;{print $1}&#39;\&#39;&#3
         for (var i = 0; i < targets.length; i += 1) {
           var target = targets[i];
           var rect = target.getBoundingClientRect();
-          var available = window.innerHeight - rect.top;
+          var top = rect.top;
+          if (top < 0) {
+            top = 0;
+          } else if (top > window.innerHeight) {
+            top = window.innerHeight;
+          }
+          var available = window.innerHeight - top;
           if (available < 0) {
             available = 0;
           }
@@ -703,7 +709,7 @@ alias num=&#39;jps -l |grep forward|awk &#39;\&#39;&#39;{print $1}&#39;\&#39;&#3
       }
 
       function bindTopNavOffsetEvents() {
-        window.addEventListener('load', setTopNavOffset);
+        window.addEventListener('load', scheduleResize);
         window.addEventListener('resize', scheduleResize);
         window.addEventListener('orientationchange', scheduleResize);
 

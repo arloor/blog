@@ -713,7 +713,13 @@ gpg --keyserver hkp://keyserver.ubuntu.com:11371 --recv-keys 公钥ID 查询公�
         for (var i = 0; i < targets.length; i += 1) {
           var target = targets[i];
           var rect = target.getBoundingClientRect();
-          var available = window.innerHeight - rect.top;
+          var top = rect.top;
+          if (top < 0) {
+            top = 0;
+          } else if (top > window.innerHeight) {
+            top = window.innerHeight;
+          }
+          var available = window.innerHeight - top;
           if (available < 0) {
             available = 0;
           }
@@ -744,7 +750,7 @@ gpg --keyserver hkp://keyserver.ubuntu.com:11371 --recv-keys 公钥ID 查询公�
       }
 
       function bindTopNavOffsetEvents() {
-        window.addEventListener('load', setTopNavOffset);
+        window.addEventListener('load', scheduleResize);
         window.addEventListener('resize', scheduleResize);
         window.addEventListener('orientationchange', scheduleResize);
 
