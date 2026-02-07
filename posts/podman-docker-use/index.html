@@ -377,7 +377,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     
     
     <br/>
-    <i class="fas fa-clock"></i> 3 min read
+    <i class="fas fa-clock"></i> 8 min read
 </div>
 
 
@@ -398,6 +398,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
         <li><a href="#centos-9-安装-docker">centos 9 安装 docker</a></li>
         <li><a href="#设置-docker-daemon-代理">设置 docker daemon 代理</a></li>
         <li><a href="#设置-docker-cli-的-http-代理">设置 docker CLI 的 HTTP 代理</a></li>
+        <li><a href="#dockerfile-规范和常见范式">Dockerfile 规范和常见范式</a></li>
+        <li><a href="#buildkit原理作用和使用">BuildKit：原理、作用和使用</a></li>
       </ul>
     </li>
     <li><a href="#podman">Podman</a>
@@ -521,7 +523,279 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>docker build --build-arg HTTP_PROXY<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;http://proxy.example.com:3128&#34;</span> . --network<span style="color:#f92672">=</span>host
 </span></span><span style="display:flex;"><span><span style="color:#75715e"># run</span>
 </span></span><span style="display:flex;"><span>docker run --env HTTP_PROXY<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;http://proxy.example.com:3128&#34;</span> redis --network<span style="color:#f92672">=</span>host
-</span></span></code></pre></div><h2 id="podman">Podman</h2>
+</span></span></code></pre></div><h3 id="dockerfile-规范和常见范式">Dockerfile 规范和常见范式</h3>
+<h4 id="通用规范">通用规范</h4>
+<ol>
+<li>固定 Dockerfile 语法版本，启用 BuildKit 新能力。</li>
+<li>基础镜像尽量固定到小版本，生产环境建议再加 digest（防止上游 tag 漂移）。</li>
+<li>优先使用多阶段构建（builder/runtime 分离），减小最终镜像体积和攻击面。</li>
+<li>优化缓存命中：先 <code>COPY</code> 依赖描述文件，再安装依赖，最后 <code>COPY</code> 业务代码。</li>
+<li>包管理器操作要“同层完成并清理”：
+<ul>
+<li>Debian/Ubuntu：<code>apt-get update &amp;&amp; apt-get install ... &amp;&amp; rm -rf /var/lib/apt/lists/*</code></li>
+</ul>
+</li>
+<li>默认使用非 root 用户运行应用。</li>
+<li><code>ENTRYPOINT</code>/<code>CMD</code> 使用 JSON 格式（exec form），避免 shell 包裹导致信号处理异常。</li>
+<li>区分 <code>ARG</code> 和 <code>ENV</code>：<code>ARG</code> 只在构建期有效，<code>ENV</code> 会进入运行时环境。</li>
+<li>敏感信息不要写进镜像层，使用 BuildKit secret mount。</li>
+<li>配置 <code>.dockerignore</code>，避免把 <code>.git</code>、日志、构建产物打进 build context。</li>
+</ol>
+<h4 id="指令详解argenvcopyaddvolumeworkdir">指令详解（ARG/ENV/COPY/ADD/VOLUME/WORKDIR）</h4>
+<table>
+  <thead>
+      <tr>
+          <th>指令</th>
+          <th>作用</th>
+          <th>生效范围 / 时机</th>
+          <th>常见写法</th>
+          <th>注意事项（常见坑）</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>ARG</code></td>
+          <td>声明构建参数，用于镜像构建时动态传参</td>
+          <td>仅构建期有效；不会自动进入容器运行时环境</td>
+          <td><code>ARG APP_VER=1.2.3</code><!-- raw HTML omitted --><code>FROM node:${NODE_VER}</code><!-- raw HTML omitted --><code>docker build --build-arg APP_VER=2.0 .</code></td>
+          <td>1) <code>FROM</code> 前定义的 <code>ARG</code> 仅能用于 <code>FROM</code> 行；若后续指令还要用，需要在阶段内再声明一次。<!-- raw HTML omitted -->2) 不要传密钥，<code>ARG</code> 可能出现在构建历史/元数据中。</td>
+      </tr>
+      <tr>
+          <td><code>ENV</code></td>
+          <td>设置环境变量，供后续构建步骤和容器运行时使用</td>
+          <td>当前阶段后续指令可见；并写入镜像配置，容器启动后默认存在</td>
+          <td><code>ENV APP_ENV=prod</code><!-- raw HTML omitted --><code>ENV PATH=/app/bin:$PATH</code></td>
+          <td>1) 会进入最终镜像，避免放敏感信息。<!-- raw HTML omitted -->2) <code>ENV</code> 可覆盖同名 <code>ARG</code> 在后续步骤中的效果。</td>
+      </tr>
+      <tr>
+          <td><code>COPY</code></td>
+          <td>将本地构建上下文文件（或其他阶段产物）复制进镜像</td>
+          <td>构建期执行，产生新层</td>
+          <td><code>COPY . /app</code><!-- raw HTML omitted --><code>COPY --from=build /out/app /usr/local/bin/app</code><!-- raw HTML omitted --><code>COPY --chown=10001:10001 . /app</code></td>
+          <td>1) 只复制 build context 内文件，不能 <code>../</code> 越界。<!-- raw HTML omitted -->2) 优先于 <code>ADD</code> 使用，行为更可预测。<!-- raw HTML omitted -->3) 先复制依赖文件再安装依赖，可提升缓存命中。</td>
+      </tr>
+      <tr>
+          <td><code>ADD</code></td>
+          <td>类似 <code>COPY</code>，但支持额外能力（本地 tar 自动解包、URL 源）</td>
+          <td>构建期执行，产生新层</td>
+          <td><code>ADD app.tar.gz /opt/app/</code><!-- raw HTML omitted --><code>ADD https://example.com/a.tgz /tmp/</code></td>
+          <td>1) 除非你明确需要“自动解包/远程 URL”，否则用 <code>COPY</code>。<!-- raw HTML omitted -->2) URL 下载会引入额外不确定性，通常建议改为 <code>RUN curl/wget</code> 并做校验。</td>
+      </tr>
+      <tr>
+          <td><code>VOLUME</code></td>
+          <td>声明容器运行时挂载点（数据卷）</td>
+          <td>主要影响运行时；镜像中记录为元数据</td>
+          <td><code>VOLUME [&quot;/var/lib/mysql&quot;]</code><!-- raw HTML omitted --><code>VOLUME /data</code></td>
+          <td>1) 更推荐在编排层（Compose/K8s）声明挂载，Dockerfile 里慎用。<!-- raw HTML omitted -->2) 该路径在运行时会被卷接管，若依赖镜像内后续写入该目录，行为易混淆。</td>
+      </tr>
+      <tr>
+          <td><code>WORKDIR</code></td>
+          <td>设置后续指令默认工作目录</td>
+          <td>对后续 <code>RUN/CMD/ENTRYPOINT/COPY/ADD</code> 生效</td>
+          <td><code>WORKDIR /app</code><!-- raw HTML omitted --><code>WORKDIR /app/bin</code></td>
+          <td>1) 目录不存在会自动创建。<!-- raw HTML omitted -->2) 相对路径会基于上一个 <code>WORKDIR</code> 叠加，建议尽量用绝对路径降低歧义。</td>
+      </tr>
+  </tbody>
+</table>
+<blockquote>
+<p>速记：可预测复制用 <code>COPY</code>，特殊场景（解包/URL）才用 <code>ADD</code>；构建参数用 <code>ARG</code>，运行时变量用 <code>ENV</code>。</p>
+</blockquote>
+<h4 id="常用骨架debian-系">常用骨架（Debian 系）</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-dockerfile" data-lang="dockerfile"><span style="display:flex;"><span><span style="color:#75715e"># syntax=docker/dockerfile:1.7</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> <span style="color:#e6db74">debian:12.9-slim</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">SHELL</span> [<span style="color:#e6db74">&#34;/bin/bash&#34;</span>, <span style="color:#e6db74">&#34;-euxo&#34;</span>, <span style="color:#e6db74">&#34;pipefail&#34;</span>, <span style="color:#e6db74">&#34;-c&#34;</span>]<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">WORKDIR</span> <span style="color:#e6db74">/app</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">RUN</span> apt-get update <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span> <span style="color:#f92672">&amp;&amp;</span> apt-get install -y --no-install-recommends ca-certificates curl tzdata <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span> <span style="color:#f92672">&amp;&amp;</span> rm -rf /var/lib/apt/lists/*<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">COPY</span> . /app<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><h4 id="范式-1go-多阶段构建推荐">范式 1：Go 多阶段构建（推荐）</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-dockerfile" data-lang="dockerfile"><span style="display:flex;"><span><span style="color:#75715e"># syntax=docker/dockerfile:1.7</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> <span style="color:#e6db74">golang:1.24-bookworm</span> <span style="color:#66d9ef">AS</span> <span style="color:#e6db74">build</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">WORKDIR</span> <span style="color:#e6db74">/src</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">COPY</span> go.mod go.sum ./<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">RUN</span> --mount<span style="color:#f92672">=</span>type<span style="color:#f92672">=</span>cache,target<span style="color:#f92672">=</span>/go/pkg/mod go mod download<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">COPY</span> . .<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">RUN</span> --mount<span style="color:#f92672">=</span>type<span style="color:#f92672">=</span>cache,target<span style="color:#f92672">=</span>/root/.cache/go-build <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>    CGO_ENABLED<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> GOOS<span style="color:#f92672">=</span>linux GOARCH<span style="color:#f92672">=</span>amd64 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>    go build -trimpath -ldflags<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;-s -w&#34;</span> -o /out/app ./cmd/server<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> <span style="color:#e6db74">gcr.io/distroless/static-debian12:nonroot</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">COPY</span> --from<span style="color:#f92672">=</span>build /out/app /app<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">EXPOSE</span> <span style="color:#e6db74">8080</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">USER</span> <span style="color:#e6db74">nonroot:nonroot</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">ENTRYPOINT</span> [<span style="color:#e6db74">&#34;/app&#34;</span>]<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><h4 id="范式-2nodejs-生产镜像依赖和运行时分层">范式 2：Node.js 生产镜像（依赖和运行时分层）</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-dockerfile" data-lang="dockerfile"><span style="display:flex;"><span><span style="color:#75715e"># syntax=docker/dockerfile:1.7</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> <span style="color:#e6db74">node:22-bookworm-slim</span> <span style="color:#66d9ef">AS</span> <span style="color:#e6db74">deps</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">WORKDIR</span> <span style="color:#e6db74">/app</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">COPY</span> package.json package-lock.json ./<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">RUN</span> --mount<span style="color:#f92672">=</span>type<span style="color:#f92672">=</span>cache,target<span style="color:#f92672">=</span>/root/.npm npm ci --omit<span style="color:#f92672">=</span>dev<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> <span style="color:#e6db74">node:22-bookworm-slim</span> <span style="color:#66d9ef">AS</span> <span style="color:#e6db74">runtime</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">WORKDIR</span> <span style="color:#e6db74">/app</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">ENV</span> NODE_ENV<span style="color:#f92672">=</span>production
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">COPY</span> --from<span style="color:#f92672">=</span>deps /app/node_modules /app/node_modules<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">COPY</span> . .<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">RUN</span> useradd -r -u <span style="color:#ae81ff">10001</span> nodeapp <span style="color:#f92672">&amp;&amp;</span> chown -R nodeapp:nodeapp /app<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">USER</span> <span style="color:#e6db74">nodeapp</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">EXPOSE</span> <span style="color:#e6db74">3000</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">CMD</span> [<span style="color:#e6db74">&#34;node&#34;</span>, <span style="color:#e6db74">&#34;server.js&#34;</span>]<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><h4 id="常用检查命令">常用检查命令</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># lint Dockerfile</span>
+</span></span><span style="display:flex;"><span>docker run --rm -i hadolint/hadolint &lt; Dockerfile
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 使用 BuildKit 构建</span>
+</span></span><span style="display:flex;"><span>DOCKER_BUILDKIT<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> docker build -t myapp:dev .
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 构建时挂载 secret（示例：npm 私有源）</span>
+</span></span><span style="display:flex;"><span>DOCKER_BUILDKIT<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> docker build <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  --secret id<span style="color:#f92672">=</span>npmrc,src<span style="color:#f92672">=</span>$HOME/.npmrc <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  -t myapp:dev .
+</span></span></code></pre></div><h3 id="buildkit原理作用和使用">BuildKit：原理、作用和使用</h3>
+<h4 id="buildkit-是什么">BuildKit 是什么</h4>
+<p>BuildKit 是 Docker 新一代构建引擎（旧引擎一般称为 legacy builder）。<br>
+核心目标是：更快、更可复用、更安全、更适合多平台和 CI/CD 分布式构建。</p>
+<h4 id="工作原理从-dockerfile-到镜像">工作原理（从 Dockerfile 到镜像）</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>Dockerfile
+</span></span><span style="display:flex;"><span>  -&gt; Frontend 解析（dockerfile frontend）
+</span></span><span style="display:flex;"><span>  -&gt; LLB（Low-Level Build）有向无环图 DAG
+</span></span><span style="display:flex;"><span>  -&gt; Solver 计算依赖、并行调度、命中缓存
+</span></span><span style="display:flex;"><span>  -&gt; Worker 执行具体步骤（snapshot/content store）
+</span></span><span style="display:flex;"><span>  -&gt; Exporter 输出结果（image/registry/local/tar/oci）
+</span></span></code></pre></div><ol>
+<li>Frontend 阶段：把 Dockerfile 转成 LLB。<br>
+LLB 是 BuildKit 的中间表示，天然支持“图”而不是简单线性流水。</li>
+<li>Solver 阶段：基于 LLB 解析依赖关系，构建执行计划。<br>
+可以并行执行互不依赖的步骤，也可以跳过未被引用的 stage。</li>
+<li>Worker 阶段：执行 <code>RUN/COPY</code> 等操作并生成快照（snapshot）。<br>
+每一步输入（命令、文件哈希、构建参数、挂载）都会参与 cache key 计算。</li>
+<li>Export 阶段：把结果导出为镜像或者文件系统。<br>
+除了常规镜像，还支持 <code>local/tar/oci</code> 等输出方式。</li>
+</ol>
+<h4 id="缓存机制buildkit-的核心价值">缓存机制（BuildKit 的核心价值）</h4>
+<ol>
+<li>指令缓存：命令和输入不变时复用层。</li>
+<li>内容寻址：基于内容哈希判断是否可复用，避免“仅时间戳变化导致全失效”。</li>
+<li>远程缓存：支持把缓存导出到 registry/local，再在其他机器导入。</li>
+<li>挂载缓存：<code>RUN --mount=type=cache</code> 为包管理器缓存目录，减少重复下载。</li>
+<li>增量上下文：只传需要的 build context 内容，减少构建 IO。</li>
+</ol>
+<h4 id="buildkit-的主要作用">BuildKit 的主要作用</h4>
+<table>
+  <thead>
+      <tr>
+          <th>能力</th>
+          <th>具体收益</th>
+          <th>典型场景</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>并行与 DAG 调度</td>
+          <td>构建更快，尤其多阶段和大仓库</td>
+          <td>CI 构建耗时优化</td>
+      </tr>
+      <tr>
+          <td>更强缓存</td>
+          <td>更高命中率，跨机器复用缓存</td>
+          <td>自建 CI、频繁重建</td>
+      </tr>
+      <tr>
+          <td>安全挂载</td>
+          <td>构建期 secret/ssh 不落镜像层</td>
+          <td>私有依赖、私有 git</td>
+      </tr>
+      <tr>
+          <td>多平台构建</td>
+          <td>一次构建 <code>amd64/arm64</code></td>
+          <td>发布多架构镜像</td>
+      </tr>
+      <tr>
+          <td>灵活导出</td>
+          <td>输出镜像、OCI、本地产物</td>
+          <td>二进制产物提取</td>
+      </tr>
+  </tbody>
+</table>
+<h4 id="如何启用-buildkit">如何启用 BuildKit</h4>
+<blockquote>
+<p>新版本 Docker 通常默认启用；不同发行版可能有差异，建议显式指定。</p>
+</blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 一次性启用（最稳妥）</span>
+</span></span><span style="display:flex;"><span>DOCKER_BUILDKIT<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> docker build -t myapp:dev .
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 查看 buildx（buildx 是 BuildKit 的常用入口）</span>
+</span></span><span style="display:flex;"><span>docker buildx version
+</span></span><span style="display:flex;"><span>docker buildx ls
+</span></span></code></pre></div><p>可选（daemon 级开启）：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;features&#34;</span>: {
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">&#34;buildkit&#34;</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>对应文件一般是 <code>/etc/docker/daemon.json</code>，修改后重启 Docker。</p>
+<h4 id="常用用法">常用用法</h4>
+<ol>
+<li>指定语法版本（建议加在 Dockerfile 首行）：</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-dockerfile" data-lang="dockerfile"><span style="display:flex;"><span><span style="color:#75715e"># syntax=docker/dockerfile:1.7</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><ol start="2">
+<li>cache mount（包管理器缓存）：</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-dockerfile" data-lang="dockerfile"><span style="display:flex;"><span><span style="color:#66d9ef">RUN</span> --mount<span style="color:#f92672">=</span>type<span style="color:#f92672">=</span>cache,target<span style="color:#f92672">=</span>/root/.cache/pip <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>    pip install -r requirements.txt<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><ol start="3">
+<li>secret mount（不写入镜像层）：</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>DOCKER_BUILDKIT<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> docker build <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  --secret id<span style="color:#f92672">=</span>npmrc,src<span style="color:#f92672">=</span>$HOME/.npmrc <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  -t myapp:dev .
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-dockerfile" data-lang="dockerfile"><span style="display:flex;"><span><span style="color:#66d9ef">RUN</span> --mount<span style="color:#f92672">=</span>type<span style="color:#f92672">=</span>secret,id<span style="color:#f92672">=</span>npmrc,target<span style="color:#f92672">=</span>/root/.npmrc npm ci<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><ol start="4">
+<li>ssh mount（拉私有 git 依赖）：</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>DOCKER_BUILDKIT<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> docker build --ssh default -t myapp:dev .
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-dockerfile" data-lang="dockerfile"><span style="display:flex;"><span><span style="color:#66d9ef">RUN</span> --mount<span style="color:#f92672">=</span>type<span style="color:#f92672">=</span>ssh git clone git@github.com:your/private-repo.git<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><ol start="5">
+<li>导出/导入 registry 缓存（CI 非常实用）：</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker buildx build <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  --cache-from<span style="color:#f92672">=</span>type<span style="color:#f92672">=</span>registry,ref<span style="color:#f92672">=</span>registry.example.com/ns/myapp:buildcache <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  --cache-to<span style="color:#f92672">=</span>type<span style="color:#f92672">=</span>registry,ref<span style="color:#f92672">=</span>registry.example.com/ns/myapp:buildcache,mode<span style="color:#f92672">=</span>max <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  -t registry.example.com/ns/myapp:latest <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  --push .
+</span></span></code></pre></div><ol start="6">
+<li>多平台构建：</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker buildx build <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  --platform linux/amd64,linux/arm64 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  -t registry.example.com/ns/myapp:latest <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>  --push .
+</span></span></code></pre></div><h4 id="buildkit-使用建议">BuildKit 使用建议</h4>
+<ol>
+<li>Dockerfile 首行固定 <code># syntax=docker/dockerfile:1.x</code>，避免环境差异。</li>
+<li>依赖描述文件单独 <code>COPY</code>，保证缓存可复用。</li>
+<li>secret/ssh 一律走 mount，不要用 <code>ARG/ENV</code> 传密钥。</li>
+<li>CI 中优先配 registry cache，收益通常明显。</li>
+<li>排查缓存问题时加 <code>--progress=plain</code> 看详细日志。</li>
+</ol>
+<h4 id="常见误区">常见误区</h4>
+<ol>
+<li>以为 <code>ARG</code> 适合传密钥：不合适，可能被元数据或历史暴露。</li>
+<li>只用 <code>docker build</code> 不用 <code>buildx</code>：很多高级能力（多平台/缓存导出）发挥不出来。</li>
+<li>忽略 <code>.dockerignore</code>：build context 太大，缓存和传输都会变慢。</li>
+<li>大量使用 <code>ADD URL</code>：可复现性差，通常改为 <code>RUN curl</code> + 校验更稳。</li>
+</ol>
+<h2 id="podman">Podman</h2>
 <ul>
 <li><a href="https://docs.podman.io/en/latest/markdown/podman-run.1.html">man podman-run</a></li>
 <li><a href="https://docs.podman.io/en/stable/markdown/podman-build.1.html">man podman-build</a></li>
