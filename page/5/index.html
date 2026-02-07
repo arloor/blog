@@ -46,7 +46,7 @@
 
 
 
-<link rel="stylesheet" href="/scss/hyde-hyde.450fb44ebc3d22a0c2ad0bac343a24ba1977f265b8524bf22c7d30a1ec8af90d.css" integrity="sha256-RQ&#43;0Trw9IqDCrQusNDokuhl38mW4UkvyLH0woeyK&#43;Q0=">
+<link rel="stylesheet" href="/scss/hyde-hyde.8a5178189b10b7a8e0f8264b7048bdb69c8d8639ead7b6f1fc024229749f7385.css" integrity="sha256-ilF4GJsQt6jg&#43;CZLcEi9tpyNhjnq17bx/AJCKXSfc4U=">
 
 
 <link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
@@ -76,28 +76,6 @@
 
 
 <body class=" ">
-  <script>
-    
-    var isIframePage = false;
-
-    if (isIframePage) {
-      
-      document.body.classList.add('sidebar-collapsed');
-    } else {
-      
-      if (localStorage.getItem('sidebar-collapsed') === 'true') {
-        document.body.classList.add('sidebar-collapsed');
-      }
-    }
-
-    function toggleSidebar() {
-      document.body.classList.toggle('sidebar-collapsed');
-      
-      if (!isIframePage) {
-        localStorage.setItem('sidebar-collapsed', document.body.classList.contains('sidebar-collapsed'));
-      }
-    }
-  </script>
   
 <div class="sidebar">
   <div class="container ">
@@ -352,11 +330,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 
 
   </div>
-</div>
-<div class="sidebar-toggle-wrapper" onclick="toggleSidebar()">
-  <button class="sidebar-toggle" aria-label="Toggle sidebar">
-    <span class="sidebar-toggle-icon"></span>
-  </button>
 </div>
 
   <div class="content container">
@@ -923,80 +896,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </script>
 
 
-  <script>
-    (function () {
-      var targets = document.querySelectorAll('[data-auto-height]');
-      if (!targets.length) {
-        setTopNavOffset();
-        bindTopNavOffsetEvents();
-        return;
-      }
-
-      function resizeAutoHeight() {
-        for (var i = 0; i < targets.length; i += 1) {
-          var target = targets[i];
-          var rect = target.getBoundingClientRect();
-          var top = rect.top;
-          if (top < 0) {
-            top = 0;
-          } else if (top > window.innerHeight) {
-            top = window.innerHeight;
-          }
-          var available = window.innerHeight - top;
-          if (available < 0) {
-            available = 0;
-          }
-
-          var mode = target.getAttribute('data-auto-height');
-          if (mode === 'min') {
-            target.style.minHeight = available + 'px';
-          } else {
-            target.style.height = available + 'px';
-          }
-        }
-      }
-
-      function scheduleResize() {
-        window.requestAnimationFrame(function () {
-          resizeAutoHeight();
-          setTopNavOffset();
-        });
-      }
-
-      function setTopNavOffset() {
-        var sidebar = document.querySelector('.sidebar');
-        if (!sidebar) {
-          return;
-        }
-        var navHeight = Math.ceil(sidebar.getBoundingClientRect().height);
-        document.documentElement.style.setProperty('--top-nav-offset', navHeight + 'px');
-      }
-
-      function bindTopNavOffsetEvents() {
-        window.addEventListener('load', scheduleResize);
-        window.addEventListener('resize', scheduleResize);
-        window.addEventListener('orientationchange', scheduleResize);
-
-        var menuToggle = document.getElementById('menuToggle');
-        if (menuToggle) {
-          menuToggle.addEventListener('change', scheduleResize);
-        }
-
-        var sidebarToggle = document.querySelector('.sidebar-toggle-wrapper');
-        if (sidebarToggle) {
-          sidebarToggle.addEventListener('click', scheduleResize);
-        }
-      }
-
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', scheduleResize);
-      } else {
-        scheduleResize();
-      }
-
-      bindTopNavOffsetEvents();
-    })();
-  </script>
 </body>
 
 </html>
