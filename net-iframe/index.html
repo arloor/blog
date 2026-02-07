@@ -360,8 +360,12 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </style>
 <script>
     (function () {
+        var iframeSelector = '.content.container iframe';
+        var rafId = 0;
+        var resizeDebounceTimer = 0;
+
         function resizeIframe() {
-            var iframe = document.querySelector('.content.container iframe');
+            var iframe = document.querySelector(iframeSelector);
             if (!iframe) {
                 return;
             }
@@ -373,19 +377,42 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
             iframe.style.height = available + 'px';
         }
 
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', resizeIframe);
-        } else {
-            resizeIframe();
+        function scheduleResize() {
+            if (rafId) {
+                return;
+            }
+            rafId = window.requestAnimationFrame(function () {
+                rafId = 0;
+                resizeIframe();
+            });
         }
 
-        window.addEventListener('load', resizeIframe);
-        window.addEventListener('resize', resizeIframe);
+        function scheduleResizeDebounced(delay) {
+            window.clearTimeout(resizeDebounceTimer);
+            resizeDebounceTimer = window.setTimeout(scheduleResize, delay || 120);
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', scheduleResize, { once: true });
+        }
+        scheduleResize();
+
+        window.addEventListener('load', scheduleResize);
+        window.addEventListener('pageshow', scheduleResize);
+        window.addEventListener('resize', function () {
+            scheduleResizeDebounced(120);
+        });
+
+        var iframe = document.querySelector(iframeSelector);
+        if (iframe) {
+            iframe.addEventListener('load', scheduleResize);
+        }
 
         var menuToggle = document.getElementById('menuToggle');
         if (menuToggle) {
             menuToggle.addEventListener('change', function () {
-                window.requestAnimationFrame(resizeIframe);
+                scheduleResize();
+                window.setTimeout(scheduleResize, 250);
             });
         }
     })();
