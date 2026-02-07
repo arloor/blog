@@ -346,7 +346,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 
     .content.container iframe {
         width: 100%;
-        height: calc(100vh - var(--sidebar-height, 49px));
+        height: 100%;
         border: none;
         display: block;
     }
@@ -358,65 +358,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
         }
     }
 </style>
-<script>
-    (function () {
-        var iframeSelector = '.content.container iframe';
-        var rafId = 0;
-        var resizeDebounceTimer = 0;
-
-        function resizeIframe() {
-            var iframe = document.querySelector(iframeSelector);
-            if (!iframe) {
-                return;
-            }
-            var rect = iframe.getBoundingClientRect();
-            var available = window.innerHeight - rect.top;
-            if (available < 0) {
-                available = 0;
-            }
-            iframe.style.height = available + 'px';
-        }
-
-        function scheduleResize() {
-            if (rafId) {
-                return;
-            }
-            rafId = window.requestAnimationFrame(function () {
-                rafId = 0;
-                resizeIframe();
-            });
-        }
-
-        function scheduleResizeDebounced(delay) {
-            window.clearTimeout(resizeDebounceTimer);
-            resizeDebounceTimer = window.setTimeout(scheduleResize, delay || 120);
-        }
-
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', scheduleResize, { once: true });
-        }
-        scheduleResize();
-
-        window.addEventListener('load', scheduleResize);
-        window.addEventListener('pageshow', scheduleResize);
-        window.addEventListener('resize', function () {
-            scheduleResizeDebounced(120);
-        });
-
-        var iframe = document.querySelector(iframeSelector);
-        if (iframe) {
-            iframe.addEventListener('load', scheduleResize);
-        }
-
-        var menuToggle = document.getElementById('menuToggle');
-        if (menuToggle) {
-            menuToggle.addEventListener('change', function () {
-                scheduleResize();
-                window.setTimeout(scheduleResize, 250);
-            });
-        }
-    })();
-</script>
 
   </div>
 <style>
@@ -430,21 +371,21 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </style>
 <script>
     (function () {
-        var iframeSelector = '.content.container';
+        var contentSelector = '.content.container';
         var rafId = 0;
         var resizeDebounceTimer = 0;
 
-        function resizeIframe() {
-            var iframe = document.querySelector(iframeSelector);
-            if (!iframe) {
+        function resizeContentHeight() {
+            var content = document.querySelector(contentSelector);
+            if (!content) {
                 return;
             }
-            var rect = iframe.getBoundingClientRect();
+            var rect = content.getBoundingClientRect();
             var available = window.innerHeight - rect.top;
             if (available < 0) {
                 available = 0;
             }
-            iframe.style.height = available + 'px';
+            content.style.height = available + 'px';
         }
 
         function scheduleResize() {
@@ -453,7 +394,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
             }
             rafId = window.requestAnimationFrame(function () {
                 rafId = 0;
-                resizeIframe();
+                resizeContentHeight();
             });
         }
 
@@ -472,11 +413,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
         window.addEventListener('resize', function () {
             scheduleResizeDebounced(120);
         });
-
-        var iframe = document.querySelector(iframeSelector);
-        if (iframe) {
-            iframe.addEventListener('load', scheduleResize);
-        }
 
         var menuToggle = document.getElementById('menuToggle');
         if (menuToggle) {

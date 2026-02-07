@@ -541,21 +541,21 @@ export https_proxy=http://127.0.0.1:8081
 </style>
 <script>
     (function () {
-        var iframeSelector = '.content.container';
+        var contentSelector = '.content.container';
         var rafId = 0;
         var resizeDebounceTimer = 0;
 
-        function resizeIframe() {
-            var iframe = document.querySelector(iframeSelector);
-            if (!iframe) {
+        function resizeContentHeight() {
+            var content = document.querySelector(contentSelector);
+            if (!content) {
                 return;
             }
-            var rect = iframe.getBoundingClientRect();
+            var rect = content.getBoundingClientRect();
             var available = window.innerHeight - rect.top;
             if (available < 0) {
                 available = 0;
             }
-            iframe.style.height = available + 'px';
+            content.style.height = available + 'px';
         }
 
         function scheduleResize() {
@@ -564,7 +564,7 @@ export https_proxy=http://127.0.0.1:8081
             }
             rafId = window.requestAnimationFrame(function () {
                 rafId = 0;
-                resizeIframe();
+                resizeContentHeight();
             });
         }
 
@@ -583,11 +583,6 @@ export https_proxy=http://127.0.0.1:8081
         window.addEventListener('resize', function () {
             scheduleResizeDebounced(120);
         });
-
-        var iframe = document.querySelector(iframeSelector);
-        if (iframe) {
-            iframe.addEventListener('load', scheduleResize);
-        }
 
         var menuToggle = document.getElementById('menuToggle');
         if (menuToggle) {
