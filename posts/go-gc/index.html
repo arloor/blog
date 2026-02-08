@@ -57,7 +57,7 @@ Golang的垃圾回收（GC）算法使用的是无无分代（对象没有代际
 
 
 
-<link rel="stylesheet" href="/scss/hyde-hyde.df81087c4f5541e5b77999c3aa6a7866621742fe2c93dc8df206896c44aac291.css" integrity="sha256-34EIfE9VQeW3eZnDqmp4ZmIXQv4sk9yN8gaJbESqwpE=">
+<link rel="stylesheet" href="/scss/hyde-hyde.debf1b963c1830f6b9b96ee48c2b4a22c31c7c3885a87bed290c0e198fc6a08d.css" integrity="sha256-3r8bljwYMPa5uW7kjCtKIsMcfDiFqHvtKQwOGY/GoI0=">
 
 
 <link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
@@ -503,10 +503,16 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <style>
   .content.container {
         width: 100%;
+        max-width: none;
         height: calc(100vh - var(--sidebar-height, 49px));
         border: none;
         display: block;
         overflow-y: auto;
+        box-sizing: border-box;
+        margin-left: 0;
+        margin-right: 0;
+        padding-left: max(1.5rem, calc((100% - var(--content-max-width, 38rem)) / 2));
+        padding-right: max(1.5rem, calc((100% - var(--content-max-width, 38rem)) / 2));
   }
 </style>
 <script>
