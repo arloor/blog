@@ -180,7 +180,7 @@ docker run --env HTTP_PROXY="http://proxy.example.com:3128" redis --network=host
 
 #### 常用骨架（Debian 系）
 
-```dockerfile
+```bash
 # syntax=docker/dockerfile:1.7
 FROM debian:12.9-slim
 
@@ -196,7 +196,7 @@ COPY . /app
 
 #### 范式 1：Go 多阶段构建（推荐）
 
-```dockerfile
+```bash
 # syntax=docker/dockerfile:1.7
 FROM golang:1.24-bookworm AS build
 WORKDIR /src
@@ -218,7 +218,7 @@ ENTRYPOINT ["/app"]
 
 #### 范式 2：Node.js 生产镜像（依赖和运行时分层）
 
-```dockerfile
+```bash
 # syntax=docker/dockerfile:1.7
 FROM node:22-bookworm-slim AS deps
 WORKDIR /app
@@ -328,13 +328,13 @@ docker buildx ls
 
 1. 指定语法版本（建议加在 Dockerfile 首行）：
 
-```dockerfile
+```bash
 # syntax=docker/dockerfile:1.7
 ```
 
 2. cache mount（包管理器缓存）：
 
-```dockerfile
+```bash
 RUN --mount=type=cache,target=/root/.cache/pip \
     pip install -r requirements.txt
 ```
@@ -347,7 +347,7 @@ DOCKER_BUILDKIT=1 docker build \
   -t myapp:dev .
 ```
 
-```dockerfile
+```bash
 RUN --mount=type=secret,id=npmrc,target=/root/.npmrc npm ci
 ```
 
@@ -357,7 +357,7 @@ RUN --mount=type=secret,id=npmrc,target=/root/.npmrc npm ci
 DOCKER_BUILDKIT=1 docker build --ssh default -t myapp:dev .
 ```
 
-```dockerfile
+```bash
 RUN --mount=type=ssh git clone git@github.com:your/private-repo.git
 ```
 
