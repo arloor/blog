@@ -601,55 +601,55 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>速记：可预测复制用 <code>COPY</code>，特殊场景（解包/URL）才用 <code>ADD</code>；构建参数用 <code>ARG</code>，运行时变量用 <code>ENV</code>。</p>
 </blockquote>
 <h4 id="常用骨架debian-系">常用骨架（Debian 系）</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-dockerfile" data-lang="dockerfile"><span style="display:flex;"><span><span style="color:#75715e"># syntax=docker/dockerfile:1.7</span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> <span style="color:#e6db74">debian:12.9-slim</span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">SHELL</span> [<span style="color:#e6db74">&#34;/bin/bash&#34;</span>, <span style="color:#e6db74">&#34;-euxo&#34;</span>, <span style="color:#e6db74">&#34;pipefail&#34;</span>, <span style="color:#e6db74">&#34;-c&#34;</span>]<span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">WORKDIR</span> <span style="color:#e6db74">/app</span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">RUN</span> apt-get update <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span> <span style="color:#f92672">&amp;&amp;</span> apt-get install -y --no-install-recommends ca-certificates curl tzdata <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span> <span style="color:#f92672">&amp;&amp;</span> rm -rf /var/lib/apt/lists/*<span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">COPY</span> . /app<span style="color:#960050;background-color:#1e0010">
-</span></span></span></code></pre></div><h4 id="范式-1go-多阶段构建推荐">范式 1：Go 多阶段构建（推荐）</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-dockerfile" data-lang="dockerfile"><span style="display:flex;"><span><span style="color:#75715e"># syntax=docker/dockerfile:1.7</span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> <span style="color:#e6db74">golang:1.24-bookworm</span> <span style="color:#66d9ef">AS</span> <span style="color:#e6db74">build</span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">WORKDIR</span> <span style="color:#e6db74">/src</span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">COPY</span> go.mod go.sum ./<span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">RUN</span> --mount<span style="color:#f92672">=</span>type<span style="color:#f92672">=</span>cache,target<span style="color:#f92672">=</span>/go/pkg/mod go mod download<span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">COPY</span> . .<span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">RUN</span> --mount<span style="color:#f92672">=</span>type<span style="color:#f92672">=</span>cache,target<span style="color:#f92672">=</span>/root/.cache/go-build <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span>    CGO_ENABLED<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> GOOS<span style="color:#f92672">=</span>linux GOARCH<span style="color:#f92672">=</span>amd64 <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span>    go build -trimpath -ldflags<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;-s -w&#34;</span> -o /out/app ./cmd/server<span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> <span style="color:#e6db74">gcr.io/distroless/static-debian12:nonroot</span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">COPY</span> --from<span style="color:#f92672">=</span>build /out/app /app<span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">EXPOSE</span> <span style="color:#e6db74">8080</span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">USER</span> <span style="color:#e6db74">nonroot:nonroot</span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">ENTRYPOINT</span> [<span style="color:#e6db74">&#34;/app&#34;</span>]<span style="color:#960050;background-color:#1e0010">
-</span></span></span></code></pre></div><h4 id="范式-2nodejs-生产镜像依赖和运行时分层">范式 2：Node.js 生产镜像（依赖和运行时分层）</h4>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-dockerfile" data-lang="dockerfile"><span style="display:flex;"><span><span style="color:#75715e"># syntax=docker/dockerfile:1.7</span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> <span style="color:#e6db74">node:22-bookworm-slim</span> <span style="color:#66d9ef">AS</span> <span style="color:#e6db74">deps</span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">WORKDIR</span> <span style="color:#e6db74">/app</span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">COPY</span> package.json package-lock.json ./<span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">RUN</span> --mount<span style="color:#f92672">=</span>type<span style="color:#f92672">=</span>cache,target<span style="color:#f92672">=</span>/root/.npm npm ci --omit<span style="color:#f92672">=</span>dev<span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">FROM</span> <span style="color:#e6db74">node:22-bookworm-slim</span> <span style="color:#66d9ef">AS</span> <span style="color:#e6db74">runtime</span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">WORKDIR</span> <span style="color:#e6db74">/app</span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">ENV</span> NODE_ENV<span style="color:#f92672">=</span>production
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># syntax=docker/dockerfile:1.7</span>
+</span></span><span style="display:flex;"><span>FROM debian:12.9-slim
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">COPY</span> --from<span style="color:#f92672">=</span>deps /app/node_modules /app/node_modules<span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">COPY</span> . .<span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">RUN</span> useradd -r -u <span style="color:#ae81ff">10001</span> nodeapp <span style="color:#f92672">&amp;&amp;</span> chown -R nodeapp:nodeapp /app<span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">USER</span> <span style="color:#e6db74">nodeapp</span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">EXPOSE</span> <span style="color:#e6db74">3000</span><span style="color:#960050;background-color:#1e0010">
-</span></span></span><span style="display:flex;"><span><span style="color:#66d9ef">CMD</span> [<span style="color:#e6db74">&#34;node&#34;</span>, <span style="color:#e6db74">&#34;server.js&#34;</span>]<span style="color:#960050;background-color:#1e0010">
-</span></span></span></code></pre></div><h4 id="常用检查命令">常用检查命令</h4>
+</span></span><span style="display:flex;"><span>SHELL <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;/bin/bash&#34;</span>, <span style="color:#e6db74">&#34;-euxo&#34;</span>, <span style="color:#e6db74">&#34;pipefail&#34;</span>, <span style="color:#e6db74">&#34;-c&#34;</span><span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>WORKDIR /app
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>RUN apt-get update <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span> <span style="color:#f92672">&amp;&amp;</span> apt-get install -y --no-install-recommends ca-certificates curl tzdata <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span> <span style="color:#f92672">&amp;&amp;</span> rm -rf /var/lib/apt/lists/*
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>COPY . /app
+</span></span></code></pre></div><h4 id="范式-1go-多阶段构建推荐">范式 1：Go 多阶段构建（推荐）</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># syntax=docker/dockerfile:1.7</span>
+</span></span><span style="display:flex;"><span>FROM golang:1.24-bookworm AS build
+</span></span><span style="display:flex;"><span>WORKDIR /src
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>COPY go.mod go.sum ./
+</span></span><span style="display:flex;"><span>RUN --mount<span style="color:#f92672">=</span>type<span style="color:#f92672">=</span>cache,target<span style="color:#f92672">=</span>/go/pkg/mod go mod download
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>COPY . .
+</span></span><span style="display:flex;"><span>RUN --mount<span style="color:#f92672">=</span>type<span style="color:#f92672">=</span>cache,target<span style="color:#f92672">=</span>/root/.cache/go-build <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>    CGO_ENABLED<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> GOOS<span style="color:#f92672">=</span>linux GOARCH<span style="color:#f92672">=</span>amd64 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>    go build -trimpath -ldflags<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;-s -w&#34;</span> -o /out/app ./cmd/server
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>FROM gcr.io/distroless/static-debian12:nonroot
+</span></span><span style="display:flex;"><span>COPY --from<span style="color:#f92672">=</span>build /out/app /app
+</span></span><span style="display:flex;"><span>EXPOSE <span style="color:#ae81ff">8080</span>
+</span></span><span style="display:flex;"><span>USER nonroot:nonroot
+</span></span><span style="display:flex;"><span>ENTRYPOINT <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;/app&#34;</span><span style="color:#f92672">]</span>
+</span></span></code></pre></div><h4 id="范式-2nodejs-生产镜像依赖和运行时分层">范式 2：Node.js 生产镜像（依赖和运行时分层）</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># syntax=docker/dockerfile:1.7</span>
+</span></span><span style="display:flex;"><span>FROM node:22-bookworm-slim AS deps
+</span></span><span style="display:flex;"><span>WORKDIR /app
+</span></span><span style="display:flex;"><span>COPY package.json package-lock.json ./
+</span></span><span style="display:flex;"><span>RUN --mount<span style="color:#f92672">=</span>type<span style="color:#f92672">=</span>cache,target<span style="color:#f92672">=</span>/root/.npm npm ci --omit<span style="color:#f92672">=</span>dev
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>FROM node:22-bookworm-slim AS runtime
+</span></span><span style="display:flex;"><span>WORKDIR /app
+</span></span><span style="display:flex;"><span>ENV NODE_ENV<span style="color:#f92672">=</span>production
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>COPY --from<span style="color:#f92672">=</span>deps /app/node_modules /app/node_modules
+</span></span><span style="display:flex;"><span>COPY . .
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>RUN useradd -r -u <span style="color:#ae81ff">10001</span> nodeapp <span style="color:#f92672">&amp;&amp;</span> chown -R nodeapp:nodeapp /app
+</span></span><span style="display:flex;"><span>USER nodeapp
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>EXPOSE <span style="color:#ae81ff">3000</span>
+</span></span><span style="display:flex;"><span>CMD <span style="color:#f92672">[</span><span style="color:#e6db74">&#34;node&#34;</span>, <span style="color:#e6db74">&#34;server.js&#34;</span><span style="color:#f92672">]</span>
+</span></span></code></pre></div><h4 id="常用检查命令">常用检查命令</h4>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># lint Dockerfile</span>
 </span></span><span style="display:flex;"><span>docker run --rm -i hadolint/hadolint &lt; Dockerfile
 </span></span><span style="display:flex;"><span>
@@ -747,25 +747,25 @@ LLB 是 BuildKit 的中间表示，天然支持“图”而不是简单线性流
 <ol>
 <li>指定语法版本（建议加在 Dockerfile 首行）：</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-dockerfile" data-lang="dockerfile"><span style="display:flex;"><span><span style="color:#75715e"># syntax=docker/dockerfile:1.7</span><span style="color:#960050;background-color:#1e0010">
-</span></span></span></code></pre></div><ol start="2">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># syntax=docker/dockerfile:1.7</span>
+</span></span></code></pre></div><ol start="2">
 <li>cache mount（包管理器缓存）：</li>
 </ol>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-dockerfile" data-lang="dockerfile"><span style="display:flex;"><span><span style="color:#66d9ef">RUN</span> --mount<span style="color:#f92672">=</span>type<span style="color:#f92672">=</span>cache,target<span style="color:#f92672">=</span>/root/.cache/pip <span style="color:#ae81ff">\
-</span></span></span><span style="display:flex;"><span>    pip install -r requirements.txt<span style="color:#960050;background-color:#1e0010">
-</span></span></span></code></pre></div><ol start="3">
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>RUN --mount<span style="color:#f92672">=</span>type<span style="color:#f92672">=</span>cache,target<span style="color:#f92672">=</span>/root/.cache/pip <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span>    pip install -r requirements.txt
+</span></span></code></pre></div><ol start="3">
 <li>secret mount（不写入镜像层）：</li>
 </ol>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>DOCKER_BUILDKIT<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> docker build <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span>  --secret id<span style="color:#f92672">=</span>npmrc,src<span style="color:#f92672">=</span>$HOME/.npmrc <span style="color:#ae81ff">\
 </span></span></span><span style="display:flex;"><span>  -t myapp:dev .
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-dockerfile" data-lang="dockerfile"><span style="display:flex;"><span><span style="color:#66d9ef">RUN</span> --mount<span style="color:#f92672">=</span>type<span style="color:#f92672">=</span>secret,id<span style="color:#f92672">=</span>npmrc,target<span style="color:#f92672">=</span>/root/.npmrc npm ci<span style="color:#960050;background-color:#1e0010">
-</span></span></span></code></pre></div><ol start="4">
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>RUN --mount<span style="color:#f92672">=</span>type<span style="color:#f92672">=</span>secret,id<span style="color:#f92672">=</span>npmrc,target<span style="color:#f92672">=</span>/root/.npmrc npm ci
+</span></span></code></pre></div><ol start="4">
 <li>ssh mount（拉私有 git 依赖）：</li>
 </ol>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>DOCKER_BUILDKIT<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> docker build --ssh default -t myapp:dev .
-</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-dockerfile" data-lang="dockerfile"><span style="display:flex;"><span><span style="color:#66d9ef">RUN</span> --mount<span style="color:#f92672">=</span>type<span style="color:#f92672">=</span>ssh git clone git@github.com:your/private-repo.git<span style="color:#960050;background-color:#1e0010">
-</span></span></span></code></pre></div><ol start="5">
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>RUN --mount<span style="color:#f92672">=</span>type<span style="color:#f92672">=</span>ssh git clone git@github.com:your/private-repo.git
+</span></span></code></pre></div><ol start="5">
 <li>导出/导入 registry 缓存（CI 非常实用）：</li>
 </ol>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>docker buildx build <span style="color:#ae81ff">\
