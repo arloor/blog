@@ -102,12 +102,12 @@ url = "/net-iframe"
 name = "NAT规则"
 identifier = "NAT规则"
 weight = 7
-url = "/nat-iframe"
+url = "/nat"
 [[menu.main]]
 name = "股票监控"
 identifier = "股票监控"
 weight = 8
-url = "/stock-realtime"
+url = "/stock"
 # [[menu.main]]
 # name = "沪ICP备2025110448号"
 # weight = 9
