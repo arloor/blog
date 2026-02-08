@@ -84,7 +84,7 @@
 
 
 
-<body class=" ">
+<body class="  ">
   
 <div class="sidebar">
   <div class="container ">
@@ -754,6 +754,9 @@ bool 	isColor = true //是否彩色
         box-sizing: border-box;
         margin-left: 0;
         margin-right: 0;
+  }
+
+  body:not(.type-iframe) .content.container {
         padding-left: max(1.5rem, calc((100% - var(--content-max-width, 38rem)) / 2));
         padding-right: max(1.5rem, calc((100% - var(--content-max-width, 38rem)) / 2));
   }
