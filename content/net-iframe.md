@@ -1,5 +1,5 @@
 ---
-title: "网速监控"
+title: "网速"
 type: "iframe"
 iframeUrl: "/net"
 ---
