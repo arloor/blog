@@ -1,5 +1,5 @@
 ---
-title: "股票监控"
+title: "数据"
 type: "iframe"
 iframeUrl: "https://stock.arloor.com/realtime"
 ---
