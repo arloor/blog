@@ -1353,17 +1353,17 @@
       <description></description>
     </item>
     <item>
+      <title>数据</title>
+      <link>https://www.arloor.com/stock/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://www.arloor.com/stock/</guid>
+      <description></description>
+    </item>
+    <item>
       <title>网速监控</title>
       <link>https://www.arloor.com/net-iframe/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://www.arloor.com/net-iframe/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>股票监控</title>
-      <link>https://www.arloor.com/stock/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://www.arloor.com/stock/</guid>
       <description></description>
     </item>
   </channel>
