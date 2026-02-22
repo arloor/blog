@@ -386,6 +386,45 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
         var contentSelector = '.content.container';
         var rafId = 0;
         var resizeDebounceTimer = 0;
+        var pendingHashScroll = false;
+
+        function getHashTarget() {
+            var hash = window.location.hash;
+            var targetId = '';
+
+            if (!hash || hash === '#') {
+                return null;
+            }
+
+            targetId = hash.slice(1);
+            try {
+                targetId = decodeURIComponent(targetId);
+            } catch (e) {
+                
+            }
+
+            return document.getElementById(targetId);
+        }
+
+        function scrollToHashTarget() {
+            var target = getHashTarget();
+            if (!target) {
+                return;
+            }
+            try {
+                target.scrollIntoView({ block: 'start', inline: 'nearest' });
+            } catch (e) {
+                target.scrollIntoView(true);
+            }
+        }
+
+        function applyPendingHashScroll() {
+            if (!pendingHashScroll) {
+                return;
+            }
+            pendingHashScroll = false;
+            scrollToHashTarget();
+        }
 
         function resizeContentHeight() {
             var content = document.querySelector(contentSelector);
@@ -398,6 +437,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
                 available = 0;
             }
             content.style.height = available + 'px';
+            applyPendingHashScroll();
         }
 
         function scheduleResize() {
@@ -415,13 +455,33 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
             resizeDebounceTimer = window.setTimeout(scheduleResize, delay || 120);
         }
 
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', scheduleResize, { once: true });
+        function requestHashScroll() {
+            if (!window.location.hash || window.location.hash === '#') {
+                return;
+            }
+            pendingHashScroll = true;
+            scheduleResize();
         }
-        scheduleResize();
 
-        window.addEventListener('load', scheduleResize);
-        window.addEventListener('pageshow', scheduleResize);
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function () {
+                scheduleResize();
+                requestHashScroll();
+            }, { once: true });
+        } else {
+            scheduleResize();
+            requestHashScroll();
+        }
+
+        window.addEventListener('load', function () {
+            scheduleResize();
+            requestHashScroll();
+        });
+        window.addEventListener('pageshow', function () {
+            scheduleResize();
+            requestHashScroll();
+        });
+        window.addEventListener('hashchange', requestHashScroll);
         window.addEventListener('resize', function () {
             scheduleResizeDebounced(120);
         });
