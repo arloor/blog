@@ -99,6 +99,20 @@ struct StockRankChangeDB {
 }
 ```
 
+用 `chrono` 的什么时间类型表示MySQL的 `DATETIME` 呢？这个问题在sqlx的文档中并没有明确说明。我的结论是使用 `NaiveDateTime`。
+
+首先MySQL的 `DATETIME` 是时区无关的，就是说我insert什么，写进去和查出来的结果就是什么，这和chrono的NaiveDateTime就一致了。
+
+如果我们使用 `DateTime<Local>` 映射MySQL的DATETIME，会遇到一个问题：
+
+![alt text](/img/sqlx-decode-datetime-by-ref.png)
+
+可以看到它做了一个很大胆的假设：`DateTime<Local>` 需要转换成 `DateTime<Utc>` 再存到数据库中。对北京时区来说，就是减了8小时，具体表现就是我插入一个 `14:00:00`的 `DateTime<Local>` , 数据库里村存的是 `06:00:00`。
+
+相同的事情在decode时候也会发生，sqlx会将数据库中的时间当作 `DateTime<Utc>`，转换成 `DateTime<Local>`，这样就会多加8小时。——这样一来一回，只在sqlx中使用是没问题的，但是在多个服务共同使用，特别是技术栈不同的系统中就容易出问题了。
+
+我们的解决办法是，不要使用 `DateTime<Local>` 而是使用 `NaiveDatetime`，它和mysql的Datetime一样都是没有时区的，所以也不存在转换。只需要在代码中调用下 `chrono::Local::now().naive_local()` 就可以了。
+
 ## 连接池初始化
 
 创建 MySQL 连接池有两种方式：

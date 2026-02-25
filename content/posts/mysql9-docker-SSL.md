@@ -21,7 +21,7 @@ docker stop mysql
 mkdir -p /var/lib/mysql /etc/mysql/conf.d
 cat > /etc/mysql/conf.d/ssl.cnf <<EOF
 [mysqld]
-default-time_zone = '+8:00'
+default-time_zone = '+08:00'
 ssl_ca=/etc/mysql/ssl/ca.cer
 ssl_cert=/etc/mysql/ssl/arloor.dev.cer
 ssl_key=/etc/mysql/ssl/arloor.dev.key
@@ -50,7 +50,49 @@ docker.io/library/mysql:9.1
     1. 如果初始化时`/var/lib/mysql` 不为空，则会直接报错，所以不把ssl证书挂载在`/var/lib/mysql`中。
     2. 如果是后续再执行该脚本，则不会执行初始化。这意味着如果`/var/lib/mysql`的关键数据在的话，不会重新创建数据库、root用户、也不会修改root密码。也就是说，后续你稍微改了脚本中的 `MYSQL_DATABASE`和 `MYSQL_ROOT_PASSWORD` 环境变量也不会生效。
 3. ssl是否配置成功需要 `docker run -it` 查看启动日志来确定。
-4. 设置 `default-time_zone = '+8:00'` 是为了让mysql的时间和服务器时间一致，否则会有8小时的时差。
+4. 设置 `default-time_zone = '+08:00'` 是为了让mysql的时间和服务器时间一致，否则会有8小时的时差。
+
+### 时区设置补充
+
+这里有几个容易混淆的概念：
+
+1. 容器系统时区（`date` 命令、日志时间）
+2. MySQL 全局时区（`@@global.time_zone`）
+3. 当前连接的会话时区（`@@session.time_zone`，很多函数比如 `NOW()` 会受它影响）
+
+`default-time_zone = '+08:00'` 配置的是 mysqld 启动后的全局默认时区，新建连接会继承它。这里我建议使用 `'+08:00'` 这种固定偏移量写法，优点是不依赖 MySQL 时区表。
+
+如果写成 `Asia/Shanghai` 这种命名时区，则需要先导入 MySQL 时区表，否则可能出现下面的问题：
+
+1. `SET time_zone = 'Asia/Shanghai'` 报 `Unknown or incorrect time zone`
+2. `CONVERT_TZ(..., 'UTC', 'Asia/Shanghai')` 返回 `NULL`
+
+可以用下面命令确认实际时区配置是否生效：
+
+```bash
+docker exec -it mysql mysql -uroot -pYOUR_PASSWORD -e "
+SHOW VARIABLES LIKE '%time_zone%';
+SELECT
+    CONNECTION_ID() AS conn_id,
+    @@session.time_zone AS session_time_zone,
+    @@global.time_zone AS global_time_zone,
+    @@system_time_zone AS system_time_zone,
+    NOW() AS now_ts,
+    UTC_TIMESTAMP() AS utc_ts,
+    TIMESTAMPDIFF(HOUR, UTC_TIMESTAMP(), NOW()) AS offset_hours
+"
+```
+
+如果只是临时排查问题，也可以只修改当前会话：
+
+```sql
+SET time_zone = '+08:00';
+```
+
+还有一个很关键的区别：
+
+1. `DATETIME` 不保存时区，写进去什么就存什么（但是 `NOW()`/`CURRENT_TIMESTAMP` 生成值时仍然受会话时区影响）
+2. `TIMESTAMP` 会在写入/读取时按会话时区做转换（内部按 UTC 存储）
 
 ### 建表
 
@@ -107,20 +149,6 @@ let pool: sqlx::Pool<sqlx::MySql> = MySqlPoolOptions::new()
     )
     .await?;
 ```
-
-用chrono的什么时间类型表示MySQL的DATETIME呢？这个问题在sqlx的文档中并没有明确说明。我的结论是使用NaiveDateTime。
-
-首先mysql的DATETIME是时区无关的，就是说我insert什么，写进去和查出来的结果就是什么，这和chrono的NaiveDateTime就一致了。
-
-如果我们使用 `DateTime<Local>` 映射MySQL的DATETIME，会遇到一个问题：
-
-![alt text](/img/sqlx-decode-datetime-by-ref.png)
-
-可以看到它做了一个很大胆的假设：`DateTime<Local>` 需要转换成 `DateTime<Utc>` 再存到数据库中。对北京时区来说，就是减了8小时，具体表现就是我插入一个 `14:00:00`的 `DateTime<Local>` , 数据库里村存的是 `06:00:00`。
-
-相同的事情在decode时候也会发生，sqlx会将数据库中的时间当作 `DateTime<Utc>`，转换成 `DateTime<Local>`，这样就会多加8小时。——这样一来一回，只在sqlx中使用是没问题的，但是在多个服务共同使用，特别是技术栈不同的系统中就容易出问题了。
-
-我们的解决办法是，不要使用 `DateTime<Local>` 而是使用 `NaiveDatetime`，它和mysql的Datetime一样都是没有时区的，所以也不存在转换。只需要在代码中调用下 `chrono::Local::now().naive_local()` 就可以了。
 
 ## Grafana配置数据源
 
