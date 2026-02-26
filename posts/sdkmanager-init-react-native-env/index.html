@@ -377,7 +377,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     
     
     <br/>
-    <i class="fas fa-clock"></i> 3 min read
+    <i class="fas fa-clock"></i> 4 min read
 </div>
 
 
@@ -403,8 +403,14 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     <li><a href="#四配置环境变量">四、配置环境变量</a></li>
     <li><a href="#五gradle-下载失败的代理问题国内常见">五、Gradle 下载失败的代理问题（国内常见）</a></li>
     <li><a href="#六运行-react-native-项目">六、运行 React Native 项目</a></li>
-    <li><a href="#七整个体系的底层逻辑">七、整个体系的底层逻辑</a></li>
-    <li><a href="#八常见坑总结">八、常见坑总结</a></li>
+    <li><a href="#七补充连接-android-真机调试usb--wlan">七、补充：连接 Android 真机调试（USB / WLAN）</a>
+      <ul>
+        <li><a href="#1-usb-真机调试windows">1. USB 真机调试（Windows）</a></li>
+        <li><a href="#2-wlan无线调试可选">2. WLAN（无线）调试（可选）</a></li>
+      </ul>
+    </li>
+    <li><a href="#八整个体系的底层逻辑">八、整个体系的底层逻辑</a></li>
+    <li><a href="#九常见坑总结">九、常见坑总结</a></li>
   </ul>
 </nav>
       
@@ -419,6 +425,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>使用 sdkmanager 安装构建组件</li>
 <li>配置 Java 21</li>
 <li>处理 Gradle 代理问题</li>
+<li>连接 Android 真机（USB / WLAN 调试）</li>
 <li>成功运行 React Native Android 项目</li>
 </ul>
 <hr>
@@ -527,7 +534,59 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <pre tabindex="0"><code>sdk.dir=C:\\Users\\&lt;用户名&gt;\\AppData\\Local\\Android\\Sdk
 </code></pre><p>注意：路径分隔符需要使用 <code>\\</code></p>
 <hr>
-<h2 id="七整个体系的底层逻辑">七、整个体系的底层逻辑</h2>
+<h2 id="七补充连接-android-真机调试usb--wlan">七、补充：连接 Android 真机调试（USB / WLAN）</h2>
+<p>上面命令链路配置完成后，<code>npm run android</code> 还需要至少一个可用设备（模拟器或真机）。</p>
+<p>这里补充 Android 官方文档中与真机连接相关的关键步骤（Windows 环境）：</p>
+<blockquote>
+<p><a href="https://developer.android.com/studio/run/device?hl=zh-cn">在硬件设备上运行应用（Android 官方）</a></p>
+</blockquote>
+<h3 id="1-usb-真机调试windows">1. USB 真机调试（Windows）</h3>
+<p>先在手机上完成：</p>
+<ol>
+<li>开启开发者选项</li>
+<li>开启 <code>USB 调试</code></li>
+<li>使用支持数据传输的 USB 线连接电脑（不是仅充电线）</li>
+</ol>
+<p>Windows 额外注意：</p>
+<ul>
+<li>如果电脑无法识别设备，安装手机厂商提供的 USB 驱动（Google 设备可使用 Google USB Driver）</li>
+<li>首次连接时，手机会弹出 USB 调试授权（RSA 指纹确认），需要点击允许</li>
+</ul>
+<p>命令行验证设备是否连通：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>adb kill-server
+</span></span><span style="display:flex;"><span>adb start-server
+</span></span><span style="display:flex;"><span>adb devices
+</span></span></code></pre></div><p>常见状态说明：</p>
+<ul>
+<li><code>device</code>：已连接成功，可直接运行 <code>npm run android</code></li>
+<li><code>unauthorized</code>：手机未确认授权弹窗，重新插拔后在手机上点允许</li>
+<li><code>offline</code> 或空列表：优先检查数据线、驱动、USB 模式（文件传输）、是否被其他工具占用</li>
+</ul>
+<p>如果你同时连接了多个设备，先用 <code>adb devices</code> 查看序列号，再使用：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>adb -s &lt;设备序列号&gt; reverse tcp:8081 tcp:8081
+</span></span></code></pre></div><p>这样可以明确把 Metro 端口映射到指定真机。</p>
+<h3 id="2-wlan无线调试可选">2. WLAN（无线）调试（可选）</h3>
+<p>Android 官方也支持通过 WLAN 调试连接真机，适合不想长期插线的场景。</p>
+<p>前提条件（官方文档要点）：</p>
+<ul>
+<li>设备与电脑连接到同一局域网</li>
+<li>设备为 Android 11 及以上（使用“无线调试”功能）</li>
+<li><code>platform-tools</code> 使用较新版本（本文前面已安装）</li>
+</ul>
+<p>手机侧操作：</p>
+<ol>
+<li>开启开发者选项</li>
+<li>开启 <code>无线调试</code></li>
+</ol>
+<p>如果你安装了 Android Studio，可以按官方文档使用 Device Manager 的配对入口（Pair Devices Using Wi-Fi）。</p>
+<p>如果你坚持纯命令行，也可以用 <code>adb</code> 配对和连接（手机会显示配对码、IP 和端口）：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>adb pair &lt;设备IP&gt;:&lt;配对端口&gt;
+</span></span><span style="display:flex;"><span>adb connect &lt;设备IP&gt;:&lt;调试端口&gt;
+</span></span><span style="display:flex;"><span>adb devices
+</span></span></code></pre></div><p>连接成功后再执行：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>npm run android
+</span></span></code></pre></div><hr>
+<h2 id="八整个体系的底层逻辑">八、整个体系的底层逻辑</h2>
 <p>理解 React Native Android 构建链条：</p>
 <pre tabindex="0"><code>React Native CLI
         ↓
@@ -540,7 +599,7 @@ Android SDK (build-tools + platform-tools)
 JDK
 </code></pre><p>只要其中一个版本不兼容，就会构建失败。</p>
 <hr>
-<h2 id="八常见坑总结">八、常见坑总结</h2>
+<h2 id="九常见坑总结">九、常见坑总结</h2>
 <table>
   <thead>
       <tr>
