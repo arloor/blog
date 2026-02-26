@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Github on ARLOOR</title>
+    <link>https://www.arloor.com/tags/github/</link>
+    <description>Recent content in Github on ARLOOR</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Thu, 21 Dec 2023 16:14:54 +0800</lastBuildDate>
+    <atom:link href="https://www.arloor.com/tags/github/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>使用Github Codespaces</title>
+      <link>https://www.arloor.com/posts/github-codespace-use/</link>
+      <pubDate>Thu, 21 Dec 2023 16:14:54 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/github-codespace-use/</guid>
+      <description>&lt;p&gt;前几天Github告诉我说&lt;code&gt;You&#39;re now in the CodeSpaces beta&lt;/code&gt;，今天体验了下，又发现了一个白嫖计算资源的机会啊。&lt;/p&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;2023-12-11更新：目前Codespaces已经正式发布，我个人将Rust开发全部移到了Codespaces上，下文有我的详细配置，欢迎阅读。收费策略上，目前个人免费账户每月有120小时的Core hours per month额度，这就意味着每月可以白嫖2C8G的机器60小时，或4C16G机器30小时。&lt;/p&gt;&#xA;&lt;/blockquote&gt;</description>
+    </item>
+    <item>
+      <title>vscode</title>
+      <link>https://www.arloor.com/posts/vscode/</link>
+      <pubDate>Tue, 11 Jul 2023 19:07:00 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/vscode/</guid>
+      <description>&lt;h2 id=&#34;字体配置使用-jetbrains-mono&#34;&gt;字体配置——使用 JetBrains Mono&lt;/h2&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;下载 Jetbrians Mono 字体：&lt;a href=&#34;https://www.jetbrains.com/lp/mono/#how-to-install&#34;&gt;how-to-install&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;解压缩&lt;/li&gt;&#xA;&lt;li&gt;安装&#xA;&lt;ol&gt;&#xA;&lt;li&gt;Mac 下将 ttf 文件夹下的文件全选，右击选择打开，安装所有字体&lt;/li&gt;&#xA;&lt;li&gt;Centos9 下， 将 ttf 文件夹下的文件全部移动到 &lt;code&gt;/usr/share/fonts/${newdir}&lt;/code&gt;下 , &lt;code&gt;yum install -y fontconfig&lt;/code&gt; 并执行 &lt;code&gt;fc-cache&lt;/code&gt; 。然后执行 &lt;code&gt;fc-list&lt;/code&gt; 即可看到新的字体&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;搜索 font family，改成 &lt;code&gt;&#39;JetBrains Mono&#39;, Menlo, Monaco, &#39;Courier New&#39;, monospace&lt;/code&gt; 。&lt;/li&gt;&#xA;&lt;li&gt;搜索 font size，改成 13。如果这个字体还不够大，可以 &lt;code&gt;command + +&lt;/code&gt;来放大 UI。&lt;/li&gt;&#xA;&lt;li&gt;搜索 line height，改成 1.6。&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;p&gt;TIPS：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Git常用命令</title>
+      <link>https://www.arloor.com/posts/git-commands/</link>
+      <pubDate>Wed, 07 Jun 2023 14:31:05 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/git-commands/</guid>
+      <description>&lt;p&gt;这篇记录我最常用、且相对不容易踩坑的 Git 命令。覆盖场景包括：&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;不同仓库使用不同身份&lt;/li&gt;&#xA;&lt;li&gt;SSH + 代理访问 GitHub&lt;/li&gt;&#xA;&lt;li&gt;凭证管理&lt;/li&gt;&#xA;&lt;li&gt;改写历史提交&lt;/li&gt;&#xA;&lt;li&gt;清理敏感文件历史&lt;/li&gt;&#xA;&lt;li&gt;忽略已追踪文件&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
+    </item>
+  </channel>
+</rss>

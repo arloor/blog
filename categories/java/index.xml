@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Java on ARLOOR</title>
+    <link>https://www.arloor.com/categories/java/</link>
+    <description>Recent content in Java on ARLOOR</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Fri, 04 Jan 2019 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://www.arloor.com/categories/java/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>java-AES加密后再Base64混淆</title>
+      <link>https://www.arloor.com/posts/other/java-aes128-then-base64/</link>
+      <pubDate>Fri, 04 Jan 2019 00:00:00 +0000</pubDate>
+      <guid>https://www.arloor.com/posts/other/java-aes128-then-base64/</guid>
+      <description>&lt;p&gt;这是上一篇&lt;a href=&#34;https://www.arloor.com/posts/other/java-aes128/&#34;&gt;java-AES128加密-代码与一些约定&lt;/a&gt;的后续。这一篇将会记录自己看到的在AES128之后所做的混淆。混淆原来为c语言实现，自己转成了java实现。感觉这一套比较好用，所以记下来变成自己的😁咳咳，最终发现这个混淆就是对Base64的一个实现，只是将64个可打印字符的顺序弄乱了。所以我有了自定义Base64来实现混淆的代码？？？黑人问号&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>java-AES128加密-代码与一些约定</title>
+      <link>https://www.arloor.com/posts/other/java-aes128/</link>
+      <pubDate>Thu, 03 Jan 2019 00:00:00 +0000</pubDate>
+      <guid>https://www.arloor.com/posts/other/java-aes128/</guid>
+      <description>&lt;p&gt;在爬虫岗位实习，免不了接触加密解密，今天的工作中踩了一些java AES128加密的坑，也学习到了一些加密的常用做法。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Proxyme-基于javaNIO的http代理</title>
+      <link>https://www.arloor.com/posts/netty/proxyme-based-on-javanio/</link>
+      <pubDate>Tue, 14 Aug 2018 00:00:00 +0000</pubDate>
+      <guid>https://www.arloor.com/posts/netty/proxyme-based-on-javanio/</guid>
+      <description>&lt;h1 id=&#34;proxyme-一个-http-代理&#34;&gt;proxyme 一个 http 代理&lt;/h1&gt;&#xA;&lt;p&gt;使用 java NIO 的 http 代理。支持 https。不建议再 chrome 上使用本代理，因为 chrome 本身会请求很多谷歌的 api，结果被墙住了，又只有两个线程，导致其他都被阻塞，很尴尬。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>spring cloud学习（二）</title>
+      <link>https://www.arloor.com/posts/microservice/spring_cloud-study-two/</link>
+      <pubDate>Fri, 22 Jun 2018 00:00:00 +0000</pubDate>
+      <guid>https://www.arloor.com/posts/microservice/spring_cloud-study-two/</guid>
+      <description>&lt;p&gt;spring cloud学习（一）中已经了有了注册与发现、服务消费、负载均衡、断路器。但是这不是完整的微服务架构。&lt;/p&gt;&#xA;&lt;p&gt;在微服务架构中，需要几个基础的服务治理组件，包括服务注册与发现、服务消费、负载均衡、断路器、智能路由、配置管理等，由这几个基础组件相互协作，共同组建了一个简单的微服务系统。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>spring cloud学习（一）</title>
+      <link>https://www.arloor.com/posts/microservice/spring_cloud-study-one/</link>
+      <pubDate>Thu, 21 Jun 2018 00:00:00 +0000</pubDate>
+      <guid>https://www.arloor.com/posts/microservice/spring_cloud-study-one/</guid>
+      <description>&lt;p&gt;作死了解一下spring cloud。当然，不知道能了解到什么程度。先作一死。&lt;/p&gt;&#xA;&lt;p&gt;找到了一个博客，准备照着那个博客来搞搞&lt;a href=&#34;https://blog.csdn.net/forezp/article/details/70148833&#34;&gt;博客地址&lt;/a&gt;。这个博客的好处是原理和介绍带一些，代码、pom、配置全都在博客中可以直接复制。第二点——可以直接复制黏贴实践，第一点——复制了能让你知道复制的是干了嘛。当然，原理和介绍稍微有点少，所以哈，最好还是提前了解一些微服务的一些概念。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>redis与springboot整合学习</title>
+      <link>https://www.arloor.com/posts/springboot/redis%E4%B8%8Espringboot%E6%95%B4%E5%90%88%E5%AD%A6%E4%B9%A0/</link>
+      <pubDate>Fri, 15 Jun 2018 00:00:00 +0000</pubDate>
+      <guid>https://www.arloor.com/posts/springboot/redis%E4%B8%8Espringboot%E6%95%B4%E5%90%88%E5%AD%A6%E4%B9%A0/</guid>
+      <description>&lt;p&gt;最近在做一个电商网站。今天想要实现一下购物车的功能。&lt;/p&gt;&#xA;&lt;p&gt;考虑问题如下：用户访问购物车会比较频繁，而且经常更改（比如修改数字）。对于后端的数据来说，也就是读写都很频繁。于是考虑通过redis，来减少对数据库的读写。&lt;/p&gt;&#xA;&lt;p&gt;就研究一下怎么使用redis以及整合到springboot中。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

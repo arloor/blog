@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Notion on ARLOOR</title>
+    <link>https://www.arloor.com/tags/notion/</link>
+    <description>Recent content in Notion on ARLOOR</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Sun, 15 Dec 2024 15:30:06 +0800</lastBuildDate>
+    <atom:link href="https://www.arloor.com/tags/notion/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>微星Z890 Carbon WIFI主板安装ppm文件</title>
+      <link>https://www.arloor.com/posts/z890-carbon-install-dtt-ipf-ppm/</link>
+      <pubDate>Sun, 15 Dec 2024 15:30:06 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/z890-carbon-install-dtt-ipf-ppm/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>MySQL9 docker容器配置SSL</title>
+      <link>https://www.arloor.com/posts/mysql9-docker-ssl/</link>
+      <pubDate>Sun, 10 Nov 2024 15:05:05 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/mysql9-docker-ssl/</guid>
+      <description>&lt;p&gt;最近写个小东西用到了MySQL，折腾下怎么给MySQL配置SSL&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>链路追踪业界对标</title>
+      <link>https://www.arloor.com/posts/notion/%E9%93%BE%E8%B7%AF%E8%BF%BD%E8%B8%AA%E4%B8%9A%E7%95%8C%E5%AF%B9%E6%A0%87/</link>
+      <pubDate>Thu, 18 May 2023 17:51:10 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/notion/%E9%93%BE%E8%B7%AF%E8%BF%BD%E8%B8%AA%E4%B8%9A%E7%95%8C%E5%AF%B9%E6%A0%87/</guid>
+      <description>&lt;h1 id=&#34;链路追踪业界对标&#34;&gt;链路追踪业界对标&lt;/h1&gt;&#xA;&lt;table&gt;&#xA;  &lt;thead&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;th&gt;&lt;/th&gt;&#xA;          &lt;th&gt;阿里&lt;/th&gt;&#xA;          &lt;th&gt;腾讯&lt;/th&gt;&#xA;          &lt;th&gt;美团&lt;/th&gt;&#xA;          &lt;th&gt;SkyWalking&lt;/th&gt;&#xA;          &lt;th&gt;小红书&lt;/th&gt;&#xA;      &lt;/tr&gt;&#xA;  &lt;/thead&gt;&#xA;  &lt;tbody&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;产品名称&lt;/td&gt;&#xA;          &lt;td&gt;&lt;a href=&#34;https://sls4service.console.aliyun.com/lognext/trace/qs-demos/sls-mall?resource=/trace/sls-mall/explorer&amp;amp;isShare=true&amp;amp;readOnly=true&amp;amp;hideTopbar=true&amp;amp;hiddenAppBread=true&amp;amp;hiddenPSql=true&amp;amp;hiddenEtl=true&#34;&gt;SLS trace&lt;/a&gt;&lt;/td&gt;&#xA;          &lt;td&gt;&lt;a href=&#34;https://console.cloud.tencent.com/monitor/apm/system?from=now-15m&amp;amp;to=now&amp;amp;team=apm-ylTJfTSbn&amp;amp;rid=1&amp;amp;role=server&#34;&gt;APM应用性能监控&lt;/a&gt;&lt;/td&gt;&#xA;          &lt;td&gt;Mtrace&lt;/td&gt;&#xA;          &lt;td&gt;&lt;a href=&#34;http://demo.skywalking.apache.org/&#34;&gt;SkyWalking&lt;/a&gt;&lt;/td&gt;&#xA;          &lt;td&gt;Xray-trace&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;成本&lt;/td&gt;&#xA;          &lt;td&gt;低&lt;/td&gt;&#xA;          &lt;td&gt;较高&lt;/td&gt;&#xA;          &lt;td&gt;较低&lt;/td&gt;&#xA;          &lt;td&gt;高&lt;/td&gt;&#xA;          &lt;td&gt;较低&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;SLA&lt;/td&gt;&#xA;          &lt;td&gt;&lt;/td&gt;&#xA;          &lt;td&gt;&lt;/td&gt;&#xA;          &lt;td&gt;&lt;/td&gt;&#xA;          &lt;td&gt;&lt;/td&gt;&#xA;          &lt;td&gt;&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;副本&lt;/td&gt;&#xA;          &lt;td&gt;三副本&lt;/td&gt;&#xA;          &lt;td&gt;三副本&lt;/td&gt;&#xA;          &lt;td&gt;三副本&lt;/td&gt;&#xA;          &lt;td&gt;可配置&lt;/td&gt;&#xA;          &lt;td&gt;单副本&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;语言支持&lt;/td&gt;&#xA;          &lt;td&gt;多语言(10种语言+)&lt;/td&gt;&#xA;          &lt;td&gt;Java、Go、Python、C++ 、PHP&lt;/td&gt;&#xA;          &lt;td&gt;java、go、C++&lt;/td&gt;&#xA;          &lt;td&gt;多语言&lt;/td&gt;&#xA;          &lt;td&gt;&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;协议支持&lt;/td&gt;&#xA;          &lt;td&gt;支持OpenTelemetry、Jaeger、Zipkin协议接入&lt;/td&gt;&#xA;          &lt;td&gt;支持OpenTelemetry、Jaeger、SkyWalking协议接入&lt;/td&gt;&#xA;          &lt;td&gt;自研协议，主要借鉴pinpoint&lt;/td&gt;&#xA;          &lt;td&gt;自研协议+OpenTelemetry&lt;/td&gt;&#xA;          &lt;td&gt;自研协议&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;数据规范&lt;/td&gt;&#xA;          &lt;td&gt;OpenTelemetry Trace 1.0&lt;/td&gt;&#xA;          &lt;td&gt;OpenTracing协议&lt;/td&gt;&#xA;          &lt;td&gt;自研规范&lt;/td&gt;&#xA;          &lt;td&gt;自研规范&lt;/td&gt;&#xA;          &lt;td&gt;自研规范&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;弹性能力&lt;/td&gt;&#xA;          &lt;td&gt;强&lt;/td&gt;&#xA;          &lt;td&gt;强&lt;/td&gt;&#xA;          &lt;td&gt;较弱&lt;/td&gt;&#xA;          &lt;td&gt;较弱&lt;/td&gt;&#xA;          &lt;td&gt;较弱&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;底层存储&lt;/td&gt;&#xA;          &lt;td&gt;自研LogStore、MetricStore&lt;/td&gt;&#xA;          &lt;td&gt;ES&lt;/td&gt;&#xA;          &lt;td&gt;ClickHouse、HBase&lt;/td&gt;&#xA;          &lt;td&gt;ES&lt;/td&gt;&#xA;          &lt;td&gt;ClickHouse&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;异地多活&lt;/td&gt;&#xA;          &lt;td&gt;是&lt;/td&gt;&#xA;          &lt;td&gt;是&lt;/td&gt;&#xA;          &lt;td&gt;否&lt;/td&gt;&#xA;          &lt;td&gt;- 依赖部署架构&lt;/td&gt;&#xA;          &lt;td&gt;否&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;点查性能&lt;/td&gt;&#xA;          &lt;td&gt;高&lt;/td&gt;&#xA;          &lt;td&gt;高&lt;/td&gt;&#xA;          &lt;td&gt;高&lt;/td&gt;&#xA;          &lt;td&gt;高&lt;/td&gt;&#xA;          &lt;td&gt;较低&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;拓扑染色&lt;/td&gt;&#xA;          &lt;td&gt;不支持&lt;/td&gt;&#xA;          &lt;td&gt;不支持&lt;/td&gt;&#xA;          &lt;td&gt;支持&lt;/td&gt;&#xA;          &lt;td&gt;不支持&lt;/td&gt;&#xA;          &lt;td&gt;建设中&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;性能指标生成&lt;/td&gt;&#xA;          &lt;td&gt;支持&lt;/td&gt;&#xA;          &lt;td&gt;支持&lt;/td&gt;&#xA;          &lt;td&gt;不支持&lt;/td&gt;&#xA;          &lt;td&gt;支持&lt;/td&gt;&#xA;          &lt;td&gt;建设中&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;完整日志查看&lt;/td&gt;&#xA;          &lt;td&gt;支持&lt;/td&gt;&#xA;          &lt;td&gt;支持&lt;/td&gt;&#xA;          &lt;td&gt;支持&lt;/td&gt;&#xA;          &lt;td&gt;不完备&lt;/td&gt;&#xA;          &lt;td&gt;不支持&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;告警能力&lt;/td&gt;&#xA;          &lt;td&gt;支持&lt;/td&gt;&#xA;          &lt;td&gt;支持&lt;/td&gt;&#xA;          &lt;td&gt;不支持&lt;/td&gt;&#xA;          &lt;td&gt;不支持&lt;/td&gt;&#xA;          &lt;td&gt;不支持&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;慢事务智能分析&lt;/td&gt;&#xA;          &lt;td&gt;支持&lt;/td&gt;&#xA;          &lt;td&gt;不支持&lt;/td&gt;&#xA;          &lt;td&gt;不支持&lt;/td&gt;&#xA;          &lt;td&gt;不支持&lt;/td&gt;&#xA;          &lt;td&gt;不支持&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;Span粒度区分&lt;/td&gt;&#xA;          &lt;td&gt;无法区分&lt;/td&gt;&#xA;          &lt;td&gt;无法区分&lt;/td&gt;&#xA;          &lt;td&gt;可区分RPC级别/内部方法级别&lt;/td&gt;&#xA;          &lt;td&gt;无法区分&lt;/td&gt;&#xA;          &lt;td&gt;可区分RPC级别/内部方法级别&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;  &lt;/tbody&gt;&#xA;&lt;/table&gt;</description>
+    </item>
+    <item>
+      <title>RPC拓扑-流量视角（二期）</title>
+      <link>https://www.arloor.com/posts/notion/rpc%E6%8B%93%E6%89%91-%E6%B5%81%E9%87%8F%E8%A7%86%E8%A7%92%E4%BA%8C%E6%9C%9F/</link>
+      <pubDate>Wed, 10 May 2023 21:26:41 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/notion/rpc%E6%8B%93%E6%89%91-%E6%B5%81%E9%87%8F%E8%A7%86%E8%A7%92%E4%BA%8C%E6%9C%9F/</guid>
+      <description>&lt;h1 id=&#34;rpc拓扑-流量视角二期&#34;&gt;RPC拓扑-流量视角（二期）&lt;/h1&gt;&#xA;&lt;p&gt;&lt;img src=&#34;https://www.arloor.com/img/99f9bd7148129f4d7d399620207e8727.png&#34; alt=&#34;99f9bd7148129f4d7d399620207e8727.png&#34;&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;优化点&#34;&gt;优化点&lt;/h2&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;“流量入口“增加模糊搜索能力&lt;/li&gt;&#xA;&lt;li&gt;增加“不区分调用方”的选项&lt;/li&gt;&#xA;&lt;li&gt;增加提示：“指标数据由采样率还原得到，和实际情况可能有微小差距。采样率越高或qps越高，估算得越准。”&lt;/li&gt;&#xA;&lt;li&gt;显示级别默认为“服务级别”，且变更为下拉框选择，因为“不区分调用方”也是checkbox，三个checkbox连一起操作起来不方便&lt;/li&gt;&#xA;&lt;li&gt;“调用方”、“被调用方”拆分为“调用方”、“调用方接口”、“被调用方”、“被调用方接口”，http响应中新增了对应的四个字段。“服务级别”时，不显示“调用方接口”、“被调用方接口”这两列。&lt;/li&gt;&#xA;&lt;li&gt;“样本Trace”列显示的值从“详情”变更为examplar的值（就是traceId）&lt;/li&gt;&#xA;&lt;li&gt;“最大耗时”列增加提示：“采样率不为百分之百时，该值更像TP值。例如1%采样率下，该值更接近TP99或TP999。因为这是1%数据中的最大耗时。采样率越大，越接近真实最大值，或者说9的位数越多。”&lt;/li&gt;&#xA;&lt;li&gt;增加“显示详情”的操作，展示类似“服务高级视角”中的抽屉，抽屉展示的信息如下：&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;p&gt;&lt;img src=&#34;https://www.arloor.com/img/a24af5bf56daa1c1182916d489d296a2.png&#34; alt=&#34;a24af5bf56daa1c1182916d489d296a2.png&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>RPC拓扑-服务高级视角</title>
+      <link>https://www.arloor.com/posts/notion/rpc%E6%8B%93%E6%89%91-%E6%9C%8D%E5%8A%A1%E9%AB%98%E7%BA%A7%E8%A7%86%E8%A7%92/</link>
+      <pubDate>Wed, 10 May 2023 14:38:22 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/notion/rpc%E6%8B%93%E6%89%91-%E6%9C%8D%E5%8A%A1%E9%AB%98%E7%BA%A7%E8%A7%86%E8%A7%92/</guid>
+      <description>&lt;h1 id=&#34;rpc拓扑-服务高级视角&#34;&gt;RPC拓扑-服务高级视角&lt;/h1&gt;&#xA;&lt;h2 id=&#34;背景&#34;&gt;背景&lt;/h2&gt;&#xA;&lt;p&gt;当前“RPC拓扑”支持“服务视角”和“流量视角”，所谓视角即输入什么参数来查询拓扑。“服务视角”是输入服务名来查看拓扑，“流量视角”是输入入口url来查看拓扑。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>新traceId格式</title>
+      <link>https://www.arloor.com/posts/notion/%E6%96%B0traceid%E6%A0%BC%E5%BC%8F/</link>
+      <pubDate>Wed, 10 May 2023 11:26:48 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/notion/%E6%96%B0traceid%E6%A0%BC%E5%BC%8F/</guid>
+      <description>&lt;h1 id=&#34;新traceid格式&#34;&gt;新traceId格式&lt;/h1&gt;&#xA;&lt;h2 id=&#34;背景&#34;&gt;&lt;strong&gt;背景&lt;/strong&gt;&lt;/h2&gt;&#xA;&lt;p&gt;当前端上使用一个long值的16进制的字符串作为traceId。目前存在两个问题：&lt;/p&gt;&#xA;&lt;p&gt;1. 64位随机数的碰撞概率高，目前已经出现traceId碰撞的情况&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

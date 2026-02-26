@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ebpf on ARLOOR</title>
+    <link>https://www.arloor.com/tags/ebpf/</link>
+    <description>Recent content in Ebpf on ARLOOR</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Sat, 20 Apr 2024 11:47:53 +0800</lastBuildDate>
+    <atom:link href="https://www.arloor.com/tags/ebpf/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>在Rust项目中集成libbpf-rs</title>
+      <link>https://www.arloor.com/posts/libbpf-rust-integration/</link>
+      <pubDate>Sat, 20 Apr 2024 11:47:53 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/libbpf-rust-integration/</guid>
+      <description>&lt;p&gt;前面已经有两篇博客记录了ebpf的一些知识，这篇则是实操。作为一个对C语言和Rust有一定了解的选手，我选择使用 &lt;code&gt;libbpf-rs&lt;/code&gt; 开发ebpf应用，这就记录下我在Rust项目中集成 &lt;code&gt;libbpf-rs&lt;/code&gt; 的过程。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>libbpf-bootstrap学习</title>
+      <link>https://www.arloor.com/posts/libbpf-bootstrap-learn/</link>
+      <pubDate>Sat, 20 Apr 2024 11:40:55 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/libbpf-bootstrap-learn/</guid>
+      <description>&lt;p&gt;本文主要是是对&lt;a href=&#34;https://nakryiko.com/posts/libbpf-bootstrap/#the-user-space-side&#34;&gt;Building BPF applications with libbpf-bootstrap (nakryiko.com)&lt;/a&gt;的个人理解的总结，这篇文章可以当成是&lt;code&gt;libbpf-bootstrap&lt;/code&gt;这个项目的&lt;code&gt;README&lt;/code&gt; ，介绍了它的目标、依赖和用法等。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>libbpf overview中文翻译</title>
+      <link>https://www.arloor.com/posts/libbpf-overview-cn/</link>
+      <pubDate>Sat, 20 Apr 2024 11:37:52 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/libbpf-overview-cn/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;本文是机器翻译加手动修改，&lt;a href=&#34;https://docs.kernel.org/bpf/libbpf/libbpf_overview.html&#34;&gt;原文链接&lt;/a&gt;。仅供自己学习理解，如有错漏，请勿批评，关闭浏览器标签页即可&lt;/strong&gt;&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

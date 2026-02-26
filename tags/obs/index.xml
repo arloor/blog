@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Obs on ARLOOR</title>
+    <link>https://www.arloor.com/tags/obs/</link>
+    <description>Recent content in Obs on ARLOOR</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Wed, 10 May 2023 14:28:41 +0800</lastBuildDate>
+    <atom:link href="https://www.arloor.com/tags/obs/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>trace详情搜索性能优化</title>
+      <link>https://www.arloor.com/posts/notion/trace%E8%AF%A6%E6%83%85%E6%90%9C%E7%B4%A2%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/</link>
+      <pubDate>Wed, 10 May 2023 14:28:41 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/notion/trace%E8%AF%A6%E6%83%85%E6%90%9C%E7%B4%A2%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/</guid>
+      <description>&lt;h1 id=&#34;trace详情搜索性能优化&#34;&gt;trace详情搜索性能优化&lt;/h1&gt;&#xA;&lt;h2 id=&#34;现状&#34;&gt;现状&lt;/h2&gt;&#xA;&lt;p&gt;当前根据traceId点查trace详情的耗时很长，有两个影响：&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;点查trace详情耗时长，用户体验差。&lt;/li&gt;&#xA;&lt;li&gt;链路的未来功能演进需要一次获取多个traceId的详情。例如：通过多个trace详情的联合分析，以智能地定位慢请求根因。&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;p&gt;目前点查trace详情的主要耗时来源于下面的sql，用途是获取改traceId下的所有app和开始结束时间。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Entry级别拓扑及性能指标计算</title>
+      <link>https://www.arloor.com/posts/notion/entry%E7%BA%A7%E5%88%AB%E6%8B%93%E6%89%91%E5%8F%8A%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87%E8%AE%A1%E7%AE%97/</link>
+      <pubDate>Wed, 10 May 2023 11:15:59 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/notion/entry%E7%BA%A7%E5%88%AB%E6%8B%93%E6%89%91%E5%8F%8A%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87%E8%AE%A1%E7%AE%97/</guid>
+      <description>&lt;h1 id=&#34;entry级别拓扑及性能指标计算&#34;&gt;Entry级别拓扑及性能指标计算&lt;/h1&gt;&#xA;&lt;h2 id=&#34;背景&#34;&gt;&lt;strong&gt;背景&lt;/strong&gt;&lt;/h2&gt;&#xA;&lt;p&gt;上下游拓扑及上下游调用性能指标是链路监控的重要部份。从生成过程来看，先给trace个案进行分类，然后按类汇总出同类trace的调用路径，这个调用路径通常是一个有向无环图，也就是拓扑。按照什么标准进行分类是上述过程的重点，上面所说的分类和汇总，表述成SQL大概就是聚合函数（count、avg等）和groupBy语句的结合，其中groupBy语句就是分类标准， count和avg是相关的性能指标。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>W3c Trace Context</title>
+      <link>https://www.arloor.com/posts/w3c-trace-context/</link>
+      <pubDate>Thu, 23 Mar 2023 14:42:06 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/w3c-trace-context/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Generate by ChatGPT4&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;W3C (World Wide Web Consortium)推出了Trace Context规范，旨在规范分布式追踪中跟踪信息的传播格式。Trace Context规范主要定义了两个HTTP头部字段：&lt;strong&gt;&lt;code&gt;traceparent&lt;/code&gt;&lt;strong&gt;和&lt;/strong&gt;&lt;code&gt;tracestate&lt;/code&gt;&lt;/strong&gt;。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>什么是trace，分布式调用监控的本质是什么？</title>
+      <link>https://www.arloor.com/posts/what-is-traceing/</link>
+      <pubDate>Fri, 12 Aug 2022 14:40:45 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/what-is-traceing/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Clickhouse学习</title>
+      <link>https://www.arloor.com/posts/clickhouse/</link>
+      <pubDate>Thu, 30 Jun 2022 14:37:51 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/clickhouse/</guid>
+      <description>&lt;p&gt;ClickHouse是一个列式数据库管理系统，可用于联机分析（OLAP）。ClickHouse最常用的表引擎是MergeTree，下面主要围绕该种表引擎展开。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Clickhouse存储Trace调研</title>
+      <link>https://www.arloor.com/posts/clickhouse-trace/</link>
+      <pubDate>Tue, 28 Jun 2022 15:35:44 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/clickhouse-trace/</guid>
+      <description>&lt;p&gt;clickhouse是开源的纯列式数据库，定位是OLAP数据库。因为他的一些特性，也广泛用于监控领域，一方面代替时序数据库，存储多维度指标，另一方面也用于存储trace数据。这个博客的目的就是调研下业界如何使用clickhouse存储trace的，围绕表结构和查询sql语句展开，主要调研&lt;a href=&#34;https://github.com/uptrace/uptrace&#34;&gt;uptrace&lt;/a&gt;的实现。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Opentelemetry Java自动埋点实现</title>
+      <link>https://www.arloor.com/posts/opentelemetry-java-instrumention/</link>
+      <pubDate>Wed, 22 Jun 2022 11:11:07 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/opentelemetry-java-instrumention/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://www.arloor.com/posts/opentelemetry-trace/&#34;&gt;Opentelemetry是怎么做链路追踪的&lt;/a&gt;介绍了opentelemetry的API和SDK实现，也介绍了如何进行手动买点。这篇博客是介绍如何进行自动埋点，这当然要用到javaagent技术了。&lt;a href=&#34;https://www.arloor.com/posts/java-agent/&#34;&gt;Java Agent实现指南&lt;/a&gt;有写过javaagent的实现指南和类加载的坑，今天看看opentelemetry是如何做的，其github地址是&lt;a href=&#34;https://github.com/open-telemetry/opentelemetry-java-instrumentation&#34;&gt;opentelemetry-java-instrumentation&lt;/a&gt;，接下来应该就是跟着代码流水账了。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Skywalking v8.9.1 源码阅读</title>
+      <link>https://www.arloor.com/posts/skywalking-codes-studying/</link>
+      <pubDate>Wed, 20 Apr 2022 14:18:04 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/skywalking-codes-studying/</guid>
+      <description>&lt;p&gt;skywalking搞了STAM流拓扑分析方法，具体见&lt;a href=&#34;https://github.com/wu-sheng/STAM/blob/master/README-cn.md&#34;&gt;README-cn.md&lt;/a&gt;，简单来说就是将上游的Service、Service Instance等信息放在下游span中，从而一个span就具有上游Service和下游Service的信息，从而直接聚合出一个依赖关系，避免了通过时间窗口聚合。&lt;/p&gt;&#xA;&lt;p&gt;这篇博客的内容是从STAM实现到skywalking的整体架构。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Skywalking v8.9.1文档学习</title>
+      <link>https://www.arloor.com/posts/skywalking-study/</link>
+      <pubDate>Tue, 19 Apr 2022 21:16:14 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/skywalking-study/</guid>
+      <description>&lt;p&gt;看看skywalking&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Java Agent实现指南</title>
+      <link>https://www.arloor.com/posts/java-agent/</link>
+      <pubDate>Mon, 07 Mar 2022 14:11:11 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/java-agent/</guid>
+      <description>&lt;p&gt;Java Agent是字节码修改技术，Mtrace使用Java Agent修改字节码来实现trace的跨线程传递，opentelemetry也通过Java Agent来实现该需求。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Opentelemetry是怎么做链路追踪的</title>
+      <link>https://www.arloor.com/posts/opentelemetry-trace/</link>
+      <pubDate>Sun, 12 Dec 2021 11:11:38 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/opentelemetry-trace/</guid>
+      <description>&lt;p&gt;云原生可观测技术是云原生下很火的一个命题，opentelemetry的定位是统一metrics,trace和log的协议、api、sdk和exporter，他越来越成为云原生技术体系下的可观测性标准。这个博客就是来探究下opentelemetry是什么，做什么，怎么做的。&lt;/p&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;OpenTelemetry is a collection of tools, APIs, and SDKs. Use it to instrument, generate, collect, and export telemetry data (metrics, logs, and traces) to help you analyze your software’s performance and behavior.&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;上面是&lt;a href=&#34;https://opentelemetry.io/&#34;&gt;opentelemetry官网&lt;/a&gt;对自己的定位。抽取一下关键词，opentelemetry仅提供了api和SDK，不负责后端实现（后端由prometheus、jaeger等实现），用这些api和SDK，你可以做性能数据埋点，生成、收集和导出（generate, collect, and export）监控数据。对这段话最终的理解是opentelemetry只做SDK层面的事，职责的边缘是export数据即止。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Prometheus Exporter</title>
+      <link>https://www.arloor.com/posts/prometheus-exporter/</link>
+      <pubDate>Wed, 27 Jan 2021 23:42:59 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/prometheus-exporter/</guid>
+      <description>&lt;p&gt;prometheus监控比较火，接入prometheus监控的第一步就是提供expoter，这里就是记录下怎么提供。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    
+    <link rel="canonical" href="https://www.arloor.com/posts/linux/play-with-centos8/">
+    
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.157.0">
+
+    
+    
+    
+
+<title>玩转Centos8 • ARLOOR</title>
+<meta name="description" content="今天，你学习了吗">
+<meta name="keywords" content="刘港欢, arloor, moontell">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="玩转Centos8">
+  <meta name="twitter:description" content="上一篇在阿里云上安装了centos8，现在就开一篇centos8的踩坑记录，还是比较多的。。">
+      <meta name="twitter:site" content="@njulgh">
+
+<meta property="og:url" content="https://www.arloor.com/posts/linux/play-with-centos8/">
+  <meta property="og:site_name" content="ARLOOR">
+  <meta property="og:title" content="玩转Centos8">
+  <meta property="og:description" content="上一篇在阿里云上安装了centos8，现在就开一篇centos8的踩坑记录，还是比较多的。。">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2019-09-26T23:52:58+08:00">
+    <meta property="article:modified_time" content="2019-09-26T23:52:58+08:00">
+    <meta property="article:tag" content="Linux">
+
+
+    
+
+
+
+
+
+<link rel="stylesheet" href="/styles/atom-one-dark.min.css">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.debf1b963c1830f6b9b96ee48c2b4a22c31c7c3885a87bed290c0e198fc6a08d.css" integrity="sha256-3r8bljwYMPa5uW7kjCtKIsMcfDiFqHvtKQwOGY/GoI0=">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+
+<link rel="stylesheet" href="/scss/hugo-toc.6b7222b4ddd3cebd47d144a2e37ade6cbbb64f47e31d8feac655896156ade206.css" integrity="sha256-a3IitN3Tzr1H0USi43rebLu2T0fjHY/qxlWJYVat4gY=">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="/favicon.png">
+    
+    
+
+</head>
+
+
+
+<body class="  ">
+  
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="/">
+          
+          ARLOOR
+          
+        </a>
+      </span>
+      <a href="/">
+        
+        
+        <div class="author-image">
+          <img src="/img/head.jpeg" alt="Author Image" class="img--circle img--headshot element--center">
+        </div>
+        
+        
+      </a>
+      
+      <p class="site__description">
+         都是瞎写的 
+      </p>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">ARLOOR</label>
+      <div class="menu-content menu-content--mobile">
+        <div class="show-in-small">
+          <a href="/">
+            
+            
+            <div class="author-image">
+              <img src="/img/head.jpeg" alt="Author Image"
+                class="img--circle img--headshot element--center">
+            </div>
+            
+            
+          </a>
+        </div>
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/posts/">
+						<span>文章</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/tags/">
+						<span>分类</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/about/">
+						<span>关于我</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/grafana-iframe">
+						<span>Grafana</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/net-iframe">
+						<span>网速监控</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/nat">
+						<span>NAT规则</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/stock">
+						<span>股票监控</span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://x.com/njulgh" rel="me" target="_blank"><i class="fa-brands fa-x-twitter fa-lg"></i></a>
+	
+	
+	
+	
+	
+	<a href="https://github.com/arloor" rel="me" target="_blank"><i class="fa-brands fa-github fa-lg"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://t.me/never_contact_me" rel="me" target="_blank"><i class="fa-brands fa-telegram fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	<a href="mailto:admin@arloor.com" rel="me" target="_blank"><i class="fa-solid fa-at fa-lg"></i></a>
+	
+	
+	
+	
+</section>
+      </div>
+    </div>
+    <div class="menu-content menu-content--desktop">
+      <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/posts/">
+						<span>文章</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/tags/">
+						<span>分类</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/about/">
+						<span>关于我</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/grafana-iframe">
+						<span>Grafana</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/net-iframe">
+						<span>网速监控</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/nat">
+						<span>NAT规则</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/stock">
+						<span>股票监控</span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+    </div>
+    <div class="social-wrap social-wrap--desktop">
+      <section class="social">
+	
+	<a href="https://x.com/njulgh" rel="me" target="_blank"><i class="fa-brands fa-x-twitter fa-lg"></i></a>
+	
+	
+	
+	
+	
+	<a href="https://github.com/arloor" rel="me" target="_blank"><i class="fa-brands fa-github fa-lg"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://t.me/never_contact_me" rel="me" target="_blank"><i class="fa-brands fa-telegram fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	<a href="mailto:admin@arloor.com" rel="me" target="_blank"><i class="fa-solid fa-at fa-lg"></i></a>
+	
+	
+	
+	
+</section>
+    </div>
+    
+<div class="copyright">
+  &copy; 2026 arloor
+  
+    <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>
+  
+</div>
+
+
+<div class="builtwith">
+Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.com/arloor/hyde-arloor">hyde-arloor</a>.
+</div>
+
+
+  </div>
+</div>
+
+  <div class="content container">
+    
+    
+<article>
+  <header>
+    <h1>玩转Centos8</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> Sep 26, 2019
+    
+    
+    
+      
+      
+          in
+          
+          
+              <a class="badge badge-category" href="/categories/undefined">UNDEFINED</a>
+              
+          
+      
+    
+    
+    
+      
+      
+          <br/>
+           <i class="fas fa-tags"></i>
+          
+          <a class="badge badge-tag" href="/tags/linux">linux</a>
+          
+      
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 6 min read
+</div>
+
+
+  </header>
+  
+  
+  
+    <div class="toc-wrapper">
+      <input type="checkbox" id="tocToggle">
+      <label for="tocToggle">Table of Content</label>
+      
+          <nav id="TableOfContents">
+  <ul>
+    <li><a href="#关闭firewalld">关闭firewalld</a></li>
+    <li><a href="#关闭selinux">关闭selinux</a></li>
+    <li><a href="#测速">测速</a></li>
+    <li><a href="#启用elrepo">启用elrepo</a></li>
+    <li><a href="#tar操作">tar操作</a></li>
+    <li><a href="#安装squid并设置高匿及密码">安装squid并设置高匿及密码</a></li>
+    <li><a href="#安装ss-libev">安装ss-libev</a></li>
+    <li><a href="#fedora31安装shadowsocks-libev">fedora31安装shadowsocks-libev</a></li>
+    <li><a href="#磁盘满了怎么办">磁盘满了怎么办</a></li>
+    <li><a href="#签发野卡ssl证书">签发野卡ssl证书</a></li>
+    <li><a href="#配置dns">配置dns</a></li>
+    <li><a href="#fedora31-关闭内核自动更新">fedora31 关闭内核自动更新</a></li>
+    <li><a href="#fedora31-安装n卡驱动">fedora31 安装n卡驱动</a></li>
+    <li><a href="#安装proxychains">安装proxychains</a></li>
+    <li><a href="#iperf使用">iperf使用</a></li>
+    <li><a href="#安装旧版本golang并设置不自动更新">安装旧版本golang，并设置不自动更新</a></li>
+  </ul>
+</nav>
+      
+    </div>
+  
+  
+  <div class="post">
+    <p>上一篇在阿里云上安装了centos8，现在就开一篇centos8的踩坑记录，还是比较多的。。</p>
+<h2 id="关闭firewalld">关闭firewalld</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>service firewalld stop
+</span></span><span style="display:flex;"><span>systemctl disable firewalld
+</span></span></code></pre></div><h2 id="关闭selinux">关闭selinux</h2>
+<pre tabindex="0"><code>setenforce 0
+sed -i &#39;s/SELINUX=enforcing/SELINUX=disabled/&#39; /etc/selinux/config  
+sestatus
+reboot
+</code></pre><h2 id="测速">测速</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>podman run  --rm --net host --name speedtest docker.io/arloor/speedtest
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#打开80端口</span>
+</span></span></code></pre></div><h2 id="启用elrepo">启用elrepo</h2>
+<pre tabindex="0"><code>rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
+yum install https://www.elrepo.org/elrepo-release-8.0-2.el8.elrepo.noarch.rpm
+</code></pre><p>elrepo有四个频道，分别是：<code>elrepo</code>,<code>elrepo-extras</code>,<code>elrepo-testing</code>,<code>elrepo-kernel</code> <br>
+我们可以用如下方式使用上面的四个频道（以更新内核为例）：</p>
+<pre tabindex="0"><code>yum --disablerepo=&#34;*&#34; --enablerepo=&#34;elrepo-kernel&#34; list available
+yum --enablerepo=elrepo-kernel install -y kernel-ml  #以后升级也是执行这句
+</code></pre><p>参考文档:<a href="http://elrepo.org/tiki/tiki-index.php">elrepo.org</a></p>
+<h2 id="tar操作">tar操作</h2>
+<p><strong>查看tar压缩包的内容</strong></p>
+<pre tabindex="0"><code>tar -tvf a.tar
+</code></pre><p>v可以省略</p>
+<p><strong>压缩某目录下的某文件（或子目录）</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>tar -zcvf a.tar.gz  -C ~/test somedir
+</span></span></code></pre></div><p>这样就可以压缩<code>~/test</code>目录下的<code>somedir</code>子目录到<code>a.tar.gz</code>中</p>
+<p><strong>注意：</strong> <code>somedir</code>在这种模式下是不能用通配符的</p>
+<p><strong>压缩时排除指定文件</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>tar -zcf ~/test/public.tar.gz -C ~/test --exclude<span style="color:#f92672">=</span>public.tar.gz .
+</span></span></code></pre></div><p><strong>解压缩</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>tar -zxvf a.tar.gz -C targetDir
+</span></span></code></pre></div><p>解压到目标文件夹</p>
+<h2 id="安装squid并设置高匿及密码">安装squid并设置高匿及密码</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># squid4.4</span>
+</span></span><span style="display:flex;"><span>yum install -y squid
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">##设置密码</span>
+</span></span><span style="display:flex;"><span>yum -y install httpd-tools
+</span></span><span style="display:flex;"><span>touch /etc/squid/passwd <span style="color:#f92672">&amp;&amp;</span> chown squid /etc/squid/passwd
+</span></span><span style="display:flex;"><span>htpasswd -b /etc/squid/passwd arloor somepasswd
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>vim /etc/squid/squid.conf  <span style="color:#75715e">#内容见下面</span>
+</span></span><span style="display:flex;"><span>squid -z
+</span></span><span style="display:flex;"><span>service squid start
+</span></span><span style="display:flex;"><span>systemctl enable squid
+</span></span></code></pre></div><p>squid.conf内容，<a href="/squid.conf">直接使用的conf</a></p>
+<pre tabindex="0"><code># 选择的认证方式为basic，认证程序路径和密码文件路径。
+auth_param basic program /usr/lib64/squid/basic_ncsa_auth /etc/squid/passwd
+# 认证程序的进程数
+auth_param basic children 10
+# 认证有效时间
+auth_param basic credentialsttl 4 hours
+# 不区分大小写
+auth_param basic casesensitive off
+
+#
+# Recommended minimum configuration:
+#
+
+# Example rule allowing access from your local networks.
+# Adapt to list your (internal) IP networks from where browsing
+# should be allowed
+acl localnet src 0.0.0.1-0.255.255.255	# RFC 1122 &#34;this&#34; network (LAN)
+acl localnet src 10.0.0.0/8		# RFC 1918 local private network (LAN)
+acl localnet src 100.64.0.0/10		# RFC 6598 shared address space (CGN)
+acl localnet src 169.254.0.0/16 	# RFC 3927 link-local (directly plugged) machines
+acl localnet src 172.16.0.0/12		# RFC 1918 local private network (LAN)
+acl localnet src 192.168.0.0/16		# RFC 1918 local private network (LAN)
+acl localnet src fc00::/7       	# RFC 4193 local private network range
+acl localnet src fe80::/10      	# RFC 4291 link-local (directly plugged) machines
+# 所有网段
+acl allnet src all
+
+acl SSL_ports port 443
+acl Safe_ports port 80		# http
+acl Safe_ports port 21		# ftp
+acl Safe_ports port 443		# https
+acl Safe_ports port 70		# gopher
+acl Safe_ports port 210		# wais
+acl Safe_ports port 1025-65535	# unregistered ports
+acl Safe_ports port 280		# http-mgmt
+acl Safe_ports port 488		# gss-http
+acl Safe_ports port 591		# filemaker
+acl Safe_ports port 777		# multiling http
+acl CONNECT method CONNECT
+# 只允许arloor用户
+acl arloor proxy_auth REQUIRED
+http_access deny !arloor
+
+#
+# Recommended minimum Access Permission configuration:
+#
+# Deny requests to certain unsafe ports
+http_access deny !Safe_ports
+
+# Deny CONNECT to other than secure SSL ports
+http_access deny CONNECT !SSL_ports
+
+# Only allow cachemgr access from localhost
+http_access allow localhost manager
+http_access deny manager
+
+# We strongly recommend the following be uncommented to protect innocent
+# web applications running on the proxy server who think the only
+# one who can access services on &#34;localhost&#34; is a local user
+#http_access deny to_localhost
+
+#
+# INSERT YOUR OWN RULE(S) HERE TO ALLOW ACCESS FROM YOUR CLIENTS
+#
+
+# Example rule allowing access from your local networks.
+# Adapt localnet in the ACL section to list your (internal) IP networks
+# from where browsing should be allowed
+http_access allow localnet
+http_access allow localhost
+
+# 允许所有网段
+http_access allow allnet
+# And finally deny all other access to this proxy
+http_access deny all
+
+# Squid normally listens to port 3128
+http_port 20000
+
+# Uncomment and adjust the following to add a disk cache directory.
+#cache_dir ufs /var/spool/squid 100 16 256
+
+# Leave coredumps in the first cache dir
+coredump_dir /var/spool/squid
+
+#
+# Add any of your own refresh_pattern entries above these.
+#
+refresh_pattern ^ftp:		1440	20%	10080
+refresh_pattern ^gopher:	1440	0%	1440
+refresh_pattern -i (/cgi-bin/|\?) 0	0%	0
+refresh_pattern .		0	20%	4320
+
+#高匿
+forwarded_for delete
+via off
+follow_x_forwarded_for deny all
+request_header_access From deny all
+request_header_access Server deny all
+request_header_access WWW-Authenticate deny all
+request_header_access Link deny all
+request_header_access Cache-Control deny all
+request_header_access Proxy-Connection deny all
+request_header_access X-Cache deny all
+request_header_access X-Cache-Lookup deny all
+request_header_access Via deny all
+request_header_access X-Forwarded-For deny all
+request_header_access Pragma deny all
+request_header_access Keep-Alive deny all
+</code></pre><p>这样git就可以使用这个代理了。</p>
+<pre tabindex="0"><code>git config --global http.proxy &#34;http://user:passwd@host:20000&#34;
+git config --global https.proxy &#34;http://user:passed@host:20000&#34;
+</code></pre><p>上面的设置已经对该http_proxy进行了密码认证。但是网络上有一堆扫代理的机器，很有可能有人暴力破解这个代理，然后用于访问非法网站。。。</p>
+<p>如果用途只是用于代理github，那么建议增加两个配置项：</p>
+<pre tabindex="0"><code>## 在acl部分
+acl github dstdomain .github.com
+
+## 在http_access部分
+http_access deny !github
+</code></pre><p>这样squid仅仅允许访问github.com了。</p>
+<p><a href="https://my.oschina.net/u/125259/blog/310289">squid的一些命令</a></p>
+<h2 id="安装ss-libev">安装ss-libev</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 安装依赖</span>
+</span></span><span style="display:flex;"><span>yum install gcc gettext autoconf libtool automake make pcre-devel asciidoc xmlto c-ares-devel libev-devel -y
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 安装libsodium</span>
+</span></span><span style="display:flex;"><span>libsodium_file<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;libsodium-1.0.17&#34;</span>
+</span></span><span style="display:flex;"><span>libsodium_url<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://github.com/jedisct1/libsodium/releases/download/1.0.17/libsodium-1.0.17.tar.gz&#34;</span>
+</span></span><span style="display:flex;"><span>wget -O <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>libsodium_file<span style="color:#e6db74">}</span><span style="color:#e6db74">.tar.gz&#34;</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>libsodium_url<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>tar zxf <span style="color:#e6db74">${</span>libsodium_file<span style="color:#e6db74">}</span>.tar.gz
+</span></span><span style="display:flex;"><span>cd <span style="color:#e6db74">${</span>libsodium_file<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>./configure --prefix<span style="color:#f92672">=</span>/usr <span style="color:#f92672">&amp;&amp;</span> make <span style="color:#f92672">&amp;&amp;</span> make install
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 安装mbedtls</span>
+</span></span><span style="display:flex;"><span>mbedtls_file<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;mbedtls-2.16.0&#34;</span>
+</span></span><span style="display:flex;"><span>mbedtls_url<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;https://tls.mbed.org/download/mbedtls-2.16.0-gpl.tgz&#34;</span>
+</span></span><span style="display:flex;"><span>wget -O <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>mbedtls_file<span style="color:#e6db74">}</span><span style="color:#e6db74">-gpl.tgz&#34;</span> <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>mbedtls_url<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span>
+</span></span><span style="display:flex;"><span>tar xf <span style="color:#e6db74">${</span>mbedtls_file<span style="color:#e6db74">}</span>-gpl.tgz
+</span></span><span style="display:flex;"><span>cd <span style="color:#e6db74">${</span>mbedtls_file<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>make SHARED<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span> CFLAGS<span style="color:#f92672">=</span>-fPIC
+</span></span><span style="display:flex;"><span>make DESTDIR<span style="color:#f92672">=</span>/usr install
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 安装ss-libev</span>
+</span></span><span style="display:flex;"><span>wget -O shadowsocks-libev-3.3.4.tar.gz https://github.com/shadowsocks/shadowsocks-libev/releases/download/v3.3.4/shadowsocks-libev-3.3.4.tar.gz
+</span></span><span style="display:flex;"><span>tar zxf shadowsocks-libev-3.3.4.tar.gz
+</span></span><span style="display:flex;"><span>cd shadowsocks-libev-3.3.4
+</span></span><span style="display:flex;"><span>./configure --disable-documentation
+</span></span><span style="display:flex;"><span>make <span style="color:#f92672">&amp;&amp;</span> make install
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 配置动态库链接地址</span>
+</span></span><span style="display:flex;"><span>sed -n <span style="color:#e6db74">&#39;/^\/usr\/local\/lib/&#39;</span>p /etc/ld.so.conf.d/local.conf | grep -q <span style="color:#e6db74">&#34;/usr/local/lib&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> $? -ne <span style="color:#ae81ff">0</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>    echo -e <span style="color:#e6db74">&#34;/usr/local/lib&#34;</span> &gt;&gt; /etc/ld.so.conf.d/local.conf <span style="color:#f92672">&amp;&amp;</span> ldconfig
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 配置</span>
+</span></span><span style="display:flex;"><span>mkdir /etc/shadowsocks-libev
+</span></span><span style="display:flex;"><span>cat &gt; /etc/shadowsocks-libev/config.json <span style="color:#e6db74">&lt;&lt;EOF
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">{
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;server&#34;:&#34;0.0.0.0&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;server_port&#34;:10000,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;password&#34;:&#34;passwd&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;timeout&#34;:300,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;user&#34;:&#34;nobody&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;method&#34;:&#34;aes-256-gcm&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;fast_open&#34;:false,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;nameserver&#34;:&#34;8.8.8.8&#34;,
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    &#34;mode&#34;:&#34;tcp_and_udp&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">}
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>cat &gt; /lib/systemd/system/ss.service <span style="color:#e6db74">&lt;&lt;EOF
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[Unit]
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Description=ss-server
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Documentation=man:shadowsocks-libev(8)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">After=network-online.target
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Wants=network-online.target
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[Service]
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Type=simple
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">ExecStart=/usr/local/bin/ss-server -c /etc/shadowsocks-libev/config.json
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">Restart=always
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">RestartSec=5
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">[Install]
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">WantedBy=multi-user.target
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>systemctl enable ss
+</span></span><span style="display:flex;"><span>systemctl daemon-reload
+</span></span><span style="display:flex;"><span>systemctl start ss
+</span></span></code></pre></div><h2 id="fedora31安装shadowsocks-libev">fedora31安装shadowsocks-libev</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>yum install epel-release -y
+</span></span><span style="display:flex;"><span>yum install gcc gettext autoconf libtool automake make pcre-devel asciidoc xmlto c-ares-devel libev-devel libsodium-devel mbedtls-devel -y
+</span></span><span style="display:flex;"><span>export http_proxy<span style="color:#f92672">=</span>http://localhost:8081
+</span></span><span style="display:flex;"><span>export https_proxy<span style="color:#f92672">=</span>http://localhost:8081
+</span></span><span style="display:flex;"><span>wget https://github.com/shadowsocks/shadowsocks-libev/releases/download/v3.3.4/shadowsocks-libev-3.3.4.tar.gz
+</span></span><span style="display:flex;"><span>tar -zxvf shadowsocks-libev-3.3.4.tar.gz
+</span></span><span style="display:flex;"><span>./configure --disable-documentation
+</span></span><span style="display:flex;"><span>make <span style="color:#f92672">&amp;&amp;</span> make install
+</span></span></code></pre></div><h2 id="磁盘满了怎么办">磁盘满了怎么办</h2>
+<p>三条命令用起来：</p>
+<pre tabindex="0"><code>df -lh # 判断哪个分区用尽了
+du -h --max-depth=1 #显示当前路径所有文件夹的大小
+ls -lhS #显示所有文件的大小(文件夹大小固定为4k)
+</code></pre><h2 id="签发野卡ssl证书">签发野卡ssl证书</h2>
+<p>最好在国外centos8上操作，国内网络不好</p>
+<pre tabindex="0"><code> wget https://dl.eff.org/certbot-auto -O /usr/local/bin/certbot-auto
+ chmod 755 /usr/local/bin/certbot-auto
+ certbot-auto certonly  -d &#34;*.example.com&#34; -d &#34;example.com&#34; --manual --preferred-challenges dns-01  --server https://acme-v02.api.letsencrypt.org/directory
+</code></pre><p>按提示设置dns的TXT记录</p>
+<pre tabindex="0"><code>- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Please deploy a DNS TXT record under the name
+_acme-challenge.example.com with the following value:
+
+FsIOpJ6xvLoxxxxxxxxxxxBiDzDMhFwmL-Go
+
+Before continuing, verify the record is deployed.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+</code></pre><p>然后相关证书就在 /etc/letsencrypt/live/example.com</p>
+<ul>
+<li>chain.pem CA证书</li>
+<li>cert.pem 证书</li>
+<li>privkey.pem 证书私钥</li>
+<li>fullchain.pem CA证书+证书（nginx使用）</li>
+</ul>
+<p>证书续期：</p>
+<pre tabindex="0"><code> certbot-auto renew
+</code></pre><p>定时任务续期：</p>
+<pre tabindex="0"><code>echo &#34;45 0,12 * * * root /usr/local/bin/certbot-auto renew -q&#34; | sudo tee -a /etc/crontab &gt; /dev/null
+</code></pre><h2 id="配置dns">配置dns</h2>
+<p>首要要是知道，centos8使用NetworkManager.service来配置网络，而不是centos7默认的network.service</p>
+<p>我们已经熟悉centos7中配置dns的方式了：</p>
+<p>在<code>/etc/sysconfig/network-scripts/ifcfg-ethx</code>中增加:</p>
+<pre tabindex="0"><code>PEERDNS=yes
+DNS1=233.6.6.6
+DNS2=233.5.5.5
+</code></pre><p>然后<code>service network restart</code>生效。</p>
+<p><code>PEERDNS=yes</code>指，ifcfg脚本将接管<code>/etc/resolv.conf</code>，将其从DHCP或者DNS{1,2}配置得到的dns写到resolv.conf。</p>
+<p>在centos8中，NetworkManager.service依然兼容ifcfg-xxxx脚本的方式来配置网络，所以以上方案仍然可行。</p>
+<pre tabindex="0"><code>PEERDNS=&#34;yes&#34;
+DNS1=&#34;223.6.6.6&#34;
+DNS2=&#34;223.5.5.5&#34;
+</code></pre><p>而且最后应该执行<code>service NetworkManager restart</code>，使生效。</p>
+<p>关于PEERDNS的解释，可以看<code>service network restart</code>的一段解释：</p>
+<blockquote>
+<p>PEERDNS=no to mean &ldquo;never touch resolv.conf&rdquo;. NetworkManager interprets it to say &ldquo;never add automatic (DHCP, PPP, VPN, etc.) nameservers to resolv.conf&rdquo;.</p>
+</blockquote>
+<p>另一种方案： 让NetWorkManager不管理DNS，由用户自己管理<code>/etc/resolv.conf</code></p>
+<pre tabindex="0"><code>cat &gt; /etc/NetworkManager/conf.d/90-dns-none.conf &lt;&lt;EOF
+[main]
+dns=none
+EOF
+</code></pre><p>自己在/etc/resolv.conf写入：</p>
+<pre tabindex="0"><code>search localdomain #意义不明，不知道要不要加
+nameserver 223.6.6.6
+nameserver 223.5.5.5
+</code></pre><p>然后<code>systemctl reload NetworkManager</code></p>
+<p>最正统的方法：</p>
+<pre tabindex="0"><code>yum install -y bash-completion
+source /etc/profile.d/bash_completion.sh
+nmcli con mod &lt;connectionName&gt; ipv4.dns &#34;8.8.8.8 8.8.4.4&#34;
+nmcli con mod &lt;connectionName&gt; ipv4.ignore-auto-dns yes
+nmcli con mod &lt;connectionName&gt; ipv4.addresses x.x.x.x/x(掩码)
+nmcli con mod &lt;connectionName&gt; ipv4.gateway x.x.x.x
+nmcli con up &lt;connectionName&gt;
+</code></pre><h2 id="fedora31-关闭内核自动更新">fedora31 关闭内核自动更新</h2>
+<pre tabindex="0"><code>echo &#34;exclude=kernel*&#34; &gt;&gt; /etc/dnf/dnf.conf 
+</code></pre><h2 id="fedora31-安装n卡驱动">fedora31 安装n卡驱动</h2>
+<p><a href="https://www.if-not-true-then-false.com/2015/fedora-nvidia-guide/">https://www.if-not-true-then-false.com/2015/fedora-nvidia-guide/</a></p>
+<h2 id="安装proxychains">安装proxychains</h2>
+<pre tabindex="0"><code>#!/bin/sh
+
+set -eu
+
+version=4.14
+wget https://github.com/rofl0r/proxychains-ng/archive/v$version.tar.gz
+tar xf v$version.tar.gz
+
+
+(cd proxychains-ng-$version
+ ./configure
+ make
+ make install
+ [[ -f /etc/proxychains.conf ]] || cp src/proxychains.conf /etc/proxychains.conf
+)
+
+rm -rf v$version.tar.gz proxychains-ng-$version
+</code></pre><h2 id="iperf使用">iperf使用</h2>
+<pre tabindex="0"><code>yum install -y wget gcc make
+wget https://iperf.fr/download/source/iperf-3.1.3-source.tar.gz
+tar zxvf iperf-3.1.3-source.tar.gz
+cd iperf-3.1.3
+./configure
+make
+make install
+touch /etc/ld.so.conf.d/local.conf
+sed -n &#39;/^\/usr\/local\/lib/&#39;p /etc/ld.so.conf.d/local.conf | grep -q &#34;/usr/local/lib&#34;
+if [ $? -ne 0 ]; then
+    echo -e &#34;/usr/local/lib&#34; &gt;&gt; /etc/ld.so.conf.d/local.conf &amp;&amp; ldconfig
+fi
+</code></pre><p>服务端</p>
+<pre tabindex="0"><code>iperf3 -s
+</code></pre><p>客户端(-R, &ndash;reverse，反向模式运行（Server 端发送，Client 端接收）；)</p>
+<pre tabindex="0"><code>iperf3 -c 192.168.0.1 -R
+</code></pre><p>关闭</p>
+<pre tabindex="0"><code>ps -ef |grep iperf |grep -v grep|awk &#39;{print $2}&#39;|xargs -I {} kill -15 {}
+</code></pre><h2 id="安装旧版本golang并设置不自动更新">安装旧版本golang，并设置不自动更新</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>dnf search golang
+</span></span><span style="display:flex;"><span>dnf list golang --showduplicates
+</span></span><span style="display:flex;"><span>dnf install -y golang-1.16.12-1.module+el8.5.0+13637+960c7771
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## 设置不自动更新golang相关的包</span>
+</span></span><span style="display:flex;"><span>vim /etc/yum.conf
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## 在[main]下增加</span>
+</span></span><span style="display:flex;"><span>exclude<span style="color:#f92672">=</span>golang*
+</span></span></code></pre></div>
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/posts/linux/netinstall-centos8/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">从Centos7网络安装Centos8</span>
+    </a>
+    
+    
+    <a href="/posts/jdk8-function/" class="navigation-next">
+      <span class="navigation-tittle">Jdk8的function包以及::用法</span>
+      <i aria-hidden="true" class="fa fa-chevron-right"></i>
+    </a>
+    
+</div>
+
+
+  
+
+  
+
+
+</article>
+
+
+  </div>
+<style>
+  .content.container {
+        width: 100%;
+        max-width: none;
+        height: calc(100vh - var(--sidebar-height, 49px));
+        border: none;
+        display: block;
+        overflow-y: auto;
+        box-sizing: border-box;
+        margin-left: 0;
+        margin-right: 0;
+  }
+
+  body:not(.type-iframe) .content.container {
+        padding-left: max(1.5rem, calc((100% - var(--content-max-width, 38rem)) / 2));
+        padding-right: max(1.5rem, calc((100% - var(--content-max-width, 38rem)) / 2));
+  }
+</style>
+<script>
+    (function () {
+        var contentSelector = '.content.container';
+        var rafId = 0;
+        var resizeDebounceTimer = 0;
+        var pendingHashScroll = false;
+
+        function getHashTarget() {
+            var hash = window.location.hash;
+            var targetId = '';
+
+            if (!hash || hash === '#') {
+                return null;
+            }
+
+            targetId = hash.slice(1);
+            try {
+                targetId = decodeURIComponent(targetId);
+            } catch (e) {
+                
+            }
+
+            return document.getElementById(targetId);
+        }
+
+        function scrollToHashTarget() {
+            var target = getHashTarget();
+            if (!target) {
+                return;
+            }
+            try {
+                target.scrollIntoView({ block: 'start', inline: 'nearest' });
+            } catch (e) {
+                target.scrollIntoView(true);
+            }
+        }
+
+        function applyPendingHashScroll() {
+            if (!pendingHashScroll) {
+                return;
+            }
+            pendingHashScroll = false;
+            scrollToHashTarget();
+        }
+
+        function resizeContentHeight() {
+            var content = document.querySelector(contentSelector);
+            if (!content) {
+                return;
+            }
+            var rect = content.getBoundingClientRect();
+            var available = window.innerHeight - rect.top;
+            if (available < 0) {
+                available = 0;
+            }
+            content.style.height = available + 'px';
+            applyPendingHashScroll();
+        }
+
+        function scheduleResize() {
+            if (rafId) {
+                return;
+            }
+            rafId = window.requestAnimationFrame(function () {
+                rafId = 0;
+                resizeContentHeight();
+            });
+        }
+
+        function scheduleResizeDebounced(delay) {
+            window.clearTimeout(resizeDebounceTimer);
+            resizeDebounceTimer = window.setTimeout(scheduleResize, delay || 120);
+        }
+
+        function requestHashScroll() {
+            if (!window.location.hash || window.location.hash === '#') {
+                return;
+            }
+            pendingHashScroll = true;
+            scheduleResize();
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function () {
+                scheduleResize();
+                requestHashScroll();
+            }, { once: true });
+        } else {
+            scheduleResize();
+            requestHashScroll();
+        }
+
+        window.addEventListener('load', function () {
+            scheduleResize();
+            requestHashScroll();
+        });
+        window.addEventListener('pageshow', function () {
+            scheduleResize();
+            requestHashScroll();
+        });
+        window.addEventListener('hashchange', requestHashScroll);
+        window.addEventListener('resize', function () {
+            scheduleResizeDebounced(120);
+        });
+
+        var menuToggle = document.getElementById('menuToggle');
+        if (menuToggle) {
+            menuToggle.addEventListener('change', function () {
+                scheduleResize();
+                window.setTimeout(scheduleResize, 250);
+            });
+        }
+    })();
+</script>
+  
+    
+
+
+
+<script defer src="/js/all.js" crossorigin="anonymous"></script>
+
+    
+    
+    <script src="/js/highlight.min.js"></script>
+    <script src="/js/languages/dos.min.js"></script>
+        
+    <script type="text/javascript">
+        
+        hljs.highlightAll();
+    </script>
+    
+
+<style>
+    .code-block-wrapper {
+        position: relative;
+    }
+    .copy-code-button {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        padding: 6px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 4px;
+        cursor: pointer;
+        opacity: 0;
+        transition: opacity 0.3s, background 0.3s;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .copy-code-button svg {
+        width: 16px;
+        height: 16px;
+        fill: #fff;
+        transition: fill 0.3s;
+    }
+    .code-block-wrapper:hover .copy-code-button {
+        opacity: 1;
+    }
+    .copy-code-button:hover {
+        background: rgba(255, 255, 255, 0.2);
+    }
+    .copy-code-button.copied {
+        background: rgba(46, 160, 67, 0.8);
+        border-color: rgba(46, 160, 67, 1);
+    }
+    .copy-code-button.copied svg {
+        fill: #fff;
+    }
+</style>
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        document.querySelectorAll('pre code').forEach(function(codeBlock) {
+            var pre = codeBlock.parentNode;
+            
+            
+            if (pre.parentNode.classList.contains('code-block-wrapper')) {
+                return;
+            }
+            
+            
+            var wrapper = document.createElement('div');
+            wrapper.className = 'code-block-wrapper';
+            pre.parentNode.insertBefore(wrapper, pre);
+            wrapper.appendChild(pre);
+            
+            
+            var button = document.createElement('button');
+            button.className = 'copy-code-button';
+            button.innerHTML = '<svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg>';
+            button.setAttribute('aria-label', '复制代码');
+            button.setAttribute('title', '复制代码');
+            
+            var copyIcon = '<svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg>';
+            var checkIcon = '<svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16"><path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"></path></svg>';
+            
+            
+            button.addEventListener('click', function() {
+                var code = codeBlock.textContent;
+                navigator.clipboard.writeText(code).then(function() {
+                    button.innerHTML = checkIcon;
+                    button.classList.add('copied');
+                    button.setAttribute('aria-label', '已复制');
+                    button.setAttribute('title', '已复制');
+                    setTimeout(function() {
+                        button.innerHTML = copyIcon;
+                        button.classList.remove('copied');
+                        button.setAttribute('aria-label', '复制代码');
+                        button.setAttribute('title', '复制代码');
+                    }, 2000);
+                }).catch(function(err) {
+                    console.error('复制失败:', err);
+                });
+            });
+            
+            wrapper.appendChild(button);
+        });
+    });
+</script>
+
+
+
+
+    
+
+
+
+</body>
+
+</html>

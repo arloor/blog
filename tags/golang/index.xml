@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Golang on ARLOOR</title>
+    <link>https://www.arloor.com/tags/golang/</link>
+    <description>Recent content in Golang on ARLOOR</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Sun, 13 Oct 2024 01:14:37 +0800</lastBuildDate>
+    <atom:link href="https://www.arloor.com/tags/golang/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Golang笔记</title>
+      <link>https://www.arloor.com/posts/golang/</link>
+      <pubDate>Sun, 13 Oct 2024 01:14:37 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/golang/</guid>
+      <description>&lt;p&gt;以后可能以 golang 谋生一段时间了，开个 golang 的笔记&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Golang的string数据争用导致的panic</title>
+      <link>https://www.arloor.com/posts/golang-string-data-race-panic/</link>
+      <pubDate>Fri, 11 Oct 2024 10:43:56 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/golang-string-data-race-panic/</guid>
+      <description>&lt;p&gt;简单说下问题：多个 goroutine 并发读写 string，读取 string（&lt;code&gt;fmt.Println&lt;/code&gt;和&lt;code&gt;json.Marshal&lt;/code&gt;）的 goroutine 会 panic。根因是 string 是一个胖指针，除了 pointer 字段之外还有一个 len 字段的元数据。在给 string 变量赋值（拷贝）时，会逐个设置 pointer 和 len 字段，这个过程不是原子的。在有并发修改时，pointer 和 len 就不一致了，这时就回发生问题：当 len 不为 0，pointer 为 nil(0x0)时，就会&lt;code&gt;panic: runtime error: invalid memory address or nil pointer dereference&lt;/code&gt;。&lt;/p&gt;&#xA;&lt;p&gt;本文首先探究下为什么 golang string 有这个问题，然后对比下 java 的 string 为什么没这个问题，最后介绍数据争用(data race)问题以及 Golang 和 Rust 如何避免该问题。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Go GC初探</title>
+      <link>https://www.arloor.com/posts/go-gc/</link>
+      <pubDate>Thu, 16 Jun 2022 10:51:12 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/go-gc/</guid>
+      <description>&lt;p&gt;Go目前的GC方案是三色标记法+混合写屏障。&lt;/p&gt;&#xA;&lt;p&gt;Golang的垃圾回收（GC）算法使用的是无无分代（对象没有代际之分）、不整理（回收过程中不对对象进行移动与整理）、并发（与用户代码并发执行）的三色标记清扫算法。原因在于：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Caddy源码阅读</title>
+      <link>https://www.arloor.com/posts/caddy-code-study/</link>
+      <pubDate>Tue, 14 Jun 2022 14:33:18 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/caddy-code-study/</guid>
+      <description>&lt;p&gt;之前我们用了caddy的forwardproxy插件，来看看他是怎么做的&lt;/p&gt;&#xA;&lt;h2 id=&#34;go内置的http服务器实现&#34;&gt;go内置的http服务器实现&lt;/h2&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;http&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;ListenAndServe&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;:8080&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;nil&lt;/span&gt;)&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;如上即可启动go内置的http服务器，第二个参数是nil，于是go会使用内置的handler，代码如下&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>GO PProf使用</title>
+      <link>https://www.arloor.com/posts/go-pprof/</link>
+      <pubDate>Thu, 02 Jun 2022 00:33:53 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/go-pprof/</guid>
+      <description>&lt;p&gt;记录下如何使用pprof&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>go使用sync.pool实现复用[]byte——降低IO密集应用的GC频率</title>
+      <link>https://www.arloor.com/posts/use-sync-pool-go/</link>
+      <pubDate>Sun, 14 Apr 2019 14:22:51 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/use-sync-pool-go/</guid>
+      <description>&lt;p&gt;前一篇文章介绍了&lt;code&gt;sogo&lt;/code&gt;这个socks5代理的实现，在原始的sogo实现中，有一个重大的问题是：没有复用内存，导致频繁GC，导致cpu占用很高。对于socket通信这种io密集的应用，复用&lt;code&gt;[]byte&lt;/code&gt;还是很重要的，不然每次去make新的&lt;code&gt;[]byte&lt;/code&gt;，这些&lt;code&gt;[]byte&lt;/code&gt;迟早要被GC，这就导致了cpu占用高的问题。解决这个问题也很简单，就是引入内存池。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,1314 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on ARLOOR</title>
+    <link>https://www.arloor.com/posts/</link>
+    <description>Recent content in Posts on ARLOOR</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Thu, 26 Feb 2026 22:41:57 +0800</lastBuildDate>
+    <atom:link href="https://www.arloor.com/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>使用SDKManager命令行工具在 Windows 上搭建 React Native Android 开发环境</title>
+      <link>https://www.arloor.com/posts/sdkmanager-init-react-native-env/</link>
+      <pubDate>Thu, 26 Feb 2026 22:41:57 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/sdkmanager-init-react-native-env/</guid>
+      <description>&lt;p&gt;很多人使用 React Native 时会默认安装 Android Studio，但在某些场景（服务器环境、轻量级开发机、CI 环境、网络受限环境）下，我们更希望使用纯命令行方式安装 Android SDK。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>K3S上手玩</title>
+      <link>https://www.arloor.com/posts/play-with-k3s/</link>
+      <pubDate>Wed, 24 Dec 2025 22:12:47 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/play-with-k3s/</guid>
+      <description>&lt;p&gt;在上文 &lt;a href=&#34;https://www.arloor.com/posts/k3s-multi-cloud-air-gap-install/&#34;&gt;K3S 多云环境下的离线部署&lt;/a&gt; 中已经玩过了 1.27.3 版本的 k3s。在今年又重新玩了一遍，再次记录一下。这一次的重点是：&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;IPv4/IPv6 双栈集群的搭建&lt;/li&gt;&#xA;&lt;li&gt;K3S 备份、升级、回滚&lt;/li&gt;&#xA;&lt;li&gt;Kubernetes Dashboard 部署&lt;/li&gt;&#xA;&lt;li&gt;ArgoCD 部署，实现 GitOps&lt;/li&gt;&#xA;&lt;li&gt;reloader 部署，实现配置变更自动重启 Pod&lt;/li&gt;&#xA;&lt;/ol&gt;</description>
+    </item>
+    <item>
+      <title>MacOS开机自启动、资源限制、定时任务</title>
+      <link>https://www.arloor.com/posts/startup-onboot-macos/</link>
+      <pubDate>Tue, 16 Dec 2025 19:31:51 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/startup-onboot-macos/</guid>
+      <description>&lt;p&gt;本文介绍使用 MacOS 的 LaunchAgents 和 LaunchDaemons 实现开机自启动、资源限制和定时任务的配置方法。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Windows Powershell常用脚本</title>
+      <link>https://www.arloor.com/posts/windows-powershell/</link>
+      <pubDate>Thu, 04 Dec 2025 15:37:22 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/windows-powershell/</guid>
+      <description>&lt;p&gt;对 linux 的 shell 脚本比较熟悉后，发现 windows 的 powershell 也挺好用的。这里记录一些常用的脚本片段，方便以后查阅。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>BBR 算法的流量控制与拥塞控制</title>
+      <link>https://www.arloor.com/posts/bbr-algorithm-analysis/</link>
+      <pubDate>Thu, 06 Nov 2025 13:45:23 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/bbr-algorithm-analysis/</guid>
+      <description>&lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;&#xA;&lt;p&gt;BBR (Bottleneck Bandwidth and Round-trip propagation time) 是 Google 开发的拥塞控制算法，于 2016 年发布并集成到 Linux 内核 4.9 版本中。与传统的基于丢包的拥塞控制算法（如 Cubic）不同，BBR 采用了一种全新的思路：通过测量瓶颈带宽和往返时延来主动控制发送速率，从而达到高吞吐、低延迟的目标。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>MTU详解</title>
+      <link>https://www.arloor.com/posts/mtu/</link>
+      <pubDate>Wed, 22 Oct 2025 13:05:02 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/mtu/</guid>
+      <description>&lt;p&gt;MTU (Maximum Transmission Unit) 是网络通信中的一个关键参数。本文将通过实际案例，深入探讨 MTU 的工作机制、Path MTU Discovery (PMTUD) 协议，以及在 PPPoE 家庭网络环境下的实际应用。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Ultra 265k BIOS/风扇设置</title>
+      <link>https://www.arloor.com/posts/intel-ultra-265ks-bios/</link>
+      <pubDate>Sun, 27 Jul 2025 14:41:54 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/intel-ultra-265ks-bios/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Nftables基础链的优先级与默认策略</title>
+      <link>https://www.arloor.com/posts/nftable-base-chain-priority/</link>
+      <pubDate>Thu, 24 Apr 2025 14:58:23 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/nftable-base-chain-priority/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Podman和Docker使用备忘</title>
+      <link>https://www.arloor.com/posts/podman-docker-use/</link>
+      <pubDate>Tue, 08 Apr 2025 10:53:42 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/podman-docker-use/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Windows11启用openssh</title>
+      <link>https://www.arloor.com/posts/windows11-openssh/</link>
+      <pubDate>Sun, 26 Jan 2025 11:14:36 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/windows11-openssh/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>2024年度总结</title>
+      <link>https://www.arloor.com/posts/2024/</link>
+      <pubDate>Sun, 29 Dec 2024 17:58:10 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/2024/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>使用Mac mini wakeonlan windows主机（微星主板）</title>
+      <link>https://www.arloor.com/posts/mac-wakeonlan-windows-11-msi-motherboard/</link>
+      <pubDate>Mon, 16 Dec 2024 22:16:38 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/mac-wakeonlan-windows-11-msi-motherboard/</guid>
+      <description>&lt;p&gt;家里有台Mac mini是一直开机的，作为软路由使用，也作为跳板机连接到家里网络。今天试了下怎么用这个mac mini通过wake on lan唤醒windows主机。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>微星Z890 Carbon WIFI主板安装ppm文件</title>
+      <link>https://www.arloor.com/posts/z890-carbon-install-dtt-ipf-ppm/</link>
+      <pubDate>Sun, 15 Dec 2024 15:30:06 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/z890-carbon-install-dtt-ipf-ppm/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Postman Pre Scripts设置环境变量</title>
+      <link>https://www.arloor.com/posts/postman-pre-scripts/</link>
+      <pubDate>Fri, 06 Dec 2024 16:59:16 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/postman-pre-scripts/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Rust sqlx使用记录</title>
+      <link>https://www.arloor.com/posts/rust-sqlx%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/</link>
+      <pubDate>Thu, 05 Dec 2024 22:17:05 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/rust-sqlx%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>MySQL9 docker容器配置SSL</title>
+      <link>https://www.arloor.com/posts/mysql9-docker-ssl/</link>
+      <pubDate>Sun, 10 Nov 2024 15:05:05 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/mysql9-docker-ssl/</guid>
+      <description>&lt;p&gt;最近写个小东西用到了MySQL，折腾下怎么给MySQL配置SSL&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>NextJS Study</title>
+      <link>https://www.arloor.com/posts/nextjs-study/</link>
+      <pubDate>Thu, 07 Nov 2024 16:42:51 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/nextjs-study/</guid>
+      <description>&lt;p&gt;是时候学习下现代的前端开发，之前学过html、css和js的dom操作，这次来系统学习下react、nextjs等前端技术栈。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Golang笔记</title>
+      <link>https://www.arloor.com/posts/golang/</link>
+      <pubDate>Sun, 13 Oct 2024 01:14:37 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/golang/</guid>
+      <description>&lt;p&gt;以后可能以 golang 谋生一段时间了，开个 golang 的笔记&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>阿里云vps关闭阿里云盾、云监控c&#43;&#43;插件和自动化助手</title>
+      <link>https://www.arloor.com/posts/linux/aliyun-turnoff-aliyundun/</link>
+      <pubDate>Sat, 12 Oct 2024 16:46:54 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/linux/aliyun-turnoff-aliyundun/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Grafana告警配置</title>
+      <link>https://www.arloor.com/posts/grafana-alert-settings/</link>
+      <pubDate>Fri, 11 Oct 2024 16:22:26 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/grafana-alert-settings/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Golang的string数据争用导致的panic</title>
+      <link>https://www.arloor.com/posts/golang-string-data-race-panic/</link>
+      <pubDate>Fri, 11 Oct 2024 10:43:56 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/golang-string-data-race-panic/</guid>
+      <description>&lt;p&gt;简单说下问题：多个 goroutine 并发读写 string，读取 string（&lt;code&gt;fmt.Println&lt;/code&gt;和&lt;code&gt;json.Marshal&lt;/code&gt;）的 goroutine 会 panic。根因是 string 是一个胖指针，除了 pointer 字段之外还有一个 len 字段的元数据。在给 string 变量赋值（拷贝）时，会逐个设置 pointer 和 len 字段，这个过程不是原子的。在有并发修改时，pointer 和 len 就不一致了，这时就回发生问题：当 len 不为 0，pointer 为 nil(0x0)时，就会&lt;code&gt;panic: runtime error: invalid memory address or nil pointer dereference&lt;/code&gt;。&lt;/p&gt;&#xA;&lt;p&gt;本文首先探究下为什么 golang string 有这个问题，然后对比下 java 的 string 为什么没这个问题，最后介绍数据争用(data race)问题以及 Golang 和 Rust 如何避免该问题。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>一键关闭WeGame和LOL客户端，避免浪费时间</title>
+      <link>https://www.arloor.com/posts/shutdown-wegame-lol/</link>
+      <pubDate>Tue, 01 Oct 2024 00:42:03 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/shutdown-wegame-lol/</guid>
+      <description>&lt;p&gt;如何快速关闭WeGame和LOL客户端？恶心的wegame总是在关闭游戏的时候浪费我时间，所以写了一个批处理文件，一键关闭wegame和LOL客户端。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Huawei手机防杀后台</title>
+      <link>https://www.arloor.com/posts/huawei-phone-dianchi-youhua/</link>
+      <pubDate>Sun, 22 Sep 2024 23:20:35 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/huawei-phone-dianchi-youhua/</guid>
+      <description>&lt;p&gt;设置里搜索下面两个设置，然后参考下面UU加速器的教程进行设置即可&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;应用启动管理&lt;/li&gt;&#xA;&lt;li&gt;电池优化&lt;/li&gt;&#xA;&lt;/ol&gt;</description>
+    </item>
+    <item>
+      <title>macOS一些配置</title>
+      <link>https://www.arloor.com/posts/macos-settings/</link>
+      <pubDate>Sun, 22 Sep 2024 18:17:18 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/macos-settings/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Windows11 WSL2使用</title>
+      <link>https://www.arloor.com/posts/windows11-23h2-wsl2/</link>
+      <pubDate>Sun, 22 Sep 2024 13:45:23 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/windows11-23h2-wsl2/</guid>
+      <description>&lt;p&gt;wsl 全称是 windows 的 linux 子系统，可以理解为在你的 windows 电脑上提供一个 linux 的工作环境。&lt;/p&gt;&#xA;&lt;h2 id=&#34;windows-虚拟化的基础知识&#34;&gt;windows 虚拟化的基础知识&lt;/h2&gt;&#xA;&lt;table&gt;&#xA;  &lt;thead&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;th&gt;windows 功能&lt;/th&gt;&#xA;          &lt;th&gt;作用&lt;/th&gt;&#xA;          &lt;th&gt;其他&lt;/th&gt;&#xA;      &lt;/tr&gt;&#xA;  &lt;/thead&gt;&#xA;  &lt;tbody&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;Hyper-V&lt;/td&gt;&#xA;          &lt;td&gt;微软自己的虚拟化工具&lt;/td&gt;&#xA;          &lt;td&gt;包含了“管理工具”和“平台”，其中“平台”包含“服务”和“虚拟机监控程序”&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;Windows Subsystem for Linux&lt;/td&gt;&#xA;          &lt;td&gt;WSL1，不是我们讨论的 WSL2 所需要的&lt;/td&gt;&#xA;          &lt;td&gt;&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;Virtual Machine Platform&lt;/td&gt;&#xA;          &lt;td&gt;虚拟机平台（WSL2 的底层依赖）&lt;/td&gt;&#xA;          &lt;td&gt;看到说 Hyper-V 也依赖这个，但启用 Hyper-V 并不需要启用虚拟机平台，因此我觉得 Hyper-V 依赖的是“Hyper-V 虚拟机监控程序”吧&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;Windows Sandbox&lt;/td&gt;&#xA;          &lt;td&gt;一个隔离的桌面环境&lt;/td&gt;&#xA;          &lt;td&gt;我反正没用过，不了解&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;Windows 虚拟机监控程序平台&lt;/td&gt;&#xA;          &lt;td&gt;用于支持 vmware 等第三方虚拟机软件&lt;/td&gt;&#xA;          &lt;td&gt;&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;  &lt;/tbody&gt;&#xA;&lt;/table&gt;&#xA;&#xA;&#xA;&#xA;&lt;img src=&#34;https://www.arloor.com/img/windows-feature-disable-virt.png&#34; alt=&#34;&#34; width=&#34;400px&#34; style=&#34;max-width: 100%;&#34;&gt;&#xA;&#xA;&lt;blockquote&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;虚拟机平台会一定程度上影响游戏性能，为了游戏性能，可以关闭虚拟机平台、Hyper-V。Windows 虚拟机监控程序平台、适用于 Linux 的 Windows 子系统我理解是不影响游戏性能的。参考&lt;a href=&#34;https://prod.support.services.microsoft.com/zh-cn/windows/%E7%94%A8%E4%BA%8E%E5%9C%A8-windows-11-%E4%B8%AD%E4%BC%98%E5%8C%96%E6%B8%B8%E6%88%8F%E6%80%A7%E8%83%BD%E7%9A%84%E9%80%89%E9%A1%B9-a255f612-2949-4373-a566-ff6f3f474613&#34;&gt;用于在 Windows 11 中优化游戏性能的选项&lt;/a&gt;。&lt;/li&gt;&#xA;&lt;li&gt;Hyper-V 和 vmware 等软件是冲突的，详见&lt;a href=&#34;https://learn.microsoft.com/zh-cn/troubleshoot/windows-client/application-management/virtualization-apps-not-work-with-hyper-v&#34;&gt;虚拟化应用程序无法与 Hyper-V、Device Guard 和 Credential Guard 协同工作&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;&lt;strong&gt;关闭虚拟机平台和 Hyper-V 虚拟机监控程序：&lt;/strong&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>OBS直播、录屏</title>
+      <link>https://www.arloor.com/posts/obs-use/</link>
+      <pubDate>Sat, 07 Sep 2024 19:18:49 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/obs-use/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Rust在poll方法中使用锁</title>
+      <link>https://www.arloor.com/posts/rust-use-lock-in-poll/</link>
+      <pubDate>Fri, 09 Aug 2024 13:10:52 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/rust-use-lock-in-poll/</guid>
+      <description>&lt;p&gt;看到一个在&lt;code&gt;poll&lt;/code&gt;方法中使用锁的问题，觉得很有意思，记录一下。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Homebrew安装指定版本的软件</title>
+      <link>https://www.arloor.com/posts/homebrew-versioned/</link>
+      <pubDate>Fri, 26 Jul 2024 15:02:39 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/homebrew-versioned/</guid>
+      <description>&lt;p&gt;需要在mac上安装 clang-format-16，记录下homebrew安装指定版本软件的方法。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Rust reqwest代码阅读</title>
+      <link>https://www.arloor.com/posts/rust-reqwest-hyper-http-client/</link>
+      <pubDate>Sat, 20 Jul 2024 11:26:42 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/rust-reqwest-hyper-http-client/</guid>
+      <description>&lt;p&gt;最近在自己的&lt;a href=&#34;https://github.com/arloor/rust_http_proxy&#34;&gt;rust_http_proxy&lt;/a&gt;中实现了简单的反向代理，第一版用的是手搓的无连接池版本，大致流程如下：&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;首先 &lt;code&gt;TcpStream::connect&lt;/code&gt; 建立连接&lt;/li&gt;&#xA;&lt;li&gt;通过 &lt;code&gt;conn::http1::Builder&lt;/code&gt; 拿到 &lt;code&gt;sender&lt;/code&gt;&lt;/li&gt;&#xA;&lt;li&gt;发送请求 &lt;code&gt;sender.send_request(new_req)&lt;/code&gt;&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;p&gt;工作的很正常，但是没有连接池。想到 &lt;code&gt;hyper&lt;/code&gt; 官方提供的 &lt;code&gt;reqwest&lt;/code&gt; 是有内置连接池的，于是研究了下做了改造，记录下过程中读到的代码。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Afterburner配置文件备份</title>
+      <link>https://www.arloor.com/posts/afterburner-profile/</link>
+      <pubDate>Fri, 28 Jun 2024 22:53:39 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/afterburner-profile/</guid>
+      <description>&lt;p&gt;下载&lt;a href=&#34;https://www.arloor.com/backup/MSIAfterburner.cfg&#34;&gt;MSIAfterburner.cfg&lt;/a&gt;到 &lt;code&gt;%programfiles(x86)%\MSI Afterburner\Profiles&lt;/code&gt;。当前版本是4.6.6(beta3)，下载地址：&lt;a href=&#34;https://www.msi.com/Landing/afterburner/graphics-cards&#34;&gt;msi官方&lt;/a&gt;或&lt;a href=&#34;https://www.guru3d.com/download/msi-afterburner-beta-download/&#34;&gt;guru3d下载&lt;/a&gt;。核心效果是展示各个cpu核心的使用率，如下：&lt;/p&gt;&#xA;&lt;p&gt;&lt;img src=&#34;https://www.arloor.com/img/afterburner-snapshot.png&#34; alt=&#34;alt text&#34;&gt;&lt;/p&gt;&#xA;&lt;p&gt;下图是展示aida64提供的电压的配置：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Windows11仅以大核启动以解决部分游戏大小核心调度不佳导致帧率不稳定的问题</title>
+      <link>https://www.arloor.com/posts/windows11-boot-only-pcores/</link>
+      <pubDate>Fri, 28 Jun 2024 21:25:52 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/windows11-boot-only-pcores/</guid>
+      <description>&lt;p&gt;大小核调度横空出世后，游戏需要额外做优化来让大小核架构发挥最大潜力。而没有正确优化的游戏比如老头环就会出现帧率抖动，伴随着显卡占用率抖动的现象。之前我使用 process lasso这个软件来设置cpu亲和性来解决该问题。该方案最大的问题是需要屏蔽小懒熊防作弊后，process lasso 才能生效。而屏蔽小懒熊会导致无法使用联机模式。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Windows11彻底禁止自动更新</title>
+      <link>https://www.arloor.com/posts/windows11-disable-auto-update/</link>
+      <pubDate>Fri, 28 Jun 2024 21:05:32 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/windows11-disable-auto-update/</guid>
+      <description>&lt;p&gt;关于windows自动更新，我的建议是关闭windows自动更新，时常到&lt;a href=&#34;https://support.microsoft.com/en-us/topic/windows-11-version-23h2-update-history-59875222-b990-4bd9-932f-91a5954de434&#34;&gt;Windows 11, version 23H2 update history&lt;/a&gt;和&lt;a href=&#34;https://support.microsoft.com/zh-cn/topic/windows-11%E7%89%88%E6%9C%AC-23h2-%E6%9B%B4%E6%96%B0%E5%8E%86%E5%8F%B2%E8%AE%B0%E5%BD%95-59875222-b990-4bd9-932f-91a5954de434&#34;&gt;Windows 11版本 23H2 更新历史记录&lt;/a&gt;看看有没有有用的更新。看到有更新后，千万别急着更新，过个十天半个月用搜索引擎搜搜看看该更新有没有问题再说。比如最近的&lt;a href=&#34;https://support.microsoft.com/en-us/topic/june-25-2024-kb5039302-os-builds-22621-3810-and-22631-3810-preview-0ab34e3f-bca9-4a52-a1a4-404bf8162f58&#34;&gt;kb5039302&lt;/a&gt;就存在虚拟机无限重启的问题。很多大问题是不会被windows官方写在页面上的，都是外面媒体爆出来的。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Debian10相关软件安装</title>
+      <link>https://www.arloor.com/posts/debian10-install-software/</link>
+      <pubDate>Fri, 21 Jun 2024 14:12:12 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/debian10-install-software/</guid>
+      <description>&lt;p&gt;字节的工作机是debian10的系统，比较老了，记录下一些软件的安装。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Expect Password</title>
+      <link>https://www.arloor.com/posts/expect-password/</link>
+      <pubDate>Wed, 19 Jun 2024 11:05:37 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/expect-password/</guid>
+      <description>&lt;p&gt;对于需要输入密码的命令，通常我们不能简单地通过重定向输入（如使用 &lt;code&gt;&amp;lt;&lt;/code&gt; 或 &lt;code&gt;&amp;lt;&amp;lt;&lt;/code&gt; ）来避免手动输入密码。这是因为这些命令通常会直接从终端读取密码，以确保密码的安全性，不会从标准输入（stdin）读取。但是我们可以使用expect工具来自动输入密码。下面是自动实现kinit认证的步骤。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Linux包管理工具搜索特定文件/列出包的所有文件【apt/yum】</title>
+      <link>https://www.arloor.com/posts/linux-apt-yum-search/</link>
+      <pubDate>Tue, 18 Jun 2024 01:09:02 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/linux-apt-yum-search/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>14600KF降压（123微码）以及风扇调教</title>
+      <link>https://www.arloor.com/posts/14th-intel-cpu-down-voltage/</link>
+      <pubDate>Sun, 12 May 2024 19:18:49 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/14th-intel-cpu-down-voltage/</guid>
+      <description>&lt;p&gt;现在用的电脑CPU是14600kf，记录下CPU降压操作和对风扇的调教。整体调教方向是日常无声音+游戏时散热够用即可。最终效果是&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;水泵风扇（3pin接口，只能DC调速），常态下4.0v电压，1100转，有轻微声音&lt;/li&gt;&#xA;&lt;li&gt;冷排风扇轻负载下650转以下，基本听不到声音&lt;/li&gt;&#xA;&lt;/ol&gt;</description>
+    </item>
+    <item>
+      <title>Nvidia显卡风扇为什么不转？如何手动设置转速</title>
+      <link>https://www.arloor.com/posts/nvidia-fan-speed-control/</link>
+      <pubDate>Sun, 12 May 2024 19:18:49 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/nvidia-fan-speed-control/</guid>
+      <description>&lt;p&gt;有人发现电脑在空载或者低负载的时候显卡风扇不转，认为自己显卡出故障了，但其实这是正常的。因为显卡风扇智能启停的特性，风扇在低负载+低温度下会停止运行，只在在高负载下才转动。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Java虚拟线程</title>
+      <link>https://www.arloor.com/posts/notion/java%E8%99%9A%E6%8B%9F%E7%BA%BF%E7%A8%8B/</link>
+      <pubDate>Sat, 20 Apr 2024 12:04:13 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/notion/java%E8%99%9A%E6%8B%9F%E7%BA%BF%E7%A8%8B/</guid>
+      <description>&lt;p&gt;内容来自&lt;a href=&#34;https://openjdk.org/jeps/444&#34;&gt;JEP 444&lt;/a&gt;&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;thread-per-thread style。BIO&lt;/li&gt;&#xA;&lt;li&gt;thread-sharing style. Reactive模式，write on complete 一个lambda表达式，异步编程十分痛苦。signal their completion to a callback，并且listener在不同的线程中，观测，trycatch等很困难。典型的就是Netty&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;thread-per-request style with virtual threads&lt;/strong&gt;&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;p&gt;详细说明：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>在Rust项目中集成libbpf-rs</title>
+      <link>https://www.arloor.com/posts/libbpf-rust-integration/</link>
+      <pubDate>Sat, 20 Apr 2024 11:47:53 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/libbpf-rust-integration/</guid>
+      <description>&lt;p&gt;前面已经有两篇博客记录了ebpf的一些知识，这篇则是实操。作为一个对C语言和Rust有一定了解的选手，我选择使用 &lt;code&gt;libbpf-rs&lt;/code&gt; 开发ebpf应用，这就记录下我在Rust项目中集成 &lt;code&gt;libbpf-rs&lt;/code&gt; 的过程。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>libbpf-bootstrap学习</title>
+      <link>https://www.arloor.com/posts/libbpf-bootstrap-learn/</link>
+      <pubDate>Sat, 20 Apr 2024 11:40:55 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/libbpf-bootstrap-learn/</guid>
+      <description>&lt;p&gt;本文主要是是对&lt;a href=&#34;https://nakryiko.com/posts/libbpf-bootstrap/#the-user-space-side&#34;&gt;Building BPF applications with libbpf-bootstrap (nakryiko.com)&lt;/a&gt;的个人理解的总结，这篇文章可以当成是&lt;code&gt;libbpf-bootstrap&lt;/code&gt;这个项目的&lt;code&gt;README&lt;/code&gt; ，介绍了它的目标、依赖和用法等。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>libbpf overview中文翻译</title>
+      <link>https://www.arloor.com/posts/libbpf-overview-cn/</link>
+      <pubDate>Sat, 20 Apr 2024 11:37:52 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/libbpf-overview-cn/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;本文是机器翻译加手动修改，&lt;a href=&#34;https://docs.kernel.org/bpf/libbpf/libbpf_overview.html&#34;&gt;原文链接&lt;/a&gt;。仅供自己学习理解，如有错漏，请勿批评，关闭浏览器标签页即可&lt;/strong&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Java的引用类型以及WeakReference和PhantomReference在Threadlocal和DirectByteBuffer中的使用</title>
+      <link>https://www.arloor.com/posts/java-weak-phantom-reference-and-usages/</link>
+      <pubDate>Wed, 24 Jan 2024 17:21:50 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/java-weak-phantom-reference-and-usages/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;内容来自ChatGPT4&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;h2 id=&#34;问java的强-软-弱-幻引用区别和使用场景&#34;&gt;问：Java的强 软 弱 幻引用区别和使用场景&lt;/h2&gt;&#xA;&lt;p&gt;答：Java中的引用类型是管理内存和垃圾回收的关键工具。在Java中，有四种类型的引用：强引用、软引用、弱引用和幻引用。每种引用类型都有其特定的使用场景和垃圾回收行为。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>还IDEA一个整洁的滚动条高亮提示</title>
+      <link>https://www.arloor.com/posts/idea-clean-scrollbar/</link>
+      <pubDate>Fri, 05 Jan 2024 11:36:23 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/idea-clean-scrollbar/</guid>
+      <description>&lt;p&gt;深刻怀疑IDEA在硬卷，滚动条的highlight提示越来越多了，颜色丰富的像彩虹，还很密集。这样根本就达不到highlight的目的了。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>我的2023总结</title>
+      <link>https://www.arloor.com/posts/2023/</link>
+      <pubDate>Sun, 31 Dec 2023 23:45:51 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/2023/</guid>
+      <description>&lt;p&gt;2022年并没有做年终总结，我想给2022年的关键词是“质变”，有几方面的意味：&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;量变引起质变。是最近几年的积累产生的一个结果，是厚积之后的勃发。&lt;/li&gt;&#xA;&lt;li&gt;显著的变化——人生阶段的变化。&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;p&gt;而2023年，则没有这种质变的意味了，我的关键词是“落地”，描述的是：&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;从变化中寻找到了稳态，但是变化本身不大，寻找稳态的过程也不激情澎湃。&lt;/li&gt;&#xA;&lt;li&gt;以前没干成的事，今年他干成了。但没有给我很强的正向激励&lt;/li&gt;&#xA;&lt;/ol&gt;</description>
+    </item>
+    <item>
+      <title>使用Github Codespaces</title>
+      <link>https://www.arloor.com/posts/github-codespace-use/</link>
+      <pubDate>Thu, 21 Dec 2023 16:14:54 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/github-codespace-use/</guid>
+      <description>&lt;p&gt;前几天Github告诉我说&lt;code&gt;You&#39;re now in the CodeSpaces beta&lt;/code&gt;，今天体验了下，又发现了一个白嫖计算资源的机会啊。&lt;/p&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;2023-12-11更新：目前Codespaces已经正式发布，我个人将Rust开发全部移到了Codespaces上，下文有我的详细配置，欢迎阅读。收费策略上，目前个人免费账户每月有120小时的Core hours per month额度，这就意味着每月可以白嫖2C8G的机器60小时，或4C16G机器30小时。&lt;/p&gt;&#xA;&lt;/blockquote&gt;</description>
+    </item>
+    <item>
+      <title>windows11设置、性能优化</title>
+      <link>https://www.arloor.com/posts/windows11-settings/</link>
+      <pubDate>Mon, 04 Dec 2023 22:18:31 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/windows11-settings/</guid>
+      <description>&lt;h2 id=&#34;开启无需密码自动登录&#34;&gt;开启无需密码自动登录&lt;/h2&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;以管理员运行 cmd，输入：&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;reg ADD &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\PasswordLess\Device&amp;#34;&lt;/span&gt; /v DevicePasswordLessBuildVersion /t REG_DWORD /d &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; /f&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;2&#34;&gt;&#xA;&lt;li&gt;重启电脑，让新注册表生效&lt;/li&gt;&#xA;&lt;li&gt;在开始菜单输入：&lt;code&gt;netplwiz&lt;/code&gt; ，并取消勾选&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;p&gt;&lt;img src=&#34;https://www.arloor.com/img/cancel-password-login-for-windows11.png&#34; alt=&#34;Alt text&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Async Profiler使用</title>
+      <link>https://www.arloor.com/posts/async-profiler/</link>
+      <pubDate>Sat, 02 Dec 2023 16:31:58 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/async-profiler/</guid>
+      <description>&lt;p&gt;Async Profile是Java应用profiling的强大工具，可以方便地输出火焰图html或者jfr格式给Java Mission Control查看，这里记录下如何使用。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>老版本Java8 NIO Socket Channel读写HeapByteBuffer导致的直接内存泄漏</title>
+      <link>https://www.arloor.com/posts/jdk8-socketchannel-directbytebuffer-overflow/</link>
+      <pubDate>Fri, 01 Dec 2023 16:44:35 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/jdk8-socketchannel-directbytebuffer-overflow/</guid>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;&#xA;&lt;p&gt;Hbase会为每一个region server创建一个IPC client线程来做读写操作，并且该线程空闲两分钟就会被关闭。并且Hbase使用Java NIO的&lt;code&gt;Socket Channel&lt;/code&gt;和&lt;code&gt;HeapByteBuffer&lt;/code&gt;来做读写操作。由于JDK内部机制的问题，会导致直接内存泄漏，下面介绍所谓的内部机制来剖析根因。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Grafana表格Pannel配置</title>
+      <link>https://www.arloor.com/posts/grafana-new-table/</link>
+      <pubDate>Sat, 18 Nov 2023 15:24:33 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/grafana-new-table/</guid>
+      <description>&lt;p&gt;忘记了怎么在Grafana中配置表格，今天来记录下。&lt;/p&gt;&#xA;&lt;p&gt;&lt;img src=&#34;https://www.arloor.com/img/grafana-table-pannel.png&#34; alt=&#34;Alt text&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>SSH 配置与端口转发</title>
+      <link>https://www.arloor.com/posts/ssh-config/</link>
+      <pubDate>Thu, 16 Nov 2023 20:20:22 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/ssh-config/</guid>
+      <description>&lt;p&gt;这篇把我最常用的 SSH 隧道能力整理成一份可直接复用的笔记，覆盖：&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;本地端口转发（&lt;code&gt;-L&lt;/code&gt;）&lt;/li&gt;&#xA;&lt;li&gt;远程端口转发（&lt;code&gt;-R&lt;/code&gt;）&lt;/li&gt;&#xA;&lt;li&gt;动态端口转发（&lt;code&gt;-D&lt;/code&gt; / SOCKS5）&lt;/li&gt;&#xA;&lt;li&gt;&lt;code&gt;~/.ssh/config&lt;/code&gt; 里长期可维护的写法&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
+    </item>
+    <item>
+      <title>Springboot配置多个Mybatis的sqlSessionFactory</title>
+      <link>https://www.arloor.com/posts/springboot-mybatis-multi-sql-session-factory/</link>
+      <pubDate>Sun, 10 Sep 2023 15:26:56 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/springboot-mybatis-multi-sql-session-factory/</guid>
+      <description>&lt;p&gt;本文首先介绍Springboot的单数据源配置方式，并介绍其中的Springboot自动装配细节；其次介绍如何配置多数据源。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>MacOS睡眠和唤醒历史</title>
+      <link>https://www.arloor.com/posts/macos-sleep-wake-history/</link>
+      <pubDate>Sun, 13 Aug 2023 11:29:33 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/macos-sleep-wake-history/</guid>
+      <description>&lt;h2 id=&#34;查看用户唤醒历史&#34;&gt;查看用户唤醒历史&lt;/h2&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;pmset -g log|grep -v &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;DarkWake&amp;#34;&lt;/span&gt;|grep -E  &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Wake from&amp;#34;&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;查看所有睡眠和唤醒历史&#34;&gt;查看所有睡眠和唤醒历史&lt;/h2&gt;&#xA;&lt;p&gt;内容会有点多，而且包含DarkWake&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;pmset -g log|grep -E  &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Entering Sleep state|Wake from&amp;#34;&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;什么是darkwake&#34;&gt;什么是DarkWake&lt;/h2&gt;&#xA;&lt;p&gt;在 macOS 中，&amp;ldquo;DarkWake&amp;rdquo; 和 &amp;ldquo;Wake&amp;rdquo; 代表了两种不同类型的唤醒状态：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>谷歌日本搜索结果显示日文的解决方案</title>
+      <link>https://www.arloor.com/posts/jp-vps-google-settings/</link>
+      <pubDate>Sat, 12 Aug 2023 21:19:01 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/jp-vps-google-settings/</guid>
+      <description>&lt;p&gt;说到日本的服务器，最早用过一段时间的沪日iplc，现在在用&lt;a href=&#34;https://www.dmit.io/aff.php?aff=7132&#34;&gt;DMIT的PVM.TYO.Pro.Shinagawa&lt;/a&gt;，他们在延迟速率方面的表现都很好。有一点比较难受的是日本的google搜索结果总是有日文内容，这里说下解决方案。&lt;/p&gt;&#xA;&lt;p&gt;谷歌提供了“搜索设置”的功能，允许用户调整“搜索结果语言过滤器”，这个设置将会设置到cookie中，具体来说是NID这个cookie，过期时间是6个月。如果在6个月中有登出再登陆，这个cookie也会丢失，需要重新设置。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>K8S持久化卷、动态置备、StorageClass</title>
+      <link>https://www.arloor.com/posts/k8s-pv-pvc-dynamic-provisioning-storage-class/</link>
+      <pubDate>Mon, 31 Jul 2023 22:56:47 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/k8s-pv-pvc-dynamic-provisioning-storage-class/</guid>
+      <description>&lt;p&gt;在之前对K8S的使用中，已经用到了Volumes来给pod挂载文件，具体来说用到了HostPath、emptyDir、ConfigMap这几种类型的Volumes。最近在部署grafana时，遇到PersistentVolumeClaim的API类型，研究了一下，发现涉及的东西挺多的，有&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>使用node-exporter &#43; prometheus &#43; grafana 监控k8s集群</title>
+      <link>https://www.arloor.com/posts/k8s-rbac-prometheus-sd-relabel-config/</link>
+      <pubDate>Sun, 30 Jul 2023 23:02:21 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/k8s-rbac-prometheus-sd-relabel-config/</guid>
+      <description>&lt;p&gt;最近在K8S集群中部署了node-exporter + prometheus + grafana，具体过程可以参考我的Github项目&lt;a href=&#34;https://github.com/arloor/kubernetes-prometheus-grafana&#34;&gt;kubernetes-prometheus-grafana&lt;/a&gt;。这个博客用来记录下过程中的一些知识点，主要有这些：&lt;/p&gt;&#xA;&lt;table&gt;&#xA;  &lt;thead&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;th style=&#34;text-align: left&#34;&gt;主题&lt;/th&gt;&#xA;          &lt;th style=&#34;text-align: left&#34;&gt;详述&lt;/th&gt;&#xA;      &lt;/tr&gt;&#xA;  &lt;/thead&gt;&#xA;  &lt;tbody&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;K8S的RBAC&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;全称是基于角色的访问控制，K8S权限机制的基础&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;在Pod中访问ApiServer&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;Prometheus是运行在k8s集群中的一个pod，访问k8s的apiserver时需要一些鉴权机制&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;Prometheus Service Discovery&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;Prometheus是pull模型，需要自动地发现k8s集群中有哪些endpoing、node、service等，并watch其变更&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;Prometheus relabel_configs&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;在prometheus的抓取job中过滤、转换target的label&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;  &lt;/tbody&gt;&#xA;&lt;/table&gt;</description>
+    </item>
+    <item>
+      <title>使用K8S DaemonSet部署rust_http_proxy</title>
+      <link>https://www.arloor.com/posts/k3s-daemonset-rust-http-proxy/</link>
+      <pubDate>Sun, 23 Jul 2023 21:07:02 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/k3s-daemonset-rust-http-proxy/</guid>
+      <description>&lt;h2 id=&#34;整体说明&#34;&gt;整体说明&lt;/h2&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;tls的证书没有使用Secret，感觉没啥必要。&lt;/li&gt;&#xA;&lt;li&gt;&lt;del&gt;使用HostPort来暴露端口，并将coredns的deployment移动到外网的vps上，已避免ClusterFirst的dnsPolicy下的国内dns污染问题&lt;/del&gt;&lt;/li&gt;&#xA;&lt;li&gt;使用hostNetwork使用主机网络栈，意义在于暴露端口+使用host的DNS（无污染问题）&lt;/li&gt;&#xA;&lt;li&gt;使用envFrom comfigMap加载环境变量，这要求configMap中所有字段都是String类型，443、true、false要用双引号包裹。&lt;/li&gt;&#xA;&lt;li&gt;使用hostPath挂载nginx的目录，展示web网页。&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;h2 id=&#34;dockerfile&#34;&gt;Dockerfile&lt;/h2&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;FROM docker.io/redhat/ubi9-micro:9.2-9&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 设置时区为上海，ubi9-micro内置了tzdata &lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; echo &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Asia/Shanghai&amp;#34;&lt;/span&gt; &amp;gt; /etc/timezone&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;COPY target/x86_64-unknown-linux-musl/release/rust_http_proxy /&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;CMD &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/rust_http_proxy&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;用的RHEL家的ubi9-micro基础镜像，它和alpine差不多大小，用的glibc，没有musl-libc的一些兼容性问题，并且设置时区更加简单，而且我对RHEL家的东西很有好感，所以就用了。一些相关的介绍：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>在K8S集群中创建clash代理服务</title>
+      <link>https://www.arloor.com/posts/k3s-create-service-of-proxy/</link>
+      <pubDate>Sun, 23 Jul 2023 15:50:30 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/k3s-create-service-of-proxy/</guid>
+      <description>&lt;p&gt;学习下ConfigMap、Deployment、Service的用法。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>K3S多云环境下的离线部署</title>
+      <link>https://www.arloor.com/posts/k3s-multi-cloud-air-gap-install/</link>
+      <pubDate>Sun, 23 Jul 2023 11:01:10 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/k3s-multi-cloud-air-gap-install/</guid>
+      <description>&lt;p&gt;这几天把 k8s 折腾了个遍，个人觉得 k3s 更适合我，主要有五个优势&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;类似 springboot 的“约定优于配置”，就是默认给你一个开箱即用的东西，如果需要，再进行修改。而不是 k8s 那样样样要你配置&lt;/li&gt;&#xA;&lt;li&gt;内置&lt;a href=&#34;https://docs.k3s.io/networking/networking-services?_highlight=servicelb#service-load-balancer&#34;&gt;LoadBalancer 实现&lt;/a&gt;，而不是像 k8s 那样没有 LoadBalancer 实现，导致裸机安装情况下得用 NodePort、HostPort、HostNetwork 来暴露服务，或者安装 Metallb。&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;使用 Node 的 ip 作为 LoadBalancer 的 ip。——需要保证多个 LoaderBalancer Service 的端口不冲突&lt;/li&gt;&#xA;&lt;li&gt;具体实现见 &lt;a href=&#34;https://github.com/k3s-io/klipper-lb&#34;&gt;klipper-lb&lt;/a&gt;，比较简单。是通过 NAT 将流量转发到 Service 的 Cluster IP 上，然后 kube-proxy 再将流量转发到 Pod 上（这一步包含负载均衡和故障迁移能力）&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;ol start=&#34;3&#34;&gt;&#xA;&lt;li&gt;可以轻松的支持多云环境，对我这种有多个云厂商 vps 的玩家很友好&lt;/li&gt;&#xA;&lt;li&gt;资源消耗较少。虽然节点增加后，控制面的内存压力也不小&lt;/li&gt;&#xA;&lt;li&gt;文档&lt;a href=&#34;https://docs.k3s.io/&#34;&gt;docs.k3s.io&lt;/a&gt;很清晰。PS：不要看中文版的文档，也不要看 rancher 中国的文档，垃圾&lt;/li&gt;&#xA;&lt;/ol&gt;</description>
+    </item>
+    <item>
+      <title>Clash Tun模式和透明代理</title>
+      <link>https://www.arloor.com/posts/clash-tun-gateway/</link>
+      <pubDate>Sun, 23 Jul 2023 10:39:36 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/clash-tun-gateway/</guid>
+      <description>&lt;p&gt;大概前几年就玩过软路由，当时用openwrt作为主路由使用，一是折腾起来太麻烦，二是对家庭网络侵入性太大，三是当时用的机器风扇声音太大。用上M2的Macbook PRO、Mac MINI后，我才发现，原来低功耗的无风扇的被动散热的体验是真的安静。所以，这次软路由的搭建核心诉求是三个：1. 旁路由而不是主路由；2. 用Clash而不是openwrt；3. 用被动散热的机器，主打一个安静。最终的话，这次整了一台畅网N100先锋版，把附送给内存和硬盘散热的风扇拆了，走纯被动散热。最终成品如下，特点是小小的，稳稳的，烫烫的。&lt;/p&gt;&#xA;&lt;p&gt;&lt;img src=&#34;https://www.arloor.com/img/8aafce027a7a038b8c86497537075571_0.jpg&#34; alt=&#34;Alt text&#34;&gt;&lt;/p&gt;&#xA;&lt;p&gt;下面的内容是介绍下如何使用Clash tun模式搭建旁路由。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>使用Kubeadm安装K8S 1.27.3</title>
+      <link>https://www.arloor.com/posts/k8s-kubeadm/</link>
+      <pubDate>Wed, 19 Jul 2023 19:48:26 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/k8s-kubeadm/</guid>
+      <description>&lt;p&gt;尝试使用kubeadm安装k8s&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>K8s Kind使用</title>
+      <link>https://www.arloor.com/posts/k8s-kind/</link>
+      <pubDate>Tue, 18 Jul 2023 20:15:30 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/k8s-kind/</guid>
+      <description>&lt;p&gt;简单使用下kind&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Java内存监控</title>
+      <link>https://www.arloor.com/posts/java-memory-monitor/</link>
+      <pubDate>Tue, 18 Jul 2023 17:17:03 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/java-memory-monitor/</guid>
+      <description>&lt;p&gt;给一个Java内存监控的代码，具体监控：&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Netty直接内存使用&lt;/li&gt;&#xA;&lt;li&gt;堆内存使用量&lt;/li&gt;&#xA;&lt;li&gt;非堆内存使用量&lt;/li&gt;&#xA;&lt;li&gt;bufferPool内存使用量，主要有nio direct buffer和Mapped buffer&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
+    </item>
+    <item>
+      <title>使用Kickstart从Centos8/9自动安装RHEL9.2，并制作dd镜像</title>
+      <link>https://www.arloor.com/posts/kickstart-rhel9-from-8/</link>
+      <pubDate>Wed, 12 Jul 2023 09:58:57 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/kickstart-rhel9-from-8/</guid>
+      <description>&lt;p&gt;自动安装是通过 &lt;code&gt;pxeboot&lt;/code&gt; + &lt;code&gt; kickstart&lt;/code&gt;实现的，自动安装因为要通过内存承载liveos，所以内存要大一点。通过腾讯云CVM测试，建议是直接4G内存起步，反正按量计费下2小时自动销毁也就两块钱。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>vscode</title>
+      <link>https://www.arloor.com/posts/vscode/</link>
+      <pubDate>Tue, 11 Jul 2023 19:07:00 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/vscode/</guid>
+      <description>&lt;h2 id=&#34;字体配置使用-jetbrains-mono&#34;&gt;字体配置——使用 JetBrains Mono&lt;/h2&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;下载 Jetbrians Mono 字体：&lt;a href=&#34;https://www.jetbrains.com/lp/mono/#how-to-install&#34;&gt;how-to-install&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;解压缩&lt;/li&gt;&#xA;&lt;li&gt;安装&#xA;&lt;ol&gt;&#xA;&lt;li&gt;Mac 下将 ttf 文件夹下的文件全选，右击选择打开，安装所有字体&lt;/li&gt;&#xA;&lt;li&gt;Centos9 下， 将 ttf 文件夹下的文件全部移动到 &lt;code&gt;/usr/share/fonts/${newdir}&lt;/code&gt;下 , &lt;code&gt;yum install -y fontconfig&lt;/code&gt; 并执行 &lt;code&gt;fc-cache&lt;/code&gt; 。然后执行 &lt;code&gt;fc-list&lt;/code&gt; 即可看到新的字体&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;搜索 font family，改成 &lt;code&gt;&#39;JetBrains Mono&#39;, Menlo, Monaco, &#39;Courier New&#39;, monospace&lt;/code&gt; 。&lt;/li&gt;&#xA;&lt;li&gt;搜索 font size，改成 13。如果这个字体还不够大，可以 &lt;code&gt;command + +&lt;/code&gt;来放大 UI。&lt;/li&gt;&#xA;&lt;li&gt;搜索 line height，改成 1.6。&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;p&gt;TIPS：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>河西走廊：敦煌&amp;张掖</title>
+      <link>https://www.arloor.com/posts/dunhuang/</link>
+      <pubDate>Thu, 06 Jul 2023 20:51:35 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/dunhuang/</guid>
+      <description>&lt;div class=&#34;iframe-container&#34;&gt;&lt;iframe id=&#34;biliplayer&#34; src=&#34;//player.bilibili.com/player.html?bvid=BV1fs4y1F7aV&amp;page=1&amp;high_quality=1&amp;danmaku=0&amp;cid=1038023328&#34; scrolling=&#34;no&#34; border=&#34;0&#34; frameborder=&#34;no&#34; framespacing=&#34;0&#34; allowfullscreen=&#34;true&#34; loading=&#34;lazy&#34; &gt; &lt;/iframe&gt;&lt;/div&gt;</description>
+    </item>
+    <item>
+      <title>Grafana文档学习</title>
+      <link>https://www.arloor.com/posts/grafana-docs/</link>
+      <pubDate>Sun, 02 Jul 2023 15:29:06 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/grafana-docs/</guid>
+      <description>&lt;p&gt;一直在用Grafana，从未好好看过他的文档，这次发现还是有不少东西的。借着这次学习Grafana的机会，复习下指标相关的东西。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Git常用命令</title>
+      <link>https://www.arloor.com/posts/git-commands/</link>
+      <pubDate>Wed, 07 Jun 2023 14:31:05 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/git-commands/</guid>
+      <description>&lt;p&gt;这篇记录我最常用、且相对不容易踩坑的 Git 命令。覆盖场景包括：&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;不同仓库使用不同身份&lt;/li&gt;&#xA;&lt;li&gt;SSH + 代理访问 GitHub&lt;/li&gt;&#xA;&lt;li&gt;凭证管理&lt;/li&gt;&#xA;&lt;li&gt;改写历史提交&lt;/li&gt;&#xA;&lt;li&gt;清理敏感文件历史&lt;/li&gt;&#xA;&lt;li&gt;忽略已追踪文件&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
+    </item>
+    <item>
+      <title>链路追踪业界对标</title>
+      <link>https://www.arloor.com/posts/notion/%E9%93%BE%E8%B7%AF%E8%BF%BD%E8%B8%AA%E4%B8%9A%E7%95%8C%E5%AF%B9%E6%A0%87/</link>
+      <pubDate>Thu, 18 May 2023 17:51:10 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/notion/%E9%93%BE%E8%B7%AF%E8%BF%BD%E8%B8%AA%E4%B8%9A%E7%95%8C%E5%AF%B9%E6%A0%87/</guid>
+      <description>&lt;h1 id=&#34;链路追踪业界对标&#34;&gt;链路追踪业界对标&lt;/h1&gt;&#xA;&lt;table&gt;&#xA;  &lt;thead&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;th&gt;&lt;/th&gt;&#xA;          &lt;th&gt;阿里&lt;/th&gt;&#xA;          &lt;th&gt;腾讯&lt;/th&gt;&#xA;          &lt;th&gt;美团&lt;/th&gt;&#xA;          &lt;th&gt;SkyWalking&lt;/th&gt;&#xA;          &lt;th&gt;小红书&lt;/th&gt;&#xA;      &lt;/tr&gt;&#xA;  &lt;/thead&gt;&#xA;  &lt;tbody&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;产品名称&lt;/td&gt;&#xA;          &lt;td&gt;&lt;a href=&#34;https://sls4service.console.aliyun.com/lognext/trace/qs-demos/sls-mall?resource=/trace/sls-mall/explorer&amp;amp;isShare=true&amp;amp;readOnly=true&amp;amp;hideTopbar=true&amp;amp;hiddenAppBread=true&amp;amp;hiddenPSql=true&amp;amp;hiddenEtl=true&#34;&gt;SLS trace&lt;/a&gt;&lt;/td&gt;&#xA;          &lt;td&gt;&lt;a href=&#34;https://console.cloud.tencent.com/monitor/apm/system?from=now-15m&amp;amp;to=now&amp;amp;team=apm-ylTJfTSbn&amp;amp;rid=1&amp;amp;role=server&#34;&gt;APM应用性能监控&lt;/a&gt;&lt;/td&gt;&#xA;          &lt;td&gt;Mtrace&lt;/td&gt;&#xA;          &lt;td&gt;&lt;a href=&#34;http://demo.skywalking.apache.org/&#34;&gt;SkyWalking&lt;/a&gt;&lt;/td&gt;&#xA;          &lt;td&gt;Xray-trace&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;成本&lt;/td&gt;&#xA;          &lt;td&gt;低&lt;/td&gt;&#xA;          &lt;td&gt;较高&lt;/td&gt;&#xA;          &lt;td&gt;较低&lt;/td&gt;&#xA;          &lt;td&gt;高&lt;/td&gt;&#xA;          &lt;td&gt;较低&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;SLA&lt;/td&gt;&#xA;          &lt;td&gt;&lt;/td&gt;&#xA;          &lt;td&gt;&lt;/td&gt;&#xA;          &lt;td&gt;&lt;/td&gt;&#xA;          &lt;td&gt;&lt;/td&gt;&#xA;          &lt;td&gt;&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;副本&lt;/td&gt;&#xA;          &lt;td&gt;三副本&lt;/td&gt;&#xA;          &lt;td&gt;三副本&lt;/td&gt;&#xA;          &lt;td&gt;三副本&lt;/td&gt;&#xA;          &lt;td&gt;可配置&lt;/td&gt;&#xA;          &lt;td&gt;单副本&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;语言支持&lt;/td&gt;&#xA;          &lt;td&gt;多语言(10种语言+)&lt;/td&gt;&#xA;          &lt;td&gt;Java、Go、Python、C++ 、PHP&lt;/td&gt;&#xA;          &lt;td&gt;java、go、C++&lt;/td&gt;&#xA;          &lt;td&gt;多语言&lt;/td&gt;&#xA;          &lt;td&gt;&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;协议支持&lt;/td&gt;&#xA;          &lt;td&gt;支持OpenTelemetry、Jaeger、Zipkin协议接入&lt;/td&gt;&#xA;          &lt;td&gt;支持OpenTelemetry、Jaeger、SkyWalking协议接入&lt;/td&gt;&#xA;          &lt;td&gt;自研协议，主要借鉴pinpoint&lt;/td&gt;&#xA;          &lt;td&gt;自研协议+OpenTelemetry&lt;/td&gt;&#xA;          &lt;td&gt;自研协议&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;数据规范&lt;/td&gt;&#xA;          &lt;td&gt;OpenTelemetry Trace 1.0&lt;/td&gt;&#xA;          &lt;td&gt;OpenTracing协议&lt;/td&gt;&#xA;          &lt;td&gt;自研规范&lt;/td&gt;&#xA;          &lt;td&gt;自研规范&lt;/td&gt;&#xA;          &lt;td&gt;自研规范&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;弹性能力&lt;/td&gt;&#xA;          &lt;td&gt;强&lt;/td&gt;&#xA;          &lt;td&gt;强&lt;/td&gt;&#xA;          &lt;td&gt;较弱&lt;/td&gt;&#xA;          &lt;td&gt;较弱&lt;/td&gt;&#xA;          &lt;td&gt;较弱&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;底层存储&lt;/td&gt;&#xA;          &lt;td&gt;自研LogStore、MetricStore&lt;/td&gt;&#xA;          &lt;td&gt;ES&lt;/td&gt;&#xA;          &lt;td&gt;ClickHouse、HBase&lt;/td&gt;&#xA;          &lt;td&gt;ES&lt;/td&gt;&#xA;          &lt;td&gt;ClickHouse&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;异地多活&lt;/td&gt;&#xA;          &lt;td&gt;是&lt;/td&gt;&#xA;          &lt;td&gt;是&lt;/td&gt;&#xA;          &lt;td&gt;否&lt;/td&gt;&#xA;          &lt;td&gt;- 依赖部署架构&lt;/td&gt;&#xA;          &lt;td&gt;否&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;点查性能&lt;/td&gt;&#xA;          &lt;td&gt;高&lt;/td&gt;&#xA;          &lt;td&gt;高&lt;/td&gt;&#xA;          &lt;td&gt;高&lt;/td&gt;&#xA;          &lt;td&gt;高&lt;/td&gt;&#xA;          &lt;td&gt;较低&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;拓扑染色&lt;/td&gt;&#xA;          &lt;td&gt;不支持&lt;/td&gt;&#xA;          &lt;td&gt;不支持&lt;/td&gt;&#xA;          &lt;td&gt;支持&lt;/td&gt;&#xA;          &lt;td&gt;不支持&lt;/td&gt;&#xA;          &lt;td&gt;建设中&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;性能指标生成&lt;/td&gt;&#xA;          &lt;td&gt;支持&lt;/td&gt;&#xA;          &lt;td&gt;支持&lt;/td&gt;&#xA;          &lt;td&gt;不支持&lt;/td&gt;&#xA;          &lt;td&gt;支持&lt;/td&gt;&#xA;          &lt;td&gt;建设中&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;完整日志查看&lt;/td&gt;&#xA;          &lt;td&gt;支持&lt;/td&gt;&#xA;          &lt;td&gt;支持&lt;/td&gt;&#xA;          &lt;td&gt;支持&lt;/td&gt;&#xA;          &lt;td&gt;不完备&lt;/td&gt;&#xA;          &lt;td&gt;不支持&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;告警能力&lt;/td&gt;&#xA;          &lt;td&gt;支持&lt;/td&gt;&#xA;          &lt;td&gt;支持&lt;/td&gt;&#xA;          &lt;td&gt;不支持&lt;/td&gt;&#xA;          &lt;td&gt;不支持&lt;/td&gt;&#xA;          &lt;td&gt;不支持&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;慢事务智能分析&lt;/td&gt;&#xA;          &lt;td&gt;支持&lt;/td&gt;&#xA;          &lt;td&gt;不支持&lt;/td&gt;&#xA;          &lt;td&gt;不支持&lt;/td&gt;&#xA;          &lt;td&gt;不支持&lt;/td&gt;&#xA;          &lt;td&gt;不支持&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;Span粒度区分&lt;/td&gt;&#xA;          &lt;td&gt;无法区分&lt;/td&gt;&#xA;          &lt;td&gt;无法区分&lt;/td&gt;&#xA;          &lt;td&gt;可区分RPC级别/内部方法级别&lt;/td&gt;&#xA;          &lt;td&gt;无法区分&lt;/td&gt;&#xA;          &lt;td&gt;可区分RPC级别/内部方法级别&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;  &lt;/tbody&gt;&#xA;&lt;/table&gt;</description>
+    </item>
+    <item>
+      <title>tcpdump</title>
+      <link>https://www.arloor.com/posts/tcpdump/</link>
+      <pubDate>Wed, 17 May 2023 14:43:02 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/tcpdump/</guid>
+      <description>&lt;p&gt;工作中需要用到tcpdump，这里做一下备忘，主要知识来源是 &lt;code&gt;man tcpdump&lt;/code&gt;和ChatGPT-4。&lt;/p&gt;&#xA;&lt;h2 id=&#34;常用命令&#34;&gt;常用命令&lt;/h2&gt;&#xA;&lt;h3 id=&#34;查看明文通信内容&#34;&gt;查看明文通信内容&lt;/h3&gt;&#xA;&lt;p&gt;查看IPv4的到80端口的http协议明文。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Openssl使用：自定义CA签发证书、私钥格式、s_client使用</title>
+      <link>https://www.arloor.com/posts/openssl_ca_type_s_client/</link>
+      <pubDate>Thu, 11 May 2023 11:35:02 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/openssl_ca_type_s_client/</guid>
+      <description>&lt;h2 id=&#34;签发ca并使用ca签发ssl证书&#34;&gt;签发CA并使用CA签发SSL证书&lt;/h2&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;在 &lt;code&gt;~/ca&lt;/code&gt; 创建CA证书和私钥，私钥为 &lt;code&gt;ca_key.pem&lt;/code&gt; ，公钥为 &lt;code&gt;ca.pem&lt;/code&gt; 。 &lt;code&gt;ca.pem&lt;/code&gt; 后续将被安装到系统并信任。&lt;/li&gt;&#xA;&lt;li&gt;在 &lt;code&gt;~/ca/certs&lt;/code&gt; 创建自定义SSL证书，私钥为 &lt;code&gt;privkey.pem&lt;/code&gt; ，公钥为 &lt;code&gt;cert.pem&lt;/code&gt;。他们将被用于启动https服务。&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;p&gt;脚本下载：&lt;a href=&#34;https://www.arloor.com/sh/ca.sh&#34;&gt;ca.sh&lt;/a&gt;。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>RPC拓扑-流量视角（二期）</title>
+      <link>https://www.arloor.com/posts/notion/rpc%E6%8B%93%E6%89%91-%E6%B5%81%E9%87%8F%E8%A7%86%E8%A7%92%E4%BA%8C%E6%9C%9F/</link>
+      <pubDate>Wed, 10 May 2023 21:26:41 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/notion/rpc%E6%8B%93%E6%89%91-%E6%B5%81%E9%87%8F%E8%A7%86%E8%A7%92%E4%BA%8C%E6%9C%9F/</guid>
+      <description>&lt;h1 id=&#34;rpc拓扑-流量视角二期&#34;&gt;RPC拓扑-流量视角（二期）&lt;/h1&gt;&#xA;&lt;p&gt;&lt;img src=&#34;https://www.arloor.com/img/99f9bd7148129f4d7d399620207e8727.png&#34; alt=&#34;99f9bd7148129f4d7d399620207e8727.png&#34;&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;优化点&#34;&gt;优化点&lt;/h2&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;“流量入口“增加模糊搜索能力&lt;/li&gt;&#xA;&lt;li&gt;增加“不区分调用方”的选项&lt;/li&gt;&#xA;&lt;li&gt;增加提示：“指标数据由采样率还原得到，和实际情况可能有微小差距。采样率越高或qps越高，估算得越准。”&lt;/li&gt;&#xA;&lt;li&gt;显示级别默认为“服务级别”，且变更为下拉框选择，因为“不区分调用方”也是checkbox，三个checkbox连一起操作起来不方便&lt;/li&gt;&#xA;&lt;li&gt;“调用方”、“被调用方”拆分为“调用方”、“调用方接口”、“被调用方”、“被调用方接口”，http响应中新增了对应的四个字段。“服务级别”时，不显示“调用方接口”、“被调用方接口”这两列。&lt;/li&gt;&#xA;&lt;li&gt;“样本Trace”列显示的值从“详情”变更为examplar的值（就是traceId）&lt;/li&gt;&#xA;&lt;li&gt;“最大耗时”列增加提示：“采样率不为百分之百时，该值更像TP值。例如1%采样率下，该值更接近TP99或TP999。因为这是1%数据中的最大耗时。采样率越大，越接近真实最大值，或者说9的位数越多。”&lt;/li&gt;&#xA;&lt;li&gt;增加“显示详情”的操作，展示类似“服务高级视角”中的抽屉，抽屉展示的信息如下：&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;p&gt;&lt;img src=&#34;https://www.arloor.com/img/a24af5bf56daa1c1182916d489d296a2.png&#34; alt=&#34;a24af5bf56daa1c1182916d489d296a2.png&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>RPC拓扑-服务高级视角</title>
+      <link>https://www.arloor.com/posts/notion/rpc%E6%8B%93%E6%89%91-%E6%9C%8D%E5%8A%A1%E9%AB%98%E7%BA%A7%E8%A7%86%E8%A7%92/</link>
+      <pubDate>Wed, 10 May 2023 14:38:22 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/notion/rpc%E6%8B%93%E6%89%91-%E6%9C%8D%E5%8A%A1%E9%AB%98%E7%BA%A7%E8%A7%86%E8%A7%92/</guid>
+      <description>&lt;h1 id=&#34;rpc拓扑-服务高级视角&#34;&gt;RPC拓扑-服务高级视角&lt;/h1&gt;&#xA;&lt;h2 id=&#34;背景&#34;&gt;背景&lt;/h2&gt;&#xA;&lt;p&gt;当前“RPC拓扑”支持“服务视角”和“流量视角”，所谓视角即输入什么参数来查询拓扑。“服务视角”是输入服务名来查看拓扑，“流量视角”是输入入口url来查看拓扑。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>trace详情搜索性能优化</title>
+      <link>https://www.arloor.com/posts/notion/trace%E8%AF%A6%E6%83%85%E6%90%9C%E7%B4%A2%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/</link>
+      <pubDate>Wed, 10 May 2023 14:28:41 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/notion/trace%E8%AF%A6%E6%83%85%E6%90%9C%E7%B4%A2%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/</guid>
+      <description>&lt;h1 id=&#34;trace详情搜索性能优化&#34;&gt;trace详情搜索性能优化&lt;/h1&gt;&#xA;&lt;h2 id=&#34;现状&#34;&gt;现状&lt;/h2&gt;&#xA;&lt;p&gt;当前根据traceId点查trace详情的耗时很长，有两个影响：&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;点查trace详情耗时长，用户体验差。&lt;/li&gt;&#xA;&lt;li&gt;链路的未来功能演进需要一次获取多个traceId的详情。例如：通过多个trace详情的联合分析，以智能地定位慢请求根因。&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;p&gt;目前点查trace详情的主要耗时来源于下面的sql，用途是获取改traceId下的所有app和开始结束时间。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>新traceId格式</title>
+      <link>https://www.arloor.com/posts/notion/%E6%96%B0traceid%E6%A0%BC%E5%BC%8F/</link>
+      <pubDate>Wed, 10 May 2023 11:26:48 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/notion/%E6%96%B0traceid%E6%A0%BC%E5%BC%8F/</guid>
+      <description>&lt;h1 id=&#34;新traceid格式&#34;&gt;新traceId格式&lt;/h1&gt;&#xA;&lt;h2 id=&#34;背景&#34;&gt;&lt;strong&gt;背景&lt;/strong&gt;&lt;/h2&gt;&#xA;&lt;p&gt;当前端上使用一个long值的16进制的字符串作为traceId。目前存在两个问题：&lt;/p&gt;&#xA;&lt;p&gt;1. 64位随机数的碰撞概率高，目前已经出现traceId碰撞的情况&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Entry级别拓扑及性能指标计算</title>
+      <link>https://www.arloor.com/posts/notion/entry%E7%BA%A7%E5%88%AB%E6%8B%93%E6%89%91%E5%8F%8A%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87%E8%AE%A1%E7%AE%97/</link>
+      <pubDate>Wed, 10 May 2023 11:15:59 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/notion/entry%E7%BA%A7%E5%88%AB%E6%8B%93%E6%89%91%E5%8F%8A%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87%E8%AE%A1%E7%AE%97/</guid>
+      <description>&lt;h1 id=&#34;entry级别拓扑及性能指标计算&#34;&gt;Entry级别拓扑及性能指标计算&lt;/h1&gt;&#xA;&lt;h2 id=&#34;背景&#34;&gt;&lt;strong&gt;背景&lt;/strong&gt;&lt;/h2&gt;&#xA;&lt;p&gt;上下游拓扑及上下游调用性能指标是链路监控的重要部份。从生成过程来看，先给trace个案进行分类，然后按类汇总出同类trace的调用路径，这个调用路径通常是一个有向无环图，也就是拓扑。按照什么标准进行分类是上述过程的重点，上面所说的分类和汇总，表述成SQL大概就是聚合函数（count、avg等）和groupBy语句的结合，其中groupBy语句就是分类标准， count和avg是相关的性能指标。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>W3c Trace Context</title>
+      <link>https://www.arloor.com/posts/w3c-trace-context/</link>
+      <pubDate>Thu, 23 Mar 2023 14:42:06 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/w3c-trace-context/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Generate by ChatGPT4&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;W3C (World Wide Web Consortium)推出了Trace Context规范，旨在规范分布式追踪中跟踪信息的传播格式。Trace Context规范主要定义了两个HTTP头部字段：&lt;strong&gt;&lt;code&gt;traceparent&lt;/code&gt;&lt;strong&gt;和&lt;/strong&gt;&lt;code&gt;tracestate&lt;/code&gt;&lt;/strong&gt;。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>蔡司验光配镜纪实</title>
+      <link>https://www.arloor.com/posts/zeiss-glasses/</link>
+      <pubDate>Tue, 07 Mar 2023 17:19:12 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/zeiss-glasses/</guid>
+      <description>&lt;p&gt;今天花重金在一家蔡司专家店配了新的眼镜，来记录下过程。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>毕业后的这四年</title>
+      <link>https://www.arloor.com/posts/years-after-graduation/</link>
+      <pubDate>Mon, 06 Mar 2023 16:54:15 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/years-after-graduation/</guid>
+      <description>&lt;p&gt;我即将在这个阳光明媚的春天离开美团，草草总结下毕业后的这四年。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>千岛湖之旅</title>
+      <link>https://www.arloor.com/posts/lake-with-thousands-of-island/</link>
+      <pubDate>Mon, 20 Feb 2023 23:35:10 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/lake-with-thousands-of-island/</guid>
+      <description>&lt;p&gt;第一次剪一个简短的视频记录生活&lt;/p&gt;&#xA;&#xA;&#xA;&#xA;&#xA;&lt;div class=&#34;iframe-container&#34;&gt;&lt;iframe id=&#34;biliplayer&#34; src=&#34;//player.bilibili.com/player.html?bvid=BV15b411Q71m&amp;page=1&amp;high_quality=1&amp;danmaku=0&amp;cid=1038023328&#34; scrolling=&#34;no&#34; border=&#34;0&#34; frameborder=&#34;no&#34; framespacing=&#34;0&#34; allowfullscreen=&#34;true&#34; loading=&#34;lazy&#34; &gt; &lt;/iframe&gt;&lt;/div&gt;</description>
+    </item>
+    <item>
+      <title>Clash透明代理</title>
+      <link>https://www.arloor.com/posts/clash-tpproxy/</link>
+      <pubDate>Thu, 19 Jan 2023 13:55:54 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/clash-tpproxy/</guid>
+      <description>&lt;p&gt;clash透明代理可以使用ShellClash，这里记录下其中的核心技术，掌握核心技术才好。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>使用Surge Mac版作为旁路由网关</title>
+      <link>https://www.arloor.com/posts/mac-mini-surge-gateway/</link>
+      <pubDate>Sat, 07 Jan 2023 20:55:01 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/mac-mini-surge-gateway/</guid>
+      <description>&lt;p&gt;记录下使用Surge Mac版作为旁路由网关&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Starship Shell</title>
+      <link>https://www.arloor.com/posts/starship-shell/</link>
+      <pubDate>Fri, 16 Dec 2022 21:22:57 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/starship-shell/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>从异地多活到set化架构</title>
+      <link>https://www.arloor.com/posts/set/</link>
+      <pubDate>Mon, 28 Nov 2022 17:21:06 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/set/</guid>
+      <description>&lt;p&gt;这也是老图了&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>安卓手机安装google三件套</title>
+      <link>https://www.arloor.com/posts/other/google-service-framework-install/</link>
+      <pubDate>Wed, 26 Oct 2022 00:00:00 +0000</pubDate>
+      <guid>https://www.arloor.com/posts/other/google-service-framework-install/</guid>
+      <description>&lt;p&gt;之前在telegram群里有人问，怎么给安卓手机安装谷歌三件套。他说的谷歌三件套大概就是google service framework(谷歌服务框架)、google play service、google play store。这里介绍一下如何安装这三个软件。&lt;strong&gt;对华为手机本文无效，请看文末贴的youtube链接的方案&lt;/strong&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Rust学习路径</title>
+      <link>https://www.arloor.com/posts/rust/pick-up-rust/</link>
+      <pubDate>Thu, 22 Sep 2022 13:57:38 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/rust/pick-up-rust/</guid>
+      <description>&lt;h2 id=&#34;为什么学习-rust&#34;&gt;为什么学习 rust？&lt;/h2&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;高性能：Rust 速度惊人且内存利用率极高。由于没有运行时和垃圾回收，它能够胜任对性能要求特别高的服务，可以在嵌入式设备上运行，还能轻松和其他语言集成。&lt;/li&gt;&#xA;&lt;li&gt;可靠性：Rust 丰富的类型系统和所有权模型保证了内存安全和线程安全，让您在编译期就能够消除各种各样的错误。&lt;/li&gt;&#xA;&lt;li&gt;生产力：Rust 拥有出色的文档、友好的编译器和清晰的错误提示信息， 还集成了一流的工具——包管理器和构建工具， 智能地自动补全和类型检验的多编辑器支持， 以及自动格式化代码等等。&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/blockquote&gt;</description>
+    </item>
+    <item>
+      <title>威联通NAS折腾</title>
+      <link>https://www.arloor.com/posts/qnap-play/</link>
+      <pubDate>Sat, 17 Sep 2022 14:55:19 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/qnap-play/</guid>
+      <description>&lt;p&gt;入手了一台威联通TS-564，当作给自己的奖励。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>什么是trace，分布式调用监控的本质是什么？</title>
+      <link>https://www.arloor.com/posts/what-is-traceing/</link>
+      <pubDate>Fri, 12 Aug 2022 14:40:45 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/what-is-traceing/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Clickhouse学习</title>
+      <link>https://www.arloor.com/posts/clickhouse/</link>
+      <pubDate>Thu, 30 Jun 2022 14:37:51 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/clickhouse/</guid>
+      <description>&lt;p&gt;ClickHouse是一个列式数据库管理系统，可用于联机分析（OLAP）。ClickHouse最常用的表引擎是MergeTree，下面主要围绕该种表引擎展开。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Clickhouse存储Trace调研</title>
+      <link>https://www.arloor.com/posts/clickhouse-trace/</link>
+      <pubDate>Tue, 28 Jun 2022 15:35:44 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/clickhouse-trace/</guid>
+      <description>&lt;p&gt;clickhouse是开源的纯列式数据库，定位是OLAP数据库。因为他的一些特性，也广泛用于监控领域，一方面代替时序数据库，存储多维度指标，另一方面也用于存储trace数据。这个博客的目的就是调研下业界如何使用clickhouse存储trace的，围绕表结构和查询sql语句展开，主要调研&lt;a href=&#34;https://github.com/uptrace/uptrace&#34;&gt;uptrace&lt;/a&gt;的实现。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Opentelemetry Java自动埋点实现</title>
+      <link>https://www.arloor.com/posts/opentelemetry-java-instrumention/</link>
+      <pubDate>Wed, 22 Jun 2022 11:11:07 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/opentelemetry-java-instrumention/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://www.arloor.com/posts/opentelemetry-trace/&#34;&gt;Opentelemetry是怎么做链路追踪的&lt;/a&gt;介绍了opentelemetry的API和SDK实现，也介绍了如何进行手动买点。这篇博客是介绍如何进行自动埋点，这当然要用到javaagent技术了。&lt;a href=&#34;https://www.arloor.com/posts/java-agent/&#34;&gt;Java Agent实现指南&lt;/a&gt;有写过javaagent的实现指南和类加载的坑，今天看看opentelemetry是如何做的，其github地址是&lt;a href=&#34;https://github.com/open-telemetry/opentelemetry-java-instrumentation&#34;&gt;opentelemetry-java-instrumentation&lt;/a&gt;，接下来应该就是跟着代码流水账了。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Go GC初探</title>
+      <link>https://www.arloor.com/posts/go-gc/</link>
+      <pubDate>Thu, 16 Jun 2022 10:51:12 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/go-gc/</guid>
+      <description>&lt;p&gt;Go目前的GC方案是三色标记法+混合写屏障。&lt;/p&gt;&#xA;&lt;p&gt;Golang的垃圾回收（GC）算法使用的是无无分代（对象没有代际之分）、不整理（回收过程中不对对象进行移动与整理）、并发（与用户代码并发执行）的三色标记清扫算法。原因在于：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Caddy源码阅读</title>
+      <link>https://www.arloor.com/posts/caddy-code-study/</link>
+      <pubDate>Tue, 14 Jun 2022 14:33:18 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/caddy-code-study/</guid>
+      <description>&lt;p&gt;之前我们用了caddy的forwardproxy插件，来看看他是怎么做的&lt;/p&gt;&#xA;&lt;h2 id=&#34;go内置的http服务器实现&#34;&gt;go内置的http服务器实现&lt;/h2&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-go&#34; data-lang=&#34;go&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;http&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;ListenAndServe&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;:8080&amp;#34;&lt;/span&gt;, &lt;span style=&#34;color:#66d9ef&#34;&gt;nil&lt;/span&gt;)&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;如上即可启动go内置的http服务器，第二个参数是nil，于是go会使用内置的handler，代码如下&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>GO PProf使用</title>
+      <link>https://www.arloor.com/posts/go-pprof/</link>
+      <pubDate>Thu, 02 Jun 2022 00:33:53 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/go-pprof/</guid>
+      <description>&lt;p&gt;记录下如何使用pprof&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>dd安装rhel8</title>
+      <link>https://www.arloor.com/posts/rhel8-dd-install/</link>
+      <pubDate>Tue, 10 May 2022 14:27:20 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/rhel8-dd-install/</guid>
+      <description>&lt;p&gt;centos8没有了，虽然Red Hat推出了开发者计划，允许用户使用免费的rhel8，但是云服务厂商普遍没有提供rhel8的镜像，一般的用户还是没有办法在vps上用上rhel8，就连centos8的替代品rocky linux、almalinux大部分云服务厂商也没有提供。&lt;/p&gt;&#xA;&lt;p&gt;这个博客就是介绍下，如何在公有云vps上通过dd写盘安装rhel8系统。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Shell编程笔记</title>
+      <link>https://www.arloor.com/posts/shell-tricks/</link>
+      <pubDate>Sun, 08 May 2022 17:19:30 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/shell-tricks/</guid>
+      <description>&lt;p&gt;个人搞了很多零散的 shell 脚本，开个博客统一整理下&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Skywalking v8.9.1 源码阅读</title>
+      <link>https://www.arloor.com/posts/skywalking-codes-studying/</link>
+      <pubDate>Wed, 20 Apr 2022 14:18:04 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/skywalking-codes-studying/</guid>
+      <description>&lt;p&gt;skywalking搞了STAM流拓扑分析方法，具体见&lt;a href=&#34;https://github.com/wu-sheng/STAM/blob/master/README-cn.md&#34;&gt;README-cn.md&lt;/a&gt;，简单来说就是将上游的Service、Service Instance等信息放在下游span中，从而一个span就具有上游Service和下游Service的信息，从而直接聚合出一个依赖关系，避免了通过时间窗口聚合。&lt;/p&gt;&#xA;&lt;p&gt;这篇博客的内容是从STAM实现到skywalking的整体架构。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Skywalking v8.9.1文档学习</title>
+      <link>https://www.arloor.com/posts/skywalking-study/</link>
+      <pubDate>Tue, 19 Apr 2022 21:16:14 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/skywalking-study/</guid>
+      <description>&lt;p&gt;看看skywalking&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>pipeline模式的一种实现</title>
+      <link>https://www.arloor.com/posts/streaming-pipeline-design/</link>
+      <pubDate>Tue, 19 Apr 2022 11:42:56 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/streaming-pipeline-design/</guid>
+      <description>&lt;p&gt;一种流式编程的代码&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Hyde-Hyde主题修改</title>
+      <link>https://www.arloor.com/posts/modification-to-hyde-hyde/</link>
+      <pubDate>Sun, 17 Apr 2022 20:22:35 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/modification-to-hyde-hyde/</guid>
+      <description>&lt;p&gt;本博客用的是hugo的hyde-hyde主题，在其基础上做了一些改进，具体如下：&lt;/p&gt;&#xA;&lt;h2 id=&#34;对高分屏的宽度适配&#34;&gt;对高分屏的宽度适配&lt;/h2&gt;&#xA;&lt;p&gt;下面这个是我自己提的issue&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>18岁以前的我</title>
+      <link>https://www.arloor.com/posts/i-was-young/</link>
+      <pubDate>Tue, 12 Apr 2022 16:42:49 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/i-was-young/</guid>
+      <description>&lt;p&gt;我是溧阳人。小学老师说溧阳是鱼米之乡，“江南可采莲，莲叶何田田”，而我所见河流不多，居民也不以鱼米为生，只有春汛的时候，肉眼可见的溪流变得湍急，突然的一天就快漫过了堤岸，那些小河才有了一些些的存在感。至于船舶，那是干“偷鱼”营生的人和十几公里外的大河才有的东西。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Java自定义Classloader</title>
+      <link>https://www.arloor.com/posts/java-diy-classloader/</link>
+      <pubDate>Mon, 07 Mar 2022 20:29:21 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/java-diy-classloader/</guid>
+      <description>&lt;p&gt;看看怎么做类加载隔离&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Java Agent实现指南</title>
+      <link>https://www.arloor.com/posts/java-agent/</link>
+      <pubDate>Mon, 07 Mar 2022 14:11:11 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/java-agent/</guid>
+      <description>&lt;p&gt;Java Agent是字节码修改技术，Mtrace使用Java Agent修改字节码来实现trace的跨线程传递，opentelemetry也通过Java Agent来实现该需求。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Opentelemetry是怎么做链路追踪的</title>
+      <link>https://www.arloor.com/posts/opentelemetry-trace/</link>
+      <pubDate>Sun, 12 Dec 2021 11:11:38 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/opentelemetry-trace/</guid>
+      <description>&lt;p&gt;云原生可观测技术是云原生下很火的一个命题，opentelemetry的定位是统一metrics,trace和log的协议、api、sdk和exporter，他越来越成为云原生技术体系下的可观测性标准。这个博客就是来探究下opentelemetry是什么，做什么，怎么做的。&lt;/p&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;OpenTelemetry is a collection of tools, APIs, and SDKs. Use it to instrument, generate, collect, and export telemetry data (metrics, logs, and traces) to help you analyze your software’s performance and behavior.&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;上面是&lt;a href=&#34;https://opentelemetry.io/&#34;&gt;opentelemetry官网&lt;/a&gt;对自己的定位。抽取一下关键词，opentelemetry仅提供了api和SDK，不负责后端实现（后端由prometheus、jaeger等实现），用这些api和SDK，你可以做性能数据埋点，生成、收集和导出（generate, collect, and export）监控数据。对这段话最终的理解是opentelemetry只做SDK层面的事，职责的边缘是export数据即止。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Springboot内置Tomcat的配置</title>
+      <link>https://www.arloor.com/posts/springboot-tomcat-config/</link>
+      <pubDate>Mon, 27 Sep 2021 17:21:58 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/springboot-tomcat-config/</guid>
+      <description>&lt;p&gt;背景：需要提供一个配置服务给60w+机器，没台机器每分钟请求一次拉取最新配置。springboot的默认tomcat配置是不行的，研究下tomcat有哪些配置项，以及如何在springboot中配置。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Arthas</title>
+      <link>https://www.arloor.com/posts/arthas/</link>
+      <pubDate>Thu, 02 Sep 2021 22:21:36 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/arthas/</guid>
+      <description>&lt;p&gt;arthas用来动态调试很好用&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>一致性hash</title>
+      <link>https://www.arloor.com/posts/consistent-hashing/</link>
+      <pubDate>Mon, 23 Aug 2021 11:02:16 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/consistent-hashing/</guid>
+      <description>&lt;p&gt;给出一致性hash的代码&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>领域驱动设计</title>
+      <link>https://www.arloor.com/posts/what-ddd/</link>
+      <pubDate>Fri, 14 May 2021 10:39:49 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/what-ddd/</guid>
+      <description>&lt;h2 id=&#34;为什么要搞领域驱动设计&#34;&gt;为什么要搞领域驱动设计&lt;/h2&gt;&#xA;&lt;p&gt;传统的软件开发模式有结构化设计，以数据为中心设计，面向对象设计。&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;结构化设计：面向流程，面向过程的设计。先做A，再做B，最后做C。由过程之间的组合完成整体的系统功能&lt;/li&gt;&#xA;&lt;li&gt;以数据为中心设计：先设计数据库ER图，然后再进行设计。持久化数据在软件应用中加工组合修改，反馈给用户，修改持久化到数据库。&lt;/li&gt;&#xA;&lt;li&gt;面向对象设计：抽象出对象这个概念，使其在数据属性外增加职责。由对象之间协作完成整体的系统功能。&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;软件是对现实的模拟。软件设计的这种演进，归根结底原因是现在的软件所要模拟的现实越来越复杂，导致软件也越来越复杂。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Maven发布到中央仓库</title>
+      <link>https://www.arloor.com/posts/maven-central/</link>
+      <pubDate>Tue, 02 Feb 2021 20:05:02 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/maven-central/</guid>
+      <description>&lt;p&gt;记录下如何把自己的项目发不到maven中央仓库&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Java管理扩展：通过MBean获取jvm运行情况</title>
+      <link>https://www.arloor.com/posts/jmx-use/</link>
+      <pubDate>Sat, 30 Jan 2021 23:11:48 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/jmx-use/</guid>
+      <description>&lt;p&gt;搞下jvm信息的监控&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Prometheus Exporter</title>
+      <link>https://www.arloor.com/posts/prometheus-exporter/</link>
+      <pubDate>Wed, 27 Jan 2021 23:42:59 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/prometheus-exporter/</guid>
+      <description>&lt;p&gt;prometheus监控比较火，接入prometheus监控的第一步就是提供expoter，这里就是记录下怎么提供。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>pxeboot自动安装rhel8</title>
+      <link>https://www.arloor.com/posts/redhat8-install/</link>
+      <pubDate>Thu, 21 Jan 2021 11:36:10 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/redhat8-install/</guid>
+      <description>&lt;p&gt;2020年12月8日，红帽宣布将从2021年12月31日起停止维护centos系统，转而将精力投向centos stream。2021年1月20日，红帽又宣布rhel系统的开发者订阅可以用于小型生产环境，允许授权16台主机获得红帽的更新。原文链接&lt;a href=&#34;https://www.redhat.com/en/blog/new-year-new-red-hat-enterprise-linux-programs-easier-ways-access-rhel&#34;&gt;新年，新的Red Hat Enterprise Linux程序：访问RHEL的更简便方法&lt;/a&gt;。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>ZGC使用</title>
+      <link>https://www.arloor.com/posts/zgc/</link>
+      <pubDate>Sat, 16 Jan 2021 16:23:24 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/zgc/</guid>
+      <description>&lt;p&gt;在组里大佬分享ZGC后，心情激动下，整理下ZGC的东西。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Springboot Boot Time</title>
+      <link>https://www.arloor.com/posts/springboot-boot-time/</link>
+      <pubDate>Tue, 05 Jan 2021 15:43:39 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/springboot-boot-time/</guid>
+      <description>&lt;p&gt;内存缓存是减少查存储次数的一般方案，一般使用&lt;code&gt;implements InitializingBean&lt;/code&gt;或&lt;code&gt;@PostConstruct&lt;/code&gt;在bean加载完毕后初始化内存缓存。在数据量大的情况下，会造成应用启动慢。这个文章是一种lazy加载的思路。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Jvm调优入门</title>
+      <link>https://www.arloor.com/posts/jvm-option/</link>
+      <pubDate>Sat, 14 Nov 2020 18:37:50 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/jvm-option/</guid>
+      <description>&lt;p&gt;首先以java8 默认的cms为例，机器是2G内存。&lt;/p&gt;&#xA;&lt;p&gt;先看GC日志，设置jvm参数如下，其他堆大小相关参数都没有设置：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Macos安装Libuv</title>
+      <link>https://www.arloor.com/posts/macos-libuv/</link>
+      <pubDate>Fri, 13 Nov 2020 23:33:14 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/macos-libuv/</guid>
+      <description>&lt;p&gt;more&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Zookeeper文档摘要</title>
+      <link>https://www.arloor.com/posts/zookeeper-learn/</link>
+      <pubDate>Sat, 07 Nov 2020 11:18:11 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/zookeeper-learn/</guid>
+      <description>&lt;p&gt;分布式共识一直以来是被广泛讨论的话题，每一个分布式系统都会涉及到“共识问题”——对某一个值或者状态达成共识。有些中间件（例如redis）自己写了分布式共识的实现方式，有些（例如kafka）则直接利用zookeeper或者etcd解决共识问题。在java的生态环境中，zookeeper是分布式共识的实际标准，这边博文就来了解下zookeeper相关的知识。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>ForkJoinPool使用场景</title>
+      <link>https://www.arloor.com/posts/when-to-use-forkjoinpool/</link>
+      <pubDate>Wed, 28 Oct 2020 21:41:39 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/when-to-use-forkjoinpool/</guid>
+      <description>&lt;p&gt;这篇博客不是科普什么是&lt;code&gt;ForkJoinPool&lt;/code&gt;，不是介绍他的原理，而是结合一个具体的场景来说什么时候应该使用他。&lt;/p&gt;&#xA;&lt;p&gt;我们先看javaDoc中关于&lt;code&gt;RecursiveTask&lt;/code&gt;使用的例子：(如果不知道&lt;code&gt;RecursiveTask&lt;/code&gt;，可以先去查一下)&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Kafka文档摘要</title>
+      <link>https://www.arloor.com/posts/kafka-learn/</link>
+      <pubDate>Sat, 17 Oct 2020 11:35:15 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/kafka-learn/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;用自己的语言组织kafka文档，如有错漏，纯属我菜，造成损失，概不负责&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;目标：看完&lt;a href=&#34;https://kafka.apache.org/documentation/#design&#34;&gt;DESIGN&lt;/a&gt;、&lt;a href=&#34;https://kafka.apache.org/documentation/#implementation&#34;&gt;IMPLEMENTATION&lt;/a&gt;、&lt;a href=&#34;https://kafka.apache.org/documentation/#operations&#34;&gt;OPERATIONS&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Mysql索引及explain使用</title>
+      <link>https://www.arloor.com/posts/mysql-explain/</link>
+      <pubDate>Fri, 16 Oct 2020 19:49:15 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/mysql-explain/</guid>
+      <description>&lt;p&gt;首先放参考文档&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://tech.meituan.com/2014/06/30/mysql-index.html&#34;&gt;MySQL索引原理及慢查询优化-美团技术博客&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://dev.mysql.com/doc/refman/8.0/en/explain-output.html&#34;&gt;explain_mysql文档&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ol&gt;</description>
+    </item>
+    <item>
+      <title>http2是什么</title>
+      <link>https://www.arloor.com/posts/http2/</link>
+      <pubDate>Sun, 23 Aug 2020 20:33:12 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/http2/</guid>
+      <description>&lt;p&gt;HTTP/2标准于2015年5月以RFC 7540正式发表，到今天已经有五年多了，已经不能称之为新东西了。今天来学习一下。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>如何正确地urlEncode？空格被urlEncode成&#43;</title>
+      <link>https://www.arloor.com/posts/how-to-urlencode/</link>
+      <pubDate>Tue, 18 Aug 2020 21:57:41 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/how-to-urlencode/</guid>
+      <description>&lt;p&gt;Java里面进行urlEncode很简单：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>JsonUtil代码(基于Jackson)</title>
+      <link>https://www.arloor.com/posts/other/jackson-util/</link>
+      <pubDate>Thu, 06 Aug 2020 17:17:42 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/other/jackson-util/</guid>
+      <description>&lt;p&gt;Jackson Util:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>在springboot之外使用thymeleaf渲染text</title>
+      <link>https://www.arloor.com/posts/other/use-thymeleaf-to-render-text-without-springmvc/</link>
+      <pubDate>Thu, 06 Aug 2020 16:33:52 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/other/use-thymeleaf-to-render-text-without-springmvc/</guid>
+      <description>&lt;p&gt;thymeleaf是springboot默认的模版引擎，最近需要“渲染模版”这个功能，想到了thymeleaf，记一下怎么用。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>windows开机自启动</title>
+      <link>https://www.arloor.com/posts/startup-onboot-windows/</link>
+      <pubDate>Fri, 17 Jul 2020 19:59:39 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/startup-onboot-windows/</guid>
+      <description>&lt;h2 id=&#34;放到启动文件夹&#34;&gt;放到启动文件夹&lt;/h2&gt;&#xA;&lt;p&gt;编写&lt;code&gt;startup.vbs&lt;/code&gt;，放到这个文件夹下（可以使用 &lt;code&gt;win+r&lt;/code&gt; 输入&lt;code&gt;shell:Startup&lt;/code&gt;）：&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;%userprofile%&lt;span style=&#34;color:#ae81ff&#34;&gt;\A&lt;/span&gt;ppData&lt;span style=&#34;color:#ae81ff&#34;&gt;\R&lt;/span&gt;oaming&lt;span style=&#34;color:#ae81ff&#34;&gt;\M&lt;/span&gt;icrosoft&lt;span style=&#34;color:#ae81ff&#34;&gt;\W&lt;/span&gt;indows&lt;span style=&#34;color:#ae81ff&#34;&gt;\S&lt;/span&gt;tart Menu&lt;span style=&#34;color:#ae81ff&#34;&gt;\P&lt;/span&gt;rograms&lt;span style=&#34;color:#ae81ff&#34;&gt;\S&lt;/span&gt;tartup&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;startup.vbs&lt;/code&gt;内容如下：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Jaeger学习</title>
+      <link>https://www.arloor.com/posts/learn/jaeger/</link>
+      <pubDate>Thu, 16 Jul 2020 17:45:02 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/learn/jaeger/</guid>
+      <description>&lt;p&gt;Jaeger是一个链路追踪系统，适合用于分布式的调用链路分析，服务依赖分析，性能和延迟优化。使用OpenTracing标准的语意和与其兼容的类库，使用灵活的抽样策略，支持多种后端存储（Cassandra, Elasticsearch, memory）&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>HttpUtil的一段代码</title>
+      <link>https://www.arloor.com/posts/http-utils/</link>
+      <pubDate>Thu, 11 Jun 2020 11:02:45 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/http-utils/</guid>
+      <description>&lt;p&gt;简单的备忘，httpclient的代码&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Java wait/notify和condition</title>
+      <link>https://www.arloor.com/posts/wait-notify-and-condition/</link>
+      <pubDate>Thu, 11 Jun 2020 10:59:36 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/wait-notify-and-condition/</guid>
+      <description>&lt;p&gt;以下全部来自jdk8的javaDoc。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>从register和accept的锁竞争问题到netty的nioEventLoop设计</title>
+      <link>https://www.arloor.com/posts/netty/select-register-nioeventloop/</link>
+      <pubDate>Fri, 05 Jun 2020 19:05:40 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/netty/select-register-nioeventloop/</guid>
+      <description>&lt;p&gt;今天在v2ex看到一个问题，&lt;a href=&#34;https://v2ex.com/t/678682&#34;&gt;NIO 如下代码怎么绕过死锁？还是说我写的不对？如下代码&lt;/a&gt;，里面贴了代码。&lt;/p&gt;&#xA;&lt;p&gt;简单说明：创建了两个selector A和B，线程1使用A来accept连接，并且register到B上。同时，线程2使用B来select，处理读写事件。&lt;/p&gt;&#xA;&lt;p&gt;问题：select和register都要获取Selector publicKeys 的锁-&amp;gt;虽然创建了线程1和2，但是还是要等待对方释放锁，所以这两个线程就没啥用，在以往的NIO实践中我也遇到过。解决这个问题很简单，生产者消费者模式就可以，线程1生产register请求，线程2消费register事件，真正执行在B上的register。反正一句话，同一个selector的register和select需要串行，并行不了（因为需要获取同一个锁）。&lt;/p&gt;&#xA;&lt;p&gt;上面只是引子，我想看看netty是如何处理这个细节的。关于netty的架构和设计，什么EventLoopGroup、EventLoop、Pipepline、ChannelHandler网上说的很多了。今天要做的是看netty如何封装java NIO的accept、register，如何进行select，下面开始。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Luence学习</title>
+      <link>https://www.arloor.com/posts/luence-learn/</link>
+      <pubDate>Fri, 01 May 2020 15:39:55 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/luence-learn/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://lucene.apache.org/core/8_5_1/index.html&#34;&gt;官方文档&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://github.com/arloor/luence-demo&#34;&gt;demo项目&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>开发Elasticsearch自定义评分插件-horspool评分</title>
+      <link>https://www.arloor.com/posts/elasticsearch-horspool-score-plugin/</link>
+      <pubDate>Mon, 27 Apr 2020 14:09:21 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/elasticsearch-horspool-score-plugin/</guid>
+      <description>&lt;p&gt;在&lt;a href=&#34;https://www.arloor.com/posts/elasticsearch-study/&#34;&gt;Elasticsearch调研&lt;/a&gt;中，已经学习了es的similarity、plugin和在idea中debug启动。有了以上，就可以自己制作es评分插件。这篇博客说下如何自定义script_score实现自己的评分算法。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Windows Terminal</title>
+      <link>https://www.arloor.com/posts/windows-terminal/</link>
+      <pubDate>Fri, 24 Apr 2020 14:31:16 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/windows-terminal/</guid>
+      <description>&lt;p&gt;windows terminal这个终端很好用，这里记一下&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>acme.sh签发dnspod(腾讯云)和阿里云ssl野卡证书并自动续签</title>
+      <link>https://www.arloor.com/posts/acme-wildcard-ssl-cert/</link>
+      <pubDate>Sun, 19 Apr 2020 13:20:07 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/acme-wildcard-ssl-cert/</guid>
+      <description>&lt;p&gt;用一下acme.sh，实现自动签发野卡证书的需求。 acme.sh是一个开源的shell脚本，可以用来签发证书，支持很多dns服务商，支持自动续签。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Elasticsearch调研</title>
+      <link>https://www.arloor.com/posts/elasticsearch-study/</link>
+      <pubDate>Fri, 03 Apr 2020 15:13:08 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/elasticsearch-study/</guid>
+      <description>&lt;p&gt;目的：调研elasticsearch的启动、debug、评分、插件以实现自定义评分插件。&lt;/p&gt;&#xA;&lt;p&gt;首先，关于es启动流程的大体介绍&lt;a href=&#34;https://lanffy.github.io/2019/04/09/ElasticSearch-Start-Up-Process&#34;&gt;lanffy.github.io&lt;/a&gt;。在这片文章中，将会主要关注加载插件的部分。&lt;/p&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://github.com/arloor/elasticsearch/tree/LGH-test&#34;&gt;elaticsearch我的fork&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Netty源码阅读</title>
+      <link>https://www.arloor.com/posts/netty-src-read/</link>
+      <pubDate>Tue, 03 Mar 2020 20:49:47 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/netty-src-read/</guid>
+      <description>&lt;p&gt;记录一下netty源码阅读相关的东西&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Telegram java客户端</title>
+      <link>https://www.arloor.com/posts/tdlib-java-telegram-client/</link>
+      <pubDate>Mon, 02 Mar 2020 20:04:04 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/tdlib-java-telegram-client/</guid>
+      <description>&lt;p&gt;玩电报比较久了，电报的生态真的很开放，允许大家自建机器人，并提供bot api。但是电报bot会有很多限制，今天要做的是使用telegram的tdlib创建一个java的电报客户端。相似的东西其实已经有了，例如pytelethon，但是我用不惯python，今天就写一篇如何在windows10上使用java jni调用tdlib的文章。&lt;/p&gt;&#xA;&lt;p&gt;如果有什么问题，可以加电报群&lt;a href=&#34;https://t.me/popstary&#34;&gt;https://t.me/popstary&lt;/a&gt;讨论。（进群就能收到来自这个电报客户端的欢迎加群信息~&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Kafka Use</title>
+      <link>https://www.arloor.com/posts/kafka-use/</link>
+      <pubDate>Thu, 27 Feb 2020 22:57:05 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/kafka-use/</guid>
+      <description>&lt;p&gt;记录下kafka怎么用&amp;hellip;.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Centos8安装MongoDB 4.2</title>
+      <link>https://www.arloor.com/posts/mongodb/</link>
+      <pubDate>Tue, 11 Feb 2020 15:15:28 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/mongodb/</guid>
+      <description>&lt;p&gt;参考文档:&lt;a href=&#34;https://linuxconfig.org/how-to-install-mongodb-on-redhat-8&#34;&gt;linuxconfig.org&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Java异步任务中Future的实现</title>
+      <link>https://www.arloor.com/posts/java-future/</link>
+      <pubDate>Sun, 09 Feb 2020 21:34:41 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/java-future/</guid>
+      <description>&lt;p&gt;从netty中学习，首先截取netty中关于Promise和Future的继承关系图，如下。本文首先剖析下图中的四个类，然后自己设计Future。&lt;/p&gt;&#xA;&lt;p&gt;&lt;img src=&#34;https://www.arloor.com/img/netty-future-promise-uml.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>nftables设置nat转发(基于centos8)</title>
+      <link>https://www.arloor.com/posts/centos8-nftables-nat/</link>
+      <pubDate>Sun, 02 Feb 2020 22:33:10 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/centos8-nftables-nat/</guid>
+      <description>&lt;p&gt;nftables具有脚本编程能力，并且使用脚本更新规则具有事务性，要么全部成功，要么全部不成功。这两个特性很有趣，今天用nftables的编程能力来做下nat转发。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Elasticsearch简单入门</title>
+      <link>https://www.arloor.com/posts/elasticsearch-install/</link>
+      <pubDate>Tue, 07 Jan 2020 19:45:16 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/elasticsearch-install/</guid>
+      <description>&lt;h2 id=&#34;环境&#34;&gt;环境&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;centos 8 1C2G&lt;/li&gt;&#xA;&lt;li&gt;jdk8&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;安装&#34;&gt;安装&lt;/h2&gt;&#xA;&lt;p&gt;一开始下载tar.gz然后手动起的，一执行报个错说不能用root用户启动，索性直接用rpm安装，帮你把所有事情做好，包括设置systemd服务，这样很爽&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>2020年顾后顾前</title>
+      <link>https://www.arloor.com/posts/other/2020/</link>
+      <pubDate>Wed, 01 Jan 2020 14:33:03 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/other/2020/</guid>
+      <description>&lt;h2 id=&#34;顾后&#34;&gt;顾后&lt;/h2&gt;&#xA;&lt;p&gt;2019年最大的关键词大概就是变化和转折。这一年，我结束了学生生涯，参加工作。所以2019年，一半在学校，一半在工作。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>华为/荣耀手机关闭系统更新</title>
+      <link>https://www.arloor.com/posts/huawei-turnoff-upgrade/</link>
+      <pubDate>Sat, 16 Nov 2019 22:43:19 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/huawei-turnoff-upgrade/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Spring随用随记</title>
+      <link>https://www.arloor.com/posts/spring-use-notes/</link>
+      <pubDate>Sat, 09 Nov 2019 22:13:53 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/spring-use-notes/</guid>
+      <description>&lt;p&gt;在工作之前大概有一年半没有写过spring的东西了，有些东西忘了，用这个记一下。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Spring Aop使用</title>
+      <link>https://www.arloor.com/posts/spring-aop/</link>
+      <pubDate>Mon, 04 Nov 2019 19:05:58 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/spring-aop/</guid>
+      <description>&lt;p&gt;来记一下spring aop的使用&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Jdk8的function包以及::用法</title>
+      <link>https://www.arloor.com/posts/jdk8-function/</link>
+      <pubDate>Thu, 24 Oct 2019 22:04:01 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/jdk8-function/</guid>
+      <description>&lt;p&gt;不用就不会了解，不了解就不会用，今天来记一下Java8的lambda表达式相关的一点点东西。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>玩转Centos8</title>
+      <link>https://www.arloor.com/posts/linux/play-with-centos8/</link>
+      <pubDate>Thu, 26 Sep 2019 23:52:58 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/linux/play-with-centos8/</guid>
+      <description>&lt;p&gt;上一篇在阿里云上安装了centos8，现在就开一篇centos8的踩坑记录，还是比较多的。。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>从Centos7网络安装Centos8</title>
+      <link>https://www.arloor.com/posts/linux/netinstall-centos8/</link>
+      <pubDate>Thu, 26 Sep 2019 19:13:18 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/linux/netinstall-centos8/</guid>
+      <description>&lt;p&gt;centos8在前几天发布了，但是云服务大厂们往往不会第一时间上架centos8镜像，这一篇博客就是如何在阿里云的机器上自力更生网络安装centos8。首先说明一点，以下脚本需要vps的内存至少有2G，这是Redhat8的要求，因为他的LiveOS比较大，小内存机器上请勿尝试。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Redis Cluster实现</title>
+      <link>https://www.arloor.com/posts/redis/redis-cluster/</link>
+      <pubDate>Mon, 23 Sep 2019 23:13:50 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/redis/redis-cluster/</guid>
+      <description>&lt;h2 id=&#34;redis-cluster简介&#34;&gt;redis cluster简介&lt;/h2&gt;&#xA;&lt;p&gt;在我的理解里，redis集群和数据库分库差不多——自动地将key分配到16384个槽（slot），而集群中的每个redis节点存储一部分槽。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Redis哨兵实现-sentinel.c</title>
+      <link>https://www.arloor.com/posts/redis/sentinel/</link>
+      <pubDate>Thu, 12 Sep 2019 18:25:31 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/redis/sentinel/</guid>
+      <description>&lt;p&gt;这一篇记录一下sentinel的文档和实现。真的是好长的一篇文章😂&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Redis持久化机制-aof.c与rdb.c</title>
+      <link>https://www.arloor.com/posts/redis/redis-persistence/</link>
+      <pubDate>Wed, 11 Sep 2019 20:17:11 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/redis/redis-persistence/</guid>
+      <description>&lt;p&gt;redis提供aof和rdb两种持久化机制，本文分析一下这两种持久化机制&lt;/p&gt;&#xA;&lt;h2 id=&#34;两种持久化机制的优劣&#34;&gt;两种持久化机制的优劣&lt;/h2&gt;&#xA;&lt;p&gt;以下先摘录一下redis文档关于rdb、aof持久化的优势和劣势&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Libuv教程</title>
+      <link>https://www.arloor.com/posts/libuv-install/</link>
+      <pubDate>Fri, 06 Sep 2019 21:19:38 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/libuv-install/</guid>
+      <description>&lt;p&gt;到目前为止写了挺多网络编程的东西，要么用netty，要么用go。因为网络编程是IO密集的应用，用带gc的语言写，总是因为频繁的gc需求导致cpu占用过高。netty使用unsafepointer的使用堆外内存来避免频繁gc，但是这还是不够，因为你总得生成string这种堆内对象。只有一个办法来避免这种问题，那就是用没有gc的语言来编写网络编程了。&lt;/p&gt;&#xA;&lt;p&gt;libuv就是c语言的一个异步事件库，这篇博客就是来搞一下。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Psync2——redis备份机制的发展【转载】</title>
+      <link>https://www.arloor.com/posts/redis/psync2/</link>
+      <pubDate>Thu, 05 Sep 2019 21:20:30 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/redis/psync2/</guid>
+      <description>&lt;p&gt;今天的正题是想转发一篇关于&lt;a href=&#34;https://mp.weixin.qq.com/s/ROQofjE5WwdAltazQ5p0QQ&#34;&gt;“异步拷贝”发展的博文&lt;/a&gt;，写的真的好，忍不住想转发。看完不禁感叹redis的牛逼，有种兴叹汪洋的感觉。。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>实现redis运行时加载rdb文件</title>
+      <link>https://www.arloor.com/posts/redis/redis-online-load-rdb/</link>
+      <pubDate>Wed, 04 Sep 2019 23:02:03 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/redis/redis-online-load-rdb/</guid>
+      <description>&lt;p&gt;对redis比较了解的人应该知道redis提供rdb持久化机制。rdb文件其实就是redis在某一时间的一个快照，redis在重启时，可以加载这个快照，从而恢复状态。然而redis没有暴露加载rdb这个接口，因此没有办法在运行时手动地导入rdb快照。&lt;/p&gt;&#xA;&lt;p&gt;其实，在阅读replicate.c后发现，redis的从节点在接收了rdb全量同步文件后，直接调用了&lt;code&gt;rdbload&lt;/code&gt;函数——这就意味着：运行时动态加载rdb文件完全可行！毕竟redis自己也是这么做的。但是redis不肯暴露这个接口给用户。&lt;/p&gt;&#xA;&lt;p&gt;我们上一篇文章要进行redis异地数据中心同步，同样需要加载rdb文件，如果只能重启redis来加载rdb文件，多少有点不舒服。因此探讨一下redis动态加载rdb文件的实现总归有好处的，事实证明我做到了。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Redis异步拷贝实现—replicate.c</title>
+      <link>https://www.arloor.com/posts/redis/use-redis-replicate-to-do-remote-sync/</link>
+      <pubDate>Tue, 03 Sep 2019 23:44:09 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/redis/use-redis-replicate-to-do-remote-sync/</guid>
+      <description>&lt;p&gt;为实现redis异地数据中心实时同步功能，存在几种方案。其中一种方案是利用redis主从节点的异步拷贝，伪装一个slave节点，获取主节点的异步拷贝信息。将该异步拷贝信息同步到异地数据中心，从而实现redis集群异地同步。&lt;/p&gt;&#xA;&lt;p&gt;本文的目的就是探究“伪装slave获取异步拷贝”的可行性与复杂度。&lt;br&gt;&#xA;虽然redis文档有介绍主从以及异步拷贝，但是其实现并没有详细介绍，因此我阅读了redis中的&lt;code&gt;cluster.c&lt;/code&gt;、&lt;code&gt;replicate.c&lt;/code&gt;（redis版本为4.0.1），探查redis&amp;quot;主从拷贝&amp;quot;实现的细节，并使用netcat软件进行了一些实验。我们的最终结论是：实验结果反映“伪装slave获取异步拷贝”方案是可行的，并且复杂度可接受。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Redis文档摘要</title>
+      <link>https://www.arloor.com/posts/redis/redis-document/</link>
+      <pubDate>Tue, 20 Aug 2019 20:00:39 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/redis/redis-document/</guid>
+      <description>&lt;p&gt;看了看redis的文档，觉得有些东西写的挺好的，就挑觉得有意义的记录一下。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Nginx安装使用：webserver及反向代理</title>
+      <link>https://www.arloor.com/posts/linux/nginx-install-and-reverse-proxy/</link>
+      <pubDate>Thu, 15 Aug 2019 20:38:59 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/linux/nginx-install-and-reverse-proxy/</guid>
+      <description>&lt;p&gt;试试nginx&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Redis集群slot迁移</title>
+      <link>https://www.arloor.com/posts/redis/redis-slot-transpot/</link>
+      <pubDate>Sat, 10 Aug 2019 14:01:47 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/redis/redis-slot-transpot/</guid>
+      <description>&lt;p&gt;本文记录了redis集群扩容时会发生的slot迁移过程，同时记录了在迁移过程中查询key集群会如何响应。在文章开头，附带了一些redis集群技术的简单介绍（大部分摘自redis官方文档），帮助了解迁移过程。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Socks5代理netty重制版</title>
+      <link>https://www.arloor.com/posts/socks5-proxy/</link>
+      <pubDate>Wed, 10 Jul 2019 14:01:47 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/socks5-proxy/</guid>
+      <description>&lt;p&gt;这是一个新的、使用netty实现的、使用http协议进行混淆的socks5代理。解决了前作&lt;a href=&#34;https://github.com/arloor/sogo&#34;&gt;sogo&lt;/a&gt;项目因go内存回收机制/内存复用机制弱带来的cpu/内存占用高的问题。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Windows10电源管理-睡眠问题解决</title>
+      <link>https://www.arloor.com/posts/windows-powercfg/</link>
+      <pubDate>Sun, 07 Jul 2019 11:40:52 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/windows-powercfg/</guid>
+      <description>&lt;p&gt;这是很久之前写在CSDN上的一篇文章，现在迁移到自己的博客上，主要介绍windows10睡眠、电源管理方面的问题。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Centos7安装ss5、squid</title>
+      <link>https://www.arloor.com/posts/linux/install-ss5-squid/</link>
+      <pubDate>Sat, 15 Jun 2019 23:07:52 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/linux/install-ss5-squid/</guid>
+      <description>&lt;p&gt;减少造轮子，安装已有socks5、http代理。这里的ss5和squid是不能达到FQ的目的的，要实现这个目的，请查看之前的其他文章。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Systemd服务文件编写-centos7下</title>
+      <link>https://www.arloor.com/posts/linux/systemd/</link>
+      <pubDate>Fri, 07 Jun 2019 19:25:03 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/linux/systemd/</guid>
+      <description>&lt;p&gt;以前的博客中有如何使用shell脚本重启应用的教程，也有解决tty的最大打开文件数量限制的方法。其实这些都可以用systemd服务的方式解决。今天就来一个简单的service文件，记录下怎么使用。&lt;/p&gt;&#xA;&lt;p&gt;使用如下命令即可编写sogo服务的service文件，并设置开机自启动。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Centos7备份/恢复与网卡配置</title>
+      <link>https://www.arloor.com/posts/linux/dd-backup/</link>
+      <pubDate>Fri, 10 May 2019 15:51:28 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/linux/dd-backup/</guid>
+      <description>&lt;p&gt;这是我没搞过的东西，慢慢来，一点一点记录下。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>二十二年•纪</title>
+      <link>https://www.arloor.com/posts/my-life-and-my-love/</link>
+      <pubDate>Sat, 27 Apr 2019 17:56:22 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/my-life-and-my-love/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;感谢刘港欢大学四年来1218天的陪伴&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;这是悦悦毕业论文的致谢中的一句话。一篇论文，洋洋洒洒，突然就写到了最后的致谢，这才恍然间发现，我们也过到了大学生涯的结尾。今天4月27日，我刚满22周岁不久。20多年的生命，我从来没有好好回忆过，思考过。想了一想，总归要抖一抖胸中不多的墨水写点什么。借着这个机会，要说说我生命里遇到的那些人，那些事。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Netty实现自定义流式解析器</title>
+      <link>https://www.arloor.com/posts/netty/netty-bytetomessagedecoder-stream-like-decoder/</link>
+      <pubDate>Fri, 26 Apr 2019 00:00:00 +0000</pubDate>
+      <guid>https://www.arloor.com/posts/netty/netty-bytetomessagedecoder-stream-like-decoder/</guid>
+      <description>&lt;p&gt;tcp分包一般在pipeline的前部使用DelimiterBasedFrameDecoder, FixedLengthFrameDecoder, LengthFieldBasedFrameDecoder, or LineBasedFrameDecoder，分别适用于固定分隔符、固定长度帧、长度字段、换行符分割四种情况。但是，这四种不能涵盖tcp分包的全部情况，举个栗子：http协议的解析就不是上面四种中的一种。解析http协议或者其他自定义协议时，就需要用到ByteToMessageDecoder创建自己的“流式”解析器。netty的http解析器（HttpObectDecoder）就是继承ByteToMessageDecoder并override decode方法实现的。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>go使用sync.pool实现复用[]byte——降低IO密集应用的GC频率</title>
+      <link>https://www.arloor.com/posts/use-sync-pool-go/</link>
+      <pubDate>Sun, 14 Apr 2019 14:22:51 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/use-sync-pool-go/</guid>
+      <description>&lt;p&gt;前一篇文章介绍了&lt;code&gt;sogo&lt;/code&gt;这个socks5代理的实现，在原始的sogo实现中，有一个重大的问题是：没有复用内存，导致频繁GC，导致cpu占用很高。对于socket通信这种io密集的应用，复用&lt;code&gt;[]byte&lt;/code&gt;还是很重要的，不然每次去make新的&lt;code&gt;[]byte&lt;/code&gt;，这些&lt;code&gt;[]byte&lt;/code&gt;迟早要被GC，这就导致了cpu占用高的问题。解决这个问题也很简单，就是引入内存池。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Sogo—使用http协议进行混淆/伪装的socks5代理</title>
+      <link>https://www.arloor.com/posts/socks-over-http/</link>
+      <pubDate>Wed, 10 Apr 2019 14:24:10 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/socks-over-http/</guid>
+      <description>&lt;p&gt;之前写了一个http代理，用起来也是十分地舒服，但是有几个点还是有些遗憾的：&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;http代理只能代理http协议，相比socks5代理不够通用。。&lt;/li&gt;&#xA;&lt;li&gt;netty是个好框架，但是java占用内存是真的多。。&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;所以，我又写了一个socks5代理，起名叫&lt;a href=&#34;https://github.com/arloor/sogo&#34;&gt;sogo&lt;/a&gt;。&lt;/p&gt;&#xA;&lt;p&gt;sogo本身包含sogo(client)和sogo-server。如果把sogo和sogo-server看成一个整体，一个黑盒，这个整体就是一个socks5代理。sogo(client)与本地电脑交互；sogo-server与目标网站交互；sogo(client)和sogo-server之间的交互就是http协议包裹payload进行通信。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>响应式iframe 16:9—hugo博客嵌入youtube视频</title>
+      <link>https://www.arloor.com/posts/responsive-embedded-iframe-hugo-youtueb-vedio/</link>
+      <pubDate>Wed, 10 Apr 2019 01:10:48 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/responsive-embedded-iframe-hugo-youtueb-vedio/</guid>
+      <description>&lt;p&gt;其实只是博客中想嵌入16：9的youtube视频，但youtube官方的嵌入代码是固定宽度1280，高度720，在手机上表现十分不好。因此有了这个偏前端的主题。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>RabbitMQ的使用</title>
+      <link>https://www.arloor.com/posts/learn/rabbitmq-learn/</link>
+      <pubDate>Thu, 14 Mar 2019 21:19:06 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/learn/rabbitmq-learn/</guid>
+      <description>&lt;h1 id=&#34;rabbitmq-java-api使用demo&#34;&gt;rabbitmq java api使用demo&lt;/h1&gt;&#xA;&lt;p&gt;详情见github项目&lt;a href=&#34;https://github.com/arloor/rabbitmqdemo&#34;&gt;rabbitmqdemo&lt;/a&gt;&lt;/p&gt;&#xA;&lt;h1 id=&#34;在centos7上安装rabbitmq-3713&#34;&gt;在centos7上安装RabbitMQ 3.7.13&lt;/h1&gt;&#xA;&lt;p&gt;RabbitMQ是使用Erlang编写的消息中间件，因此首先需要安装Erlang，而且RabbitMQ与Erlang版本有着对应关系。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>玩转VPS与centos 7</title>
+      <link>https://www.arloor.com/posts/linux/centos7-some-tweaks/</link>
+      <pubDate>Mon, 04 Mar 2019 00:00:00 +0000</pubDate>
+      <guid>https://www.arloor.com/posts/linux/centos7-some-tweaks/</guid>
+      <description>&lt;p&gt;多年以后，我又开始整vps了，学了三年，也知道怎么整linux了。个人使用的是搬瓦工 DC6 CN2 GIA 机房的vps。&lt;a href=&#34;https://bwh88.net/aff.php?aff=11132&amp;amp;pid=87&#34;&gt;购买链接&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>针对热点问题的网络舆情爬取系统</title>
+      <link>https://www.arloor.com/posts/learn/spider-system-design/</link>
+      <pubDate>Thu, 28 Feb 2019 02:05:28 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/learn/spider-system-design/</guid>
+      <description>&lt;p&gt;“网络舆情爬取系统”是针对在一定的社会空间内，围绕中介性社会事件的发生、发展和变化，民众对社会管理者产生和持有的社会政治态度于网络上表达出来意愿集合而进行的计算机监测的系统统称。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>安卓Vpn开发思路</title>
+      <link>https://www.arloor.com/posts/other/android-vpnservice-and-vpn-dev/</link>
+      <pubDate>Wed, 30 Jan 2019 00:00:00 +0000</pubDate>
+      <guid>https://www.arloor.com/posts/other/android-vpnservice-and-vpn-dev/</guid>
+      <description>&lt;p&gt;经过2个月的开发，我的http代理可以说没有遗憾了，当然还有可以改进的地方，比如多用户认证啥的，但是没有必要啦。&lt;/p&gt;&#xA;&lt;p&gt;为了在安卓上也能愉快地使用自己开发的代理，研究了一下安卓Vpnservice，在此记录一下当前的进度，并确定以后的开发思路。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>快速安装HttpProxy</title>
+      <link>https://www.arloor.com/posts/other/proxynew-docker-install/</link>
+      <pubDate>Mon, 21 Jan 2019 00:00:00 +0000</pubDate>
+      <guid>https://www.arloor.com/posts/other/proxynew-docker-install/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/arloor/HttpProxy&#34;&gt;HttpProxy&lt;/a&gt;是一个轻量、稳定、高性能的http代理，仅仅依赖netty和日志框架，实现http中间人代理和https隧道代理。google、youtube视频、满带宽下载、作为git的代理、作为shell的代理、作为docker的代理等场景都运行完美。&lt;/p&gt;&#xA;&lt;p&gt;这一篇博客记录一下如何部署和使用这个代理&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>java-AES加密后再Base64混淆</title>
+      <link>https://www.arloor.com/posts/other/java-aes128-then-base64/</link>
+      <pubDate>Fri, 04 Jan 2019 00:00:00 +0000</pubDate>
+      <guid>https://www.arloor.com/posts/other/java-aes128-then-base64/</guid>
+      <description>&lt;p&gt;这是上一篇&lt;a href=&#34;https://www.arloor.com/posts/other/java-aes128/&#34;&gt;java-AES128加密-代码与一些约定&lt;/a&gt;的后续。这一篇将会记录自己看到的在AES128之后所做的混淆。混淆原来为c语言实现，自己转成了java实现。感觉这一套比较好用，所以记下来变成自己的😁咳咳，最终发现这个混淆就是对Base64的一个实现，只是将64个可打印字符的顺序弄乱了。所以我有了自定义Base64来实现混淆的代码？？？黑人问号&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>java-AES128加密-代码与一些约定</title>
+      <link>https://www.arloor.com/posts/other/java-aes128/</link>
+      <pubDate>Thu, 03 Jan 2019 00:00:00 +0000</pubDate>
+      <guid>https://www.arloor.com/posts/other/java-aes128/</guid>
+      <description>&lt;p&gt;在爬虫岗位实习，免不了接触加密解密，今天的工作中踩了一些java AES128加密的坑，也学习到了一些加密的常用做法。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>docker使用笔记</title>
+      <link>https://www.arloor.com/posts/docker/docker-first-use/</link>
+      <pubDate>Wed, 02 Jan 2019 00:00:00 +0000</pubDate>
+      <guid>https://www.arloor.com/posts/docker/docker-first-use/</guid>
+      <description>&lt;p&gt;docker 很火，所以我想入门。这篇文章是记录学习的，所以可能很乱，称为杂说&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>把ubuntu18.04 变成我的ubuntu</title>
+      <link>https://www.arloor.com/posts/linux/turn-ubuntu-mine-own/</link>
+      <pubDate>Tue, 01 Jan 2019 13:14:59 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/linux/turn-ubuntu-mine-own/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;https://www.arloor.com/img/new-years-day-2019-5179180558843904.3-2xa.gif&#34; alt=&#34;happy new year 2019&#34;&gt;&#xA;拿到一个电脑的第一件事，当然是把他变成自己的电脑。装上ubuntu之后的第一件事就是变成自己的ubuntu啦。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>HttpProxy-基于netty的代理</title>
+      <link>https://www.arloor.com/posts/netty/proxynew-break-the-wall-by-netty/</link>
+      <pubDate>Mon, 31 Dec 2018 23:55:22 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/netty/proxynew-break-the-wall-by-netty/</guid>
+      <description>&lt;p&gt;暑假使用java NIO实现了一个java http代理。那个http代理远远不算完善。之后学习了netty，并且使用netty实现了一个http代理，经过一个多月的使用，十分满意。今天来记录一下这里面值得写下来的东西。&lt;/p&gt;&#xA;&lt;p&gt;先放项目地址&lt;a href=&#34;https://github.com/arloor/HttpProxy&#34;&gt;HttpProxy&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>添加Ubuntu桌面图标</title>
+      <link>https://www.arloor.com/posts/linux/ubuntu-desktop-entry-example/</link>
+      <pubDate>Mon, 31 Dec 2018 23:52:22 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/linux/ubuntu-desktop-entry-example/</guid>
+      <description>&lt;p&gt;ubuntu的应用图标文件都在&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;/usr/share/applications&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;文件下&lt;/p&gt;&#xA;&lt;p&gt;一个比较普遍的问题，在ubuntu安装了jetbrains家的IDE后，在菜单中找不到应用图标，下面自己写一个：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Shell关闭占用某端口的应用</title>
+      <link>https://www.arloor.com/posts/linux/shell-close-process-that-hold-some-port/</link>
+      <pubDate>Sun, 30 Dec 2018 00:00:00 +0000</pubDate>
+      <guid>https://www.arloor.com/posts/linux/shell-close-process-that-hold-some-port/</guid>
+      <description>&lt;p&gt;现在在自己的centos7上跑了应用，有个需求：重启该应用。实现如下&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Netty直接内存溢出问题解决</title>
+      <link>https://www.arloor.com/posts/netty/netty-direct-memory-leak/</link>
+      <pubDate>Mon, 10 Dec 2018 20:24:51 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/netty/netty-direct-memory-leak/</guid>
+      <description>&lt;h2 id=&#34;问题&#34;&gt;问题&lt;/h2&gt;&#xA;&lt;p&gt;自己用netty实现的代理，在测速、下载（跑满网速）的情况下总是会报OutOfDirectMemory异常。&lt;/p&gt;&#xA;&lt;h2 id=&#34;原因及解决&#34;&gt;原因及解决&lt;/h2&gt;&#xA;&lt;p&gt;在github netty项目下有这样一个&lt;a href=&#34;https://github.com/netty/netty/issues/7699&#34;&gt;issue&lt;/a&gt;。描述了这样一个问题。&lt;/p&gt;&#xA;&lt;p&gt;总结一下里面说的。出现这个异常有两种情况，pooled buf没有release；写太快，超过了极限。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Proxyme-基于javaNIO的http代理</title>
+      <link>https://www.arloor.com/posts/netty/proxyme-based-on-javanio/</link>
+      <pubDate>Tue, 14 Aug 2018 00:00:00 +0000</pubDate>
+      <guid>https://www.arloor.com/posts/netty/proxyme-based-on-javanio/</guid>
+      <description>&lt;h1 id=&#34;proxyme-一个-http-代理&#34;&gt;proxyme 一个 http 代理&lt;/h1&gt;&#xA;&lt;p&gt;使用 java NIO 的 http 代理。支持 https。不建议再 chrome 上使用本代理，因为 chrome 本身会请求很多谷歌的 api，结果被墙住了，又只有两个线程，导致其他都被阻塞，很尴尬。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>spring cloud学习（二）</title>
+      <link>https://www.arloor.com/posts/microservice/spring_cloud-study-two/</link>
+      <pubDate>Fri, 22 Jun 2018 00:00:00 +0000</pubDate>
+      <guid>https://www.arloor.com/posts/microservice/spring_cloud-study-two/</guid>
+      <description>&lt;p&gt;spring cloud学习（一）中已经了有了注册与发现、服务消费、负载均衡、断路器。但是这不是完整的微服务架构。&lt;/p&gt;&#xA;&lt;p&gt;在微服务架构中，需要几个基础的服务治理组件，包括服务注册与发现、服务消费、负载均衡、断路器、智能路由、配置管理等，由这几个基础组件相互协作，共同组建了一个简单的微服务系统。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>spring cloud学习（一）</title>
+      <link>https://www.arloor.com/posts/microservice/spring_cloud-study-one/</link>
+      <pubDate>Thu, 21 Jun 2018 00:00:00 +0000</pubDate>
+      <guid>https://www.arloor.com/posts/microservice/spring_cloud-study-one/</guid>
+      <description>&lt;p&gt;作死了解一下spring cloud。当然，不知道能了解到什么程度。先作一死。&lt;/p&gt;&#xA;&lt;p&gt;找到了一个博客，准备照着那个博客来搞搞&lt;a href=&#34;https://blog.csdn.net/forezp/article/details/70148833&#34;&gt;博客地址&lt;/a&gt;。这个博客的好处是原理和介绍带一些，代码、pom、配置全都在博客中可以直接复制。第二点——可以直接复制黏贴实践，第一点——复制了能让你知道复制的是干了嘛。当然，原理和介绍稍微有点少，所以哈，最好还是提前了解一些微服务的一些概念。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>微服务架构是什么</title>
+      <link>https://www.arloor.com/posts/microservice/what-is-microservice/</link>
+      <pubDate>Thu, 21 Jun 2018 00:00:00 +0000</pubDate>
+      <guid>https://www.arloor.com/posts/microservice/what-is-microservice/</guid>
+      <description>&lt;p&gt;最近总是能看得到微服务这个概念，今天来整理一下微服务的相关概念。内容源自《微服务架构与实践》王磊&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>opencv c&#43;&#43;学习</title>
+      <link>https://www.arloor.com/posts/other/opencv-study/</link>
+      <pubDate>Fri, 15 Jun 2018 00:00:00 +0000</pubDate>
+      <guid>https://www.arloor.com/posts/other/opencv-study/</guid>
+      <description>&lt;p&gt;终于来搞搞opencv啦。。&lt;/p&gt;&#xA;&lt;h1 id=&#34;在windows上安装opencv并且创建visual-studio-2017项目&#34;&gt;在windows上安装opencv，并且创建visual studio 2017项目&lt;/h1&gt;&#xA;&lt;p&gt;本来想要用clion的，但是编译源码总是出错，就直接用vs2017了。。。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>redis与springboot整合学习</title>
+      <link>https://www.arloor.com/posts/springboot/redis%E4%B8%8Espringboot%E6%95%B4%E5%90%88%E5%AD%A6%E4%B9%A0/</link>
+      <pubDate>Fri, 15 Jun 2018 00:00:00 +0000</pubDate>
+      <guid>https://www.arloor.com/posts/springboot/redis%E4%B8%8Espringboot%E6%95%B4%E5%90%88%E5%AD%A6%E4%B9%A0/</guid>
+      <description>&lt;p&gt;最近在做一个电商网站。今天想要实现一下购物车的功能。&lt;/p&gt;&#xA;&lt;p&gt;考虑问题如下：用户访问购物车会比较频繁，而且经常更改（比如修改数字）。对于后端的数据来说，也就是读写都很频繁。于是考虑通过redis，来减少对数据库的读写。&lt;/p&gt;&#xA;&lt;p&gt;就研究一下怎么使用redis以及整合到springboot中。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

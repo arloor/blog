@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Projects on ARLOOR</title>
+    <link>https://www.arloor.com/portfolio/</link>
+    <description>Recent content in Projects on ARLOOR</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Thu, 21 Jun 2018 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://www.arloor.com/portfolio/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>DERA</title>
+      <link>https://www.arloor.com/portfolio/dera/</link>
+      <pubDate>Thu, 21 Jun 2018 00:00:00 +0000</pubDate>
+      <guid>https://www.arloor.com/portfolio/dera/</guid>
+      <description>&lt;p&gt;This is a Java reference implementation of dynamic event-driven actors runtime aiming at providing adequate abstraction levels and mechanisms for modelling and developing (distributed) event-based systems. DERA leverages the intrinsic loose coupling of event-driven communication styles to support various kinds of &lt;em&gt;run-time evolution and adaptation&lt;/em&gt; (i.e., enabling run-time flexibility) while &lt;em&gt;minimizing the non-deterministic nature of traditional event-based applications&lt;/em&gt; (i.e., supporting formal analysis).&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>hyde-hyde</title>
+      <link>https://www.arloor.com/portfolio/hyde-hyde/</link>
+      <pubDate>Sat, 27 Jan 2018 00:00:00 +0000</pubDate>
+      <guid>https://www.arloor.com/portfolio/hyde-hyde/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/htr3n/hyde-hyde&#34;&gt;&lt;em&gt;Hyde-hyde&lt;/em&gt;&lt;/a&gt; is a responsive &lt;a href=&#34;https://gohugo.io&#34;&gt;Hugo&lt;/a&gt; theme inspired by @spf13&amp;rsquo;s &lt;a href=&#34;https://github.com/spf13/hyde.git&#34;&gt;Hyde&lt;/a&gt; and its variant &lt;a href=&#34;https://npf.io&#34;&gt;Nate Finch&amp;rsquo;s blog&lt;/a&gt;. It was heavily restructured with modularised page layouts for easier maintenance and modification. &lt;em&gt;Hyde-hyde&lt;/em&gt; offers awesome features such as nice colour tone, &lt;a href=&#34;https://highlightjs.org&#34;&gt;code highlighting&lt;/a&gt;, &lt;a href=&#34;https://fontawesome.com&#34;&gt;Font-Awesome 5&amp;rsquo;s sidebar icons&lt;/a&gt;), a cool portfolio page, more choices for commenting (e.g. &lt;a href=&#34;https://graphcomment.com&#34;&gt;GraphComment&lt;/a&gt;, &lt;a href=&#34;https://disqus.com&#34;&gt;Disqus&lt;/a&gt;).&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>LaraMod</title>
+      <link>https://www.arloor.com/portfolio/laramod/</link>
+      <pubDate>Fri, 19 Jan 2018 00:00:00 +0000</pubDate>
+      <guid>https://www.arloor.com/portfolio/laramod/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/htr3n/laramod&#34;&gt;LaraMod&lt;/a&gt; is another modularisation effort to systematically organising a &lt;a href=&#34;https://laravel.com&#34;&gt;Laravel&lt;/a&gt; based project. The idea stems from my struggle to structure a Laravel-based project so that I can work effectively on individual modules whilst keeping Laravel codebase intact as much as possible and also keeping the project&amp;rsquo;s codebase separate from Laravel.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

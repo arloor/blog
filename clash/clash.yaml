@@ -1,0 +1,337 @@
+ipv6: false
+mixed-port: 7890
+allow-lan: false
+external-controller: 0.0.0.0:1234
+external-ui: /data/clash/ui
+profile:
+  store-selected: true
+
+hosts:
+  'pi.arloor.com': 192.168.5.234
+
+script:
+  shortcuts:
+    quic: network == 'udp' and dst_port == 443
+    udp: network == 'udp'
+
+rules:
+- IP-CIDR,5.28.195.80/32,REJECT,no-resolve
+- SCRIPT,quic,REJECT,no-resolve
+- RULE-SET,mine,直连
+- DOMAIN-SUFFIX,services.googleapis.cn,通用
+- RULE-SET,codespaces,CODE
+- RULE-SET,copilot,COPILOT
+- RULE-SET,apple,直连
+- RULE-SET,direct,直连
+- RULE-SET,openai,openai
+- RULE-SET,netflix,奈飞
+- RULE-SET,twitter,推特
+- RULE-SET,greatfire,通用
+- RULE-SET,proxy,通用
+- RULE-SET,gfw,通用
+- RULE-SET,telegramcidr,电报,no-resolve
+- IP-CIDR,192.168.0.0/16,DIRECT,no-resolve
+- IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
+- IP-CIDR,172.16.0.0/12,DIRECT,no-resolve
+- RULE-SET,cncidr,直连
+- GEOIP,CN,直连
+- SCRIPT,udp,REJECT,no-resolve
+- MATCH,通用
+
+proxy-groups:
+- name: 通用
+  type: select
+  proxies:
+    - di
+    - us
+    - bwg
+    - li
+    - gg
+    - hk
+    - sg
+    - baipiao
+    - DIRECT
+
+- name: 电报
+  type: select
+  proxies:
+    - sg
+    - di
+    - hk
+    - bwg
+    - baipiao
+    - DIRECT
+    - us
+    - gg
+- name: 奈飞
+  type: select
+  proxies:
+    - sg
+    - di
+    - bwg
+    - hk
+    - baipiao
+    - DIRECT
+    - us
+    - gg
+
+- name: 推特
+  type: select
+  proxies:
+    - us
+    - gg
+    - bwg
+    - sg
+    - hk
+    - baipiao
+    - DIRECT
+    - di
+
+- name: openai
+  type: select
+  proxies:
+    - gg
+    - us
+    - bwg
+    - di
+    - sg
+    - hk
+    - baipiao
+    - DIRECT
+- name: CODE
+  type: select
+  proxies:
+    - sg
+    - hk
+    - bwg
+    - us
+    - di
+    - gg
+    - baipiao
+    - DIRECT
+- name: COPILOT
+  type: select
+  proxies:
+    - di
+    - us
+    - sg
+    - hk
+    - gg
+    - baipiao
+    - DIRECT
+
+- name: 直连
+  type: select
+  proxies:
+    - DIRECT
+    - di
+    - hk
+    - sg
+    - baipiao
+    - gg
+    - bwg
+
+
+proxies:
+- name: "li"
+  type: http
+  server: 106.14.134.215
+  port: 444
+  username: haloshit
+  password: 
+  tls: true 
+  skip-cert-verify: true
+- name: "bwg"
+  type: http
+  server: bwg.arloor.dev
+  port: 444
+  username: haloshit
+  password: 
+  tls: true 
+  skip-cert-verify: true
+- name: "gg"
+  type: http
+  server: gg.arloor.dev
+  port: 444
+  username: haloshit
+  password: 
+  tls: true 
+  skip-cert-verify: true
+- name: "us"
+  type: http
+  server: us.arloor.dev
+  port: 444
+  username: haloshit
+  password: 
+  tls: true 
+  skip-cert-verify: true
+
+- name: "di"
+  type: http
+  server: di.arloor.dev
+  port: 444
+  username: haloshit
+  password: 
+  tls: true 
+  skip-cert-verify: true
+ 
+- name: "sg"
+  type: http
+  server: sg.arloor.dev
+  port: 444
+  username: haloshit
+  password: 
+  tls: true 
+  skip-cert-verify: true
+
+- name: "hk"
+  type: http
+  server: hk.arloor.dev
+  port: 444
+  username: haloshit
+  password: 
+  tls: true 
+  skip-cert-verify: true
+
+- name: "baipiao"
+  type: http
+  server: 216.24.187.88
+  port: 444
+  username: haloshit
+  password: 
+  tls: true 
+  skip-cert-verify: true
+
+rule-providers:
+  copilot:
+    behavior: classical 
+    type: http
+    url: "https://repo-1252282974.cos.ap-shanghai.myqcloud.com/clash/copilot.yaml"
+    path: ./ruleset/copilot.yaml
+    interval: 86400
+  codespaces:
+    behavior: classical 
+    type: http
+    url: "https://repo-1252282974.cos.ap-shanghai.myqcloud.com/clash/codespaces.yaml"
+    path: ./ruleset/codespaces.yaml
+    interval: 86400
+  mine:
+    behavior: classical 
+    type: http
+    url: "https://repo-1252282974.cos.ap-shanghai.myqcloud.com/clash/mine.yaml"
+    path: ./ruleset/mine.yaml
+    interval: 86400
+  twitter:
+    behavior: classical 
+    type: http
+    url: "https://repo-1252282974.cos.ap-shanghai.myqcloud.com/clash/twitter.yaml"
+    path: ./ruleset/twitter.yaml
+    interval: 86400
+
+  openai:
+    behavior: classical 
+    type: http
+    url: "https://repo-1252282974.cos.ap-shanghai.myqcloud.com/clash/openai.yaml"
+    path: ./ruleset/chat.yaml
+    interval: 86400
+
+  apple:
+    behavior: classical 
+    type: http
+    url: "https://repo-1252282974.cos.ap-shanghai.myqcloud.com/clash/apple.yaml"
+    path: ./ruleset/apple.yaml
+    interval: 86400
+
+
+  netflix:
+    behavior: classical 
+    type: http
+    url: "https://repo-1252282974.cos.ap-shanghai.myqcloud.com/clash/netflix.yaml"
+    path: ./ruleset/netflix.yaml
+    interval: 86400
+
+  proxy:
+    type: http
+    behavior: domain
+    url: "https://www.arloor.com/clash/ruleset/proxy.txt"
+    path: ./ruleset/proxy.yaml
+    interval: 86400
+
+  direct:
+    type: http
+    behavior: domain
+    url: "https://www.arloor.com/clash/ruleset/direct.txt"
+    path: ./ruleset/direct.yaml
+    interval: 86400
+
+  gfw:
+    type: http
+    behavior: domain
+    url: "https://www.arloor.com/clash/ruleset/gfw.txt"
+    path: ./ruleset/gfw.yaml
+    interval: 86400
+
+  greatfire:
+    type: http
+    behavior: domain
+    url: "https://www.arloor.com/clash/ruleset/greatfire.txt"
+    path: ./ruleset/greatfire.yaml
+    interval: 86400
+
+  telegramcidr:
+    type: http
+    behavior: ipcidr
+    url: "https://www.arloor.com/clash/ruleset/telegramcidr.txt"
+    path: ./ruleset/telegramcidr.yaml
+    interval: 86400
+
+  cncidr:
+    type: http
+    behavior: ipcidr
+    url: "https://www.arloor.com/clash/ruleset/cncidr.txt"
+    path: ./ruleset/cncidr.yaml
+    interval: 86400
+
+experimental:
+  sniff-tls-sni: true
+  
+tun:
+  enable: true
+  stack: system
+  dns-hijack:
+    - 8.8.8.8:53
+    - tcp://8.8.8.8:53
+    - any:53
+    - tcp://any:53
+  auto-route: true 
+  auto-detect-interface: true 
+
+dns:
+  enable: true
+  ipv6: false
+  #listen: 0.0.0.0:53
+  default-nameserver:
+    - 119.29.29.29
+    - 223.5.5.5
+  fake-ip-range: 198.18.0.1/16 # Fake IP addresses pool CIDR
+  fake-ip-filter:
+    - '*.lan'
+    - localhost.ptlogin2.qq.com
+  nameserver:
+      - 119.29.29.29
+      - 114.114.114.114
+      - 223.5.5.5
+  fallback:
+      - https://doh.pub/dns-query
+      - https://cloudflare-dns.com/dns-query
+      - https://1.12.12.12/dns-query
+      - https://120.53.53.53/dns-query
+  fallback-filter:
+    geoip: true
+    geoip-code: CN
+    ipcidr:
+      - 240.0.0.0/4
+    domain:
+      - '+.google.com'
+      - '+.facebook.com'
+      - '+.youtube.com'

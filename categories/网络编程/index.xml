@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>网络编程 on ARLOOR</title>
+    <link>https://www.arloor.com/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/</link>
+    <description>Recent content in 网络编程 on ARLOOR</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Wed, 30 Jan 2019 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://www.arloor.com/categories/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>安卓Vpn开发思路</title>
+      <link>https://www.arloor.com/posts/other/android-vpnservice-and-vpn-dev/</link>
+      <pubDate>Wed, 30 Jan 2019 00:00:00 +0000</pubDate>
+      <guid>https://www.arloor.com/posts/other/android-vpnservice-and-vpn-dev/</guid>
+      <description>&lt;p&gt;经过2个月的开发，我的http代理可以说没有遗憾了，当然还有可以改进的地方，比如多用户认证啥的，但是没有必要啦。&lt;/p&gt;&#xA;&lt;p&gt;为了在安卓上也能愉快地使用自己开发的代理，研究了一下安卓Vpnservice，在此记录一下当前的进度，并确定以后的开发思路。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Proxyme-基于javaNIO的http代理</title>
+      <link>https://www.arloor.com/posts/netty/proxyme-based-on-javanio/</link>
+      <pubDate>Tue, 14 Aug 2018 00:00:00 +0000</pubDate>
+      <guid>https://www.arloor.com/posts/netty/proxyme-based-on-javanio/</guid>
+      <description>&lt;h1 id=&#34;proxyme-一个-http-代理&#34;&gt;proxyme 一个 http 代理&lt;/h1&gt;&#xA;&lt;p&gt;使用 java NIO 的 http 代理。支持 https。不建议再 chrome 上使用本代理，因为 chrome 本身会请求很多谷歌的 api，结果被墙住了，又只有两个线程，导致其他都被阻塞，很尴尬。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

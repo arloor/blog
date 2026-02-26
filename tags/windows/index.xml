@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Windows on ARLOOR</title>
+    <link>https://www.arloor.com/tags/windows/</link>
+    <description>Recent content in Windows on ARLOOR</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Thu, 04 Dec 2025 15:37:22 +0800</lastBuildDate>
+    <atom:link href="https://www.arloor.com/tags/windows/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Windows Powershell常用脚本</title>
+      <link>https://www.arloor.com/posts/windows-powershell/</link>
+      <pubDate>Thu, 04 Dec 2025 15:37:22 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/windows-powershell/</guid>
+      <description>&lt;p&gt;对 linux 的 shell 脚本比较熟悉后，发现 windows 的 powershell 也挺好用的。这里记录一些常用的脚本片段，方便以后查阅。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Windows11启用openssh</title>
+      <link>https://www.arloor.com/posts/windows11-openssh/</link>
+      <pubDate>Sun, 26 Jan 2025 11:14:36 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/windows11-openssh/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>使用Mac mini wakeonlan windows主机（微星主板）</title>
+      <link>https://www.arloor.com/posts/mac-wakeonlan-windows-11-msi-motherboard/</link>
+      <pubDate>Mon, 16 Dec 2024 22:16:38 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/mac-wakeonlan-windows-11-msi-motherboard/</guid>
+      <description>&lt;p&gt;家里有台Mac mini是一直开机的，作为软路由使用，也作为跳板机连接到家里网络。今天试了下怎么用这个mac mini通过wake on lan唤醒windows主机。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>一键关闭WeGame和LOL客户端，避免浪费时间</title>
+      <link>https://www.arloor.com/posts/shutdown-wegame-lol/</link>
+      <pubDate>Tue, 01 Oct 2024 00:42:03 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/shutdown-wegame-lol/</guid>
+      <description>&lt;p&gt;如何快速关闭WeGame和LOL客户端？恶心的wegame总是在关闭游戏的时候浪费我时间，所以写了一个批处理文件，一键关闭wegame和LOL客户端。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Windows11 WSL2使用</title>
+      <link>https://www.arloor.com/posts/windows11-23h2-wsl2/</link>
+      <pubDate>Sun, 22 Sep 2024 13:45:23 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/windows11-23h2-wsl2/</guid>
+      <description>&lt;p&gt;wsl 全称是 windows 的 linux 子系统，可以理解为在你的 windows 电脑上提供一个 linux 的工作环境。&lt;/p&gt;&#xA;&lt;h2 id=&#34;windows-虚拟化的基础知识&#34;&gt;windows 虚拟化的基础知识&lt;/h2&gt;&#xA;&lt;table&gt;&#xA;  &lt;thead&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;th&gt;windows 功能&lt;/th&gt;&#xA;          &lt;th&gt;作用&lt;/th&gt;&#xA;          &lt;th&gt;其他&lt;/th&gt;&#xA;      &lt;/tr&gt;&#xA;  &lt;/thead&gt;&#xA;  &lt;tbody&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;Hyper-V&lt;/td&gt;&#xA;          &lt;td&gt;微软自己的虚拟化工具&lt;/td&gt;&#xA;          &lt;td&gt;包含了“管理工具”和“平台”，其中“平台”包含“服务”和“虚拟机监控程序”&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;Windows Subsystem for Linux&lt;/td&gt;&#xA;          &lt;td&gt;WSL1，不是我们讨论的 WSL2 所需要的&lt;/td&gt;&#xA;          &lt;td&gt;&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;Virtual Machine Platform&lt;/td&gt;&#xA;          &lt;td&gt;虚拟机平台（WSL2 的底层依赖）&lt;/td&gt;&#xA;          &lt;td&gt;看到说 Hyper-V 也依赖这个，但启用 Hyper-V 并不需要启用虚拟机平台，因此我觉得 Hyper-V 依赖的是“Hyper-V 虚拟机监控程序”吧&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;Windows Sandbox&lt;/td&gt;&#xA;          &lt;td&gt;一个隔离的桌面环境&lt;/td&gt;&#xA;          &lt;td&gt;我反正没用过，不了解&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td&gt;Windows 虚拟机监控程序平台&lt;/td&gt;&#xA;          &lt;td&gt;用于支持 vmware 等第三方虚拟机软件&lt;/td&gt;&#xA;          &lt;td&gt;&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;  &lt;/tbody&gt;&#xA;&lt;/table&gt;&#xA;&#xA;&#xA;&#xA;&lt;img src=&#34;https://www.arloor.com/img/windows-feature-disable-virt.png&#34; alt=&#34;&#34; width=&#34;400px&#34; style=&#34;max-width: 100%;&#34;&gt;&#xA;&#xA;&lt;blockquote&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;虚拟机平台会一定程度上影响游戏性能，为了游戏性能，可以关闭虚拟机平台、Hyper-V。Windows 虚拟机监控程序平台、适用于 Linux 的 Windows 子系统我理解是不影响游戏性能的。参考&lt;a href=&#34;https://prod.support.services.microsoft.com/zh-cn/windows/%E7%94%A8%E4%BA%8E%E5%9C%A8-windows-11-%E4%B8%AD%E4%BC%98%E5%8C%96%E6%B8%B8%E6%88%8F%E6%80%A7%E8%83%BD%E7%9A%84%E9%80%89%E9%A1%B9-a255f612-2949-4373-a566-ff6f3f474613&#34;&gt;用于在 Windows 11 中优化游戏性能的选项&lt;/a&gt;。&lt;/li&gt;&#xA;&lt;li&gt;Hyper-V 和 vmware 等软件是冲突的，详见&lt;a href=&#34;https://learn.microsoft.com/zh-cn/troubleshoot/windows-client/application-management/virtualization-apps-not-work-with-hyper-v&#34;&gt;虚拟化应用程序无法与 Hyper-V、Device Guard 和 Credential Guard 协同工作&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;p&gt;&lt;strong&gt;关闭虚拟机平台和 Hyper-V 虚拟机监控程序：&lt;/strong&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Windows11仅以大核启动以解决部分游戏大小核心调度不佳导致帧率不稳定的问题</title>
+      <link>https://www.arloor.com/posts/windows11-boot-only-pcores/</link>
+      <pubDate>Fri, 28 Jun 2024 21:25:52 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/windows11-boot-only-pcores/</guid>
+      <description>&lt;p&gt;大小核调度横空出世后，游戏需要额外做优化来让大小核架构发挥最大潜力。而没有正确优化的游戏比如老头环就会出现帧率抖动，伴随着显卡占用率抖动的现象。之前我使用 process lasso这个软件来设置cpu亲和性来解决该问题。该方案最大的问题是需要屏蔽小懒熊防作弊后，process lasso 才能生效。而屏蔽小懒熊会导致无法使用联机模式。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Windows11彻底禁止自动更新</title>
+      <link>https://www.arloor.com/posts/windows11-disable-auto-update/</link>
+      <pubDate>Fri, 28 Jun 2024 21:05:32 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/windows11-disable-auto-update/</guid>
+      <description>&lt;p&gt;关于windows自动更新，我的建议是关闭windows自动更新，时常到&lt;a href=&#34;https://support.microsoft.com/en-us/topic/windows-11-version-23h2-update-history-59875222-b990-4bd9-932f-91a5954de434&#34;&gt;Windows 11, version 23H2 update history&lt;/a&gt;和&lt;a href=&#34;https://support.microsoft.com/zh-cn/topic/windows-11%E7%89%88%E6%9C%AC-23h2-%E6%9B%B4%E6%96%B0%E5%8E%86%E5%8F%B2%E8%AE%B0%E5%BD%95-59875222-b990-4bd9-932f-91a5954de434&#34;&gt;Windows 11版本 23H2 更新历史记录&lt;/a&gt;看看有没有有用的更新。看到有更新后，千万别急着更新，过个十天半个月用搜索引擎搜搜看看该更新有没有问题再说。比如最近的&lt;a href=&#34;https://support.microsoft.com/en-us/topic/june-25-2024-kb5039302-os-builds-22621-3810-and-22631-3810-preview-0ab34e3f-bca9-4a52-a1a4-404bf8162f58&#34;&gt;kb5039302&lt;/a&gt;就存在虚拟机无限重启的问题。很多大问题是不会被windows官方写在页面上的，都是外面媒体爆出来的。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>windows11设置、性能优化</title>
+      <link>https://www.arloor.com/posts/windows11-settings/</link>
+      <pubDate>Mon, 04 Dec 2023 22:18:31 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/windows11-settings/</guid>
+      <description>&lt;h2 id=&#34;开启无需密码自动登录&#34;&gt;开启无需密码自动登录&lt;/h2&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;以管理员运行 cmd，输入：&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;reg ADD &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\PasswordLess\Device&amp;#34;&lt;/span&gt; /v DevicePasswordLessBuildVersion /t REG_DWORD /d &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; /f&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;2&#34;&gt;&#xA;&lt;li&gt;重启电脑，让新注册表生效&lt;/li&gt;&#xA;&lt;li&gt;在开始菜单输入：&lt;code&gt;netplwiz&lt;/code&gt; ，并取消勾选&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;p&gt;&lt;img src=&#34;https://www.arloor.com/img/cancel-password-login-for-windows11.png&#34; alt=&#34;Alt text&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Windows Terminal</title>
+      <link>https://www.arloor.com/posts/windows-terminal/</link>
+      <pubDate>Fri, 24 Apr 2020 14:31:16 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/windows-terminal/</guid>
+      <description>&lt;p&gt;windows terminal这个终端很好用，这里记一下&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Windows10电源管理-睡眠问题解决</title>
+      <link>https://www.arloor.com/posts/windows-powercfg/</link>
+      <pubDate>Sun, 07 Jul 2019 11:40:52 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/windows-powercfg/</guid>
+      <description>&lt;p&gt;这是很久之前写在CSDN上的一篇文章，现在迁移到自己的博客上，主要介绍windows10睡眠、电源管理方面的问题。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

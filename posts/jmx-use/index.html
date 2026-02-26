@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    
+    <link rel="canonical" href="https://www.arloor.com/posts/jmx-use/">
+    
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.157.0">
+
+    
+    
+    
+
+<title>Java管理扩展：通过MBean获取jvm运行情况 • ARLOOR</title>
+<meta name="description" content="今天，你学习了吗">
+<meta name="keywords" content="刘港欢, arloor, moontell">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Java管理扩展：通过MBean获取jvm运行情况">
+  <meta name="twitter:description" content="搞下jvm信息的监控">
+      <meta name="twitter:site" content="@njulgh">
+
+<meta property="og:url" content="https://www.arloor.com/posts/jmx-use/">
+  <meta property="og:site_name" content="ARLOOR">
+  <meta property="og:title" content="Java管理扩展：通过MBean获取jvm运行情况">
+  <meta property="og:description" content="搞下jvm信息的监控">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2021-01-30T23:11:48+08:00">
+    <meta property="article:modified_time" content="2021-01-30T23:11:48+08:00">
+    <meta property="article:tag" content="Java">
+
+
+    
+
+
+
+
+
+<link rel="stylesheet" href="/styles/atom-one-dark.min.css">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.debf1b963c1830f6b9b96ee48c2b4a22c31c7c3885a87bed290c0e198fc6a08d.css" integrity="sha256-3r8bljwYMPa5uW7kjCtKIsMcfDiFqHvtKQwOGY/GoI0=">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+
+<link rel="stylesheet" href="/scss/hugo-toc.6b7222b4ddd3cebd47d144a2e37ade6cbbb64f47e31d8feac655896156ade206.css" integrity="sha256-a3IitN3Tzr1H0USi43rebLu2T0fjHY/qxlWJYVat4gY=">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="/favicon.png">
+    
+    
+
+</head>
+
+
+
+<body class="  ">
+  
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="/">
+          
+          ARLOOR
+          
+        </a>
+      </span>
+      <a href="/">
+        
+        
+        <div class="author-image">
+          <img src="/img/head.jpeg" alt="Author Image" class="img--circle img--headshot element--center">
+        </div>
+        
+        
+      </a>
+      
+      <p class="site__description">
+         都是瞎写的 
+      </p>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">ARLOOR</label>
+      <div class="menu-content menu-content--mobile">
+        <div class="show-in-small">
+          <a href="/">
+            
+            
+            <div class="author-image">
+              <img src="/img/head.jpeg" alt="Author Image"
+                class="img--circle img--headshot element--center">
+            </div>
+            
+            
+          </a>
+        </div>
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/posts/">
+						<span>文章</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/tags/">
+						<span>分类</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/about/">
+						<span>关于我</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/grafana-iframe">
+						<span>Grafana</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/net-iframe">
+						<span>网速监控</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/nat">
+						<span>NAT规则</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/stock">
+						<span>股票监控</span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://x.com/njulgh" rel="me" target="_blank"><i class="fa-brands fa-x-twitter fa-lg"></i></a>
+	
+	
+	
+	
+	
+	<a href="https://github.com/arloor" rel="me" target="_blank"><i class="fa-brands fa-github fa-lg"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://t.me/never_contact_me" rel="me" target="_blank"><i class="fa-brands fa-telegram fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	<a href="mailto:admin@arloor.com" rel="me" target="_blank"><i class="fa-solid fa-at fa-lg"></i></a>
+	
+	
+	
+	
+</section>
+      </div>
+    </div>
+    <div class="menu-content menu-content--desktop">
+      <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/posts/">
+						<span>文章</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/tags/">
+						<span>分类</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/about/">
+						<span>关于我</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/grafana-iframe">
+						<span>Grafana</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/net-iframe">
+						<span>网速监控</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/nat">
+						<span>NAT规则</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/stock">
+						<span>股票监控</span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+    </div>
+    <div class="social-wrap social-wrap--desktop">
+      <section class="social">
+	
+	<a href="https://x.com/njulgh" rel="me" target="_blank"><i class="fa-brands fa-x-twitter fa-lg"></i></a>
+	
+	
+	
+	
+	
+	<a href="https://github.com/arloor" rel="me" target="_blank"><i class="fa-brands fa-github fa-lg"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://t.me/never_contact_me" rel="me" target="_blank"><i class="fa-brands fa-telegram fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	<a href="mailto:admin@arloor.com" rel="me" target="_blank"><i class="fa-solid fa-at fa-lg"></i></a>
+	
+	
+	
+	
+</section>
+    </div>
+    
+<div class="copyright">
+  &copy; 2026 arloor
+  
+    <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>
+  
+</div>
+
+
+<div class="builtwith">
+Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.com/arloor/hyde-arloor">hyde-arloor</a>.
+</div>
+
+
+  </div>
+</div>
+
+  <div class="content container">
+    
+    
+<article>
+  <header>
+    <h1>Java管理扩展：通过MBean获取jvm运行情况</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> Jan 30, 2021
+    
+    
+    
+      
+      
+          in
+          
+          
+              <a class="badge badge-category" href="/categories/undefined">UNDEFINED</a>
+              
+          
+      
+    
+    
+    
+      
+      
+          <br/>
+           <i class="fas fa-tags"></i>
+          
+          <a class="badge badge-tag" href="/tags/java">java</a>
+          
+      
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 11 min read
+</div>
+
+
+  </header>
+  
+  
+  
+    <div class="toc-wrapper">
+      <input type="checkbox" id="tocToggle">
+      <label for="tocToggle">Table of Content</label>
+      
+          <nav id="TableOfContents"></nav>
+      
+    </div>
+  
+  
+  <div class="post">
+    <p>搞下jvm信息的监控</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#f92672">import</span> java.lang.management.ClassLoadingMXBean;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.lang.management.CompilationMXBean;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.lang.management.GarbageCollectorMXBean;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.lang.management.ManagementFactory;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.lang.management.MemoryPoolMXBean;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.lang.management.MemoryUsage;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> com.sun.management.OperatingSystemMXBean;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.lang.management.RuntimeMXBean;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.lang.management.ThreadMXBean;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.text.DecimalFormat;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.text.DecimalFormatSymbols;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.text.NumberFormat;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.List;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.Locale;
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> java.util.concurrent.TimeUnit;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">HeapMain</span> {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> NumberFormat fmtI <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> DecimalFormat(<span style="color:#e6db74">&#34;###,###&#34;</span>, <span style="color:#66d9ef">new</span> DecimalFormatSymbols(Locale.<span style="color:#a6e22e">ENGLISH</span>));
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> NumberFormat fmtD <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> DecimalFormat(<span style="color:#e6db74">&#34;###,##0.000&#34;</span>, <span style="color:#66d9ef">new</span> DecimalFormatSymbols(Locale.<span style="color:#a6e22e">ENGLISH</span>));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">main</span>(String<span style="color:#f92672">[]</span> args) <span style="color:#66d9ef">throws</span> InterruptedException {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//运行时情况</span>
+</span></span><span style="display:flex;"><span>        RuntimeMXBean runtime <span style="color:#f92672">=</span> ManagementFactory.<span style="color:#a6e22e">getRuntimeMXBean</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//操作系统情况</span>
+</span></span><span style="display:flex;"><span>        com.<span style="color:#a6e22e">sun</span>.<span style="color:#a6e22e">management</span>.<span style="color:#a6e22e">OperatingSystemMXBean</span>  os <span style="color:#f92672">=</span> ManagementFactory.<span style="color:#a6e22e">getPlatformMXBean</span>(com.<span style="color:#a6e22e">sun</span>.<span style="color:#a6e22e">management</span>.<span style="color:#a6e22e">OperatingSystemMXBean</span>.<span style="color:#a6e22e">class</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//线程使用情况</span>
+</span></span><span style="display:flex;"><span>        ThreadMXBean threads <span style="color:#f92672">=</span> ManagementFactory.<span style="color:#a6e22e">getThreadMXBean</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//堆内存使用情况</span>
+</span></span><span style="display:flex;"><span>        MemoryUsage heapMemoryUsage <span style="color:#f92672">=</span> ManagementFactory.<span style="color:#a6e22e">getMemoryMXBean</span>().<span style="color:#a6e22e">getHeapMemoryUsage</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//非堆内存使用情况</span>
+</span></span><span style="display:flex;"><span>        MemoryUsage nonHeapMemoryUsage <span style="color:#f92672">=</span> ManagementFactory.<span style="color:#a6e22e">getMemoryMXBean</span>().<span style="color:#a6e22e">getNonHeapMemoryUsage</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//类加载情况</span>
+</span></span><span style="display:flex;"><span>        ClassLoadingMXBean cl <span style="color:#f92672">=</span> ManagementFactory.<span style="color:#a6e22e">getClassLoadingMXBean</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//内存池对象</span>
+</span></span><span style="display:flex;"><span>        List<span style="color:#f92672">&lt;</span>MemoryPoolMXBean<span style="color:#f92672">&gt;</span> pools <span style="color:#f92672">=</span> ManagementFactory.<span style="color:#a6e22e">getMemoryPoolMXBeans</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//编译器和编译情况</span>
+</span></span><span style="display:flex;"><span>        CompilationMXBean cm <span style="color:#f92672">=</span> ManagementFactory.<span style="color:#a6e22e">getCompilationMXBean</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//获取GC对象</span>
+</span></span><span style="display:flex;"><span>        List<span style="color:#f92672">&lt;</span>GarbageCollectorMXBean<span style="color:#f92672">&gt;</span> gcmList <span style="color:#f92672">=</span> ManagementFactory.<span style="color:#a6e22e">getGarbageCollectorMXBeans</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//运行时情况</span>
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;jvm.name (JVM名称-版本号-供应商):%s | version: %s | vendor: %s  %n&#34;</span>, runtime.<span style="color:#a6e22e">getVmName</span>(), runtime.<span style="color:#a6e22e">getVmVersion</span>(), runtime.<span style="color:#a6e22e">getVmVendor</span>());
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;jvm.spec.name (JVM规范名称-版本号-供应商):%s | version: %s | vendor: %s  %n&#34;</span>, runtime.<span style="color:#a6e22e">getSpecName</span>(), runtime.<span style="color:#a6e22e">getSpecVersion</span>(), runtime.<span style="color:#a6e22e">getSpecVendor</span>());
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;jvm.java.version (JVM JAVA版本):%s%n&#34;</span>, System.<span style="color:#a6e22e">getProperty</span>(<span style="color:#e6db74">&#34;java.version&#34;</span>));
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;jvm.start.time (Java虚拟机的启动时间):%s%n&#34;</span>, toDuration(runtime.<span style="color:#a6e22e">getStartTime</span>()));
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;jvm.uptime (Java虚拟机的正常运行时间):%s%n&#34;</span>, runtime.<span style="color:#a6e22e">getInputArguments</span>());
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;jvm.uptime (Java虚拟机的正常运行时间):%s%n&#34;</span>, toDuration(runtime.<span style="color:#a6e22e">getUptime</span>()));
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;jvm.getInputArguments (JVM 启动参数):%s%n&#34;</span>, runtime.<span style="color:#a6e22e">getInputArguments</span>());
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;jvm.getSystemProperties (获取系统属性):%s%n&#34;</span>, runtime.<span style="color:#a6e22e">getSystemProperties</span>());
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//获取cpu使用情况/gc垃圾回收活动情况</span>
+</span></span><span style="display:flex;"><span>        Thread thread <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Thread(() <span style="color:#f92672">-&gt;</span> showCpu(runtime, os, gcmList));
+</span></span><span style="display:flex;"><span>        thread.<span style="color:#a6e22e">start</span>();
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;------------------------------------------------------------------------------------------------------&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//编译情况</span>
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;compilation.name(编译器名称)：%s%n&#34;</span>,cm.<span style="color:#a6e22e">getName</span>());
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;compilation.total.time(编译器耗时)：%d毫秒%n&#34;</span>,cm.<span style="color:#a6e22e">getTotalCompilationTime</span>());
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">boolean</span> isSupport<span style="color:#f92672">=</span>cm.<span style="color:#a6e22e">isCompilationTimeMonitoringSupported</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(isSupport){
+</span></span><span style="display:flex;"><span>            System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;支持即时编译器编译监控&#34;</span>);
+</span></span><span style="display:flex;"><span>        }<span style="color:#66d9ef">else</span>{
+</span></span><span style="display:flex;"><span>            System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;不支持即时编译器编译监控&#34;</span>);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;------------------------------------------------------------------------------------------------------&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//JVM 线程情况</span>
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;jvm.threads.total.count (总线程数(守护+非守护)):%d%n&#34;</span>, threads.<span style="color:#a6e22e">getThreadCount</span>());
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;jvm.threads.daemon.count (守护进程线程数):%d%n&#34;</span>, threads.<span style="color:#a6e22e">getDaemonThreadCount</span>());
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;jvm.threads.peak.count (峰值线程数):%d%n&#34;</span>, threads.<span style="color:#a6e22e">getPeakThreadCount</span>());
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;jvm.threads.total.start.count(Java虚拟机启动后创建并启动的线程总数):%d%n&#34;</span>, threads.<span style="color:#a6e22e">getTotalStartedThreadCount</span>());
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(Long threadId : threads.<span style="color:#a6e22e">getAllThreadIds</span>()) {
+</span></span><span style="display:flex;"><span>            System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;threadId: %d | threadName: %s%n&#34;</span>, threadId, threads.<span style="color:#a6e22e">getThreadInfo</span>(threadId).<span style="color:#a6e22e">getThreadName</span>());
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;------------------------------------------------------------------------------------------------------&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//获取GC信息</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (GarbageCollectorMXBean collectorMXBean : gcmList) {
+</span></span><span style="display:flex;"><span>            System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;collectorMXBean.getCollectionCount(%s 垃圾回收器执行次数):%d%n&#34;</span>,collectorMXBean.<span style="color:#a6e22e">getName</span>(), collectorMXBean.<span style="color:#a6e22e">getCollectionCount</span>());
+</span></span><span style="display:flex;"><span>            System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;collectorMXBean.getCollectionTime(%s 垃圾回收器执行时间):%d%n&#34;</span>,collectorMXBean.<span style="color:#a6e22e">getName</span>(), collectorMXBean.<span style="color:#a6e22e">getCollectionTime</span>());
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;------------------------------------------------------------------------------------------------------&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//堆内存情况</span>
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;jvm.heap.init (初始化堆内存):%s %n&#34;</span>,  bytesToMB(heapMemoryUsage.<span style="color:#a6e22e">getInit</span>()));
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;jvm.heap.used (已使用堆内存):%s %n&#34;</span>, bytesToMB(heapMemoryUsage.<span style="color:#a6e22e">getUsed</span>()));
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;jvm.heap.committed (可使用堆内存):%s %n&#34;</span>, bytesToMB(heapMemoryUsage.<span style="color:#a6e22e">getCommitted</span>()));
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;jvm.heap.max (最大堆内存):%s %n&#34;</span>, bytesToMB(heapMemoryUsage.<span style="color:#a6e22e">getMax</span>()));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;------------------------------------------------------------------------------------------------------&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//非堆内存使用情况</span>
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;jvm.noheap.init (初始化非堆内存):%s %n&#34;</span>,  bytesToMB(nonHeapMemoryUsage.<span style="color:#a6e22e">getInit</span>()));
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;jvm.noheap.used (已使用非堆内存):%s %n&#34;</span>,  bytesToMB(nonHeapMemoryUsage.<span style="color:#a6e22e">getUsed</span>()));
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;jvm.noheap.committed (可使用非堆内存):%s %n&#34;</span>,  bytesToMB(nonHeapMemoryUsage.<span style="color:#a6e22e">getCommitted</span>()));
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;jvm.noheap.max (最大非堆内存):%s %n&#34;</span>, bytesToMB(nonHeapMemoryUsage.<span style="color:#a6e22e">getMax</span>()));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;------------------------------------------------------------------------------------------------------&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//系统概况</span>
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;os.name(操作系统名称-版本号):%s %s %s %n&#34;</span>, os.<span style="color:#a6e22e">getName</span>(), <span style="color:#e6db74">&#34;version&#34;</span>, os.<span style="color:#a6e22e">getVersion</span>());
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;os.arch(操作系统内核):%s%n&#34;</span>, os.<span style="color:#a6e22e">getArch</span>());
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;os.cores(可用的处理器数量):%s %n&#34;</span>, os.<span style="color:#a6e22e">getAvailableProcessors</span>());
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;os.loadAverage(系统负载平均值):%s %n&#34;</span>, os.<span style="color:#a6e22e">getSystemLoadAverage</span>());
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;------------------------------------------------------------------------------------------------------&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//类加载情况</span>
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;class.current.load.count(当前加载类数量):%s %n&#34;</span>, cl.<span style="color:#a6e22e">getLoadedClassCount</span>());
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;class.unload.count(未加载类数量):%s %n&#34;</span>, cl.<span style="color:#a6e22e">getUnloadedClassCount</span>());
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;class.total.load.count(总加载类数量):%s %n&#34;</span>, cl.<span style="color:#a6e22e">getTotalLoadedClassCount</span>());
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;------------------------------------------------------------------------------------------------------&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(MemoryPoolMXBean pool : pools) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">final</span> String kind <span style="color:#f92672">=</span> pool.<span style="color:#a6e22e">getType</span>().<span style="color:#a6e22e">name</span>();
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">final</span> MemoryUsage usage <span style="color:#f92672">=</span> pool.<span style="color:#a6e22e">getUsage</span>();
+</span></span><span style="display:flex;"><span>            System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;内存模型： &#34;</span> <span style="color:#f92672">+</span> getKindName(kind) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;, 内存空间名称： &#34;</span> <span style="color:#f92672">+</span> getPoolName(pool.<span style="color:#a6e22e">getName</span>()) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;, jvm.&#34;</span> <span style="color:#f92672">+</span> pool.<span style="color:#a6e22e">getName</span>() <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;.init(初始化):&#34;</span> <span style="color:#f92672">+</span> bytesToMB(usage.<span style="color:#a6e22e">getInit</span>()));
+</span></span><span style="display:flex;"><span>            System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;内存模型： &#34;</span> <span style="color:#f92672">+</span> getKindName(kind) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;, 内存空间名称： &#34;</span> <span style="color:#f92672">+</span> getPoolName(pool.<span style="color:#a6e22e">getName</span>()) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;, jvm.&#34;</span> <span style="color:#f92672">+</span> pool.<span style="color:#a6e22e">getName</span>() <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;.used(已使用): &#34;</span> <span style="color:#f92672">+</span> bytesToMB(usage.<span style="color:#a6e22e">getUsed</span>()));
+</span></span><span style="display:flex;"><span>            System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;内存模型： &#34;</span> <span style="color:#f92672">+</span> getKindName(kind) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;, 内存空间名称： &#34;</span> <span style="color:#f92672">+</span> getPoolName(pool.<span style="color:#a6e22e">getName</span>()) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;, jvm.&#34;</span> <span style="color:#f92672">+</span> pool.<span style="color:#a6e22e">getName</span>()<span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;.committed(可使用):&#34;</span> <span style="color:#f92672">+</span> bytesToMB(usage.<span style="color:#a6e22e">getCommitted</span>()));
+</span></span><span style="display:flex;"><span>            System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;内存模型： &#34;</span> <span style="color:#f92672">+</span> getKindName(kind) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;, 内存空间名称： &#34;</span> <span style="color:#f92672">+</span> getPoolName(pool.<span style="color:#a6e22e">getName</span>()) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;, jvm.&#34;</span> <span style="color:#f92672">+</span> pool.<span style="color:#a6e22e">getName</span>() <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;.max(最大):&#34;</span> <span style="color:#f92672">+</span> bytesToMB(usage.<span style="color:#a6e22e">getMax</span>()));
+</span></span><span style="display:flex;"><span>            System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">println</span>(<span style="color:#e6db74">&#34;------------------------------------------------------------------------------------------------------&#34;</span>);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        thread.<span style="color:#a6e22e">join</span>();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">private</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">showCpu</span>(RuntimeMXBean runtime,OperatingSystemMXBean os,List<span style="color:#f92672">&lt;</span>GarbageCollectorMXBean<span style="color:#f92672">&gt;</span> gcmList) {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//上一个cpu运行记录时间点</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">long</span> prevUpTime <span style="color:#f92672">=</span> runtime.<span style="color:#a6e22e">getUptime</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//当时cpu运行时间</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">long</span> upTime;
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//上一次cpu运行总时间</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">long</span> prevProcessCpuTime <span style="color:#f92672">=</span>  os.<span style="color:#a6e22e">getProcessCpuTime</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//当前cpu运行总时间</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">long</span> processCpuTime;
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//上一次gc运行总时间</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">long</span> prevProcessGcTime <span style="color:#f92672">=</span> getTotalGarbageCollectionTime(gcmList);
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//当前gc运行总时间</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">long</span> processGcTime;
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">//可用内核数量</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> processorCount <span style="color:#f92672">=</span>os.<span style="color:#a6e22e">getAvailableProcessors</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">try</span> {
+</span></span><span style="display:flex;"><span>            TimeUnit.<span style="color:#a6e22e">SECONDS</span>.<span style="color:#a6e22e">sleep</span>(1);
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">catch</span> (InterruptedException e) {
+</span></span><span style="display:flex;"><span>            e.<span style="color:#a6e22e">printStackTrace</span>();
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span>10;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (i<span style="color:#f92672">&gt;</span>0){
+</span></span><span style="display:flex;"><span>            processCpuTime <span style="color:#f92672">=</span> os.<span style="color:#a6e22e">getProcessCpuTime</span>();
+</span></span><span style="display:flex;"><span>            processGcTime <span style="color:#f92672">=</span> getTotalGarbageCollectionTime(gcmList);
+</span></span><span style="display:flex;"><span>            upTime <span style="color:#f92672">=</span> runtime.<span style="color:#a6e22e">getUptime</span>();
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">long</span> upTimeDiff <span style="color:#f92672">=</span> upTime <span style="color:#f92672">-</span> prevUpTime;
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">//计算cpu使用率</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">long</span> processTimeDiff <span style="color:#f92672">=</span> processCpuTime <span style="color:#f92672">-</span> prevProcessCpuTime;
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">//processTimeDiff 取到得是纳秒数  1ms = 1000000ns</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">double</span> cpuDetail <span style="color:#f92672">=</span> processTimeDiff <span style="color:#f92672">*</span> 100.<span style="color:#a6e22e">0</span> <span style="color:#f92672">/</span>1000000<span style="color:#f92672">/</span> processorCount <span style="color:#f92672">/</span> upTimeDiff;
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">//计算gccpu使用率</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">long</span> processGcTimeDiff <span style="color:#f92672">=</span> processGcTime <span style="color:#f92672">-</span> prevProcessGcTime;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">double</span> gcDetail <span style="color:#f92672">=</span> processGcTimeDiff <span style="color:#f92672">*</span> 100.<span style="color:#a6e22e">0</span> <span style="color:#f92672">/</span>1000000<span style="color:#f92672">/</span> processorCount <span style="color:#f92672">/</span> upTimeDiff;
+</span></span><span style="display:flex;"><span>            System.<span style="color:#a6e22e">out</span>.<span style="color:#a6e22e">printf</span>(<span style="color:#e6db74">&#34;cpu使用率：%s ,gc使用率：%s %n&#34;</span>,cpuDetail,gcDetail);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">try</span> {
+</span></span><span style="display:flex;"><span>                TimeUnit.<span style="color:#a6e22e">SECONDS</span>.<span style="color:#a6e22e">sleep</span>(1);
+</span></span><span style="display:flex;"><span>            } <span style="color:#66d9ef">catch</span> (InterruptedException e) {
+</span></span><span style="display:flex;"><span>                e.<span style="color:#a6e22e">printStackTrace</span>();
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            prevProcessCpuTime <span style="color:#f92672">=</span> processCpuTime;
+</span></span><span style="display:flex;"><span>            prevUpTime <span style="color:#f92672">=</span> upTime;
+</span></span><span style="display:flex;"><span>            prevProcessGcTime <span style="color:#f92672">=</span>processGcTime;
+</span></span><span style="display:flex;"><span>            i<span style="color:#f92672">--</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/**
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     * 垃圾回收期总耗时
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">     */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">static</span> <span style="color:#66d9ef">long</span> <span style="color:#a6e22e">getTotalGarbageCollectionTime</span>(List<span style="color:#f92672">&lt;</span>GarbageCollectorMXBean<span style="color:#f92672">&gt;</span> gcmList) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">long</span> total <span style="color:#f92672">=</span> <span style="color:#f92672">-</span>1L;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (GarbageCollectorMXBean collectorMXBean : gcmList) {
+</span></span><span style="display:flex;"><span>            total<span style="color:#f92672">+=</span>collectorMXBean.<span style="color:#a6e22e">getCollectionTime</span>();
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> total;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">static</span> String <span style="color:#a6e22e">getKindName</span>(String kind) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(<span style="color:#e6db74">&#34;NON_HEAP&#34;</span>.<span style="color:#a6e22e">equals</span>(kind)) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;NON_HEAP(非堆内存)&#34;</span>;
+</span></span><span style="display:flex;"><span>        }<span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;HEAP(堆内存)&#34;</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">static</span> String <span style="color:#a6e22e">getPoolName</span>(String poolName) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">switch</span> (poolName) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;Code Cache&#34;</span>:
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> poolName <span style="color:#f92672">+</span><span style="color:#e6db74">&#34;(代码缓存区)&#34;</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;Metaspace&#34;</span>:
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> poolName <span style="color:#f92672">+</span><span style="color:#e6db74">&#34;(元空间)&#34;</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;Compressed Class Space&#34;</span>:
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> poolName <span style="color:#f92672">+</span><span style="color:#e6db74">&#34;(类指针压缩空间)&#34;</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;PS Eden Space&#34;</span>:
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> poolName <span style="color:#f92672">+</span><span style="color:#e6db74">&#34;(伊甸园区)&#34;</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;PS Survivor Space&#34;</span>:
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> poolName <span style="color:#f92672">+</span><span style="color:#e6db74">&#34;(幸存者区)&#34;</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">case</span> <span style="color:#e6db74">&#34;PS Old Gen&#34;</span>:
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> poolName <span style="color:#f92672">+</span><span style="color:#e6db74">&#34;(老年代)&#34;</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">default</span>:
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> poolName;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">static</span> String <span style="color:#a6e22e">bytesToMB</span>(<span style="color:#66d9ef">long</span> bytes) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> fmtI.<span style="color:#a6e22e">format</span>((<span style="color:#66d9ef">long</span>)(bytes <span style="color:#f92672">/</span> 1024 <span style="color:#f92672">/</span> 1024)) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; MB&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">static</span> String <span style="color:#a6e22e">printSizeInKb</span>(<span style="color:#66d9ef">double</span> size) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> fmtI.<span style="color:#a6e22e">format</span>((<span style="color:#66d9ef">long</span>) (size <span style="color:#f92672">/</span> 1024)) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; kbytes&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">static</span> String <span style="color:#a6e22e">toDuration</span>(<span style="color:#66d9ef">double</span> uptime) {
+</span></span><span style="display:flex;"><span>        uptime <span style="color:#f92672">/=</span> 1000;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (uptime <span style="color:#f92672">&lt;</span> 60) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> fmtD.<span style="color:#a6e22e">format</span>(uptime) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; seconds&#34;</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        uptime <span style="color:#f92672">/=</span> 60;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (uptime <span style="color:#f92672">&lt;</span> 60) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">long</span> minutes <span style="color:#f92672">=</span> (<span style="color:#66d9ef">long</span>) uptime;
+</span></span><span style="display:flex;"><span>            String s <span style="color:#f92672">=</span> fmtI.<span style="color:#a6e22e">format</span>(minutes) <span style="color:#f92672">+</span> (minutes <span style="color:#f92672">&gt;</span> 1 <span style="color:#f92672">?</span> <span style="color:#e6db74">&#34; minutes&#34;</span> : <span style="color:#e6db74">&#34; minute&#34;</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> s;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        uptime <span style="color:#f92672">/=</span> 60;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (uptime <span style="color:#f92672">&lt;</span> 24) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">long</span> hours <span style="color:#f92672">=</span> (<span style="color:#66d9ef">long</span>) uptime;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">long</span> minutes <span style="color:#f92672">=</span> (<span style="color:#66d9ef">long</span>) ((uptime <span style="color:#f92672">-</span> hours) <span style="color:#f92672">*</span> 60);
+</span></span><span style="display:flex;"><span>            String s <span style="color:#f92672">=</span> fmtI.<span style="color:#a6e22e">format</span>(hours) <span style="color:#f92672">+</span> (hours <span style="color:#f92672">&gt;</span> 1 <span style="color:#f92672">?</span> <span style="color:#e6db74">&#34; hours&#34;</span> : <span style="color:#e6db74">&#34; hour&#34;</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (minutes <span style="color:#f92672">!=</span> 0) {
+</span></span><span style="display:flex;"><span>                s <span style="color:#f92672">+=</span> <span style="color:#e6db74">&#34; &#34;</span> <span style="color:#f92672">+</span> fmtI.<span style="color:#a6e22e">format</span>(minutes) <span style="color:#f92672">+</span> (minutes <span style="color:#f92672">&gt;</span> 1 <span style="color:#f92672">?</span> <span style="color:#e6db74">&#34; minutes&#34;</span> : <span style="color:#e6db74">&#34; minute&#34;</span>);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> s;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        uptime <span style="color:#f92672">/=</span> 24;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">long</span> days <span style="color:#f92672">=</span> (<span style="color:#66d9ef">long</span>) uptime;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">long</span> hours <span style="color:#f92672">=</span> (<span style="color:#66d9ef">long</span>) ((uptime <span style="color:#f92672">-</span> days) <span style="color:#f92672">*</span> 24);
+</span></span><span style="display:flex;"><span>        String s <span style="color:#f92672">=</span> fmtI.<span style="color:#a6e22e">format</span>(days) <span style="color:#f92672">+</span> (days <span style="color:#f92672">&gt;</span> 1 <span style="color:#f92672">?</span> <span style="color:#e6db74">&#34; days&#34;</span> : <span style="color:#e6db74">&#34; day&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (hours <span style="color:#f92672">!=</span> 0) {
+</span></span><span style="display:flex;"><span>            s <span style="color:#f92672">+=</span> <span style="color:#e6db74">&#34; &#34;</span> <span style="color:#f92672">+</span> fmtI.<span style="color:#a6e22e">format</span>(hours) <span style="color:#f92672">+</span> (hours <span style="color:#f92672">&gt;</span> 1 <span style="color:#f92672">?</span> <span style="color:#e6db74">&#34; hours&#34;</span> : <span style="color:#e6db74">&#34; hour&#34;</span>);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> s;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>输出：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>jvm.name <span style="color:#f92672">(</span>JVM名称-版本号-供应商<span style="color:#f92672">)</span>:Java HotSpot<span style="color:#f92672">(</span>TM<span style="color:#f92672">)</span> 64-Bit Server VM | version: 15.0.1+9-18 | vendor: Oracle Corporation  
+</span></span><span style="display:flex;"><span>jvm.spec.name <span style="color:#f92672">(</span>JVM规范名称-版本号-供应商<span style="color:#f92672">)</span>:Java Virtual Machine Specification | version: <span style="color:#ae81ff">15</span> | vendor: Oracle Corporation  
+</span></span><span style="display:flex;"><span>jvm.java.version <span style="color:#f92672">(</span>JVM JAVA版本<span style="color:#f92672">)</span>:15.0.1
+</span></span><span style="display:flex;"><span>jvm.start.time <span style="color:#f92672">(</span>Java虚拟机的启动时间<span style="color:#f92672">)</span>:18,657 days <span style="color:#ae81ff">15</span> hours
+</span></span><span style="display:flex;"><span>jvm.uptime <span style="color:#f92672">(</span>Java虚拟机的正常运行时间<span style="color:#f92672">)</span>:<span style="color:#f92672">[</span>-agentlib:jdwp<span style="color:#f92672">=</span>transport<span style="color:#f92672">=</span>dt_socket,address<span style="color:#f92672">=</span>127.0.0.1:65473,suspend<span style="color:#f92672">=</span>y,server<span style="color:#f92672">=</span>n, -XX:+UseZGC, -javaagent:D:<span style="color:#ae81ff">\J</span>etBrains<span style="color:#ae81ff">\i</span>deaIU-2020.3.1.win<span style="color:#ae81ff">\p</span>lugins<span style="color:#ae81ff">\j</span>ava<span style="color:#ae81ff">\l</span>ib<span style="color:#ae81ff">\r</span>t<span style="color:#ae81ff">\d</span>ebugger-agent.jar, -Dfile.encoding<span style="color:#f92672">=</span>UTF-8<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>jvm.uptime <span style="color:#f92672">(</span>Java虚拟机的正常运行时间<span style="color:#f92672">)</span>:0.421 seconds
+</span></span><span style="display:flex;"><span>jvm.getInputArguments <span style="color:#f92672">(</span>JVM 启动参数<span style="color:#f92672">)</span>:<span style="color:#f92672">[</span>-agentlib:jdwp<span style="color:#f92672">=</span>transport<span style="color:#f92672">=</span>dt_socket,address<span style="color:#f92672">=</span>127.0.0.1:65473,suspend<span style="color:#f92672">=</span>y,server<span style="color:#f92672">=</span>n, -XX:+UseZGC, -javaagent:D:<span style="color:#ae81ff">\J</span>etBrains<span style="color:#ae81ff">\i</span>deaIU-2020.3.1.win<span style="color:#ae81ff">\p</span>lugins<span style="color:#ae81ff">\j</span>ava<span style="color:#ae81ff">\l</span>ib<span style="color:#ae81ff">\r</span>t<span style="color:#ae81ff">\d</span>ebugger-agent.jar, -Dfile.encoding<span style="color:#f92672">=</span>UTF-8<span style="color:#f92672">]</span>
+</span></span><span style="display:flex;"><span>jvm.getSystemProperties <span style="color:#f92672">(</span>获取系统属性<span style="color:#f92672">)</span>:<span style="color:#f92672">{</span>java.specification.version<span style="color:#f92672">=</span>15, sun.cpu.isalist<span style="color:#f92672">=</span>amd64, sun.jnu.encoding<span style="color:#f92672">=</span>GBK, java.class.path<span style="color:#f92672">=</span>E:<span style="color:#ae81ff">\I</span>deaProjects<span style="color:#ae81ff">\H</span>ttpProxy<span style="color:#ae81ff">\t</span>arget<span style="color:#ae81ff">\c</span>lasses;C:<span style="color:#ae81ff">\U</span>sers<span style="color:#ae81ff">\a</span>rloor<span style="color:#ae81ff">\.</span>m2<span style="color:#ae81ff">\r</span>epository<span style="color:#ae81ff">\i</span>o<span style="color:#ae81ff">\n</span>etty<span style="color:#ae81ff">\n</span>etty-all<span style="color:#ae81ff">\4</span>.1.53.Final<span style="color:#ae81ff">\n</span>etty-all-4.1.53.Final.jar;C:<span style="color:#ae81ff">\U</span>sers<span style="color:#ae81ff">\a</span>rloor<span style="color:#ae81ff">\.</span>m2<span style="color:#ae81ff">\r</span>epository<span style="color:#ae81ff">\o</span>rg<span style="color:#ae81ff">\t</span>hymeleaf<span style="color:#ae81ff">\t</span>hymeleaf<span style="color:#ae81ff">\3</span>.0.11.RELEASE<span style="color:#ae81ff">\t</span>hymeleaf-3.0.11.RELEASE.jar;C:<span style="color:#ae81ff">\U</span>sers<span style="color:#ae81ff">\a</span>rloor<span style="color:#ae81ff">\.</span>m2<span style="color:#ae81ff">\r</span>epository<span style="color:#ae81ff">\o</span>gnl<span style="color:#ae81ff">\o</span>gnl<span style="color:#ae81ff">\3</span>.1.12<span style="color:#ae81ff">\o</span>gnl-3.1.12.jar;C:<span style="color:#ae81ff">\U</span>sers<span style="color:#ae81ff">\a</span>rloor<span style="color:#ae81ff">\.</span>m2<span style="color:#ae81ff">\r</span>epository<span style="color:#ae81ff">\o</span>rg<span style="color:#ae81ff">\j</span>avassist<span style="color:#ae81ff">\j</span>avassist<span style="color:#ae81ff">\3</span>.20.0-GA<span style="color:#ae81ff">\j</span>avassist-3.20.0-GA.jar;C:<span style="color:#ae81ff">\U</span>sers<span style="color:#ae81ff">\a</span>rloor<span style="color:#ae81ff">\.</span>m2<span style="color:#ae81ff">\r</span>epository<span style="color:#ae81ff">\o</span>rg<span style="color:#ae81ff">\a</span>ttoparser<span style="color:#ae81ff">\a</span>ttoparser<span style="color:#ae81ff">\2</span>.0.5.RELEASE<span style="color:#ae81ff">\a</span>ttoparser-2.0.5.RELEASE.jar;C:<span style="color:#ae81ff">\U</span>sers<span style="color:#ae81ff">\a</span>rloor<span style="color:#ae81ff">\.</span>m2<span style="color:#ae81ff">\r</span>epository<span style="color:#ae81ff">\o</span>rg<span style="color:#ae81ff">\u</span>nbescape<span style="color:#ae81ff">\u</span>nbescape<span style="color:#ae81ff">\1</span>.1.6.RELEASE<span style="color:#ae81ff">\u</span>nbescape-1.1.6.RELEASE.jar;C:<span style="color:#ae81ff">\U</span>sers<span style="color:#ae81ff">\a</span>rloor<span style="color:#ae81ff">\.</span>m2<span style="color:#ae81ff">\r</span>epository<span style="color:#ae81ff">\i</span>o<span style="color:#ae81ff">\n</span>etty<span style="color:#ae81ff">\n</span>etty-tcnative-boringssl-static<span style="color:#ae81ff">\2</span>.0.34.Final<span style="color:#ae81ff">\n</span>etty-tcnative-boringssl-static-2.0.34.Final.jar;C:<span style="color:#ae81ff">\U</span>sers<span style="color:#ae81ff">\a</span>rloor<span style="color:#ae81ff">\.</span>m2<span style="color:#ae81ff">\r</span>epository<span style="color:#ae81ff">\c</span>om<span style="color:#ae81ff">\g</span>oogle<span style="color:#ae81ff">\g</span>uava<span style="color:#ae81ff">\g</span>uava<span style="color:#ae81ff">\2</span>9.0-jre<span style="color:#ae81ff">\g</span>uava-29.0-jre.jar;C:<span style="color:#ae81ff">\U</span>sers<span style="color:#ae81ff">\a</span>rloor<span style="color:#ae81ff">\.</span>m2<span style="color:#ae81ff">\r</span>epository<span style="color:#ae81ff">\c</span>om<span style="color:#ae81ff">\g</span>oogle<span style="color:#ae81ff">\g</span>uava<span style="color:#ae81ff">\f</span>ailureaccess<span style="color:#ae81ff">\1</span>.0.1<span style="color:#ae81ff">\f</span>ailureaccess-1.0.1.jar;C:<span style="color:#ae81ff">\U</span>sers<span style="color:#ae81ff">\a</span>rloor<span style="color:#ae81ff">\.</span>m2<span style="color:#ae81ff">\r</span>epository<span style="color:#ae81ff">\c</span>om<span style="color:#ae81ff">\g</span>oogle<span style="color:#ae81ff">\g</span>uava<span style="color:#ae81ff">\l</span>istenablefuture<span style="color:#ae81ff">\9</span>999.0-empty-to-avoid-conflict-with-guava<span style="color:#ae81ff">\l</span>istenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar;C:<span style="color:#ae81ff">\U</span>sers<span style="color:#ae81ff">\a</span>rloor<span style="color:#ae81ff">\.</span>m2<span style="color:#ae81ff">\r</span>epository<span style="color:#ae81ff">\c</span>om<span style="color:#ae81ff">\g</span>oogle<span style="color:#ae81ff">\c</span>ode<span style="color:#ae81ff">\f</span>indbugs<span style="color:#ae81ff">\j</span>sr305<span style="color:#ae81ff">\3</span>.0.2<span style="color:#ae81ff">\j</span>sr305-3.0.2.jar;C:<span style="color:#ae81ff">\U</span>sers<span style="color:#ae81ff">\a</span>rloor<span style="color:#ae81ff">\.</span>m2<span style="color:#ae81ff">\r</span>epository<span style="color:#ae81ff">\o</span>rg<span style="color:#ae81ff">\c</span>heckerframework<span style="color:#ae81ff">\c</span>hecker-qual<span style="color:#ae81ff">\2</span>.11.1<span style="color:#ae81ff">\c</span>hecker-qual-2.11.1.jar;C:<span style="color:#ae81ff">\U</span>sers<span style="color:#ae81ff">\a</span>rloor<span style="color:#ae81ff">\.</span>m2<span style="color:#ae81ff">\r</span>epository<span style="color:#ae81ff">\c</span>om<span style="color:#ae81ff">\g</span>oogle<span style="color:#ae81ff">\e</span>rrorprone<span style="color:#ae81ff">\e</span>rror_prone_annotations<span style="color:#ae81ff">\2</span>.3.4<span style="color:#ae81ff">\e</span>rror_prone_annotations-2.3.4.jar;C:<span style="color:#ae81ff">\U</span>sers<span style="color:#ae81ff">\a</span>rloor<span style="color:#ae81ff">\.</span>m2<span style="color:#ae81ff">\r</span>epository<span style="color:#ae81ff">\c</span>om<span style="color:#ae81ff">\g</span>oogle<span style="color:#ae81ff">\j</span>2objc<span style="color:#ae81ff">\j</span>2objc-annotations<span style="color:#ae81ff">\1</span>.3<span style="color:#ae81ff">\j</span>2objc-annotations-1.3.jar;C:<span style="color:#ae81ff">\U</span>sers<span style="color:#ae81ff">\a</span>rloor<span style="color:#ae81ff">\.</span>m2<span style="color:#ae81ff">\r</span>epository<span style="color:#ae81ff">\c</span>h<span style="color:#ae81ff">\q</span>os<span style="color:#ae81ff">\l</span>ogback<span style="color:#ae81ff">\l</span>ogback-core<span style="color:#ae81ff">\1</span>.2.3<span style="color:#ae81ff">\l</span>ogback-core-1.2.3.jar;C:<span style="color:#ae81ff">\U</span>sers<span style="color:#ae81ff">\a</span>rloor<span style="color:#ae81ff">\.</span>m2<span style="color:#ae81ff">\r</span>epository<span style="color:#ae81ff">\c</span>h<span style="color:#ae81ff">\q</span>os<span style="color:#ae81ff">\l</span>ogback<span style="color:#ae81ff">\l</span>ogback-classic<span style="color:#ae81ff">\1</span>.2.3<span style="color:#ae81ff">\l</span>ogback-classic-1.2.3.jar;C:<span style="color:#ae81ff">\U</span>sers<span style="color:#ae81ff">\a</span>rloor<span style="color:#ae81ff">\.</span>m2<span style="color:#ae81ff">\r</span>epository<span style="color:#ae81ff">\o</span>rg<span style="color:#ae81ff">\s</span>lf4j<span style="color:#ae81ff">\s</span>lf4j-api<span style="color:#ae81ff">\1</span>.7.7<span style="color:#ae81ff">\s</span>lf4j-api-1.7.7.jar;C:<span style="color:#ae81ff">\U</span>sers<span style="color:#ae81ff">\a</span>rloor<span style="color:#ae81ff">\.</span>m2<span style="color:#ae81ff">\r</span>epository<span style="color:#ae81ff">\o</span>rg<span style="color:#ae81ff">\b</span>ouncycastle<span style="color:#ae81ff">\b</span>cprov-jdk15on<span style="color:#ae81ff">\1</span>.64<span style="color:#ae81ff">\b</span>cprov-jdk15on-1.64.jar;C:<span style="color:#ae81ff">\U</span>sers<span style="color:#ae81ff">\a</span>rloor<span style="color:#ae81ff">\.</span>m2<span style="color:#ae81ff">\r</span>epository<span style="color:#ae81ff">\c</span>om<span style="color:#ae81ff">\a</span>libaba<span style="color:#ae81ff">\f</span>astjson<span style="color:#ae81ff">\1</span>.2.73<span style="color:#ae81ff">\f</span>astjson-1.2.73.jar;D:<span style="color:#ae81ff">\J</span>etBrains<span style="color:#ae81ff">\i</span>deaIU-2020.3.1.win<span style="color:#ae81ff">\l</span>ib<span style="color:#ae81ff">\i</span>dea_rt.jar, java.vm.vendor<span style="color:#f92672">=</span>Oracle Corporation, sun.arch.data.model<span style="color:#f92672">=</span>64, user.variant<span style="color:#f92672">=</span>, java.vendor.url<span style="color:#f92672">=</span>https://java.oracle.com/, java.vm.specification.version<span style="color:#f92672">=</span>15, os.name<span style="color:#f92672">=</span>Windows 10, sun.java.launcher<span style="color:#f92672">=</span>SUN_STANDARD, user.country<span style="color:#f92672">=</span>CN, sun.boot.library.path<span style="color:#f92672">=</span>D:<span style="color:#ae81ff">\J</span>ava<span style="color:#ae81ff">\j</span>dk-15.0.1<span style="color:#ae81ff">\b</span>in, sun.java.command<span style="color:#f92672">=</span>com.arloor.forwardproxy.monitor.HeapMain, jdk.debug<span style="color:#f92672">=</span>release, sun.cpu.endian<span style="color:#f92672">=</span>little, user.home<span style="color:#f92672">=</span>C:<span style="color:#ae81ff">\U</span>sers<span style="color:#ae81ff">\a</span>rloor, user.language<span style="color:#f92672">=</span>zh, java.specification.vendor<span style="color:#f92672">=</span>Oracle Corporation, java.version.date<span style="color:#f92672">=</span>2020-10-20, java.home<span style="color:#f92672">=</span>D:<span style="color:#ae81ff">\J</span>ava<span style="color:#ae81ff">\j</span>dk-15.0.1, file.separator<span style="color:#f92672">=</span><span style="color:#ae81ff">\,</span> line.separator<span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>, java.vm.specification.vendor<span style="color:#f92672">=</span>Oracle Corporation, java.specification.name<span style="color:#f92672">=</span>Java Platform API Specification, intellij.debug.agent<span style="color:#f92672">=</span>true, user.script<span style="color:#f92672">=</span>, sun.management.compiler<span style="color:#f92672">=</span>HotSpot 64-Bit Tiered Compilers, java.runtime.version<span style="color:#f92672">=</span>15.0.1+9-18, user.name<span style="color:#f92672">=</span>arloor, path.separator<span style="color:#f92672">=</span>;, os.version<span style="color:#f92672">=</span>10.0, java.runtime.name<span style="color:#f92672">=</span>Java<span style="color:#f92672">(</span>TM<span style="color:#f92672">)</span> SE Runtime Environment, file.encoding<span style="color:#f92672">=</span>UTF-8, java.vm.name<span style="color:#f92672">=</span>Java HotSpot<span style="color:#f92672">(</span>TM<span style="color:#f92672">)</span> 64-Bit Server VM, java.vendor.url.bug<span style="color:#f92672">=</span>https://bugreport.java.com/bugreport/, java.io.tmpdir<span style="color:#f92672">=</span>C:<span style="color:#ae81ff">\U</span>sers<span style="color:#ae81ff">\a</span>rloor<span style="color:#ae81ff">\A</span>ppData<span style="color:#ae81ff">\L</span>ocal<span style="color:#ae81ff">\T</span>emp<span style="color:#ae81ff">\,</span> java.version<span style="color:#f92672">=</span>15.0.1, jboss.modules.system.pkgs<span style="color:#f92672">=</span>com.intellij.rt, user.dir<span style="color:#f92672">=</span>E:<span style="color:#ae81ff">\I</span>deaProjects<span style="color:#ae81ff">\H</span>ttpProxy, os.arch<span style="color:#f92672">=</span>amd64, java.vm.specification.name<span style="color:#f92672">=</span>Java Virtual Machine Specification, sun.os.patch.level<span style="color:#f92672">=</span>, java.library.path<span style="color:#f92672">=</span>D:<span style="color:#ae81ff">\J</span>ava<span style="color:#ae81ff">\j</span>dk-15.0.1<span style="color:#ae81ff">\b</span>in;C:<span style="color:#ae81ff">\W</span>indows<span style="color:#ae81ff">\S</span>un<span style="color:#ae81ff">\J</span>ava<span style="color:#ae81ff">\b</span>in;C:<span style="color:#ae81ff">\W</span>indows<span style="color:#ae81ff">\s</span>ystem32;C:<span style="color:#ae81ff">\W</span>indows;C:<span style="color:#ae81ff">\P</span>rogram Files<span style="color:#ae81ff">\C</span>ommon Files<span style="color:#ae81ff">\O</span>racle<span style="color:#ae81ff">\J</span>ava<span style="color:#ae81ff">\j</span>avapath;C:<span style="color:#ae81ff">\W</span>indows<span style="color:#ae81ff">\s</span>ystem32;C:<span style="color:#ae81ff">\W</span>indows;C:<span style="color:#ae81ff">\W</span>indows<span style="color:#ae81ff">\S</span>ystem32<span style="color:#ae81ff">\W</span>bem;C:<span style="color:#ae81ff">\W</span>indows<span style="color:#ae81ff">\S</span>ystem32<span style="color:#ae81ff">\W</span>indowsPowerShell<span style="color:#ae81ff">\v</span>1.0<span style="color:#ae81ff">\;</span>C:<span style="color:#ae81ff">\W</span>indows<span style="color:#ae81ff">\S</span>ystem32<span style="color:#ae81ff">\O</span>penSSH<span style="color:#ae81ff">\;</span>D:<span style="color:#ae81ff">\J</span>ava<span style="color:#ae81ff">\j</span>dk-15.0.1<span style="color:#ae81ff">\b</span>in;C:<span style="color:#ae81ff">\P</span>rogram Files <span style="color:#f92672">(</span>x86<span style="color:#f92672">)</span><span style="color:#ae81ff">\N</span>VIDIA Corporation<span style="color:#ae81ff">\P</span>hysX<span style="color:#ae81ff">\C</span>ommon;C:<span style="color:#ae81ff">\P</span>rogram Files<span style="color:#ae81ff">\N</span>VIDIA Corporation<span style="color:#ae81ff">\N</span>VIDIA NvDLISR;D:<span style="color:#ae81ff">\b</span>in;D:<span style="color:#ae81ff">\g</span>it<span style="color:#ae81ff">\b</span>in;D:<span style="color:#ae81ff">\a</span>pache-maven-3.6.3-bin<span style="color:#ae81ff">\a</span>pache-maven-3.6.3<span style="color:#ae81ff">\b</span>in;C:<span style="color:#ae81ff">\U</span>sers<span style="color:#ae81ff">\a</span>rloor<span style="color:#ae81ff">\.</span>cargo<span style="color:#ae81ff">\b</span>in;C:<span style="color:#ae81ff">\U</span>sers<span style="color:#ae81ff">\a</span>rloor<span style="color:#ae81ff">\A</span>ppData<span style="color:#ae81ff">\L</span>ocal<span style="color:#ae81ff">\P</span>rograms<span style="color:#ae81ff">\P</span>ython<span style="color:#ae81ff">\P</span>ython38-32<span style="color:#ae81ff">\S</span>cripts<span style="color:#ae81ff">\;</span>C:<span style="color:#ae81ff">\U</span>sers<span style="color:#ae81ff">\a</span>rloor<span style="color:#ae81ff">\A</span>ppData<span style="color:#ae81ff">\L</span>ocal<span style="color:#ae81ff">\P</span>rograms<span style="color:#ae81ff">\P</span>ython<span style="color:#ae81ff">\P</span>ython38-32<span style="color:#ae81ff">\;</span>C:<span style="color:#ae81ff">\U</span>sers<span style="color:#ae81ff">\a</span>rloor<span style="color:#ae81ff">\A</span>ppData<span style="color:#ae81ff">\L</span>ocal<span style="color:#ae81ff">\M</span>icrosoft<span style="color:#ae81ff">\W</span>indowsApps;;D:<span style="color:#ae81ff">\M</span>icrosoft VS Code<span style="color:#ae81ff">\b</span>in;., java.vm.info<span style="color:#f92672">=</span>mixed mode, sharing, java.vendor<span style="color:#f92672">=</span>Oracle Corporation, java.vm.version<span style="color:#f92672">=</span>15.0.1+9-18, sun.io.unicode.encoding<span style="color:#f92672">=</span>UnicodeLittle, java.class.version<span style="color:#f92672">=</span>59.0<span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>------------------------------------------------------------------------------------------------------
+</span></span><span style="display:flex;"><span>compilation.name<span style="color:#f92672">(</span>编译器名称<span style="color:#f92672">)</span>：HotSpot 64-Bit Tiered Compilers
+</span></span><span style="display:flex;"><span>compilation.total.time<span style="color:#f92672">(</span>编译器耗时<span style="color:#f92672">)</span>：203毫秒
+</span></span><span style="display:flex;"><span>支持即时编译器编译监控
+</span></span><span style="display:flex;"><span>------------------------------------------------------------------------------------------------------jvm.threads.total.count <span style="color:#f92672">(</span>总线程数<span style="color:#f92672">(</span>守护+非守护<span style="color:#f92672">))</span>:8
+</span></span><span style="display:flex;"><span>jvm.threads.daemon.count <span style="color:#f92672">(</span>守护进程线程数<span style="color:#f92672">)</span>:6
+</span></span><span style="display:flex;"><span>jvm.threads.peak.count <span style="color:#f92672">(</span>峰值线程数<span style="color:#f92672">)</span>:8
+</span></span><span style="display:flex;"><span>jvm.threads.total.start.count<span style="color:#f92672">(</span>Java虚拟机启动后创建并启动的线程总数<span style="color:#f92672">)</span>:8
+</span></span><span style="display:flex;"><span>threadId: <span style="color:#ae81ff">1</span> | threadName: main
+</span></span><span style="display:flex;"><span>threadId: <span style="color:#ae81ff">2</span> | threadName: Reference Handler
+</span></span><span style="display:flex;"><span>threadId: <span style="color:#ae81ff">3</span> | threadName: Finalizer
+</span></span><span style="display:flex;"><span>threadId: <span style="color:#ae81ff">4</span> | threadName: Signal Dispatcher
+</span></span><span style="display:flex;"><span>threadId: <span style="color:#ae81ff">5</span> | threadName: Attach Listener
+</span></span><span style="display:flex;"><span>threadId: <span style="color:#ae81ff">12</span> | threadName: Common-Cleaner
+</span></span><span style="display:flex;"><span>threadId: <span style="color:#ae81ff">16</span> | threadName: Notification Thread
+</span></span><span style="display:flex;"><span>threadId: <span style="color:#ae81ff">17</span> | threadName: Thread-0
+</span></span><span style="display:flex;"><span>------------------------------------------------------------------------------------------------------
+</span></span><span style="display:flex;"><span>collectorMXBean.getCollectionCount<span style="color:#f92672">(</span>ZGC 垃圾回收器执行次数<span style="color:#f92672">)</span>:0
+</span></span><span style="display:flex;"><span>collectorMXBean.getCollectionTime<span style="color:#f92672">(</span>ZGC 垃圾回收器执行时间<span style="color:#f92672">)</span>:0
+</span></span><span style="display:flex;"><span>------------------------------------------------------------------------------------------------------
+</span></span><span style="display:flex;"><span>jvm.heap.init <span style="color:#f92672">(</span>初始化堆内存<span style="color:#f92672">)</span>:256 MB 
+</span></span><span style="display:flex;"><span>jvm.heap.used <span style="color:#f92672">(</span>已使用堆内存<span style="color:#f92672">)</span>:46 MB 
+</span></span><span style="display:flex;"><span>jvm.heap.committed <span style="color:#f92672">(</span>可使用堆内存<span style="color:#f92672">)</span>:256 MB 
+</span></span><span style="display:flex;"><span>jvm.heap.max <span style="color:#f92672">(</span>最大堆内存<span style="color:#f92672">)</span>:4,084 MB 
+</span></span><span style="display:flex;"><span>------------------------------------------------------------------------------------------------------
+</span></span><span style="display:flex;"><span>jvm.noheap.init <span style="color:#f92672">(</span>初始化非堆内存<span style="color:#f92672">)</span>:7 MB 
+</span></span><span style="display:flex;"><span>jvm.noheap.used <span style="color:#f92672">(</span>已使用非堆内存<span style="color:#f92672">)</span>:3 MB 
+</span></span><span style="display:flex;"><span>jvm.noheap.committed <span style="color:#f92672">(</span>可使用非堆内存<span style="color:#f92672">)</span>:12 MB 
+</span></span><span style="display:flex;"><span>jvm.noheap.max <span style="color:#f92672">(</span>最大非堆内存<span style="color:#f92672">)</span>:0 MB 
+</span></span><span style="display:flex;"><span>------------------------------------------------------------------------------------------------------
+</span></span><span style="display:flex;"><span>os.name<span style="color:#f92672">(</span>操作系统名称-版本号<span style="color:#f92672">)</span>:Windows <span style="color:#ae81ff">10</span> version 10.0 
+</span></span><span style="display:flex;"><span>os.arch<span style="color:#f92672">(</span>操作系统内核<span style="color:#f92672">)</span>:amd64
+</span></span><span style="display:flex;"><span>os.cores<span style="color:#f92672">(</span>可用的处理器数量<span style="color:#f92672">)</span>:8 
+</span></span><span style="display:flex;"><span>os.loadAverage<span style="color:#f92672">(</span>系统负载平均值<span style="color:#f92672">)</span>:-1.0 
+</span></span><span style="display:flex;"><span>------------------------------------------------------------------------------------------------------
+</span></span><span style="display:flex;"><span>class.current.load.count<span style="color:#f92672">(</span>当前加载类数量<span style="color:#f92672">)</span>:1123 
+</span></span><span style="display:flex;"><span>class.unload.count<span style="color:#f92672">(</span>未加载类数量<span style="color:#f92672">)</span>:0 
+</span></span><span style="display:flex;"><span>class.total.load.count<span style="color:#f92672">(</span>总加载类数量<span style="color:#f92672">)</span>:1123 
+</span></span><span style="display:flex;"><span>------------------------------------------------------------------------------------------------------
+</span></span><span style="display:flex;"><span>内存模型： NON_HEAP<span style="color:#f92672">(</span>非堆内存<span style="color:#f92672">)</span>, 内存空间名称： CodeHeap <span style="color:#e6db74">&#39;non-nmethods&#39;</span>, jvm.CodeHeap <span style="color:#e6db74">&#39;non-nmethods&#39;</span>.init<span style="color:#f92672">(</span>初始化<span style="color:#f92672">)</span>:2 MB
+</span></span><span style="display:flex;"><span>内存模型： NON_HEAP<span style="color:#f92672">(</span>非堆内存<span style="color:#f92672">)</span>, 内存空间名称： CodeHeap <span style="color:#e6db74">&#39;non-nmethods&#39;</span>, jvm.CodeHeap <span style="color:#e6db74">&#39;non-nmethods&#39;</span>.used<span style="color:#f92672">(</span>已使用<span style="color:#f92672">)</span>: <span style="color:#ae81ff">1</span> MB
+</span></span><span style="display:flex;"><span>内存模型： NON_HEAP<span style="color:#f92672">(</span>非堆内存<span style="color:#f92672">)</span>, 内存空间名称： CodeHeap <span style="color:#e6db74">&#39;non-nmethods&#39;</span>, jvm.CodeHeap <span style="color:#e6db74">&#39;non-nmethods&#39;</span>.committed<span style="color:#f92672">(</span>可使用<span style="color:#f92672">)</span>:2 MB
+</span></span><span style="display:flex;"><span>内存模型： NON_HEAP<span style="color:#f92672">(</span>非堆内存<span style="color:#f92672">)</span>, 内存空间名称： CodeHeap <span style="color:#e6db74">&#39;non-nmethods&#39;</span>, jvm.CodeHeap <span style="color:#e6db74">&#39;non-nmethods&#39;</span>.max<span style="color:#f92672">(</span>最大<span style="color:#f92672">)</span>:5 MB
+</span></span><span style="display:flex;"><span>------------------------------------------------------------------------------------------------------
+</span></span><span style="display:flex;"><span>内存模型： NON_HEAP<span style="color:#f92672">(</span>非堆内存<span style="color:#f92672">)</span>, 内存空间名称： Metaspace<span style="color:#f92672">(</span>元空间<span style="color:#f92672">)</span>, jvm.Metaspace.init<span style="color:#f92672">(</span>初始化<span style="color:#f92672">)</span>:0 MB
+</span></span><span style="display:flex;"><span>内存模型： NON_HEAP<span style="color:#f92672">(</span>非堆内存<span style="color:#f92672">)</span>, 内存空间名称： Metaspace<span style="color:#f92672">(</span>元空间<span style="color:#f92672">)</span>, jvm.Metaspace.used<span style="color:#f92672">(</span>已使用<span style="color:#f92672">)</span>: <span style="color:#ae81ff">1</span> MB
+</span></span><span style="display:flex;"><span>内存模型： NON_HEAP<span style="color:#f92672">(</span>非堆内存<span style="color:#f92672">)</span>, 内存空间名称： Metaspace<span style="color:#f92672">(</span>元空间<span style="color:#f92672">)</span>, jvm.Metaspace.committed<span style="color:#f92672">(</span>可使用<span style="color:#f92672">)</span>:4 MB
+</span></span><span style="display:flex;"><span>内存模型： NON_HEAP<span style="color:#f92672">(</span>非堆内存<span style="color:#f92672">)</span>, 内存空间名称： Metaspace<span style="color:#f92672">(</span>元空间<span style="color:#f92672">)</span>, jvm.Metaspace.max<span style="color:#f92672">(</span>最大<span style="color:#f92672">)</span>:0 MB
+</span></span><span style="display:flex;"><span>------------------------------------------------------------------------------------------------------
+</span></span><span style="display:flex;"><span>内存模型： HEAP<span style="color:#f92672">(</span>堆内存<span style="color:#f92672">)</span>, 内存空间名称： ZHeap, jvm.ZHeap.init<span style="color:#f92672">(</span>初始化<span style="color:#f92672">)</span>:42 MB
+</span></span><span style="display:flex;"><span>内存模型： HEAP<span style="color:#f92672">(</span>堆内存<span style="color:#f92672">)</span>, 内存空间名称： ZHeap, jvm.ZHeap.used<span style="color:#f92672">(</span>已使用<span style="color:#f92672">)</span>: <span style="color:#ae81ff">50</span> MB
+</span></span><span style="display:flex;"><span>内存模型： HEAP<span style="color:#f92672">(</span>堆内存<span style="color:#f92672">)</span>, 内存空间名称： ZHeap, jvm.ZHeap.committed<span style="color:#f92672">(</span>可使用<span style="color:#f92672">)</span>:256 MB
+</span></span><span style="display:flex;"><span>内存模型： HEAP<span style="color:#f92672">(</span>堆内存<span style="color:#f92672">)</span>, 内存空间名称： ZHeap, jvm.ZHeap.max<span style="color:#f92672">(</span>最大<span style="color:#f92672">)</span>:4,084 MB
+</span></span><span style="display:flex;"><span>------------------------------------------------------------------------------------------------------
+</span></span><span style="display:flex;"><span>内存模型： NON_HEAP<span style="color:#f92672">(</span>非堆内存<span style="color:#f92672">)</span>, 内存空间名称： CodeHeap <span style="color:#e6db74">&#39;profiled nmethods&#39;</span>, jvm.CodeHeap <span style="color:#e6db74">&#39;profiled nmethods&#39;</span>.init<span style="color:#f92672">(</span>初始化<span style="color:#f92672">)</span>:2 MB
+</span></span><span style="display:flex;"><span>内存模型： NON_HEAP<span style="color:#f92672">(</span>非堆内存<span style="color:#f92672">)</span>, 内存空间名称： CodeHeap <span style="color:#e6db74">&#39;profiled nmethods&#39;</span>, jvm.CodeHeap <span style="color:#e6db74">&#39;profiled nmethods&#39;</span>.used<span style="color:#f92672">(</span>已使用<span style="color:#f92672">)</span>: <span style="color:#ae81ff">0</span> MB
+</span></span><span style="display:flex;"><span>内存模型： NON_HEAP<span style="color:#f92672">(</span>非堆内存<span style="color:#f92672">)</span>, 内存空间名称： CodeHeap <span style="color:#e6db74">&#39;profiled nmethods&#39;</span>, jvm.CodeHeap <span style="color:#e6db74">&#39;profiled nmethods&#39;</span>.committed<span style="color:#f92672">(</span>可使用<span style="color:#f92672">)</span>:2 MB
+</span></span><span style="display:flex;"><span>内存模型： NON_HEAP<span style="color:#f92672">(</span>非堆内存<span style="color:#f92672">)</span>, 内存空间名称： CodeHeap <span style="color:#e6db74">&#39;profiled nmethods&#39;</span>, jvm.CodeHeap <span style="color:#e6db74">&#39;profiled nmethods&#39;</span>.max<span style="color:#f92672">(</span>最大<span style="color:#f92672">)</span>:117 MB
+</span></span><span style="display:flex;"><span>------------------------------------------------------------------------------------------------------
+</span></span><span style="display:flex;"><span>内存模型： NON_HEAP<span style="color:#f92672">(</span>非堆内存<span style="color:#f92672">)</span>, 内存空间名称： Compressed Class Space<span style="color:#f92672">(</span>类指针压缩空间<span style="color:#f92672">)</span>, jvm.Compressed Class Space.init<span style="color:#f92672">(</span>初始化<span style="color:#f92672">)</span>:0 MB
+</span></span><span style="display:flex;"><span>内存模型： NON_HEAP<span style="color:#f92672">(</span>非堆内存<span style="color:#f92672">)</span>, 内存空间名称： Compressed Class Space<span style="color:#f92672">(</span>类指针压缩空间<span style="color:#f92672">)</span>, jvm.Compressed Class Space.used<span style="color:#f92672">(</span>已使用<span style="color:#f92672">)</span>: <span style="color:#ae81ff">0</span> MB
+</span></span><span style="display:flex;"><span>内存模型： NON_HEAP<span style="color:#f92672">(</span>非堆内存<span style="color:#f92672">)</span>, 内存空间名称： Compressed Class Space<span style="color:#f92672">(</span>类指针压缩空间<span style="color:#f92672">)</span>, jvm.Compressed Class Space.committed<span style="color:#f92672">(</span>可使用<span style="color:#f92672">)</span>:0 MB
+</span></span><span style="display:flex;"><span>内存模型： NON_HEAP<span style="color:#f92672">(</span>非堆内存<span style="color:#f92672">)</span>, 内存空间名称： Compressed Class Space<span style="color:#f92672">(</span>类指针压缩空间<span style="color:#f92672">)</span>, jvm.Compressed Class Space.max<span style="color:#f92672">(</span>最大<span style="color:#f92672">)</span>:1,024 MB
+</span></span><span style="display:flex;"><span>------------------------------------------------------------------------------------------------------
+</span></span><span style="display:flex;"><span>内存模型： NON_HEAP<span style="color:#f92672">(</span>非堆内存<span style="color:#f92672">)</span>, 内存空间名称： CodeHeap <span style="color:#e6db74">&#39;non-profiled nmethods&#39;</span>, jvm.CodeHeap <span style="color:#e6db74">&#39;non-profiled nmethods&#39;</span>.init<span style="color:#f92672">(</span>初始化<span style="color:#f92672">)</span>:2 MB
+</span></span><span style="display:flex;"><span>内存模型： NON_HEAP<span style="color:#f92672">(</span>非堆内存<span style="color:#f92672">)</span>, 内存空间名称： CodeHeap <span style="color:#e6db74">&#39;non-profiled nmethods&#39;</span>, jvm.CodeHeap <span style="color:#e6db74">&#39;non-profiled nmethods&#39;</span>.used<span style="color:#f92672">(</span>已使用<span style="color:#f92672">)</span>: <span style="color:#ae81ff">0</span> MB
+</span></span><span style="display:flex;"><span>内存模型： NON_HEAP<span style="color:#f92672">(</span>非堆内存<span style="color:#f92672">)</span>, 内存空间名称： CodeHeap <span style="color:#e6db74">&#39;non-profiled nmethods&#39;</span>, jvm.CodeHeap <span style="color:#e6db74">&#39;non-profiled nmethods&#39;</span>.committed<span style="color:#f92672">(</span>可使用<span style="color:#f92672">)</span>:2 MB
+</span></span><span style="display:flex;"><span>内存模型： NON_HEAP<span style="color:#f92672">(</span>非堆内存<span style="color:#f92672">)</span>, 内存空间名称： CodeHeap <span style="color:#e6db74">&#39;non-profiled nmethods&#39;</span>, jvm.CodeHeap <span style="color:#e6db74">&#39;non-profiled nmethods&#39;</span>.max<span style="color:#f92672">(</span>最大<span style="color:#f92672">)</span>:117 MB
+</span></span><span style="display:flex;"><span>------------------------------------------------------------------------------------------------------
+</span></span><span style="display:flex;"><span>cpu使用率：0.3852317554240631 ,gc使用率：0.0 
+</span></span><span style="display:flex;"><span>cpu使用率：0.0 ,gc使用率：0.0 
+</span></span><span style="display:flex;"><span>cpu使用率：0.0 ,gc使用率：0.0 
+</span></span><span style="display:flex;"><span>cpu使用率：0.0 ,gc使用率：0.0 
+</span></span><span style="display:flex;"><span>cpu使用率：0.0 ,gc使用率：0.0 
+</span></span><span style="display:flex;"><span>cpu使用率：0.0 ,gc使用率：0.0 
+</span></span><span style="display:flex;"><span>cpu使用率：0.0 ,gc使用率：0.0 
+</span></span><span style="display:flex;"><span>cpu使用率：0.0 ,gc使用率：0.0 
+</span></span><span style="display:flex;"><span>cpu使用率：0.0 ,gc使用率：0.0 
+</span></span><span style="display:flex;"><span>cpu使用率：0.19280602171767028 ,gc使用率：0.0
+</span></span></code></pre></div>
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/posts/prometheus-exporter/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">Prometheus Exporter</span>
+    </a>
+    
+    
+    <a href="/posts/maven-central/" class="navigation-next">
+      <span class="navigation-tittle">Maven发布到中央仓库</span>
+      <i aria-hidden="true" class="fa fa-chevron-right"></i>
+    </a>
+    
+</div>
+
+
+  
+
+  
+
+
+</article>
+
+
+  </div>
+<style>
+  .content.container {
+        width: 100%;
+        max-width: none;
+        height: calc(100vh - var(--sidebar-height, 49px));
+        border: none;
+        display: block;
+        overflow-y: auto;
+        box-sizing: border-box;
+        margin-left: 0;
+        margin-right: 0;
+  }
+
+  body:not(.type-iframe) .content.container {
+        padding-left: max(1.5rem, calc((100% - var(--content-max-width, 38rem)) / 2));
+        padding-right: max(1.5rem, calc((100% - var(--content-max-width, 38rem)) / 2));
+  }
+</style>
+<script>
+    (function () {
+        var contentSelector = '.content.container';
+        var rafId = 0;
+        var resizeDebounceTimer = 0;
+        var pendingHashScroll = false;
+
+        function getHashTarget() {
+            var hash = window.location.hash;
+            var targetId = '';
+
+            if (!hash || hash === '#') {
+                return null;
+            }
+
+            targetId = hash.slice(1);
+            try {
+                targetId = decodeURIComponent(targetId);
+            } catch (e) {
+                
+            }
+
+            return document.getElementById(targetId);
+        }
+
+        function scrollToHashTarget() {
+            var target = getHashTarget();
+            if (!target) {
+                return;
+            }
+            try {
+                target.scrollIntoView({ block: 'start', inline: 'nearest' });
+            } catch (e) {
+                target.scrollIntoView(true);
+            }
+        }
+
+        function applyPendingHashScroll() {
+            if (!pendingHashScroll) {
+                return;
+            }
+            pendingHashScroll = false;
+            scrollToHashTarget();
+        }
+
+        function resizeContentHeight() {
+            var content = document.querySelector(contentSelector);
+            if (!content) {
+                return;
+            }
+            var rect = content.getBoundingClientRect();
+            var available = window.innerHeight - rect.top;
+            if (available < 0) {
+                available = 0;
+            }
+            content.style.height = available + 'px';
+            applyPendingHashScroll();
+        }
+
+        function scheduleResize() {
+            if (rafId) {
+                return;
+            }
+            rafId = window.requestAnimationFrame(function () {
+                rafId = 0;
+                resizeContentHeight();
+            });
+        }
+
+        function scheduleResizeDebounced(delay) {
+            window.clearTimeout(resizeDebounceTimer);
+            resizeDebounceTimer = window.setTimeout(scheduleResize, delay || 120);
+        }
+
+        function requestHashScroll() {
+            if (!window.location.hash || window.location.hash === '#') {
+                return;
+            }
+            pendingHashScroll = true;
+            scheduleResize();
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function () {
+                scheduleResize();
+                requestHashScroll();
+            }, { once: true });
+        } else {
+            scheduleResize();
+            requestHashScroll();
+        }
+
+        window.addEventListener('load', function () {
+            scheduleResize();
+            requestHashScroll();
+        });
+        window.addEventListener('pageshow', function () {
+            scheduleResize();
+            requestHashScroll();
+        });
+        window.addEventListener('hashchange', requestHashScroll);
+        window.addEventListener('resize', function () {
+            scheduleResizeDebounced(120);
+        });
+
+        var menuToggle = document.getElementById('menuToggle');
+        if (menuToggle) {
+            menuToggle.addEventListener('change', function () {
+                scheduleResize();
+                window.setTimeout(scheduleResize, 250);
+            });
+        }
+    })();
+</script>
+  
+    
+
+
+
+<script defer src="/js/all.js" crossorigin="anonymous"></script>
+
+    
+    
+    <script src="/js/highlight.min.js"></script>
+    <script src="/js/languages/dos.min.js"></script>
+        
+    <script type="text/javascript">
+        
+        hljs.highlightAll();
+    </script>
+    
+
+<style>
+    .code-block-wrapper {
+        position: relative;
+    }
+    .copy-code-button {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        padding: 6px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 4px;
+        cursor: pointer;
+        opacity: 0;
+        transition: opacity 0.3s, background 0.3s;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .copy-code-button svg {
+        width: 16px;
+        height: 16px;
+        fill: #fff;
+        transition: fill 0.3s;
+    }
+    .code-block-wrapper:hover .copy-code-button {
+        opacity: 1;
+    }
+    .copy-code-button:hover {
+        background: rgba(255, 255, 255, 0.2);
+    }
+    .copy-code-button.copied {
+        background: rgba(46, 160, 67, 0.8);
+        border-color: rgba(46, 160, 67, 1);
+    }
+    .copy-code-button.copied svg {
+        fill: #fff;
+    }
+</style>
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        document.querySelectorAll('pre code').forEach(function(codeBlock) {
+            var pre = codeBlock.parentNode;
+            
+            
+            if (pre.parentNode.classList.contains('code-block-wrapper')) {
+                return;
+            }
+            
+            
+            var wrapper = document.createElement('div');
+            wrapper.className = 'code-block-wrapper';
+            pre.parentNode.insertBefore(wrapper, pre);
+            wrapper.appendChild(pre);
+            
+            
+            var button = document.createElement('button');
+            button.className = 'copy-code-button';
+            button.innerHTML = '<svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg>';
+            button.setAttribute('aria-label', '复制代码');
+            button.setAttribute('title', '复制代码');
+            
+            var copyIcon = '<svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg>';
+            var checkIcon = '<svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16"><path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"></path></svg>';
+            
+            
+            button.addEventListener('click', function() {
+                var code = codeBlock.textContent;
+                navigator.clipboard.writeText(code).then(function() {
+                    button.innerHTML = checkIcon;
+                    button.classList.add('copied');
+                    button.setAttribute('aria-label', '已复制');
+                    button.setAttribute('title', '已复制');
+                    setTimeout(function() {
+                        button.innerHTML = copyIcon;
+                        button.classList.remove('copied');
+                        button.setAttribute('aria-label', '复制代码');
+                        button.setAttribute('title', '复制代码');
+                    }, 2000);
+                }).catch(function(err) {
+                    console.error('复制失败:', err);
+                });
+            });
+            
+            wrapper.appendChild(button);
+        });
+    });
+</script>
+
+
+
+
+    
+
+
+
+</body>
+
+</html>

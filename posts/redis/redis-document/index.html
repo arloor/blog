@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    
+    <link rel="canonical" href="https://www.arloor.com/posts/redis/redis-document/">
+    
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.157.0">
+
+    
+    
+    
+
+<title>Redis文档摘要 • ARLOOR</title>
+<meta name="description" content="今天，你学习了吗">
+<meta name="keywords" content="刘港欢, arloor, moontell">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Redis文档摘要">
+  <meta name="twitter:description" content="看了看redis的文档，觉得有些东西写的挺好的，就挑觉得有意义的记录一下。">
+      <meta name="twitter:site" content="@njulgh">
+
+<meta property="og:url" content="https://www.arloor.com/posts/redis/redis-document/">
+  <meta property="og:site_name" content="ARLOOR">
+  <meta property="og:title" content="Redis文档摘要">
+  <meta property="og:description" content="看了看redis的文档，觉得有些东西写的挺好的，就挑觉得有意义的记录一下。">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2019-08-20T20:00:39+08:00">
+    <meta property="article:modified_time" content="2019-08-20T20:00:39+08:00">
+    <meta property="article:tag" content="Redis">
+
+
+    
+
+
+
+
+
+<link rel="stylesheet" href="/styles/atom-one-dark.min.css">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.debf1b963c1830f6b9b96ee48c2b4a22c31c7c3885a87bed290c0e198fc6a08d.css" integrity="sha256-3r8bljwYMPa5uW7kjCtKIsMcfDiFqHvtKQwOGY/GoI0=">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+
+<link rel="stylesheet" href="/scss/hugo-toc.6b7222b4ddd3cebd47d144a2e37ade6cbbb64f47e31d8feac655896156ade206.css" integrity="sha256-a3IitN3Tzr1H0USi43rebLu2T0fjHY/qxlWJYVat4gY=">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="/favicon.png">
+    
+    
+
+</head>
+
+
+
+<body class="  ">
+  
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="/">
+          
+          ARLOOR
+          
+        </a>
+      </span>
+      <a href="/">
+        
+        
+        <div class="author-image">
+          <img src="/img/head.jpeg" alt="Author Image" class="img--circle img--headshot element--center">
+        </div>
+        
+        
+      </a>
+      
+      <p class="site__description">
+         都是瞎写的 
+      </p>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">ARLOOR</label>
+      <div class="menu-content menu-content--mobile">
+        <div class="show-in-small">
+          <a href="/">
+            
+            
+            <div class="author-image">
+              <img src="/img/head.jpeg" alt="Author Image"
+                class="img--circle img--headshot element--center">
+            </div>
+            
+            
+          </a>
+        </div>
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/posts/">
+						<span>文章</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/tags/">
+						<span>分类</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/about/">
+						<span>关于我</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/grafana-iframe">
+						<span>Grafana</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/net-iframe">
+						<span>网速监控</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/nat">
+						<span>NAT规则</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/stock">
+						<span>股票监控</span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://x.com/njulgh" rel="me" target="_blank"><i class="fa-brands fa-x-twitter fa-lg"></i></a>
+	
+	
+	
+	
+	
+	<a href="https://github.com/arloor" rel="me" target="_blank"><i class="fa-brands fa-github fa-lg"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://t.me/never_contact_me" rel="me" target="_blank"><i class="fa-brands fa-telegram fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	<a href="mailto:admin@arloor.com" rel="me" target="_blank"><i class="fa-solid fa-at fa-lg"></i></a>
+	
+	
+	
+	
+</section>
+      </div>
+    </div>
+    <div class="menu-content menu-content--desktop">
+      <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/posts/">
+						<span>文章</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/tags/">
+						<span>分类</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/about/">
+						<span>关于我</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/grafana-iframe">
+						<span>Grafana</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/net-iframe">
+						<span>网速监控</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/nat">
+						<span>NAT规则</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/stock">
+						<span>股票监控</span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+    </div>
+    <div class="social-wrap social-wrap--desktop">
+      <section class="social">
+	
+	<a href="https://x.com/njulgh" rel="me" target="_blank"><i class="fa-brands fa-x-twitter fa-lg"></i></a>
+	
+	
+	
+	
+	
+	<a href="https://github.com/arloor" rel="me" target="_blank"><i class="fa-brands fa-github fa-lg"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://t.me/never_contact_me" rel="me" target="_blank"><i class="fa-brands fa-telegram fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	<a href="mailto:admin@arloor.com" rel="me" target="_blank"><i class="fa-solid fa-at fa-lg"></i></a>
+	
+	
+	
+	
+</section>
+    </div>
+    
+<div class="copyright">
+  &copy; 2026 arloor
+  
+    <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>
+  
+</div>
+
+
+<div class="builtwith">
+Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.com/arloor/hyde-arloor">hyde-arloor</a>.
+</div>
+
+
+  </div>
+</div>
+
+  <div class="content container">
+    
+    
+<article>
+  <header>
+    <h1>Redis文档摘要</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> Aug 20, 2019
+    
+    
+    
+      
+      
+          in
+          
+          
+              <a class="badge badge-category" href="/categories/redis">REDIS</a>
+              
+          
+      
+    
+    
+    
+      
+      
+          <br/>
+           <i class="fas fa-tags"></i>
+          
+          <a class="badge badge-tag" href="/tags/redis">redis</a>
+          
+      
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 9 min read
+</div>
+
+
+  </header>
+  
+  
+  
+    <div class="toc-wrapper">
+      <input type="checkbox" id="tocToggle">
+      <label for="tocToggle">Table of Content</label>
+      
+          <nav id="TableOfContents">
+  <ul>
+    <li><a href="#pipelining流水线">pipelining—流水线</a></li>
+    <li><a href="#发布订阅系统">发布订阅系统</a></li>
+    <li><a href="#分布式锁">分布式锁</a></li>
+    <li><a href="#redis持久化">Redis持久化</a>
+      <ul>
+        <li><a href="#rdb的优势">RDB的优势</a></li>
+        <li><a href="#rdb的劣势">RDB的劣势</a></li>
+        <li><a href="#aof的优势">AOF的优势</a></li>
+        <li><a href="#aof的劣势">AOF的劣势</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+      
+    </div>
+  
+  
+  <div class="post">
+    <p>看了看redis的文档，觉得有些东西写的挺好的，就挑觉得有意义的记录一下。</p>
+<h2 id="pipelining流水线">pipelining—流水线</h2>
+<p>Redis使用TCP协议，网络通信需要包从客户端传递到服务器端，再从服务器端传回客户端，这段网络传输的时间被称为RTT(Round Trip Time)。RTT可以很短，比如在本地回环网卡（127.0.0.1）上传输，也可以很长，比如在中国和美国之间传输。</p>
+<p>当RTT很长时，即使redis本身可以承受每秒数以万计的请求，但是实际上大量的时间消耗在RTT上，比如250ms的RTT，则每秒单TCP连接上最多处理4个请求（可以通过增加TCP连接数并将请求负载均衡到不同的TCP连接上增加实际能处理的请求数，但还是效率太低）。即使使用本地回环网卡，RTT仅需要约0.05ms，当写的数量十分大时，RTT的时间消耗仍然很大。</p>
+<p>从这里就可以看到，RTT成为影响redis性能的重要因素（RTT同样影响其他网络程序）。Redis采用Pipelining的技术来减少RTT的影响。用一句话总结Pipelining就是“一次性讲很多句话”。如下所示：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#原来的redis请求-响应</span>
+</span></span><span style="display:flex;"><span>Client: INCR X
+</span></span><span style="display:flex;"><span>Server: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>Client: INCR X
+</span></span><span style="display:flex;"><span>Server: <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span>Client: INCR X
+</span></span><span style="display:flex;"><span>Server: <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>Client: INCR X
+</span></span><span style="display:flex;"><span>Server: <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#使用pipelining后的请求-响应</span>
+</span></span><span style="display:flex;"><span>Client: INCR X  INCR X  INCR X  INCR X
+</span></span><span style="display:flex;"><span>Server: <span style="color:#ae81ff">1</span> <span style="color:#ae81ff">2</span> <span style="color:#ae81ff">3</span> <span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 【实例】使用nc向redis服务器一次性发送多个PING命令</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># (printf &#34;PING\r\nPING\r\nPING\r\n&#34;; sleep 1) | nc 99.47.149.26 6433</span>
+</span></span><span style="display:flex;"><span>+PONG
+</span></span><span style="display:flex;"><span>+PONG
+</span></span><span style="display:flex;"><span>+PONG
+</span></span></code></pre></div><p>客户端一次性向服务器发送多个命令而不等待他们的响应，在最后一次读取所有的响应，这是在几十年前就产生的技术。</p>
+<p>当使用pipeling时，redis会将响应暂存在内存中，等待所有的响应就绪再一次性地发送出去，这会占用内存。所以Pipelining一次执行的命令也不能太多，redis文档举例说10k个命令将是一个合理的数字。嗯，这个数字我觉得还是很大的。</p>
+<p>上文我们由RTT引出Pipelining技术，实际上“一次讲很多话”解决的不仅仅是RTT带来的影响。网络传输涉及到系统调用<code>write()</code>和<code>read()</code>，需要在内核态与用户态之间转换，这涉及到上下文保存/切换等等，会消耗一定的时间。采用Pipelining可以减少这些系统调用，从而进一步节省时间。很多命令的bytes可以通过一次<code>read()</code>读取，而大量命令的响应可以通过一个<code>write()</code>写回。（这里说的很合理，很精细，很雅致。但是知道就好，自己写业务代码的时候如果想优化到这个地步，那得累死人，即使要有优化的意识）。在redis文档中，作者放出了一个图，使用Pipelining，最多可以获得10倍于不使用Pipelining的qps。</p>
+<h2 id="发布订阅系统">发布订阅系统</h2>
+<p>Redis is a fast and stable Publish/Subscribe messaging system!——很自信，所以我信了。</p>
+<p>发布订阅系统不是senders 负责将消息发送给subscribers，而是将消息发送给Channel，senders 并不需要有哪些subscribers。同样，subscribers表示对某些Channel感兴趣，而不需要知道有哪些senders 。发送者和接受者的解耦让更大的可伸缩性和更弹性的网络拓扑成为可能。</p>
+<p>一个Redis发布订阅的实例：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>redis-cli -h 99.47.149.27 -p <span style="color:#ae81ff">6428</span>
+</span></span><span style="display:flex;"><span>99.47.149.27:6428&gt; subscribe one two
+</span></span><span style="display:flex;"><span>Reading messages... <span style="color:#f92672">(</span>press Ctrl-C to quit<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>1<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;subscribe&#34;</span>
+</span></span><span style="display:flex;"><span>2<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;one&#34;</span>
+</span></span><span style="display:flex;"><span>3<span style="color:#f92672">)</span> <span style="color:#f92672">(</span>integer<span style="color:#f92672">)</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>1<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;subscribe&#34;</span>
+</span></span><span style="display:flex;"><span>2<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;two&#34;</span>
+</span></span><span style="display:flex;"><span>3<span style="color:#f92672">)</span> <span style="color:#f92672">(</span>integer<span style="color:#f92672">)</span> <span style="color:#ae81ff">2</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## 此时另一个redis-cli发送“publish one aaaaaaaaaaaa ”</span>
+</span></span><span style="display:flex;"><span>1<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;message&#34;</span>
+</span></span><span style="display:flex;"><span>2<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;one&#34;</span>
+</span></span><span style="display:flex;"><span>3<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;aaaaaaaaaaaa&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">## 此时另一个redis-cli发送“publish two bbbbbbbbbbb”</span>
+</span></span><span style="display:flex;"><span>1<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;message&#34;</span>
+</span></span><span style="display:flex;"><span>2<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;two&#34;</span>
+</span></span><span style="display:flex;"><span>3<span style="color:#f92672">)</span> <span style="color:#e6db74">&#34;bbbbbbbbbbb&#34;</span>
+</span></span></code></pre></div><p>redis大概是最易用的发布订阅系统了吧。关于其他使用redis发布订阅的细节，自己谷歌吧。</p>
+<h2 id="分布式锁">分布式锁</h2>
+<p>分布式锁——控制多个进程对一个资源的互斥访问。</p>
+<p>redis文档提出了一个算法叫Redlock，他们认为比一般的实现更加安全，也希望社区能分析该算法，并提供反馈，同时以他为起点，实现更复杂的设计。<a href="%5Bhttps://redis.io/topics/distlock%5D(https://redis.io/topics/distlock)">文档</a>提及了各种语言对Redlock的实现。</p>
+<p>分布式锁需要保证三个属性：</p>
+<ul>
+<li>安全保证：互斥性——在同一时间只能有一个客户端持有锁</li>
+<li>活跃度保证A：免于死锁——事实上很容易出现这种情况：持有锁的客户端宕机或发生分区，其他客户端仍在请求锁</li>
+<li>活跃度保证B: 容错性——只要大部分节点正常运行，客户端就能正常获取和释放锁</li>
+</ul>
+<blockquote>
+<p>基于Redis集群失效转移机制的分布式锁是不可靠的：</p>
+</blockquote>
+<p>最简单的redis分布式锁实现是这样的——创建一个会超时删除的key，释放锁就删除该key。因为超时的特性，即使持有锁的客户端宕机，最终该锁还是会被释放。这样的问题是：会存在单点失效——redis节点宕机那么锁就不存在了。最自然的想法是创建redis集群，给主节点增加从节点，从节点去提供备用服务。但是这不能保证互斥性——因为redis集群的主从节点是异步拷贝的——主从之间的拷贝因为缺少确认机制导致拷贝可能会丢失部分写（这在<a href="/posts/redis-slot-transpot/">Redis集群扩容迁移</a>也提到了）。这就导致下面的情况会发生：</p>
+<ol>
+<li>Client A acquires the lock in the master.</li>
+<li>The master crashes before the write to the key is transmitted to the slave.</li>
+<li>The slave gets promoted to master.</li>
+<li>Client B acquires the lock to the same resource A already holds a lock for. <strong>SAFETY VIOLATION!</strong></li>
+</ol>
+<p>这种实现适合当故障发生时，允许多个客户端持有锁的情况。但是更多情况下不推荐。</p>
+<blockquote>
+<p>正确的单节点分布式锁：</p>
+</blockquote>
+<p>使用以下命令获取锁：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>SET key exclusive_random_value NX PX <span style="color:#ae81ff">30000</span>
+</span></span></code></pre></div><ul>
+<li>NX——只有该key不存在时才会设置</li>
+<li>PX 30000——30秒的超时时间</li>
+<li>exclusive_random_value——每个客户端都有不同的随机值。用于安全地释放锁，在释放前可以检查这个值确认锁是否有自己持有。</li>
+</ul>
+<blockquote>
+<p>Redlock算法</p>
+</blockquote>
+<p>在Redis的分布式环境中，我们假设有N个Redis master。这些节点完全互相独立，不存在主从复制或者其他集群协调机制。我们确保将在N个实例上使用与在Redis单实例下相同方法获取和释放锁。现在我们假设有5个Redis master节点，同时我们需要在5台服务器上面运行这些Redis实例，这样保证他们不会同时都宕掉。</p>
+<p>为了取到锁，客户端应该执行以下操作:</p>
+<ol>
+<li>
+<p>获取当前Unix时间，以毫秒为单位。</p>
+</li>
+<li>
+<p>依次尝试从5个实例，使用相同的key和具有唯一性的value（例如UUID）获取锁。当向Redis请求获取锁时，客户端应该设置一个网络连接和响应超时时间，这个超时时间应该小于锁的失效时间。例如你的锁自动失效时间为10秒，则超时时间应该在5-50毫秒之间。这样可以避免服务器端Redis已经挂掉的情况下，客户端还在死死地等待响应结果。如果服务器端没有在规定时间内响应，客户端应该尽快尝试去另外一个Redis实例请求获取锁。</p>
+</li>
+<li>
+<p>客户端使用当前时间减去开始获取锁时间（步骤1记录的时间）就得到获取锁使用的时间。当且仅当从大多数（N/2+1，这里是3个节点）的Redis节点都取到锁，并且使用的时间小于锁失效时间时，锁才算获取成功。</p>
+</li>
+<li>
+<p>如果取到了锁，key的真正有效时间等于有效时间减去获取锁所使用的时间（步骤3计算的结果）。</p>
+</li>
+<li>
+<p>如果因为某些原因，获取锁失败（没有在至少N/2+1个Redis实例取到锁或者取锁时间已经超过了有效时间），客户端应该在所有的Redis实例上进行解锁（即便某些Redis实例根本就没有加锁成功，防止某些节点获取到锁但是客户端没有得到响应而导致接下来的一段时间不能被重新获取锁）。</p>
+</li>
+</ol>
+<blockquote>
+<p>java使用Redlock</p>
+</blockquote>
+<pre tabindex="0"><code>&lt;dependency&gt;
+ &lt;groupId&gt;org.redisson&lt;/groupId&gt;
+ &lt;artifactId&gt;redisson&lt;/artifactId&gt;
+ &lt;version&gt;3.3.2&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre><pre tabindex="0"><code>Config config = new Config();
+config.useSentinelServers().addSentinelAddress(&#34;127.0.0.1:6369&#34;,&#34;127.0.0.1:6379&#34;, &#34;127.0.0.1:6389&#34;)
+   .setMasterName(&#34;masterName&#34;)
+   .setPassword(&#34;password&#34;).setDatabase(0);
+RedissonClient redissonClient = Redisson.create(config);
+// 还可以getFairLock(), getReadWriteLock()
+RLock redLock = redissonClient.getLock(&#34;REDLOCK_KEY&#34;);
+boolean isLock;
+try {
+   isLock = redLock.tryLock();
+   // 500ms拿不到锁, 就认为获取锁失败。10000ms即10s是锁失效时间。
+   isLock = redLock.tryLock(500, 10000, TimeUnit.MILLISECONDS);
+   if (isLock) {
+     //TODO if get lock success, do something;
+   }
+} catch (Exception e) {
+} finally {
+ // 无论如何, 最后都要解锁
+ redLock.unlock();
+}
+</code></pre><h2 id="redis持久化">Redis持久化</h2>
+<p>redis提供两种持久化方式：RDB和AOF</p>
+<ul>
+<li>RDB以一定的时间间隔提供redis数据集的实时快照</li>
+<li>AOF则记录redis的每一次写操作。在redis重启时，会重新执行这些操作。这些操作以redis网络通信协议的格式记录。采用追加写的方式。如果AOF文件太大，redis可以在后台重写这些日志（啥叫rewrite？）</li>
+<li>如果愿意，可以完全禁用数据持久化，如果没有持久化的需求</li>
+<li>RDB和AOF能够同时存在，当两者都存在时，会使用AOF进行恢复，因为AOF会更加完整</li>
+</ul>
+<h3 id="rdb的优势">RDB的优势</h3>
+<ul>
+<li>RDB以一个紧凑的单一文件备份redis的实时数据。RDB文件非常适合备份。比如你希望每个小时备份一下RDB文件，从而存储不同版本的数据以应对可能出现的灾难</li>
+<li>RDB很适合用于灾难恢复，因为单一的紧凑的文件很容易迁移到另一个较远的数据中心</li>
+<li>RDB最大化了redis的性能，因为redis父进程仅需要fork一个子进程去完成剩余的工作，而不需要处理IO等会产生阻塞的事件。</li>
+<li>RDB恢复的启动时间小于AOF恢复</li>
+</ul>
+<h3 id="rdb的劣势">RDB的劣势</h3>
+<ul>
+<li>RDB会丢失部分数据，因为他是定时地进行备份。如果Redis没有经历正常的关闭过程（断电等），则会丢失上一次RDB到异常关闭这段时间的写。</li>
+<li>RDB需要fork子进程来进行持久化。如果数据集太大，fork系统调用可能消耗较多时间，甚至导致redis暂停服务（ n ms-1s）。AOF也需要fork，但是你可以在不影响持久性的前提下控制多久重写一次日志</li>
+</ul>
+<h3 id="aof的优势">AOF的优势</h3>
+<ul>
+<li>使用AOF的话，redis具有更高的持久性。你可以选择不同的fsync（将磁盘写缓冲区的数据冲刷到磁盘-真正写到磁盘）策略：不做fsync，每秒做一次fsync，每次查询做一次fsync。在默认策略-每秒执行一次fsync时，性能仍然很客观，而只会丢失一秒的写。</li>
+<li>AOF是一个尾部追加写的文件，不会做任何的seek操作（定位到文件的中间位置再进行写）。所以即使发生断电，也不会造成AOF文件的污染。如果断电时仅仅成功地写了一半的命令，也可以通过redis-check-aof工具进行修正。</li>
+<li>redis可以在后台重写AOF当日志文件变得很大。重写是完全安全的。当新日志文件创建并准备就绪后，新的追加会立即切换到新日志文件。</li>
+<li>AOF记录了写的操作顺序。如果想要撤销某个操作例如flushall，仅需要删除AOF文件中的flushalll的命令，并重启redis即可。</li>
+</ul>
+<h3 id="aof的劣势">AOF的劣势</h3>
+<ul>
+<li>AOF文件通常会比同数据集的RDB文件大</li>
+<li>AOF在特定的fsync策略下会影响性能。总体来说，在每秒一次fsync时，性能仍然很高；当关闭fsync时，会和RDB有差不多一样的性能。另外在高负载时，RDB的最大延迟比AOF低。</li>
+<li>AOF曾经有一些bug。【技术人真严谨，讲了好几条</li>
+</ul>
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/posts/linux/nginx-install-and-reverse-proxy/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">Nginx安装使用：webserver及反向代理</span>
+    </a>
+    
+    
+    <a href="/posts/redis/use-redis-replicate-to-do-remote-sync/" class="navigation-next">
+      <span class="navigation-tittle">Redis异步拷贝实现—replicate.c</span>
+      <i aria-hidden="true" class="fa fa-chevron-right"></i>
+    </a>
+    
+</div>
+
+
+  
+
+  
+
+
+</article>
+
+
+  </div>
+<style>
+  .content.container {
+        width: 100%;
+        max-width: none;
+        height: calc(100vh - var(--sidebar-height, 49px));
+        border: none;
+        display: block;
+        overflow-y: auto;
+        box-sizing: border-box;
+        margin-left: 0;
+        margin-right: 0;
+  }
+
+  body:not(.type-iframe) .content.container {
+        padding-left: max(1.5rem, calc((100% - var(--content-max-width, 38rem)) / 2));
+        padding-right: max(1.5rem, calc((100% - var(--content-max-width, 38rem)) / 2));
+  }
+</style>
+<script>
+    (function () {
+        var contentSelector = '.content.container';
+        var rafId = 0;
+        var resizeDebounceTimer = 0;
+        var pendingHashScroll = false;
+
+        function getHashTarget() {
+            var hash = window.location.hash;
+            var targetId = '';
+
+            if (!hash || hash === '#') {
+                return null;
+            }
+
+            targetId = hash.slice(1);
+            try {
+                targetId = decodeURIComponent(targetId);
+            } catch (e) {
+                
+            }
+
+            return document.getElementById(targetId);
+        }
+
+        function scrollToHashTarget() {
+            var target = getHashTarget();
+            if (!target) {
+                return;
+            }
+            try {
+                target.scrollIntoView({ block: 'start', inline: 'nearest' });
+            } catch (e) {
+                target.scrollIntoView(true);
+            }
+        }
+
+        function applyPendingHashScroll() {
+            if (!pendingHashScroll) {
+                return;
+            }
+            pendingHashScroll = false;
+            scrollToHashTarget();
+        }
+
+        function resizeContentHeight() {
+            var content = document.querySelector(contentSelector);
+            if (!content) {
+                return;
+            }
+            var rect = content.getBoundingClientRect();
+            var available = window.innerHeight - rect.top;
+            if (available < 0) {
+                available = 0;
+            }
+            content.style.height = available + 'px';
+            applyPendingHashScroll();
+        }
+
+        function scheduleResize() {
+            if (rafId) {
+                return;
+            }
+            rafId = window.requestAnimationFrame(function () {
+                rafId = 0;
+                resizeContentHeight();
+            });
+        }
+
+        function scheduleResizeDebounced(delay) {
+            window.clearTimeout(resizeDebounceTimer);
+            resizeDebounceTimer = window.setTimeout(scheduleResize, delay || 120);
+        }
+
+        function requestHashScroll() {
+            if (!window.location.hash || window.location.hash === '#') {
+                return;
+            }
+            pendingHashScroll = true;
+            scheduleResize();
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function () {
+                scheduleResize();
+                requestHashScroll();
+            }, { once: true });
+        } else {
+            scheduleResize();
+            requestHashScroll();
+        }
+
+        window.addEventListener('load', function () {
+            scheduleResize();
+            requestHashScroll();
+        });
+        window.addEventListener('pageshow', function () {
+            scheduleResize();
+            requestHashScroll();
+        });
+        window.addEventListener('hashchange', requestHashScroll);
+        window.addEventListener('resize', function () {
+            scheduleResizeDebounced(120);
+        });
+
+        var menuToggle = document.getElementById('menuToggle');
+        if (menuToggle) {
+            menuToggle.addEventListener('change', function () {
+                scheduleResize();
+                window.setTimeout(scheduleResize, 250);
+            });
+        }
+    })();
+</script>
+  
+    
+
+
+
+<script defer src="/js/all.js" crossorigin="anonymous"></script>
+
+    
+    
+    <script src="/js/highlight.min.js"></script>
+    <script src="/js/languages/dos.min.js"></script>
+        
+    <script type="text/javascript">
+        
+        hljs.highlightAll();
+    </script>
+    
+
+<style>
+    .code-block-wrapper {
+        position: relative;
+    }
+    .copy-code-button {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        padding: 6px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 4px;
+        cursor: pointer;
+        opacity: 0;
+        transition: opacity 0.3s, background 0.3s;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .copy-code-button svg {
+        width: 16px;
+        height: 16px;
+        fill: #fff;
+        transition: fill 0.3s;
+    }
+    .code-block-wrapper:hover .copy-code-button {
+        opacity: 1;
+    }
+    .copy-code-button:hover {
+        background: rgba(255, 255, 255, 0.2);
+    }
+    .copy-code-button.copied {
+        background: rgba(46, 160, 67, 0.8);
+        border-color: rgba(46, 160, 67, 1);
+    }
+    .copy-code-button.copied svg {
+        fill: #fff;
+    }
+</style>
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        document.querySelectorAll('pre code').forEach(function(codeBlock) {
+            var pre = codeBlock.parentNode;
+            
+            
+            if (pre.parentNode.classList.contains('code-block-wrapper')) {
+                return;
+            }
+            
+            
+            var wrapper = document.createElement('div');
+            wrapper.className = 'code-block-wrapper';
+            pre.parentNode.insertBefore(wrapper, pre);
+            wrapper.appendChild(pre);
+            
+            
+            var button = document.createElement('button');
+            button.className = 'copy-code-button';
+            button.innerHTML = '<svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg>';
+            button.setAttribute('aria-label', '复制代码');
+            button.setAttribute('title', '复制代码');
+            
+            var copyIcon = '<svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg>';
+            var checkIcon = '<svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16"><path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"></path></svg>';
+            
+            
+            button.addEventListener('click', function() {
+                var code = codeBlock.textContent;
+                navigator.clipboard.writeText(code).then(function() {
+                    button.innerHTML = checkIcon;
+                    button.classList.add('copied');
+                    button.setAttribute('aria-label', '已复制');
+                    button.setAttribute('title', '已复制');
+                    setTimeout(function() {
+                        button.innerHTML = copyIcon;
+                        button.classList.remove('copied');
+                        button.setAttribute('aria-label', '复制代码');
+                        button.setAttribute('title', '复制代码');
+                    }, 2000);
+                }).catch(function(err) {
+                    console.error('复制失败:', err);
+                });
+            });
+            
+            wrapper.appendChild(button);
+        });
+    });
+</script>
+
+
+
+
+    
+
+
+
+</body>
+
+</html>

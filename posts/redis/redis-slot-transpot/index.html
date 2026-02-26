@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    
+    <link rel="canonical" href="https://www.arloor.com/posts/redis/redis-slot-transpot/">
+    
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.157.0">
+
+    
+    
+    
+
+<title>Redis集群slot迁移 • ARLOOR</title>
+<meta name="description" content="今天，你学习了吗">
+<meta name="keywords" content="刘港欢, arloor, moontell">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Redis集群slot迁移">
+  <meta name="twitter:description" content="本文记录了redis集群扩容时会发生的slot迁移过程，同时记录了在迁移过程中查询key集群会如何响应。在文章开头，附带了一些redis集群技术的简单介绍（大部分摘自redis官方文档），帮助了解迁移过程。">
+      <meta name="twitter:site" content="@njulgh">
+
+<meta property="og:url" content="https://www.arloor.com/posts/redis/redis-slot-transpot/">
+  <meta property="og:site_name" content="ARLOOR">
+  <meta property="og:title" content="Redis集群slot迁移">
+  <meta property="og:description" content="本文记录了redis集群扩容时会发生的slot迁移过程，同时记录了在迁移过程中查询key集群会如何响应。在文章开头，附带了一些redis集群技术的简单介绍（大部分摘自redis官方文档），帮助了解迁移过程。">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2019-08-10T14:01:47+08:00">
+    <meta property="article:modified_time" content="2019-08-10T14:01:47+08:00">
+    <meta property="article:tag" content="Redis">
+
+
+    
+
+
+
+
+
+<link rel="stylesheet" href="/styles/atom-one-dark.min.css">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.debf1b963c1830f6b9b96ee48c2b4a22c31c7c3885a87bed290c0e198fc6a08d.css" integrity="sha256-3r8bljwYMPa5uW7kjCtKIsMcfDiFqHvtKQwOGY/GoI0=">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+
+<link rel="stylesheet" href="/scss/hugo-toc.6b7222b4ddd3cebd47d144a2e37ade6cbbb64f47e31d8feac655896156ade206.css" integrity="sha256-a3IitN3Tzr1H0USi43rebLu2T0fjHY/qxlWJYVat4gY=">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="/favicon.png">
+    
+    
+
+</head>
+
+
+
+<body class="  ">
+  
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="/">
+          
+          ARLOOR
+          
+        </a>
+      </span>
+      <a href="/">
+        
+        
+        <div class="author-image">
+          <img src="/img/head.jpeg" alt="Author Image" class="img--circle img--headshot element--center">
+        </div>
+        
+        
+      </a>
+      
+      <p class="site__description">
+         都是瞎写的 
+      </p>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">ARLOOR</label>
+      <div class="menu-content menu-content--mobile">
+        <div class="show-in-small">
+          <a href="/">
+            
+            
+            <div class="author-image">
+              <img src="/img/head.jpeg" alt="Author Image"
+                class="img--circle img--headshot element--center">
+            </div>
+            
+            
+          </a>
+        </div>
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/posts/">
+						<span>文章</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/tags/">
+						<span>分类</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/about/">
+						<span>关于我</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/grafana-iframe">
+						<span>Grafana</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/net-iframe">
+						<span>网速监控</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/nat">
+						<span>NAT规则</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/stock">
+						<span>股票监控</span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://x.com/njulgh" rel="me" target="_blank"><i class="fa-brands fa-x-twitter fa-lg"></i></a>
+	
+	
+	
+	
+	
+	<a href="https://github.com/arloor" rel="me" target="_blank"><i class="fa-brands fa-github fa-lg"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://t.me/never_contact_me" rel="me" target="_blank"><i class="fa-brands fa-telegram fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	<a href="mailto:admin@arloor.com" rel="me" target="_blank"><i class="fa-solid fa-at fa-lg"></i></a>
+	
+	
+	
+	
+</section>
+      </div>
+    </div>
+    <div class="menu-content menu-content--desktop">
+      <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/posts/">
+						<span>文章</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/tags/">
+						<span>分类</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/about/">
+						<span>关于我</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/grafana-iframe">
+						<span>Grafana</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/net-iframe">
+						<span>网速监控</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/nat">
+						<span>NAT规则</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/stock">
+						<span>股票监控</span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+    </div>
+    <div class="social-wrap social-wrap--desktop">
+      <section class="social">
+	
+	<a href="https://x.com/njulgh" rel="me" target="_blank"><i class="fa-brands fa-x-twitter fa-lg"></i></a>
+	
+	
+	
+	
+	
+	<a href="https://github.com/arloor" rel="me" target="_blank"><i class="fa-brands fa-github fa-lg"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://t.me/never_contact_me" rel="me" target="_blank"><i class="fa-brands fa-telegram fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	<a href="mailto:admin@arloor.com" rel="me" target="_blank"><i class="fa-solid fa-at fa-lg"></i></a>
+	
+	
+	
+	
+</section>
+    </div>
+    
+<div class="copyright">
+  &copy; 2026 arloor
+  
+    <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>
+  
+</div>
+
+
+<div class="builtwith">
+Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.com/arloor/hyde-arloor">hyde-arloor</a>.
+</div>
+
+
+  </div>
+</div>
+
+  <div class="content container">
+    
+    
+<article>
+  <header>
+    <h1>Redis集群slot迁移</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> Aug 10, 2019
+    
+    
+    
+      
+      
+          in
+          
+          
+              <a class="badge badge-category" href="/categories/redis">REDIS</a>
+              
+          
+      
+    
+    
+    
+      
+      
+          <br/>
+           <i class="fas fa-tags"></i>
+          
+          <a class="badge badge-tag" href="/tags/redis">redis</a>
+          
+      
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 8 min read
+</div>
+
+
+  </header>
+  
+  
+  
+    <div class="toc-wrapper">
+      <input type="checkbox" id="tocToggle">
+      <label for="tocToggle">Table of Content</label>
+      
+          <nav id="TableOfContents">
+  <ul>
+    <li><a href="#redis集群简介非codis方案">redis集群简介（非codis方案）</a>
+      <ul>
+        <li><a href="#可用性">可用性</a></li>
+        <li><a href="#写安全性写不丢失一致性">写安全性、写不丢失、一致性</a></li>
+        <li><a href="#由分片来的其他特性">由分片来的其他特性</a></li>
+      </ul>
+    </li>
+    <li><a href="#askmoved重定向">ASK/MOVED重定向</a></li>
+    <li><a href="#迁移">迁移</a>
+      <ul>
+        <li><a href="#迁移原理讲解">迁移原理讲解</a></li>
+        <li><a href="#迁移实际操作">迁移实际操作</a></li>
+        <li><a href="#迁移计时">迁移计时</a></li>
+        <li><a href="#当目标节点maxmemory内存不足时">当目标节点maxmemory内存不足时</a></li>
+        <li><a href="#迁移过程中和迁移结束后读取key集群的不同表现">迁移过程中和迁移结束后，读取key集群的不同表现</a></li>
+      </ul>
+    </li>
+    <li><a href="#本文的意义">本文的意义</a></li>
+    <li><a href="#附录仅备忘防止重复工作">附录——仅备忘，防止重复工作</a></li>
+  </ul>
+</nav>
+      
+    </div>
+  
+  
+  <div class="post">
+    <p>本文记录了redis集群扩容时会发生的slot迁移过程，同时记录了在迁移过程中查询key集群会如何响应。在文章开头，附带了一些redis集群技术的简单介绍（大部分摘自redis官方文档），帮助了解迁移过程。</p>
+<h2 id="redis集群简介非codis方案">redis集群简介（非codis方案）</h2>
+<p>在我的理解里，redis集群和数据库分库差不多——自动地将key分配到16384个槽（slot），而集群中的每个redis节点存储一部分槽。</p>
+<p>为什么是16384个槽？因为redis集群会计算key的CRC16然后取模16384，得到的值即为槽点编号。</p>
+<p>redis集群通过这个分片（reshrad）和主从备份机制，实现了较高的可用性、较高的写安全性（或称为写不会丢失、一致性）。</p>
+<h3 id="可用性">可用性</h3>
+<p>举例3主3从的redis集群，当网络分区发生时，连接到小分区的客户端肯定不能获得正常服务；连接到大分区的客户端，如果大分区中有大部分的主节点，并且缺失的主节点都有相应的从节点在大分区中，则该客户端能获得正常服务——需要等待NODE_TIMEOUT，从节点被选举为主节点或原来的主节点恢复。</p>
+<p>集群的设计目标是当少部分节点发生故障时能够继续运行。但是不能解决发生大规模网络分区的情况。</p>
+<h3 id="写安全性写不丢失一致性">写安全性、写不丢失、一致性</h3>
+<p>主从节点之间使用异步拷贝。即：</p>
+<ol>
+<li>客户端向主节点写。</li>
+<li>主节点通知客户端写成功</li>
+<li>主节点通知从节点拷贝</li>
+</ol>
+<p>第二、三步的顺序决定，如果在2执行完毕后，发生网络分区或主节点故障，则这一部分拷贝就不会顺利传递到从节点，当主节点不能及时恢复时，则从节点成为主节点，导致丢失的这一部分拷贝彻底丢失。</p>
+<p>使用异步拷贝，是一致性和性能之间的一种妥协和权衡。</p>
+<h3 id="由分片来的其他特性">由分片来的其他特性</h3>
+<p>分片意味着每个redis节点上只有一部分key。这导致了redis集群的一些特性和“做不到”。</p>
+<ol>
+<li>支持所有的单key操作，但只支持涉及的key都在同一节点的多key操作。【可以使用hash flag强制一些key在同一slot/节点，通过{}包裹被计算hash的部分】</li>
+<li>当客户端向节点请求不在该节点的key时，节点会返回重定向（-ASK/-MOVED），而不是代理该请求，向持有key的节点请求。</li>
+<li>读写集群中节点的key耗时和单节点差不多，所以有N个节点的集群，差不多可带来N倍的性能提升——前提是key比较分散（这肯定需要的）</li>
+</ol>
+<h2 id="askmoved重定向">ASK/MOVED重定向</h2>
+<p>在介绍迁移前，先说下什么是ASK/MOVED重定向。前面说到节点不会代理客户端对其他节点的查询，而是返回重定向，告诉客户端目标key在哪个节点上——这是基于性能的考虑。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>get <span style="color:#f92672">{</span>n<span style="color:#f92672">}</span><span style="color:#ae81ff">111</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">(</span>error<span style="color:#f92672">)</span> MOVED <span style="color:#ae81ff">3432</span> 99.47.149.25:6419
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>get <span style="color:#f92672">{</span>n<span style="color:#f92672">}</span><span style="color:#ae81ff">222</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">(</span>error<span style="color:#f92672">)</span> ASK <span style="color:#ae81ff">3432</span> 99.47.149.26:6425
+</span></span></code></pre></div><p>以上就是ASK/MOVED响应真实的长相。MOVED表示，集群的当前状态表明——3432槽点在99.47.149.25:6419的节点上。而ASK响应则只在迁移过程（下一节解释迁移过程）中出现，其语义为——槽点3432正在迁移，你要的{n}222现在不在我这，你去问问（ask）99.47.149.26:6425的节点。一个正确的客户端在遇到ASK重定向时，会先向新节点发送ASKING，然后发送查询。</p>
+<h2 id="迁移">迁移</h2>
+<p>上一节说到，redis集群将节点分成了16384个分片。而“迁移”就是动态增加/减少集群的节点时，根据节点增减移动这些分片，以保证16384个槽都有节点存储，并较为平均。</p>
+<h3 id="迁移原理讲解">迁移原理讲解</h3>
+<p>在实际迁移中，我们使用redis-4.0.1包中src下的redis-trib.rb脚本中的reshrad方法。reshrad方法迁移原理如下（以迁移3432槽点为例）：</p>
+<ol>
+<li>在目标节点执行： CLUSTER SETSLOT 3432(slot编号) IMPORTING 原节点ID ——标记目标节点为importing状态</li>
+<li>在源节点执行： CLUSTER SETSLOT 3432 MIGRATING 目标节点ID           ——标记源节点为migrating状态</li>
+<li>在源节点上执行： CLUSTER GETKEYSINSLOT 3432 10 获取10个还在源节点上的key</li>
+<li>对3返回的每个key，在源节点上执行MIGRATE指令，将其移动至目标节点 migrate 99.47.149.26 6425 &quot;&quot; 0 10000 keys {n}2600</li>
+<li>重复3-4直到源节点上没有剩余待迁移的key。向目标节点和原节点清除importing和migrating标记 cluster setslot 3432 node 目标节点ID</li>
+</ol>
+<p>注意点和迁移3432槽点时集群的反应：</p>
+<ul>
+<li>要先在目标节点标记importing，再在源节点标记migrating——otherwise a client may be redirected to the target node that does not yet know it is importing this slot.</li>
+<li>执行完2后，向源节点请求3432槽点上的key时，会收到ASK重定向（或者说执行完2，集群就认为自己开始了槽点3432的迁移）。</li>
+</ul>
+<h3 id="迁移实际操作">迁移实际操作</h3>
+<p>先放迁移操作的命令：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>./redis-trib.rb reshard  --from   004c9d0adad075161658c3a2f972591a265ec83c<span style="color:#f92672">(</span>A<span style="color:#f92672">)</span> --to  7efc5feb4a1ddb095e9253d918d1d3137599d381<span style="color:#f92672">(</span>B<span style="color:#f92672">)</span>   --slots <span style="color:#ae81ff">10</span> --yes --timeout <span style="color:#ae81ff">10000</span>  --yes --pipeline <span style="color:#ae81ff">20</span> 99.47.149.25:6419
+</span></span></code></pre></div><p>把节点A中的前10个slot迁移到节点B，每次迁移20个key。详细的参数解释可以自己通过<code>./redis-trib.rb help</code>看，我要讲如何安装这个脚本执行所需的依赖。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>    <span style="color:#75715e">#安装ruby</span>
+</span></span><span style="display:flex;"><span>    yum -y install zlib-devel
+</span></span><span style="display:flex;"><span>    tar xvf ruby-2.2.7.tar.gz
+</span></span><span style="display:flex;"><span>    cd ruby-2.2.7/
+</span></span><span style="display:flex;"><span>    yum install -y gcc
+</span></span><span style="display:flex;"><span>    ./configure -prefix<span style="color:#f92672">=</span>/usr/local/ruby2
+</span></span><span style="display:flex;"><span>    make
+</span></span><span style="display:flex;"><span>    make install
+</span></span><span style="display:flex;"><span>    cd /usr/local/ruby2
+</span></span><span style="display:flex;"><span>    yum remove -y ruby#删除预装的老版本的ruby，测试环境下是1.8版本的
+</span></span><span style="display:flex;"><span>    ln -fs /usr/local/ruby2/bin/ruby /bin/ruby
+</span></span><span style="display:flex;"><span>    ln -fs /usr/local/ruby2/bin/gem /bin/gem
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#安装redis-3.3.3.gem——高版本的redis.gem被证明不能正常使用</span>
+</span></span><span style="display:flex;"><span>    gem install -l redis-3.3.3.gem
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#进入redis-4.0.1/src,执行redis-trib.rb</span>
+</span></span><span style="display:flex;"><span>    chmod +x redis-trib.rb
+</span></span><span style="display:flex;"><span>    ./redis-trib.rb help
+</span></span><span style="display:flex;"><span>    cp ./redis-trib.rb /bin/  <span style="color:#75715e">#加入path（可选）</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">#至此，就可以使用redis-trib了。</span>
+</span></span></code></pre></div><h3 id="迁移计时">迁移计时</h3>
+<p>我们只需要关注单个slot迁移的耗时，而不需要关注迁移N个slot所有的耗时。</p>
+<p>在我的测试环境下：</p>
+<ul>
+<li>迁移一个空slot耗时0.003秒，基本可以认为只是函数调用时间</li>
+<li>迁移一个含有一万个100字节的slot（1MB大小）耗时0.897秒</li>
+<li>迁移一个含有八万个100字节的slot（8MB大小）耗时4.293秒</li>
+<li>迁移一个含有34万个100字节的slot（34MB大小）耗时15.194秒</li>
+</ul>
+<p>迁移耗时肯定会和服务器性能、集群中的网络状况有关联——以上耗时仅供参考，根据本文有缘人完全可以自己来一遍迁移计时【推荐】</p>
+<p>上一个计算毫秒级时间差的shell函数：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> timediff<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># time format:date +&#34;%s.%N&#34;, such as 1502758855.907197692</span>
+</span></span><span style="display:flex;"><span>    start_time<span style="color:#f92672">=</span>$1
+</span></span><span style="display:flex;"><span>    end_time<span style="color:#f92672">=</span>$2
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    start_s<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>start_time%.*<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>    start_nanos<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>start_time#*.<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>    end_s<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>end_time%.*<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>    end_nanos<span style="color:#f92672">=</span><span style="color:#e6db74">${</span>end_time#*.<span style="color:#e6db74">}</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># end_nanos &gt; start_nanos? </span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># Another way, the time part may start with 0, which means</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># it will be regarded as oct format, use &#34;10#&#34; to ensure</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e"># calculateing with decimal</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> <span style="color:#e6db74">&#34;</span>$end_nanos<span style="color:#e6db74">&#34;</span> -lt <span style="color:#e6db74">&#34;</span>$start_nanos<span style="color:#e6db74">&#34;</span> <span style="color:#f92672">]</span>;<span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>        end_s<span style="color:#f92672">=</span><span style="color:#66d9ef">$((</span> <span style="color:#ae81ff">10#</span>$end_s <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">))</span>
+</span></span><span style="display:flex;"><span>        end_nanos<span style="color:#f92672">=</span><span style="color:#66d9ef">$((</span> <span style="color:#ae81ff">10#</span>$end_nanos <span style="color:#f92672">+</span> <span style="color:#ae81ff">10</span><span style="color:#f92672">**</span><span style="color:#ae81ff">9</span> <span style="color:#66d9ef">))</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># get timediff</span>
+</span></span><span style="display:flex;"><span>    time<span style="color:#f92672">=</span><span style="color:#66d9ef">$((</span> <span style="color:#ae81ff">10#</span>$end_s <span style="color:#f92672">-</span> <span style="color:#ae81ff">10#</span>$start_s <span style="color:#66d9ef">))</span>.<span style="color:#e6db74">`</span>printf <span style="color:#e6db74">&#34;%03d\n&#34;</span> <span style="color:#66d9ef">$((</span> <span style="color:#f92672">(</span><span style="color:#ae81ff">10#</span>$end_nanos <span style="color:#f92672">-</span> <span style="color:#ae81ff">10#</span>$start_nanos<span style="color:#f92672">)/</span><span style="color:#ae81ff">10</span><span style="color:#f92672">**</span><span style="color:#ae81ff">6</span> <span style="color:#66d9ef">))</span><span style="color:#e6db74">`</span>
+</span></span><span style="display:flex;"><span>    echo $time
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>start<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>date +<span style="color:#e6db74">&#34;%s.%N&#34;</span><span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">####一些命令</span>
+</span></span><span style="display:flex;"><span>end<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>date +<span style="color:#e6db74">&#34;%s.%N&#34;</span><span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>timediff $start $end
+</span></span></code></pre></div><h3 id="当目标节点maxmemory内存不足时">当目标节点maxmemory内存不足时</h3>
+<p>如果目标节点设置的最大内存不足以存放迁移来的所有key时，如果<code>maxmemory_policy</code>规则为<code>allkeys-lru</code>则redis-trib不会报错，而是根据allkeys-lru的规则丢弃存放不下的key。<code>maxmemory_policy</code>可以使用info命令查看。</p>
+<h3 id="迁移过程中和迁移结束后读取key集群的不同表现">迁移过程中和迁移结束后，读取key集群的不同表现</h3>
+<p>迁移结束后，对源节点发起针对slot的请求，源节点会返回 <code>MOVED 3432 目标节点地址</code>。一个机智的redis-cluster-client此时会更新自己的slots-node映射（这是redis文档中的原话）。</p>
+<p>slot迁移过程中，对源节点发起针对该slot的请求，集群的表现比较复杂。——通过redis-trib难以查看到这些表现，我是通过手动执行<code>CLUSTER GETKEYSINSLOT 3432 10</code>和<code>migrate</code>等指令，模拟redis-trib的执行中的状态，从而查看中间状态。集群的表现分为以下三种。</p>
+<ol>
+<li>请求源节点时，直接返回key的值。——最简单，不需要处理。</li>
+<li>源节点返回ASK，proxy asking再get时，得到key的值。——也符合redis的文档，是在执行<code>migrate</code>该key之后出现的状态。</li>
+<li>源节点返回ASK，proxy asking再get时，得不到key的值，返回nil。——这真实并普遍存在，，需要想想应对策略。</li>
+</ol>
+<h2 id="本文的意义">本文的意义</h2>
+<p>前文已经说到，redis集群中的节点不会代理客户端的请求，而是返回重定向。在redis集群的文档中说到，一个聪明的客户端会保存node-slots的映射关系，访问对的节点，减少重定向的出现。</p>
+<p>本文整理了redis集群的相关知识，以及在集群迁移中的表现，摸清楚了一个“聪明的客户端”应该具有的业务逻辑：</p>
+<ol>
+<li>使用cluster nodes或cluster slots命令获取node-slots映射。</li>
+<li>需要查询key时，计算key的slot号（需要妥善处理hash tag）。</li>
+<li>遇到moved重定向时，说明集群发生了一次slot迁移，此时更新node-slots映射</li>
+<li>遇到ask重定向时，说明该slot正在迁移中，先执行ASK，再执行查询。</li>
+</ol>
+<p>以上“聪明的客户端”需要在自己的内存中保存一份node-slots映射，每一个聪明的客户端都要保存一份。不难想到可以在client和redis集群之间添加一个代理，由代理保存node-slots映射，由代理去代理请求而不返回重定向，让客户端透明的调用redis服务，而不用知道后面是redis集群，而非单节点redis。</p>
+<p>添加redis代理后，如果只有一个代理，会有单点问题（该redis代理挂了，整个redis服务就挂了）。这很好解决，启动多个redis代理，将他们注册到etcd或者zookeeper，客户端从etcd或zookeeper获取redis代理信息并选择一个使用。</p>
+<h2 id="附录仅备忘防止重复工作">附录——仅备忘，防止重复工作</h2>
+<p>快速执行redis-trib的脚本</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e">#! /bin/bash
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"># 用于快速迁移一个槽点</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#一般还是不能直接用的，需要保证需要迁移的slot迁移前后都在节点slots的最前面；并自己修改一些a和b中的一些参数</span>
+</span></span><span style="display:flex;"><span>a<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;redis-trib.rb reshard --yes --from   34a5f5f4f6f2cf0da57ef51d2902feb3103c161b  --to  004c9d0adad075161658c3a2f972591a265ec83c   --slots 1  --timeout 10000   --pipeline 50 99.47.149.25:6419&#34;</span>
+</span></span><span style="display:flex;"><span>b<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;redis-trib.rb reshard --yes  --from   004c9d0adad075161658c3a2f972591a265ec83c --to   34a5f5f4f6f2cf0da57ef51d2902feb3103c161b  --slots 1  --timeout 10000   --pipeline 50 99.47.149.25:6419&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#flag 文件中的内容为1或者2</span>
+</span></span><span style="display:flex;"><span>flag<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>cat ./flag<span style="color:#66d9ef">)</span>
+</span></span><span style="display:flex;"><span>echo $flag
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> $flag <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">]</span>;<span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span> echo <span style="color:#e6db74">&#34;执行b&#34;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">(</span>$b<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> $? <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">]</span>;<span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>  echo <span style="color:#ae81ff">2</span> &gt; flag
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span> echo <span style="color:#e6db74">&#34;执行a&#34;</span>
+</span></span><span style="display:flex;"><span> <span style="color:#f92672">(</span>$a<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> $? <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">]</span>;<span style="color:#66d9ef">then</span>
+</span></span><span style="display:flex;"><span>  echo <span style="color:#ae81ff">1</span> &gt; flag
+</span></span><span style="display:flex;"><span> <span style="color:#66d9ef">fi</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">fi</span>
+</span></span></code></pre></div>
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/posts/socks5-proxy/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">Socks5代理netty重制版</span>
+    </a>
+    
+    
+    <a href="/posts/linux/nginx-install-and-reverse-proxy/" class="navigation-next">
+      <span class="navigation-tittle">Nginx安装使用：webserver及反向代理</span>
+      <i aria-hidden="true" class="fa fa-chevron-right"></i>
+    </a>
+    
+</div>
+
+
+  
+
+  
+
+
+</article>
+
+
+  </div>
+<style>
+  .content.container {
+        width: 100%;
+        max-width: none;
+        height: calc(100vh - var(--sidebar-height, 49px));
+        border: none;
+        display: block;
+        overflow-y: auto;
+        box-sizing: border-box;
+        margin-left: 0;
+        margin-right: 0;
+  }
+
+  body:not(.type-iframe) .content.container {
+        padding-left: max(1.5rem, calc((100% - var(--content-max-width, 38rem)) / 2));
+        padding-right: max(1.5rem, calc((100% - var(--content-max-width, 38rem)) / 2));
+  }
+</style>
+<script>
+    (function () {
+        var contentSelector = '.content.container';
+        var rafId = 0;
+        var resizeDebounceTimer = 0;
+        var pendingHashScroll = false;
+
+        function getHashTarget() {
+            var hash = window.location.hash;
+            var targetId = '';
+
+            if (!hash || hash === '#') {
+                return null;
+            }
+
+            targetId = hash.slice(1);
+            try {
+                targetId = decodeURIComponent(targetId);
+            } catch (e) {
+                
+            }
+
+            return document.getElementById(targetId);
+        }
+
+        function scrollToHashTarget() {
+            var target = getHashTarget();
+            if (!target) {
+                return;
+            }
+            try {
+                target.scrollIntoView({ block: 'start', inline: 'nearest' });
+            } catch (e) {
+                target.scrollIntoView(true);
+            }
+        }
+
+        function applyPendingHashScroll() {
+            if (!pendingHashScroll) {
+                return;
+            }
+            pendingHashScroll = false;
+            scrollToHashTarget();
+        }
+
+        function resizeContentHeight() {
+            var content = document.querySelector(contentSelector);
+            if (!content) {
+                return;
+            }
+            var rect = content.getBoundingClientRect();
+            var available = window.innerHeight - rect.top;
+            if (available < 0) {
+                available = 0;
+            }
+            content.style.height = available + 'px';
+            applyPendingHashScroll();
+        }
+
+        function scheduleResize() {
+            if (rafId) {
+                return;
+            }
+            rafId = window.requestAnimationFrame(function () {
+                rafId = 0;
+                resizeContentHeight();
+            });
+        }
+
+        function scheduleResizeDebounced(delay) {
+            window.clearTimeout(resizeDebounceTimer);
+            resizeDebounceTimer = window.setTimeout(scheduleResize, delay || 120);
+        }
+
+        function requestHashScroll() {
+            if (!window.location.hash || window.location.hash === '#') {
+                return;
+            }
+            pendingHashScroll = true;
+            scheduleResize();
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function () {
+                scheduleResize();
+                requestHashScroll();
+            }, { once: true });
+        } else {
+            scheduleResize();
+            requestHashScroll();
+        }
+
+        window.addEventListener('load', function () {
+            scheduleResize();
+            requestHashScroll();
+        });
+        window.addEventListener('pageshow', function () {
+            scheduleResize();
+            requestHashScroll();
+        });
+        window.addEventListener('hashchange', requestHashScroll);
+        window.addEventListener('resize', function () {
+            scheduleResizeDebounced(120);
+        });
+
+        var menuToggle = document.getElementById('menuToggle');
+        if (menuToggle) {
+            menuToggle.addEventListener('change', function () {
+                scheduleResize();
+                window.setTimeout(scheduleResize, 250);
+            });
+        }
+    })();
+</script>
+  
+    
+
+
+
+<script defer src="/js/all.js" crossorigin="anonymous"></script>
+
+    
+    
+    <script src="/js/highlight.min.js"></script>
+    <script src="/js/languages/dos.min.js"></script>
+        
+    <script type="text/javascript">
+        
+        hljs.highlightAll();
+    </script>
+    
+
+<style>
+    .code-block-wrapper {
+        position: relative;
+    }
+    .copy-code-button {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        padding: 6px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 4px;
+        cursor: pointer;
+        opacity: 0;
+        transition: opacity 0.3s, background 0.3s;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .copy-code-button svg {
+        width: 16px;
+        height: 16px;
+        fill: #fff;
+        transition: fill 0.3s;
+    }
+    .code-block-wrapper:hover .copy-code-button {
+        opacity: 1;
+    }
+    .copy-code-button:hover {
+        background: rgba(255, 255, 255, 0.2);
+    }
+    .copy-code-button.copied {
+        background: rgba(46, 160, 67, 0.8);
+        border-color: rgba(46, 160, 67, 1);
+    }
+    .copy-code-button.copied svg {
+        fill: #fff;
+    }
+</style>
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        document.querySelectorAll('pre code').forEach(function(codeBlock) {
+            var pre = codeBlock.parentNode;
+            
+            
+            if (pre.parentNode.classList.contains('code-block-wrapper')) {
+                return;
+            }
+            
+            
+            var wrapper = document.createElement('div');
+            wrapper.className = 'code-block-wrapper';
+            pre.parentNode.insertBefore(wrapper, pre);
+            wrapper.appendChild(pre);
+            
+            
+            var button = document.createElement('button');
+            button.className = 'copy-code-button';
+            button.innerHTML = '<svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg>';
+            button.setAttribute('aria-label', '复制代码');
+            button.setAttribute('title', '复制代码');
+            
+            var copyIcon = '<svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg>';
+            var checkIcon = '<svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16"><path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"></path></svg>';
+            
+            
+            button.addEventListener('click', function() {
+                var code = codeBlock.textContent;
+                navigator.clipboard.writeText(code).then(function() {
+                    button.innerHTML = checkIcon;
+                    button.classList.add('copied');
+                    button.setAttribute('aria-label', '已复制');
+                    button.setAttribute('title', '已复制');
+                    setTimeout(function() {
+                        button.innerHTML = copyIcon;
+                        button.classList.remove('copied');
+                        button.setAttribute('aria-label', '复制代码');
+                        button.setAttribute('title', '复制代码');
+                    }, 2000);
+                }).catch(function(err) {
+                    console.error('复制失败:', err);
+                });
+            });
+            
+            wrapper.appendChild(button);
+        });
+    });
+</script>
+
+
+
+
+    
+
+
+
+</body>
+
+</html>

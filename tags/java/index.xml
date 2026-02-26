@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Java on ARLOOR</title>
+    <link>https://www.arloor.com/tags/java/</link>
+    <description>Recent content in Java on ARLOOR</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Sat, 20 Apr 2024 12:04:13 +0800</lastBuildDate>
+    <atom:link href="https://www.arloor.com/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Java虚拟线程</title>
+      <link>https://www.arloor.com/posts/notion/java%E8%99%9A%E6%8B%9F%E7%BA%BF%E7%A8%8B/</link>
+      <pubDate>Sat, 20 Apr 2024 12:04:13 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/notion/java%E8%99%9A%E6%8B%9F%E7%BA%BF%E7%A8%8B/</guid>
+      <description>&lt;p&gt;内容来自&lt;a href=&#34;https://openjdk.org/jeps/444&#34;&gt;JEP 444&lt;/a&gt;&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;thread-per-thread style。BIO&lt;/li&gt;&#xA;&lt;li&gt;thread-sharing style. Reactive模式，write on complete 一个lambda表达式，异步编程十分痛苦。signal their completion to a callback，并且listener在不同的线程中，观测，trycatch等很困难。典型的就是Netty&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;thread-per-request style with virtual threads&lt;/strong&gt;&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;p&gt;详细说明：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Java的引用类型以及WeakReference和PhantomReference在Threadlocal和DirectByteBuffer中的使用</title>
+      <link>https://www.arloor.com/posts/java-weak-phantom-reference-and-usages/</link>
+      <pubDate>Wed, 24 Jan 2024 17:21:50 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/java-weak-phantom-reference-and-usages/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;内容来自ChatGPT4&lt;/p&gt;&#xA;&lt;/blockquote&gt;&#xA;&lt;h2 id=&#34;问java的强-软-弱-幻引用区别和使用场景&#34;&gt;问：Java的强 软 弱 幻引用区别和使用场景&lt;/h2&gt;&#xA;&lt;p&gt;答：Java中的引用类型是管理内存和垃圾回收的关键工具。在Java中，有四种类型的引用：强引用、软引用、弱引用和幻引用。每种引用类型都有其特定的使用场景和垃圾回收行为。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>老版本Java8 NIO Socket Channel读写HeapByteBuffer导致的直接内存泄漏</title>
+      <link>https://www.arloor.com/posts/jdk8-socketchannel-directbytebuffer-overflow/</link>
+      <pubDate>Fri, 01 Dec 2023 16:44:35 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/jdk8-socketchannel-directbytebuffer-overflow/</guid>
+      <description>&lt;h2 id=&#34;前言&#34;&gt;前言&lt;/h2&gt;&#xA;&lt;p&gt;Hbase会为每一个region server创建一个IPC client线程来做读写操作，并且该线程空闲两分钟就会被关闭。并且Hbase使用Java NIO的&lt;code&gt;Socket Channel&lt;/code&gt;和&lt;code&gt;HeapByteBuffer&lt;/code&gt;来做读写操作。由于JDK内部机制的问题，会导致直接内存泄漏，下面介绍所谓的内部机制来剖析根因。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Java内存监控</title>
+      <link>https://www.arloor.com/posts/java-memory-monitor/</link>
+      <pubDate>Tue, 18 Jul 2023 17:17:03 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/java-memory-monitor/</guid>
+      <description>&lt;p&gt;给一个Java内存监控的代码，具体监控：&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Netty直接内存使用&lt;/li&gt;&#xA;&lt;li&gt;堆内存使用量&lt;/li&gt;&#xA;&lt;li&gt;非堆内存使用量&lt;/li&gt;&#xA;&lt;li&gt;bufferPool内存使用量，主要有nio direct buffer和Mapped buffer&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
+    </item>
+    <item>
+      <title>Opentelemetry Java自动埋点实现</title>
+      <link>https://www.arloor.com/posts/opentelemetry-java-instrumention/</link>
+      <pubDate>Wed, 22 Jun 2022 11:11:07 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/opentelemetry-java-instrumention/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://www.arloor.com/posts/opentelemetry-trace/&#34;&gt;Opentelemetry是怎么做链路追踪的&lt;/a&gt;介绍了opentelemetry的API和SDK实现，也介绍了如何进行手动买点。这篇博客是介绍如何进行自动埋点，这当然要用到javaagent技术了。&lt;a href=&#34;https://www.arloor.com/posts/java-agent/&#34;&gt;Java Agent实现指南&lt;/a&gt;有写过javaagent的实现指南和类加载的坑，今天看看opentelemetry是如何做的，其github地址是&lt;a href=&#34;https://github.com/open-telemetry/opentelemetry-java-instrumentation&#34;&gt;opentelemetry-java-instrumentation&lt;/a&gt;，接下来应该就是跟着代码流水账了。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Java自定义Classloader</title>
+      <link>https://www.arloor.com/posts/java-diy-classloader/</link>
+      <pubDate>Mon, 07 Mar 2022 20:29:21 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/java-diy-classloader/</guid>
+      <description>&lt;p&gt;看看怎么做类加载隔离&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Java Agent实现指南</title>
+      <link>https://www.arloor.com/posts/java-agent/</link>
+      <pubDate>Mon, 07 Mar 2022 14:11:11 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/java-agent/</guid>
+      <description>&lt;p&gt;Java Agent是字节码修改技术，Mtrace使用Java Agent修改字节码来实现trace的跨线程传递，opentelemetry也通过Java Agent来实现该需求。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Java管理扩展：通过MBean获取jvm运行情况</title>
+      <link>https://www.arloor.com/posts/jmx-use/</link>
+      <pubDate>Sat, 30 Jan 2021 23:11:48 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/jmx-use/</guid>
+      <description>&lt;p&gt;搞下jvm信息的监控&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>ZGC使用</title>
+      <link>https://www.arloor.com/posts/zgc/</link>
+      <pubDate>Sat, 16 Jan 2021 16:23:24 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/zgc/</guid>
+      <description>&lt;p&gt;在组里大佬分享ZGC后，心情激动下，整理下ZGC的东西。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Jvm调优入门</title>
+      <link>https://www.arloor.com/posts/jvm-option/</link>
+      <pubDate>Sat, 14 Nov 2020 18:37:50 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/jvm-option/</guid>
+      <description>&lt;p&gt;首先以java8 默认的cms为例，机器是2G内存。&lt;/p&gt;&#xA;&lt;p&gt;先看GC日志，设置jvm参数如下，其他堆大小相关参数都没有设置：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>ForkJoinPool使用场景</title>
+      <link>https://www.arloor.com/posts/when-to-use-forkjoinpool/</link>
+      <pubDate>Wed, 28 Oct 2020 21:41:39 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/when-to-use-forkjoinpool/</guid>
+      <description>&lt;p&gt;这篇博客不是科普什么是&lt;code&gt;ForkJoinPool&lt;/code&gt;，不是介绍他的原理，而是结合一个具体的场景来说什么时候应该使用他。&lt;/p&gt;&#xA;&lt;p&gt;我们先看javaDoc中关于&lt;code&gt;RecursiveTask&lt;/code&gt;使用的例子：(如果不知道&lt;code&gt;RecursiveTask&lt;/code&gt;，可以先去查一下)&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>JsonUtil代码(基于Jackson)</title>
+      <link>https://www.arloor.com/posts/other/jackson-util/</link>
+      <pubDate>Thu, 06 Aug 2020 17:17:42 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/other/jackson-util/</guid>
+      <description>&lt;p&gt;Jackson Util:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>在springboot之外使用thymeleaf渲染text</title>
+      <link>https://www.arloor.com/posts/other/use-thymeleaf-to-render-text-without-springmvc/</link>
+      <pubDate>Thu, 06 Aug 2020 16:33:52 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/other/use-thymeleaf-to-render-text-without-springmvc/</guid>
+      <description>&lt;p&gt;thymeleaf是springboot默认的模版引擎，最近需要“渲染模版”这个功能，想到了thymeleaf，记一下怎么用。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Java wait/notify和condition</title>
+      <link>https://www.arloor.com/posts/wait-notify-and-condition/</link>
+      <pubDate>Thu, 11 Jun 2020 10:59:36 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/wait-notify-and-condition/</guid>
+      <description>&lt;p&gt;以下全部来自jdk8的javaDoc。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Java异步任务中Future的实现</title>
+      <link>https://www.arloor.com/posts/java-future/</link>
+      <pubDate>Sun, 09 Feb 2020 21:34:41 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/java-future/</guid>
+      <description>&lt;p&gt;从netty中学习，首先截取netty中关于Promise和Future的继承关系图，如下。本文首先剖析下图中的四个类，然后自己设计Future。&lt;/p&gt;&#xA;&lt;p&gt;&lt;img src=&#34;https://www.arloor.com/img/netty-future-promise-uml.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Jdk8的function包以及::用法</title>
+      <link>https://www.arloor.com/posts/jdk8-function/</link>
+      <pubDate>Thu, 24 Oct 2019 22:04:01 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/jdk8-function/</guid>
+      <description>&lt;p&gt;不用就不会了解，不了解就不会用，今天来记一下Java8的lambda表达式相关的一点点东西。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>java-AES加密后再Base64混淆</title>
+      <link>https://www.arloor.com/posts/other/java-aes128-then-base64/</link>
+      <pubDate>Fri, 04 Jan 2019 00:00:00 +0000</pubDate>
+      <guid>https://www.arloor.com/posts/other/java-aes128-then-base64/</guid>
+      <description>&lt;p&gt;这是上一篇&lt;a href=&#34;https://www.arloor.com/posts/other/java-aes128/&#34;&gt;java-AES128加密-代码与一些约定&lt;/a&gt;的后续。这一篇将会记录自己看到的在AES128之后所做的混淆。混淆原来为c语言实现，自己转成了java实现。感觉这一套比较好用，所以记下来变成自己的😁咳咳，最终发现这个混淆就是对Base64的一个实现，只是将64个可打印字符的顺序弄乱了。所以我有了自定义Base64来实现混淆的代码？？？黑人问号&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>java-AES128加密-代码与一些约定</title>
+      <link>https://www.arloor.com/posts/other/java-aes128/</link>
+      <pubDate>Thu, 03 Jan 2019 00:00:00 +0000</pubDate>
+      <guid>https://www.arloor.com/posts/other/java-aes128/</guid>
+      <description>&lt;p&gt;在爬虫岗位实习，免不了接触加密解密，今天的工作中踩了一些java AES128加密的坑，也学习到了一些加密的常用做法。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>redis与springboot整合学习</title>
+      <link>https://www.arloor.com/posts/springboot/redis%E4%B8%8Espringboot%E6%95%B4%E5%90%88%E5%AD%A6%E4%B9%A0/</link>
+      <pubDate>Fri, 15 Jun 2018 00:00:00 +0000</pubDate>
+      <guid>https://www.arloor.com/posts/springboot/redis%E4%B8%8Espringboot%E6%95%B4%E5%90%88%E5%AD%A6%E4%B9%A0/</guid>
+      <description>&lt;p&gt;最近在做一个电商网站。今天想要实现一下购物车的功能。&lt;/p&gt;&#xA;&lt;p&gt;考虑问题如下：用户访问购物车会比较频繁，而且经常更改（比如修改数字）。对于后端的数据来说，也就是读写都很频繁。于是考虑通过redis，来减少对数据库的读写。&lt;/p&gt;&#xA;&lt;p&gt;就研究一下怎么使用redis以及整合到springboot中。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

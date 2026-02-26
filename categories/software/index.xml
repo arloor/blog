@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Software on ARLOOR</title>
+    <link>https://www.arloor.com/categories/software/</link>
+    <description>Recent content in Software on ARLOOR</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Thu, 16 Nov 2023 20:20:22 +0800</lastBuildDate>
+    <atom:link href="https://www.arloor.com/categories/software/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>SSH 配置与端口转发</title>
+      <link>https://www.arloor.com/posts/ssh-config/</link>
+      <pubDate>Thu, 16 Nov 2023 20:20:22 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/ssh-config/</guid>
+      <description>&lt;p&gt;这篇把我最常用的 SSH 隧道能力整理成一份可直接复用的笔记，覆盖：&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;本地端口转发（&lt;code&gt;-L&lt;/code&gt;）&lt;/li&gt;&#xA;&lt;li&gt;远程端口转发（&lt;code&gt;-R&lt;/code&gt;）&lt;/li&gt;&#xA;&lt;li&gt;动态端口转发（&lt;code&gt;-D&lt;/code&gt; / SOCKS5）&lt;/li&gt;&#xA;&lt;li&gt;&lt;code&gt;~/.ssh/config&lt;/code&gt; 里长期可维护的写法&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
+    </item>
+  </channel>
+</rss>

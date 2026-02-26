@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>K8s on ARLOOR</title>
+    <link>https://www.arloor.com/tags/k8s/</link>
+    <description>Recent content in K8s on ARLOOR</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Wed, 24 Dec 2025 22:12:47 +0800</lastBuildDate>
+    <atom:link href="https://www.arloor.com/tags/k8s/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>K3S上手玩</title>
+      <link>https://www.arloor.com/posts/play-with-k3s/</link>
+      <pubDate>Wed, 24 Dec 2025 22:12:47 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/play-with-k3s/</guid>
+      <description>&lt;p&gt;在上文 &lt;a href=&#34;https://www.arloor.com/posts/k3s-multi-cloud-air-gap-install/&#34;&gt;K3S 多云环境下的离线部署&lt;/a&gt; 中已经玩过了 1.27.3 版本的 k3s。在今年又重新玩了一遍，再次记录一下。这一次的重点是：&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;IPv4/IPv6 双栈集群的搭建&lt;/li&gt;&#xA;&lt;li&gt;K3S 备份、升级、回滚&lt;/li&gt;&#xA;&lt;li&gt;Kubernetes Dashboard 部署&lt;/li&gt;&#xA;&lt;li&gt;ArgoCD 部署，实现 GitOps&lt;/li&gt;&#xA;&lt;li&gt;reloader 部署，实现配置变更自动重启 Pod&lt;/li&gt;&#xA;&lt;/ol&gt;</description>
+    </item>
+    <item>
+      <title>K8S持久化卷、动态置备、StorageClass</title>
+      <link>https://www.arloor.com/posts/k8s-pv-pvc-dynamic-provisioning-storage-class/</link>
+      <pubDate>Mon, 31 Jul 2023 22:56:47 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/k8s-pv-pvc-dynamic-provisioning-storage-class/</guid>
+      <description>&lt;p&gt;在之前对K8S的使用中，已经用到了Volumes来给pod挂载文件，具体来说用到了HostPath、emptyDir、ConfigMap这几种类型的Volumes。最近在部署grafana时，遇到PersistentVolumeClaim的API类型，研究了一下，发现涉及的东西挺多的，有&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>使用node-exporter &#43; prometheus &#43; grafana 监控k8s集群</title>
+      <link>https://www.arloor.com/posts/k8s-rbac-prometheus-sd-relabel-config/</link>
+      <pubDate>Sun, 30 Jul 2023 23:02:21 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/k8s-rbac-prometheus-sd-relabel-config/</guid>
+      <description>&lt;p&gt;最近在K8S集群中部署了node-exporter + prometheus + grafana，具体过程可以参考我的Github项目&lt;a href=&#34;https://github.com/arloor/kubernetes-prometheus-grafana&#34;&gt;kubernetes-prometheus-grafana&lt;/a&gt;。这个博客用来记录下过程中的一些知识点，主要有这些：&lt;/p&gt;&#xA;&lt;table&gt;&#xA;  &lt;thead&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;th style=&#34;text-align: left&#34;&gt;主题&lt;/th&gt;&#xA;          &lt;th style=&#34;text-align: left&#34;&gt;详述&lt;/th&gt;&#xA;      &lt;/tr&gt;&#xA;  &lt;/thead&gt;&#xA;  &lt;tbody&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;K8S的RBAC&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;全称是基于角色的访问控制，K8S权限机制的基础&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;在Pod中访问ApiServer&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;Prometheus是运行在k8s集群中的一个pod，访问k8s的apiserver时需要一些鉴权机制&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;Prometheus Service Discovery&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;Prometheus是pull模型，需要自动地发现k8s集群中有哪些endpoing、node、service等，并watch其变更&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;      &lt;tr&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;Prometheus relabel_configs&lt;/td&gt;&#xA;          &lt;td style=&#34;text-align: left&#34;&gt;在prometheus的抓取job中过滤、转换target的label&lt;/td&gt;&#xA;      &lt;/tr&gt;&#xA;  &lt;/tbody&gt;&#xA;&lt;/table&gt;</description>
+    </item>
+    <item>
+      <title>使用K8S DaemonSet部署rust_http_proxy</title>
+      <link>https://www.arloor.com/posts/k3s-daemonset-rust-http-proxy/</link>
+      <pubDate>Sun, 23 Jul 2023 21:07:02 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/k3s-daemonset-rust-http-proxy/</guid>
+      <description>&lt;h2 id=&#34;整体说明&#34;&gt;整体说明&lt;/h2&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;tls的证书没有使用Secret，感觉没啥必要。&lt;/li&gt;&#xA;&lt;li&gt;&lt;del&gt;使用HostPort来暴露端口，并将coredns的deployment移动到外网的vps上，已避免ClusterFirst的dnsPolicy下的国内dns污染问题&lt;/del&gt;&lt;/li&gt;&#xA;&lt;li&gt;使用hostNetwork使用主机网络栈，意义在于暴露端口+使用host的DNS（无污染问题）&lt;/li&gt;&#xA;&lt;li&gt;使用envFrom comfigMap加载环境变量，这要求configMap中所有字段都是String类型，443、true、false要用双引号包裹。&lt;/li&gt;&#xA;&lt;li&gt;使用hostPath挂载nginx的目录，展示web网页。&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;h2 id=&#34;dockerfile&#34;&gt;Dockerfile&lt;/h2&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;FROM docker.io/redhat/ubi9-micro:9.2-9&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# 设置时区为上海，ubi9-micro内置了tzdata &lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime &lt;span style=&#34;color:#f92672&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; echo &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Asia/Shanghai&amp;#34;&lt;/span&gt; &amp;gt; /etc/timezone&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;COPY target/x86_64-unknown-linux-musl/release/rust_http_proxy /&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;CMD &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/rust_http_proxy&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;用的RHEL家的ubi9-micro基础镜像，它和alpine差不多大小，用的glibc，没有musl-libc的一些兼容性问题，并且设置时区更加简单，而且我对RHEL家的东西很有好感，所以就用了。一些相关的介绍：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>在K8S集群中创建clash代理服务</title>
+      <link>https://www.arloor.com/posts/k3s-create-service-of-proxy/</link>
+      <pubDate>Sun, 23 Jul 2023 15:50:30 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/k3s-create-service-of-proxy/</guid>
+      <description>&lt;p&gt;学习下ConfigMap、Deployment、Service的用法。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>K3S多云环境下的离线部署</title>
+      <link>https://www.arloor.com/posts/k3s-multi-cloud-air-gap-install/</link>
+      <pubDate>Sun, 23 Jul 2023 11:01:10 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/k3s-multi-cloud-air-gap-install/</guid>
+      <description>&lt;p&gt;这几天把 k8s 折腾了个遍，个人觉得 k3s 更适合我，主要有五个优势&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;类似 springboot 的“约定优于配置”，就是默认给你一个开箱即用的东西，如果需要，再进行修改。而不是 k8s 那样样样要你配置&lt;/li&gt;&#xA;&lt;li&gt;内置&lt;a href=&#34;https://docs.k3s.io/networking/networking-services?_highlight=servicelb#service-load-balancer&#34;&gt;LoadBalancer 实现&lt;/a&gt;，而不是像 k8s 那样没有 LoadBalancer 实现，导致裸机安装情况下得用 NodePort、HostPort、HostNetwork 来暴露服务，或者安装 Metallb。&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;使用 Node 的 ip 作为 LoadBalancer 的 ip。——需要保证多个 LoaderBalancer Service 的端口不冲突&lt;/li&gt;&#xA;&lt;li&gt;具体实现见 &lt;a href=&#34;https://github.com/k3s-io/klipper-lb&#34;&gt;klipper-lb&lt;/a&gt;，比较简单。是通过 NAT 将流量转发到 Service 的 Cluster IP 上，然后 kube-proxy 再将流量转发到 Pod 上（这一步包含负载均衡和故障迁移能力）&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;ol start=&#34;3&#34;&gt;&#xA;&lt;li&gt;可以轻松的支持多云环境，对我这种有多个云厂商 vps 的玩家很友好&lt;/li&gt;&#xA;&lt;li&gt;资源消耗较少。虽然节点增加后，控制面的内存压力也不小&lt;/li&gt;&#xA;&lt;li&gt;文档&lt;a href=&#34;https://docs.k3s.io/&#34;&gt;docs.k3s.io&lt;/a&gt;很清晰。PS：不要看中文版的文档，也不要看 rancher 中国的文档，垃圾&lt;/li&gt;&#xA;&lt;/ol&gt;</description>
+    </item>
+    <item>
+      <title>使用Kubeadm安装K8S 1.27.3</title>
+      <link>https://www.arloor.com/posts/k8s-kubeadm/</link>
+      <pubDate>Wed, 19 Jul 2023 19:48:26 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/k8s-kubeadm/</guid>
+      <description>&lt;p&gt;尝试使用kubeadm安装k8s&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>K8s Kind使用</title>
+      <link>https://www.arloor.com/posts/k8s-kind/</link>
+      <pubDate>Tue, 18 Jul 2023 20:15:30 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/k8s-kind/</guid>
+      <description>&lt;p&gt;简单使用下kind&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

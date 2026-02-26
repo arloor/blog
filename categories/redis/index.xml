@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Redis on ARLOOR</title>
+    <link>https://www.arloor.com/categories/redis/</link>
+    <description>Recent content in Redis on ARLOOR</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Mon, 23 Sep 2019 23:13:50 +0800</lastBuildDate>
+    <atom:link href="https://www.arloor.com/categories/redis/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Redis Cluster实现</title>
+      <link>https://www.arloor.com/posts/redis/redis-cluster/</link>
+      <pubDate>Mon, 23 Sep 2019 23:13:50 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/redis/redis-cluster/</guid>
+      <description>&lt;h2 id=&#34;redis-cluster简介&#34;&gt;redis cluster简介&lt;/h2&gt;&#xA;&lt;p&gt;在我的理解里，redis集群和数据库分库差不多——自动地将key分配到16384个槽（slot），而集群中的每个redis节点存储一部分槽。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Redis哨兵实现-sentinel.c</title>
+      <link>https://www.arloor.com/posts/redis/sentinel/</link>
+      <pubDate>Thu, 12 Sep 2019 18:25:31 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/redis/sentinel/</guid>
+      <description>&lt;p&gt;这一篇记录一下sentinel的文档和实现。真的是好长的一篇文章😂&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Redis持久化机制-aof.c与rdb.c</title>
+      <link>https://www.arloor.com/posts/redis/redis-persistence/</link>
+      <pubDate>Wed, 11 Sep 2019 20:17:11 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/redis/redis-persistence/</guid>
+      <description>&lt;p&gt;redis提供aof和rdb两种持久化机制，本文分析一下这两种持久化机制&lt;/p&gt;&#xA;&lt;h2 id=&#34;两种持久化机制的优劣&#34;&gt;两种持久化机制的优劣&lt;/h2&gt;&#xA;&lt;p&gt;以下先摘录一下redis文档关于rdb、aof持久化的优势和劣势&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Psync2——redis备份机制的发展【转载】</title>
+      <link>https://www.arloor.com/posts/redis/psync2/</link>
+      <pubDate>Thu, 05 Sep 2019 21:20:30 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/redis/psync2/</guid>
+      <description>&lt;p&gt;今天的正题是想转发一篇关于&lt;a href=&#34;https://mp.weixin.qq.com/s/ROQofjE5WwdAltazQ5p0QQ&#34;&gt;“异步拷贝”发展的博文&lt;/a&gt;，写的真的好，忍不住想转发。看完不禁感叹redis的牛逼，有种兴叹汪洋的感觉。。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>实现redis运行时加载rdb文件</title>
+      <link>https://www.arloor.com/posts/redis/redis-online-load-rdb/</link>
+      <pubDate>Wed, 04 Sep 2019 23:02:03 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/redis/redis-online-load-rdb/</guid>
+      <description>&lt;p&gt;对redis比较了解的人应该知道redis提供rdb持久化机制。rdb文件其实就是redis在某一时间的一个快照，redis在重启时，可以加载这个快照，从而恢复状态。然而redis没有暴露加载rdb这个接口，因此没有办法在运行时手动地导入rdb快照。&lt;/p&gt;&#xA;&lt;p&gt;其实，在阅读replicate.c后发现，redis的从节点在接收了rdb全量同步文件后，直接调用了&lt;code&gt;rdbload&lt;/code&gt;函数——这就意味着：运行时动态加载rdb文件完全可行！毕竟redis自己也是这么做的。但是redis不肯暴露这个接口给用户。&lt;/p&gt;&#xA;&lt;p&gt;我们上一篇文章要进行redis异地数据中心同步，同样需要加载rdb文件，如果只能重启redis来加载rdb文件，多少有点不舒服。因此探讨一下redis动态加载rdb文件的实现总归有好处的，事实证明我做到了。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Redis异步拷贝实现—replicate.c</title>
+      <link>https://www.arloor.com/posts/redis/use-redis-replicate-to-do-remote-sync/</link>
+      <pubDate>Tue, 03 Sep 2019 23:44:09 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/redis/use-redis-replicate-to-do-remote-sync/</guid>
+      <description>&lt;p&gt;为实现redis异地数据中心实时同步功能，存在几种方案。其中一种方案是利用redis主从节点的异步拷贝，伪装一个slave节点，获取主节点的异步拷贝信息。将该异步拷贝信息同步到异地数据中心，从而实现redis集群异地同步。&lt;/p&gt;&#xA;&lt;p&gt;本文的目的就是探究“伪装slave获取异步拷贝”的可行性与复杂度。&lt;br&gt;&#xA;虽然redis文档有介绍主从以及异步拷贝，但是其实现并没有详细介绍，因此我阅读了redis中的&lt;code&gt;cluster.c&lt;/code&gt;、&lt;code&gt;replicate.c&lt;/code&gt;（redis版本为4.0.1），探查redis&amp;quot;主从拷贝&amp;quot;实现的细节，并使用netcat软件进行了一些实验。我们的最终结论是：实验结果反映“伪装slave获取异步拷贝”方案是可行的，并且复杂度可接受。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Redis文档摘要</title>
+      <link>https://www.arloor.com/posts/redis/redis-document/</link>
+      <pubDate>Tue, 20 Aug 2019 20:00:39 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/redis/redis-document/</guid>
+      <description>&lt;p&gt;看了看redis的文档，觉得有些东西写的挺好的，就挑觉得有意义的记录一下。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Redis集群slot迁移</title>
+      <link>https://www.arloor.com/posts/redis/redis-slot-transpot/</link>
+      <pubDate>Sat, 10 Aug 2019 14:01:47 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/redis/redis-slot-transpot/</guid>
+      <description>&lt;p&gt;本文记录了redis集群扩容时会发生的slot迁移过程，同时记录了在迁移过程中查询key集群会如何响应。在文章开头，附带了一些redis集群技术的简单介绍（大部分摘自redis官方文档），帮助了解迁移过程。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>redis与springboot整合学习</title>
+      <link>https://www.arloor.com/posts/springboot/redis%E4%B8%8Espringboot%E6%95%B4%E5%90%88%E5%AD%A6%E4%B9%A0/</link>
+      <pubDate>Fri, 15 Jun 2018 00:00:00 +0000</pubDate>
+      <guid>https://www.arloor.com/posts/springboot/redis%E4%B8%8Espringboot%E6%95%B4%E5%90%88%E5%AD%A6%E4%B9%A0/</guid>
+      <description>&lt;p&gt;最近在做一个电商网站。今天想要实现一下购物车的功能。&lt;/p&gt;&#xA;&lt;p&gt;考虑问题如下：用户访问购物车会比较频繁，而且经常更改（比如修改数字）。对于后端的数据来说，也就是读写都很频繁。于是考虑通过redis，来减少对数据库的读写。&lt;/p&gt;&#xA;&lt;p&gt;就研究一下怎么使用redis以及整合到springboot中。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

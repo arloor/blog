@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    
+    <link rel="canonical" href="https://www.arloor.com/posts/bbr-algorithm-analysis/">
+    
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.157.0">
+
+    
+    
+    
+
+<title>BBR 算法的流量控制与拥塞控制 • ARLOOR</title>
+<meta name="description" content="今天，你学习了吗">
+<meta name="keywords" content="刘港欢, arloor, moontell">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="BBR 算法的流量控制与拥塞控制">
+  <meta name="twitter:description" content="概述 BBR (Bottleneck Bandwidth and Round-trip propagation time) 是 Google 开发的拥塞控制算法，于 2016 年发布并集成到 Linux 内核 4.9 版本中。与传统的基于丢包的拥塞控制算法（如 Cubic）不同，BBR 采用了一种全新的思路：通过测量瓶颈带宽和往返时延来主动控制发送速率，从而达到高吞吐、低延迟的目标。">
+      <meta name="twitter:site" content="@njulgh">
+
+<meta property="og:url" content="https://www.arloor.com/posts/bbr-algorithm-analysis/">
+  <meta property="og:site_name" content="ARLOOR">
+  <meta property="og:title" content="BBR 算法的流量控制与拥塞控制">
+  <meta property="og:description" content="概述 BBR (Bottleneck Bandwidth and Round-trip propagation time) 是 Google 开发的拥塞控制算法，于 2016 年发布并集成到 Linux 内核 4.9 版本中。与传统的基于丢包的拥塞控制算法（如 Cubic）不同，BBR 采用了一种全新的思路：通过测量瓶颈带宽和往返时延来主动控制发送速率，从而达到高吞吐、低延迟的目标。">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-11-06T13:45:23+08:00">
+    <meta property="article:modified_time" content="2025-11-06T13:45:23+08:00">
+    <meta property="article:tag" content="Undefined">
+
+
+    
+
+
+
+
+
+<link rel="stylesheet" href="/styles/atom-one-dark.min.css">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.debf1b963c1830f6b9b96ee48c2b4a22c31c7c3885a87bed290c0e198fc6a08d.css" integrity="sha256-3r8bljwYMPa5uW7kjCtKIsMcfDiFqHvtKQwOGY/GoI0=">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+
+<link rel="stylesheet" href="/scss/hugo-toc.6b7222b4ddd3cebd47d144a2e37ade6cbbb64f47e31d8feac655896156ade206.css" integrity="sha256-a3IitN3Tzr1H0USi43rebLu2T0fjHY/qxlWJYVat4gY=">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="/favicon.png">
+    
+    
+
+</head>
+
+
+
+<body class="  ">
+  
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="/">
+          
+          ARLOOR
+          
+        </a>
+      </span>
+      <a href="/">
+        
+        
+        <div class="author-image">
+          <img src="/img/head.jpeg" alt="Author Image" class="img--circle img--headshot element--center">
+        </div>
+        
+        
+      </a>
+      
+      <p class="site__description">
+         都是瞎写的 
+      </p>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">ARLOOR</label>
+      <div class="menu-content menu-content--mobile">
+        <div class="show-in-small">
+          <a href="/">
+            
+            
+            <div class="author-image">
+              <img src="/img/head.jpeg" alt="Author Image"
+                class="img--circle img--headshot element--center">
+            </div>
+            
+            
+          </a>
+        </div>
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/posts/">
+						<span>文章</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/tags/">
+						<span>分类</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/about/">
+						<span>关于我</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/grafana-iframe">
+						<span>Grafana</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/net-iframe">
+						<span>网速监控</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/nat">
+						<span>NAT规则</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/stock">
+						<span>股票监控</span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://x.com/njulgh" rel="me" target="_blank"><i class="fa-brands fa-x-twitter fa-lg"></i></a>
+	
+	
+	
+	
+	
+	<a href="https://github.com/arloor" rel="me" target="_blank"><i class="fa-brands fa-github fa-lg"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://t.me/never_contact_me" rel="me" target="_blank"><i class="fa-brands fa-telegram fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	<a href="mailto:admin@arloor.com" rel="me" target="_blank"><i class="fa-solid fa-at fa-lg"></i></a>
+	
+	
+	
+	
+</section>
+      </div>
+    </div>
+    <div class="menu-content menu-content--desktop">
+      <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/posts/">
+						<span>文章</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/tags/">
+						<span>分类</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/about/">
+						<span>关于我</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/grafana-iframe">
+						<span>Grafana</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/net-iframe">
+						<span>网速监控</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/nat">
+						<span>NAT规则</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/stock">
+						<span>股票监控</span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+    </div>
+    <div class="social-wrap social-wrap--desktop">
+      <section class="social">
+	
+	<a href="https://x.com/njulgh" rel="me" target="_blank"><i class="fa-brands fa-x-twitter fa-lg"></i></a>
+	
+	
+	
+	
+	
+	<a href="https://github.com/arloor" rel="me" target="_blank"><i class="fa-brands fa-github fa-lg"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://t.me/never_contact_me" rel="me" target="_blank"><i class="fa-brands fa-telegram fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	<a href="mailto:admin@arloor.com" rel="me" target="_blank"><i class="fa-solid fa-at fa-lg"></i></a>
+	
+	
+	
+	
+</section>
+    </div>
+    
+<div class="copyright">
+  &copy; 2026 arloor
+  
+    <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>
+  
+</div>
+
+
+<div class="builtwith">
+Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.com/arloor/hyde-arloor">hyde-arloor</a>.
+</div>
+
+
+  </div>
+</div>
+
+  <div class="content container">
+    
+    
+<article>
+  <header>
+    <h1>BBR 算法的流量控制与拥塞控制</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> Nov 6, 2025
+    
+    
+    
+      
+      
+          in
+          
+          
+              <a class="badge badge-category" href="/categories/undefined">UNDEFINED</a>
+              
+          
+      
+    
+    
+    
+      
+      
+          <br/>
+           <i class="fas fa-tags"></i>
+          
+          <a class="badge badge-tag" href="/tags/undefined">undefined</a>
+          
+      
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 12 min read
+</div>
+
+
+  </header>
+  
+  
+  
+    <div class="toc-wrapper">
+      <input type="checkbox" id="tocToggle">
+      <label for="tocToggle">Table of Content</label>
+      
+          <nav id="TableOfContents">
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#bbr-核心原理">BBR 核心原理</a>
+      <ul>
+        <li><a href="#带宽-延迟乘积-bdp">带宽-延迟乘积 (BDP)</a></li>
+      </ul>
+    </li>
+    <li><a href="#带宽探测机制">带宽探测机制</a>
+      <ul>
+        <li><a href="#startup启动阶段">Startup（启动阶段）</a></li>
+        <li><a href="#drain排空阶段">Drain（排空阶段）</a></li>
+        <li><a href="#probebw带宽探测阶段">ProbeBW（带宽探测阶段）</a></li>
+        <li><a href="#proberttrtt-探测阶段">ProbeRTT（RTT 探测阶段）</a></li>
+      </ul>
+    </li>
+    <li><a href="#pacing-控制">Pacing 控制</a>
+      <ul>
+        <li><a href="#pacing-rate-计算">Pacing Rate 计算</a></li>
+        <li><a href="#pacing-的优势">Pacing 的优势</a></li>
+      </ul>
+    </li>
+    <li><a href="#cwnd-控制">CWND 控制</a>
+      <ul>
+        <li><a href="#cwnd-计算">CWND 计算</a></li>
+        <li><a href="#为什么-cwnd_gain-在平稳期是-2">为什么 cwnd_gain 在平稳期是 2</a></li>
+      </ul>
+    </li>
+    <li><a href="#限制因素分析">限制因素分析</a>
+      <ul>
+        <li><a href="#rwnd-limited接收窗口受限">RWND Limited（接收窗口受限）</a></li>
+        <li><a href="#sndbuf-limited发送缓冲区受限">SNDBUF Limited（发送缓冲区受限）</a></li>
+        <li><a href="#无限制状态">无限制状态</a></li>
+      </ul>
+    </li>
+    <li><a href="#重排序处理">重排序处理</a></li>
+    <li><a href="#重传机制">重传机制</a>
+      <ul>
+        <li><a href="#rto-retransmission-timeout">RTO (Retransmission Timeout)</a></li>
+        <li><a href="#丢包处理">丢包处理</a></li>
+      </ul>
+    </li>
+    <li><a href="#性能指标解读">性能指标解读</a>
+      <ul>
+        <li><a href="#发送与接收统计">发送与接收统计</a></li>
+        <li><a href="#实时速率">实时速率</a></li>
+        <li><a href="#延迟指标">延迟指标</a></li>
+      </ul>
+    </li>
+    <li><a href="#优化建议">优化建议</a>
+      <ul>
+        <li><a href="#缓冲区调优">缓冲区调优</a></li>
+        <li><a href="#应用层优化">应用层优化</a></li>
+        <li><a href="#网络层优化">网络层优化</a></li>
+      </ul>
+    </li>
+    <li><a href="#总结">总结</a></li>
+    <li><a href="#一份-tcp-参数调优的例子">一份 tcp 参数调优的例子</a></li>
+  </ul>
+</nav>
+      
+    </div>
+  
+  
+  <div class="post">
+    <h2 id="概述">概述</h2>
+<p>BBR (Bottleneck Bandwidth and Round-trip propagation time) 是 Google 开发的拥塞控制算法，于 2016 年发布并集成到 Linux 内核 4.9 版本中。与传统的基于丢包的拥塞控制算法（如 Cubic）不同，BBR 采用了一种全新的思路：通过测量瓶颈带宽和往返时延来主动控制发送速率，从而达到高吞吐、低延迟的目标。</p>
+<p>本文将结合 iperf3 测速时的 <code>ss -tmi sport = :5201</code> 命令输出，深入分析 BBR 算法的核心机制，包括带宽探测、pacing 控制、cwnd 控制以及各种限制因素。输出如下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>ss -tmi sport <span style="color:#f92672">=</span> :5201
+</span></span><span style="display:flex;"><span>State                     Recv-Q                     Send-Q                                                     Local Address:Port                                                     Peer Address:Port
+</span></span><span style="display:flex;"><span>ESTAB                     <span style="color:#ae81ff">0</span>                          <span style="color:#ae81ff">39475328</span>                                          <span style="color:#f92672">[</span>::ffff:154.21.85.102<span style="color:#f92672">]</span>:5201                                           <span style="color:#f92672">[</span>::ffff:101.80.224.26<span style="color:#f92672">]</span>:60308
+</span></span><span style="display:flex;"><span>         skmem:<span style="color:#f92672">(</span>r0,rb16777216,t0,tb21133776,f3648,w40100288,o0,bl0,d0<span style="color:#f92672">)</span> bbr wscale:7,14 rto:324 rtt:123.217/0.23 ato:40 mss:1440 pmtu:1500 rcvmss:536 advmss:1448 cwnd:5944 ssthresh:2968 bytes_sent:72819104 bytes_acked:68704608 bytes_received:37 segs_out:50580 segs_in:36484 data_segs_out:50579 data_segs_in:1 bbr:<span style="color:#f92672">(</span>bw:270Mbps,mrtt:122.382,pacing_gain:1.25,cwnd_gain:2<span style="color:#f92672">)</span> send 556Mbps lastrcv:4724 pacing_rate 334Mbps delivery_rate 269Mbps delivered:47721 busy:4720ms rwnd_limited:884ms<span style="color:#f92672">(</span>18.7%<span style="color:#f92672">)</span> sndbuf_limited:1176ms<span style="color:#f92672">(</span>24.9%<span style="color:#f92672">)</span> unacked:2858 reordering:45 reord_seen:16585 rcv_space:14480 rcv_ssthresh:8387160 notsent:35360832 minrtt:122.382 snd_wnd:4153344 rcv_wnd:8388608
+</span></span><span style="display:flex;"><span>ESTAB                     <span style="color:#ae81ff">0</span>                          <span style="color:#ae81ff">692928</span>                                            <span style="color:#f92672">[</span>::ffff:154.21.85.102<span style="color:#f92672">]</span>:5201                                           <span style="color:#f92672">[</span>::ffff:101.80.224.26<span style="color:#f92672">]</span>:60292
+</span></span><span style="display:flex;"><span>         skmem:<span style="color:#f92672">(</span>r0,rb16777216,t0,tb871680,f3712,w713088,o0,bl0,d6<span style="color:#f92672">)</span> bbr wscale:7,14 rto:332 rtt:129.757/0.139 ato:40 mss:1440 pmtu:1500 rcvmss:536 advmss:1448 cwnd:6212 ssthresh:3006 bytes_sent:109227552 bytes_acked:108534624 bytes_received:37 segs_out:75869 segs_in:55700 data_segs_out:75867 data_segs_in:1 bbr:<span style="color:#f92672">(</span>bw:256Mbps,mrtt:129.155,pacing_gain:1.25,cwnd_gain:2<span style="color:#f92672">)</span> send 552Mbps lastsnd:12 lastrcv:4852 lastack:12 pacing_rate 317Mbps delivery_rate 48.5Mbps delivered:75376 busy:4720ms rwnd_limited:2840ms<span style="color:#f92672">(</span>60.2%<span style="color:#f92672">)</span> sndbuf_limited:288ms<span style="color:#f92672">(</span>6.1%<span style="color:#f92672">)</span> unacked:482 reordering:45 reord_seen:17744 rcv_space:14480 rcv_ssthresh:8387160 minrtt:129.155 snd_wnd:4149376 rcv_wnd:8388608
+</span></span><span style="display:flex;"><span>ESTAB                     <span style="color:#ae81ff">0</span>                          <span style="color:#ae81ff">0</span>                                                 <span style="color:#f92672">[</span>::ffff:154.21.85.102<span style="color:#f92672">]</span>:5201                                           <span style="color:#f92672">[</span>::ffff:101.80.224.26<span style="color:#f92672">]</span>:60256
+</span></span><span style="display:flex;"><span>         skmem:<span style="color:#f92672">(</span>r0,rb16777216,t0,tb16777216,f0,w0,o0,bl0,d0<span style="color:#f92672">)</span> bbr wscale:7,14 rto:376 rtt:137.071/26.943 ato:40 mss:1440 pmtu:1500 rcvmss:536 advmss:1448 cwnd:14 bytes_sent:4 bytes_acked:4 bytes_received:182 segs_out:7 segs_in:9 data_segs_out:4 data_segs_in:3 bbr:<span style="color:#f92672">(</span>bw:168kbps,mrtt:131.996,pacing_gain:2.88672,cwnd_gain:2.88672<span style="color:#f92672">)</span> send 1.18Mbps lastsnd:4724 lastrcv:5400 lastack:4588 pacing_rate 2.49Mbps delivery_rate 169kbps delivered:5 app_limited busy:440ms reordering:45 rcv_space:14480 rcv_ssthresh:8387160 minrtt:131.996 rcv_ooopack:1 snd_wnd:65408 rcv_wnd:8388608
+</span></span><span style="display:flex;"><span>ESTAB                     <span style="color:#ae81ff">0</span>                          <span style="color:#ae81ff">671040</span>                                            <span style="color:#f92672">[</span>::ffff:154.21.85.102<span style="color:#f92672">]</span>:5201                                           <span style="color:#f92672">[</span>::ffff:101.80.224.26<span style="color:#f92672">]</span>:60264
+</span></span><span style="display:flex;"><span>         skmem:<span style="color:#f92672">(</span>r0,rb16777216,t13440,tb946912,f2560,w714240,o0,bl0,d0<span style="color:#f92672">)</span> bbr wscale:7,14 rto:332 rtt:130.183/0.178 ato:40 mss:1440 pmtu:1500 rcvmss:536 advmss:1448 cwnd:1408 ssthresh:3008 bytes_sent:69475232 bytes_acked:69267872 bytes_received:37 segs_out:48261 segs_in:36223 data_segs_out:48260 data_segs_in:1 bbr:<span style="color:#f92672">(</span>bw:45.4Mbps,mrtt:129.609,pacing_gain:1.25,cwnd_gain:2<span style="color:#f92672">)</span> send 125Mbps lastrcv:5128 pacing_rate 56.2Mbps delivery_rate 42Mbps delivered:48117 busy:4724ms rwnd_limited:1208ms<span style="color:#f92672">(</span>25.6%<span style="color:#f92672">)</span> sndbuf_limited:1456ms<span style="color:#f92672">(</span>30.8%<span style="color:#f92672">)</span> unacked:144 reordering:45 reord_seen:18195 rcv_space:14480 rcv_ssthresh:8387160 notsent:463680 minrtt:129.609 snd_wnd:4150656 rcv_wnd:8388608
+</span></span><span style="display:flex;"><span>ESTAB                     <span style="color:#ae81ff">0</span>                          <span style="color:#ae81ff">11829600</span>                                          <span style="color:#f92672">[</span>::ffff:154.21.85.102<span style="color:#f92672">]</span>:5201                                           <span style="color:#f92672">[</span>::ffff:101.80.224.26<span style="color:#f92672">]</span>:60276
+</span></span><span style="display:flex;"><span>         skmem:<span style="color:#f92672">(</span>r0,rb16777216,t19200,tb6304320,f1312,w12131040,o0,bl0,d1<span style="color:#f92672">)</span> bbr wscale:7,14 rto:336 rtt:132.582/0.205 ato:40 mss:1440 pmtu:1500 rcvmss:536 advmss:1448 cwnd:1794 ssthresh:3004 bytes_sent:39048256 bytes_acked:37752256 bytes_received:37 segs_out:27132 segs_in:19000 data_segs_out:27130 data_segs_in:1 bbr:<span style="color:#f92672">(</span>bw:66Mbps,mrtt:132.071,pacing_gain:1.25,cwnd_gain:2<span style="color:#f92672">)</span> send 156Mbps lastrcv:4988 pacing_rate 81.7Mbps delivery_rate 66Mbps delivered:26221 busy:4724ms rwnd_limited:524ms<span style="color:#f92672">(</span>11.1%<span style="color:#f92672">)</span> sndbuf_limited:1692ms<span style="color:#f92672">(</span>35.8%<span style="color:#f92672">)</span> unacked:900 reordering:45 reord_seen:8808 rcv_space:14480 rcv_ssthresh:8387160 notsent:10533600 minrtt:132.071 snd_wnd:4145664 rcv_wnd:8388608
+</span></span></code></pre></div><h2 id="bbr-核心原理">BBR 核心原理</h2>
+<h3 id="带宽-延迟乘积-bdp">带宽-延迟乘积 (BDP)</h3>
+<p>BBR 的核心思想基于网络的 BDP (Bandwidth-Delay Product)，即：</p>
+<pre tabindex="0"><code>BDP = 瓶颈带宽 (Bottleneck Bandwidth) × 往返时延 (RTT)
+</code></pre><p>BDP 表示网络管道的容量，也就是在理想情况下，为了充分利用带宽，网络中应该保持的在途数据量。BBR 通过测量这两个参数，计算出最优的发送窗口和发送速率。</p>
+<p>从我们的 ss 输出中可以看到：</p>
+<pre tabindex="0"><code>bbr:(bw:270Mbps,mrtt:122.382,pacing_gain:1.25,cwnd_gain:2)
+</code></pre><p>这里：</p>
+<ul>
+<li><code>bw:270Mbps</code> 是测得的瓶颈带宽</li>
+<li><code>mrtt:122.382</code> 是最小 RTT（单位：ms）</li>
+<li>理论 BDP = 270Mbps × 122.382ms ≈ 4.12 MB ≈ 28,785 字节</li>
+</ul>
+<h2 id="带宽探测机制">带宽探测机制</h2>
+<p>BBR 采用周期性的带宽探测策略，通过在不同状态之间切换来持续优化网络使用：</p>
+<h3 id="startup启动阶段">Startup（启动阶段）</h3>
+<p>连接初期，BBR 会激进地探测带宽。从第三个连接可以看到：</p>
+<pre tabindex="0"><code>bbr:(bw:168kbps,mrtt:131.996,pacing_gain:2.88672,cwnd_gain:2.88672)
+</code></pre><p>在这个阶段，<code>pacing_gain</code> 和 <code>cwnd_gain</code> 都被设置为 2.88672（约等于 2/ln(2)），这使得发送速率呈指数增长，快速填充网络管道。</p>
+<h3 id="drain排空阶段">Drain（排空阶段）</h3>
+<p>当探测到带宽增长停滞时，BBR 进入排空阶段，降低发送速率以排空之前过度填充的队列。</p>
+<h3 id="probebw带宽探测阶段">ProbeBW（带宽探测阶段）</h3>
+<p>这是 BBR 的稳态运行阶段。大多数连接都处于这个状态：</p>
+<pre tabindex="0"><code>bbr:(bw:270Mbps,mrtt:122.382,pacing_gain:1.25,cwnd_gain:2)
+bbr:(bw:256Mbps,mrtt:129.155,pacing_gain:1.25,cwnd_gain:2)
+</code></pre><p>在 ProbeBW 阶段，BBR 会在 8 个 RTT 的周期内循环使用不同的 <code>pacing_gain</code> 值：</p>
+<ul>
+<li>1 个 RTT 使用 5/4 (1.25)：轻微增加发送速率以探测是否有更多带宽可用</li>
+<li>1 个 RTT 使用 3/4 (0.75)：减少发送速率以排空可能产生的队列</li>
+<li>6 个 RTT 使用 1.0：以测得的带宽速率发送</li>
+</ul>
+<p>这种周期性的探测机制确保 BBR 能够适应网络条件的变化，同时保持较低的队列延迟。</p>
+<h3 id="proberttrtt-探测阶段">ProbeRTT（RTT 探测阶段）</h3>
+<p>每隔约 10 秒，BBR 会进入 ProbeRTT 状态，将 cwnd 降至 4 个 MSS，持续至少 200ms。这样做是为了清空所有中间队列，获得准确的最小 RTT 测量值。</p>
+<h2 id="pacing-控制">Pacing 控制</h2>
+<p>Pacing（速率控制）是 BBR 的核心机制之一。与传统 TCP 依赖 ACK 时钟不同，BBR 主动控制数据包的发送速率。</p>
+<h3 id="pacing-rate-计算">Pacing Rate 计算</h3>
+<pre tabindex="0"><code>pacing_rate = pacing_gain × BDP / RTT = pacing_gain × bandwidth
+</code></pre><p>从输出中可以看到：</p>
+<pre tabindex="0"><code>pacing_rate 334Mbps delivery_rate 269Mbps
+bw:270Mbps, pacing_gain:1.25
+</code></pre><p>计算验证：270Mbps × 1.25 = 337.5Mbps ≈ 334Mbps</p>
+<p>这个 pacing_rate 决定了 TCP 发送数据包的速率。Linux 内核使用高精度定时器来精确控制每个数据包的发送时间间隔，而不是像传统 TCP 那样尽快发送数据包。</p>
+<h3 id="pacing-的优势">Pacing 的优势</h3>
+<ol>
+<li><strong>平滑发送</strong>：避免突发流量造成的瞬时队列累积</li>
+<li><strong>降低延迟</strong>：通过控制发送速率，减少中间路由器的排队时间</li>
+<li><strong>公平性</strong>：在多流竞争时能更公平地共享带宽</li>
+</ol>
+<p>从实际数据看：</p>
+<pre tabindex="0"><code>pacing_rate 334Mbps delivery_rate 269Mbps
+</code></pre><p>pacing_rate 高于 delivery_rate 是因为 <code>pacing_gain=1.25</code>，正在探测是否有更多可用带宽。</p>
+<h2 id="cwnd-控制">CWND 控制</h2>
+<p>在 BBR 中，cwnd (拥塞窗口) 的角色与传统 TCP 有所不同。它不再是发送速率的主要控制者，而是作为 pacing 的辅助，用于限制在途数据量的上限。</p>
+<h3 id="cwnd-计算">CWND 计算</h3>
+<pre tabindex="0"><code>cwnd = cwnd_gain × BDP
+</code></pre><p>从输出中：</p>
+<pre tabindex="0"><code>cwnd:5944
+bbr:(bw:270Mbps,mrtt:122.382,pacing_gain:1.25,cwnd_gain:2)
+</code></pre><p>计算验证：</p>
+<pre tabindex="0"><code>BDP = 270Mbps × 122.382ms / 8 / 1440 bytes (MSS) ≈ 2,858 packets
+cwnd = 2 × 2,858 ≈ 5,716 packets
+</code></pre><p>实际 cwnd=5944，略高于理论值，这是因为算法会根据实际情况进行微调。</p>
+<h3 id="为什么-cwnd_gain-在平稳期是-2">为什么 cwnd_gain 在平稳期是 2</h3>
+<p>这是一个非常关键的设计决策。在 ProbeBW 稳态下，<code>cwnd_gain</code> 固定为 2，原因包括：</p>
+<h4 id="容忍重排序">容忍重排序</h4>
+<p>网络中的数据包可能乱序到达。如果 cwnd 太小，可能会误判重排序为丢包，触发不必要的重传。从输出中可以看到：</p>
+<pre tabindex="0"><code>reordering:45 reord_seen:16585
+</code></pre><p>这个连接观察到了大量的重排序（16585 次），最大重排序距离为 45 个包。较大的 cwnd 能够容忍这种重排序而不触发快速重传。</p>
+<h4 id="应对延迟-ack">应对延迟 ACK</h4>
+<p>接收端可能延迟发送 ACK，或者 ACK 本身也有传输延迟。cwnd=2×BDP 确保即使部分 ACK 延迟，发送窗口也不会被耗尽，能够持续发送数据。</p>
+<h4 id="缓冲变化的-rtt">缓冲变化的 RTT</h4>
+<p>实际网络中 RTT 会波动。从不同连接可以看到：</p>
+<pre tabindex="0"><code>rtt:123.217/0.23  (连接1)
+rtt:129.757/0.139 (连接2)
+rtt:130.183/0.178 (连接3)
+</code></pre><p>RTT 存在变化，cwnd=2×BDP 提供了安全边际，避免因 RTT 短暂增加导致管道未充分利用。</p>
+<h4 id="带宽探测的需要">带宽探测的需要</h4>
+<p>在 ProbeBW 阶段，<code>pacing_gain</code> 会在 [0.75, 1.0, 1.25] 之间切换。当 <code>pacing_gain=1.25</code> 时，发送速率增加到 1.25×BW，此时需要 cwnd 足够大以支持这个更高的速率：</p>
+<pre tabindex="0"><code>cwnd ≥ pacing_gain × BDP = 1.25 × BDP
+</code></pre><p>设置 <code>cwnd_gain=2</code> 确保 cwnd 不会成为限制因素。从输出可以印证：</p>
+<pre tabindex="0"><code>cwnd:5944  (约 2×BDP)
+unacked:2858  (约 1×BDP)
+</code></pre><p>在途数据量 (unacked) 远小于 cwnd，说明 cwnd 没有成为瓶颈，pacing 在发挥主要作用。</p>
+<h2 id="限制因素分析">限制因素分析</h2>
+<p>BBR 的发送速率可能受到多种因素的限制，了解这些限制对于性能调优至关重要。</p>
+<h3 id="rwnd-limited接收窗口受限">RWND Limited（接收窗口受限）</h3>
+<p>接收端通告的接收窗口限制了发送端能发送的数据量。</p>
+<pre tabindex="0"><code>rwnd_limited:884ms(18.7%)
+rwnd_limited:2840ms(60.2%)
+rwnd_limited:1208ms(25.6%)
+</code></pre><p>第二个连接有 60.2% 的时间受到 rwnd 限制，这说明：</p>
+<ul>
+<li>接收端处理速度较慢，或</li>
+<li>接收缓冲区设置过小</li>
+</ul>
+<p>从输出看接收窗口：</p>
+<pre tabindex="0"><code>snd_wnd:4153344 rcv_wnd:8388608  (连接1，约8MB)
+snd_wnd:4149376 rcv_wnd:8388608  (连接2，约8MB)
+</code></pre><p>发送窗口 (snd_wnd) 是对端通告的接收窗口。当 <code>snd_wnd &lt; cwnd × MSS</code> 时，就会出现 rwnd_limited。</p>
+<p>对于连接 2：</p>
+<pre tabindex="0"><code>cwnd=6212 packets × 1440 bytes = 8,945,280 bytes
+snd_wnd=4,149,376 bytes
+</code></pre><p>发送窗口明显小于 cwnd，这就是 rwnd_limited 的原因。</p>
+<p><strong>优化建议</strong>：</p>
+<ul>
+<li>增大接收端的 TCP 接收缓冲区：<code>net.ipv4.tcp_rmem</code></li>
+<li>确保接收端应用及时读取数据</li>
+</ul>
+<h3 id="sndbuf-limited发送缓冲区受限">SNDBUF Limited（发送缓冲区受限）</h3>
+<p>发送缓冲区不足也会限制发送速率。</p>
+<pre tabindex="0"><code>sndbuf_limited:1176ms(24.9%)
+sndbuf_limited:288ms(6.1%)
+sndbuf_limited:1456ms(30.8%)
+sndbuf_limited:1692ms(35.8%)
+</code></pre><p>从 skmem 可以看到发送缓冲区状态：</p>
+<pre tabindex="0"><code>skmem:(r0,rb16777216,t0,tb21133776,f3648,w40100288,o0,bl0,d0)
+</code></pre><p>其中：</p>
+<ul>
+<li><code>rb</code>: 接收缓冲区总大小</li>
+<li><code>tb</code>: 发送缓冲区总大小 (21,133,776 bytes ≈ 20MB)</li>
+<li><code>w</code>: 当前发送缓冲区已用 (40,100,288 bytes ≈ 38MB)</li>
+</ul>
+<p>等等，<code>w</code> 怎么大于 <code>tb</code>？实际上 <code>w</code> 包括了所有待发送和已发送未确认的数据，可能超过缓冲区限制。</p>
+<p>第五个连接：</p>
+<pre tabindex="0"><code>tb6304320 (约6MB), notsent:10533600 (约10MB)
+</code></pre><p>这里 notsent (尚未发送的数据) 大于缓冲区，说明应用写入速度很快，但发送速率受限。</p>
+<p><strong>优化建议</strong>：</p>
+<ul>
+<li>增大发送缓冲区：<code>net.ipv4.tcp_wmem</code></li>
+<li>调整应用的写入策略，避免过度缓冲</li>
+</ul>
+<h3 id="无限制状态">无限制状态</h3>
+<p>第一个连接的时间分配：</p>
+<pre tabindex="0"><code>busy:4720ms rwnd_limited:884ms(18.7%) sndbuf_limited:1176ms(24.9%)
+</code></pre><p>计算：884 + 1176 = 2060ms，占 43.6%</p>
+<p>这意味着有约 56.4% 的时间既不受 rwnd 限制也不受 sndbuf 限制，此时 BBR 的 pacing 机制在发挥作用，按照计算的 pacing_rate 控制发送速率。</p>
+<h2 id="重排序处理">重排序处理</h2>
+<p>TCP 需要处理网络中的包重排序，BBR 通过多种机制来应对。</p>
+<pre tabindex="0"><code>reordering:45 reord_seen:16585
+</code></pre><ul>
+<li><code>reordering:45</code>：当前估计的最大重排序程度，表示数据包可能乱序到达最多 45 个包的距离</li>
+<li><code>reord_seen:16585</code>：观察到的重排序事件总数</li>
+</ul>
+<p>这些重排序可能来自：</p>
+<ol>
+<li>多路径路由</li>
+<li>数据包在中间节点的调度差异</li>
+<li>网络接口卡的并行处理</li>
+</ol>
+<p>BBR 通过 <code>cwnd_gain=2</code> 来容忍重排序。如果 cwnd 太小（比如只有 1×BDP），当出现重排序时，可能会误判为丢包并触发重传。较大的 cwnd 允许更多的数据包在途，降低了重排序导致误判的概率。</p>
+<p>从输出看：</p>
+<pre tabindex="0"><code>cwnd:5944 unacked:2858
+</code></pre><p>实际在途数据 (unacked) 约为 cwnd 的一半，这为重排序提供了足够的缓冲空间。</p>
+<h2 id="重传机制">重传机制</h2>
+<p>重传是 TCP 可靠性的保证，BBR 也需要处理丢包情况。</p>
+<h3 id="rto-retransmission-timeout">RTO (Retransmission Timeout)</h3>
+<pre tabindex="0"><code>rto:324 rtt:123.217/0.23
+rto:332 rtt:129.757/0.139
+rto:336 rtt:132.582/0.205
+</code></pre><p>RTO 是重传超时时间，通常计算为：</p>
+<pre tabindex="0"><code>RTO = SRTT + 4 × RTTVAR
+</code></pre><p>其中 SRTT 是平滑的 RTT，RTTVAR 是 RTT 变化量。</p>
+<p>从第一个连接：</p>
+<pre tabindex="0"><code>rtt:123.217/0.23
+</code></pre><p>这里 123.217 是当前平滑 RTT，0.23 是 RTT 变化量。</p>
+<p>计算 RTO：</p>
+<pre tabindex="0"><code>RTO ≈ 123.217 + 4 × 0.23 ≈ 124.1ms
+</code></pre><p>但实际 <code>rto:324</code>，这是因为 Linux 使用了更保守的 RTO 计算，最小 RTO 通常设置为 200ms。</p>
+<h3 id="丢包处理">丢包处理</h3>
+<p>BBR 对丢包的处理与传统 TCP 有所不同：</p>
+<ol>
+<li><strong>不降低带宽估计</strong>：BBR 认为偶尔的丢包可能是由于浅缓冲或偶发事件，不应立即降低带宽估计</li>
+<li><strong>降低 inflight</strong>：通过 <code>ssthresh</code> 来限制在途数据量</li>
+</ol>
+<pre tabindex="0"><code>cwnd:5944 ssthresh:2968
+</code></pre><p>ssthresh (慢启动阈值) 被设置为约 cwnd 的一半，这表明可能经历了丢包事件。BBR 会将 cwnd 限制在 <code>max(cwnd_gain × BDP, ssthresh)</code> 和 ssthresh 之间。</p>
+<h2 id="性能指标解读">性能指标解读</h2>
+<h3 id="发送与接收统计">发送与接收统计</h3>
+<pre tabindex="0"><code>bytes_sent:72819104 bytes_acked:68704608
+segs_out:50580 segs_in:36484
+data_segs_out:50579 data_segs_in:1
+</code></pre><ul>
+<li>已发送约 69 MB 数据，已确认约 65 MB</li>
+<li>发送了 50580 个段，接收了 36484 个段（包括 ACK）</li>
+<li>只收到 1 个数据段（因为这是发送端）</li>
+</ul>
+<h3 id="实时速率">实时速率</h3>
+<pre tabindex="0"><code>send 556Mbps pacing_rate 334Mbps delivery_rate 269Mbps
+</code></pre><ul>
+<li><code>send</code>：基于 cwnd 、MSS 和 RTT 计算的<strong>理论</strong>发送速率。<code>cwnd × MSS / RTT</code></li>
+<li><code>pacing_rate</code>：BBR <strong>控制</strong>的发送速率</li>
+<li><code>delivery_rate</code>：最近测量的<strong>实际</strong>数据送达速率</li>
+</ul>
+<p>可以看到：</p>
+<ul>
+<li>send &gt; pacing_rate：cwnd 不是瓶颈，pacing 在控制速率</li>
+<li>pacing_rate &gt; delivery_rate：正在以 1.25 倍速率探测带宽</li>
+</ul>
+<h3 id="延迟指标">延迟指标</h3>
+<pre tabindex="0"><code>minrtt:122.382 rtt:123.217/0.23
+</code></pre><ul>
+<li><code>minrtt</code>：观察到的最小 RTT，用于 BDP 计算</li>
+<li><code>rtt</code>：当前平滑的 RTT 及其变化量</li>
+</ul>
+<p>RTT 接近 minrtt 说明网络队列延迟很低，这正是 BBR 的优势所在。</p>
+<h2 id="优化建议">优化建议</h2>
+<p>基于上述分析，针对不同的瓶颈可以采取相应的优化措施：</p>
+<h3 id="缓冲区调优">缓冲区调优</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 增加 TCP 接收缓冲区</span>
+</span></span><span style="display:flex;"><span>sysctl -w net.ipv4.tcp_rmem<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;4096 131072 16777216&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 增加 TCP 发送缓冲区</span>
+</span></span><span style="display:flex;"><span>sysctl -w net.ipv4.tcp_wmem<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;4096 65536 16777216&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 增加最大缓冲区限制</span>
+</span></span><span style="display:flex;"><span>sysctl -w net.core.rmem_max<span style="color:#f92672">=</span><span style="color:#ae81ff">16777216</span>
+</span></span><span style="display:flex;"><span>sysctl -w net.core.wmem_max<span style="color:#f92672">=</span><span style="color:#ae81ff">16777216</span>
+</span></span></code></pre></div><h3 id="应用层优化">应用层优化</h3>
+<p>对于 rwnd_limited 严重的情况：</p>
+<ul>
+<li>确保接收端应用及时读取数据</li>
+<li>使用更大的接收缓冲区（SO_RCVBUF）</li>
+<li>考虑使用异步 I/O 减少处理延迟</li>
+</ul>
+<p>对于 sndbuf_limited 严重的情况：</p>
+<ul>
+<li>调整发送缓冲区大小</li>
+<li>控制应用写入速率，避免过度缓冲</li>
+<li>考虑使用流控机制</li>
+</ul>
+<h3 id="网络层优化">网络层优化</h3>
+<ul>
+<li>启用 TCP timestamps：<code>net.ipv4.tcp_timestamps=1</code></li>
+<li>启用 SACK：<code>net.ipv4.tcp_sack=1</code></li>
+<li>调整初始拥塞窗口：<code>net.ipv4.tcp_initial_cwnd=10</code></li>
+</ul>
+<h2 id="总结">总结</h2>
+<p>BBR 算法通过测量瓶颈带宽和最小 RTT，结合 pacing 控制和 cwnd 辅助，实现了高吞吐、低延迟的目标。其核心特点包括：</p>
+<ol>
+<li><strong>主动测量</strong>：持续测量网络参数，而不是被动等待丢包信号</li>
+<li><strong>Pacing 控制</strong>：主动控制发送速率，避免突发流量</li>
+<li><strong>智能探测</strong>：通过周期性的 pacing_gain 调整，在稳定性和探索性之间取得平衡</li>
+<li><strong>容错设计</strong>：cwnd_gain=2 提供了应对重排序、延迟 ACK 和 RTT 波动的能力</li>
+</ol>
+<p>理解这些机制和指标，能够帮助我们更好地诊断网络性能问题，进行针对性的优化。通过 <code>ss -tmi</code> 这样的工具，我们可以实时观察 BBR 的运行状态，识别瓶颈所在，从而做出正确的调优决策。</p>
+<p>BBR 的成功之处在于它改变了 TCP 拥塞控制的范式，从&quot;反应式&quot;转向&quot;主动式&quot;，从&quot;以丢包为信号&quot;转向&quot;以测量为基础&quot;。这种思路的转变，为高速网络环境下的传输优化开辟了新的道路。</p>
+<h2 id="一份-tcp-参数调优的例子">一份 tcp 参数调优的例子</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># ============================================================================</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 网络核心参数配置</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ============================================================================</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 默认队列规则（Queueing Discipline）</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># fq (Fair Queue) 是一种公平队列算法，为每个数据流提供独立队列</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 配合 BBR 拥塞控制算法使用效果最佳，能有效减少缓冲区膨胀</span>
+</span></span><span style="display:flex;"><span>net.core.default_qdisc <span style="color:#f92672">=</span> fq
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 接收缓冲区最大值（字节）</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 67108848 字节 ≈ 64MB</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 控制单个 socket 接收缓冲区的最大大小</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 高带宽网络环境下建议设置较大值以提升接收性能</span>
+</span></span><span style="display:flex;"><span>net.core.rmem_max <span style="color:#f92672">=</span> <span style="color:#ae81ff">67108848</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 发送缓冲区最大值（字节）</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 67108848 字节 ≈ 64MB</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 控制单个 socket 发送缓冲区的最大大小</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 高带宽网络环境下建议设置较大值以提升发送性能</span>
+</span></span><span style="display:flex;"><span>net.core.wmem_max <span style="color:#f92672">=</span> <span style="color:#ae81ff">67108848</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># socket 监听队列的最大长度</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 4096 表示可以同时处理 4096 个待完成的连接请求</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 高并发服务器（如 Web 服务器、代理服务器）建议设置较大值</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 防止在高负载时出现连接拒绝的情况</span>
+</span></span><span style="display:flex;"><span>net.core.somaxconn <span style="color:#f92672">=</span> <span style="color:#ae81ff">4096</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ============================================================================</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># TCP/IPv4 协议栈参数配置</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ============================================================================</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># TCP SYN 队列的最大长度(半连接队列)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 4096 表示可以容纳 4096 个处于 SYN_RECV 状态的连接</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 用于防御 SYN Flood 攻击，同时支持高并发连接建立</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 应该与 net.core.somaxconn 保持一致或略大</span>
+</span></span><span style="display:flex;"><span>net.ipv4.tcp_max_syn_backlog <span style="color:#f92672">=</span> <span style="color:#ae81ff">4096</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># TCP 拥塞控制算法</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># bbr (Bottleneck Bandwidth and RTT) 是 Google 开发的新一代拥塞控制算法</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 相比传统的 cubic 算法，BBR 能够：</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#   - 更充分利用带宽</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#   - 降低延迟</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#   - 在丢包环境下表现更好</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 特别适合高延迟、高带宽的网络环境</span>
+</span></span><span style="display:flex;"><span>net.ipv4.tcp_congestion_control <span style="color:#f92672">=</span> bbr
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># TCP 接收缓冲区大小配置（字节）</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 格式：最小值 默认值 最大值</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 16384 (16KB)      - 最小值，每个 TCP 连接保证的最小接收缓冲区</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 16777216 (16MB)   - 默认值，新建连接的初始接收缓冲区大小</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 536870912 (512MB) - 最大值，单个连接可以使用的最大接收缓冲区</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 内核会根据网络状况自动调整，在最小值和最大值之间动态分配</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 大缓冲区配合高带宽长距离网络（如跨国传输）能显著提升吞吐量</span>
+</span></span><span style="display:flex;"><span>net.ipv4.tcp_rmem <span style="color:#f92672">=</span> <span style="color:#ae81ff">16384</span> <span style="color:#ae81ff">16777216</span> <span style="color:#ae81ff">536870912</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># TCP 发送缓冲区大小配置（字节）</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 格式：最小值 默认值 最大值</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 16384 (16KB)      - 最小值，每个 TCP 连接保证的最小发送缓冲区</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 16777216 (16MB)   - 默认值，新建连接的初始发送缓冲区大小</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 536870912 (512MB) - 最大值，单个连接可以使用的最大发送缓冲区</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 内核会根据网络状况自动调整，在最小值和最大值之间动态分配</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 大缓冲区能够存储更多待发送数据，提高高带宽网络的利用率</span>
+</span></span><span style="display:flex;"><span>net.ipv4.tcp_wmem <span style="color:#f92672">=</span> <span style="color:#ae81ff">16384</span> <span style="color:#ae81ff">16777216</span> <span style="color:#ae81ff">536870912</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># TCP 接收缓冲区的应用层可用空间比例控制（计算TCP接受窗口的大小）</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 这个参数实际上控制的是：接收缓冲区中有多少空间分配给应用层数据，</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 有多少空间预留给内核的 TCP/IP 协议栈开销（如 sk_buff 结构等）</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># -2 表示应用层可用的接收窗口为实际 TCP 窗口的 1/4</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 计算公式：应用可用空间 = tcp_rmem / (2^(-tcp_adv_win_scale))</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 设置为负值可以为内核预留更多空间用于 socket 缓冲区管理</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 在超大缓冲区配置下（如本配置的 512MB），建议设置为 -2</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 这样可以避免应用层占用过多内存，同时保证内核有足够空间处理数据</span>
+</span></span><span style="display:flex;"><span>net.ipv4.tcp_adv_win_scale <span style="color:#f92672">=</span> -2
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 启用 TCP 选择性确认（Selective Acknowledgment）</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 1 = 启用，0 = 禁用</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># SACK 允许接收方告知发送方哪些数据包已收到，哪些丢失</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 在丢包环境下能显著提升性能，避免重传整个窗口的数据</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 现代网络环境强烈建议启用</span>
+</span></span><span style="display:flex;"><span>net.ipv4.tcp_sack <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 启用 TCP 时间戳选项</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 1 = 启用，0 = 禁用</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># TCP 时间戳用于：</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#   - 更精确的往返时间（RTT）测量</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#   - 防止序列号回绕（PAWS，在高速网络中很重要）</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#   - 支持更大的 TCP 窗口（配合窗口缩放选项）</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 现代网络环境强烈建议启用</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 注意：会在每个 TCP 数据包中增加 12 字节的开销（导致MSS减小12字节）</span>
+</span></span><span style="display:flex;"><span>net.ipv4.tcp_timestamps <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ============================================================================</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 配置说明</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ============================================================================</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 本配置适用场景：</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># - 大BDP场景（带宽和延迟乘积大的情况下，需要增大缓冲区）：高带宽服务器（1Gbps 以上） / 长距离高延迟网络传输（跨国、跨洲数据传输）</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># - 高并发应用（Web 服务器、反向代理、CDN 节点等）</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># - 需要优化大文件传输的场景</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 应用配置后执行：</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># sudo sysctl -p</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 验证配置：</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># sysctl net.core.default_qdisc</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># sysctl net.ipv4.tcp_congestion_control</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 注意事项：</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># - 大缓冲区会占用更多内存，请确保服务器有足够的 RAM</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># - BBR 需要 Linux 内核 4.9 或更高版本</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># - 修改后建议进行性能测试验证效果</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ============================================================================</span>
+</span></span></code></pre></div>
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/posts/mtu/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">MTU详解</span>
+    </a>
+    
+    
+    <a href="/posts/windows-powershell/" class="navigation-next">
+      <span class="navigation-tittle">Windows Powershell常用脚本</span>
+      <i aria-hidden="true" class="fa fa-chevron-right"></i>
+    </a>
+    
+</div>
+
+
+  
+
+  
+
+
+</article>
+
+
+  </div>
+<style>
+  .content.container {
+        width: 100%;
+        max-width: none;
+        height: calc(100vh - var(--sidebar-height, 49px));
+        border: none;
+        display: block;
+        overflow-y: auto;
+        box-sizing: border-box;
+        margin-left: 0;
+        margin-right: 0;
+  }
+
+  body:not(.type-iframe) .content.container {
+        padding-left: max(1.5rem, calc((100% - var(--content-max-width, 38rem)) / 2));
+        padding-right: max(1.5rem, calc((100% - var(--content-max-width, 38rem)) / 2));
+  }
+</style>
+<script>
+    (function () {
+        var contentSelector = '.content.container';
+        var rafId = 0;
+        var resizeDebounceTimer = 0;
+        var pendingHashScroll = false;
+
+        function getHashTarget() {
+            var hash = window.location.hash;
+            var targetId = '';
+
+            if (!hash || hash === '#') {
+                return null;
+            }
+
+            targetId = hash.slice(1);
+            try {
+                targetId = decodeURIComponent(targetId);
+            } catch (e) {
+                
+            }
+
+            return document.getElementById(targetId);
+        }
+
+        function scrollToHashTarget() {
+            var target = getHashTarget();
+            if (!target) {
+                return;
+            }
+            try {
+                target.scrollIntoView({ block: 'start', inline: 'nearest' });
+            } catch (e) {
+                target.scrollIntoView(true);
+            }
+        }
+
+        function applyPendingHashScroll() {
+            if (!pendingHashScroll) {
+                return;
+            }
+            pendingHashScroll = false;
+            scrollToHashTarget();
+        }
+
+        function resizeContentHeight() {
+            var content = document.querySelector(contentSelector);
+            if (!content) {
+                return;
+            }
+            var rect = content.getBoundingClientRect();
+            var available = window.innerHeight - rect.top;
+            if (available < 0) {
+                available = 0;
+            }
+            content.style.height = available + 'px';
+            applyPendingHashScroll();
+        }
+
+        function scheduleResize() {
+            if (rafId) {
+                return;
+            }
+            rafId = window.requestAnimationFrame(function () {
+                rafId = 0;
+                resizeContentHeight();
+            });
+        }
+
+        function scheduleResizeDebounced(delay) {
+            window.clearTimeout(resizeDebounceTimer);
+            resizeDebounceTimer = window.setTimeout(scheduleResize, delay || 120);
+        }
+
+        function requestHashScroll() {
+            if (!window.location.hash || window.location.hash === '#') {
+                return;
+            }
+            pendingHashScroll = true;
+            scheduleResize();
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function () {
+                scheduleResize();
+                requestHashScroll();
+            }, { once: true });
+        } else {
+            scheduleResize();
+            requestHashScroll();
+        }
+
+        window.addEventListener('load', function () {
+            scheduleResize();
+            requestHashScroll();
+        });
+        window.addEventListener('pageshow', function () {
+            scheduleResize();
+            requestHashScroll();
+        });
+        window.addEventListener('hashchange', requestHashScroll);
+        window.addEventListener('resize', function () {
+            scheduleResizeDebounced(120);
+        });
+
+        var menuToggle = document.getElementById('menuToggle');
+        if (menuToggle) {
+            menuToggle.addEventListener('change', function () {
+                scheduleResize();
+                window.setTimeout(scheduleResize, 250);
+            });
+        }
+    })();
+</script>
+  
+    
+
+
+
+<script defer src="/js/all.js" crossorigin="anonymous"></script>
+
+    
+    
+    <script src="/js/highlight.min.js"></script>
+    <script src="/js/languages/dos.min.js"></script>
+        
+    <script type="text/javascript">
+        
+        hljs.highlightAll();
+    </script>
+    
+
+<style>
+    .code-block-wrapper {
+        position: relative;
+    }
+    .copy-code-button {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        padding: 6px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 4px;
+        cursor: pointer;
+        opacity: 0;
+        transition: opacity 0.3s, background 0.3s;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .copy-code-button svg {
+        width: 16px;
+        height: 16px;
+        fill: #fff;
+        transition: fill 0.3s;
+    }
+    .code-block-wrapper:hover .copy-code-button {
+        opacity: 1;
+    }
+    .copy-code-button:hover {
+        background: rgba(255, 255, 255, 0.2);
+    }
+    .copy-code-button.copied {
+        background: rgba(46, 160, 67, 0.8);
+        border-color: rgba(46, 160, 67, 1);
+    }
+    .copy-code-button.copied svg {
+        fill: #fff;
+    }
+</style>
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        document.querySelectorAll('pre code').forEach(function(codeBlock) {
+            var pre = codeBlock.parentNode;
+            
+            
+            if (pre.parentNode.classList.contains('code-block-wrapper')) {
+                return;
+            }
+            
+            
+            var wrapper = document.createElement('div');
+            wrapper.className = 'code-block-wrapper';
+            pre.parentNode.insertBefore(wrapper, pre);
+            wrapper.appendChild(pre);
+            
+            
+            var button = document.createElement('button');
+            button.className = 'copy-code-button';
+            button.innerHTML = '<svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg>';
+            button.setAttribute('aria-label', '复制代码');
+            button.setAttribute('title', '复制代码');
+            
+            var copyIcon = '<svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg>';
+            var checkIcon = '<svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16"><path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"></path></svg>';
+            
+            
+            button.addEventListener('click', function() {
+                var code = codeBlock.textContent;
+                navigator.clipboard.writeText(code).then(function() {
+                    button.innerHTML = checkIcon;
+                    button.classList.add('copied');
+                    button.setAttribute('aria-label', '已复制');
+                    button.setAttribute('title', '已复制');
+                    setTimeout(function() {
+                        button.innerHTML = copyIcon;
+                        button.classList.remove('copied');
+                        button.setAttribute('aria-label', '复制代码');
+                        button.setAttribute('title', '复制代码');
+                    }, 2000);
+                }).catch(function(err) {
+                    console.error('复制失败:', err);
+                });
+            });
+            
+            wrapper.appendChild(button);
+        });
+    });
+</script>
+
+
+
+
+    
+
+
+
+</body>
+
+</html>

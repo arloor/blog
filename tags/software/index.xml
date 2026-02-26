@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Software on ARLOOR</title>
+    <link>https://www.arloor.com/tags/software/</link>
+    <description>Recent content in Software on ARLOOR</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Fri, 11 Oct 2024 16:22:26 +0800</lastBuildDate>
+    <atom:link href="https://www.arloor.com/tags/software/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Grafana告警配置</title>
+      <link>https://www.arloor.com/posts/grafana-alert-settings/</link>
+      <pubDate>Fri, 11 Oct 2024 16:22:26 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/grafana-alert-settings/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Homebrew安装指定版本的软件</title>
+      <link>https://www.arloor.com/posts/homebrew-versioned/</link>
+      <pubDate>Fri, 26 Jul 2024 15:02:39 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/homebrew-versioned/</guid>
+      <description>&lt;p&gt;需要在mac上安装 clang-format-16，记录下homebrew安装指定版本软件的方法。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>还IDEA一个整洁的滚动条高亮提示</title>
+      <link>https://www.arloor.com/posts/idea-clean-scrollbar/</link>
+      <pubDate>Fri, 05 Jan 2024 11:36:23 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/idea-clean-scrollbar/</guid>
+      <description>&lt;p&gt;深刻怀疑IDEA在硬卷，滚动条的highlight提示越来越多了，颜色丰富的像彩虹，还很密集。这样根本就达不到highlight的目的了。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>使用Github Codespaces</title>
+      <link>https://www.arloor.com/posts/github-codespace-use/</link>
+      <pubDate>Thu, 21 Dec 2023 16:14:54 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/github-codespace-use/</guid>
+      <description>&lt;p&gt;前几天Github告诉我说&lt;code&gt;You&#39;re now in the CodeSpaces beta&lt;/code&gt;，今天体验了下，又发现了一个白嫖计算资源的机会啊。&lt;/p&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;2023-12-11更新：目前Codespaces已经正式发布，我个人将Rust开发全部移到了Codespaces上，下文有我的详细配置，欢迎阅读。收费策略上，目前个人免费账户每月有120小时的Core hours per month额度，这就意味着每月可以白嫖2C8G的机器60小时，或4C16G机器30小时。&lt;/p&gt;&#xA;&lt;/blockquote&gt;</description>
+    </item>
+    <item>
+      <title>Async Profiler使用</title>
+      <link>https://www.arloor.com/posts/async-profiler/</link>
+      <pubDate>Sat, 02 Dec 2023 16:31:58 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/async-profiler/</guid>
+      <description>&lt;p&gt;Async Profile是Java应用profiling的强大工具，可以方便地输出火焰图html或者jfr格式给Java Mission Control查看，这里记录下如何使用。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Grafana表格Pannel配置</title>
+      <link>https://www.arloor.com/posts/grafana-new-table/</link>
+      <pubDate>Sat, 18 Nov 2023 15:24:33 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/grafana-new-table/</guid>
+      <description>&lt;p&gt;忘记了怎么在Grafana中配置表格，今天来记录下。&lt;/p&gt;&#xA;&lt;p&gt;&lt;img src=&#34;https://www.arloor.com/img/grafana-table-pannel.png&#34; alt=&#34;Alt text&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>SSH 配置与端口转发</title>
+      <link>https://www.arloor.com/posts/ssh-config/</link>
+      <pubDate>Thu, 16 Nov 2023 20:20:22 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/ssh-config/</guid>
+      <description>&lt;p&gt;这篇把我最常用的 SSH 隧道能力整理成一份可直接复用的笔记，覆盖：&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;本地端口转发（&lt;code&gt;-L&lt;/code&gt;）&lt;/li&gt;&#xA;&lt;li&gt;远程端口转发（&lt;code&gt;-R&lt;/code&gt;）&lt;/li&gt;&#xA;&lt;li&gt;动态端口转发（&lt;code&gt;-D&lt;/code&gt; / SOCKS5）&lt;/li&gt;&#xA;&lt;li&gt;&lt;code&gt;~/.ssh/config&lt;/code&gt; 里长期可维护的写法&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
+    </item>
+    <item>
+      <title>Clash Tun模式和透明代理</title>
+      <link>https://www.arloor.com/posts/clash-tun-gateway/</link>
+      <pubDate>Sun, 23 Jul 2023 10:39:36 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/clash-tun-gateway/</guid>
+      <description>&lt;p&gt;大概前几年就玩过软路由，当时用openwrt作为主路由使用，一是折腾起来太麻烦，二是对家庭网络侵入性太大，三是当时用的机器风扇声音太大。用上M2的Macbook PRO、Mac MINI后，我才发现，原来低功耗的无风扇的被动散热的体验是真的安静。所以，这次软路由的搭建核心诉求是三个：1. 旁路由而不是主路由；2. 用Clash而不是openwrt；3. 用被动散热的机器，主打一个安静。最终的话，这次整了一台畅网N100先锋版，把附送给内存和硬盘散热的风扇拆了，走纯被动散热。最终成品如下，特点是小小的，稳稳的，烫烫的。&lt;/p&gt;&#xA;&lt;p&gt;&lt;img src=&#34;https://www.arloor.com/img/8aafce027a7a038b8c86497537075571_0.jpg&#34; alt=&#34;Alt text&#34;&gt;&lt;/p&gt;&#xA;&lt;p&gt;下面的内容是介绍下如何使用Clash tun模式搭建旁路由。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>vscode</title>
+      <link>https://www.arloor.com/posts/vscode/</link>
+      <pubDate>Tue, 11 Jul 2023 19:07:00 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/vscode/</guid>
+      <description>&lt;h2 id=&#34;字体配置使用-jetbrains-mono&#34;&gt;字体配置——使用 JetBrains Mono&lt;/h2&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;下载 Jetbrians Mono 字体：&lt;a href=&#34;https://www.jetbrains.com/lp/mono/#how-to-install&#34;&gt;how-to-install&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;解压缩&lt;/li&gt;&#xA;&lt;li&gt;安装&#xA;&lt;ol&gt;&#xA;&lt;li&gt;Mac 下将 ttf 文件夹下的文件全选，右击选择打开，安装所有字体&lt;/li&gt;&#xA;&lt;li&gt;Centos9 下， 将 ttf 文件夹下的文件全部移动到 &lt;code&gt;/usr/share/fonts/${newdir}&lt;/code&gt;下 , &lt;code&gt;yum install -y fontconfig&lt;/code&gt; 并执行 &lt;code&gt;fc-cache&lt;/code&gt; 。然后执行 &lt;code&gt;fc-list&lt;/code&gt; 即可看到新的字体&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;/li&gt;&#xA;&lt;li&gt;搜索 font family，改成 &lt;code&gt;&#39;JetBrains Mono&#39;, Menlo, Monaco, &#39;Courier New&#39;, monospace&lt;/code&gt; 。&lt;/li&gt;&#xA;&lt;li&gt;搜索 font size，改成 13。如果这个字体还不够大，可以 &lt;code&gt;command + +&lt;/code&gt;来放大 UI。&lt;/li&gt;&#xA;&lt;li&gt;搜索 line height，改成 1.6。&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;p&gt;TIPS：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Grafana文档学习</title>
+      <link>https://www.arloor.com/posts/grafana-docs/</link>
+      <pubDate>Sun, 02 Jul 2023 15:29:06 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/grafana-docs/</guid>
+      <description>&lt;p&gt;一直在用Grafana，从未好好看过他的文档，这次发现还是有不少东西的。借着这次学习Grafana的机会，复习下指标相关的东西。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Git常用命令</title>
+      <link>https://www.arloor.com/posts/git-commands/</link>
+      <pubDate>Wed, 07 Jun 2023 14:31:05 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/git-commands/</guid>
+      <description>&lt;p&gt;这篇记录我最常用、且相对不容易踩坑的 Git 命令。覆盖场景包括：&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;不同仓库使用不同身份&lt;/li&gt;&#xA;&lt;li&gt;SSH + 代理访问 GitHub&lt;/li&gt;&#xA;&lt;li&gt;凭证管理&lt;/li&gt;&#xA;&lt;li&gt;改写历史提交&lt;/li&gt;&#xA;&lt;li&gt;清理敏感文件历史&lt;/li&gt;&#xA;&lt;li&gt;忽略已追踪文件&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
+    </item>
+    <item>
+      <title>tcpdump</title>
+      <link>https://www.arloor.com/posts/tcpdump/</link>
+      <pubDate>Wed, 17 May 2023 14:43:02 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/tcpdump/</guid>
+      <description>&lt;p&gt;工作中需要用到tcpdump，这里做一下备忘，主要知识来源是 &lt;code&gt;man tcpdump&lt;/code&gt;和ChatGPT-4。&lt;/p&gt;&#xA;&lt;h2 id=&#34;常用命令&#34;&gt;常用命令&lt;/h2&gt;&#xA;&lt;h3 id=&#34;查看明文通信内容&#34;&gt;查看明文通信内容&lt;/h3&gt;&#xA;&lt;p&gt;查看IPv4的到80端口的http协议明文。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Openssl使用：自定义CA签发证书、私钥格式、s_client使用</title>
+      <link>https://www.arloor.com/posts/openssl_ca_type_s_client/</link>
+      <pubDate>Thu, 11 May 2023 11:35:02 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/openssl_ca_type_s_client/</guid>
+      <description>&lt;h2 id=&#34;签发ca并使用ca签发ssl证书&#34;&gt;签发CA并使用CA签发SSL证书&lt;/h2&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;在 &lt;code&gt;~/ca&lt;/code&gt; 创建CA证书和私钥，私钥为 &lt;code&gt;ca_key.pem&lt;/code&gt; ，公钥为 &lt;code&gt;ca.pem&lt;/code&gt; 。 &lt;code&gt;ca.pem&lt;/code&gt; 后续将被安装到系统并信任。&lt;/li&gt;&#xA;&lt;li&gt;在 &lt;code&gt;~/ca/certs&lt;/code&gt; 创建自定义SSL证书，私钥为 &lt;code&gt;privkey.pem&lt;/code&gt; ，公钥为 &lt;code&gt;cert.pem&lt;/code&gt;。他们将被用于启动https服务。&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;p&gt;脚本下载：&lt;a href=&#34;https://www.arloor.com/sh/ca.sh&#34;&gt;ca.sh&lt;/a&gt;。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Clash透明代理</title>
+      <link>https://www.arloor.com/posts/clash-tpproxy/</link>
+      <pubDate>Thu, 19 Jan 2023 13:55:54 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/clash-tpproxy/</guid>
+      <description>&lt;p&gt;clash透明代理可以使用ShellClash，这里记录下其中的核心技术，掌握核心技术才好。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>使用Surge Mac版作为旁路由网关</title>
+      <link>https://www.arloor.com/posts/mac-mini-surge-gateway/</link>
+      <pubDate>Sat, 07 Jan 2023 20:55:01 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/mac-mini-surge-gateway/</guid>
+      <description>&lt;p&gt;记录下使用Surge Mac版作为旁路由网关&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Starship Shell</title>
+      <link>https://www.arloor.com/posts/starship-shell/</link>
+      <pubDate>Fri, 16 Dec 2022 21:22:57 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/starship-shell/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Arthas</title>
+      <link>https://www.arloor.com/posts/arthas/</link>
+      <pubDate>Thu, 02 Sep 2021 22:21:36 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/arthas/</guid>
+      <description>&lt;p&gt;arthas用来动态调试很好用&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>acme.sh签发dnspod(腾讯云)和阿里云ssl野卡证书并自动续签</title>
+      <link>https://www.arloor.com/posts/acme-wildcard-ssl-cert/</link>
+      <pubDate>Sun, 19 Apr 2020 13:20:07 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/acme-wildcard-ssl-cert/</guid>
+      <description>&lt;p&gt;用一下acme.sh，实现自动签发野卡证书的需求。 acme.sh是一个开源的shell脚本，可以用来签发证书，支持很多dns服务商，支持自动续签。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>nftables设置nat转发(基于centos8)</title>
+      <link>https://www.arloor.com/posts/centos8-nftables-nat/</link>
+      <pubDate>Sun, 02 Feb 2020 22:33:10 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/centos8-nftables-nat/</guid>
+      <description>&lt;p&gt;nftables具有脚本编程能力，并且使用脚本更新规则具有事务性，要么全部成功，要么全部不成功。这两个特性很有趣，今天用nftables的编程能力来做下nat转发。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Nginx安装使用：webserver及反向代理</title>
+      <link>https://www.arloor.com/posts/linux/nginx-install-and-reverse-proxy/</link>
+      <pubDate>Thu, 15 Aug 2019 20:38:59 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/linux/nginx-install-and-reverse-proxy/</guid>
+      <description>&lt;p&gt;试试nginx&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Centos7安装ss5、squid</title>
+      <link>https://www.arloor.com/posts/linux/install-ss5-squid/</link>
+      <pubDate>Sat, 15 Jun 2019 23:07:52 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/linux/install-ss5-squid/</guid>
+      <description>&lt;p&gt;减少造轮子，安装已有socks5、http代理。这里的ss5和squid是不能达到FQ的目的的，要实现这个目的，请查看之前的其他文章。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

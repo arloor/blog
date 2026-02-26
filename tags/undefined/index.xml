@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Undefined on ARLOOR</title>
+    <link>https://www.arloor.com/tags/undefined/</link>
+    <description>Recent content in Undefined on ARLOOR</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Thu, 26 Feb 2026 22:41:57 +0800</lastBuildDate>
+    <atom:link href="https://www.arloor.com/tags/undefined/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>使用SDKManager命令行工具在 Windows 上搭建 React Native Android 开发环境</title>
+      <link>https://www.arloor.com/posts/sdkmanager-init-react-native-env/</link>
+      <pubDate>Thu, 26 Feb 2026 22:41:57 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/sdkmanager-init-react-native-env/</guid>
+      <description>&lt;p&gt;很多人使用 React Native 时会默认安装 Android Studio，但在某些场景（服务器环境、轻量级开发机、CI 环境、网络受限环境）下，我们更希望使用纯命令行方式安装 Android SDK。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>MacOS开机自启动、资源限制、定时任务</title>
+      <link>https://www.arloor.com/posts/startup-onboot-macos/</link>
+      <pubDate>Tue, 16 Dec 2025 19:31:51 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/startup-onboot-macos/</guid>
+      <description>&lt;p&gt;本文介绍使用 MacOS 的 LaunchAgents 和 LaunchDaemons 实现开机自启动、资源限制和定时任务的配置方法。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>BBR 算法的流量控制与拥塞控制</title>
+      <link>https://www.arloor.com/posts/bbr-algorithm-analysis/</link>
+      <pubDate>Thu, 06 Nov 2025 13:45:23 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/bbr-algorithm-analysis/</guid>
+      <description>&lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;&#xA;&lt;p&gt;BBR (Bottleneck Bandwidth and Round-trip propagation time) 是 Google 开发的拥塞控制算法，于 2016 年发布并集成到 Linux 内核 4.9 版本中。与传统的基于丢包的拥塞控制算法（如 Cubic）不同，BBR 采用了一种全新的思路：通过测量瓶颈带宽和往返时延来主动控制发送速率，从而达到高吞吐、低延迟的目标。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>MTU详解</title>
+      <link>https://www.arloor.com/posts/mtu/</link>
+      <pubDate>Wed, 22 Oct 2025 13:05:02 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/mtu/</guid>
+      <description>&lt;p&gt;MTU (Maximum Transmission Unit) 是网络通信中的一个关键参数。本文将通过实际案例，深入探讨 MTU 的工作机制、Path MTU Discovery (PMTUD) 协议，以及在 PPPoE 家庭网络环境下的实际应用。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Ultra 265k BIOS/风扇设置</title>
+      <link>https://www.arloor.com/posts/intel-ultra-265ks-bios/</link>
+      <pubDate>Sun, 27 Jul 2025 14:41:54 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/intel-ultra-265ks-bios/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Nftables基础链的优先级与默认策略</title>
+      <link>https://www.arloor.com/posts/nftable-base-chain-priority/</link>
+      <pubDate>Thu, 24 Apr 2025 14:58:23 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/nftable-base-chain-priority/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Podman和Docker使用备忘</title>
+      <link>https://www.arloor.com/posts/podman-docker-use/</link>
+      <pubDate>Tue, 08 Apr 2025 10:53:42 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/podman-docker-use/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>2024年度总结</title>
+      <link>https://www.arloor.com/posts/2024/</link>
+      <pubDate>Sun, 29 Dec 2024 17:58:10 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/2024/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Postman Pre Scripts设置环境变量</title>
+      <link>https://www.arloor.com/posts/postman-pre-scripts/</link>
+      <pubDate>Fri, 06 Dec 2024 16:59:16 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/postman-pre-scripts/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>NextJS Study</title>
+      <link>https://www.arloor.com/posts/nextjs-study/</link>
+      <pubDate>Thu, 07 Nov 2024 16:42:51 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/nextjs-study/</guid>
+      <description>&lt;p&gt;是时候学习下现代的前端开发，之前学过html、css和js的dom操作，这次来系统学习下react、nextjs等前端技术栈。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Huawei手机防杀后台</title>
+      <link>https://www.arloor.com/posts/huawei-phone-dianchi-youhua/</link>
+      <pubDate>Sun, 22 Sep 2024 23:20:35 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/huawei-phone-dianchi-youhua/</guid>
+      <description>&lt;p&gt;设置里搜索下面两个设置，然后参考下面UU加速器的教程进行设置即可&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;应用启动管理&lt;/li&gt;&#xA;&lt;li&gt;电池优化&lt;/li&gt;&#xA;&lt;/ol&gt;</description>
+    </item>
+    <item>
+      <title>macOS一些配置</title>
+      <link>https://www.arloor.com/posts/macos-settings/</link>
+      <pubDate>Sun, 22 Sep 2024 18:17:18 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/macos-settings/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>OBS直播、录屏</title>
+      <link>https://www.arloor.com/posts/obs-use/</link>
+      <pubDate>Sat, 07 Sep 2024 19:18:49 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/obs-use/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Afterburner配置文件备份</title>
+      <link>https://www.arloor.com/posts/afterburner-profile/</link>
+      <pubDate>Fri, 28 Jun 2024 22:53:39 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/afterburner-profile/</guid>
+      <description>&lt;p&gt;下载&lt;a href=&#34;https://www.arloor.com/backup/MSIAfterburner.cfg&#34;&gt;MSIAfterburner.cfg&lt;/a&gt;到 &lt;code&gt;%programfiles(x86)%\MSI Afterburner\Profiles&lt;/code&gt;。当前版本是4.6.6(beta3)，下载地址：&lt;a href=&#34;https://www.msi.com/Landing/afterburner/graphics-cards&#34;&gt;msi官方&lt;/a&gt;或&lt;a href=&#34;https://www.guru3d.com/download/msi-afterburner-beta-download/&#34;&gt;guru3d下载&lt;/a&gt;。核心效果是展示各个cpu核心的使用率，如下：&lt;/p&gt;&#xA;&lt;p&gt;&lt;img src=&#34;https://www.arloor.com/img/afterburner-snapshot.png&#34; alt=&#34;alt text&#34;&gt;&lt;/p&gt;&#xA;&lt;p&gt;下图是展示aida64提供的电压的配置：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Debian10相关软件安装</title>
+      <link>https://www.arloor.com/posts/debian10-install-software/</link>
+      <pubDate>Fri, 21 Jun 2024 14:12:12 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/debian10-install-software/</guid>
+      <description>&lt;p&gt;字节的工作机是debian10的系统，比较老了，记录下一些软件的安装。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Expect Password</title>
+      <link>https://www.arloor.com/posts/expect-password/</link>
+      <pubDate>Wed, 19 Jun 2024 11:05:37 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/expect-password/</guid>
+      <description>&lt;p&gt;对于需要输入密码的命令，通常我们不能简单地通过重定向输入（如使用 &lt;code&gt;&amp;lt;&lt;/code&gt; 或 &lt;code&gt;&amp;lt;&amp;lt;&lt;/code&gt; ）来避免手动输入密码。这是因为这些命令通常会直接从终端读取密码，以确保密码的安全性，不会从标准输入（stdin）读取。但是我们可以使用expect工具来自动输入密码。下面是自动实现kinit认证的步骤。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>14600KF降压（123微码）以及风扇调教</title>
+      <link>https://www.arloor.com/posts/14th-intel-cpu-down-voltage/</link>
+      <pubDate>Sun, 12 May 2024 19:18:49 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/14th-intel-cpu-down-voltage/</guid>
+      <description>&lt;p&gt;现在用的电脑CPU是14600kf，记录下CPU降压操作和对风扇的调教。整体调教方向是日常无声音+游戏时散热够用即可。最终效果是&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;水泵风扇（3pin接口，只能DC调速），常态下4.0v电压，1100转，有轻微声音&lt;/li&gt;&#xA;&lt;li&gt;冷排风扇轻负载下650转以下，基本听不到声音&lt;/li&gt;&#xA;&lt;/ol&gt;</description>
+    </item>
+    <item>
+      <title>Nvidia显卡风扇为什么不转？如何手动设置转速</title>
+      <link>https://www.arloor.com/posts/nvidia-fan-speed-control/</link>
+      <pubDate>Sun, 12 May 2024 19:18:49 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/nvidia-fan-speed-control/</guid>
+      <description>&lt;p&gt;有人发现电脑在空载或者低负载的时候显卡风扇不转，认为自己显卡出故障了，但其实这是正常的。因为显卡风扇智能启停的特性，风扇在低负载+低温度下会停止运行，只在在高负载下才转动。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>我的2023总结</title>
+      <link>https://www.arloor.com/posts/2023/</link>
+      <pubDate>Sun, 31 Dec 2023 23:45:51 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/2023/</guid>
+      <description>&lt;p&gt;2022年并没有做年终总结，我想给2022年的关键词是“质变”，有几方面的意味：&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;量变引起质变。是最近几年的积累产生的一个结果，是厚积之后的勃发。&lt;/li&gt;&#xA;&lt;li&gt;显著的变化——人生阶段的变化。&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;p&gt;而2023年，则没有这种质变的意味了，我的关键词是“落地”，描述的是：&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;从变化中寻找到了稳态，但是变化本身不大，寻找稳态的过程也不激情澎湃。&lt;/li&gt;&#xA;&lt;li&gt;以前没干成的事，今年他干成了。但没有给我很强的正向激励&lt;/li&gt;&#xA;&lt;/ol&gt;</description>
+    </item>
+    <item>
+      <title>Springboot配置多个Mybatis的sqlSessionFactory</title>
+      <link>https://www.arloor.com/posts/springboot-mybatis-multi-sql-session-factory/</link>
+      <pubDate>Sun, 10 Sep 2023 15:26:56 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/springboot-mybatis-multi-sql-session-factory/</guid>
+      <description>&lt;p&gt;本文首先介绍Springboot的单数据源配置方式，并介绍其中的Springboot自动装配细节；其次介绍如何配置多数据源。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>MacOS睡眠和唤醒历史</title>
+      <link>https://www.arloor.com/posts/macos-sleep-wake-history/</link>
+      <pubDate>Sun, 13 Aug 2023 11:29:33 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/macos-sleep-wake-history/</guid>
+      <description>&lt;h2 id=&#34;查看用户唤醒历史&#34;&gt;查看用户唤醒历史&lt;/h2&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;pmset -g log|grep -v &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;DarkWake&amp;#34;&lt;/span&gt;|grep -E  &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Wake from&amp;#34;&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;查看所有睡眠和唤醒历史&#34;&gt;查看所有睡眠和唤醒历史&lt;/h2&gt;&#xA;&lt;p&gt;内容会有点多，而且包含DarkWake&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;pmset -g log|grep -E  &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Entering Sleep state|Wake from&amp;#34;&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;什么是darkwake&#34;&gt;什么是DarkWake&lt;/h2&gt;&#xA;&lt;p&gt;在 macOS 中，&amp;ldquo;DarkWake&amp;rdquo; 和 &amp;ldquo;Wake&amp;rdquo; 代表了两种不同类型的唤醒状态：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>谷歌日本搜索结果显示日文的解决方案</title>
+      <link>https://www.arloor.com/posts/jp-vps-google-settings/</link>
+      <pubDate>Sat, 12 Aug 2023 21:19:01 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/jp-vps-google-settings/</guid>
+      <description>&lt;p&gt;说到日本的服务器，最早用过一段时间的沪日iplc，现在在用&lt;a href=&#34;https://www.dmit.io/aff.php?aff=7132&#34;&gt;DMIT的PVM.TYO.Pro.Shinagawa&lt;/a&gt;，他们在延迟速率方面的表现都很好。有一点比较难受的是日本的google搜索结果总是有日文内容，这里说下解决方案。&lt;/p&gt;&#xA;&lt;p&gt;谷歌提供了“搜索设置”的功能，允许用户调整“搜索结果语言过滤器”，这个设置将会设置到cookie中，具体来说是NID这个cookie，过期时间是6个月。如果在6个月中有登出再登陆，这个cookie也会丢失，需要重新设置。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>蔡司验光配镜纪实</title>
+      <link>https://www.arloor.com/posts/zeiss-glasses/</link>
+      <pubDate>Tue, 07 Mar 2023 17:19:12 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/zeiss-glasses/</guid>
+      <description>&lt;p&gt;今天花重金在一家蔡司专家店配了新的眼镜，来记录下过程。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>从异地多活到set化架构</title>
+      <link>https://www.arloor.com/posts/set/</link>
+      <pubDate>Mon, 28 Nov 2022 17:21:06 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/set/</guid>
+      <description>&lt;p&gt;这也是老图了&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>威联通NAS折腾</title>
+      <link>https://www.arloor.com/posts/qnap-play/</link>
+      <pubDate>Sat, 17 Sep 2022 14:55:19 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/qnap-play/</guid>
+      <description>&lt;p&gt;入手了一台威联通TS-564，当作给自己的奖励。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>pipeline模式的一种实现</title>
+      <link>https://www.arloor.com/posts/streaming-pipeline-design/</link>
+      <pubDate>Tue, 19 Apr 2022 11:42:56 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/streaming-pipeline-design/</guid>
+      <description>&lt;p&gt;一种流式编程的代码&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Hyde-Hyde主题修改</title>
+      <link>https://www.arloor.com/posts/modification-to-hyde-hyde/</link>
+      <pubDate>Sun, 17 Apr 2022 20:22:35 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/modification-to-hyde-hyde/</guid>
+      <description>&lt;p&gt;本博客用的是hugo的hyde-hyde主题，在其基础上做了一些改进，具体如下：&lt;/p&gt;&#xA;&lt;h2 id=&#34;对高分屏的宽度适配&#34;&gt;对高分屏的宽度适配&lt;/h2&gt;&#xA;&lt;p&gt;下面这个是我自己提的issue&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Springboot内置Tomcat的配置</title>
+      <link>https://www.arloor.com/posts/springboot-tomcat-config/</link>
+      <pubDate>Mon, 27 Sep 2021 17:21:58 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/springboot-tomcat-config/</guid>
+      <description>&lt;p&gt;背景：需要提供一个配置服务给60w+机器，没台机器每分钟请求一次拉取最新配置。springboot的默认tomcat配置是不行的，研究下tomcat有哪些配置项，以及如何在springboot中配置。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>一致性hash</title>
+      <link>https://www.arloor.com/posts/consistent-hashing/</link>
+      <pubDate>Mon, 23 Aug 2021 11:02:16 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/consistent-hashing/</guid>
+      <description>&lt;p&gt;给出一致性hash的代码&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>领域驱动设计</title>
+      <link>https://www.arloor.com/posts/what-ddd/</link>
+      <pubDate>Fri, 14 May 2021 10:39:49 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/what-ddd/</guid>
+      <description>&lt;h2 id=&#34;为什么要搞领域驱动设计&#34;&gt;为什么要搞领域驱动设计&lt;/h2&gt;&#xA;&lt;p&gt;传统的软件开发模式有结构化设计，以数据为中心设计，面向对象设计。&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;结构化设计：面向流程，面向过程的设计。先做A，再做B，最后做C。由过程之间的组合完成整体的系统功能&lt;/li&gt;&#xA;&lt;li&gt;以数据为中心设计：先设计数据库ER图，然后再进行设计。持久化数据在软件应用中加工组合修改，反馈给用户，修改持久化到数据库。&lt;/li&gt;&#xA;&lt;li&gt;面向对象设计：抽象出对象这个概念，使其在数据属性外增加职责。由对象之间协作完成整体的系统功能。&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;软件是对现实的模拟。软件设计的这种演进，归根结底原因是现在的软件所要模拟的现实越来越复杂，导致软件也越来越复杂。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Maven发布到中央仓库</title>
+      <link>https://www.arloor.com/posts/maven-central/</link>
+      <pubDate>Tue, 02 Feb 2021 20:05:02 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/maven-central/</guid>
+      <description>&lt;p&gt;记录下如何把自己的项目发不到maven中央仓库&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Springboot Boot Time</title>
+      <link>https://www.arloor.com/posts/springboot-boot-time/</link>
+      <pubDate>Tue, 05 Jan 2021 15:43:39 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/springboot-boot-time/</guid>
+      <description>&lt;p&gt;内存缓存是减少查存储次数的一般方案，一般使用&lt;code&gt;implements InitializingBean&lt;/code&gt;或&lt;code&gt;@PostConstruct&lt;/code&gt;在bean加载完毕后初始化内存缓存。在数据量大的情况下，会造成应用启动慢。这个文章是一种lazy加载的思路。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Macos安装Libuv</title>
+      <link>https://www.arloor.com/posts/macos-libuv/</link>
+      <pubDate>Fri, 13 Nov 2020 23:33:14 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/macos-libuv/</guid>
+      <description>&lt;p&gt;more&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Kafka文档摘要</title>
+      <link>https://www.arloor.com/posts/kafka-learn/</link>
+      <pubDate>Sat, 17 Oct 2020 11:35:15 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/kafka-learn/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;用自己的语言组织kafka文档，如有错漏，纯属我菜，造成损失，概不负责&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;目标：看完&lt;a href=&#34;https://kafka.apache.org/documentation/#design&#34;&gt;DESIGN&lt;/a&gt;、&lt;a href=&#34;https://kafka.apache.org/documentation/#implementation&#34;&gt;IMPLEMENTATION&lt;/a&gt;、&lt;a href=&#34;https://kafka.apache.org/documentation/#operations&#34;&gt;OPERATIONS&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Mysql索引及explain使用</title>
+      <link>https://www.arloor.com/posts/mysql-explain/</link>
+      <pubDate>Fri, 16 Oct 2020 19:49:15 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/mysql-explain/</guid>
+      <description>&lt;p&gt;首先放参考文档&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://tech.meituan.com/2014/06/30/mysql-index.html&#34;&gt;MySQL索引原理及慢查询优化-美团技术博客&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://dev.mysql.com/doc/refman/8.0/en/explain-output.html&#34;&gt;explain_mysql文档&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ol&gt;</description>
+    </item>
+    <item>
+      <title>http2是什么</title>
+      <link>https://www.arloor.com/posts/http2/</link>
+      <pubDate>Sun, 23 Aug 2020 20:33:12 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/http2/</guid>
+      <description>&lt;p&gt;HTTP/2标准于2015年5月以RFC 7540正式发表，到今天已经有五年多了，已经不能称之为新东西了。今天来学习一下。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>如何正确地urlEncode？空格被urlEncode成&#43;</title>
+      <link>https://www.arloor.com/posts/how-to-urlencode/</link>
+      <pubDate>Tue, 18 Aug 2020 21:57:41 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/how-to-urlencode/</guid>
+      <description>&lt;p&gt;Java里面进行urlEncode很简单：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>windows开机自启动</title>
+      <link>https://www.arloor.com/posts/startup-onboot-windows/</link>
+      <pubDate>Fri, 17 Jul 2020 19:59:39 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/startup-onboot-windows/</guid>
+      <description>&lt;h2 id=&#34;放到启动文件夹&#34;&gt;放到启动文件夹&lt;/h2&gt;&#xA;&lt;p&gt;编写&lt;code&gt;startup.vbs&lt;/code&gt;，放到这个文件夹下（可以使用 &lt;code&gt;win+r&lt;/code&gt; 输入&lt;code&gt;shell:Startup&lt;/code&gt;）：&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;%userprofile%&lt;span style=&#34;color:#ae81ff&#34;&gt;\A&lt;/span&gt;ppData&lt;span style=&#34;color:#ae81ff&#34;&gt;\R&lt;/span&gt;oaming&lt;span style=&#34;color:#ae81ff&#34;&gt;\M&lt;/span&gt;icrosoft&lt;span style=&#34;color:#ae81ff&#34;&gt;\W&lt;/span&gt;indows&lt;span style=&#34;color:#ae81ff&#34;&gt;\S&lt;/span&gt;tart Menu&lt;span style=&#34;color:#ae81ff&#34;&gt;\P&lt;/span&gt;rograms&lt;span style=&#34;color:#ae81ff&#34;&gt;\S&lt;/span&gt;tartup&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;startup.vbs&lt;/code&gt;内容如下：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>HttpUtil的一段代码</title>
+      <link>https://www.arloor.com/posts/http-utils/</link>
+      <pubDate>Thu, 11 Jun 2020 11:02:45 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/http-utils/</guid>
+      <description>&lt;p&gt;简单的备忘，httpclient的代码&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Luence学习</title>
+      <link>https://www.arloor.com/posts/luence-learn/</link>
+      <pubDate>Fri, 01 May 2020 15:39:55 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/luence-learn/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://lucene.apache.org/core/8_5_1/index.html&#34;&gt;官方文档&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://github.com/arloor/luence-demo&#34;&gt;demo项目&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Telegram java客户端</title>
+      <link>https://www.arloor.com/posts/tdlib-java-telegram-client/</link>
+      <pubDate>Mon, 02 Mar 2020 20:04:04 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/tdlib-java-telegram-client/</guid>
+      <description>&lt;p&gt;玩电报比较久了，电报的生态真的很开放，允许大家自建机器人，并提供bot api。但是电报bot会有很多限制，今天要做的是使用telegram的tdlib创建一个java的电报客户端。相似的东西其实已经有了，例如pytelethon，但是我用不惯python，今天就写一篇如何在windows10上使用java jni调用tdlib的文章。&lt;/p&gt;&#xA;&lt;p&gt;如果有什么问题，可以加电报群&lt;a href=&#34;https://t.me/popstary&#34;&gt;https://t.me/popstary&lt;/a&gt;讨论。（进群就能收到来自这个电报客户端的欢迎加群信息~&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Kafka Use</title>
+      <link>https://www.arloor.com/posts/kafka-use/</link>
+      <pubDate>Thu, 27 Feb 2020 22:57:05 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/kafka-use/</guid>
+      <description>&lt;p&gt;记录下kafka怎么用&amp;hellip;.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Centos8安装MongoDB 4.2</title>
+      <link>https://www.arloor.com/posts/mongodb/</link>
+      <pubDate>Tue, 11 Feb 2020 15:15:28 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/mongodb/</guid>
+      <description>&lt;p&gt;参考文档:&lt;a href=&#34;https://linuxconfig.org/how-to-install-mongodb-on-redhat-8&#34;&gt;linuxconfig.org&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>2020年顾后顾前</title>
+      <link>https://www.arloor.com/posts/other/2020/</link>
+      <pubDate>Wed, 01 Jan 2020 14:33:03 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/other/2020/</guid>
+      <description>&lt;h2 id=&#34;顾后&#34;&gt;顾后&lt;/h2&gt;&#xA;&lt;p&gt;2019年最大的关键词大概就是变化和转折。这一年，我结束了学生生涯，参加工作。所以2019年，一半在学校，一半在工作。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>华为/荣耀手机关闭系统更新</title>
+      <link>https://www.arloor.com/posts/huawei-turnoff-upgrade/</link>
+      <pubDate>Sat, 16 Nov 2019 22:43:19 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/huawei-turnoff-upgrade/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Spring随用随记</title>
+      <link>https://www.arloor.com/posts/spring-use-notes/</link>
+      <pubDate>Sat, 09 Nov 2019 22:13:53 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/spring-use-notes/</guid>
+      <description>&lt;p&gt;在工作之前大概有一年半没有写过spring的东西了，有些东西忘了，用这个记一下。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Spring Aop使用</title>
+      <link>https://www.arloor.com/posts/spring-aop/</link>
+      <pubDate>Mon, 04 Nov 2019 19:05:58 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/spring-aop/</guid>
+      <description>&lt;p&gt;来记一下spring aop的使用&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Libuv教程</title>
+      <link>https://www.arloor.com/posts/libuv-install/</link>
+      <pubDate>Fri, 06 Sep 2019 21:19:38 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/libuv-install/</guid>
+      <description>&lt;p&gt;到目前为止写了挺多网络编程的东西，要么用netty，要么用go。因为网络编程是IO密集的应用，用带gc的语言写，总是因为频繁的gc需求导致cpu占用过高。netty使用unsafepointer的使用堆外内存来避免频繁gc，但是这还是不够，因为你总得生成string这种堆内对象。只有一个办法来避免这种问题，那就是用没有gc的语言来编写网络编程了。&lt;/p&gt;&#xA;&lt;p&gt;libuv就是c语言的一个异步事件库，这篇博客就是来搞一下。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Socks5代理netty重制版</title>
+      <link>https://www.arloor.com/posts/socks5-proxy/</link>
+      <pubDate>Wed, 10 Jul 2019 14:01:47 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/socks5-proxy/</guid>
+      <description>&lt;p&gt;这是一个新的、使用netty实现的、使用http协议进行混淆的socks5代理。解决了前作&lt;a href=&#34;https://github.com/arloor/sogo&#34;&gt;sogo&lt;/a&gt;项目因go内存回收机制/内存复用机制弱带来的cpu/内存占用高的问题。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Sogo—使用http协议进行混淆/伪装的socks5代理</title>
+      <link>https://www.arloor.com/posts/socks-over-http/</link>
+      <pubDate>Wed, 10 Apr 2019 14:24:10 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/socks-over-http/</guid>
+      <description>&lt;p&gt;之前写了一个http代理，用起来也是十分地舒服，但是有几个点还是有些遗憾的：&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;http代理只能代理http协议，相比socks5代理不够通用。。&lt;/li&gt;&#xA;&lt;li&gt;netty是个好框架，但是java占用内存是真的多。。&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;所以，我又写了一个socks5代理，起名叫&lt;a href=&#34;https://github.com/arloor/sogo&#34;&gt;sogo&lt;/a&gt;。&lt;/p&gt;&#xA;&lt;p&gt;sogo本身包含sogo(client)和sogo-server。如果把sogo和sogo-server看成一个整体，一个黑盒，这个整体就是一个socks5代理。sogo(client)与本地电脑交互；sogo-server与目标网站交互；sogo(client)和sogo-server之间的交互就是http协议包裹payload进行通信。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>响应式iframe 16:9—hugo博客嵌入youtube视频</title>
+      <link>https://www.arloor.com/posts/responsive-embedded-iframe-hugo-youtueb-vedio/</link>
+      <pubDate>Wed, 10 Apr 2019 01:10:48 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/responsive-embedded-iframe-hugo-youtueb-vedio/</guid>
+      <description>&lt;p&gt;其实只是博客中想嵌入16：9的youtube视频，但youtube官方的嵌入代码是固定宽度1280，高度720，在手机上表现十分不好。因此有了这个偏前端的主题。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>针对热点问题的网络舆情爬取系统</title>
+      <link>https://www.arloor.com/posts/learn/spider-system-design/</link>
+      <pubDate>Thu, 28 Feb 2019 02:05:28 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/learn/spider-system-design/</guid>
+      <description>&lt;p&gt;“网络舆情爬取系统”是针对在一定的社会空间内，围绕中介性社会事件的发生、发展和变化，民众对社会管理者产生和持有的社会政治态度于网络上表达出来意愿集合而进行的计算机监测的系统统称。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

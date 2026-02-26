@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    
+    <link rel="canonical" href="https://www.arloor.com/posts/notion/%E6%96%B0traceid%E6%A0%BC%E5%BC%8F/">
+    
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.157.0">
+
+    
+    
+    
+
+<title>新traceId格式 • ARLOOR</title>
+<meta name="description" content="今天，你学习了吗">
+<meta name="keywords" content="刘港欢, arloor, moontell">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="新traceId格式">
+  <meta name="twitter:description" content="新traceId格式 背景 当前端上使用一个long值的16进制的字符串作为traceId。目前存在两个问题：
+1. 64位随机数的碰撞概率高，目前已经出现traceId碰撞的情况">
+      <meta name="twitter:site" content="@njulgh">
+
+<meta property="og:url" content="https://www.arloor.com/posts/notion/%E6%96%B0traceid%E6%A0%BC%E5%BC%8F/">
+  <meta property="og:site_name" content="ARLOOR">
+  <meta property="og:title" content="新traceId格式">
+  <meta property="og:description" content="新traceId格式 背景 当前端上使用一个long值的16进制的字符串作为traceId。目前存在两个问题：
+1. 64位随机数的碰撞概率高，目前已经出现traceId碰撞的情况">
+  <meta property="og:locale" content="zh_CN">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2023-05-10T11:26:48+08:00">
+    <meta property="article:modified_time" content="2023-05-10T11:26:48+08:00">
+    <meta property="article:tag" content="Notion">
+
+
+    
+
+
+
+
+
+<link rel="stylesheet" href="/styles/atom-one-dark.min.css">
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.debf1b963c1830f6b9b96ee48c2b4a22c31c7c3885a87bed290c0e198fc6a08d.css" integrity="sha256-3r8bljwYMPa5uW7kjCtKIsMcfDiFqHvtKQwOGY/GoI0=">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+
+<link rel="stylesheet" href="/scss/hugo-toc.6b7222b4ddd3cebd47d144a2e37ade6cbbb64f47e31d8feac655896156ade206.css" integrity="sha256-a3IitN3Tzr1H0USi43rebLu2T0fjHY/qxlWJYVat4gY=">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+    <link rel="shortcut icon" href="/favicon.png">
+    
+    
+
+</head>
+
+
+
+<body class="  ">
+  
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="/">
+          
+          ARLOOR
+          
+        </a>
+      </span>
+      <a href="/">
+        
+        
+        <div class="author-image">
+          <img src="/img/head.jpeg" alt="Author Image" class="img--circle img--headshot element--center">
+        </div>
+        
+        
+      </a>
+      
+      <p class="site__description">
+         都是瞎写的 
+      </p>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">ARLOOR</label>
+      <div class="menu-content menu-content--mobile">
+        <div class="show-in-small">
+          <a href="/">
+            
+            
+            <div class="author-image">
+              <img src="/img/head.jpeg" alt="Author Image"
+                class="img--circle img--headshot element--center">
+            </div>
+            
+            
+          </a>
+        </div>
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/posts/">
+						<span>文章</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/tags/">
+						<span>分类</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/about/">
+						<span>关于我</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/grafana-iframe">
+						<span>Grafana</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/net-iframe">
+						<span>网速监控</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/nat">
+						<span>NAT规则</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/stock">
+						<span>股票监控</span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://x.com/njulgh" rel="me" target="_blank"><i class="fa-brands fa-x-twitter fa-lg"></i></a>
+	
+	
+	
+	
+	
+	<a href="https://github.com/arloor" rel="me" target="_blank"><i class="fa-brands fa-github fa-lg"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://t.me/never_contact_me" rel="me" target="_blank"><i class="fa-brands fa-telegram fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	<a href="mailto:admin@arloor.com" rel="me" target="_blank"><i class="fa-solid fa-at fa-lg"></i></a>
+	
+	
+	
+	
+</section>
+      </div>
+    </div>
+    <div class="menu-content menu-content--desktop">
+      <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/posts/">
+						<span>文章</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/tags/">
+						<span>分类</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/about/">
+						<span>关于我</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/grafana-iframe">
+						<span>Grafana</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/net-iframe">
+						<span>网速监控</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/nat">
+						<span>NAT规则</span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/stock">
+						<span>股票监控</span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+    </div>
+    <div class="social-wrap social-wrap--desktop">
+      <section class="social">
+	
+	<a href="https://x.com/njulgh" rel="me" target="_blank"><i class="fa-brands fa-x-twitter fa-lg"></i></a>
+	
+	
+	
+	
+	
+	<a href="https://github.com/arloor" rel="me" target="_blank"><i class="fa-brands fa-github fa-lg"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://t.me/never_contact_me" rel="me" target="_blank"><i class="fa-brands fa-telegram fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	<a href="mailto:admin@arloor.com" rel="me" target="_blank"><i class="fa-solid fa-at fa-lg"></i></a>
+	
+	
+	
+	
+</section>
+    </div>
+    
+<div class="copyright">
+  &copy; 2026 arloor
+  
+    <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>
+  
+</div>
+
+
+<div class="builtwith">
+Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.com/arloor/hyde-arloor">hyde-arloor</a>.
+</div>
+
+
+  </div>
+</div>
+
+  <div class="content container">
+    
+    
+<article>
+  <header>
+    <h1>新traceId格式</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> May 10, 2023
+    
+    
+    
+      
+      
+          in
+          
+          
+              <a class="badge badge-category" href="/categories/undefined">UNDEFINED</a>
+              
+          
+      
+    
+    
+    
+      
+      
+          <br/>
+           <i class="fas fa-tags"></i>
+          
+          <a class="badge badge-tag" href="/tags/notion">notion</a>
+          
+      
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 6 min read
+</div>
+
+
+  </header>
+  
+  
+  
+    <div class="toc-wrapper">
+      <input type="checkbox" id="tocToggle">
+      <label for="tocToggle">Table of Content</label>
+      
+          <nav id="TableOfContents">
+  <ul>
+    <li><a href="#背景"><strong>背景</strong></a></li>
+    <li><a href="#目标"><strong>目标</strong></a></li>
+    <li><a href="#业内方案调研"><strong>业内方案调研</strong></a>
+      <ul>
+        <li><a href="#uuid-v1-date-time-and-mac-address"><strong>UUID V1 (date-time and MAC address）</strong></a></li>
+        <li><a href="#uuid-v4-random"><strong>UUID V4 random</strong></a></li>
+        <li><a href="#snowflake分布式唯id成"><strong>snowflake分布式唯⼀ID⽣成</strong></a></li>
+        <li><a href="#uidgenerator"><strong>UidGenerator</strong></a></li>
+        <li><a href="#leaf分布式唯id成算法"><strong>leaf分布式唯⼀ID⽣成算法</strong></a></li>
+        <li><a href="#opentelemetry"><strong>OpenTelemetry</strong></a></li>
+        <li><a href="#sofatracer鹰眼"><strong>SOFATracer/鹰眼</strong></a></li>
+        <li><a href="#skywalking-traceidsegmentid"><strong>SkyWalking TraceId/segmentId</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#traceid生成方案"><strong>TraceId生成方案</strong></a>
+      <ul>
+        <li><a href="#方案一"><strong>方案一</strong></a></li>
+        <li><a href="#方案二"><strong>方案二</strong></a></li>
+        <li><a href="#方案三"><strong>方案三</strong></a></li>
+        <li><a href="#方案评估"><strong>方案评估</strong></a></li>
+      </ul>
+    </li>
+    <li><a href="#traceid传输方案"><strong>TraceId传输方案</strong></a></li>
+    <li><a href="#参考资料"><strong>参考资料</strong></a></li>
+  </ul>
+</nav>
+      
+    </div>
+  
+  
+  <div class="post">
+    <h1 id="新traceid格式">新traceId格式</h1>
+<h2 id="背景"><strong>背景</strong></h2>
+<p>当前端上使用一个long值的16进制的字符串作为traceId。目前存在两个问题：</p>
+<p>1. 64位随机数的碰撞概率高，目前已经出现traceId碰撞的情况</p>
+<p>2. 当前trace存储使用ClickHouse的Projection存储，其排序索引（主键）是traceId，即traceId在文件中是顺序的。当前traceId的生成规则是随机数，所以相近时间的traceId会分散在Data Part的不同部分，也就是要扫描的段比较多。如果让相近时间的traceId能处在一个局部，可以减少扫描的次数，从而减少负载和耗时。</p>
+<h2 id="目标"><strong>目标</strong></h2>
+<p>1. 降低traceId碰撞概率</p>
+<p>2. 将时间相近的traceId尽可能存储在一起，从而减少扫描次数。</p>
+<h2 id="业内方案调研"><strong>业内方案调研</strong></h2>
+<h3 id="uuid-v1-date-time-and-mac-address"><strong>UUID V1 (date-time and MAC address）</strong></h3>
+<p>由3部分组成</p>
+<p>● 时间：⾃1582-10-15 0点开始的第n个100nanoSecond</p>
+<p>● 地址：机器mac地址</p>
+<p>● 事件id（0-16383），单个tick⾥⾃增</p>
+<p>单机每秒钟可以⽣成1638亿个id JDK中没有提供V1版本的UUID，需要参考开源的代码：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>com.github.f4b6a3.uuid.factory.AbstTimeBasedFactory
+</span></span></code></pre></div><p>**问题：**虽然使用了时间作为字段之一，但是把时间分成了三段，并把最低的32位移位到了最高的32位，破坏了时间的有序性，详见下面的代码：</p>
+<p><img src="/img/MTY4ODg1Njc4MzQxMjk1Mw_358414_4OxnbWmKTrhn0Hzb_1679484597.png" alt="https://wdcdn.qpic.cn/MTY4ODg1Njc4MzQxMjk1Mw_358414_4OxnbWmKTrhn0Hzb_1679484597?w=1200&amp;h=574"></p>
+<h3 id="uuid-v4-random"><strong>UUID V4 random</strong></h3>
+<p>使⽤java.util.UUID#randomUUID⽣成，底层是使用SecureRandom获取2个16byte（long）。</p>
+<p>问题：</p>
+<p>1. SecureRandom获取可能会block线程。</p>
+<p>2. 生成的ID不具备顺序性。</p>
+<h3 id="snowflake分布式唯id成"><strong>snowflake分布式唯⼀ID⽣成</strong></h3>
+<p>traceId最基础的能⼒就是分布式ID，snowflake是业界⽐较认可的分布式唯⼀ID⽣成算法。snowflake算法的输出是64bit的long型数字，输⼊是相对时间（41bit）、机器id（10bit）、同机器内事件序号(12位)、⾸位 保持0（1bit，使id保持为正数）。</p>
+<p><img src="/img/MTY4ODg1Njc4MzQxMjk1Mw_747027_PC75SoIynXFe-eMA_1679487381.png" alt="https://wdcdn.qpic.cn/MTY4ODg1Njc4MzQxMjk1Mw_747027_PC75SoIynXFe-eMA_1679487381?w=792&amp;h=307"></p>
+<p>这个算法单机每秒内理论上最多可以⽣成1000*(2^12)，也就是409.6万。</p>
+<p>问题：</p>
+<p>● 机器id占⽤10bit，只能标识1024个机器。</p>
+<p>● 虽然各字段的位数可以调整，但是总共只能使⽤63位，调整空间不⼤。机器id占⽤位数增加则时间戳或者序列号就不够⽤了。</p>
+<p>● 使⽤时间作为id的⼀部分。分布式情况下时间是不可信的，时钟不同步或者**“时钟回拨”**会导致id重复。</p>
+<h3 id="uidgenerator"><strong>UidGenerator</strong></h3>
+<p>这是百度开源的分布式唯⼀ID⽣成算法，整体也是snowflake的思想，在各部分的含义和位数上做了微调：</p>
+<p>1. 时间戳表示秒，最多可⽀持约8.7年。原⽣snowflake这部分表示毫秒。</p>
+<p>2. workerId为22位。同⼀台机器每次重启都会从mysql获取新的workerId。可以承载420w次重启。</p>
+<p>3. 事件号为13位，最⼤为8192。意味着⼀秒最多⽣成8192个id，在⼀些场景下不够⽤。</p>
+<p>4.  为应对特点3带来的并发度不⾼问题，允许“借⽤未来时间”.</p>
+<p>⼀些问题：</p>
+<p>1.  420万次重启仍然不够，需要考虑机器Id的复⽤才⾏，但这会带来复杂度提升。</p>
+<p>2. 虽然时间借⽤的思想可以⼀定程度上缓解并发度不⾜的问题，但是单个workerNodeId也只能有2^(28+13)个事件id。假设在单机10000qps下，也只能保证2545天不需要重启获得新的workId。</p>
+<p>3. 从本质上讲，UidGenerator只是snowflake的改良版，有⼀些优势但也带来了复杂度的提升，并引⼊了额外依赖。</p>
+<h3 id="leaf分布式唯id成算法"><strong>leaf分布式唯⼀ID⽣成算法</strong></h3>
+<p>分为leaf-segment和leaf-snowflake。</p>
+<p>leaf-segment是使⽤数据库⾃增id来获取分布式唯⼀id，采⽤分段获取id和数据库分库分表来突破单机性能瓶颈和⾼可⽤</p>
+<p>leaf-snowflake仍然是snowflake的思想，有点在于引⼊zookeeper更新机器时间，探测“时间回拨”的发⽣并进⾏fail-fast。</p>
+<p>leaf的⽅案都需要引⼊额外依赖。SDK不适合依赖mysql，也不适合依赖zookeeper，暂不考虑leaf⽅案</p>
+<h3 id="opentelemetry"><strong>OpenTelemetry</strong></h3>
+<p>SDK中默认的是RandomIdGenerator（也可以⾃定义IdGenerator），使⽤的都是伪随机数。</p>
+<p>traceId使⽤两个随机long，最终产⽣⻓度为32的16进制字符串（例如4e9da3d2deda7aa20c433fd1dd6cb48d）</p>
+<p>spanId使⽤⼀个随机long，最终产⽣⻓度为16的16进制字符串（例如7b335f26aed48e08）</p>
+<p>问题：不具备顺序性</p>
+<h3 id="sofatracer鹰眼"><strong>SOFATracer/鹰眼</strong></h3>
+<p>TraceId：服务器 IP + ID 产⽣的时间 + ⾃增序列 + 当前进程号 ，⽐如：0ad1348f1403169275002100356696</p>
+<p>前 8 位 0ad1348f 即产⽣ TraceId 的机器的 IP，这是⼀个⼗六进制的数字，每两位代表 IP 中的⼀段，我们把这个数字，按每两位转成 10 进制即可得到常⻅的 IP 地址表示⽅式。</p>
+<p>后⾯的 13 位 1403169275002 是产⽣ TraceId 的时间。</p>
+<p>之后的 4 位 1003 是⼀个⾃增的序列，从 1000 涨到 9000，到达 9000 后回到 1000 再开始往上涨。</p>
+<p>最后的 5 位 进程ID。为了防止出现 TraceId 冲突的情况，所以在 TraceId 末尾添加了当前的进程 ID。</p>
+<p>这个方案仍然是相关信息的拼接，不同于snowflake系的区别在于最终输出不是long，⽽是string。</p>
+<h3 id="skywalking-traceidsegmentid"><strong>SkyWalking TraceId/segmentId</strong></h3>
+<p>使⽤ 应⽤实例Id+线程Id+时间戳（毫秒）+事件号（0-9999），使⽤英⽂句号分割。</p>
+<p>仍然是相关信息的拼接，不同于snowflake系的区别在于最终输出不是long，⽽是string。</p>
+<h2 id="traceid生成方案"><strong>TraceId生成方案</strong></h2>
+<p>总体设计上使用双long的16进制字符串作为traceId，这和opentelemetry保持一致。</p>
+<p>双long的共128位中，保证41位表示时间戳（可使用69.7年）、23位表示序列号（每毫秒800万事件），剩余的64位用于保证唯一。</p>
+<p>具体方案有以下三种：</p>
+<h3 id="方案一"><strong>方案一</strong></h3>
+<p>41位时间戳（毫秒）+ 23位序列号+ 64位伪随机long</p>
+<p><img src="/img/MTY4ODg1Njc4MzQxMjk1Mw_88660_yOJ8wIca9WsTX1U6_1679488352.png" alt="https://wdcdn.qpic.cn/MTY4ODg1Njc4MzQxMjk1Mw_88660_yOJ8wIca9WsTX1U6_1679488352?w=1040&amp;h=186"></p>
+<h3 id="方案二"><strong>方案二</strong></h3>
+<p>41bit时间戳（毫秒）+ 23位（自增id）+ 32bit IPv4 + 32位伪随机int，，每5000个trace生成一次随机int</p>
+<p><img src="/img/MTY4ODg1Njc4MzQxMjk1Mw_880392_dlrPfDxnlFNInEZX_1679488413.png" alt="https://wdcdn.qpic.cn/MTY4ODg1Njc4MzQxMjk1Mw_880392_dlrPfDxnlFNInEZX_1679488413?w=1028&amp;h=200"></p>
+<h3 id="方案三"><strong>方案三</strong></h3>
+<p>41bit时间戳（毫秒）+ 23位（自增id）+ 由128位IPv6通过异或位运算折叠得到的32位 + 32位伪随机int，每5000个trace生成一次随机int</p>
+<p><img src="/img/MTY4ODg1Njc4MzQxMjk1Mw_737723_QVgbQ1ovvQxpS-rN_1679488660.png" alt="https://wdcdn.qpic.cn/MTY4ODg1Njc4MzQxMjk1Mw_737723_QVgbQ1ovvQxpS-rN_1679488660?w=1030&amp;h=190"></p>
+<p>方案二和方案三需要使用IP地址来得到32位，使用局域网地址的意义不大，如何获取公网ip地址是一个待解决的问题。</p>
+<h3 id="方案评估"><strong>方案评估</strong></h3>
+<p>由于获取公网IP需要额外的依赖，并且针对IPv4和IPv6需要不同处理，增加了复杂度，最终选定方案一。</p>
+<h2 id="traceid传输方案"><strong>TraceId传输方案</strong></h2>
+<p>IOS/Android/WEB当前使用Zipkin (B3) HTTP header传递traceId，相关header为X-B3-TraceId.</p>
+<p>为避免兼容性问题，老的header不改动，新增一个header：x-trace-id来传递新的traceId。</p>
+<p><img src="/img/MTY4ODg1Njc4MzQxMjk1Mw_738916_tni8iGkxyECGxmWL_1679556804.png" alt="https://wdcdn.qpic.cn/MTY4ODg1Njc4MzQxMjk1Mw_738916_tni8iGkxyECGxmWL_1679556804?w=701&amp;h=571"></p>
+<h2 id="参考资料"><strong>参考资料</strong></h2>
+<p>1. <a href="https://juejin.cn/post/6844903562007314440">分布式唯⼀id：snowflake算法思考</a></p>
+<p>2. <a href="https://github.com/baidu/uid-generator/blob/master/README.zh_cn.md">百度UidGenerator</a></p>
+<p>3. <a href="https://www.cnblogs.com/throwable/p/14343086.html">UUID</a></p>
+<p>4. <a href="https://github.com/f4b6a3/uuid-creator">UUIDv1⽣成</a></p>
+<p>5. <a href="https://developer.aliyun.com/article/714229">分布式唯一ID系列（2）——UUID适合做分布式ID吗-阿里云开发者社区</a></p>
+
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/posts/notion/entry%E7%BA%A7%E5%88%AB%E6%8B%93%E6%89%91%E5%8F%8A%E6%80%A7%E8%83%BD%E6%8C%87%E6%A0%87%E8%AE%A1%E7%AE%97/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">Entry级别拓扑及性能指标计算</span>
+    </a>
+    
+    
+    <a href="/posts/notion/trace%E8%AF%A6%E6%83%85%E6%90%9C%E7%B4%A2%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" class="navigation-next">
+      <span class="navigation-tittle">trace详情搜索性能优化</span>
+      <i aria-hidden="true" class="fa fa-chevron-right"></i>
+    </a>
+    
+</div>
+
+
+  
+
+  
+
+
+</article>
+
+
+  </div>
+<style>
+  .content.container {
+        width: 100%;
+        max-width: none;
+        height: calc(100vh - var(--sidebar-height, 49px));
+        border: none;
+        display: block;
+        overflow-y: auto;
+        box-sizing: border-box;
+        margin-left: 0;
+        margin-right: 0;
+  }
+
+  body:not(.type-iframe) .content.container {
+        padding-left: max(1.5rem, calc((100% - var(--content-max-width, 38rem)) / 2));
+        padding-right: max(1.5rem, calc((100% - var(--content-max-width, 38rem)) / 2));
+  }
+</style>
+<script>
+    (function () {
+        var contentSelector = '.content.container';
+        var rafId = 0;
+        var resizeDebounceTimer = 0;
+        var pendingHashScroll = false;
+
+        function getHashTarget() {
+            var hash = window.location.hash;
+            var targetId = '';
+
+            if (!hash || hash === '#') {
+                return null;
+            }
+
+            targetId = hash.slice(1);
+            try {
+                targetId = decodeURIComponent(targetId);
+            } catch (e) {
+                
+            }
+
+            return document.getElementById(targetId);
+        }
+
+        function scrollToHashTarget() {
+            var target = getHashTarget();
+            if (!target) {
+                return;
+            }
+            try {
+                target.scrollIntoView({ block: 'start', inline: 'nearest' });
+            } catch (e) {
+                target.scrollIntoView(true);
+            }
+        }
+
+        function applyPendingHashScroll() {
+            if (!pendingHashScroll) {
+                return;
+            }
+            pendingHashScroll = false;
+            scrollToHashTarget();
+        }
+
+        function resizeContentHeight() {
+            var content = document.querySelector(contentSelector);
+            if (!content) {
+                return;
+            }
+            var rect = content.getBoundingClientRect();
+            var available = window.innerHeight - rect.top;
+            if (available < 0) {
+                available = 0;
+            }
+            content.style.height = available + 'px';
+            applyPendingHashScroll();
+        }
+
+        function scheduleResize() {
+            if (rafId) {
+                return;
+            }
+            rafId = window.requestAnimationFrame(function () {
+                rafId = 0;
+                resizeContentHeight();
+            });
+        }
+
+        function scheduleResizeDebounced(delay) {
+            window.clearTimeout(resizeDebounceTimer);
+            resizeDebounceTimer = window.setTimeout(scheduleResize, delay || 120);
+        }
+
+        function requestHashScroll() {
+            if (!window.location.hash || window.location.hash === '#') {
+                return;
+            }
+            pendingHashScroll = true;
+            scheduleResize();
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function () {
+                scheduleResize();
+                requestHashScroll();
+            }, { once: true });
+        } else {
+            scheduleResize();
+            requestHashScroll();
+        }
+
+        window.addEventListener('load', function () {
+            scheduleResize();
+            requestHashScroll();
+        });
+        window.addEventListener('pageshow', function () {
+            scheduleResize();
+            requestHashScroll();
+        });
+        window.addEventListener('hashchange', requestHashScroll);
+        window.addEventListener('resize', function () {
+            scheduleResizeDebounced(120);
+        });
+
+        var menuToggle = document.getElementById('menuToggle');
+        if (menuToggle) {
+            menuToggle.addEventListener('change', function () {
+                scheduleResize();
+                window.setTimeout(scheduleResize, 250);
+            });
+        }
+    })();
+</script>
+  
+    
+
+
+
+<script defer src="/js/all.js" crossorigin="anonymous"></script>
+
+    
+    
+    <script src="/js/highlight.min.js"></script>
+    <script src="/js/languages/dos.min.js"></script>
+        
+    <script type="text/javascript">
+        
+        hljs.highlightAll();
+    </script>
+    
+
+<style>
+    .code-block-wrapper {
+        position: relative;
+    }
+    .copy-code-button {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        padding: 6px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 4px;
+        cursor: pointer;
+        opacity: 0;
+        transition: opacity 0.3s, background 0.3s;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .copy-code-button svg {
+        width: 16px;
+        height: 16px;
+        fill: #fff;
+        transition: fill 0.3s;
+    }
+    .code-block-wrapper:hover .copy-code-button {
+        opacity: 1;
+    }
+    .copy-code-button:hover {
+        background: rgba(255, 255, 255, 0.2);
+    }
+    .copy-code-button.copied {
+        background: rgba(46, 160, 67, 0.8);
+        border-color: rgba(46, 160, 67, 1);
+    }
+    .copy-code-button.copied svg {
+        fill: #fff;
+    }
+</style>
+<script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        document.querySelectorAll('pre code').forEach(function(codeBlock) {
+            var pre = codeBlock.parentNode;
+            
+            
+            if (pre.parentNode.classList.contains('code-block-wrapper')) {
+                return;
+            }
+            
+            
+            var wrapper = document.createElement('div');
+            wrapper.className = 'code-block-wrapper';
+            pre.parentNode.insertBefore(wrapper, pre);
+            wrapper.appendChild(pre);
+            
+            
+            var button = document.createElement('button');
+            button.className = 'copy-code-button';
+            button.innerHTML = '<svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg>';
+            button.setAttribute('aria-label', '复制代码');
+            button.setAttribute('title', '复制代码');
+            
+            var copyIcon = '<svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg>';
+            var checkIcon = '<svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16"><path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"></path></svg>';
+            
+            
+            button.addEventListener('click', function() {
+                var code = codeBlock.textContent;
+                navigator.clipboard.writeText(code).then(function() {
+                    button.innerHTML = checkIcon;
+                    button.classList.add('copied');
+                    button.setAttribute('aria-label', '已复制');
+                    button.setAttribute('title', '已复制');
+                    setTimeout(function() {
+                        button.innerHTML = copyIcon;
+                        button.classList.remove('copied');
+                        button.setAttribute('aria-label', '复制代码');
+                        button.setAttribute('title', '复制代码');
+                    }, 2000);
+                }).catch(function(err) {
+                    console.error('复制失败:', err);
+                });
+            });
+            
+            wrapper.appendChild(button);
+        });
+    });
+</script>
+
+
+
+
+    
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Netty on ARLOOR</title>
+    <link>https://www.arloor.com/tags/netty/</link>
+    <description>Recent content in Netty on ARLOOR</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Fri, 05 Jun 2020 19:05:40 +0800</lastBuildDate>
+    <atom:link href="https://www.arloor.com/tags/netty/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>从register和accept的锁竞争问题到netty的nioEventLoop设计</title>
+      <link>https://www.arloor.com/posts/netty/select-register-nioeventloop/</link>
+      <pubDate>Fri, 05 Jun 2020 19:05:40 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/netty/select-register-nioeventloop/</guid>
+      <description>&lt;p&gt;今天在v2ex看到一个问题，&lt;a href=&#34;https://v2ex.com/t/678682&#34;&gt;NIO 如下代码怎么绕过死锁？还是说我写的不对？如下代码&lt;/a&gt;，里面贴了代码。&lt;/p&gt;&#xA;&lt;p&gt;简单说明：创建了两个selector A和B，线程1使用A来accept连接，并且register到B上。同时，线程2使用B来select，处理读写事件。&lt;/p&gt;&#xA;&lt;p&gt;问题：select和register都要获取Selector publicKeys 的锁-&amp;gt;虽然创建了线程1和2，但是还是要等待对方释放锁，所以这两个线程就没啥用，在以往的NIO实践中我也遇到过。解决这个问题很简单，生产者消费者模式就可以，线程1生产register请求，线程2消费register事件，真正执行在B上的register。反正一句话，同一个selector的register和select需要串行，并行不了（因为需要获取同一个锁）。&lt;/p&gt;&#xA;&lt;p&gt;上面只是引子，我想看看netty是如何处理这个细节的。关于netty的架构和设计，什么EventLoopGroup、EventLoop、Pipepline、ChannelHandler网上说的很多了。今天要做的是看netty如何封装java NIO的accept、register，如何进行select，下面开始。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Netty源码阅读</title>
+      <link>https://www.arloor.com/posts/netty-src-read/</link>
+      <pubDate>Tue, 03 Mar 2020 20:49:47 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/netty-src-read/</guid>
+      <description>&lt;p&gt;记录一下netty源码阅读相关的东西&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Netty实现自定义流式解析器</title>
+      <link>https://www.arloor.com/posts/netty/netty-bytetomessagedecoder-stream-like-decoder/</link>
+      <pubDate>Fri, 26 Apr 2019 00:00:00 +0000</pubDate>
+      <guid>https://www.arloor.com/posts/netty/netty-bytetomessagedecoder-stream-like-decoder/</guid>
+      <description>&lt;p&gt;tcp分包一般在pipeline的前部使用DelimiterBasedFrameDecoder, FixedLengthFrameDecoder, LengthFieldBasedFrameDecoder, or LineBasedFrameDecoder，分别适用于固定分隔符、固定长度帧、长度字段、换行符分割四种情况。但是，这四种不能涵盖tcp分包的全部情况，举个栗子：http协议的解析就不是上面四种中的一种。解析http协议或者其他自定义协议时，就需要用到ByteToMessageDecoder创建自己的“流式”解析器。netty的http解析器（HttpObectDecoder）就是继承ByteToMessageDecoder并override decode方法实现的。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Netty直接内存溢出问题解决</title>
+      <link>https://www.arloor.com/posts/netty/netty-direct-memory-leak/</link>
+      <pubDate>Mon, 10 Dec 2018 20:24:51 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/netty/netty-direct-memory-leak/</guid>
+      <description>&lt;h2 id=&#34;问题&#34;&gt;问题&lt;/h2&gt;&#xA;&lt;p&gt;自己用netty实现的代理，在测速、下载（跑满网速）的情况下总是会报OutOfDirectMemory异常。&lt;/p&gt;&#xA;&lt;h2 id=&#34;原因及解决&#34;&gt;原因及解决&lt;/h2&gt;&#xA;&lt;p&gt;在github netty项目下有这样一个&lt;a href=&#34;https://github.com/netty/netty/issues/7699&#34;&gt;issue&lt;/a&gt;。描述了这样一个问题。&lt;/p&gt;&#xA;&lt;p&gt;总结一下里面说的。出现这个异常有两种情况，pooled buf没有release；写太快，超过了极限。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Rust on ARLOOR</title>
+    <link>https://www.arloor.com/tags/rust/</link>
+    <description>Recent content in Rust on ARLOOR</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Thu, 05 Dec 2024 22:17:05 +0800</lastBuildDate>
+    <atom:link href="https://www.arloor.com/tags/rust/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Rust sqlx使用记录</title>
+      <link>https://www.arloor.com/posts/rust-sqlx%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/</link>
+      <pubDate>Thu, 05 Dec 2024 22:17:05 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/rust-sqlx%E4%BD%BF%E7%94%A8%E8%AE%B0%E5%BD%95/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Rust在poll方法中使用锁</title>
+      <link>https://www.arloor.com/posts/rust-use-lock-in-poll/</link>
+      <pubDate>Fri, 09 Aug 2024 13:10:52 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/rust-use-lock-in-poll/</guid>
+      <description>&lt;p&gt;看到一个在&lt;code&gt;poll&lt;/code&gt;方法中使用锁的问题，觉得很有意思，记录一下。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Rust reqwest代码阅读</title>
+      <link>https://www.arloor.com/posts/rust-reqwest-hyper-http-client/</link>
+      <pubDate>Sat, 20 Jul 2024 11:26:42 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/rust-reqwest-hyper-http-client/</guid>
+      <description>&lt;p&gt;最近在自己的&lt;a href=&#34;https://github.com/arloor/rust_http_proxy&#34;&gt;rust_http_proxy&lt;/a&gt;中实现了简单的反向代理，第一版用的是手搓的无连接池版本，大致流程如下：&lt;/p&gt;&#xA;&lt;ol&gt;&#xA;&lt;li&gt;首先 &lt;code&gt;TcpStream::connect&lt;/code&gt; 建立连接&lt;/li&gt;&#xA;&lt;li&gt;通过 &lt;code&gt;conn::http1::Builder&lt;/code&gt; 拿到 &lt;code&gt;sender&lt;/code&gt;&lt;/li&gt;&#xA;&lt;li&gt;发送请求 &lt;code&gt;sender.send_request(new_req)&lt;/code&gt;&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;p&gt;工作的很正常，但是没有连接池。想到 &lt;code&gt;hyper&lt;/code&gt; 官方提供的 &lt;code&gt;reqwest&lt;/code&gt; 是有内置连接池的，于是研究了下做了改造，记录下过程中读到的代码。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>在Rust项目中集成libbpf-rs</title>
+      <link>https://www.arloor.com/posts/libbpf-rust-integration/</link>
+      <pubDate>Sat, 20 Apr 2024 11:47:53 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/libbpf-rust-integration/</guid>
+      <description>&lt;p&gt;前面已经有两篇博客记录了ebpf的一些知识，这篇则是实操。作为一个对C语言和Rust有一定了解的选手，我选择使用 &lt;code&gt;libbpf-rs&lt;/code&gt; 开发ebpf应用，这就记录下我在Rust项目中集成 &lt;code&gt;libbpf-rs&lt;/code&gt; 的过程。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Rust学习路径</title>
+      <link>https://www.arloor.com/posts/rust/pick-up-rust/</link>
+      <pubDate>Thu, 22 Sep 2022 13:57:38 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/rust/pick-up-rust/</guid>
+      <description>&lt;h2 id=&#34;为什么学习-rust&#34;&gt;为什么学习 rust？&lt;/h2&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;高性能：Rust 速度惊人且内存利用率极高。由于没有运行时和垃圾回收，它能够胜任对性能要求特别高的服务，可以在嵌入式设备上运行，还能轻松和其他语言集成。&lt;/li&gt;&#xA;&lt;li&gt;可靠性：Rust 丰富的类型系统和所有权模型保证了内存安全和线程安全，让您在编译期就能够消除各种各样的错误。&lt;/li&gt;&#xA;&lt;li&gt;生产力：Rust 拥有出色的文档、友好的编译器和清晰的错误提示信息， 还集成了一流的工具——包管理器和构建工具， 智能地自动补全和类型检验的多编辑器支持， 以及自动格式化代码等等。&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/blockquote&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Elasticsearch on ARLOOR</title>
+    <link>https://www.arloor.com/tags/elasticsearch/</link>
+    <description>Recent content in Elasticsearch on ARLOOR</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Mon, 27 Apr 2020 14:09:21 +0800</lastBuildDate>
+    <atom:link href="https://www.arloor.com/tags/elasticsearch/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>开发Elasticsearch自定义评分插件-horspool评分</title>
+      <link>https://www.arloor.com/posts/elasticsearch-horspool-score-plugin/</link>
+      <pubDate>Mon, 27 Apr 2020 14:09:21 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/elasticsearch-horspool-score-plugin/</guid>
+      <description>&lt;p&gt;在&lt;a href=&#34;https://www.arloor.com/posts/elasticsearch-study/&#34;&gt;Elasticsearch调研&lt;/a&gt;中，已经学习了es的similarity、plugin和在idea中debug启动。有了以上，就可以自己制作es评分插件。这篇博客说下如何自定义script_score实现自己的评分算法。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Elasticsearch调研</title>
+      <link>https://www.arloor.com/posts/elasticsearch-study/</link>
+      <pubDate>Fri, 03 Apr 2020 15:13:08 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/elasticsearch-study/</guid>
+      <description>&lt;p&gt;目的：调研elasticsearch的启动、debug、评分、插件以实现自定义评分插件。&lt;/p&gt;&#xA;&lt;p&gt;首先，关于es启动流程的大体介绍&lt;a href=&#34;https://lanffy.github.io/2019/04/09/ElasticSearch-Start-Up-Process&#34;&gt;lanffy.github.io&lt;/a&gt;。在这片文章中，将会主要关注加载插件的部分。&lt;/p&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://github.com/arloor/elasticsearch/tree/LGH-test&#34;&gt;elaticsearch我的fork&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Elasticsearch简单入门</title>
+      <link>https://www.arloor.com/posts/elasticsearch-install/</link>
+      <pubDate>Tue, 07 Jan 2020 19:45:16 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/elasticsearch-install/</guid>
+      <description>&lt;h2 id=&#34;环境&#34;&gt;环境&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;centos 8 1C2G&lt;/li&gt;&#xA;&lt;li&gt;jdk8&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;h2 id=&#34;安装&#34;&gt;安装&lt;/h2&gt;&#xA;&lt;p&gt;一开始下载tar.gz然后手动起的，一执行报个错说不能用root用户启动，索性直接用rpm安装，帮你把所有事情做好，包括设置systemd服务，这样很爽&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Linux on ARLOOR</title>
+    <link>https://www.arloor.com/tags/linux/</link>
+    <description>Recent content in Linux on ARLOOR</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Sat, 12 Oct 2024 16:46:54 +0800</lastBuildDate>
+    <atom:link href="https://www.arloor.com/tags/linux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>阿里云vps关闭阿里云盾、云监控c&#43;&#43;插件和自动化助手</title>
+      <link>https://www.arloor.com/posts/linux/aliyun-turnoff-aliyundun/</link>
+      <pubDate>Sat, 12 Oct 2024 16:46:54 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/linux/aliyun-turnoff-aliyundun/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Linux包管理工具搜索特定文件/列出包的所有文件【apt/yum】</title>
+      <link>https://www.arloor.com/posts/linux-apt-yum-search/</link>
+      <pubDate>Tue, 18 Jun 2024 01:09:02 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/linux-apt-yum-search/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>使用Kickstart从Centos8/9自动安装RHEL9.2，并制作dd镜像</title>
+      <link>https://www.arloor.com/posts/kickstart-rhel9-from-8/</link>
+      <pubDate>Wed, 12 Jul 2023 09:58:57 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/kickstart-rhel9-from-8/</guid>
+      <description>&lt;p&gt;自动安装是通过 &lt;code&gt;pxeboot&lt;/code&gt; + &lt;code&gt; kickstart&lt;/code&gt;实现的，自动安装因为要通过内存承载liveos，所以内存要大一点。通过腾讯云CVM测试，建议是直接4G内存起步，反正按量计费下2小时自动销毁也就两块钱。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>dd安装rhel8</title>
+      <link>https://www.arloor.com/posts/rhel8-dd-install/</link>
+      <pubDate>Tue, 10 May 2022 14:27:20 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/rhel8-dd-install/</guid>
+      <description>&lt;p&gt;centos8没有了，虽然Red Hat推出了开发者计划，允许用户使用免费的rhel8，但是云服务厂商普遍没有提供rhel8的镜像，一般的用户还是没有办法在vps上用上rhel8，就连centos8的替代品rocky linux、almalinux大部分云服务厂商也没有提供。&lt;/p&gt;&#xA;&lt;p&gt;这个博客就是介绍下，如何在公有云vps上通过dd写盘安装rhel8系统。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>pxeboot自动安装rhel8</title>
+      <link>https://www.arloor.com/posts/redhat8-install/</link>
+      <pubDate>Thu, 21 Jan 2021 11:36:10 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/redhat8-install/</guid>
+      <description>&lt;p&gt;2020年12月8日，红帽宣布将从2021年12月31日起停止维护centos系统，转而将精力投向centos stream。2021年1月20日，红帽又宣布rhel系统的开发者订阅可以用于小型生产环境，允许授权16台主机获得红帽的更新。原文链接&lt;a href=&#34;https://www.redhat.com/en/blog/new-year-new-red-hat-enterprise-linux-programs-easier-ways-access-rhel&#34;&gt;新年，新的Red Hat Enterprise Linux程序：访问RHEL的更简便方法&lt;/a&gt;。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>玩转Centos8</title>
+      <link>https://www.arloor.com/posts/linux/play-with-centos8/</link>
+      <pubDate>Thu, 26 Sep 2019 23:52:58 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/linux/play-with-centos8/</guid>
+      <description>&lt;p&gt;上一篇在阿里云上安装了centos8，现在就开一篇centos8的踩坑记录，还是比较多的。。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>从Centos7网络安装Centos8</title>
+      <link>https://www.arloor.com/posts/linux/netinstall-centos8/</link>
+      <pubDate>Thu, 26 Sep 2019 19:13:18 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/linux/netinstall-centos8/</guid>
+      <description>&lt;p&gt;centos8在前几天发布了，但是云服务大厂们往往不会第一时间上架centos8镜像，这一篇博客就是如何在阿里云的机器上自力更生网络安装centos8。首先说明一点，以下脚本需要vps的内存至少有2G，这是Redhat8的要求，因为他的LiveOS比较大，小内存机器上请勿尝试。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Nginx安装使用：webserver及反向代理</title>
+      <link>https://www.arloor.com/posts/linux/nginx-install-and-reverse-proxy/</link>
+      <pubDate>Thu, 15 Aug 2019 20:38:59 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/linux/nginx-install-and-reverse-proxy/</guid>
+      <description>&lt;p&gt;试试nginx&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Centos7安装ss5、squid</title>
+      <link>https://www.arloor.com/posts/linux/install-ss5-squid/</link>
+      <pubDate>Sat, 15 Jun 2019 23:07:52 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/linux/install-ss5-squid/</guid>
+      <description>&lt;p&gt;减少造轮子，安装已有socks5、http代理。这里的ss5和squid是不能达到FQ的目的的，要实现这个目的，请查看之前的其他文章。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Systemd服务文件编写-centos7下</title>
+      <link>https://www.arloor.com/posts/linux/systemd/</link>
+      <pubDate>Fri, 07 Jun 2019 19:25:03 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/linux/systemd/</guid>
+      <description>&lt;p&gt;以前的博客中有如何使用shell脚本重启应用的教程，也有解决tty的最大打开文件数量限制的方法。其实这些都可以用systemd服务的方式解决。今天就来一个简单的service文件，记录下怎么使用。&lt;/p&gt;&#xA;&lt;p&gt;使用如下命令即可编写sogo服务的service文件，并设置开机自启动。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Centos7备份/恢复与网卡配置</title>
+      <link>https://www.arloor.com/posts/linux/dd-backup/</link>
+      <pubDate>Fri, 10 May 2019 15:51:28 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/linux/dd-backup/</guid>
+      <description>&lt;p&gt;这是我没搞过的东西，慢慢来，一点一点记录下。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>玩转VPS与centos 7</title>
+      <link>https://www.arloor.com/posts/linux/centos7-some-tweaks/</link>
+      <pubDate>Mon, 04 Mar 2019 00:00:00 +0000</pubDate>
+      <guid>https://www.arloor.com/posts/linux/centos7-some-tweaks/</guid>
+      <description>&lt;p&gt;多年以后，我又开始整vps了，学了三年，也知道怎么整linux了。个人使用的是搬瓦工 DC6 CN2 GIA 机房的vps。&lt;a href=&#34;https://bwh88.net/aff.php?aff=11132&amp;amp;pid=87&#34;&gt;购买链接&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>把ubuntu18.04 变成我的ubuntu</title>
+      <link>https://www.arloor.com/posts/linux/turn-ubuntu-mine-own/</link>
+      <pubDate>Tue, 01 Jan 2019 13:14:59 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/linux/turn-ubuntu-mine-own/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;https://www.arloor.com/img/new-years-day-2019-5179180558843904.3-2xa.gif&#34; alt=&#34;happy new year 2019&#34;&gt;&#xA;拿到一个电脑的第一件事，当然是把他变成自己的电脑。装上ubuntu之后的第一件事就是变成自己的ubuntu啦。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>添加Ubuntu桌面图标</title>
+      <link>https://www.arloor.com/posts/linux/ubuntu-desktop-entry-example/</link>
+      <pubDate>Mon, 31 Dec 2018 23:52:22 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/linux/ubuntu-desktop-entry-example/</guid>
+      <description>&lt;p&gt;ubuntu的应用图标文件都在&lt;/p&gt;&#xA;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;/usr/share/applications&#xA;&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;文件下&lt;/p&gt;&#xA;&lt;p&gt;一个比较普遍的问题，在ubuntu安装了jetbrains家的IDE后，在菜单中找不到应用图标，下面自己写一个：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Shell关闭占用某端口的应用</title>
+      <link>https://www.arloor.com/posts/linux/shell-close-process-that-hold-some-port/</link>
+      <pubDate>Sun, 30 Dec 2018 00:00:00 +0000</pubDate>
+      <guid>https://www.arloor.com/posts/linux/shell-close-process-that-hold-some-port/</guid>
+      <description>&lt;p&gt;现在在自己的centos7上跑了应用，有个需求：重启该应用。实现如下&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

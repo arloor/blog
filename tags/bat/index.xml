@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Bat on ARLOOR</title>
+    <link>https://www.arloor.com/tags/bat/</link>
+    <description>Recent content in Bat on ARLOOR</description>
+    <generator>Hugo</generator>
+    <language>zh-CN</language>
+    <lastBuildDate>Tue, 01 Oct 2024 00:42:03 +0800</lastBuildDate>
+    <atom:link href="https://www.arloor.com/tags/bat/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>一键关闭WeGame和LOL客户端，避免浪费时间</title>
+      <link>https://www.arloor.com/posts/shutdown-wegame-lol/</link>
+      <pubDate>Tue, 01 Oct 2024 00:42:03 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/shutdown-wegame-lol/</guid>
+      <description>&lt;p&gt;如何快速关闭WeGame和LOL客户端？恶心的wegame总是在关闭游戏的时候浪费我时间，所以写了一个批处理文件，一键关闭wegame和LOL客户端。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
