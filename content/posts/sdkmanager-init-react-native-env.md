@@ -11,6 +11,7 @@ categories:
 weight: 10
 description:
 highlightjslanguages:
+- powershell
 ---
 
 很多人使用 React Native 时会默认安装 Android Studio，但在某些场景（服务器环境、轻量级开发机、CI 环境、网络受限环境）下，我们更希望使用纯命令行方式安装 Android SDK。
@@ -25,9 +26,9 @@ highlightjslanguages:
 
 ---
 
-# 一、Android SDK 安装（命令行模式）
+## 一、Android SDK 安装（命令行模式）
 
-## 1. 创建 SDK 目录
+### 1. 创建 SDK 目录
 
 建议使用默认路径：
 
@@ -45,7 +46,7 @@ C:\Users\<用户名>\AppData\Local\Android\Sdk
 
 ---
 
-## 2. 下载 Command Line Tools
+### 2. 下载 Command Line Tools
 
 访问 Android 官方页面下载：
 
@@ -59,7 +60,7 @@ cmdline-tools
 
 ---
 
-## 3. 正确整理目录结构（关键步骤）
+### 3. 正确整理目录结构（关键步骤）
 
 Android SDK 对目录结构要求非常严格。
 
@@ -84,7 +85,7 @@ Android\Sdk
 
 ---
 
-# 二、安装 Java 21
+## 二、安装 Java 21
 
 React Native 最新 Android Gradle Plugin 版本已经要求较新的 JDK。
 
@@ -112,7 +113,7 @@ JAVA_HOME
 
 ---
 
-# 三、安装 Android SDK 组件
+## 三、安装 Android SDK 组件
 
 进入：
 
@@ -146,7 +147,7 @@ SDK location not found
 
 ---
 
-# 四、配置环境变量
+## 四、配置环境变量
 
 推荐设置为系统环境变量：
 
@@ -166,7 +167,7 @@ adb --version
 
 ---
 
-# 五、Gradle 下载失败的代理问题（国内常见）
+## 五、Gradle 下载失败的代理问题（国内常见）
 
 很多人执行：
 
@@ -194,7 +195,7 @@ $env:GRADLE_OPTS="-Dhttp.proxyHost=127.0.0.1 -Dhttp.proxyPort=7890 -Dhttps.proxy
 
 ---
 
-# 六、运行 React Native 项目
+## 六、运行 React Native 项目
 
 准备完成后：
 
@@ -236,7 +237,7 @@ sdk.dir=C:\\Users\\<用户名>\\AppData\\Local\\Android\\Sdk
 
 ---
 
-# 七、整个体系的底层逻辑
+## 七、整个体系的底层逻辑
 
 理解 React Native Android 构建链条：
 
@@ -256,7 +257,7 @@ JDK
 
 ---
 
-# 八、常见坑总结
+## 八、常见坑总结
 
 | 问题                     | 根因               |
 | ---------------------- | ---------------- |
