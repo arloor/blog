@@ -22,6 +22,7 @@ highlightjslanguages:
 * 使用 sdkmanager 安装构建组件
 * 配置 Java 21
 * 处理 Gradle 代理问题
+* 连接 Android 真机（USB / WLAN 调试）
 * 成功运行 React Native Android 项目
 
 ---
@@ -237,7 +238,83 @@ sdk.dir=C:\\Users\\<用户名>\\AppData\\Local\\Android\\Sdk
 
 ---
 
-## 七、整个体系的底层逻辑
+## 七、补充：连接 Android 真机调试（USB / WLAN）
+
+上面命令链路配置完成后，`npm run android` 还需要至少一个可用设备（模拟器或真机）。
+
+这里补充 Android 官方文档中与真机连接相关的关键步骤（Windows 环境）：
+
+> [在硬件设备上运行应用（Android 官方）](https://developer.android.com/studio/run/device?hl=zh-cn)
+
+### 1. USB 真机调试（Windows）
+
+先在手机上完成：
+
+1. 开启开发者选项
+2. 开启 `USB 调试`
+3. 使用支持数据传输的 USB 线连接电脑（不是仅充电线）
+
+Windows 额外注意：
+
+* 如果电脑无法识别设备，安装手机厂商提供的 USB 驱动（Google 设备可使用 Google USB Driver）
+* 首次连接时，手机会弹出 USB 调试授权（RSA 指纹确认），需要点击允许
+
+命令行验证设备是否连通：
+
+```bash
+adb kill-server
+adb start-server
+adb devices
+```
+
+常见状态说明：
+
+* `device`：已连接成功，可直接运行 `npm run android`
+* `unauthorized`：手机未确认授权弹窗，重新插拔后在手机上点允许
+* `offline` 或空列表：优先检查数据线、驱动、USB 模式（文件传输）、是否被其他工具占用
+
+如果你同时连接了多个设备，先用 `adb devices` 查看序列号，再使用：
+
+```bash
+adb -s <设备序列号> reverse tcp:8081 tcp:8081
+```
+
+这样可以明确把 Metro 端口映射到指定真机。
+
+### 2. WLAN（无线）调试（可选）
+
+Android 官方也支持通过 WLAN 调试连接真机，适合不想长期插线的场景。
+
+前提条件（官方文档要点）：
+
+* 设备与电脑连接到同一局域网
+* 设备为 Android 11 及以上（使用“无线调试”功能）
+* `platform-tools` 使用较新版本（本文前面已安装）
+
+手机侧操作：
+
+1. 开启开发者选项
+2. 开启 `无线调试`
+
+如果你安装了 Android Studio，可以按官方文档使用 Device Manager 的配对入口（Pair Devices Using Wi-Fi）。
+
+如果你坚持纯命令行，也可以用 `adb` 配对和连接（手机会显示配对码、IP 和端口）：
+
+```bash
+adb pair <设备IP>:<配对端口>
+adb connect <设备IP>:<调试端口>
+adb devices
+```
+
+连接成功后再执行：
+
+```bash
+npm run android
+```
+
+---
+
+## 八、整个体系的底层逻辑
 
 理解 React Native Android 构建链条：
 
@@ -257,7 +334,7 @@ JDK
 
 ---
 
-## 八、常见坑总结
+## 九、常见坑总结
 
 | 问题                     | 根因               |
 | ---------------------- | ---------------- |
