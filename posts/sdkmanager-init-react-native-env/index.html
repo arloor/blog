@@ -391,9 +391,20 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
       
           <nav id="TableOfContents">
   <ul>
-    <li><a href="#1-创建-sdk-目录">1. 创建 SDK 目录</a></li>
-    <li><a href="#2-下载-command-line-tools">2. 下载 Command Line Tools</a></li>
-    <li><a href="#3-正确整理目录结构关键步骤">3. 正确整理目录结构（关键步骤）</a></li>
+    <li><a href="#一android-sdk-安装命令行模式">一、Android SDK 安装（命令行模式）</a>
+      <ul>
+        <li><a href="#1-创建-sdk-目录">1. 创建 SDK 目录</a></li>
+        <li><a href="#2-下载-command-line-tools">2. 下载 Command Line Tools</a></li>
+        <li><a href="#3-正确整理目录结构关键步骤">3. 正确整理目录结构（关键步骤）</a></li>
+      </ul>
+    </li>
+    <li><a href="#二安装-java-21">二、安装 Java 21</a></li>
+    <li><a href="#三安装-android-sdk-组件">三、安装 Android SDK 组件</a></li>
+    <li><a href="#四配置环境变量">四、配置环境变量</a></li>
+    <li><a href="#五gradle-下载失败的代理问题国内常见">五、Gradle 下载失败的代理问题（国内常见）</a></li>
+    <li><a href="#六运行-react-native-项目">六、运行 React Native 项目</a></li>
+    <li><a href="#七整个体系的底层逻辑">七、整个体系的底层逻辑</a></li>
+    <li><a href="#八常见坑总结">八、常见坑总结</a></li>
   </ul>
 </nav>
       
@@ -411,15 +422,15 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>成功运行 React Native Android 项目</li>
 </ul>
 <hr>
-<h1 id="一android-sdk-安装命令行模式">一、Android SDK 安装（命令行模式）</h1>
-<h2 id="1-创建-sdk-目录">1. 创建 SDK 目录</h2>
+<h2 id="一android-sdk-安装命令行模式">一、Android SDK 安装（命令行模式）</h2>
+<h3 id="1-创建-sdk-目录">1. 创建 SDK 目录</h3>
 <p>建议使用默认路径：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>mkdir <span style="color:#e6db74">&#34;</span>$env:LOCALAPPDATA<span style="color:#e6db74">\Android\Sdk&#34;</span> -Force
 </span></span></code></pre></div><p>默认推荐目录：</p>
 <pre tabindex="0"><code>C:\Users\&lt;用户名&gt;\AppData\Local\Android\Sdk
 </code></pre><p>后续我们会将其设置为 <code>ANDROID_HOME</code>。</p>
 <hr>
-<h2 id="2-下载-command-line-tools">2. 下载 Command Line Tools</h2>
+<h3 id="2-下载-command-line-tools">2. 下载 Command Line Tools</h3>
 <p>访问 Android 官方页面下载：</p>
 <blockquote>
 <p><a href="https://developer.android.com/studio#command-line-tools-only">https://developer.android.com/studio#command-line-tools-only</a></p>
@@ -427,7 +438,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>下载 <strong>Command Line Tools for Windows</strong>，解压后得到：</p>
 <pre tabindex="0"><code>cmdline-tools
 </code></pre><hr>
-<h2 id="3-正确整理目录结构关键步骤">3. 正确整理目录结构（关键步骤）</h2>
+<h3 id="3-正确整理目录结构关键步骤">3. 正确整理目录结构（关键步骤）</h3>
 <p>Android SDK 对目录结构要求非常严格。</p>
 <p>最终目录结构必须是：</p>
 <pre tabindex="0"><code>Android\Sdk
@@ -444,7 +455,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </ol>
 <p>很多人卡在这里，是因为没有创建 <code>latest</code> 子目录。</p>
 <hr>
-<h1 id="二安装-java-21">二、安装 Java 21</h1>
+<h2 id="二安装-java-21">二、安装 Java 21</h2>
 <p>React Native 最新 Android Gradle Plugin 版本已经要求较新的 JDK。</p>
 <p>推荐安装：</p>
 <blockquote>
@@ -458,7 +469,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <pre tabindex="0"><code>%JAVA_HOME%\bin
 </code></pre><p>到 PATH。</p>
 <hr>
-<h1 id="三安装-android-sdk-组件">三、安装 Android SDK 组件</h1>
+<h2 id="三安装-android-sdk-组件">三、安装 Android SDK 组件</h2>
 <p>进入：</p>
 <pre tabindex="0"><code>Android\Sdk\cmdline-tools\latest\bin
 </code></pre><p>先查看可用组件：</p>
@@ -474,7 +485,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <p>React Native 项目必须有对应 API level，否则会报错：</p>
 <pre tabindex="0"><code>SDK location not found
 </code></pre><hr>
-<h1 id="四配置环境变量">四、配置环境变量</h1>
+<h2 id="四配置环境变量">四、配置环境变量</h2>
 <p>推荐设置为系统环境变量：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>$env:ANDROID_HOME=<span style="color:#e6db74">&#34;C:\Users\&lt;用户名&gt;\AppData\Local\Android\Sdk&#34;</span>
 </span></span></code></pre></div><p>长期使用建议写入系统环境变量。</p>
@@ -482,7 +493,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>adb --version
 </span></span></code></pre></div><p>如果正常输出版本号说明配置成功。</p>
 <hr>
-<h1 id="五gradle-下载失败的代理问题国内常见">五、Gradle 下载失败的代理问题（国内常见）</h1>
+<h2 id="五gradle-下载失败的代理问题国内常见">五、Gradle 下载失败的代理问题（国内常见）</h2>
 <p>很多人执行：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>npm run android
 </span></span></code></pre></div><p>卡在：</p>
@@ -493,7 +504,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></code></pre></div><p>⚠ 该变量只影响当前终端会话。</p>
 <p>如果你使用 Clash / v2ray 等代理工具，确保端口正确。</p>
 <hr>
-<h1 id="六运行-react-native-项目">六、运行 React Native 项目</h1>
+<h2 id="六运行-react-native-项目">六、运行 React Native 项目</h2>
 <p>准备完成后：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>npm run android
 </span></span></code></pre></div><p>内部流程实际是：</p>
@@ -516,7 +527,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <pre tabindex="0"><code>sdk.dir=C:\\Users\\&lt;用户名&gt;\\AppData\\Local\\Android\\Sdk
 </code></pre><p>注意：路径分隔符需要使用 <code>\\</code></p>
 <hr>
-<h1 id="七整个体系的底层逻辑">七、整个体系的底层逻辑</h1>
+<h2 id="七整个体系的底层逻辑">七、整个体系的底层逻辑</h2>
 <p>理解 React Native Android 构建链条：</p>
 <pre tabindex="0"><code>React Native CLI
         ↓
@@ -529,7 +540,7 @@ Android SDK (build-tools + platform-tools)
 JDK
 </code></pre><p>只要其中一个版本不兼容，就会构建失败。</p>
 <hr>
-<h1 id="八常见坑总结">八、常见坑总结</h1>
+<h2 id="八常见坑总结">八、常见坑总结</h2>
 <table>
   <thead>
       <tr>
@@ -724,7 +735,14 @@ JDK
     <script src="/js/highlight.min.js"></script>
     <script src="/js/languages/dos.min.js"></script>
         
+            
+                <script src="https://us.arloor.dev/https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/powershell.min.js"></script>
+                
+            
+        
     <script type="text/javascript">
+        
+        hljs.configure({languages: ["powershell"]});
         
         hljs.highlightAll();
     </script>
