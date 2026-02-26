@@ -91,8 +91,8 @@ SET time_zone = '+08:00';
 
 还有一个很关键的区别：
 
-1. `DATETIME` 不保存时区，写进去什么就存什么（但是 `NOW()`/`CURRENT_TIMESTAMP` 生成值时仍然受会话时区影响）
-2. `TIMESTAMP` 会在写入/读取时按会话时区做转换（内部按 UTC 存储）
+1. `DATETIME` 不做时区转换（纯字面时间）。（但是 `NOW()`/`CURRENT_TIMESTAMP` 生成值时仍然受会话时区影响）
+2. `TIMESTAMP` 会做时区转换（存 UTC，按 session 时区读写）；
 
 ### 建表
 
