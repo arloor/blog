@@ -372,6 +372,10 @@ $ cmctl status certificate arloor-combined-cert -n default
 
 > 如果 cmctl renew 很慢，可以尝试删除对应的 CertificateRequest 资源，会触发重建。
 
+```bash
+kubectl delete certificaterequest arloor-combined-cert-tls-8rbv2 -n default
+```
+
 ## 安装 kubernetes-dashboard
 
 ```bash
