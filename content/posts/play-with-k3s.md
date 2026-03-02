@@ -370,9 +370,14 @@ arloor-combined-cert-tls-8rbv2         False    10s
 $ cmctl status certificate arloor-combined-cert -n default
 ```
 
-> 如果 cmctl renew 很慢，可以尝试删除对应的 CertificateRequest 资源，会触发重建。
+> 如果 `cmctl renew` 后签发很慢，先排查卡在哪一层；删除 `CertificateRequest` 不是最佳实践，单在请求状态异常且长时间不推进时可作为应急重试手段。
 
 ```bash
+# 先排查证书流程卡点
+kubectl describe certificate arloor-combined-cert -n default
+kubectl get certificaterequest,order,challenge -n default
+
+# 仅在 CertificateRequest 卡死时使用，会触发重建
 kubectl delete certificaterequest arloor-combined-cert-tls-8rbv2 -n default
 ```
 
