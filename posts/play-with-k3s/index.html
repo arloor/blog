@@ -752,9 +752,14 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>$ cmctl status certificate arloor-combined-cert -n default
 </span></span></code></pre></div><blockquote>
-<p>如果 cmctl renew 很慢，可以尝试删除对应的 CertificateRequest 资源，会触发重建。</p>
+<p>如果 <code>cmctl renew</code> 后签发很慢，先排查卡在哪一层；删除 <code>CertificateRequest</code> 不是最佳实践，单在请求状态异常且长时间不推进时可作为应急重试手段。</p>
 </blockquote>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>kubectl delete certificaterequest arloor-combined-cert-tls-8rbv2 -n default
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># 先排查证书流程卡点</span>
+</span></span><span style="display:flex;"><span>kubectl describe certificate arloor-combined-cert -n default
+</span></span><span style="display:flex;"><span>kubectl get certificaterequest,order,challenge -n default
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># 仅在 CertificateRequest 卡死时使用，会触发重建</span>
+</span></span><span style="display:flex;"><span>kubectl delete certificaterequest arloor-combined-cert-tls-8rbv2 -n default
 </span></span></code></pre></div><h2 id="安装-kubernetes-dashboard">安装 kubernetes-dashboard</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
 </span></span><span style="display:flex;"><span>helm repo update
