@@ -76,6 +76,15 @@ cargo sqlx prepare
 SQLX_OFFLINE=true
 ```
 
+或者配置在 `.cargo/config.toml` 中：
+
+```bash
+cat > .cargo/config.toml <<'EOF'
+[env]
+SQLX_OFFLINE = "true"
+EOF
+```
+
 ### 查询宏 `query_as!`
 
 可以自定义 struct ，前提是 struct 需要 `derive FromRow`
