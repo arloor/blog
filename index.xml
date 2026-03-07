@@ -6,8 +6,15 @@
     <description>Recent content on ARLOOR</description>
     <generator>Hugo</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Thu, 26 Feb 2026 22:41:57 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 07 Mar 2026 11:40:56 +0800</lastBuildDate>
     <atom:link href="https://www.arloor.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>systemd用户模式和user journal使用指南</title>
+      <link>https://www.arloor.com/posts/systemd_user_guide/</link>
+      <pubDate>Sat, 07 Mar 2026 11:40:56 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/systemd_user_guide/</guid>
+      <description>&lt;p&gt;这篇文章把 systemd 用户模式和 user journal 彻底讲清楚。&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;h2 id=&#34;systemd-用户模式是什么&#34;&gt;Systemd 用户模式是什么&lt;/h2&gt;&#xA;&lt;p&gt;简单说，systemd 不只是给 root 用的。每个登录用户都可以跑自己的 &lt;code&gt;systemd --user&lt;/code&gt; 实例，用来管理用户级别的后台服务和定时任务——不需要 sudo。&lt;/p&gt;</description>
+    </item>
     <item>
       <title>使用SDKManager命令行工具在 Windows 上搭建 React Native Android 开发环境</title>
       <link>https://www.arloor.com/posts/sdkmanager-init-react-native-env/</link>
