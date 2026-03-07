@@ -25,15 +25,13 @@
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="systemd用户模式和user journal使用指南">
-  <meta name="twitter:description" content="这篇文章把 systemd 用户模式和 user journal 彻底讲清楚。
-Systemd 用户模式是什么 简单说，systemd 不只是给 root 用的。每个登录用户都可以跑自己的 systemd --user 实例，用来管理用户级别的后台服务和定时任务——不需要 sudo。">
+  <meta name="twitter:description" content="这篇文章把 systemd 用户模式和 user journal 彻底讲清楚。">
       <meta name="twitter:site" content="@njulgh">
 
 <meta property="og:url" content="https://www.arloor.com/posts/systemd_user_guide/">
   <meta property="og:site_name" content="ARLOOR">
   <meta property="og:title" content="systemd用户模式和user journal使用指南">
-  <meta property="og:description" content="这篇文章把 systemd 用户模式和 user journal 彻底讲清楚。
-Systemd 用户模式是什么 简单说，systemd 不只是给 root 用的。每个登录用户都可以跑自己的 systemd --user 实例，用来管理用户级别的后台服务和定时任务——不需要 sudo。">
+  <meta property="og:description" content="这篇文章把 systemd 用户模式和 user journal 彻底讲清楚。">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
@@ -426,7 +424,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   <div class="post">
     <p>这篇文章把 systemd 用户模式和 user journal 彻底讲清楚。</p>
-<hr>
 <h2 id="systemd-用户模式是什么">Systemd 用户模式是什么</h2>
 <p>简单说，systemd 不只是给 root 用的。每个登录用户都可以跑自己的 <code>systemd --user</code> 实例，用来管理用户级别的后台服务和定时任务——不需要 sudo。</p>
 <p>用户单元文件放在以下目录：</p>
@@ -663,7 +660,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>日志查看依赖 persistent journal——<code>Storage=persistent</code> + <code>journalctl --flush</code></li>
 <li>生产环境记得配 <code>SystemMaxUse</code> 限制日志大小</li>
 </ol>
-
   </div>
   
 
