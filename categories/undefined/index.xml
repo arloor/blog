@@ -1059,13 +1059,6 @@
       <description>&lt;p&gt;减少造轮子，安装已有socks5、http代理。这里的ss5和squid是不能达到FQ的目的的，要实现这个目的，请查看之前的其他文章。&lt;/p&gt;</description>
     </item>
     <item>
-      <title>Systemd服务文件编写-centos7下</title>
-      <link>https://www.arloor.com/posts/linux/systemd/</link>
-      <pubDate>Fri, 07 Jun 2019 19:25:03 +0800</pubDate>
-      <guid>https://www.arloor.com/posts/linux/systemd/</guid>
-      <description>&lt;p&gt;以前的博客中有如何使用shell脚本重启应用的教程，也有解决tty的最大打开文件数量限制的方法。其实这些都可以用systemd服务的方式解决。今天就来一个简单的service文件，记录下怎么使用。&lt;/p&gt;&#xA;&lt;p&gt;使用如下命令即可编写sogo服务的service文件，并设置开机自启动。&lt;/p&gt;</description>
-    </item>
-    <item>
       <title>Centos7备份/恢复与网卡配置</title>
       <link>https://www.arloor.com/posts/linux/dd-backup/</link>
       <pubDate>Fri, 10 May 2019 15:51:28 +0800</pubDate>
