@@ -1,6 +1,6 @@
 ---
 title: "systemd用户模式和user journal使用指南"
-date: 2026-03-07T11:42:56+08:00
+date: 2026-03-07T11:40:56+08:00
 draft: false
 categories: [ "undefined"]
 tags: ["undefined"]
