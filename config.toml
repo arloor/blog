@@ -98,11 +98,11 @@ name = "网速监控"
 identifier = "网速监控"
 weight = 6
 url = "/net-iframe"
-[[menu.main]]
-name = "NAT规则"
-identifier = "NAT规则"
-weight = 7
-url = "/nat"
+# [[menu.main]]
+# name = "NAT规则"
+# identifier = "NAT规则"
+# weight = 7
+# url = "/nat"
 [[menu.main]]
 name = "股票监控"
 identifier = "股票监控"
