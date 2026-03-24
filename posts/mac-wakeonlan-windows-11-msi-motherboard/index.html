@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.157.0">
+<meta name="generator" content="Hugo 0.159.0">
 
     
     
@@ -408,7 +408,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 
 <h2 id="mac-mini上安装wakeonlan并执行命令">Mac mini上安装wakeonlan，并执行命令</h2>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>brew install wakeonlan
-</span></span><span style="display:flex;"><span>wakeonlan -i 192.168.5.255 34:xx:xx:xx:xx:xx <span style="color:#75715e"># -i 192.168.5.255是向我局域网的广播地址发送唤醒包，34:5a:60:07:25:ce是windows主机的mac地址</span>
+</span></span><span style="display:flex;"><span>wakeonlan -i 192.168.5.255 34:xx:xx:xx:xx:xx <span style="color:#75715e"># -i 192.168.5.255是向我局域网的广播地址发送唤醒包，34:xx:xx:xx:xx:xx是windows主机的mac地址</span>
 </span></span></code></pre></div><p>执行完就可以看到windows主机在启动了。</p>
 <p>windows主机网卡的mac地址可以通过<code>ipconfig /all</code>查看，结果如下。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>以太网适配器 以太网 6:
