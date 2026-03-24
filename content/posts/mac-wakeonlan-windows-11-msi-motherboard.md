@@ -37,7 +37,7 @@ highlightjslanguages:
 
 ```bash
 brew install wakeonlan
-wakeonlan -i 192.168.5.255 34:xx:xx:xx:xx:xx # -i 192.168.5.255是向我局域网的广播地址发送唤醒包，34:5a:60:07:25:ce是windows主机的mac地址
+wakeonlan -i 192.168.5.255 34:xx:xx:xx:xx:xx # -i 192.168.5.255是向我局域网的广播地址发送唤醒包，34:xx:xx:xx:xx:xx是windows主机的mac地址
 ```
 
 执行完就可以看到windows主机在启动了。
