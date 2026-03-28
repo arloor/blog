@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.159.0">
+<meta name="generator" content="Hugo 0.159.1">
 
     
     
@@ -835,13 +835,25 @@ Steam Controller Configs              0         0
   .content.container {
         width: 100%;
         max-width: none;
-        height: calc(100vh - var(--sidebar-height, 49px));
         border: none;
         display: block;
-        overflow-y: auto;
         box-sizing: border-box;
         margin-left: 0;
         margin-right: 0;
+  }
+
+   
+  @media (max-width: 767px) {
+    body:not(.type-iframe) .content.container {
+      height: calc(100vh - var(--sidebar-height, 49px));
+      overflow-y: auto;
+    }
+  }
+
+   
+  body.type-iframe .content.container {
+        height: calc(100vh - var(--sidebar-height, 49px));
+        overflow-y: auto;
   }
 
   body:not(.type-iframe) .content.container {
@@ -851,114 +863,67 @@ Steam Controller Configs              0         0
 </style>
 <script>
     (function () {
-        var contentSelector = '.content.container';
-        var rafId = 0;
-        var resizeDebounceTimer = 0;
-        var pendingHashScroll = false;
+        var content = document.querySelector('.content.container');
+        if (!content) return;
 
-        function getHashTarget() {
-            var hash = window.location.hash;
-            var targetId = '';
-
-            if (!hash || hash === '#') {
-                return null;
-            }
-
-            targetId = hash.slice(1);
-            try {
-                targetId = decodeURIComponent(targetId);
-            } catch (e) {
-                
-            }
-
-            return document.getElementById(targetId);
+        
+        function needsContentScroll() {
+            return document.body.classList.contains('type-iframe') ||
+                   window.matchMedia('(max-width: 767px)').matches;
         }
 
-        function scrollToHashTarget() {
-            var target = getHashTarget();
-            if (!target) {
-                return;
-            }
-            try {
-                target.scrollIntoView({ block: 'start', inline: 'nearest' });
-            } catch (e) {
-                target.scrollIntoView(true);
+        
+        
+        
+        function updateHeight() {
+            if (needsContentScroll()) {
+                var available = window.innerHeight - content.getBoundingClientRect().top;
+                content.style.height = Math.max(0, available) + 'px';
+            } else {
+                content.style.height = '';
             }
         }
 
-        function applyPendingHashScroll() {
-            if (!pendingHashScroll) {
-                return;
-            }
-            pendingHashScroll = false;
-            scrollToHashTarget();
+        
+        
+        
+        function scrollToHash() {
+            if (!needsContentScroll() || !location.hash || location.hash === '#') return;
+            var id = location.hash.slice(1);
+            try { id = decodeURIComponent(id); } catch (e) {}
+            var el = document.getElementById(id);
+            if (el) try { el.scrollIntoView({ block: 'start', inline: 'nearest' }); } catch (e) { el.scrollIntoView(true); }
         }
 
-        function resizeContentHeight() {
-            var content = document.querySelector(contentSelector);
-            if (!content) {
-                return;
-            }
-            var rect = content.getBoundingClientRect();
-            var available = window.innerHeight - rect.top;
-            if (available < 0) {
-                available = 0;
-            }
-            content.style.height = available + 'px';
-            applyPendingHashScroll();
-        }
+        function init() { updateHeight(); scrollToHash(); }
 
-        function scheduleResize() {
-            if (rafId) {
-                return;
-            }
-            rafId = window.requestAnimationFrame(function () {
-                rafId = 0;
-                resizeContentHeight();
-            });
-        }
-
-        function scheduleResizeDebounced(delay) {
-            window.clearTimeout(resizeDebounceTimer);
-            resizeDebounceTimer = window.setTimeout(scheduleResize, delay || 120);
-        }
-
-        function requestHashScroll() {
-            if (!window.location.hash || window.location.hash === '#') {
-                return;
-            }
-            pendingHashScroll = true;
-            scheduleResize();
-        }
-
+        
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', function () {
-                scheduleResize();
-                requestHashScroll();
-            }, { once: true });
+            document.addEventListener('DOMContentLoaded', init, { once: true });
         } else {
-            scheduleResize();
-            requestHashScroll();
+            init();
         }
+        
+        window.addEventListener('load', init);
+        
+        window.addEventListener('pageshow', init);
+        
+        window.addEventListener('hashchange', scrollToHash);
 
-        window.addEventListener('load', function () {
-            scheduleResize();
-            requestHashScroll();
-        });
-        window.addEventListener('pageshow', function () {
-            scheduleResize();
-            requestHashScroll();
-        });
-        window.addEventListener('hashchange', requestHashScroll);
+        
+        var resizeTimer;
         window.addEventListener('resize', function () {
-            scheduleResizeDebounced(120);
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(updateHeight, 120);
         });
 
+        
+        
         var menuToggle = document.getElementById('menuToggle');
         if (menuToggle) {
             menuToggle.addEventListener('change', function () {
-                scheduleResize();
-                window.setTimeout(scheduleResize, 250);
+                updateHeight();
+                setTimeout(updateHeight, 250);
             });
         }
     })();
