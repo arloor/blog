@@ -76,6 +76,14 @@ dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker
 systemctl enable --now docker
 ```
 
+### 普通用户不需要sudo即可使用docker cli
+
+```bash
+sudo usermod -aG docker $USER
+newgrp docker
+docker ps
+```
+
 ### 设置 docker daemon 代理
 
 这个是用于 pull 镜像时的代理设置。
