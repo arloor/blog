@@ -380,6 +380,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
         <li><a href="#debian12-安装-docker">debian12 安装 docker</a></li>
         <li><a href="#debian13-安装-docker">debian13 安装 docker</a></li>
         <li><a href="#centos-9-安装-docker">centos 9 安装 docker</a></li>
+        <li><a href="#普通用户不需要sudo即可使用docker-cli">普通用户不需要sudo即可使用docker cli</a></li>
         <li><a href="#设置-docker-daemon-代理">设置 docker daemon 代理</a></li>
         <li><a href="#设置-docker-cli-的-http-代理">设置 docker CLI 的 HTTP 代理</a></li>
         <li><a href="#dockerfile-规范和常见范式">Dockerfile 规范和常见范式</a></li>
@@ -452,6 +453,10 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>dnf config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo
 </span></span><span style="display:flex;"><span>dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 </span></span><span style="display:flex;"><span>systemctl enable --now docker
+</span></span></code></pre></div><h3 id="普通用户不需要sudo即可使用docker-cli">普通用户不需要sudo即可使用docker cli</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo usermod -aG docker $USER
+</span></span><span style="display:flex;"><span>newgrp docker
+</span></span><span style="display:flex;"><span>docker ps
 </span></span></code></pre></div><h3 id="设置-docker-daemon-代理">设置 docker daemon 代理</h3>
 <p>这个是用于 pull 镜像时的代理设置。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mkdir -p /etc/systemd/system/docker.service.d
