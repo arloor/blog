@@ -13,7 +13,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <!-- Enable responsiveness on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="generator" content="Hugo 0.159.1">
+<meta name="generator" content="Hugo 0.161.1">
 
     
     
@@ -720,6 +720,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>执行命令 <code>Remote-SSH: Uninstall VS Code Server from Host</code> <strong>不推荐，实测没有卸载干净</strong></li>
 <li>或手动执行</li>
 </ol>
+<p>Linux/macOS：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat &gt; /usr/local/bin/killcode <span style="color:#e6db74">&lt;&lt;\EOF
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74"># Kill server processes
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">kill -9 $(ps aux | grep vscode-server | grep $USER | grep -v grep | awk &#39;{print $2}&#39;)
@@ -728,6 +729,14 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
 </span></span><span style="display:flex;"><span>chmod +x /usr/local/bin/killcode
 </span></span><span style="display:flex;"><span>killcode
+</span></span></code></pre></div><p>Windows pwsh：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># Kill server processes</span>
+</span></span><span style="display:flex;"><span>Get-CimInstance Win32_Process |
+</span></span><span style="display:flex;"><span>  Where-Object { $_.CommandLine <span style="color:#f92672">-like</span> <span style="color:#e6db74">&#34;*vscode-server*&#34;</span> } |
+</span></span><span style="display:flex;"><span>  ForEach-Object { Stop-Process -Id $_.ProcessId -Force }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Delete related files and folder</span>
+</span></span><span style="display:flex;"><span>Remove-Item -Recurse -Force <span style="color:#e6db74">&#34;</span>$HOME<span style="color:#e6db74">\.vscode-server&#34;</span>, <span style="color:#e6db74">&#34;</span>$HOME<span style="color:#e6db74">\.vscode-server-insiders&#34;</span> -ErrorAction SilentlyContinue
 </span></span></code></pre></div><h2 id="rust-开发">Rust 开发</h2>
 <h3 id="安装四个插件">安装四个插件：</h3>
 <table>
