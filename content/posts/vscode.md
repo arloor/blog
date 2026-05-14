@@ -254,6 +254,8 @@ echo ssh-rsa xxxxxxxx not@home > ~/.ssh/authorized_keys
 1. 执行命令 `Remote-SSH: Uninstall VS Code Server from Host` **不推荐，实测没有卸载干净**
 2. 或手动执行
 
+Linux/macOS：
+
 ```bash
 cat > /usr/local/bin/killcode <<\EOF
 # Kill server processes
@@ -263,6 +265,18 @@ rm -rf $HOME/.vscode-server # Or ~/.vscode-server-insiders
 EOF
 chmod +x /usr/local/bin/killcode
 killcode
+```
+
+Windows pwsh：
+
+```powershell
+# Kill server processes
+Get-CimInstance Win32_Process |
+  Where-Object { $_.CommandLine -like "*vscode-server*" } |
+  ForEach-Object { Stop-Process -Id $_.ProcessId -Force }
+
+# Delete related files and folder
+Remove-Item -Recurse -Force "$HOME\.vscode-server", "$HOME\.vscode-server-insiders" -ErrorAction SilentlyContinue
 ```
 
 ## Rust 开发
