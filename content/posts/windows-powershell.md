@@ -4,7 +4,7 @@ subtitle:
 tags:
   - windows
 date: 2025-12-04T15:37:22+08:00
-lastmod: 2025-12-04T15:37:22+08:00
+lastmod: 2026-05-18T11:30:00+08:00
 draft: false
 categories:
   - undefined
@@ -25,6 +25,38 @@ highlightjslanguages:
 ```powershell
 winget install --id Microsoft.PowerShell --source winget
 ```
+
+如果是给 OpenSSH、计划任务、服务等后台进程使用，建议安装 MSI 版。MSI 版会安装到稳定目录：
+
+```text
+C:\Program Files\PowerShell\7\pwsh.exe
+```
+
+指定 `wix` 安装器类型即可安装 MSI 版：
+
+```powershell
+winget install `
+  --id Microsoft.PowerShell `
+  --source winget `
+  --installer-type wix `
+  --scope machine `
+  --architecture x64 `
+  --silent `
+  --force `
+  --accept-package-agreements `
+  --accept-source-agreements `
+  --disable-interactivity
+```
+
+验证安装路径和版本：
+
+```powershell
+Test-Path -LiteralPath 'C:\Program Files\PowerShell\7\pwsh.exe'
+& 'C:\Program Files\PowerShell\7\pwsh.exe' -NoLogo -NoProfile -Command '$PSVersionTable.PSVersion.ToString(); $PSHOME'
+Get-Command pwsh.exe -All
+```
+
+如果 `winget` 默认安装的是 MSIX/Store 版，`pwsh.exe` 可能在 `C:\Program Files\WindowsApps\Microsoft.PowerShell_*\pwsh.exe`，这个路径带版本号，升级后可能变化；`C:\Users\<用户名>\AppData\Local\Microsoft\WindowsApps\pwsh.exe` 通常只是应用执行别名，不适合给 OpenSSH 的 `DefaultShell` 使用。
 
 编辑配置文件 `code $PROFILE`
 

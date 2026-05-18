@@ -4,7 +4,7 @@ subtitle:
 tags: 
 - windows
 date: 2025-01-26T11:14:36+08:00
-lastmod: 2025-01-26T11:14:36+08:00
+lastmod: 2026-05-18T11:30:00+08:00
 draft: false
 categories: 
 - undefined
@@ -32,15 +32,98 @@ highlightjslanguages:
 Start-Service sshd
 # 设置为开机自启动
 Set-Service -Name sshd -StartupType 'Automatic'
-# 检查防火前设置
+# 检查防火墙设置
 if (!(Get-NetFirewallRule -Name "OpenSSH-Server-In-TCP" -ErrorAction SilentlyContinue | Select-Object Name, Enabled)) {
     Write-Output "Firewall Rule 'OpenSSH-Server-In-TCP' does not exist, creating it..."
     New-NetFirewallRule -Name 'OpenSSH-Server-In-TCP' -DisplayName 'OpenSSH Server (sshd)' -Enabled True -Direction Inbound -Protocol TCP -Action Allow -LocalPort 22
 } else {
     Write-Output "Firewall rule 'OpenSSH-Server-In-TCP' has been created and exists."
 }
-# 设置默认shell为powershell
-New-ItemProperty -Path "HKLM:\SOFTWARE\OpenSSH" -Name DefaultShell -Value "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -PropertyType String -Force
+```
+
+如果 `sshd_config` 里修改了端口，比如：
+
+```text
+Port 2222
+```
+
+则防火墙规则也要放开对应端口，远程连接时使用：
+
+```ps1
+$port = 2222
+New-NetFirewallRule `
+  -DisplayName "Allow SSH $port" `
+  -Direction Inbound `
+  -Protocol TCP `
+  -LocalPort $port `
+  -Action Allow
+```
+
+远程连接时使用：
+
+```bash
+ssh -p 2222 arloor@windows-ip
+```
+
+## 设置默认登录 shell 为 PowerShell 7
+
+Windows OpenSSH 的默认 shell 通过注册表设置：
+
+```ps1
+HKLM:\SOFTWARE\OpenSSH
+```
+
+推荐安装 PowerShell 7 的 MSI 版，这样 `pwsh.exe` 会在稳定路径：
+
+```text
+C:\Program Files\PowerShell\7\pwsh.exe
+```
+
+安装 MSI 版 PowerShell 7：
+
+```ps1
+winget install `
+  --id Microsoft.PowerShell `
+  --source winget `
+  --installer-type wix `
+  --scope machine `
+  --architecture x64 `
+  --silent `
+  --force `
+  --accept-package-agreements `
+  --accept-source-agreements `
+  --disable-interactivity
+```
+
+设置 OpenSSH 默认 shell：
+
+```ps1
+New-ItemProperty `
+  -Path "HKLM:\SOFTWARE\OpenSSH" `
+  -Name DefaultShell `
+  -Value "C:\Program Files\PowerShell\7\pwsh.exe" `
+  -PropertyType String `
+  -Force
+
+Restart-Service sshd
+```
+
+查看当前默认 shell：
+
+```ps1
+Get-ItemPropertyValue -LiteralPath "HKLM:\SOFTWARE\OpenSSH" -Name DefaultShell
+```
+
+验证 ssh 登录后确实进入 PowerShell 7：
+
+```bash
+ssh -p 2222 arloor@windows-ip '$PSVersionTable.PSVersion.ToString(); $PSHOME; whoami'
+```
+
+如果只想使用 Windows 自带的 Windows PowerShell 5.1，也可以把 `DefaultShell` 设为：
+
+```text
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
 ```
 
 配置sshd_config，位置在 %programdata%\ssh\sshd_config，参考文档：[OpenSSH Server configuration for Windows Server and Windows](https://learn.microsoft.com/zh-cn/windows-server/administration/OpenSSH/openssh-server-configuration)，主要修改下面两个配置：就是强制使用公钥登录
@@ -53,6 +136,51 @@ PasswordAuthentication no
 然后重启sshd服务，让配置生效。
 
 在windows上保存公钥: 如果是系统管理员账户（一般第一个账户都是系统管理员账户），则在 `%programdata%/ssh/administrators_authorized_keys` 中保存公钥，如果是普通用户，则在 `%userprofile%/.ssh/authorized_keys` 中保存公钥。
+
+## 排查 Permission denied
+
+远程登录时报：
+
+```text
+Permission denied (publickey,keyboard-interactive).
+```
+
+先看 OpenSSH 事件日志：
+
+```ps1
+Get-WinEvent -LogName OpenSSH/Operational -MaxEvents 30 |
+  Select-Object TimeCreated,Message |
+  Format-List
+```
+
+如果日志里有类似：
+
+```text
+User arloor not allowed because shell c:\program files\powershell\7\pwsh.exe does not exist
+```
+
+说明不是公钥本身的问题，而是 `DefaultShell` 指向的 shell 路径不存在。检查并修复：
+
+```ps1
+Test-Path -LiteralPath "C:\Program Files\PowerShell\7\pwsh.exe"
+
+Set-ItemProperty `
+  -LiteralPath "HKLM:\SOFTWARE\OpenSSH" `
+  -Name DefaultShell `
+  -Value "C:\Program Files\PowerShell\7\pwsh.exe"
+
+Restart-Service sshd
+```
+
+本机回环测试：
+
+```ps1
+ssh -p 2222 `
+  -o BatchMode=yes `
+  -o StrictHostKeyChecking=no `
+  arloor@127.0.0.1 `
+  '$PSVersionTable.PSVersion.ToString(); $PSHOME; whoami'
+```
 
 ## 设置powershell默认http代理
 
