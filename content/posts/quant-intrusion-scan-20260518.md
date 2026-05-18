@@ -1,10 +1,10 @@
 ---
 title: "量化介入股票扫描：筛选条件与图表整理"
-date: 2026-05-18T23:10:00+08:00
-lastmod: 2026-05-18T23:10:00+08:00
+date: 2026-05-18T22:10:00+08:00
+lastmod: 2026-05-18T22:10:00+08:00
 draft: false
-categories: ["股票", "量化"]
-tags: ["A股", "量化扫描", "成交量", "盘口", "Python"]
+categories: []
+tags: ["A股"]
 description: "整理一次 A 股量化介入扫描的筛选口径，以及 output 目录下已经生成的分时图。"
 keywords:
 - A股
