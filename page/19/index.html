@@ -326,6 +326,31 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   <div class="post-list__item">
     <span class="item__title--big">
+      <a href="/posts/netty/netty-direct-memory-leak/" >Netty直接内存溢出问题解决</a>
+    </span>
+    <span class="item__date">
+      Dec 10, 2018
+    </span>
+    <span >
+      
+      <h2 id="问题">问题</h2>
+<p>自己用netty实现的代理，在测速、下载（跑满网速）的情况下总是会报OutOfDirectMemory异常。</p>
+<h2 id="原因及解决">原因及解决</h2>
+<p>在github netty项目下有这样一个<a href="https://github.com/netty/netty/issues/7699">issue</a>。描述了这样一个问题。</p>
+<p>总结一下里面说的。出现这个异常有两种情况，pooled buf没有release；写太快，超过了极限。</p>
+      
+    </span>
+    
+    ... <a class="read-more-symbol" href="/posts/netty/netty-direct-memory-leak/">➦</a>
+    
+  </div>
+  
+  
+  
+  
+  
+  <div class="post-list__item">
+    <span class="item__title--big">
       <a href="/posts/netty/proxyme-based-on-javanio/" >Proxyme-基于javaNIO的http代理</a>
     </span>
     <span class="item__date">
@@ -370,28 +395,6 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   <div class="post-list__item">
     <span class="item__title--big">
-      <a href="/posts/microservice/spring_cloud-study-one/" >spring cloud学习（一）</a>
-    </span>
-    <span class="item__date">
-      Jun 21, 2018
-    </span>
-    <span >
-      
-      <p>作死了解一下spring cloud。当然，不知道能了解到什么程度。先作一死。</p>
-<p>找到了一个博客，准备照着那个博客来搞搞<a href="https://blog.csdn.net/forezp/article/details/70148833">博客地址</a>。这个博客的好处是原理和介绍带一些，代码、pom、配置全都在博客中可以直接复制。第二点——可以直接复制黏贴实践，第一点——复制了能让你知道复制的是干了嘛。当然，原理和介绍稍微有点少，所以哈，最好还是提前了解一些微服务的一些概念。</p>
-      
-    </span>
-    
-    ... <a class="read-more-symbol" href="/posts/microservice/spring_cloud-study-one/">➦</a>
-    
-  </div>
-  
-  
-  
-  
-  
-  <div class="post-list__item">
-    <span class="item__title--big">
       <a href="/posts/microservice/what-is-microservice/" >微服务架构是什么</a>
     </span>
     <span class="item__date">
@@ -413,20 +416,19 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   <div class="post-list__item">
     <span class="item__title--big">
-      <a href="/posts/other/opencv-study/" >opencv c&#43;&#43;学习</a>
+      <a href="/posts/microservice/spring_cloud-study-one/" >spring cloud学习（一）</a>
     </span>
     <span class="item__date">
-      Jun 15, 2018
+      Jun 21, 2018
     </span>
     <span >
       
-      <p>终于来搞搞opencv啦。。</p>
-<h1 id="在windows上安装opencv并且创建visual-studio-2017项目">在windows上安装opencv，并且创建visual studio 2017项目</h1>
-<p>本来想要用clion的，但是编译源码总是出错，就直接用vs2017了。。。</p>
+      <p>作死了解一下spring cloud。当然，不知道能了解到什么程度。先作一死。</p>
+<p>找到了一个博客，准备照着那个博客来搞搞<a href="https://blog.csdn.net/forezp/article/details/70148833">博客地址</a>。这个博客的好处是原理和介绍带一些，代码、pom、配置全都在博客中可以直接复制。第二点——可以直接复制黏贴实践，第一点——复制了能让你知道复制的是干了嘛。当然，原理和介绍稍微有点少，所以哈，最好还是提前了解一些微服务的一些概念。</p>
       
     </span>
     
-    ... <a class="read-more-symbol" href="/posts/other/opencv-study/">➦</a>
+    ... <a class="read-more-symbol" href="/posts/microservice/spring_cloud-study-one/">➦</a>
     
   </div>
   
@@ -459,18 +461,20 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
   
   <div class="post-list__item">
     <span class="item__title--big">
-      <a href="/posts/quant-intrusion-scan-20260518/" >量化介入股票扫描：筛选条件与图表整理</a>
+      <a href="/posts/other/opencv-study/" >opencv c&#43;&#43;学习</a>
     </span>
     <span class="item__date">
-      May 18, 2026
+      Jun 15, 2018
     </span>
     <span >
       
-      整理一次 A 股量化介入扫描的筛选口径，以及 output 目录下已经生成的分时图。
+      <p>终于来搞搞opencv啦。。</p>
+<h1 id="在windows上安装opencv并且创建visual-studio-2017项目">在windows上安装opencv，并且创建visual studio 2017项目</h1>
+<p>本来想要用clion的，但是编译源码总是出错，就直接用vs2017了。。。</p>
       
     </span>
     
-    ... <a class="read-more-symbol" href="/posts/quant-intrusion-scan-20260518/">➦</a>
+    ... <a class="read-more-symbol" href="/posts/other/opencv-study/">➦</a>
     
   </div>
   
