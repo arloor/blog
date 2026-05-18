@@ -36,7 +36,7 @@
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2025-12-04T15:37:22+08:00">
-    <meta property="article:modified_time" content="2025-12-04T15:37:22+08:00">
+    <meta property="article:modified_time" content="2026-05-18T11:30:00+08:00">
     <meta property="article:tag" content="Windows">
 
 
@@ -361,7 +361,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     
     
     <br/>
-    <i class="fas fa-clock"></i> 5 min read
+    <i class="fas fa-clock"></i> 6 min read
 </div>
 
 
@@ -442,7 +442,26 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <h2 id="安装-powershell-7">安装 powershell 7</h2>
 <p><a href="https://learn.microsoft.com/zh-cn/powershell/scripting/install/install-powershell-on-windows?view=powershell-7.5">install-powershell-on-windows</a></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>winget install --id Microsoft.PowerShell --source winget
-</span></span></code></pre></div><p>编辑配置文件 <code>code $PROFILE</code></p>
+</span></span></code></pre></div><p>如果是给 OpenSSH、计划任务、服务等后台进程使用，建议安装 MSI 版。MSI 版会安装到稳定目录：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>C:\Program Files\PowerShell\7\pwsh.exe
+</span></span></code></pre></div><p>指定 <code>wix</code> 安装器类型即可安装 MSI 版：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>winget install `
+</span></span><span style="display:flex;"><span>  --id Microsoft.PowerShell `
+</span></span><span style="display:flex;"><span>  --source winget `
+</span></span><span style="display:flex;"><span>  --installer-type wix `
+</span></span><span style="display:flex;"><span>  --scope machine `
+</span></span><span style="display:flex;"><span>  --architecture x64 `
+</span></span><span style="display:flex;"><span>  --silent `
+</span></span><span style="display:flex;"><span>  --force `
+</span></span><span style="display:flex;"><span>  --accept-package-agreements `
+</span></span><span style="display:flex;"><span>  --accept-source-agreements `
+</span></span><span style="display:flex;"><span>  --disable-interactivity
+</span></span></code></pre></div><p>验证安装路径和版本：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>Test-Path -LiteralPath <span style="color:#e6db74">&#39;C:\Program Files\PowerShell\7\pwsh.exe&#39;</span>
+</span></span><span style="display:flex;"><span>&amp; <span style="color:#e6db74">&#39;C:\Program Files\PowerShell\7\pwsh.exe&#39;</span> -NoLogo -NoProfile -Command <span style="color:#e6db74">&#39;$PSVersionTable.PSVersion.ToString(); $PSHOME&#39;</span>
+</span></span><span style="display:flex;"><span>Get-Command pwsh.exe -All
+</span></span></code></pre></div><p>如果 <code>winget</code> 默认安装的是 MSIX/Store 版，<code>pwsh.exe</code> 可能在 <code>C:\Program Files\WindowsApps\Microsoft.PowerShell_*\pwsh.exe</code>，这个路径带版本号，升级后可能变化；<code>C:\Users\&lt;用户名&gt;\AppData\Local\Microsoft\WindowsApps\pwsh.exe</code> 通常只是应用执行别名，不适合给 OpenSSH 的 <code>DefaultShell</code> 使用。</p>
+<p>编辑配置文件 <code>code $PROFILE</code></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># 设置系统代理</span>
 </span></span><span style="display:flex;"><span>$proxy = <span style="color:#e6db74">&#34;http://127.0.0.1:7890&#34;</span>  <span style="color:#75715e"># 你的代理地址和端口</span>
 </span></span><span style="display:flex;"><span>$env:HTTP_PROXY = $proxy
