@@ -267,16 +267,53 @@ chmod +x /usr/local/bin/killcode
 killcode
 ```
 
-Windows pwsh：
+Windows pwsh：幂等写入到 `$HOME\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1`，之后新开的 PowerShell 会话可以直接执行 `killcode`。
 
 ```powershell
-# Kill server processes
-Get-CimInstance Win32_Process |
-  Where-Object { $_.CommandLine -like "*vscode-server*" } |
-  ForEach-Object { Stop-Process -Id $_.ProcessId -Force }
+$profilePath = Join-Path $HOME "Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1"
+$profileDir = Split-Path -Parent $profilePath
+New-Item -ItemType Directory -Path $profileDir -Force | Out-Null
 
-# Delete related files and folder
-Remove-Item -Recurse -Force "$HOME\.vscode-server", "$HOME\.vscode-server-insiders" -ErrorAction SilentlyContinue
+$killcodeBlock = @'
+# >>> killcode >>>
+function killcode {
+    Get-CimInstance Win32_Process |
+        Where-Object { $_.CommandLine -and $_.CommandLine -like "*vscode-server*" } |
+        ForEach-Object {
+            Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue
+        }
+
+    Remove-Item -LiteralPath "$HOME\.vscode-server" -Recurse -Force -ErrorAction SilentlyContinue
+    Remove-Item -LiteralPath "$HOME\.vscode-server-insiders" -Recurse -Force -ErrorAction SilentlyContinue
+}
+# <<< killcode <<<
+'@
+
+$pattern = '(?ms)^# >>> killcode >>>\r?\n.*?^# <<< killcode <<<\r?\n?'
+$profileContent = ""
+if (Test-Path -LiteralPath $profilePath) {
+    $profileContent = Get-Content -LiteralPath $profilePath -Raw
+}
+
+$profileContent = [regex]::Replace($profileContent, $pattern, '')
+
+$tokens = $null
+$errors = $null
+$profileAst = [System.Management.Automation.Language.Parser]::ParseInput($profileContent, [ref]$tokens, [ref]$errors)
+$killcodeFunctions = $profileAst.FindAll({
+    param($ast)
+    $ast -is [System.Management.Automation.Language.FunctionDefinitionAst] -and $ast.Name -eq "killcode"
+}, $true) | Sort-Object { $_.Extent.StartOffset } -Descending
+
+foreach ($killcodeFunction in $killcodeFunctions) {
+    $profileContent = $profileContent.Remove(
+        $killcodeFunction.Extent.StartOffset,
+        $killcodeFunction.Extent.EndOffset - $killcodeFunction.Extent.StartOffset
+    )
+}
+
+$profileContent = $profileContent.TrimEnd() + [Environment]::NewLine + [Environment]::NewLine + $killcodeBlock + [Environment]::NewLine
+Set-Content -LiteralPath $profilePath -Value $profileContent -Encoding UTF8
 ```
 
 ## Rust 开发
