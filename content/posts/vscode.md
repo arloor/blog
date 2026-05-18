@@ -247,6 +247,19 @@ sudo security authorizationdb read system.privilege.taskport.debug
 echo ssh-rsa xxxxxxxx not@home > ~/.ssh/authorized_keys
 ```
 
+### ssh 到 windows 上远程开发
+
+参考[Windows11启用openssh](posts/windows11-openssh/)，安装Windows上的openssh server，之后就可以连上Windows了。
+
+如果发现通过VSCode连上Windows后，再次连接时连不上，可以修改VSCode的配置为如下：
+
+```json
+{
+  "remote.SSH.useExecServer": false,
+  "remote.SSH.useLocalServer": true
+}
+```
+
 ## 卸载远程服务器 vscode server
 
 > **这个比想象的更加常用，因为在大型的项目中，符号跳转经常导致 CPU 占用很高并且无响应**
@@ -267,7 +280,7 @@ chmod +x /usr/local/bin/killcode
 killcode
 ```
 
-Windows pwsh：幂等写入到 `$HOME\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1`，之后新开的 PowerShell 会话可以直接执行 `killcode`。
+Windows PowerShell：幂等写入到 `$HOME\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1`，之后新开的 Windows PowerShell 会话可以直接执行 `killcode`。如果使用 PowerShell 7，可以把 `$profilePath` 改成 `$PROFILE.CurrentUserCurrentHost`。
 
 ```powershell
 $profilePath = Join-Path $HOME "Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1"
