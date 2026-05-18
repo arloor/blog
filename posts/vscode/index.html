@@ -387,6 +387,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
         <li><a href="#ssh-到-windows-上使用-wsl-开发">ssh 到 windows 上使用 WSL 开发</a></li>
         <li><a href="#使用-socat-作为-proxycommand用-http-代理连接-ssh-服务器">使用 socat 作为 ProxyCommand，用 http 代理连接 ssh 服务器</a></li>
         <li><a href="#ssh-到-macos-上远程开发">ssh 到 macOS 上远程开发</a></li>
+        <li><a href="#ssh-到-windows-上远程开发">ssh 到 windows 上远程开发</a></li>
       </ul>
     </li>
     <li><a href="#卸载远程服务器-vscode-server">卸载远程服务器 vscode server</a></li>
@@ -712,6 +713,13 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </ol>
 <p>如果每次 ssh 到 macOS 都需要输入密码，设置公钥就行：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>echo ssh-rsa xxxxxxxx not@home &gt; ~/.ssh/authorized_keys
+</span></span></code></pre></div><h3 id="ssh-到-windows-上远程开发">ssh 到 windows 上远程开发</h3>
+<p>参考<a href="posts/windows11-openssh/">Windows11启用openssh</a>，安装Windows上的openssh server，之后就可以连上Windows了。</p>
+<p>如果发现通过VSCode连上Windows后，再次连接时连不上，可以修改VSCode的配置为如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;remote.SSH.useExecServer&#34;</span>: <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;remote.SSH.useLocalServer&#34;</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h2 id="卸载远程服务器-vscode-server">卸载远程服务器 vscode server</h2>
 <blockquote>
 <p><strong>这个比想象的更加常用，因为在大型的项目中，符号跳转经常导致 CPU 占用很高并且无响应</strong></p>
@@ -729,7 +737,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
 </span></span><span style="display:flex;"><span>chmod +x /usr/local/bin/killcode
 </span></span><span style="display:flex;"><span>killcode
-</span></span></code></pre></div><p>Windows pwsh：幂等写入到 <code>$HOME\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1</code>，之后新开的 PowerShell 会话可以直接执行 <code>killcode</code>。</p>
+</span></span></code></pre></div><p>Windows PowerShell：幂等写入到 <code>$HOME\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1</code>，之后新开的 Windows PowerShell 会话可以直接执行 <code>killcode</code>。如果使用 PowerShell 7，可以把 <code>$profilePath</code> 改成 <code>$PROFILE.CurrentUserCurrentHost</code>。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>$profilePath = Join-Path $HOME <span style="color:#e6db74">&#34;Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1&#34;</span>
 </span></span><span style="display:flex;"><span>$profileDir = Split-Path -Parent $profilePath
 </span></span><span style="display:flex;"><span>New-Item -ItemType Directory -Path $profileDir -Force | Out-Null
