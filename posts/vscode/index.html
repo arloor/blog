@@ -365,7 +365,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     
     
     <br/>
-    <i class="fas fa-clock"></i> 7 min read
+    <i class="fas fa-clock"></i> 8 min read
 </div>
 
 
@@ -729,14 +729,51 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">EOF</span>
 </span></span><span style="display:flex;"><span>chmod +x /usr/local/bin/killcode
 </span></span><span style="display:flex;"><span>killcode
-</span></span></code></pre></div><p>Windows pwsh：</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span><span style="color:#75715e"># Kill server processes</span>
-</span></span><span style="display:flex;"><span>Get-CimInstance Win32_Process |
-</span></span><span style="display:flex;"><span>  Where-Object { $_.CommandLine <span style="color:#f92672">-like</span> <span style="color:#e6db74">&#34;*vscode-server*&#34;</span> } |
-</span></span><span style="display:flex;"><span>  ForEach-Object { Stop-Process -Id $_.ProcessId -Force }
+</span></span></code></pre></div><p>Windows pwsh：幂等写入到 <code>$HOME\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1</code>，之后新开的 PowerShell 会话可以直接执行 <code>killcode</code>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-powershell" data-lang="powershell"><span style="display:flex;"><span>$profilePath = Join-Path $HOME <span style="color:#e6db74">&#34;Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1&#34;</span>
+</span></span><span style="display:flex;"><span>$profileDir = Split-Path -Parent $profilePath
+</span></span><span style="display:flex;"><span>New-Item -ItemType Directory -Path $profileDir -Force | Out-Null
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e"># Delete related files and folder</span>
-</span></span><span style="display:flex;"><span>Remove-Item -Recurse -Force <span style="color:#e6db74">&#34;</span>$HOME<span style="color:#e6db74">\.vscode-server&#34;</span>, <span style="color:#e6db74">&#34;</span>$HOME<span style="color:#e6db74">\.vscode-server-insiders&#34;</span> -ErrorAction SilentlyContinue
+</span></span><span style="display:flex;"><span>$killcodeBlock = <span style="color:#e6db74">@&#39;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"># &gt;&gt;&gt; killcode &gt;&gt;&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">function killcode {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Get-CimInstance Win32_Process |
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        Where-Object { $_.CommandLine -and $_.CommandLine -like &#34;*vscode-server*&#34; } |
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        ForEach-Object {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        }
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Remove-Item -LiteralPath &#34;$HOME\.vscode-server&#34; -Recurse -Force -ErrorAction SilentlyContinue
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">    Remove-Item -LiteralPath &#34;$HOME\.vscode-server-insiders&#34; -Recurse -Force -ErrorAction SilentlyContinue
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">}
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74"># &lt;&lt;&lt; killcode &lt;&lt;&lt;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">&#39;@</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$pattern = <span style="color:#e6db74">&#39;(?ms)^# &gt;&gt;&gt; killcode &gt;&gt;&gt;\r?\n.*?^# &lt;&lt;&lt; killcode &lt;&lt;&lt;\r?\n?&#39;</span>
+</span></span><span style="display:flex;"><span>$profileContent = <span style="color:#e6db74">&#34;&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (Test-Path -LiteralPath $profilePath) {
+</span></span><span style="display:flex;"><span>    $profileContent = Get-Content -LiteralPath $profilePath -Raw
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$profileContent = [<span style="color:#66d9ef">regex</span>]::Replace($profileContent, $pattern, <span style="color:#e6db74">&#39;&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$tokens = $null
+</span></span><span style="display:flex;"><span>$errors = $null
+</span></span><span style="display:flex;"><span>$profileAst = [<span style="color:#66d9ef">System.Management.Automation.Language.Parser</span>]::ParseInput($profileContent, [<span style="color:#66d9ef">ref</span>]$tokens, [<span style="color:#66d9ef">ref</span>]$errors)
+</span></span><span style="display:flex;"><span>$killcodeFunctions = $profileAst.FindAll({
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">param</span>($ast)
+</span></span><span style="display:flex;"><span>    $ast <span style="color:#f92672">-is</span> [<span style="color:#66d9ef">System.Management.Automation.Language.FunctionDefinitionAst</span>] <span style="color:#f92672">-and</span> $ast.Name <span style="color:#f92672">-eq</span> <span style="color:#e6db74">&#34;killcode&#34;</span>
+</span></span><span style="display:flex;"><span>}, $true) | Sort-Object { $_.Extent.StartOffset } -Descending
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">foreach</span> ($killcodeFunction <span style="color:#66d9ef">in</span> $killcodeFunctions) {
+</span></span><span style="display:flex;"><span>    $profileContent = $profileContent.Remove(
+</span></span><span style="display:flex;"><span>        $killcodeFunction.Extent.StartOffset,
+</span></span><span style="display:flex;"><span>        $killcodeFunction.Extent.EndOffset - $killcodeFunction.Extent.StartOffset
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$profileContent = $profileContent.TrimEnd() + [<span style="color:#66d9ef">Environment</span>]::NewLine + [<span style="color:#66d9ef">Environment</span>]::NewLine + $killcodeBlock + [<span style="color:#66d9ef">Environment</span>]::NewLine
+</span></span><span style="display:flex;"><span>Set-Content -LiteralPath $profilePath -Value $profileContent -Encoding UTF8
 </span></span></code></pre></div><h2 id="rust-开发">Rust 开发</h2>
 <h3 id="安装四个插件">安装四个插件：</h3>
 <table>
