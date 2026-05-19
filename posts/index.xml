@@ -6,7 +6,7 @@
     <description>Recent content in Posts on ARLOOR</description>
     <generator>Hugo</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Tue, 19 May 2026 16:30:00 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 18 May 2026 11:30:00 +0800</lastBuildDate>
     <atom:link href="https://www.arloor.com/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>systemd用户模式和user journal使用指南</title>
@@ -1309,20 +1309,6 @@
       <pubDate>Fri, 15 Jun 2018 00:00:00 +0000</pubDate>
       <guid>https://www.arloor.com/posts/springboot/redis%E4%B8%8Espringboot%E6%95%B4%E5%90%88%E5%AD%A6%E4%B9%A0/</guid>
       <description>&lt;p&gt;最近在做一个电商网站。今天想要实现一下购物车的功能。&lt;/p&gt;&#xA;&lt;p&gt;考虑问题如下：用户访问购物车会比较频繁，而且经常更改（比如修改数字）。对于后端的数据来说，也就是读写都很频繁。于是考虑通过redis，来减少对数据库的读写。&lt;/p&gt;&#xA;&lt;p&gt;就研究一下怎么使用redis以及整合到springboot中。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>量化介入股票扫描结果：2026-05-19</title>
-      <link>https://www.arloor.com/posts/quant-intrusion-scan-20260519/</link>
-      <pubDate>Tue, 19 May 2026 16:30:00 +0800</pubDate>
-      <guid>https://www.arloor.com/posts/quant-intrusion-scan-20260519/</guid>
-      <description>&lt;p&gt;这篇文章整理 2026-05-19 跑出来的 A 股“量化介入”扫描结果。今天榜单共 &lt;code&gt;50&lt;/code&gt; 条候选，Top 5 是：明阳电气、德固特、金卡智能、金逸影视、丰茂股份。这里不重新计算，只把 CSV 结果和分时图整理进博客，方便后面复盘。&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>量化介入股票扫描：筛选条件与图表整理</title>
-      <link>https://www.arloor.com/posts/quant-intrusion-scan-20260518/</link>
-      <pubDate>Mon, 18 May 2026 22:10:00 +0800</pubDate>
-      <guid>https://www.arloor.com/posts/quant-intrusion-scan-20260518/</guid>
-      <description>&lt;p&gt;这篇文章记录一下这个小项目当前使用的 A 股“量化介入”扫描口径，并把 &lt;code&gt;output&lt;/code&gt; 目录下已经跑出来的分时图统一放进博客，方便后面复盘。这里不重新计算，只做整理。&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>
