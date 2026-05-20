@@ -6,7 +6,7 @@
     <description>Recent content on ARLOOR</description>
     <generator>Hugo</generator>
     <language>zh-CN</language>
-    <lastBuildDate>Mon, 18 May 2026 11:30:00 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 20 May 2026 00:00:00 +0800</lastBuildDate>
     <atom:link href="https://www.arloor.com/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>systemd用户模式和user journal使用指南</title>
@@ -1309,6 +1309,13 @@
       <pubDate>Fri, 15 Jun 2018 00:00:00 +0000</pubDate>
       <guid>https://www.arloor.com/posts/springboot/redis%E4%B8%8Espringboot%E6%95%B4%E5%90%88%E5%AD%A6%E4%B9%A0/</guid>
       <description>&lt;p&gt;最近在做一个电商网站。今天想要实现一下购物车的功能。&lt;/p&gt;&#xA;&lt;p&gt;考虑问题如下：用户访问购物车会比较频繁，而且经常更改（比如修改数字）。对于后端的数据来说，也就是读写都很频繁。于是考虑通过redis，来减少对数据库的读写。&lt;/p&gt;&#xA;&lt;p&gt;就研究一下怎么使用redis以及整合到springboot中。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Jetpack Compose 中实现长按拖拽排序</title>
+      <link>https://www.arloor.com/posts/android-compose-long-press-drag-reorder/</link>
+      <pubDate>Wed, 20 May 2026 00:00:00 +0800</pubDate>
+      <guid>https://www.arloor.com/posts/android-compose-long-press-drag-reorder/</guid>
+      <description>&lt;h2 id=&#34;可复用提示词&#34;&gt;可复用提示词&lt;/h2&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;请在现有 Android Jetpack Compose 列表页面中实现“长按拖拽排序”能力，要求尽量复用当前页面、ViewModel 和保存接口，不引入不必要的新库。&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;交互要求：&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;1. 用户长按列表行后进入拖动状态，整行跟随手指移动。&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2. 长按生效时需要有明确反馈，例如背景高亮、轻微缩放、透明度变化或触觉反馈。&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;3. 拖动过程中展示一条高亮插入线，表示松手后条目会插入的位置。&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;4. 拖动过程中，被拖动条目跨过的其他行要动态让位。例如向下拖时，中间行上移；向上拖时，中间行下移。&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;5. 普通行间分隔线需要跟随对应行一起移动，插入线替换对应位置的分隔线，不要出现分隔线丢失或覆盖文字。&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;6. 松手后再真正修改数据顺序，不要在拖动过程中反复重排真实列表。&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;7. 最终顺序应能通过现有保存流程持久化。&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;实现约束：&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;1. 使用 detectDragGesturesAfterLongPress 监听长按拖动。&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;2. 使用稳定 key 保持行身份，避免滚动或重排后移动到错误条目。&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;3. pointerInput 尽量保持稳定；如果回调依赖最新 index 或状态，用 rememberUpdatedState 转接最新回调。&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;4. 拖动开始时记录起始 index、起始手指 Y 坐标，并冻结一份当前可见行的真实屏幕坐标，拖动过程中用冻结坐标计算插入位置，避免视觉位移反过来影响命中判断导致抖动。&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;5. 插入位置使用 insertionIndex 表示，范围为 0..items.size；松手时把 fromIndex 转换成实际 targetIndex。&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;6. 用 onGloballyPositioned / positionInWindow 记录每一行 top、bottom，用 onSizeChanged 或兜底 dp 值记录行高。&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;7. 对被挤压的行使用 graphicsLayer.translationY 做视觉位移，不在拖动中修改真实列表顺序。&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;8. 完成后运行 Kotlin/Gradle 编译检查，并说明验证结果。&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;请先阅读现有代码结构，再按项目已有风格实现。保持改动聚焦，避免重构无关逻辑。&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
     <item>
       <title>About Arloor</title>
