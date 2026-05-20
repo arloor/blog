@@ -25,13 +25,13 @@
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Jetpack Compose 中实现长按拖拽排序">
-  <meta name="twitter:description" content="记录一次在股票持仓列表中实现长按拖拽排序的过程，包括提示词、状态设计、坐标冻结、插入线和被挤压行的视觉反馈。">
+  <meta name="twitter:description" content="记录一次在股票持仓列表中实现长按拖拽排序的过程，包括提示词、状态设计、坐标冻结、跨屏自动滚动、插入线和被挤压行的视觉反馈。">
       <meta name="twitter:site" content="@njulgh">
 
 <meta property="og:url" content="https://www.arloor.com/posts/android-compose-long-press-drag-reorder/">
   <meta property="og:site_name" content="ARLOOR">
   <meta property="og:title" content="Jetpack Compose 中实现长按拖拽排序">
-  <meta property="og:description" content="记录一次在股票持仓列表中实现长按拖拽排序的过程，包括提示词、状态设计、坐标冻结、插入线和被挤压行的视觉反馈。">
+  <meta property="og:description" content="记录一次在股票持仓列表中实现长按拖拽排序的过程，包括提示词、状态设计、坐标冻结、跨屏自动滚动、插入线和被挤压行的视觉反馈。">
   <meta property="og:locale" content="zh_CN">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
@@ -373,7 +373,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
     
     
     <br/>
-    <i class="fas fa-clock"></i> 6 min read
+    <i class="fas fa-clock"></i> 9 min read
 </div>
 
 
@@ -395,7 +395,9 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
         <li><a href="#长按手势">长按手势</a></li>
         <li><a href="#冻结行坐标避免抖动">冻结行坐标，避免抖动</a></li>
         <li><a href="#根据手指位置计算插入线">根据手指位置计算插入线</a></li>
+        <li><a href="#跨屏拖动边缘自动滚动">跨屏拖动：边缘自动滚动</a></li>
         <li><a href="#被挤压行的视觉位移">被挤压行的视觉位移</a></li>
+        <li><a href="#位移步长要包含分隔线和空白">位移步长要包含分隔线和空白</a></li>
         <li><a href="#插入线和分隔线">插入线和分隔线</a></li>
         <li><a href="#松手时提交真实顺序">松手时提交真实顺序</a></li>
         <li><a href="#容易踩的坑">容易踩的坑</a></li>
@@ -419,7 +421,9 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>4. 拖动过程中，被拖动条目跨过的其他行要动态让位。例如向下拖时，中间行上移；向上拖时，中间行下移。
 </span></span><span style="display:flex;"><span>5. 普通行间分隔线需要跟随对应行一起移动，插入线替换对应位置的分隔线，不要出现分隔线丢失或覆盖文字。
 </span></span><span style="display:flex;"><span>6. 松手后再真正修改数据顺序，不要在拖动过程中反复重排真实列表。
-</span></span><span style="display:flex;"><span>7. 最终顺序应能通过现有保存流程持久化。
+</span></span><span style="display:flex;"><span>7. 当列表超过一屏时，拖动到列表顶部或底部附近需要自动滚动，让用户可以跨屏幕拖动条目。
+</span></span><span style="display:flex;"><span>8. 被挤压行移动时，行内容、行间分隔线、行间空白要作为一个完整视觉单元移动，不要把外边距或分隔线残留在原地。
+</span></span><span style="display:flex;"><span>9. 最终顺序应能通过现有保存流程持久化。
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>实现约束：
 </span></span><span style="display:flex;"><span>1. 使用 detectDragGesturesAfterLongPress 监听长按拖动。
@@ -429,7 +433,10 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>5. 插入位置使用 insertionIndex 表示，范围为 0..items.size；松手时把 fromIndex 转换成实际 targetIndex。
 </span></span><span style="display:flex;"><span>6. 用 onGloballyPositioned / positionInWindow 记录每一行 top、bottom，用 onSizeChanged 或兜底 dp 值记录行高。
 </span></span><span style="display:flex;"><span>7. 对被挤压的行使用 graphicsLayer.translationY 做视觉位移，不在拖动中修改真实列表顺序。
-</span></span><span style="display:flex;"><span>8. 完成后运行 Kotlin/Gradle 编译检查，并说明验证结果。
+</span></span><span style="display:flex;"><span>8. 行位移步长不要只用行内容高度，优先用相邻两行 top 坐标差，确保步长包含行间分隔线和行间空白。
+</span></span><span style="display:flex;"><span>9. LazyColumn 使用 rememberLazyListState，并记录列表 viewport 的 top、bottom；拖动时如果手指靠近 viewport 顶部或底部，使用 scrollBy 持续自动滚动。
+</span></span><span style="display:flex;"><span>10. 自动滚动会改变内容相对屏幕的位置，需要维护 dragScrollOffset：被拖动行的 translationY 要补上滚动消耗，命中插入位置时则用 fingerY = dragStartFingerY + dragOffset - dragScrollOffset，并让冻结坐标按 scrollOffset 修正。
+</span></span><span style="display:flex;"><span>11. 完成后运行 Kotlin/Gradle 编译检查，并说明验证结果。
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>请先阅读现有代码结构，再按项目已有风格实现。保持改动聚焦，避免重构无关逻辑。
 </span></span></code></pre></div><h2 id="实现细节">实现细节</h2>
@@ -450,12 +457,14 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> dragInsertionIndex <span style="color:#66d9ef">by</span> remember { mutableIntStateOf(-<span style="color:#ae81ff">1</span>) }
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> dragStartFingerY <span style="color:#66d9ef">by</span> remember { mutableFloatStateOf(<span style="color:#ae81ff">0f</span>) }
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> dragOffset <span style="color:#66d9ef">by</span> remember { mutableFloatStateOf(<span style="color:#ae81ff">0f</span>) }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> dragScrollOffset <span style="color:#66d9ef">by</span> remember { mutableFloatStateOf(<span style="color:#ae81ff">0f</span>) }
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">val</span> rowBounds = remember { mutableMapOf&lt;String, StockManagerRowBounds&gt;() }
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> dragRowBounds <span style="color:#66d9ef">by</span> remember { mutableStateOf&lt;Map&lt;String, StockManagerRowBounds&gt;&gt;(emptyMap()) }
 </span></span></code></pre></div><p>这里有两个 index：</p>
 <ul>
 <li><code>dragStartIndex</code>：被拖动股票原来的位置。</li>
 <li><code>dragInsertionIndex</code>：当前高亮插入线的位置，范围是 <code>0..entries.size</code>。</li>
+<li><code>dragScrollOffset</code>：拖动过程中由自动滚动产生的累计滚动补偿。</li>
 </ul>
 <p><code>dragInsertionIndex</code> 不是目标行 index，而是“插入到第几个元素前面”。例如值为 <code>0</code> 表示插到最前面，值为 <code>entries.size</code> 表示插到最后。</p>
 <h3 id="长按手势">长按手势</h3>
@@ -486,10 +495,12 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <h3 id="根据手指位置计算插入线">根据手指位置计算插入线</h3>
 <p>拖动时累计 <code>dragOffset</code>，然后用起始手指位置加上累计位移得到当前手指 Y 坐标：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span>dragOffset <span style="color:#f92672">+=</span> deltaY
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">val</span> fingerY = dragStartFingerY + dragOffset - dragScrollOffset
 </span></span><span style="display:flex;"><span>dragInsertionIndex = resolveStockManagerDragInsertionIndex(
-</span></span><span style="display:flex;"><span>    fingerY = dragStartFingerY + dragOffset,
+</span></span><span style="display:flex;"><span>    fingerY = fingerY,
 </span></span><span style="display:flex;"><span>    entries = uiState.entries,
 </span></span><span style="display:flex;"><span>    rowBounds = dragRowBounds.ifEmpty { rowBounds },
+</span></span><span style="display:flex;"><span>    scrollOffset = dragScrollOffset,
 </span></span><span style="display:flex;"><span>) <span style="color:#f92672">?:</span> fallback
 </span></span></code></pre></div><p>插入位置计算逻辑是：遍历可见行的 <code>top..bottom</code>，如果手指在某行上半部分，就插到该行前面；如果在下半部分，就插到该行后面。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (fingerY <span style="color:#f92672">&lt;=</span> bounds.bottom) {
@@ -497,6 +508,57 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">if</span> (fingerY &lt; center) bounds.index <span style="color:#66d9ef">else</span> bounds.index + <span style="color:#ae81ff">1</span>
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>这个算法比“拖动距离除以行高”更准确，因为它考虑了实际行坐标、字体高度、分隔线和屏幕密度。</p>
+<h3 id="跨屏拖动边缘自动滚动">跨屏拖动：边缘自动滚动</h3>
+<p>列表超过一屏后，只让行在当前屏幕里拖动是不够的。跨屏拖动的做法是给 <code>LazyColumn</code> 增加 <code>LazyListState</code>，并记录整个列表 viewport 的屏幕坐标：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">val</span> listState = rememberLazyListState()
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> listViewportTop <span style="color:#66d9ef">by</span> remember { mutableFloatStateOf(<span style="color:#ae81ff">0f</span>) }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">var</span> listViewportBottom <span style="color:#66d9ef">by</span> remember { mutableFloatStateOf(<span style="color:#ae81ff">0f</span>) }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>LazyColumn(
+</span></span><span style="display:flex;"><span>    state = listState,
+</span></span><span style="display:flex;"><span>    modifier = Modifier
+</span></span><span style="display:flex;"><span>        .fillMaxSize()
+</span></span><span style="display:flex;"><span>        .onGloballyPositioned { coordinates <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">val</span> top = coordinates.positionInWindow().y
+</span></span><span style="display:flex;"><span>            listViewportTop = top
+</span></span><span style="display:flex;"><span>            listViewportBottom = top + coordinates.size.height
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ...
+</span></span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>拖动状态存在时，启动一个 <code>LaunchedEffect(draggingCode)</code> 循环。每一帧检查手指是否靠近列表顶部或底部，如果靠近，就调用 <code>listState.scrollBy(scrollDelta)</code>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span>LaunchedEffect(draggingCode) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> (draggingCode <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">val</span> fingerY = dragStartFingerY + dragOffset - dragScrollOffset
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">val</span> scrollDelta = stockManagerAutoScrollDelta(
+</span></span><span style="display:flex;"><span>            fingerY = fingerY,
+</span></span><span style="display:flex;"><span>            viewportTop = listViewportTop,
+</span></span><span style="display:flex;"><span>            viewportBottom = listViewportBottom,
+</span></span><span style="display:flex;"><span>            edgeThresholdPx = autoScrollEdgePx,
+</span></span><span style="display:flex;"><span>            maxScrollStepPx = autoScrollStepPx,
+</span></span><span style="display:flex;"><span>        )
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (scrollDelta <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0f</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">val</span> consumed = listState.scrollBy(scrollDelta)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (consumed <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0f</span>) {
+</span></span><span style="display:flex;"><span>                dragOffset <span style="color:#f92672">+=</span> consumed
+</span></span><span style="display:flex;"><span>                dragScrollOffset <span style="color:#f92672">+=</span> consumed
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// 继续用新的手指位置刷新插入线
+</span></span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        withFrameNanos { }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>这里有一个不太直观但很重要的补偿：自动滚动会让列表内容在屏幕上移动，如果只滚列表，不补偿拖动行，手指和被拖动行会立刻错开。所以滚动消耗了多少，就同步加到 <code>dragOffset</code>；但计算插入位置时，又要减掉 <code>dragScrollOffset</code>，也就是：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">val</span> fingerY = dragStartFingerY + dragOffset - dragScrollOffset
+</span></span></code></pre></div><p>冻结坐标也要接受同样的滚动修正：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">val</span> visibleBounds = entries.mapNotNull { entry <span style="color:#f92672">-&gt;</span> rowBounds[entry.code] }
+</span></span><span style="display:flex;"><span>    .map { bounds <span style="color:#f92672">-&gt;</span>
+</span></span><span style="display:flex;"><span>        bounds.copy(
+</span></span><span style="display:flex;"><span>            top = bounds.top - scrollOffset,
+</span></span><span style="display:flex;"><span>            bottom = bounds.bottom - scrollOffset,
+</span></span><span style="display:flex;"><span>        )
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><p>这样被拖动行继续贴着手指，插入位置也能跟随列表自动滚动后新的视觉位置更新。</p>
 <h3 id="被挤压行的视觉位移">被挤压行的视觉位移</h3>
 <p>拖动过程中不改真实列表，但要让其他行看起来已经让位。做法是计算每一行的 <code>rowDisplacement</code>：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">return</span> <span style="color:#66d9ef">when</span> {
@@ -521,6 +583,29 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>长按进入拖动时触发一次 <code>HapticFeedbackType.LongPress</code>。</li>
 </ul>
 <p>后来去掉了阴影，因为在密集表格里阴影看起来比较脏。</p>
+<h3 id="位移步长要包含分隔线和空白">位移步长要包含分隔线和空白</h3>
+<p>这里还有一个细节：<code>rowDragStepPx</code> 不能简单等于某一行自身的高度。因为视觉上相邻两行之间通常还有分隔线、padding 或其它空白。如果被挤压行只移动“行内容高度”，行间空白就会像留在原地一样，看起来有一块外边距没有跟着行走。</p>
+<p>更稳的做法是拖动开始时根据冻结坐标计算完整步长：优先取相邻两行的 top 坐标差。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#66d9ef">private</span> <span style="color:#66d9ef">fun</span> <span style="color:#a6e22e">stockManagerRowStepPx</span>(
+</span></span><span style="display:flex;"><span>    index: Int,
+</span></span><span style="display:flex;"><span>    entries: List&lt;StockEntry&gt;,
+</span></span><span style="display:flex;"><span>    rowBounds: Map&lt;String, StockManagerRowBounds&gt;,
+</span></span><span style="display:flex;"><span>    fallback: Float,
+</span></span><span style="display:flex;"><span>): Float {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">val</span> current = entries.getOrNull(index)<span style="color:#f92672">?.</span>let { rowBounds[<span style="color:#66d9ef">it</span>.code] } <span style="color:#f92672">?:</span> <span style="color:#66d9ef">return</span> fallback
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">val</span> next = entries.getOrNull(index + <span style="color:#ae81ff">1</span>)<span style="color:#f92672">?.</span>let { rowBounds[<span style="color:#66d9ef">it</span>.code] }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (next <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> (next.top - current.top).takeIf { <span style="color:#66d9ef">it</span> &gt; <span style="color:#ae81ff">0f</span> } <span style="color:#f92672">?:</span> fallback
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">val</span> previous = entries.getOrNull(index - <span style="color:#ae81ff">1</span>)<span style="color:#f92672">?.</span>let { rowBounds[<span style="color:#66d9ef">it</span>.code] }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (previous <span style="color:#f92672">!=</span> <span style="color:#66d9ef">null</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> (current.top - previous.top).takeIf { <span style="color:#66d9ef">it</span> &gt; <span style="color:#ae81ff">0f</span> } <span style="color:#f92672">?:</span> fallback
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> (current.bottom - current.top).takeIf { <span style="color:#66d9ef">it</span> &gt; <span style="color:#ae81ff">0f</span> } <span style="color:#f92672">?:</span> fallback
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>这样 <code>rowDisplacement</code> 移动的是“从一行到下一行”的完整视觉距离，而不只是行内容高度。普通分隔线和插入线也使用同一个 <code>rowDisplacement</code>，视觉上就不会出现内容移动了、线或空白还残留在原位置的问题。</p>
 <h3 id="插入线和分隔线">插入线和分隔线</h3>
 <p>插入线使用一个很薄的独立组件：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-kotlin" data-lang="kotlin"><span style="display:flex;"><span><span style="color:#a6e22e">@Composable</span>
@@ -581,6 +666,8 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>不要让插入线覆盖在文字内容上，密集表格里会很明显。</li>
 <li>如果行和分隔线是分开 composable，分隔线也要跟随被挤压行位移。</li>
 <li><code>pointerInput</code> 如果为了稳定只用 code 做 key，内部回调必须用 <code>rememberUpdatedState</code> 接住最新状态。</li>
+<li>跨屏拖动时，自动滚动要同步维护滚动补偿；否则列表滚了，但被拖动行或插入线会和手指错位。</li>
+<li>被挤压行的位移步长要用相邻行 top 差，不能只用行自身高度，否则行间空白会像“外边距残留”一样停在原地。</li>
 </ol>
 <h2 id="总结">总结</h2>
 <p>这个实现的核心不是“让列表项能动”，而是把拖动拆成两个阶段：</p>
@@ -588,7 +675,7 @@ Built with <a href="https://gohugo.io">Hugo</a> ❤️ <a href="https://github.c
 <li>拖动中：只做视觉模拟。</li>
 <li>松手后：一次性修改真实数据。</li>
 </ul>
-<p>再配合冻结坐标、插入线、被挤压行位移和稳定手势回调，就能在不引入第三方库的情况下，做出比较稳的 Compose 长按拖拽排序体验。</p>
+<p>再配合冻结坐标、边缘自动滚动、滚动补偿、插入线、被挤压行位移和稳定手势回调，就能在不引入第三方库的情况下，做出比较稳的 Compose 长按拖拽排序体验。</p>
   </div>
   
 
