@@ -10,7 +10,7 @@ tags:
   - Jetpack Compose
   - 拖拽排序
   - 交互设计
-description: "记录一次在股票持仓列表中实现长按拖拽排序的过程，包括提示词、状态设计、坐标冻结、插入线和被挤压行的视觉反馈。"
+description: "记录一次在股票持仓列表中实现长按拖拽排序的过程，包括提示词、状态设计、坐标冻结、跨屏自动滚动、插入线和被挤压行的视觉反馈。"
 ---
 
 ## 可复用提示词
@@ -25,7 +25,9 @@ description: "记录一次在股票持仓列表中实现长按拖拽排序的过
 4. 拖动过程中，被拖动条目跨过的其他行要动态让位。例如向下拖时，中间行上移；向上拖时，中间行下移。
 5. 普通行间分隔线需要跟随对应行一起移动，插入线替换对应位置的分隔线，不要出现分隔线丢失或覆盖文字。
 6. 松手后再真正修改数据顺序，不要在拖动过程中反复重排真实列表。
-7. 最终顺序应能通过现有保存流程持久化。
+7. 当列表超过一屏时，拖动到列表顶部或底部附近需要自动滚动，让用户可以跨屏幕拖动条目。
+8. 被挤压行移动时，行内容、行间分隔线、行间空白要作为一个完整视觉单元移动，不要把外边距或分隔线残留在原地。
+9. 最终顺序应能通过现有保存流程持久化。
 
 实现约束：
 1. 使用 detectDragGesturesAfterLongPress 监听长按拖动。
@@ -35,7 +37,10 @@ description: "记录一次在股票持仓列表中实现长按拖拽排序的过
 5. 插入位置使用 insertionIndex 表示，范围为 0..items.size；松手时把 fromIndex 转换成实际 targetIndex。
 6. 用 onGloballyPositioned / positionInWindow 记录每一行 top、bottom，用 onSizeChanged 或兜底 dp 值记录行高。
 7. 对被挤压的行使用 graphicsLayer.translationY 做视觉位移，不在拖动中修改真实列表顺序。
-8. 完成后运行 Kotlin/Gradle 编译检查，并说明验证结果。
+8. 行位移步长不要只用行内容高度，优先用相邻两行 top 坐标差，确保步长包含行间分隔线和行间空白。
+9. LazyColumn 使用 rememberLazyListState，并记录列表 viewport 的 top、bottom；拖动时如果手指靠近 viewport 顶部或底部，使用 scrollBy 持续自动滚动。
+10. 自动滚动会改变内容相对屏幕的位置，需要维护 dragScrollOffset：被拖动行的 translationY 要补上滚动消耗，命中插入位置时则用 fingerY = dragStartFingerY + dragOffset - dragScrollOffset，并让冻结坐标按 scrollOffset 修正。
+11. 完成后运行 Kotlin/Gradle 编译检查，并说明验证结果。
 
 请先阅读现有代码结构，再按项目已有风格实现。保持改动聚焦，避免重构无关逻辑。
 ```
@@ -68,6 +73,7 @@ var dragStartIndex by remember { mutableIntStateOf(-1) }
 var dragInsertionIndex by remember { mutableIntStateOf(-1) }
 var dragStartFingerY by remember { mutableFloatStateOf(0f) }
 var dragOffset by remember { mutableFloatStateOf(0f) }
+var dragScrollOffset by remember { mutableFloatStateOf(0f) }
 val rowBounds = remember { mutableMapOf<String, StockManagerRowBounds>() }
 var dragRowBounds by remember { mutableStateOf<Map<String, StockManagerRowBounds>>(emptyMap()) }
 ```
@@ -76,6 +82,7 @@ var dragRowBounds by remember { mutableStateOf<Map<String, StockManagerRowBounds
 
 - `dragStartIndex`：被拖动股票原来的位置。
 - `dragInsertionIndex`：当前高亮插入线的位置，范围是 `0..entries.size`。
+- `dragScrollOffset`：拖动过程中由自动滚动产生的累计滚动补偿。
 
 `dragInsertionIndex` 不是目标行 index，而是“插入到第几个元素前面”。例如值为 `0` 表示插到最前面，值为 `entries.size` 表示插到最后。
 
@@ -127,10 +134,12 @@ dragRowBounds = boundsSnapshot
 
 ```kotlin
 dragOffset += deltaY
+val fingerY = dragStartFingerY + dragOffset - dragScrollOffset
 dragInsertionIndex = resolveStockManagerDragInsertionIndex(
-    fingerY = dragStartFingerY + dragOffset,
+    fingerY = fingerY,
     entries = uiState.entries,
     rowBounds = dragRowBounds.ifEmpty { rowBounds },
+    scrollOffset = dragScrollOffset,
 ) ?: fallback
 ```
 
@@ -144,6 +153,75 @@ if (fingerY <= bounds.bottom) {
 ```
 
 这个算法比“拖动距离除以行高”更准确，因为它考虑了实际行坐标、字体高度、分隔线和屏幕密度。
+
+### 跨屏拖动：边缘自动滚动
+
+列表超过一屏后，只让行在当前屏幕里拖动是不够的。跨屏拖动的做法是给 `LazyColumn` 增加 `LazyListState`，并记录整个列表 viewport 的屏幕坐标：
+
+```kotlin
+val listState = rememberLazyListState()
+var listViewportTop by remember { mutableFloatStateOf(0f) }
+var listViewportBottom by remember { mutableFloatStateOf(0f) }
+
+LazyColumn(
+    state = listState,
+    modifier = Modifier
+        .fillMaxSize()
+        .onGloballyPositioned { coordinates ->
+            val top = coordinates.positionInWindow().y
+            listViewportTop = top
+            listViewportBottom = top + coordinates.size.height
+        },
+) {
+    // ...
+}
+```
+
+拖动状态存在时，启动一个 `LaunchedEffect(draggingCode)` 循环。每一帧检查手指是否靠近列表顶部或底部，如果靠近，就调用 `listState.scrollBy(scrollDelta)`：
+
+```kotlin
+LaunchedEffect(draggingCode) {
+    while (draggingCode != null) {
+        val fingerY = dragStartFingerY + dragOffset - dragScrollOffset
+        val scrollDelta = stockManagerAutoScrollDelta(
+            fingerY = fingerY,
+            viewportTop = listViewportTop,
+            viewportBottom = listViewportBottom,
+            edgeThresholdPx = autoScrollEdgePx,
+            maxScrollStepPx = autoScrollStepPx,
+        )
+        if (scrollDelta != 0f) {
+            val consumed = listState.scrollBy(scrollDelta)
+            if (consumed != 0f) {
+                dragOffset += consumed
+                dragScrollOffset += consumed
+                // 继续用新的手指位置刷新插入线
+            }
+        }
+        withFrameNanos { }
+    }
+}
+```
+
+这里有一个不太直观但很重要的补偿：自动滚动会让列表内容在屏幕上移动，如果只滚列表，不补偿拖动行，手指和被拖动行会立刻错开。所以滚动消耗了多少，就同步加到 `dragOffset`；但计算插入位置时，又要减掉 `dragScrollOffset`，也就是：
+
+```kotlin
+val fingerY = dragStartFingerY + dragOffset - dragScrollOffset
+```
+
+冻结坐标也要接受同样的滚动修正：
+
+```kotlin
+val visibleBounds = entries.mapNotNull { entry -> rowBounds[entry.code] }
+    .map { bounds ->
+        bounds.copy(
+            top = bounds.top - scrollOffset,
+            bottom = bounds.bottom - scrollOffset,
+        )
+    }
+```
+
+这样被拖动行继续贴着手指，插入位置也能跟随列表自动滚动后新的视觉位置更新。
 
 ### 被挤压行的视觉位移
 
@@ -179,6 +257,36 @@ translationY = if (isDragging) dragOffset else rowDisplacement
 - 长按进入拖动时触发一次 `HapticFeedbackType.LongPress`。
 
 后来去掉了阴影，因为在密集表格里阴影看起来比较脏。
+
+### 位移步长要包含分隔线和空白
+
+这里还有一个细节：`rowDragStepPx` 不能简单等于某一行自身的高度。因为视觉上相邻两行之间通常还有分隔线、padding 或其它空白。如果被挤压行只移动“行内容高度”，行间空白就会像留在原地一样，看起来有一块外边距没有跟着行走。
+
+更稳的做法是拖动开始时根据冻结坐标计算完整步长：优先取相邻两行的 top 坐标差。
+
+```kotlin
+private fun stockManagerRowStepPx(
+    index: Int,
+    entries: List<StockEntry>,
+    rowBounds: Map<String, StockManagerRowBounds>,
+    fallback: Float,
+): Float {
+    val current = entries.getOrNull(index)?.let { rowBounds[it.code] } ?: return fallback
+    val next = entries.getOrNull(index + 1)?.let { rowBounds[it.code] }
+    if (next != null) {
+        return (next.top - current.top).takeIf { it > 0f } ?: fallback
+    }
+
+    val previous = entries.getOrNull(index - 1)?.let { rowBounds[it.code] }
+    if (previous != null) {
+        return (current.top - previous.top).takeIf { it > 0f } ?: fallback
+    }
+
+    return (current.bottom - current.top).takeIf { it > 0f } ?: fallback
+}
+```
+
+这样 `rowDisplacement` 移动的是“从一行到下一行”的完整视觉距离，而不只是行内容高度。普通分隔线和插入线也使用同一个 `rowDisplacement`，视觉上就不会出现内容移动了、线或空白还残留在原位置的问题。
 
 ### 插入线和分隔线
 
@@ -266,6 +374,8 @@ next.add(targetIndex.coerceIn(0, next.size), item)
 4. 不要让插入线覆盖在文字内容上，密集表格里会很明显。
 5. 如果行和分隔线是分开 composable，分隔线也要跟随被挤压行位移。
 6. `pointerInput` 如果为了稳定只用 code 做 key，内部回调必须用 `rememberUpdatedState` 接住最新状态。
+7. 跨屏拖动时，自动滚动要同步维护滚动补偿；否则列表滚了，但被拖动行或插入线会和手指错位。
+8. 被挤压行的位移步长要用相邻行 top 差，不能只用行自身高度，否则行间空白会像“外边距残留”一样停在原地。
 
 ## 总结
 
@@ -274,4 +384,4 @@ next.add(targetIndex.coerceIn(0, next.size), item)
 - 拖动中：只做视觉模拟。
 - 松手后：一次性修改真实数据。
 
-再配合冻结坐标、插入线、被挤压行位移和稳定手势回调，就能在不引入第三方库的情况下，做出比较稳的 Compose 长按拖拽排序体验。
+再配合冻结坐标、边缘自动滚动、滚动补偿、插入线、被挤压行位移和稳定手势回调，就能在不引入第三方库的情况下，做出比较稳的 Compose 长按拖拽排序体验。
